@@ -2,9 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
-class TareasSeeder extends Seeder
+class PivotSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,6 +12,9 @@ class TareasSeeder extends Seeder
      */
     public function run()
     {
-       
+        DB::table('pivot_tarea_proveeders')->insert([
+            'tarea_id' => '1',
+            'proveedor_id' => '1'
+            ]);
     }
 }

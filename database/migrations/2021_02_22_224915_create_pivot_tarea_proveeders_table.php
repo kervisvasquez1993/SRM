@@ -17,6 +17,9 @@ class CreatePivotTareaProveedersTable extends Migration
             $table->id();
             $table->foreignId('tarea_id')->references('id')->on('tareas')->onDelete('cascade');
             $table->foreignId('proveedor_id')->references('id')->on('proveedors')->onDelete('cascade');
+            $table->boolean('iniciar_negociacion')->default(false);
+            $table->boolean('iniciar_arte')->default(false);
+            $table->boolean('iniciar_produccion')->default(false);
             $table->timestamps();
         });
     }

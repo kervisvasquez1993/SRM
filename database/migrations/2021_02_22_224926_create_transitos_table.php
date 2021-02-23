@@ -15,6 +15,8 @@ class CreateTransitosTable extends Migration
     {
         Schema::create('transitos', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('pivot_tarea_proveeder_id')->references('id')->on('pivot_tarea_proveeders');
+            $table->string('campos');
             $table->timestamps();
         });
     }

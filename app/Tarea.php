@@ -10,4 +10,9 @@ class Tarea extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function proveedor()
+    {
+        return $this->belongsToMany(Proveedor::class, 'pivot_tarea_proveeders', 'tarea_id', 'proveedor_id' );
+    }
 }
