@@ -21,6 +21,10 @@ class CreateProveedorsTable extends Migration
             $table->string('distrito')->nullable();
             $table->text('descripcion')->nullable();
             $table->string('archivos_src')->nullable();
+            $table->string('address')->nullable();
+            $table->string('contacto')->nullable();
+            $table->string('telefono')->nullable();
+            $table->string('email')->nullable();
             $table->timestamps();
         });
     }
