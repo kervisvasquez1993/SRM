@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Bocetos;
+use App\Ficha;
 use Illuminate\Http\Request;
 
-class BocetosController extends Controller
+class FichaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class BocetosController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Bocetos  $bocetos
+     * @param  \App\Ficha  $ficha
      * @return \Illuminate\Http\Response
      */
-    public function show(Bocetos $bocetos)
+    public function show(Ficha $ficha)
     {
         //
     }
@@ -52,10 +52,10 @@ class BocetosController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Bocetos  $bocetos
+     * @param  \App\Ficha  $ficha
      * @return \Illuminate\Http\Response
      */
-    public function edit(Bocetos $bocetos)
+    public function edit(Ficha $ficha)
     {
         //
     }
@@ -64,10 +64,10 @@ class BocetosController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Bocetos  $bocetos
+     * @param  \App\Ficha  $ficha
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Bocetos $bocetos)
+    public function update(Request $request, Ficha $ficha)
     {
         //
     }
@@ -75,10 +75,10 @@ class BocetosController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Bocetos  $bocetos
+     * @param  \App\Ficha  $ficha
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Bocetos $bocetos)
+    public function destroy(Ficha $ficha)
     {
         //
     }

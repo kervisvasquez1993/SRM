@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateVBocetosTable extends Migration
+class CreateValidacionBocetosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class CreateVBocetosTable extends Migration
      */
     public function up()
     {
-        Schema::create('v_bocetos', function (Blueprint $table) {
+        Schema::create('validacion_bocetos', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('arte_id')->references('id')->on('artes');
+            $table->string('titulo');
+            $table->text('descripcion');
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ class CreateVBocetosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('v_bocetos');
+        Schema::dropIfExists('validacion_bocetos');
     }
 }

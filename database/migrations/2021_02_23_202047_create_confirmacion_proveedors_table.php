@@ -15,6 +15,9 @@ class CreateConfirmacionProveedorsTable extends Migration
     {
         Schema::create('confirmacion_proveedors', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('arte_id')->references('id')->on('artes');
+            $table->string('titulo');
+            $table->text('descripcion');
             $table->timestamps();
         });
     }

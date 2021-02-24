@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Transito;
+use App\ValidacionFicha;
 use Illuminate\Http\Request;
 
-class TransitoController extends Controller
+class ValidacionFichaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class TransitoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Transito  $transito
+     * @param  \App\ValidacionFicha  $validacionFicha
      * @return \Illuminate\Http\Response
      */
-    public function show(Transito $transito)
+    public function show(ValidacionFicha $validacionFicha)
     {
         //
     }
@@ -52,10 +52,10 @@ class TransitoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Transito  $transito
+     * @param  \App\ValidacionFicha  $validacionFicha
      * @return \Illuminate\Http\Response
      */
-    public function edit(Transito $transito)
+    public function edit(ValidacionFicha $validacionFicha)
     {
         //
     }
@@ -64,10 +64,10 @@ class TransitoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Transito  $transito
+     * @param  \App\ValidacionFicha  $validacionFicha
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Transito $transito)
+    public function update(Request $request, ValidacionFicha $validacionFicha)
     {
         //
     }
@@ -75,10 +75,10 @@ class TransitoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Transito  $transito
+     * @param  \App\ValidacionFicha  $validacionFicha
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Transito $transito)
+    public function destroy(ValidacionFicha $validacionFicha)
     {
         //
     }

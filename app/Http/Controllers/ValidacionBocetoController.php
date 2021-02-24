@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\VBocetos;
+use App\ValidacionBoceto;
 use Illuminate\Http\Request;
 
-class VBocetosController extends Controller
+class ValidacionBocetoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class VBocetosController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\VBocetos  $vBocetos
+     * @param  \App\ValidacionBoceto  $validacionBoceto
      * @return \Illuminate\Http\Response
      */
-    public function show(VBocetos $vBocetos)
+    public function show(ValidacionBoceto $validacionBoceto)
     {
         //
     }
@@ -52,10 +52,10 @@ class VBocetosController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\VBocetos  $vBocetos
+     * @param  \App\ValidacionBoceto  $validacionBoceto
      * @return \Illuminate\Http\Response
      */
-    public function edit(VBocetos $vBocetos)
+    public function edit(ValidacionBoceto $validacionBoceto)
     {
         //
     }
@@ -64,10 +64,10 @@ class VBocetosController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\VBocetos  $vBocetos
+     * @param  \App\ValidacionBoceto  $validacionBoceto
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, VBocetos $vBocetos)
+    public function update(Request $request, ValidacionBoceto $validacionBoceto)
     {
         //
     }
@@ -75,10 +75,10 @@ class VBocetosController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\VBocetos  $vBocetos
+     * @param  \App\ValidacionBoceto  $validacionBoceto
      * @return \Illuminate\Http\Response
      */
-    public function destroy(VBocetos $vBocetos)
+    public function destroy(ValidacionBoceto $validacionBoceto)
     {
         //
     }

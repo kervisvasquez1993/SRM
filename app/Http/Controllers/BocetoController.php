@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\VFichaManuela;
+use App\Boceto;
 use Illuminate\Http\Request;
 
-class VFichaManuelaController extends Controller
+class BocetoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class VFichaManuelaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\VFichaManuela  $vFichaManuela
+     * @param  \App\Boceto  $boceto
      * @return \Illuminate\Http\Response
      */
-    public function show(VFichaManuela $vFichaManuela)
+    public function show(Boceto $boceto)
     {
         //
     }
@@ -52,10 +52,10 @@ class VFichaManuelaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\VFichaManuela  $vFichaManuela
+     * @param  \App\Boceto  $boceto
      * @return \Illuminate\Http\Response
      */
-    public function edit(VFichaManuela $vFichaManuela)
+    public function edit(Boceto $boceto)
     {
         //
     }
@@ -64,10 +64,10 @@ class VFichaManuelaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\VFichaManuela  $vFichaManuela
+     * @param  \App\Boceto  $boceto
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, VFichaManuela $vFichaManuela)
+    public function update(Request $request, Boceto $boceto)
     {
         //
     }
@@ -75,10 +75,10 @@ class VFichaManuelaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\VFichaManuela  $vFichaManuela
+     * @param  \App\Boceto  $boceto
      * @return \Illuminate\Http\Response
      */
-    public function destroy(VFichaManuela $vFichaManuela)
+    public function destroy(Boceto $boceto)
     {
         //
     }

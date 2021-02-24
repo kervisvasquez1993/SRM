@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTransitosTable extends Migration
+class CreateBocetosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateTransitosTable extends Migration
      */
     public function up()
     {
-        Schema::create('transitos', function (Blueprint $table) {
+        Schema::create('bocetos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pivot_tarea_proveeder_id')->references('id')->on('pivot_tarea_proveeders');
-            $table->string('campos');
+            $table->foreignId('arte_id')->references('id')->on('artes');
+            $table->string('titulo');
+            $table->text('descripcion');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateTransitosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transitos');
+        Schema::dropIfExists('bocetos');
     }
 }
