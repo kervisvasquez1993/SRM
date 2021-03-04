@@ -14,7 +14,9 @@ class TareaController extends Controller
      */
     public function index()
     {
-        //
+        $tasks = Tarea::all();
+
+        return view('task.index', compact('tasks'));
     }
 
     /**
@@ -24,7 +26,7 @@ class TareaController extends Controller
      */
     public function create()
     {
-        //
+        return view('task.create');
     }
 
     /**
