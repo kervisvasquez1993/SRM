@@ -20,4 +20,8 @@ class PivotTareaProveeder extends Model
     {
         return $this->hasMany(Arte::class);
     }
+    public function produccionTransito()
+    {
+        return $this->hasMany(PivotTareaProveeder::class);
+    }
 }
