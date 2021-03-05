@@ -15,4 +15,9 @@ class PivotTareaProveeder extends Model
     {
         return $this->belongsTo(Proveedor::class, 'proveedor_id');
     }
+
+    public function artes()
+    {
+        return $this->hasMany(Arte::class);
+    }
 }
