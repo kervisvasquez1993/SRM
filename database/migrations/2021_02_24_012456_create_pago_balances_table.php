@@ -15,8 +15,10 @@ class CreatePagoBalancesTable extends Migration
     {
         Schema::create('pago_balances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('produccion_transito_id')->references('id')->on('produccion_transitos');
-            $table->string('titulo');
+            $table->foreignId('pago_anticipado_id')->references('id')->on('pago_anticipados');
+            $table->timestamp('fecha_pago_balance');
+            $table->string('file_pago_balance');
+            $table->boolean('pago_completo')->default(false);
             $table->text('descripcion');
             $table->timestamps();
         });

@@ -17,6 +17,10 @@ class CreatePagoAnticipadosTable extends Migration
             $table->id();
             $table->foreignId('produccion_transito_id')->references('id')->on('produccion_transitos');
             $table->string('titulo');
+            $table->double('monto_total');
+            $table->double('porcentaje');
+            $table->string('file_pago');
+            $table->timestamp('fecha_pago');
             $table->text('descripcion');
             $table->timestamps();
         });
