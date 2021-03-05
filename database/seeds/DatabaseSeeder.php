@@ -1,5 +1,6 @@
 <?php
 
+use App\ProduccionTransito;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,5 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PivotSeeder::class); 
         $this->call(ArteSeeder::class);
         $this->call(ProductoSeeder::class);
+        $this->call(ProduccionTransitoSeeder::class);
     }
 }
