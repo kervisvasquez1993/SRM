@@ -1,5 +1,6 @@
 @extends('admin.dashboar')
 @section('content')
+{{$perfil}}
 <div class="content">
 <div class="container-fluid">
     <div class="row">
@@ -40,5 +41,5 @@
     </div>
   </div>
 
-  {{$perfill}}
+  
 @endsection
