@@ -15,6 +15,9 @@ class CreateInspeccionCargasTable extends Migration
     {
         Schema::create('inspeccion_cargas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('recepcion_reclamo_devolucions_id')->references('id')->on('recepcion_reclamo_devolucions');
+            $table->string('titulo');
+            $table->text('descripcion');
             $table->timestamps();
         });
     }
