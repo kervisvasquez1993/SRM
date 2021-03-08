@@ -35,7 +35,7 @@ class PerfilController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
@@ -46,7 +46,7 @@ class PerfilController extends Controller
      */
     public function show(Perfil $perfil)
     {
-        //
+        return view('profile.show', compact('perfil'));
     }
 
     /**
