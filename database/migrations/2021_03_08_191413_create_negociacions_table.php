@@ -16,6 +16,7 @@ class CreateNegociacionsTable extends Migration
         Schema::create('negociacions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pivot_tarea_proveeder')->references('id')->on('pivot_tarea_proveeders');
+            $table->timestamp('fecha_fin');
             $table->timestamps();
         });
     }

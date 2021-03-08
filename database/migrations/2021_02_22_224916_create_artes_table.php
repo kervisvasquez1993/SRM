@@ -17,11 +17,11 @@ class CreateArtesTable extends Migration
             $table->id();
             $table->foreignId('pivot_tarea_proveeder_id')->references('id')->on('pivot_tarea_proveeders');
             $table->string('nombre');
-            $table->boolean('creacion_fichas')->default(false);
-            $table->boolean('validacion_fichas')->default(false);
-            $table->boolean('creacion_boceto')->default(false);
-            $table->boolean('validacion_boceto')->default(false);
-            $table->boolean('confirmacion_proveedor')->default(false);
+            $table->enum('creacion_fichas', ['Por Iniciar', ' En Proceso', 'Finalizado'])->default('Por Iniciar');
+            $table->enum('validacion_fichas', ['Por Iniciar', ' En Proceso', 'Finalizado'])->default('Por Iniciar');
+            $table->enum('creacion_boceto', ['Por Iniciar', ' En Proceso', 'Finalizado'])->default('Por Iniciar');
+            $table->enum('validacion_boceto', ['Por Iniciar', ' En Proceso', 'Finalizado'])->default('Por Iniciar');
+            $table->enum('confirmacion_proveedor', ['Por Iniciar', ' En Proceso', 'Finalizado'])->default('Por Iniciar');
             $table->timestamp('fecha_fin');
             $table->timestamps();
         });
