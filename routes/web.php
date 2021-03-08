@@ -27,9 +27,9 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 //perfil view
-Route::resource('profile', 'PerfilController');
+Route::resource('/perfil', 'PerfilController');
 
 
 //tareas 
 
-Route::resource('/tasks', 'TareaController');
+Route::resource('/tareas', 'TareaController');
