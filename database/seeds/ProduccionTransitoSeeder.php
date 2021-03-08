@@ -19,9 +19,6 @@ class ProduccionTransitoSeeder extends Seeder
             'pago_balance' => true,
             'transito_nacionalizacion' => true,
             'fin_produccion_transito' => true,
-            'recepcion_mercancia' => true,
-            'inspeccion_carga' => true,
-            'reclamos_devoluciones' => true  
         ]);
     }
 }
