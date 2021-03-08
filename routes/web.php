@@ -30,3 +30,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 //tareas 
 
 Route::resource('/tasks', 'TareaController');
+
+Route::resource('/perfil', 'PerfilController');
