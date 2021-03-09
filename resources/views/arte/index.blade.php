@@ -5,28 +5,27 @@
 
 
   <div class="">
-    {{ $artes }}
     @foreach( $artes as $arte )
-      
-    @endforeach
-    <div class="card">
-      <div class="card-header d-flex justify-content-between flex-wrap">
-        <h4 class="card-title"><strong class="text-secondary">Tarea: </strong>{{ $arte->nombre}}</h4>
-        <h4 class=""> <strong class="text-secondary">Proveedor: </strong> {{ $arte->pivotTable->proveedor->nombre }}</h4>
-        <h4 class=""> <strong class="text-secondary">Fecha Fin: </strong> {{ date('d-m-Y', strtotime($arte->fecha_fin)) }}</h4>
-      </div>
-      <div class="card-body">
-        <strong class="text-secondary">Estatus: </strong>
+      <div class="card">
+        <div class="card-header d-flex justify-content-between flex-wrap">
+          <h4 class="card-title"><strong class="text-secondary">Tarea: </strong>{{ $arte->nombre}}</h4>
+          <h4 class=""> <strong class="text-secondary">Proveedor: </strong> {{ $arte->pivotTable->proveedor->nombre }}</h4>
+          <h4 class=""> <strong class="text-secondary">Fecha Fin: </strong> {{ date('d-m-Y', strtotime($arte->fecha_fin)) }}</h4>
+        </div>
+        <div class="card-body">
+          <strong class="text-secondary">Estatus: </strong>
 
-        <div class=" status d-flex justify-content-between">
-            <span class="mr-3">Creación de Fichas: En Proceso</span>
-            <span class="mr-3">Validación de Fichas: En Proceso</span>
-            <span class="mr-3">Creación de Boceto: En Proceso</span>
-            <span class="mr-3">Validación de Boceto: En Proceso</span>
-            <span class="mr-3">Confirmación de Proveedor: En Proceso</span>
+          <div class=" status d-flex justify-content-between">
+              <span class="mr-3"><strong class="text-secondary">Creación de Fichas:</strong> {{ $arte->creacion_fichas }}</span>
+              <span class="mr-3"><strong class="text-secondary">Validación de Fichas:</strong> {{ $arte->validacion_fichas }}</span>
+              <span class="mr-3"><strong class="text-secondary">Creación de Boceto:</strong> {{ $arte->creacion_boceto }}</span>
+              <span class="mr-3"><strong class="text-secondary">Validación de Boceto:</strong> {{ $arte->validacion_boceto }}</span>
+              <span class="mr-3"><strong class="text-secondary">Confirmación de Proveedor:</strong> {{ $arte->confirmacion_proveedor }}</span>
+          </div>
         </div>
       </div>
-    </div>
+      
+    @endforeach
     
   </div>
 
