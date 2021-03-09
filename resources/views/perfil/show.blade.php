@@ -15,7 +15,9 @@
                 <div class="card-body">
                     {{$tarea->descripcion}}
                 </div>
+                <a href="{{route('tareas.show', ['tarea' => $tarea->id])}}" class="btn btn-primary ">Editar Perfil</a>
             </div>
+            
               @endforeach
            
             
