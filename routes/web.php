@@ -24,12 +24,8 @@ Route::get('/admin', function () {
 });
 
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
 //perfil view
 Route::resource('/perfil', 'PerfilController');
-
-
 //tareas 
-
 Route::resource('/tareas', 'TareaController');
