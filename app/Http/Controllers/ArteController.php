@@ -14,7 +14,8 @@ class ArteController extends Controller
      */
     public function index()
     {
-        //
+        $artes = Arte::all();
+        return view('arte.index', compact('artes'));
     }
 
     /**
