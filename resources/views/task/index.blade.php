@@ -1,5 +1,5 @@
 @extends('admin.dashboar')
 
 @section('content')
-    <h3>desde task</h3>
+    <h3>desde tasks</h3>
 @stop
