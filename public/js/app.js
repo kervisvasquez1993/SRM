@@ -102,7 +102,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {
     formularioAgregar: function formularioAgregar() {
-      console.log('desde el componente de vue');
+      this.$swal.fire({
+        title: 'Multiple inputs',
+        html: '<input id="swal-input1" class="swal2-input">' + '<input id="swal-input2" class="swal2-input">',
+        focusConfirm: false,
+        preConfirm: function preConfirm() {
+          return [document.getElementById('swal-input1').value, document.getElementById('swal-input2').value];
+        }
+      }).then(function (respuesta) {
+        return console.log('desde aceptar');
+      });
     }
   }
 });
@@ -4925,7 +4934,7 @@ var render = function() {
       staticClass: "btn btn-primary pull-right",
       on: { click: _vm.formularioAgregar }
     },
-    [_vm._v("Agregar Nueva Tarea")]
+    [_vm._v("Agregar Nueva Tareas")]
   )
 }
 var staticRenderFns = []
