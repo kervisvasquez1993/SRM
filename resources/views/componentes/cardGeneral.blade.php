@@ -8,4 +8,3 @@
         {{$bodyCard}}
     </div>
 </div>
-</div>
