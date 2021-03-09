@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Perfil;
+use App\InspeccionCarga;
 use Illuminate\Http\Request;
 
-class PerfilController extends Controller
+class InspeccionCargaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class PerfilController extends Controller
      */
     public function index()
     {
-        
+        //
     }
 
     /**
@@ -24,7 +24,7 @@ class PerfilController extends Controller
      */
     public function create()
     {
-        
+        //
     }
 
     /**
@@ -35,40 +35,39 @@ class PerfilController extends Controller
      */
     public function store(Request $request)
     {
-        
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Perfil  $perfil
+     * @param  \App\InspeccionCarga  $inspeccionCarga
      * @return \Illuminate\Http\Response
      */
-    public function show(Perfil $perfil)
+    public function show(InspeccionCarga $inspeccionCarga)
     {
-        
-        return view('perfil.show', ['perfil' => $perfil]);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Perfil  $perfil
+     * @param  \App\InspeccionCarga  $inspeccionCarga
      * @return \Illuminate\Http\Response
      */
-    public function edit(Perfil $perfil)
+    public function edit(InspeccionCarga $inspeccionCarga)
     {
-        return view('perfil.edit', compact('perfil'));
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Perfil  $perfil
+     * @param  \App\InspeccionCarga  $inspeccionCarga
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Perfil $perfil)
+    public function update(Request $request, InspeccionCarga $inspeccionCarga)
     {
         //
     }
@@ -76,10 +75,10 @@ class PerfilController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Perfil  $perfil
+     * @param  \App\InspeccionCarga  $inspeccionCarga
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Perfil $perfil)
+    public function destroy(InspeccionCarga $inspeccionCarga)
     {
         //
     }

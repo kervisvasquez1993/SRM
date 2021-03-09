@@ -5,6 +5,9 @@
  */
 
 require('./bootstrap');
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css'
+import VueSweetalert2 from 'vue-sweetalert2';
 
 window.Vue = require('vue');
 
@@ -19,6 +22,7 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
+Vue.use(VueSweetalert2)
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 /**

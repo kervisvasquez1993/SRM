@@ -22,9 +22,6 @@ class CreateProduccionTransitosTable extends Migration
             $table->boolean('pago_balance')->default(false);
             $table->boolean('transito_nacionalizacion')->default(false);
             $table->boolean('fin_produccion_transito')->default(false);
-            $table->boolean('recepcion_mercancia')->default(false);
-            $table->boolean('inspeccion_carga')->default(false);
-            $table->boolean('reclamos_devoluciones')->default(false);
             $table->timestamps();
         });
     }
