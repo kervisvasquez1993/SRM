@@ -41,4 +41,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Tarea::class);
     }
+    public function perfil()
+    {
+        return $this->hasOne(Perfil::class);
+    }
 }
