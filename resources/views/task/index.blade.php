@@ -1,19 +1,154 @@
 @extends('admin.dashboar')
 @section('content')
+ 
+<agregar-nueva-Tarea 
+></agregar-nueva-Tarea>
 
-<agregar-nueva-Tarea></agregar-nueva-Tarea>
-@foreach($tareas as $tarea)
     
 
     @component('componentes.cardGeneral')
         @slot('titulo')
-                {{$tarea->nombre}} - Asignado a {{$tarea->usuarios->name}} - Fecha de Finalizacion : {{ date('d-m-Y', strtotime($tarea->fecha_fin))}}
+                {{"tarea->nombre"}} - Asignado a {{"tarea->usuarios->name"}} - Fecha de Finalizacion
         @endslot
 
         @slot('bodyCard')
-                {{$tarea->descripcion}}
+                {{-- {{$tarea->descripcion}} --}}
+
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est, sint!
         @endslot
         
     @endcomponent
-    @endforeach
+    @component('componentes.cardGeneral')
+    @slot('titulo')
+            {{"tarea->nombre"}} - Asignado a {{"tarea->usuarios->name"}} - Fecha de Finalizacion
+    @endslot
+
+    @slot('bodyCard')
+            {{-- {{$tarea->descripcion}} --}}
+
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est, sint!
+    @endslot
+    
+@endcomponent
+@component('componentes.cardGeneral')
+@slot('titulo')
+        {{"tarea->nombre"}} - Asignado a {{"tarea->usuarios->name"}} - Fecha de Finalizacion
+@endslot
+
+@slot('bodyCard')
+        {{-- {{$tarea->descripcion}} --}}
+
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est, sint!
+@endslot
+
+@endcomponent
+@component('componentes.cardGeneral')
+@slot('titulo')
+        {{"tarea->nombre"}} - Asignado a {{"tarea->usuarios->name"}} - Fecha de Finalizacion
+@endslot
+
+@slot('bodyCard')
+        {{-- {{$tarea->descripcion}} --}}
+
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est, sint!
+@endslot
+
+@endcomponent
+@component('componentes.cardGeneral')
+@slot('titulo')
+        {{"tarea->nombre"}} - Asignado a {{"tarea->usuarios->name"}} - Fecha de Finalizacion
+@endslot
+
+@slot('bodyCard')
+        {{-- {{$tarea->descripcion}} --}}
+
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est, sint!
+@endslot
+
+@endcomponent
+@component('componentes.cardGeneral')
+@slot('titulo')
+        {{"tarea->nombre"}} - Asignado a {{"tarea->usuarios->name"}} - Fecha de Finalizacion
+@endslot
+
+@slot('bodyCard')
+        {{-- {{$tarea->descripcion}} --}}
+
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est, sint!
+@endslot
+
+@endcomponent
+@component('componentes.cardGeneral')
+@slot('titulo')
+        {{"tarea->nombre"}} - Asignado a {{"tarea->usuarios->name"}} - Fecha de Finalizacion
+@endslot
+
+@slot('bodyCard')
+        {{-- {{$tarea->descripcion}} --}}
+
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est, sint!
+@endslot
+
+@endcomponent
+@component('componentes.cardGeneral')
+@slot('titulo')
+        {{"tarea->nombre"}} - Asignado a {{"tarea->usuarios->name"}} - Fecha de Finalizacion
+@endslot
+
+@slot('bodyCard')
+        {{-- {{$tarea->descripcion}} --}}
+
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est, sint!
+@endslot
+
+@endcomponent
+@component('componentes.cardGeneral')
+@slot('titulo')
+        {{"tarea->nombre"}} - Asignado a {{"tarea->usuarios->name"}} - Fecha de Finalizacion
+@endslot
+
+@slot('bodyCard')
+        {{-- {{$tarea->descripcion}} --}}
+
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est, sint!
+@endslot
+
+@endcomponent
+@component('componentes.cardGeneral')
+@slot('titulo')
+        {{"tarea->nombre"}} - Asignado a {{"tarea->usuarios->name"}} - Fecha de Finalizacion
+@endslot
+
+@slot('bodyCard')
+        {{-- {{$tarea->descripcion}} --}}
+
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est, sint!
+@endslot
+
+@endcomponent
+@component('componentes.cardGeneral')
+@slot('titulo')
+        {{"tarea->nombre"}} - Asignado a {{"tarea->usuarios->name"}} - Fecha de Finalizacion
+@endslot
+
+@slot('bodyCard')
+        {{-- {{$tarea->descripcion}} --}}
+
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est, sint!
+@endslot
+
+@endcomponent
+@component('componentes.cardGeneral')
+@slot('titulo')
+        {{"tarea->nombre"}} - Asignado a {{"tarea->usuarios->name"}} - Fecha de Finalizacion
+@endslot
+
+@slot('bodyCard')
+        {{-- {{$tarea->descripcion}} --}}
+
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est, sint!
+@endslot
+
+@endcomponent
+
 @stop

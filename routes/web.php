@@ -29,3 +29,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/perfil', 'PerfilController');
 //tareas 
 Route::resource('/tareas', 'TareaController');
+Route::get('/usuarios', 'TareaController@usuarios');

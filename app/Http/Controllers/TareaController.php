@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Tarea;
+use App\User;
 use Illuminate\Http\Request;
 
 class TareaController extends Controller
@@ -15,7 +16,6 @@ class TareaController extends Controller
     public function index()
     {
         $tareas = Tarea::all();
-
         return view('task.index', compact('tareas'));
     }
 
@@ -24,9 +24,15 @@ class TareaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function usuarios()
+     {
+         return User::all();
+     }
+
     public function create()
     {
-        return view('task.create');
+        
     }
 
     /**
