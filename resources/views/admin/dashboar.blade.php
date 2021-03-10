@@ -39,9 +39,7 @@
        @yield('content')
       </div>
       <footer class="footer">
-       
-
-        
+ 
       </footer>
     </div> 
   </div>
