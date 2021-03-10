@@ -28,7 +28,10 @@
         </div>
         
     @endforeach
-    
+    @include('util.status')
+    @foreach($estatus as $s)
+        {{$s}}
+    @endforeach
   </div>
 
 @endsection

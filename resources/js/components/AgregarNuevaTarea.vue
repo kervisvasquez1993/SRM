@@ -4,18 +4,39 @@
 </template>
 
 <script>
-import axios from 'axios'
 export default {
-  
+    data: () => 
+    {
+        return {
+            
+        }
+    },
     methods: {
 
         formularioAgregar()
         {
             
-            axios.get('/usuarios')
-                                 .then(respuesta => respuesta.json())
-                                 .then( data =>console.log(data) )
-                                 .catch(error => console.log(error))
+            fetch('/usuarios')
+                             .then(respuesta => respuesta.json())
+                             .then( data => {
+                                let usuario = []
+                                for(let nombre of data )
+                                {
+                                    usuario.push(nombre.name)
+                                } 
+                                console.log(usuario)
+                                this.$swal.fire({
+                                   title: 'Multiple inputs',
+                                   html: '<input id="swal-input1" class="swal2-input">' + '<input id="swal-input2" class="swal2-input">',
+                                   focusConfirm: false,
+                                   preConfirm: function preConfirm() {
+                                  return [document.getElementById('swal-input1').value, document.getElementById('swal-input2').value]; }
+                                   }).then(function (respuesta) {
+                                     return console.log('desde aceptar');
+                                   });
+                                
+                             })
+                             .catch(error => console.log(error))
             
 
      

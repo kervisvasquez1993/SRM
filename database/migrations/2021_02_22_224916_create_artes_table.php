@@ -17,7 +17,7 @@ class CreateArtesTable extends Migration
             $table->id();
             $table->foreignId('pivot_tarea_proveeder_id')->references('id')->on('pivot_tarea_proveeders');
             $table->string('nombre');
-            $table->enum('creacion_fichas', ['Por Iniciar', ' En Proceso', 'Finalizado'])->default('Por Iniciar');
+            $table->enum('creacion_fichas', ['Por Iniciar', ' En Proceso', 'Finalizado'])->default('Finalizado');
             $table->enum('validacion_fichas', ['Por Iniciar', ' En Proceso', 'Finalizado'])->default('Por Iniciar');
             $table->enum('creacion_boceto', ['Por Iniciar', ' En Proceso', 'Finalizado'])->default('Por Iniciar');
             $table->enum('validacion_boceto', ['Por Iniciar', ' En Proceso', 'Finalizado'])->default('Por Iniciar');
