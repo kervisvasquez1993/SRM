@@ -50,10 +50,10 @@
   <script src="{{asset('assets/js/core/jquery.min.js')}}"></script>
   <script src="{{asset('assets/js/core/popper.min.js')}}"></script>
   <script src="{{asset('assets/js/core/bootstrap-material-design.min.js')}}"></script>
-  <script src="{{asset('assets/js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>
+  
   <!-- Plugin for the momentJs  -->
   <script src="{{asset('assets/js/plugins/moment.min.js')}}"></script>
-
+. 
 
   <!-- Forms Validations Plugin -->
   <script src="{{asset('assets/js/plugins/jquery.validate.min.js')}}"></script>
