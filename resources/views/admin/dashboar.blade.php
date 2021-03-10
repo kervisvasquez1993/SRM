@@ -27,8 +27,9 @@
 
 </head>
 
-<body class="">
-  <div class="wrapper" id="app">
+<body>
+<div id="app">
+  <div class="wrapper">
     @include('ui.sidebar')
     <div class="main-panel">
       <!-- Navbar -->
@@ -44,6 +45,7 @@
       </footer>
     </div> 
   </div>
+</div>
   <!--   Core JS Files   -->
   <script src="{{asset('assets/js/core/jquery.min.js')}}"></script>
   <script src="{{asset('assets/js/core/popper.min.js')}}"></script>
@@ -51,8 +53,8 @@
   <script src="{{asset('assets/js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>
   <!-- Plugin for the momentJs  -->
   <script src="{{asset('assets/js/plugins/moment.min.js')}}"></script>
-  <!--  Plugin for Sweet Alert -->
-  <script src="{{asset('assets/js/plugins/sweetalert2.js')}}"></script>
+
+
   <!-- Forms Validations Plugin -->
   <script src="{{asset('assets/js/plugins/jquery.validate.min.js')}}"></script>
   <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
