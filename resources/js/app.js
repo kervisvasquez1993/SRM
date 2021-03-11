@@ -5,7 +5,7 @@
  */
 
 import VueSweetalert2 from 'vue-sweetalert2';
-import Datepicker from 'vuejs-datepicker';
+
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 

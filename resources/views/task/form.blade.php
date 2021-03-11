@@ -3,14 +3,14 @@
 <div class="form-row">
     <div class="col-md-12 mb-3">
         <label for="nombre">Titulo de la Tarea<span class="red">*</span></label>
-        <input type="text" class="form-control" id="nombre" name="nombre" required>
+        <input type="text" class="form-control" id="nombre" name="nombre">
     </div>
 </div>
 
 <div class="form-row">
     <div class="col-md-12 mb-3">
         <label for="user_id">Comprador:<span class="red">*</span></label>
-        <select class="custom-select" id="user_id" name="user_id" required>
+        <select class="custom-select" id="user_id" name="user_id" >
             <option selected disabled value="">Selecciona...</option>
             @foreach ($usuarios as $user)
             <option value="{{$user->id}}">{{$user->name}}</option>
@@ -21,13 +21,13 @@
 <div class="form-row">
     <div class="col-md-12 mb-3">
         <label for="fecha_fin">Fecha Finalizacion<span class="red">*</span></label>
-        <input type="text" class="form-control" id="fecha_fin" name="fecha_fin" required>
+        <input type="text" class="form-control" id="fecha_fin" name="fecha_fin" >
     </div>
 </div>
 
 <div class="form-group">
     <label for="descripcion">Mensaje:<span class="red">*</span></label>
-    <textarea class="form-control" id="descripcion" name="descripcion" rows="3" min="25" required></textarea>
+    <textarea class="form-control" id="descripcion" name="descripcion" rows="3" min="25" ></textarea>
 </div>
 
 

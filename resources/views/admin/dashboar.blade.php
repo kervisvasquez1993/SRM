@@ -266,7 +266,7 @@
 
     });
   </script>
-  @yield('scripts')
+  @include('util.scriptsJs')
 </body>
 
 </html>
