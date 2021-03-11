@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Tarea;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TareaController extends Controller
@@ -44,7 +45,21 @@ class TareaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = request()->validate([
+            'nombre'      => 'required',
+            'user_id'     => 'required',
+            'descripcion' => 'required'
+        ]);
+
+        $tarea = new Tarea();
+        $tarea->nombre = $request->nombre;
+        $tarea->user_id = $request->user_id;
+        $tarea->descripcion = $request->descripcion;
+        $tarea->fecha_fin = Carbon::now();
+        $tarea->save();
+        return redirect()->action('TareaController@index');
+
+
     }
 
     /**
