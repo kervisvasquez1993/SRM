@@ -1979,36 +1979,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EditArtStatus.vue?vue&type=script&lang=js&":
-/*!************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/EditArtStatus.vue?vue&type=script&lang=js& ***!
-  \************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({
-  methods: {
-    editStatus: function editStatus() {
-      console.log('EDITAR');
-      this.$swal.fire({
-        title: 'Cambiar estatus',
-        icon: 'info',
-        html: "\n                    <form class=\"row\">\n                    \n\n                        <div class=\"form-group  col-md-6\">\n                            <label for=\"creacion_ficha\">Creacion de Fichas</label>\n\n                            <select name=\"creacion_ficha\" id=\"creacion_ficha\" class=\"form-control\">\n                                <option value=\"1\">Opcion 1</option>\n                                <option value=\"2\">Opcion 2</option>\n                                <option value=\"3\">Opcion 3</option>\n                            </select>\n                        </div>\n\n                        <div class=\"form-group  col-md-6\">\n                            <label for=\"validacion_ficha\">Validaci\xF3n de Fichas</label>\n\n                            <select name=\"validacion_ficha\" id=\"validacion_ficha\" class=\"form-control\">\n                                <option value=\"1\">Opcion 1</option>\n                                <option value=\"2\">Opcion 2</option>\n                                <option value=\"3\">Opcion 3</option>\n                            </select>\n                        </div>\n\n                        <div class=\"form-group col-md-6\">\n                            <label for=\"creacion_boceto\">Creaci\xF3n de Boceto</label>\n\n                            <select name=\"creacion_boceto\" id=\"creacion_boceto\" class=\"form-control\">\n                                <option value=\"1\">Opcion 1</option>\n                                <option value=\"2\">Opcion 2</option>\n                                <option value=\"3\">Opcion 3</option>\n                            </select>\n                        </div>\n\n                        <div class=\"form-group col-md-6\">\n                            <label for=\"validacion_boceto\">Validaci\xF3n de Boceto</label>\n\n                            <select name=\"validacion_boceto\" id=\"validacion_boceto\" class=\"form-control\">\n                                <option value=\"1\">Opcion 1</option>\n                                <option value=\"2\">Opcion 2</option>\n                                <option value=\"3\">Opcion 3</option>\n                            </select>\n                        </div>\n\n                        <div class=\"form-group col-md-6\">\n                            <label for=\"confirmacion_proveedor\">Confirmaci\xF3n de Proveedor</label>\n\n                            <select name=\"confirmacion_proveedor\" id=\"confirmacion_proveedor\" class=\"form-control\">\n                                <option value=\"1\">Opcion 1</option>\n                                <option value=\"2\">Opcion 2</option>\n                                <option value=\"3\">Opcion 3</option>\n                            </select>\n                        </div>\n                        \n\n                    </form>\n                "
-      });
-    }
-  }
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js& ***!
@@ -6827,30 +6797,6 @@ var render = function() {
     },
     [_vm._v(" Añadir ")]
   )
-}
-var staticRenderFns = []
-render._withStripped = true
-
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EditArtStatus.vue?vue&type=template&id=0dc2fb70&":
-/*!****************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/EditArtStatus.vue?vue&type=template&id=0dc2fb70& ***!
-  \****************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { on: { click: _vm.editStatus } })
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -19125,7 +19071,6 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 Vue.use(vue_sweetalert2__WEBPACK_IMPORTED_MODULE_0__["default"]);
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
-Vue.component('edit-art-status', __webpack_require__(/*! ./components/EditArtStatus.vue */ "./resources/js/components/EditArtStatus.vue")["default"]);
 Vue.component('agregar-nueva-tarea', __webpack_require__(/*! ./components/AgregarNuevaTarea.vue */ "./resources/js/components/AgregarNuevaTarea.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -19206,75 +19151,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AgregarNuevaTarea_vue_vue_type_template_id_40469c3c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AgregarNuevaTarea_vue_vue_type_template_id_40469c3c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
-
-/***/ }),
-
-/***/ "./resources/js/components/EditArtStatus.vue":
-/*!***************************************************!*\
-  !*** ./resources/js/components/EditArtStatus.vue ***!
-  \***************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _EditArtStatus_vue_vue_type_template_id_0dc2fb70___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditArtStatus.vue?vue&type=template&id=0dc2fb70& */ "./resources/js/components/EditArtStatus.vue?vue&type=template&id=0dc2fb70&");
-/* harmony import */ var _EditArtStatus_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditArtStatus.vue?vue&type=script&lang=js& */ "./resources/js/components/EditArtStatus.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _EditArtStatus_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _EditArtStatus_vue_vue_type_template_id_0dc2fb70___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _EditArtStatus_vue_vue_type_template_id_0dc2fb70___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/EditArtStatus.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/EditArtStatus.vue?vue&type=script&lang=js&":
-/*!****************************************************************************!*\
-  !*** ./resources/js/components/EditArtStatus.vue?vue&type=script&lang=js& ***!
-  \****************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditArtStatus_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./EditArtStatus.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EditArtStatus.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditArtStatus_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/EditArtStatus.vue?vue&type=template&id=0dc2fb70&":
-/*!**********************************************************************************!*\
-  !*** ./resources/js/components/EditArtStatus.vue?vue&type=template&id=0dc2fb70& ***!
-  \**********************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditArtStatus_vue_vue_type_template_id_0dc2fb70___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./EditArtStatus.vue?vue&type=template&id=0dc2fb70& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EditArtStatus.vue?vue&type=template&id=0dc2fb70&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditArtStatus_vue_vue_type_template_id_0dc2fb70___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditArtStatus_vue_vue_type_template_id_0dc2fb70___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
