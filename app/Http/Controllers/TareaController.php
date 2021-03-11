@@ -13,10 +13,11 @@ class TareaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(Request $request)
+    {   
+        $usuarios = User::all();
         $tareas = Tarea::all();
-        return view('task.index', compact('tareas'));
+        return view('task.index', compact('tareas', 'usuarios'));
     }
 
     /**
