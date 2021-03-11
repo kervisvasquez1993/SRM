@@ -1998,6 +1998,11 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     editStatus: function editStatus() {
       console.log('EDITAR');
+      this.$swal.fire({
+        title: 'Cambiar estatus',
+        icon: 'info',
+        html: "\n                    <form class=\"row\">\n                    \n\n                        <div class=\"form-group  col-md-6\">\n                            <label for=\"creacion_ficha\">Creacion de Fichas</label>\n\n                            <select name=\"creacion_ficha\" id=\"creacion_ficha\" class=\"form-control\">\n                                <option value=\"1\">Opcion 1</option>\n                                <option value=\"2\">Opcion 2</option>\n                                <option value=\"3\">Opcion 3</option>\n                            </select>\n                        </div>\n\n                        <div class=\"form-group  col-md-6\">\n                            <label for=\"validacion_ficha\">Validaci\xF3n de Fichas</label>\n\n                            <select name=\"validacion_ficha\" id=\"validacion_ficha\" class=\"form-control\">\n                                <option value=\"1\">Opcion 1</option>\n                                <option value=\"2\">Opcion 2</option>\n                                <option value=\"3\">Opcion 3</option>\n                            </select>\n                        </div>\n\n                        <div class=\"form-group col-md-6\">\n                            <label for=\"creacion_boceto\">Creaci\xF3n de Boceto</label>\n\n                            <select name=\"creacion_boceto\" id=\"creacion_boceto\" class=\"form-control\">\n                                <option value=\"1\">Opcion 1</option>\n                                <option value=\"2\">Opcion 2</option>\n                                <option value=\"3\">Opcion 3</option>\n                            </select>\n                        </div>\n\n                        <div class=\"form-group col-md-6\">\n                            <label for=\"validacion_boceto\">Validaci\xF3n de Boceto</label>\n\n                            <select name=\"validacion_boceto\" id=\"validacion_boceto\" class=\"form-control\">\n                                <option value=\"1\">Opcion 1</option>\n                                <option value=\"2\">Opcion 2</option>\n                                <option value=\"3\">Opcion 3</option>\n                            </select>\n                        </div>\n\n                        <div class=\"form-group col-md-6\">\n                            <label for=\"confirmacion_proveedor\">Confirmaci\xF3n de Proveedor</label>\n\n                            <select name=\"confirmacion_proveedor\" id=\"confirmacion_proveedor\" class=\"form-control\">\n                                <option value=\"1\">Opcion 1</option>\n                                <option value=\"2\">Opcion 2</option>\n                                <option value=\"3\">Opcion 3</option>\n                            </select>\n                        </div>\n                        \n\n                    </form>\n                "
+      });
     }
   }
 });
@@ -6845,9 +6850,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { on: { click: _vm.editStatus } }, [
-    _c("h1", [_vm._v("DESDE VUE")])
-  ])
+  return _c("div", { on: { click: _vm.editStatus } })
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -19364,8 +19367,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /var/www/html/SRMDynamics/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /var/www/html/SRMDynamics/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\cmaldonado\Projects\srm\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\cmaldonado\Projects\srm\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
