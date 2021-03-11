@@ -13,7 +13,7 @@ class EstatusSeeder extends Seeder
     public function run()
     {
         DB::table('estatus')->insert([
-            'estatus' => 'Sin Inicializar',
+            'estatus' => 'Sin Iniciar',
         ]);
 
         DB::table('estatus')->insert([
