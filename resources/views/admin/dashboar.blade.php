@@ -27,8 +27,9 @@
 
 </head>
 
-<body class="">
-  <div class="wrapper" id="app">
+<body>
+<div id="app">
+  <div class="wrapper">
     @include('ui.sidebar')
     <div class="main-panel">
       <!-- Navbar -->
@@ -38,21 +39,20 @@
        @yield('content')
       </div>
       <footer class="footer">
-       
-
-        
+ 
       </footer>
     </div> 
   </div>
+</div>
   <!--   Core JS Files   -->
   <script src="{{asset('assets/js/core/jquery.min.js')}}"></script>
   <script src="{{asset('assets/js/core/popper.min.js')}}"></script>
   <script src="{{asset('assets/js/core/bootstrap-material-design.min.js')}}"></script>
-  <script src="{{asset('assets/js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>
+  
   <!-- Plugin for the momentJs  -->
   <script src="{{asset('assets/js/plugins/moment.min.js')}}"></script>
-  <!--  Plugin for Sweet Alert -->
-  <script src="{{asset('assets/js/plugins/sweetalert2.js')}}"></script>
+. 
+
   <!-- Forms Validations Plugin -->
   <script src="{{asset('assets/js/plugins/jquery.validate.min.js')}}"></script>
   <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
@@ -78,7 +78,7 @@
   <!-- Library for adding dinamically elements -->
   <script src="{{asset('assets/js/plugins/arrive.min.js')}}"></script>
   <!--  Google Maps Plugin    -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE')}}"></script>
+  
   <!-- Chartist JS -->
   <script src="{{asset('assets/js/plugins/chartist.min.js')}}"></script>
   <!--  Notifications Plugin    -->

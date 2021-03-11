@@ -7,6 +7,8 @@
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
+
+
 window.Vue = require('vue');
 
 /**
@@ -23,6 +25,8 @@ window.Vue = require('vue');
 Vue.use(VueSweetalert2)
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('edit-art-status', require('./components/EditArtStatus.vue').default);
+Vue.component('agregar-nueva-tarea', require('./components/AgregarNuevaTarea.vue').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
