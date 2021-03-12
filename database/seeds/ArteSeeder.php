@@ -16,11 +16,11 @@ class ArteSeeder extends Seeder
         DB::table('artes')->insert([
             'pivot_tarea_proveeder_id' => 1,
             'nombre' => 'arte1',
-            'creacion_fichas' => true,
-            'validacion_fichas' => true,
-            'creacion_boceto' => true,
-            'validacion_boceto' => true,
-            'confirmacion_proveedor' => true,
+            'creacion_fichas' => 1,
+            'validacion_fichas' => 1,
+            'creacion_boceto' => 1,
+            'validacion_boceto' => 1,
+            'confirmacion_proveedor' => 1,
             'fecha_fin' => Carbon::now()
         ]);
     }
