@@ -18,5 +18,10 @@
     .card-footer{
         border-top: 1px solid #000000 !important;
     }
+
+    .w-100{
+        width: 100%;
+    }
+    
     
 </style>

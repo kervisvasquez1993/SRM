@@ -9,7 +9,7 @@
     @component('componentes.cardGeneral')
 
     @slot('titulo')
-        Tarea: {{$tarea->nombre}} -- Comprador asignada: {{$tarea->usuarios->name}}    
+       <span>{{$tarea->nombre}}</span> <span>{{$tarea->usuarios->name}}</span>
     @endslot
     @slot('fechaFin')
     {{ date('d-M-Y', strtotime($tarea->fecha_fin)) }}
@@ -20,21 +20,23 @@
     @endslot
 
     @slot('contenidoFooter')
-   <div>
-      <i class="material-icons">access_time</i> Finalización : <p> {{ date('d-M-Y', strtotime($tarea->fecha_fin)) }}</p>
+   <div class="stats">
+      <i class="material-icons">access_time</i> Finalización : {{ date('d-M-Y', strtotime($tarea->fecha_fin)) }}
     </div>
-    <button type="button" 
-            class="btn btn-primary  btn-sm d-block mb-2"  
-            data-id_tarea="{{$tarea->id}}"
-            data-tarea="{{$tarea->nombre}}"
-            data-user_name={{$tarea->user_id}}
-            data-fecha_fin="{{$tarea->fecha_fin}}"
-            data-descripcion="{{$tarea->descripcion}}"
-            data-toggle="modal"
-            data-target="#abrirmodalEditar">
-           Editar
-    </button>
-    <a href="{{route('tareas.show', ['tarea' => $tarea->id])}}" class="btn btn-success  btn-sm d-block mb-2">Ver Detalle</a>
+    <div>
+        <a href="#" type="button" 
+                class="btn btn-primary btn-sm "  
+                data-id_tarea="{{$tarea->id}}"
+                data-tarea="{{$tarea->nombre}}"
+                data-user_name={{$tarea->user_id}}
+                data-fecha_fin="{{$tarea->fecha_fin}}"
+                data-descripcion="{{$tarea->descripcion}}"
+                data-toggle="modal"
+                data-target="#abrirmodalEditar">
+               Editar
+        </a>
+    <a href="{{route('tareas.show', ['tarea' => $tarea->id])}}" class="btn btn-success btn-sm ">Ver Detalle</a>
+   </div>
   @endslot
     
     
