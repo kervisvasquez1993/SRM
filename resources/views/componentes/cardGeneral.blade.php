@@ -8,12 +8,17 @@
     data-descripcion="{{$dataDescripcion}}"
 
     >
-    <div class="card-header card-header-text card-header-primary">
-      <div class="card-text">
+    <div class="card-header  b-main">
+      <div class="card-text c-white">
         <h4 class="card-title">{{$titulo}}</h4>
       </div>
     </div>
     <div class="card-body">
         {{$bodyCard}}
+    </div>
+    <div class="card-footer">
+      <div class="stats d-flex justify-content-between">
+        <i class="material-icons">access_time</i> Fecha de Finalización : {{$fechaFin}}
+      </div>
     </div>
 </div>

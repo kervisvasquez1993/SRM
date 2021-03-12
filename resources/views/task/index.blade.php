@@ -11,7 +11,11 @@
     @component('componentes.cardGeneral')
 
     @slot('titulo')
-        Tarea: {{$tarea->nombre}} -- Comprador asignada: {{$tarea->usuarios->name}} -- Fecha de Finalizacion: {{$tarea->fecha_fin}}  
+        Tarea: {{$tarea->nombre}} -- Comprador asignada: {{$tarea->usuarios->name}}    
+    @endslot
+    @slot('fechaFin')
+
+    {{ date('d-M-Y', strtotime($tarea->fecha_fin)) }}
     @endslot
     @slot('bodyCard')
         {{$tarea->descripcion}}

@@ -24,6 +24,7 @@
 
   <!-- Styles -->
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+  @include('util.style')
 
 </head>
 
