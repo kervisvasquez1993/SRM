@@ -1,13 +1,4 @@
-<div class="card" 
-    data-toggle="modal" 
-    data-target="#abrirmodalEditar"
-    data-id_tarea="{{$dataId}}" 
-    data-tarea="{{$dataTarea}}"
-    data-comprador="{{$dataComprador}}"
-    data-fecha="{{$dataFecha}}"
-    data-descripcion="{{$dataDescripcion}}"
-
-    >
+<div class="card">
     <div class="card-header  b-main">
       <div class="card-text c-white">
         <h4 class="card-title">{{$titulo}}</h4>
@@ -17,8 +8,8 @@
         {{$bodyCard}}
     </div>
     <div class="card-footer">
-      <div class="stats d-flex justify-content-between">
-        <i class="material-icons">access_time</i> Fecha de Finalización : {{$fechaFin}}
+      <div class="stats d-flex">
+       {{$contenidoFooter}}
       </div>
     </div>
 </div>

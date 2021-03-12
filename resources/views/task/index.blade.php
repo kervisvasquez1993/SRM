@@ -1,12 +1,10 @@
 @extends('admin.dashboar')
 @section('content')
-
-
-    <div class="container-fluid">
-            <button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#abrirmodal">
-                <i class="fa fa-plus fa-2x"></i>&nbsp;&nbsp;Agregar Tarea
-            </button>
-    </div>
+<div class="container-fluid">
+    <button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#abrirmodal">
+        <i class="fa fa-plus fa-2x"></i>&nbsp;&nbsp;Agregar Tarea
+    </button>
+</div>
 @foreach($tareas as $tarea)
     @component('componentes.cardGeneral')
 
@@ -14,30 +12,30 @@
         Tarea: {{$tarea->nombre}} -- Comprador asignada: {{$tarea->usuarios->name}}    
     @endslot
     @slot('fechaFin')
-
     {{ date('d-M-Y', strtotime($tarea->fecha_fin)) }}
+    
     @endslot
     @slot('bodyCard')
         {{$tarea->descripcion}}
     @endslot
 
-    @slot('dataId')
-        {{$tarea->id}}
-    @endslot
-
-    @slot('dataTarea')
-        {{$tarea->nombre}}
-    @endslot
-    @slot('dataComprador')
-        {{$tarea->usuarios->name}}
-    @endslot
-
-    @slot('dataFecha')
-        {{$tarea->fecha_fin}}
-    @endslot
-    @slot('dataDescripcion')
-        {{$tarea->descripcion}}
-    @endslot
+    @slot('contenidoFooter')
+   <div>
+      <i class="material-icons">access_time</i> Finalización : <p> {{ date('d-M-Y', strtotime($tarea->fecha_fin)) }}</p>
+    </div>
+    <button type="button" 
+            class="btn btn-primary  btn-sm d-block mb-2"  
+            data-id_tarea="{{$tarea->id}}"
+            data-tarea="{{$tarea->nombre}}"
+            data-user_name={{$tarea->user_id}}
+            data-fecha_fin="{{$tarea->fecha_fin}}"
+            data-descripcion="{{$tarea->descripcion}}"
+            data-toggle="modal"
+            data-target="#abrirmodalEditar">
+           Editar
+    </button>
+    <a href="{{route('tareas.show', ['tarea' => $tarea->id])}}" class="btn btn-success  btn-sm d-block mb-2">Ver Detalle</a>
+  @endslot
     
     
     
