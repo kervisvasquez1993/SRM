@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Arte;
+use App\Estatus;
 use Illuminate\Http\Request;
 
 class ArteController extends Controller
@@ -15,7 +16,8 @@ class ArteController extends Controller
     public function index()
     {
         $artes = Arte::all();
-        return view('arte.index', compact('artes'));
+        $estatus = Estatus::all();
+        return view('arte.index', compact('artes', 'estatus'));
     }
 
     /**
@@ -70,7 +72,16 @@ class ArteController extends Controller
      */
     public function update(Request $request, Arte $arte)
     {
-        //
+        $data = $request->all()['params'];
+        $arte->creacion_fichas = $data['creacion_ficha'];
+        $arte->validacion_fichas = $data['validacion_ficha'];
+        $arte->creacion_boceto = $data['creacion_boceto'];
+        $arte->validacion_boceto = $data['validacion_boceto'];
+        $arte->confirmacion_proveedor = $data['confirmacion_proveedor'];
+        $arte->save();
+
+        return Arte::where('id', $arte->id)->first();  
+
     }
 
     /**
