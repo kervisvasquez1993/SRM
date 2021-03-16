@@ -17,8 +17,9 @@
       </div>
       <div>
           <a href="#" type="button" 
-                      class="btn btn-primary btn-sm "  
-                      data-toggle="modal" data-target="#abrirmodal"
+                      class="btn btn-primary btn-sm" 
+                      data-id_tarea={{$tarea->id}}
+                      data-toggle="modal" data-target="#abrirmodalEditar"
                   >
                  Agregar Empresa
           </a>
@@ -31,7 +32,7 @@
 
 
 
-@component('componentes.formularioModal')
+@component('componentes.formularioModalEdit')
   @slot('titleForm')
       <h4>Añadir Nueva Empresa</h4>
   @endslot
@@ -43,6 +44,8 @@
   @endslot
 
   @slot('BodyForm')
+  
+      <input type="hidden" id="id_tarea" name="id_tarea" value="">
       @include('inicio.form')
   @endslot
 @endcomponent

@@ -103,6 +103,7 @@
         /* var descripcion_modal_editar = button.data('descripcion')
          */
         var modal = $(this)
+        console.log('hola')
         // modal.find('.modal-title').text('New message to ' + recipient)
         modal.find('.modal-body #id_tarea').val(id_categoria);
         modal.find('.modal-body #user_id').val(nombre_modal_user_name);

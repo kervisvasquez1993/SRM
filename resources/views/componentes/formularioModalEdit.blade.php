@@ -1,5 +1,5 @@
 {{-- componente para listar las tareas --}}
-<div class="modal fade" id="abrirmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+<div class="modal fade" id="abrirmodalEditar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-primary modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -27,3 +27,4 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
+
