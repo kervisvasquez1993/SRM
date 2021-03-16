@@ -13,13 +13,27 @@
 
     @slot('contenidoFooter')
       <p class="category">{{$tarea->fecha_fin}}</p>
-      
+
     @endslot
 @endcomponent
 @endforeach
 
 
 
+@component('componente.formularioModal')
+  @slot('titleForm')
+      
+  @endslot
+  @slot('route')
+      
+  @endslot
+  @slot('method')
+      
+  @endslot
 
+  @slot('bodyForm')
+      
+  @endslot
+@endcomponent
   
 @endsection
