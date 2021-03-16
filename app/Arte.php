@@ -12,30 +12,30 @@ class Arte extends Model
         
     }
 
-    public function bocetoStatus()
+    public function fichasEstatus()
     {
-        return $this->belongsTo(BocetoStatu::class, 'boceto_status_id');
+        return $this->belongsTo(Estatus::class, 'creacion_fichas');
     }
 
-    public function validacionFichaStatus()
+    public function validacionFichasEstatus()
     {
-        return $this->belongsTo(BocetoStatu::class, 'validacion_ficha_status_id');
+        return $this->belongsTo(Estatus::class, 'validacion_fichas');
     }
 
-    public function confirmacionProveedor()
+    public function bocetosEstatus()
     {
-        return $this->belongsTo(BocetoStatu::class, 'confirmacion_proveedor_estatus_id');
+        return $this->belongsTo(Estatus::class, 'creacion_boceto');
     }
 
-    public function fichaStatus()
+    public function validacionBocetosEstatus()
     {
-        return $this->belongsTo(BocetoStatu::class, 'ficha_status_id');
+        return $this->belongsTo(Estatus::class, 'validacion_boceto');
     }
 
-   
-
-    public function validacionBocetoStatus()
+    public function confirmacionProveedorEstatus()
     {
-        return $this->belongsTo(BocetoStatu::class, 'validacion_boceto_status_id');
+        return $this->belongsTo(Estatus::class, 'confirmacion_proveedor');
     }
+
+
 }

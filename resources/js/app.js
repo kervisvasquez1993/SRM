@@ -7,7 +7,8 @@
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
-
+// Axios
+window.axios = require('axios');
 
 
 window.Vue = require('vue');
