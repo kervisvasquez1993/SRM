@@ -30,6 +30,8 @@ Route::resource('/perfil', 'PerfilController');
 //tareas 
 Route::resource('/tareas', 'TareaController');
 
+Route::resource('/proveedores', 'ProveedorController');
+
 
 // Arte
 Route::resource('/artes', 'ArteController');

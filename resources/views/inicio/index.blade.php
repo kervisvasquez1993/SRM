@@ -37,10 +37,10 @@
       <h4>Añadir Nueva Empresa</h4>
   @endslot
   @slot('route')
-      
+      {{route('proveedores.store')}}
   @endslot
   @slot('method')
-      
+      post
   @endslot
 
   @slot('BodyForm')

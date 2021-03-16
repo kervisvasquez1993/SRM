@@ -7,7 +7,8 @@
         <div class="col-md-8">
           <div class="row">
               @foreach($tarea->proveedor as $proveedor)
-                    {{$proveedor->nombre}}
+                 <h3>Nombre del Proveedor:  {{$proveedor->nombre}}</h3>
+                 <h4>estatus: {{$proveedor->pivot}}</h4>
               @endforeach
              
            
