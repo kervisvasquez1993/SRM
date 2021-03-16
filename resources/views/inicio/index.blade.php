@@ -12,7 +12,18 @@
     @endslot
 
     @slot('contenidoFooter')
-      <p class="category">{{$tarea->fecha_fin}}</p>
+      <div class="stats">
+        <i class="material-icons">access_time</i> Finalización : {{ date('d-M-Y', strtotime($tarea->fecha_fin)) }}
+      </div>
+      <div>
+          <a href="#" type="button" 
+                      class="btn btn-primary btn-sm "  
+                      data-toggle="modal" data-target="#abrirmodal"
+                  >
+                 Agregar Empresa
+          </a>
+      <a href="{{route('tareas.show', ['tarea' => $tarea->id])}}" class="btn btn-success btn-sm ">Ver Detalle</a>
+     </div>
 
     @endslot
 @endcomponent
@@ -20,9 +31,9 @@
 
 
 
-@component('componente.formularioModal')
+@component('componentes.formularioModal')
   @slot('titleForm')
-      
+      <h4>Añadir Nueva Empresa</h4>
   @endslot
   @slot('route')
       
@@ -31,8 +42,8 @@
       
   @endslot
 
-  @slot('bodyForm')
-      
+  @slot('BodyForm')
+      @include('inicio.form')
   @endslot
 @endcomponent
   

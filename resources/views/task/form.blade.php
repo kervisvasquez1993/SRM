@@ -24,11 +24,11 @@
         <input type="text" class="form-control" id="fecha_fin" name="fecha_fin" >
     </div>
 </div>
-
 <div class="form-group">
     <label for="descripcion">Mensaje:<span class="red">*</span></label>
     <textarea class="form-control" id="descripcion" name="descripcion" rows="3" min="25" ></textarea>
 </div>
+
 
 
 <div class="form-group mb-10">
