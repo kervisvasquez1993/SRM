@@ -3,15 +3,17 @@
 namespace App;
 
 use App\Tarea;
+use App\Producto;
+use App\PivotTareaProveeder;
 use Illuminate\Database\Eloquent\Model;
 
 class Proveedor extends Model
 {
    
    
-    public function pivot()
+    public function PrinciaplPivot()
     {
-        return $this->hasOne(PivotTareaProveeder::class);
+        return $this->hasMany(PivotTareaProveeder::class);
     }
     public function tarea()
     {
