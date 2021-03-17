@@ -73,6 +73,9 @@ class ProveedorController extends Controller
             
             $pivotTareaProveedor->tarea_id = $id_tarea;
             $pivotTareaProveedor->proveedor_id = $id_proveedor;
+            $pivotTareaProveedor->iniciar_negociacion = false;
+            $pivotTareaProveedor->iniciar_arte = false;
+            $pivotTareaProveedor->iniciar_produccion = false;
             $pivotTareaProveedor->save();
     }
 

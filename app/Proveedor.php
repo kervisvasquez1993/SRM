@@ -9,15 +9,16 @@ class Proveedor extends Model
 {
    
    
+    public function pivot()
+    {
+        return $this->hasOne(PivotTareaProveeder::class);
+    }
     public function tarea()
     {
         return $this->belongsToMany(Tarea::class, 'pivot_tarea_proveeders', 'tarea_id', 'proveedor_id');
     }
 
-    public function pivot()
-    {
-        return $this->hasMany(PivotTareaProveeder::class);
-    }
+   
 
     public function productos()
     {
