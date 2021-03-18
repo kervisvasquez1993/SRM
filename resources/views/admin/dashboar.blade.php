@@ -18,6 +18,7 @@
   @yield('ccs_file')
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="{{asset('assets/demo/demo.css')}}" rel="stylesheet" />
+  <link href="{{asset('util/css/style.css')}}" rel="stylesheet" />
 
   <!-- Scripts -->
   <script src="{{ asset('js/app.js') }}" defer></script>

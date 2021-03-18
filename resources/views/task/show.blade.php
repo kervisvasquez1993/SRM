@@ -4,8 +4,22 @@
 <div class="content">
 <div class="container-fluid">
     <div class="row">
+      <div class="container-fluid">
+        <a href="#" type="button" 
+        class="btn btn-primary btn-sm" 
+        data-id_tarea={{$tarea->id}}
+        data-toggle="modal" data-target="#abrirmodalEditar"
+         >
+        Agregar Empresa
+        </a>
+    </div>
         <div class="col-md-12">
           <div class="row">
+              <h3 class="navbar-brand font-weight-bold" >{{$tarea->nombre}}. Finalizacion :{{ date('d-M-Y', strtotime($tarea->fecha_fin))}}</h3>
+              <p class=""></p>
+              <p>
+                {{$tarea->descripcion}}
+              </p>
               @foreach($noAprovado as $proveedor)
                  {{-- <h3>Nombre del Proveedor:  {{$proveedor->nombre}}</h3> --}}
            
@@ -48,14 +62,28 @@
             
           </div>
         </div>
-    
-    </div>
+      </div>
   </div>
-
-
-
-   <!--Inicio del modal actualizar-->
+ <!--Inicio del modal actualizar-->
 </div>
+
+
   
 @endsection
+@component('componentes.formularioModalEdit')
+  @slot('titleForm')
+      <h4>Añadir Nueva Empresa</h4>
+  @endslot
+  @slot('route')
+      {{route('proveedores.store')}}
+  @endslot
+  @slot('method')
+      post
+  @endslot
 
+  @slot('BodyForm')
+  
+      <input type="hidden" id="id_tarea" name="id_tarea" value="">
+      @include('inicio.form')
+  @endslot
+@endcomponent

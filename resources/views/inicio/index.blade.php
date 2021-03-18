@@ -5,6 +5,7 @@
 @component('componentes.cardGeneral')
     @slot('titulo')
         <span>{{$tarea->nombre}}</span> 
+        <span>{{$tarea->proveedor->count()}} proveedores</span>
     @endslot
 
     @slot('bodyCard')
