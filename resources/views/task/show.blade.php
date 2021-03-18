@@ -11,7 +11,10 @@
            
                  @component('componentes.cardGeneral')
                     @slot('titulo')
-                    Nombre Empresa: {{$proveedor->nombre}}                        
+                    <div> Nombre Empresa: {{$proveedor->nombre}}</div>  
+                    <div>
+                      
+                    </div>                      
                     @endslot
                     @slot('bodyCard')
                     <h6 class="font-weight-bold">Pais: {{$proveedor->pais}}, Ciudad: {{$proveedor->ciudad}}, Distrito: {{$proveedor->distrito}} </h6>
@@ -25,8 +28,8 @@
                     @endslot
 
                     @slot('contenidoFooter')
-                             
-                             <p class="font-weight-bold">Status:   {{$proveedor->aprovado == 0 ? "Sin Aprovar" : "Aprovado"}}</p>
+                           
+                            <p class="font-weight-bold">Negocias:   {{$proveedor->aprovado}}</p>
                             <p class="font-weight-bold">Direccion: {{$proveedor->address}}</p>
                             <p class="font-weight-bold">Teléfono: {{$proveedor->telefono}}</p>
                             <p class="font-weight-bold">Contacto: {{$proveedor->contacto}}</p>
@@ -49,5 +52,10 @@
     </div>
   </div>
 
+
+
+   <!--Inicio del modal actualizar-->
+</div>
   
 @endsection
+

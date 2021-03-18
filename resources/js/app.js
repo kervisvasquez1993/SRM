@@ -27,7 +27,8 @@ window.Vue = require('vue');
 
 Vue.use(VueSweetalert2)
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('agregar-nueva-tarea', require('./components/AgregarNuevaTarea.vue').default);
+/* Vue.component('agregar-nueva-tarea', require('./components/AgregarNuevaTarea.vue').default);
+Vue.component('estado-negociar', require('./components/EstadoNegociar.vue').default); */
 
 
 /**
