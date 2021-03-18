@@ -89,11 +89,8 @@
                       <span aria-hidden="true">×</span>
                     </button>
                 </div>
-               
                 <div class="modal-body">
-                     
-
-                    <form action="" method="post" class="form-horizontal">
+                     <form action="" method="post" class="form-horizontal">
                         {{csrf_field()}}
                         <input type="hidden" id="id_tarea" name="id_tarea" value="">
                         @include('task.form')
@@ -104,10 +101,6 @@
             </div>
             <!-- /.modal-content -->
         </div>
-        <!-- /.modal-dialog -->
-    </div>
-    <!--Fin del modal-->
-      
-     
+    </div>    
 </div> 
 @stop

@@ -26,9 +26,23 @@
                  @component('componentes.cardGeneral')
                     @slot('titulo')
                     <div> Nombre Empresa: {{$proveedor->nombre}}</div>  
-                    <div>
-                      
-                    </div>                      
+                    <a href="#" type="button" 
+                                class="btn btn-primary btn-sm "  
+                                data-id_tarea="{{$proveedor->id}}"
+                                data-tarea="{{$proveedor->nombre}}"
+                                data-pais="{{$proveedor->pais}}"
+                                data-ciudad="{{$proveedor->ciudad}}"
+                                data-distrito="{{$proveedor->distrito}}"
+                                data-direccion="{{$proveedor->direccion}}"
+                                data-contactos="{{$proveedor->contacto}}"
+                                data-telefonos="{{$proveedor->telefono}}"
+                                data-email="{{$proveedor->email}}"
+                                data-descripcion="{{$proveedor->descripcion}}"
+
+                                data-toggle="modal"
+                                data-target="#abrirmodalEditar">
+                         Editar
+                    </a>
                     @endslot
                     @slot('bodyCard')
                     <h6 class="font-weight-bold">Pais: {{$proveedor->pais}}, Ciudad: {{$proveedor->ciudad}}, Distrito: {{$proveedor->distrito}} </h6>
@@ -67,7 +81,28 @@
  <!--Inicio del modal actualizar-->
 </div>
 
+<div class="modal fade" id="abrirmodalEditar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+  <div class="modal-dialog modal-primary modal-lg" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Actualizar Tareas </h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+          </div>
+          <div class="modal-body">
+               <form action="" method="post" class="form-horizontal">
+                  {{csrf_field()}}
+                  <input type="hidden" id="id_tarea" name="id_tarea" value="">
+                  
 
+              </form>
+          </div>
+          
+      </div>
+      <!-- /.modal-content -->
+  </div>
+</div>
   
 @endsection
 @component('componentes.formularioModalEdit')
