@@ -8,7 +8,7 @@
       {{$bodyCard}}
   </div>
   <div class="card-footer">
-    <div class="d-flex justify-content-between w-100">
+    <div class="d-flex justify-content-between w-100 flex-wrap">
      {{$contenidoFooter}}
     </div>
   </div>
