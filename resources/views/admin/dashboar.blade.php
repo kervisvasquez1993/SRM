@@ -88,6 +88,34 @@
            
            })
       }
+
+      if ($('#abrirmodalEditarProveedor'))
+      {
+         $('#abrirmodalEditarProveedor').on('show.bs.modal', function (event) {
+           var button = $(event.relatedTarget) 
+           var nombre_modal_tarea = button.data('tarea')
+           var nombre_modal_comprador = button.data('comprador')
+           var nombre_modal_descripcion = button.data('descripcion')
+           var nombre_modal_fecha_fin = button.data('fecha_fin')
+           var nombre_modal_user_name = button.data('user_name')
+           var id_categoria = button.data('id_tarea')
+           /* var descripcion_modal_editar = button.data('descripcion')
+            */
+           var modal = $(this)
+          
+           // modal.find('.modal-title').text('New message to ' + recipient)
+           modal.find('.modal-body #id_tarea').val(id_categoria);
+           modal.find('.modal-body #user_id').val(nombre_modal_user_name);
+           modal.find('.modal-body #nombre').val(nombre_modal_tarea);
+           modal.find('.modal-body #descripcion').val(nombre_modal_descripcion);
+           modal.find('.modal-body #fecha_fin').val(nombre_modal_fecha_fin);
+   
+            
+           /* modal.find('.modal-body #descripcion').val(descripcion_modal_editar); */
+           
+           })
+      }
+
       $().ready(function() {
         $sidebar = $('.sidebar');
 

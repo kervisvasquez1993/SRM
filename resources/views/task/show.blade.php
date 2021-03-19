@@ -40,7 +40,7 @@
                                 data-descripcion="{{$proveedor->descripcion}}"
 
                                 data-toggle="modal"
-                                data-target="#abrirmodalEditar">
+                                data-target="#abrirmodalEditarProveedor">
                          Editar
                     </a>
                     @endslot
@@ -81,7 +81,7 @@
  <!--Inicio del modal actualizar-->
 </div>
 
-<div class="modal fade" id="abrirmodalEditar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+<div class="modal fade" id="abrirmodalEditarProveedor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
   <div class="modal-dialog modal-primary modal-lg" role="document">
       <div class="modal-content">
           <div class="modal-header">
@@ -94,7 +94,7 @@
                <form action="" method="post" class="form-horizontal">
                   {{csrf_field()}}
                   <input type="hidden" id="id_tarea" name="id_tarea" value="">
-                  
+                  @include('inicio.form')
 
               </form>
           </div>
