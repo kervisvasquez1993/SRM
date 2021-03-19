@@ -32,6 +32,7 @@ Route::resource('/tareas', 'TareaController');
 
 
 // Arte
+Route::get('/artes/search', 'ArteController@search')->name('artes.search');
 Route::resource('/artes', 'ArteController');
 
 Route::get('/usuarios', 'TareaController@usuarios');

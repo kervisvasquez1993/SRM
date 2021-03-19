@@ -13,10 +13,27 @@ class ArteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $artes = Arte::all();
+        
+        // $artes = Arte::all();
+
         $estatus = Estatus::all();
+        
+         // Request data
+        $creacion_ficha_id = $request->get('campo_filtro') === 'creacion_fichas' ? $request->get('estatus_id'): null;
+        $validacion_ficha_id = $request->get('campo_filtro') === 'validacion_fichas' ? $request->get('estatus_id'): null;
+        $creacion_boceto_id = $request->get('campo_filtro') === 'creacion_boceto' ? $request->get('estatus_id'): null; 
+        $validacion_boceto_id = $request->get('campo_filtro') === 'validacion_boceto' ? $request->get('estatus_id'): null;
+        $confirmacion_proveedor_id = $request->get('campo_filtro') === 'confirmacion_proveedor' ? $request->get('estatus_id'): null;
+        
+        $artes = Arte::creacionFicha( $creacion_ficha_id )
+            ->validacionFicha( $validacion_ficha_id)
+            ->creacionBoceto( $creacion_boceto_id )
+            ->validacionBoceto( $validacion_boceto_id )
+            ->confirmacionProveedor( $confirmacion_proveedor_id )->get();
+
+
         return view('arte.index', compact('artes', 'estatus'));
     }
 
