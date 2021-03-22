@@ -25,7 +25,10 @@ class CreateArtesTable extends Migration
             $table->timestamp('fecha_fin');
             $table->timestamps();
         });
+
+        
     }
+
 
     /**
      * Reverse the migrations.
