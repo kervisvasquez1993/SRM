@@ -11,8 +11,18 @@ class CreateUsersTable extends Migration
      *
      * @return void
      */
+
+
+     
     public function up()
     {
+        Schema::create('rols', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre');
+            $table->timestamps();
+        });
+       
+       
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->foreignId('rol_id')->references('id')->on('rols')->onDelete('cascade');
@@ -23,6 +33,16 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        Schema::create('perfils', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->text('biografia')->nullable();
+            $table->string('imagen')->nullable();
+            $table->timestamps();
+        });
+
+        
     }
 
     /**
@@ -32,6 +52,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('users', 'rols','perfils');
     }
 }
