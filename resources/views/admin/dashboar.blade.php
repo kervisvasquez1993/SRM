@@ -19,7 +19,9 @@
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="{{asset('assets/demo/demo.css')}}" rel="stylesheet" />
 
+  @yield('css')
   <!-- Scripts -->
+  
   <script src="{{ asset('js/app.js') }}" defer></script>
 
   @yield('script')
@@ -46,6 +48,7 @@
     </div> 
   </div>
 </div>
+
   <!--   Core JS Files   -->
   <script src="{{asset('assets/js/core/jquery.min.js')}}"></script>
   <script src="{{asset('assets/js/core/popper.min.js')}}"></script>
@@ -290,7 +293,7 @@
 
     });
   </script>
-  @include('util.scriptsJs')
+  @yield('scripts')
 </body>
 
 </html>
