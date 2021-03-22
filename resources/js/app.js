@@ -13,6 +13,7 @@ window.axios = require('axios');
 
 
 window.Vue = require('vue');
+require('./editarForm');
 
 /**
  * The following block of code may be used to automatically register your
