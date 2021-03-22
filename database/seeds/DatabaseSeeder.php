@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ValidacionFichasStatusSeeder::class);
         $this->call(ValidacionBocetoStatusSeeder::class);
         $this->call(ArteSeeder::class);
+        $this->call(BocetoSeeder::class);
         $this->call(ProductoSeeder::class);
         $this->call(ProduccionTransitoSeeder::class);
         $this->call(PerfilSeeder::class);

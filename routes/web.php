@@ -29,7 +29,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/perfil', 'PerfilController');
 //tareas 
 Route::resource('/tareas', 'TareaController');
-
+// bocetos
+Route::resource('/bocetos', 'BocetoController');
 
 // Arte
 Route::resource('/artes', 'ArteController');

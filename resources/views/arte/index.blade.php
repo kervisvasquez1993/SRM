@@ -9,7 +9,7 @@
     @foreach( $artes as $arte )
 
       {{-- Card --}}
-      <div id="{{ $arte->id }}" onclick="showModal({{ $arte }}, {{ $estatus }})" class="card"  data-toggle="modal" data-target="#exampleModal">
+      <div id="{{ $arte->id }}" class="card" >
 
         <div class="card-header d-flex justify-content-between flex-wrap">
             <h4 class="card-title"><strong class="text-secondary">Tarea: </strong> <span id="arte-name">{{ $arte->nombre }}</span></h4>
@@ -26,6 +26,12 @@
                 <span class="mr-3"><strong class="text-secondary">Validación de Boceto:</strong> <span id="card-validacion-boceto">{{ $arte->validacionBocetosEstatus->estatus }}</span></span>
                 <span class="mr-3"><strong class="text-secondary">Confirmación de Proveedor:</strong> <span id="card-confirm-proveedor">{{ $arte->confirmacionProveedorEstatus->estatus }}</span></span>
             </div>
+        </div>
+
+        <div class="d-flex justify-content-end m-2">
+          <span class="material-icons launch" onclick="showModal({{ $arte }}, {{ $estatus }})" data-toggle="modal" data-target="#exampleModal">
+            launch
+          </span>
         </div>
 
 
@@ -219,11 +225,14 @@
     .card {
         margin-top: 20px;
         margin-bottom: 20px;
-        cursor: pointer;
     }
     
     .card-body{
         margin-top: -30px;
+    }
+
+    .launch {
+      cursor: pointer;
     }
 
     @media (max-width: 520px) {

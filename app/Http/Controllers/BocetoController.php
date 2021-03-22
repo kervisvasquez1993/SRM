@@ -12,9 +12,10 @@ class BocetoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        dd($request);
+        return view('boceto.index');
     }
 
     /**
@@ -24,7 +25,8 @@ class BocetoController extends Controller
      */
     public function create()
     {
-        //
+        // Create a new Boceto
+        
     }
 
     /**
