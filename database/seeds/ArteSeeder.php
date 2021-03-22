@@ -23,7 +23,7 @@ class ArteSeeder extends Seeder
             'confirmacion_proveedor' => 1,
             'fecha_fin' => Carbon::now()
         ]);
-        
+
         DB::table('artes')->insert([
             'pivot_tarea_proveeder_id' => 1,
             'nombre' => 'arte2',
@@ -34,6 +34,7 @@ class ArteSeeder extends Seeder
             'confirmacion_proveedor' => 1,
             'fecha_fin' => Carbon::now()
         ]);
+        
         DB::table('artes')->insert([
             'pivot_tarea_proveeder_id' => 1,
             'nombre' => 'arte3',
@@ -44,6 +45,5 @@ class ArteSeeder extends Seeder
             'confirmacion_proveedor' => 1,
             'fecha_fin' => Carbon::now()
         ]);
-
     }
 }
