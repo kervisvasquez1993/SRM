@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Arte;
 use App\Boceto;
 use Illuminate\Http\Request;
 
@@ -14,8 +15,11 @@ class BocetoController extends Controller
      */
     public function index(Request $request)
     {
-        dd($request);
-        return view('boceto.index');
+        $arte = Arte::find( $request->get('arte') );
+        $bocetos = $arte->boceto;
+        // dd( $bocetos );
+
+        return view('boceto.index', compact('bocetos'));
     }
 
     /**

@@ -14,24 +14,26 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="">
-                        1
-                    </td>
-                    <td>
-                        Titulo de la incidencia
-                    </td>
-                    <td>
-                        Esta es la descripcion de la incidencia en el boceto
-                    </td>
-                    <td class="">
-                       Pedro Perez
-                    </td>
-                    <td class="">
-                        20-03-2021
-                    </td>
+                @foreach($bocetos as $boceto)
+                    <tr>
+                        <td class="">
+                            {{ $boceto->id }}
+                        </td>
+                        <td>
+                            {{ $boceto->titulo }}
+                        </td>
+                        <td>
+                            {{ $boceto->descripcion }}
+                        </td>
+                        <td class="">
+                            {{ $boceto->user->name }}
+                        </td>
+                        <td class="">
+                            {{ date('d-m-Y', strtotime($boceto->updated_at)) }}
+                        </td>
 
-                </tr>
+                    </tr>
+                @endforeach
                 
             </tbody>
         </table>

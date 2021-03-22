@@ -13,6 +13,17 @@ class Arte extends Model
         
     }
 
+    public function boceto()
+    {
+        return $this->hasMany(Boceto::class);
+    }
+
+    public function ficha()
+    {
+        return $this->hasMany(Ficha::class);
+    }
+
+    
     public function fichasEstatus()
     {
         return $this->belongsTo(Estatus::class, 'creacion_fichas');

@@ -1,2 +1,12 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito);
+@import url(https://fonts.googleapis.com/css?family=Nunito);.pointer {
+  cursor: pointer;
+}
+
+.pointer-underline {
+  cursor: pointer;
+}
+
+.pointer-underline:hover {
+  text-decoration: underline;
+}
 

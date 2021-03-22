@@ -25,11 +25,50 @@
               <strong class="text-secondary">Estatus: </strong>
 
               <div class="status d-flex justify-content-between">
-                  <span class="mr-3"><strong class="text-secondary">Creación de Fichas:</strong> <span id="card-ficha-estatus-{{ $arte->id }}">{{ $arte->fichasEstatus->estatus }}</span></span>
-                  <span class="mr-3"><strong class="text-secondary">Validación de Fichas:</strong> <span id="card-validacion-ficha-{{ $arte->id }}">{{ $arte->validacionFichasEstatus->estatus }}</span></span>
-                  <span class="mr-3"><strong class="text-secondary">Creación de Boceto:</strong> <span id="card-boceto-estatus-{{ $arte->id }}">{{ $arte->bocetosEstatus->estatus }}</span></span>
-                  <span class="mr-3"><strong class="text-secondary">Validación de Boceto:</strong> <span id="card-validacion-boceto-{{ $arte->id }}">{{ $arte->validacionBocetosEstatus->estatus }}</span></span>
-                  <span class="mr-3"><strong class="text-secondary">Confirmación de Proveedor:</strong> <span id="card-confirm-proveedor-{{ $arte->id }}">{{ $arte->confirmacionProveedorEstatus->estatus }}</span></span>
+                  <span class="mr-3">
+                    <strong class="text-secondary pointer-underline">
+                      <a href="">
+                        Creación de Fichas <span class="material-icons more-details"> north_east </span>:
+                      </a>
+                    </strong>
+                    <span id="card-ficha-estatus-{{ $arte->id }}">{{ $arte->fichasEstatus->estatus }}</span>
+                  </span>
+
+                  <span class="mr-3">
+                    <strong class="text-secondary pointer-underline">
+                      <a href="">
+                        Validación de Fichas <span class="material-icons more-details"> north_east </span>:
+                      </a>
+                    </strong> 
+                    <span id="card-validacion-ficha-{{ $arte->id }}">{{ $arte->validacionFichasEstatus->estatus }}</span>
+                  </span>
+
+                  <span class="mr-3">
+                    <strong class="text-secondary pointer-underline">
+                      <a href="{{ route('bocetos.index', ['arte' => $arte->id]) }}">
+                        Creación de Boceto <span class="material-icons more-details"> north_east </span>:
+                      </a>
+                    </strong> 
+                    <span id="card-boceto-estatus-{{ $arte->id }}">{{ $arte->bocetosEstatus->estatus }}</span>
+                  </span>
+
+                  <span class="mr-3">
+                    <strong class="text-secondary pointer-underline">
+                     <a href="">
+                       Validación de Boceto <span class="material-icons more-details"> north_east </span>:
+                      </a> 
+                    </strong> 
+                    <span id="card-validacion-boceto-{{ $arte->id }}">{{ $arte->validacionBocetosEstatus->estatus }}</span>
+                  </span>
+
+                  <span class="mr-3">
+                    <strong class="text-secondary pointer-underline">
+                      <a href="">
+                        Confirmación de Proveedor <span class="material-icons more-details"> north_east </span>:
+                      </a>
+                    </strong> 
+                    <span id="card-confirm-proveedor-{{ $arte->id }}">{{ $arte->confirmacionProveedorEstatus->estatus }}</span>
+                  </span>
               </div>
           </div>
 
@@ -256,6 +295,10 @@
 
     .form-inline label {
       justify-content: start;
+    }
+
+    .more-details {
+      font-size: 12px !important;
     }
 
     select {
