@@ -19,7 +19,7 @@ class BocetoController extends Controller
         $bocetos = $arte->boceto;
         // dd( $bocetos );
 
-        return view('boceto.index', compact('bocetos'));
+        return view('boceto.index', compact('bocetos', 'arte'));
     }
 
     /**
@@ -40,8 +40,19 @@ class BocetoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {   
+        $data = $request->all()['params'];
+        $boceto = new Boceto();
+
+        $boceto->titulo = $data['titulo'];
+        $boceto->descripcion = $data['descripcion'];
+        // TODO: Add the LOGGED user here, currently not implemented
+        $boceto->user_id = 1;
+        $boceto->arte_id = $data['arte'];
+        $boceto->save();
+        $user = $boceto->user;
+         
+        return [ 'boceto' => $boceto, 'user' => $user];
     }
 
     /**

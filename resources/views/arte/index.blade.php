@@ -153,8 +153,8 @@
 
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                  <button type="submit" onclick="submit({{ $arte }}, {{ $estatus }})" class="btn btn-primary">Guardar Cambios</button>
+                  <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">Cerrar</button>
+                  <button type="submit" onclick="submit({{ $arte }}, {{ $estatus }})" class="btn btn-outline-primary btn-round">Guardar</button>
                 </div>
               </div>
             </div>
