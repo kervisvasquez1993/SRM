@@ -54,7 +54,7 @@
 
                   <span class="mr-3">
                     <strong class="text-secondary pointer-underline">
-                     <a href="">
+                     <a href="{{ route('validacion-bocetos.index', ['arte' => $arte->id]) }}">
                        Validación de Boceto <span class="material-icons more-details"> north_east </span>:
                       </a> 
                     </strong> 

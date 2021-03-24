@@ -32,6 +32,9 @@ Route::resource('/tareas', 'TareaController');
 // bocetos
 Route::resource('/bocetos', 'BocetoController');
 
+// Validacion de Bocetos
+Route::resource('/validacion-bocetos', 'ValidacionBocetoController');
+
 // Arte
 Route::get('/artes/search', 'ArteController@search')->name('artes.search');
 Route::resource('/artes', 'ArteController');

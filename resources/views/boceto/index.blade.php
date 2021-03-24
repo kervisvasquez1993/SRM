@@ -2,13 +2,14 @@
 
 @section('content')
     {{-- Buttons: Return and Create --}}
-    <div class="d-flex justify-content-between">
+    @include('ui.botones-incidencia')
+    {{-- <div class="d-flex justify-content-between">
         <button
         class="btn btn-outline-primary btn-round"
         data-toggle="modal" 
         data-target="#CreateModal"
         >
-          <span class="material-icons mr-2" data-toggle="modal" data-target="#loginModal">
+          <span class="material-icons mr-2">
             add_circle_outline
           </span>
           Crear
@@ -26,9 +27,9 @@
           </span>
           Regresar
         </a>
-    </div>
+    </div> --}}
+    
     {{-- Data shown in table --}}
-
     @if( count( $bocetos ) > 0)
         <div class="table-responsive">
             <table class="table table-shopping">
@@ -63,7 +64,7 @@
                             </td>
 
                             <td>
-                                <span id="{{ $boceto->id }}" onclick="setBocetoAttribute({{ $boceto }})" class="material-icons pointer" data-toggle="modal" data-target="#deleteModal">
+                                <span id="icon-delete-{{ $boceto->id }}" onclick="setBocetoAttribute({{ $boceto }})" class="material-icons pointer" data-toggle="modal" data-target="#deleteModal">
                                     delete_forever
                                 </span>
                             </td>
@@ -126,7 +127,8 @@
 
                     if ( resp.status === 200 ) {
                         const tbody = document.getElementById('tbody');
-                        const tr = document.createElement('tr')
+                        const tr = document.createElement('tr');
+                        tr.id = resp.data.boceto.id;
                         const date = new Date( resp.data.boceto.updated_at );
                         const month = (date.getMonth() + 1 ) < 9 ? `0${ date.getMonth() + 1  }` : `${ date.getMonth() + 1  }`;
 
@@ -146,6 +148,11 @@
                                     </td>
                                     <td class="">
                                         ${ date.getDate() }-${ month }-${ date.getFullYear() }
+                                    </td>
+                                    <td>
+                                        <span id="icon-delete-${ resp.data.boceto.id }" onclick="${setBocetoAttribute(resp.data.boceto)}" class="material-icons pointer" data-toggle="modal" data-target="#deleteModal">
+                                            delete_forever
+                                        </span>
                                     </td>
                         `;
                         // Insert the new element to the DOM

@@ -14,7 +14,7 @@ class ValidacionBocetoController extends Controller
      */
     public function index()
     {
-        //
+        return view('validacion-boceto.index');
     }
 
     /**
