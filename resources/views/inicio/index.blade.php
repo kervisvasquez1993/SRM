@@ -5,7 +5,9 @@
 @component('componentes.cardGeneral')
     @slot('titulo')
         <span>{{$tarea->nombre}}</span> 
-        <span>{{$tarea->proveedor->count()}} proveedores</span>
+        @foreach($tarea->proveedor as $proveedor)
+                <h1>{{$proveedor->id}}</h1>
+        @endforeach 
     @endslot
 
     @slot('bodyCard')

@@ -69,7 +69,7 @@ class ProveedorController extends Controller
     public function aprobado(Request $request)
     {
         
-        $proveedor = Proveedor::where('id', $request['name'])->update(array('aprovado' => 1));
+         Proveedor::where('id', $request['name'])->update(array('aprovado' => 1));
         return back()->with('aprobado', 'La empresa se aprobo correctamente');
     }
 

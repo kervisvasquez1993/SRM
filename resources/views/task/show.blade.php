@@ -39,6 +39,7 @@
                         <input type="hidden" name="name" value="{{$proveedor->id}}" >
                         <input type="submit" value="aprobar" class="btn btn-sm  btn-info" >
                       </form>
+                      {{-- //TODO: CAMBIAR LA FUNCIONALIDAD PARA QUE SE ENVIA POR JS Y NO POR UN FORMULARIO --}}
                       <a href="#" type="button" 
                                 class="btn btn-warning btn-sm "  
                                 data-id_tarea="{{$proveedor->id}}"
