@@ -46,7 +46,7 @@ class ArteSeeder extends Seeder
             'confirmacion_proveedor' => 1,
             'fecha_fin' => Carbon::now()
         
-        
+        /* prueba con develop    */
          ]);
     }
 }
