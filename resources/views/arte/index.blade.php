@@ -3,114 +3,172 @@
 
 @section('content')
 
+  @include('ui.filter',  array('estatus' => $estatus))
 
   <div class="">
-    
-    @foreach( $artes as $arte )
-
-      {{-- Card --}}
-      <div id="{{ $arte->id }}" onclick="showModal({{ $arte }}, {{ $estatus }})" class="card"  data-toggle="modal" data-target="#exampleModal">
-
-        <div class="card-header d-flex justify-content-between flex-wrap">
-            <h4 class="card-title"><strong class="text-secondary">Tarea: </strong> <span id="arte-name">{{ $arte->nombre }}</span></h4>
-            <h4 class=""> <strong class="text-secondary">Proveedor: </strong> {{ $arte->pivotTable->proveedor->nombre }}</h4>
-            <h4 class=""> <strong class="text-secondary">Fecha Fin: </strong> {{ date('d-m-Y', strtotime($arte->fecha_fin)) }}</h4>
-        </div>
-        <div class="card-body">
-            <strong class="text-secondary">Estatus: </strong>
-
-            <div class="status d-flex justify-content-between">
-                <span class="mr-3"><strong class="text-secondary">Creación de Fichas:</strong> <span id="card-ficha-estatus">{{ $arte->fichasEstatus->estatus }}</span></span>
-                <span class="mr-3"><strong class="text-secondary">Validación de Fichas:</strong> <span id="card-validacion-ficha">{{ $arte->validacionFichasEstatus->estatus }}</span></span>
-                <span class="mr-3"><strong class="text-secondary">Creación de Boceto:</strong> <span id="card-boceto-estatus">{{ $arte->bocetosEstatus->estatus }}</span></span>
-                <span class="mr-3"><strong class="text-secondary">Validación de Boceto:</strong> <span id="card-validacion-boceto">{{ $arte->validacionBocetosEstatus->estatus }}</span></span>
-                <span class="mr-3"><strong class="text-secondary">Confirmación de Proveedor:</strong> <span id="card-confirm-proveedor">{{ $arte->confirmacionProveedorEstatus->estatus }}</span></span>
-            </div>
-        </div>
 
 
-      </div>
-        
-        
-    @endforeach
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Estatus para: <span id="modal-name"></span></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+    @if( count($artes) > 0 )
+      
+      @foreach( $artes as $arte )
+
+        {{-- Card --}}
+        <div id="{{ $arte->id }}" class="card">
+
+          <div class="card-header d-flex justify-content-between flex-wrap">
+              <h4 class="card-title"><strong class="text-secondary">Tarea: </strong> <span id="arte-name">{{ $arte->nombre }}</span></h4>
+              <h4 class=""> <strong class="text-secondary">Proveedor: </strong> {{ $arte->pivotTable->proveedor->nombre }}</h4>
+              <h4 class=""> <strong class="text-secondary">Fecha Fin: </strong> {{ date('d-m-Y', strtotime($arte->fecha_fin)) }}</h4>
+          </div>
+          <hr class="separator">
+          <div class="card-body">
+              <strong class="text-secondary">Estatus: </strong>
+
+              <div class="status d-flex justify-content-between">
+                  <span class="mr-3">
+                    <strong class="text-secondary pointer-underline">
+                      <a href="">
+                        Creación de Fichas <span class="material-icons more-details"> north_east </span>:
+                      </a>
+                    </strong>
+                    <span id="card-ficha-estatus-{{ $arte->id }}">{{ $arte->fichasEstatus->estatus }}</span>
+                  </span>
+
+                  <span class="mr-3">
+                    <strong class="text-secondary pointer-underline">
+                      <a href="">
+                        Validación de Fichas <span class="material-icons more-details"> north_east </span>:
+                      </a>
+                    </strong> 
+                    <span id="card-validacion-ficha-{{ $arte->id }}">{{ $arte->validacionFichasEstatus->estatus }}</span>
+                  </span>
+
+                  <span class="mr-3">
+                    <strong class="text-secondary pointer-underline">
+                      <a href="{{ route('bocetos.index', ['arte' => $arte->id]) }}">
+                        Creación de Boceto <span class="material-icons more-details"> north_east </span>:
+                      </a>
+                    </strong> 
+                    <span id="card-boceto-estatus-{{ $arte->id }}">{{ $arte->bocetosEstatus->estatus }}</span>
+                  </span>
+
+                  <span class="mr-3">
+                    <strong class="text-secondary pointer-underline">
+                     <a href="">
+                       Validación de Boceto <span class="material-icons more-details"> north_east </span>:
+                      </a> 
+                    </strong> 
+                    <span id="card-validacion-boceto-{{ $arte->id }}">{{ $arte->validacionBocetosEstatus->estatus }}</span>
+                  </span>
+
+                  <span class="mr-3">
+                    <strong class="text-secondary pointer-underline">
+                      <a href="">
+                        Confirmación de Proveedor <span class="material-icons more-details"> north_east </span>:
+                      </a>
+                    </strong> 
+                    <span id="card-confirm-proveedor-{{ $arte->id }}">{{ $arte->confirmacionProveedorEstatus->estatus }}</span>
+                  </span>
               </div>
-              <div class="modal-body">
-                
-                
-                <form class="row" enctype="multipart/form-data" method="post">
-                  @csrf
+          </div>
 
-                  <div class="form-group  col-md-6">
-                      <label for="creacion_ficha">Creacion de Fichas</label>
+          <div class="d-flex justify-content-end m-2">
+            <span class="material-icons launch" onclick="showModal({{ $arte }}, {{ $estatus }})" data-toggle="modal" data-target="#modal-{{ $arte->id }}">
+              launch
+            </span>
+          </div>
 
-                      <select name="creacion_ficha" id="creacion_ficha" class="form-control">
-                          @foreach($estatus as $item)
-                            <option value="{{ $item->id }}">{{ $item->estatus }}</option>
-                            
-                          @endforeach
-                      </select>
-                  </div>
-
-                  <div class="form-group  col-md-6">
-                      <label for="validacion_ficha">Validación de Fichas</label>
-
-                      <select name="validacion_ficha" id="validacion_ficha" class="form-control">
-                        @foreach($estatus as $item)
-                          <option value="{{ $item->id }}" {{ old('validacion_ficha') == $item->id ? 'selected': '' }}>{{ $item->estatus }}</option>
-                        @endforeach
-                      </select>
-                  </div>
-
-                  <div class="form-group col-md-6">
-                      <label for="creacion_boceto">Creación de Boceto</label>
-
-                      <select name="creacion_boceto" id="creacion_boceto" class="form-control">
-                        @foreach($estatus as $item)
-                          <option value="{{ $item->id }}" {{ old('creacion_boceto') == $item->id ? 'selected': '' }}>{{ $item->estatus }}</option>
-                        @endforeach
-                      </select>
-                  </div>
-
-                  <div class="form-group col-md-6">
-                      <label for="validacion_boceto">Validación de Boceto</label>
-
-                      <select name="validacion_boceto" id="validacion_boceto" class="form-control">
-                        @foreach($estatus as $item)
-                          <option value="{{ $item->id }}" {{ old('validacion_boceto') == $item->id ? 'selected': '' }}>{{ $item->estatus }}</option>
-                        @endforeach
-                      </select>
-                  </div>
-
-                  <div class="form-group col-md-6">
-                      <label for="confirmacion_proveedor">Confirmación de Proveedor</label>
-
-                      <select name="confirmacion_proveedor" id="confirmacion_proveedor" class="form-control">
-                        @foreach($estatus as $item)
-                          <option value="{{ $item->id }}" {{ old('confirmacion_proveedor') == $item->id ? 'selected': '' }}>{{ $item->estatus }}</option>
-                        @endforeach
-                      </select>
-                  </div>
+        </div>
+          
+          
+          <!-- Modal -->
+          <div class="modal fade" id="modal-{{ $arte->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Estatus para: <span id="modal-name-{{ $arte->id }}"></span></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
                   
+                  
+                  <form class="row" enctype="multipart/form-data" method="post">
+                    @csrf
 
-                </form>
 
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="submit" onclick="submit({{ $arte }}, {{ $estatus }})" class="btn btn-primary">Guardar Cambios</button>
+                    <div class="form-group  col-md-6">
+                        <label for="creacion_ficha">Creacion de Fichas</label>
+                        <select name="creacion_ficha" id="creacion_ficha-{{ $arte->id }}" class="form-control">
+                            @foreach($estatus as $item)
+                              <option value="{{ $item->id }}">{{ $item->estatus }}</option>
+                              
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group  col-md-6">
+                        <label for="validacion_ficha">Validación de Fichas</label>
+
+                        <select name="validacion_ficha" id="validacion_ficha-{{ $arte->id }}" class="form-control">
+                          @foreach($estatus as $item)
+                            <option value="{{ $item->id }}" {{ old('validacion_ficha') == $item->id ? 'selected': '' }}>{{ $item->estatus }}</option>
+                          @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="creacion_boceto">Creación de Boceto</label>
+
+                        <select name="creacion_boceto" id="creacion_boceto-{{ $arte->id }}" class="form-control">
+                          @foreach($estatus as $item)
+                            <option value="{{ $item->id }}" {{ old('creacion_boceto') == $item->id ? 'selected': '' }}>{{ $item->estatus }}</option>
+                          @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="validacion_boceto">Validación de Boceto</label>
+
+                        <select name="validacion_boceto" id="validacion_boceto-{{ $arte->id }}" class="form-control">
+                          @foreach($estatus as $item)
+                            <option value="{{ $item->id }}" {{ old('validacion_boceto') == $item->id ? 'selected': '' }}>{{ $item->estatus }}</option>
+                          @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="confirmacion_proveedor">Confirmación de Proveedor</label>
+
+                        <select name="confirmacion_proveedor" id="confirmacion_proveedor-{{ $arte->id }}" class="form-control">
+                          @foreach($estatus as $item)
+                            <option value="{{ $item->id }}" {{ old('confirmacion_proveedor') == $item->id ? 'selected': '' }}>{{ $item->estatus }}</option>
+                          @endforeach
+                        </select>
+                    </div>
+                    
+
+                  </form>
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">Cerrar</button>
+                  <button type="submit" onclick="submit({{ $arte }}, {{ $estatus }})" class="btn btn-outline-primary btn-round">Guardar</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        @endforeach
+
+
+
+
+    @else
+      {{-- Empty view --}}
+      @include('ui.nada-para-mostrar')
+    
+    @endif
     
   </div>
 
@@ -118,25 +176,23 @@
 
 @section('script')
 <script>
-  
+
   /** 
     Display Arte information on modal
   */
   function showModal ( arte, estatus ) {
 
+    const modal = document.getElementById(`modal-${ arte.id }`);
 
-    const cardArtName = document.getElementById('arte-name').innerHTML;
-
-    
     // Change modal title
-    document.getElementById('modal-name').innerText = cardArtName;
+    document.getElementById(`modal-name-${ arte.id }`).innerText = arte.nombre;
 
     // References to the selects in the form
-    let optionsCreacionFicha = document.getElementById('creacion_ficha').options;
-    let optionsValidFicha = document.getElementById('validacion_ficha').options;
-    let optionsCreacionBoceto = document.getElementById('creacion_boceto').options;
-    let optionsValidBoceto = document.getElementById('validacion_boceto').options;
-    let optionsConfirmProveedor = document.getElementById('confirmacion_proveedor').options;
+    let optionsCreacionFicha = document.getElementById(`creacion_ficha-${arte.id}`).options;
+    let optionsValidFicha = document.getElementById(`validacion_ficha-${arte.id}`).options;
+    let optionsCreacionBoceto = document.getElementById(`creacion_boceto-${arte.id}`).options;
+    let optionsValidBoceto = document.getElementById(`validacion_boceto-${arte.id}`).options;
+    let optionsConfirmProveedor = document.getElementById(`confirmacion_proveedor-${arte.id}`).options;
 
     estatus.forEach( (item, index) => {
       // Reference to each option in the select
@@ -146,13 +202,12 @@
       let optValidBoceto = optionsValidBoceto[index];
       let optConfirmProveedor = optionsConfirmProveedor[index];
       // Select the option depending on the status of the arte entity
-      optCreationFicha.selected = item.estatus === document.getElementById('card-ficha-estatus').innerText;
-      optValidFicha.selected = item.estatus === document.getElementById('card-validacion-ficha').innerText;
-      optCreacionBoceto.selected = item.estatus === document.getElementById('card-boceto-estatus').innerText;
-      optValidBoceto.selected = item.estatus === document.getElementById('card-validacion-boceto').innerText;
-      optConfirmProveedor.selected = item.estatus === document.getElementById('card-confirm-proveedor').innerText;
-
-      
+      optCreationFicha.selected = item.estatus === document.getElementById(`card-ficha-estatus-${ arte.id }`).innerText;
+      optValidFicha.selected = item.estatus === document.getElementById(`card-validacion-ficha-${ arte.id }`).innerText;
+      optCreacionBoceto.selected = item.estatus === document.getElementById(`card-boceto-estatus-${ arte.id }`).innerText;
+      optValidBoceto.selected = item.estatus === document.getElementById(`card-validacion-boceto-${ arte.id }`).innerText;
+      optConfirmProveedor.selected = item.estatus === document.getElementById(`card-confirm-proveedor-${ arte.id }`).innerText;
+     
     });
   }
 
@@ -162,12 +217,13 @@
   function submit( arte, estatus ) {
     // Params to edit 
     const params = {
-      creacion_ficha: document.getElementById('creacion_ficha').value,
-      validacion_ficha: document.getElementById('validacion_ficha').value,
-      creacion_boceto: document.getElementById('creacion_boceto').value,
-      validacion_boceto: document.getElementById('validacion_boceto').value,
-      confirmacion_proveedor: document.getElementById('confirmacion_proveedor').value
+      creacion_ficha: document.getElementById(`creacion_ficha-${arte.id}`).value,
+      validacion_ficha: document.getElementById(`validacion_ficha-${arte.id}`).value,
+      creacion_boceto: document.getElementById(`creacion_boceto-${arte.id}`).value,
+      validacion_boceto: document.getElementById(`validacion_boceto-${arte.id}`).value,
+      confirmacion_proveedor: document.getElementById(`confirmacion_proveedor-${arte.id}`).value
     };
+
 
     // Post changes to controller
     axios.post(
@@ -180,13 +236,13 @@
       
       
       // Hide Modal
-      $('#exampleModal').modal('hide')
-      // document.write(resp.data);
-      // document.close();
+      $(`#modal-${arte.id}`).modal('hide')
+
 
       const cardUpdated = document.getElementById(`${ arte.id }`);
       const cardStatus = cardUpdated.getElementsByClassName('card-body')[0].children[1];
 
+      // New estatus yto show in the card
       const estCreacionFicha = estatus.find( est => est.id === updatedArte.creacion_fichas );
       const estValidacionFicha = estatus.find( est => est.id === updatedArte.validacion_fichas );
       const estCreacionBoceto = estatus.find( est => est.id === updatedArte.creacion_boceto );
@@ -195,11 +251,11 @@
 
       // Update card information
       cardStatus.innerHTML = `
-        <span class="mr-3"><strong class="text-secondary">Creación de Fichas:</strong> <span id="card-ficha-estatus">${  estCreacionFicha.estatus }</span></span>
-        <span class="mr-3"><strong class="text-secondary">Validación de Fichas:</strong> <span id="card-validacion-ficha">${ estValidacionFicha.estatus }</span></span>
-        <span class="mr-3"><strong class="text-secondary">Creación de Boceto:</strong> <span id="card-boceto-estatus">${ estCreacionBoceto.estatus }</span></span>
-        <span class="mr-3"><strong class="text-secondary">Validación de Boceto:</strong> <span id="card-validacion-boceto">${ estValidacionBoceto.estatus }</span></span>
-        <span class="mr-3"><strong class="text-secondary">Confirmación de Proveedor:</strong> <span id="card-confirm-proveedor">${ estConfirmacionProveedor.estatus }</span></span>
+        <span class="mr-3"><strong class="text-secondary">Creación de Fichas:</strong> <span id="card-ficha-estatus-${ arte.id }">${  estCreacionFicha.estatus }</span></span>
+        <span class="mr-3"><strong class="text-secondary">Validación de Fichas:</strong> <span id="card-validacion-ficha-${ arte.id }">${ estValidacionFicha.estatus }</span></span>
+        <span class="mr-3"><strong class="text-secondary">Creación de Boceto:</strong> <span id="card-boceto-estatus-${ arte.id }">${ estCreacionBoceto.estatus }</span></span>
+        <span class="mr-3"><strong class="text-secondary">Validación de Boceto:</strong> <span id="card-validacion-boceto-${ arte.id }">${ estValidacionBoceto.estatus }</span></span>
+        <span class="mr-3"><strong class="text-secondary">Confirmación de Proveedor:</strong> <span id="card-confirm-proveedor-${ arte.id }">${ estConfirmacionProveedor.estatus }</span></span>
       `;      
 
     })
@@ -219,17 +275,45 @@
     .card {
         margin-top: 20px;
         margin-bottom: 20px;
-        cursor: pointer;
     }
     
     .card-body{
         margin-top: -30px;
     }
 
+    .launch {
+      cursor: pointer;
+    }
+    .filter {
+      margin: 10px;
+    }
+
+    .form-inline label {
+      justify-content: start;
+    }
+
+    .more-details {
+      font-size: 12px !important;
+    }
+
+    .no-result {
+      display: none;
+    }
+
+    select {
+      min-width: 12rem;
+    }
+
     @media (max-width: 520px) {
         
       .status {
           flex-direction: column;
+      }
+    }
+
+    @media (min-width: 600px) {
+      .separator {
+        display: none;
       }
     }
 

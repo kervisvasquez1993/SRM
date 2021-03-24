@@ -21,5 +21,9 @@ class RolesSeeder extends Seeder
         $rol1 = DB::table('rols')->insert([
             'nombre' => 'logistica'
         ]);
+
+        $rol1 = DB::table('rols')->insert([
+            'nombre' => 'arte'
+        ]);
     }
 }

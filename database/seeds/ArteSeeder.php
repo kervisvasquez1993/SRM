@@ -15,6 +15,7 @@ class ArteSeeder extends Seeder
     {
         DB::table('artes')->insert([
             'pivot_tarea_proveeder_id' => 1,
+        
             'nombre' => 'arte1',
             'creacion_fichas' => 1,
             'validacion_fichas' => 1,
@@ -23,5 +24,32 @@ class ArteSeeder extends Seeder
             'confirmacion_proveedor' => 1,
             'fecha_fin' => Carbon::now()
         ]);
+
+        DB::table('artes')->insert([
+            'pivot_tarea_proveeder_id' => 1,
+            'nombre' => 'arte2',
+            'creacion_fichas' => 1,
+            'validacion_fichas' => 1,
+            'creacion_boceto' => 1,
+            'validacion_boceto' => 1,
+            'confirmacion_proveedor' => 1,
+            'fecha_fin' => Carbon::now()
+        ]);
+        
+        DB::table('artes')->insert([
+            'pivot_tarea_proveeder_id' => 1,
+            'nombre' => 'arte3',
+            'creacion_fichas' => 1,
+            'validacion_fichas' => 1,
+            'creacion_boceto' => 1,
+            'validacion_boceto' => 1,
+            'confirmacion_proveedor' => 1,
+            'fecha_fin' => Carbon::now()
+        
+        /* 
+            prueba con develop  
+            testtt
+        */
+         ]);
     }
 }

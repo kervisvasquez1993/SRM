@@ -33,8 +33,11 @@ Route::put('/aprovados/{aprovado}', 'ProveedorController@aprobado')->name('aprov
 
 Route::resource('/proveedores', 'ProveedorController');
 
+// bocetos
+Route::resource('/bocetos', 'BocetoController');
 
 // Arte
+Route::get('/artes/search', 'ArteController@search')->name('artes.search');
 Route::resource('/artes', 'ArteController');
 
 Route::get('/usuarios', 'TareaController@usuarios');
