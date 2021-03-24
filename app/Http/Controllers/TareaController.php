@@ -74,7 +74,8 @@ class TareaController extends Controller
         
         $proveedores = $tarea->proveedor;
         $noAprovado  = $proveedores->where('aprovado', 0);
-        return view('task.show', compact('tarea', 'noAprovado'));
+        $aprovado  = $proveedores->where('aprovado', 1);
+        return view('task.show', compact('tarea', 'noAprovado', 'aprovado'));
     }
 
     /**

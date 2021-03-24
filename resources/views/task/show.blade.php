@@ -12,7 +12,13 @@
          >
         Agregar Empresa
         </a>
-    </div>
+        <a href="#" type="button" 
+        class="btn btn-info btn-sm" 
+       
+         >
+        Empresas Aprovadas {{$aprovado->count()}}
+        </a>       
+      </div>
                     @if (session('aprobado'))
                         <div class="alert alert-success" role="alert">
                             {{ session('aprobado') }}
@@ -25,6 +31,8 @@
               <p>
                 {{$tarea->descripcion}}
               </p>
+
+              
               @foreach($noAprovado as $proveedor)
                  {{-- <h3>Nombre del Proveedor:  {{$proveedor->nombre}}</h3> --}}
            
