@@ -37,7 +37,7 @@ class ProveedorController extends Controller
     public function store(Request $request)
     {
           
-        $data = $request->validate([
+            $data = $request->validate([
                 'id_tarea' => 'required',
                 'nombre' => 'required',
                 'pais'   => 'required',
@@ -66,11 +66,16 @@ class ProveedorController extends Controller
 
             
     }
+    public function aprobado(Request $request)
+    {
+        
+        $proveedor = Proveedor::where('id', $request['name'])->update(array('aprovado' => 1));
+        return back()->with('aprobado', 'La empresa se aprobo correctamente');
+    }
 
     public function pivotTareaProveedor($id_tarea, $id_proveedor)
     {
             $pivotTareaProveedor = new PivotTareaProveeder();
-            
             $pivotTareaProveedor->tarea_id = $id_tarea;
             $pivotTareaProveedor->proveedor_id = $id_proveedor;
             $pivotTareaProveedor->iniciar_negociacion = false;
@@ -110,7 +115,7 @@ class ProveedorController extends Controller
      */
     public function update(Request $request, Proveedor $proveedor)
     {
-        //
+        return "hola";
     }
 
     /**

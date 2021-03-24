@@ -29,6 +29,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/perfil', 'PerfilController');
 //tareas 
 Route::resource('/tareas', 'TareaController');
+Route::put('/aprovados/{aprovado}', 'ProveedorController@aprobado')->name('aprovados.update');
 
 Route::resource('/proveedores', 'ProveedorController');
 
@@ -37,3 +38,4 @@ Route::resource('/proveedores', 'ProveedorController');
 Route::resource('/artes', 'ArteController');
 
 Route::get('/usuarios', 'TareaController@usuarios');
+

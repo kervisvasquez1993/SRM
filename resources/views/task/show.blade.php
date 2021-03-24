@@ -13,6 +13,11 @@
         Agregar Empresa
         </a>
     </div>
+                    @if (session('aprobado'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('aprobado') }}
+                        </div>
+                    @endif
         <div class="col-md-12">
           <div class="row">
               <h3 class="navbar-brand font-weight-bold" >{{$tarea->nombre}}. Finalizacion :{{ date('d-M-Y', strtotime($tarea->fecha_fin))}}</h3>
@@ -26,8 +31,16 @@
                  @component('componentes.cardGeneral')
                     @slot('titulo')
                     <div> Nombre Empresa: {{$proveedor->nombre}}</div>  
-                    <a href="#" type="button" 
-                                class="btn btn-primary btn-sm "  
+                    <div class="d-flex">
+                      <form action="{{route('aprovados.update', ['aprovado' => $proveedor->id])}}" method="post">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="aprovado" value="1" >
+                        <input type="hidden" name="name" value="{{$proveedor->id}}" >
+                        <input type="submit" value="aprobar" class="btn btn-sm  btn-info" >
+                      </form>
+                      <a href="#" type="button" 
+                                class="btn btn-warning btn-sm "  
                                 data-id_tarea="{{$proveedor->id}}"
                                 data-tarea="{{$proveedor->nombre}}"
                                 data-pais="{{$proveedor->pais}}"
@@ -38,11 +51,11 @@
                                 data-telefonos="{{$proveedor->telefono}}"
                                 data-email="{{$proveedor->email}}"
                                 data-descripcion="{{$proveedor->descripcion}}"
-
                                 data-toggle="modal"
                                 data-target="#abrirmodalEditarProveedor">
                          Editar
-                    </a>
+                      </a>
+                  </div>
                     @endslot
                     @slot('bodyCard')
                     <h6 class="font-weight-bold">Pais: {{$proveedor->pais}}, Ciudad: {{$proveedor->ciudad}}, Distrito: {{$proveedor->distrito}} </h6>
@@ -56,13 +69,11 @@
                     @endslot
 
                     @slot('contenidoFooter')
-                           
-                            <p class="font-weight-bold">Negocias:   {{$proveedor->aprovado}}</p>
-                            <p class="font-weight-bold">Direccion: {{$proveedor->address}}</p>
-                            <p class="font-weight-bold">Teléfono: {{$proveedor->telefono}}</p>
-                            <p class="font-weight-bold">Contacto: {{$proveedor->contacto}}</p>
-                            <p class="font-weight-bold">email: {{$proveedor->email}}</p>
-                            <p class="font-weight-bold">Contacto: {{$proveedor->contacto}}</p>
+                            <p class="font-weight-bold">Direccion:  {{$proveedor->address}}</p>
+                            <p class="font-weight-bold">Teléfono:   {{$proveedor->telefono}}</p>
+                            <p class="font-weight-bold">Contacto:   {{$proveedor->contacto}}</p>
+                            <p class="font-weight-bold">email:      {{$proveedor->email}}</p>
+                            <p class="font-weight-bold">Contacto:   {{$proveedor->contacto}}</p>
                         
                     @endslot
                  @endcomponent
