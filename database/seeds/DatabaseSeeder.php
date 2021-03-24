@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PivotSeeder::class); 
         $this->call(EstatusSeeder::class);
         $this->call(ArteSeeder::class);
+        $this->call(BocetoSeeder::class);
         $this->call(ProductoSeeder::class);
         $this->call(ProduccionTransitoSeeder::class);
         $this->call(PerfilSeeder::class);

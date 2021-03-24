@@ -7,12 +7,13 @@
 
   <div class="">
 
+
     @if( count($artes) > 0 )
       
       @foreach( $artes as $arte )
 
         {{-- Card --}}
-        <div id="{{ $arte->id }}" onclick="showModal({{ $arte }}, {{ $estatus }})" class="card"  data-toggle="modal" data-target="#modal-{{ $arte->id }}">
+        <div id="{{ $arte->id }}" class="card">
 
           <div class="card-header d-flex justify-content-between flex-wrap">
               <h4 class="card-title"><strong class="text-secondary">Tarea: </strong> <span id="arte-name">{{ $arte->nombre }}</span></h4>
@@ -24,14 +25,58 @@
               <strong class="text-secondary">Estatus: </strong>
 
               <div class="status d-flex justify-content-between">
-                  <span class="mr-3"><strong class="text-secondary">Creación de Fichas:</strong> <span id="card-ficha-estatus-{{ $arte->id }}">{{ $arte->fichasEstatus->estatus }}</span></span>
-                  <span class="mr-3"><strong class="text-secondary">Validación de Fichas:</strong> <span id="card-validacion-ficha-{{ $arte->id }}">{{ $arte->validacionFichasEstatus->estatus }}</span></span>
-                  <span class="mr-3"><strong class="text-secondary">Creación de Boceto:</strong> <span id="card-boceto-estatus-{{ $arte->id }}">{{ $arte->bocetosEstatus->estatus }}</span></span>
-                  <span class="mr-3"><strong class="text-secondary">Validación de Boceto:</strong> <span id="card-validacion-boceto-{{ $arte->id }}">{{ $arte->validacionBocetosEstatus->estatus }}</span></span>
-                  <span class="mr-3"><strong class="text-secondary">Confirmación de Proveedor:</strong> <span id="card-confirm-proveedor-{{ $arte->id }}">{{ $arte->confirmacionProveedorEstatus->estatus }}</span></span>
+                  <span class="mr-3">
+                    <strong class="text-secondary pointer-underline">
+                      <a href="">
+                        Creación de Fichas <span class="material-icons more-details"> north_east </span>:
+                      </a>
+                    </strong>
+                    <span id="card-ficha-estatus-{{ $arte->id }}">{{ $arte->fichasEstatus->estatus }}</span>
+                  </span>
+
+                  <span class="mr-3">
+                    <strong class="text-secondary pointer-underline">
+                      <a href="">
+                        Validación de Fichas <span class="material-icons more-details"> north_east </span>:
+                      </a>
+                    </strong> 
+                    <span id="card-validacion-ficha-{{ $arte->id }}">{{ $arte->validacionFichasEstatus->estatus }}</span>
+                  </span>
+
+                  <span class="mr-3">
+                    <strong class="text-secondary pointer-underline">
+                      <a href="{{ route('bocetos.index', ['arte' => $arte->id]) }}">
+                        Creación de Boceto <span class="material-icons more-details"> north_east </span>:
+                      </a>
+                    </strong> 
+                    <span id="card-boceto-estatus-{{ $arte->id }}">{{ $arte->bocetosEstatus->estatus }}</span>
+                  </span>
+
+                  <span class="mr-3">
+                    <strong class="text-secondary pointer-underline">
+                     <a href="">
+                       Validación de Boceto <span class="material-icons more-details"> north_east </span>:
+                      </a> 
+                    </strong> 
+                    <span id="card-validacion-boceto-{{ $arte->id }}">{{ $arte->validacionBocetosEstatus->estatus }}</span>
+                  </span>
+
+                  <span class="mr-3">
+                    <strong class="text-secondary pointer-underline">
+                      <a href="">
+                        Confirmación de Proveedor <span class="material-icons more-details"> north_east </span>:
+                      </a>
+                    </strong> 
+                    <span id="card-confirm-proveedor-{{ $arte->id }}">{{ $arte->confirmacionProveedorEstatus->estatus }}</span>
+                  </span>
               </div>
           </div>
 
+          <div class="d-flex justify-content-end m-2">
+            <span class="material-icons launch" onclick="showModal({{ $arte }}, {{ $estatus }})" data-toggle="modal" data-target="#modal-{{ $arte->id }}">
+              launch
+            </span>
+          </div>
 
         </div>
           
@@ -52,9 +97,9 @@
                   <form class="row" enctype="multipart/form-data" method="post">
                     @csrf
 
+
                     <div class="form-group  col-md-6">
                         <label for="creacion_ficha">Creacion de Fichas</label>
-
                         <select name="creacion_ficha" id="creacion_ficha-{{ $arte->id }}" class="form-control">
                             @foreach($estatus as $item)
                               <option value="{{ $item->id }}">{{ $item->estatus }}</option>
@@ -108,8 +153,8 @@
 
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                  <button type="submit" onclick="submit({{ $arte }}, {{ $estatus }})" class="btn btn-primary">Guardar Cambios</button>
+                  <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">Cerrar</button>
+                  <button type="submit" onclick="submit({{ $arte }}, {{ $estatus }})" class="btn btn-outline-primary btn-round">Guardar</button>
                 </div>
               </div>
             </div>
@@ -121,12 +166,7 @@
 
     @else
       {{-- Empty view --}}
-      <div class="no-result d-flex justify-content-center align-items-center mt-3">
-        <span class="material-icons mr-2">
-          search_off
-        </span>
-        No hay registros a mostrar.
-      </div>
+      @include('ui.nada-para-mostrar')
     
     @endif
     
@@ -235,19 +275,29 @@
     .card {
         margin-top: 20px;
         margin-bottom: 20px;
-        cursor: pointer;
     }
     
     .card-body{
         margin-top: -30px;
     }
 
+    .launch {
+      cursor: pointer;
+    }
     .filter {
       margin: 10px;
     }
 
     .form-inline label {
       justify-content: start;
+    }
+
+    .more-details {
+      font-size: 12px !important;
+    }
+
+    .no-result {
+      display: none;
     }
 
     select {

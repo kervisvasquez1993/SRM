@@ -55,7 +55,7 @@
   
     <a
     id="return" 
-    class="btn btn-outline-primary return" 
+    class="btn btn-outline-primary btn-round return" 
     href="{{ url('/artes') }}"
     data-toggle="tooltip" 
     data-placement="left" 
