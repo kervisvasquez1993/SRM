@@ -16,7 +16,7 @@ class BocetoController extends Controller
     public function index(Request $request)
     {
         $arte = Arte::find( $request->get('arte') );
-        $bocetos = $arte->boceto;
+        $bocetos = $arte->boceto->where('enabled', 1);
         // dd( $bocetos );
 
         return view('boceto.index', compact('bocetos', 'arte'));
@@ -97,6 +97,9 @@ class BocetoController extends Controller
      */
     public function destroy(Boceto $boceto)
     {
-        //
+        $boceto->enabled = false;
+        $boceto->save();
+
+        return $boceto;
     }
 }

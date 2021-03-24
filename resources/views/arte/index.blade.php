@@ -166,12 +166,13 @@
 
     @else
       {{-- Empty view --}}
-      <div class="no-result d-flex justify-content-center align-items-center mt-3">
+      @include('ui.nada-para-mostrar')
+      {{-- <div class="no-result d-flex justify-content-center align-items-center mt-3">
         <span class="material-icons mr-2">
           search_off
         </span>
         No hay registros a mostrar.
-      </div>
+      </div> --}}
     
     @endif
     
@@ -299,6 +300,10 @@
 
     .more-details {
       font-size: 12px !important;
+    }
+
+    .no-result {
+      display: none;
     }
 
     select {

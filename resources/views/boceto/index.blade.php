@@ -28,43 +28,68 @@
         </a>
     </div>
     {{-- Data shown in table --}}
-    <div class="table-responsive">
-        <table class="table table-shopping">
-            <thead>
-                <tr>
-                    <th class="text-center">ID</th>
-                    <th>Titulo</th>
-                    <th class="th-description">Descripción</th>
-                    <th class="th-description">Usuario</th>
-                    <th class="th-description">Fecha</th>
 
-                </tr>
-            </thead>
-            <tbody id="tbody">
-                @foreach($bocetos as $boceto)
+    @if( count( $bocetos ) > 0)
+        <div class="table-responsive">
+            <table class="table table-shopping">
+                <thead>
                     <tr>
-                        <td class="">
-                            {{ $boceto->id }}
-                        </td>
-                        <td>
-                            {{ $boceto->titulo }}
-                        </td>
-                        <td>
-                            {{ $boceto->descripcion }}
-                        </td>
-                        <td class="">
-                            {{ $boceto->user->name }}
-                        </td>
-                        <td class="">
-                            {{ date('d-m-Y', strtotime($boceto->updated_at)) }}
-                        </td>
+                        <th class="text-center"><strong>ID</strong></th>
+                        <th><strong>Titulo</strong></th>
+                        <th class="th-description"><strong>Descripción</strong></th>
+                        <th class="th-description"><strong>Usuario</strong></th>
+                        <th class="th-description"><strong>Fecha</strong></th>
+                        <th></th>
 
                     </tr>
-                @endforeach
-                
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody id="tbody">
+                    @foreach($bocetos as $boceto)
+                        <tr id="{{ $boceto->id }}">
+                            <td class="">
+                                {{ $boceto->id }}
+                            </td>
+                            <td>
+                                {{ $boceto->titulo }}
+                            </td>
+                            <td>
+                                {{ $boceto->descripcion }}
+                            </td>
+                            <td class="">
+                                {{ $boceto->user->name }}
+                            </td>
+                            <td class="">
+                                {{ date('d-m-Y', strtotime($boceto->updated_at)) }}
+                            </td>
+
+                            <td>
+                                <span id="{{ $boceto->id }}" onclick="setBocetoAttribute({{ $boceto }})" class="material-icons pointer" data-toggle="modal" data-target="#deleteModal">
+                                    delete_forever
+                                </span>
+                            </td>
+
+                        </tr>
+
+                        {{-- Modal to Delete --}}
+                        @include('ui.borrar-incidencia', array('boceto_id' => $boceto->id))
+                    @endforeach
+                    
+                </tbody>
+            </table>
+        </div>
+
+    @else
+        
+        {{-- Empty view --}}
+        @include('ui.nada-para-mostrar')
+        {{-- <div class="d-flex justify-content-center align-items-center mt-5">
+            <span class="material-icons mr-2">
+                search_off
+            </span>
+            No hay registros para mostrar.
+        </div> --}}
+        
+    @endif
 
     {{-- Modal to Create --}}
     @include(
@@ -74,10 +99,19 @@
             'arte_id' => $arte->id
         )
     )
+
 @endsection
 
 @section('script')
     <script>
+
+        // Set the Boceto id using a data attribute
+        function setBocetoAttribute( boceto ) {
+            const modal = document.getElementById('deleteModal');
+            modal.setAttribute('data-boceto', boceto.id);
+        }
+
+        // Guardar para crear una incidencia
         function guardarIncidencia( arte ) {
             const titulo = document.getElementById('titulo').value.trim();
             const descripcion = document.getElementById('descripcion').value.trim();
@@ -96,34 +130,71 @@
                     // Hide Modal
                     $(`#CreateModal`).modal('hide')
 
-                    const tbody = document.getElementById('tbody');
-                    const tr = document.createElement('tr')
-                    const date = new Date( resp.data.boceto.updated_at );
-                    const month = (date.getMonth() + 1 ) < 9 ? `0${ date.getMonth() + 1  }` : `${ date.getMonth() + 1  }`;
+                    if ( resp.status === 200 ) {
+                        const tbody = document.getElementById('tbody');
+                        const tr = document.createElement('tr')
+                        const date = new Date( resp.data.boceto.updated_at );
+                        const month = (date.getMonth() + 1 ) < 9 ? `0${ date.getMonth() + 1  }` : `${ date.getMonth() + 1  }`;
 
-                    // Create the new row
-                    tr.innerHTML = `
-                                <td class="">
-                                    ${ resp.data.boceto.id }
-                                </td>
-                                <td>
-                                    ${ resp.data.boceto.titulo }
-                                </td>
-                                <td>
-                                    ${ resp.data.boceto.descripcion }
-                                </td>
-                                <td class="">
-                                    ${ resp.data.user.name }
-                                </td>
-                                <td class="">
-                                    ${ date.getDate() }-${ month }-${ date.getFullYear() }
-                                </td>
-                    `;
-                    // Insert the new element to the DOM
-                    tbody.appendChild(tr);
+                        // Create the new row
+                        tr.innerHTML = `
+                                    <td class="">
+                                        ${ resp.data.boceto.id }
+                                    </td>
+                                    <td>
+                                        ${ resp.data.boceto.titulo }
+                                    </td>
+                                    <td>
+                                        ${ resp.data.boceto.descripcion }
+                                    </td>
+                                    <td class="">
+                                        ${ resp.data.user.name }
+                                    </td>
+                                    <td class="">
+                                        ${ date.getDate() }-${ month }-${ date.getFullYear() }
+                                    </td>
+                        `;
+                        // Insert the new element to the DOM
+                        tbody.appendChild(tr);
+
+                    }
+
                 });
 
             }
         }
-    </script>
+
+        // Eliminar una incidencia
+        function elimiarIncidencia( boceto ) {
+            const modal = document.getElementById('deleteModal')
+            const bocetoId = modal.dataset.boceto;
+
+            axios.post(`/bocetos/${ bocetoId }`, 
+            { 
+                bocetoId ,  
+                _method: 'delete' 
+            }).then(resp => { 
+                
+                if ( resp.status === 200 ) {
+                    const tbody = document.getElementById('tbody');
+                    const tr = document.getElementById(bocetoId);
+
+                    tbody.removeChild(tr);
+
+                    // Hide Modal
+                    $(`#deleteModal`).modal('hide')
+
+                    
+                    const childTrs = tbody.childNodes;
+                    if ( childTrs.length <= 1 ) {
+                        location.reload();
+                    }
+
+
+                }
+
+
+            });
+        }
+     </script>
 @endsection
