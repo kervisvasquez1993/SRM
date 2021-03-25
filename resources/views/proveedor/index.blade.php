@@ -7,6 +7,7 @@
     <div>{{$value->proveedor}}</div> 
     <div>{{$value->tarea->nombre}}</div>
     <div>{{$value->tarea->usuarios->name}}</div>
+    
 
 
 
@@ -29,7 +30,9 @@
     <h6 class="font-weight-bold">Pais: {{$value->proveedor->pais}} , Ciudad: {{$value->proveedor->ciudad}} , Distrito: {{$value->proveedor->distrito}} </h6>
     <div>
       <p>
-        
+        @foreach($value->proveedor->productos as $productos)
+            {{$productos}}
+        @endforeach
       </p>
     </div>
    
