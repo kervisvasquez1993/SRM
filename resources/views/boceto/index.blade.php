@@ -2,8 +2,8 @@
 
 @section('content')
     {{-- Buttons: Return and Create --}}
-    {{-- @include('ui.botones-incidencia') --}}
-    <div class="d-flex justify-content-between">
+    @include('ui.botones-incidencia')
+    {{-- <div class="d-flex justify-content-between">
         <button
         class="btn btn-outline-primary btn-round"
         data-toggle="modal" 
@@ -27,11 +27,12 @@
           </span>
           Regresar
         </a>
-    </div>
+    </div> --}}
     
     {{-- Data shown in table --}}
     @if( count( $bocetos ) > 0)
-        <div class="table-responsive">
+        @include('ui.incidencias-table', array('incidencias' => $bocetos, 'path' => '/bocetos'))
+        {{-- <div class="table-responsive">
             <table class="table table-shopping">
                 <thead>
                     <tr>
@@ -71,13 +72,13 @@
 
                         </tr>
 
-                        {{-- Modal to Delete --}}
+                        Modal to Delete
                         @include('ui.borrar-incidencia', array('boceto_id' => $boceto->id))
                     @endforeach
                     
                 </tbody>
             </table>
-        </div>
+        </div>  --}}
 
     @else
         
@@ -91,14 +92,16 @@
         'ui.modal-incidencia', 
         array(
             'modalTitle' => 'Crea una incidencia relacionada con la creación del boceto',
-            'arte_id' => $arte->id
+            'arte_id' => $arte->id,
+            'path' => '/bocetos'
         )
     )
 
 @endsection
 
 @section('script')
-    <script>
+    @include('util.incidencias-scripts')
+    {{-- <script>
 
         // Set the Boceto id using a data attribute
         function setBocetoAttribute( boceto ) {
@@ -204,5 +207,5 @@
 
             });
         }
-     </script>
+     </script> --}}
 @endsection

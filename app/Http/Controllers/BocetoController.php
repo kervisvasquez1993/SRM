@@ -52,7 +52,7 @@ class BocetoController extends Controller
         $boceto->save();
         $user = $boceto->user;
          
-        return [ 'boceto' => $boceto, 'user' => $user];
+        return [ 'incidencia' => $boceto, 'user' => $user];
     }
 
     /**

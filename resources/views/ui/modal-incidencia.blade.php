@@ -35,7 +35,7 @@
                     </form>
                 </div>
                 <div class="modal-footer justify-content-center">
-                    <a onclick="guardarIncidencia({{ $arte_id }})" class="btn btn-primary btn-link btn-round btn-wd btn-lg">Guardar</a>
+                    <a onclick="guardarIncidencia({{ $arte_id }}, '{{ $path }}')" class="btn btn-primary btn-link btn-round btn-wd btn-lg">Guardar</a>
                 </div>
             </div>
         </div>

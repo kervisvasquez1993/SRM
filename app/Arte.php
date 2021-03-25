@@ -18,6 +18,11 @@ class Arte extends Model
         return $this->hasMany(Boceto::class);
     }
 
+    public function validacionBoceto()
+    {
+        return $this->hasMany(ValidacionBoceto::class);
+    }
+
     public function ficha()
     {
         return $this->hasMany(Ficha::class);

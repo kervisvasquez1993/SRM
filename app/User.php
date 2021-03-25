@@ -49,4 +49,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Boceto::class);
     }
+
+    public function validacionBocetos()
+    {
+        return $this->hasMany(ValidacionBoceto::class);
+    }
 }
