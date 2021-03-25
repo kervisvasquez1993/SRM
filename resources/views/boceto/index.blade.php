@@ -2,8 +2,8 @@
 
 @section('content')
     {{-- Buttons: Return and Create --}}
-    @include('ui.botones-incidencia')
-    {{-- <div class="d-flex justify-content-between">
+    {{-- @include('ui.botones-incidencia') --}}
+    <div class="d-flex justify-content-between">
         <button
         class="btn btn-outline-primary btn-round"
         data-toggle="modal" 
@@ -27,7 +27,7 @@
           </span>
           Regresar
         </a>
-    </div> --}}
+    </div>
     
     {{-- Data shown in table --}}
     @if( count( $bocetos ) > 0)
@@ -102,6 +102,7 @@
 
         // Set the Boceto id using a data attribute
         function setBocetoAttribute( boceto ) {
+            console.log('SET ATTR')
             const modal = document.getElementById('deleteModal');
             modal.setAttribute('data-boceto', boceto.id);
         }
@@ -112,7 +113,6 @@
             const descripcion = document.getElementById('descripcion').value.trim();
 
             if ( titulo !== '' && descripcion !== '' ) {
-                console.log('DESDE SCRIPT', titulo, descripcion)
                 const params = {
                     titulo,
                     descripcion,
@@ -127,36 +127,43 @@
 
                     if ( resp.status === 200 ) {
                         const tbody = document.getElementById('tbody');
-                        const tr = document.createElement('tr');
-                        tr.id = resp.data.boceto.id;
-                        const date = new Date( resp.data.boceto.updated_at );
-                        const month = (date.getMonth() + 1 ) < 9 ? `0${ date.getMonth() + 1  }` : `${ date.getMonth() + 1  }`;
 
-                        // Create the new row
-                        tr.innerHTML = `
-                                    <td class="">
-                                        ${ resp.data.boceto.id }
-                                    </td>
-                                    <td>
-                                        ${ resp.data.boceto.titulo }
-                                    </td>
-                                    <td>
-                                        ${ resp.data.boceto.descripcion }
-                                    </td>
-                                    <td class="">
-                                        ${ resp.data.user.name }
-                                    </td>
-                                    <td class="">
-                                        ${ date.getDate() }-${ month }-${ date.getFullYear() }
-                                    </td>
-                                    <td>
-                                        <span id="icon-delete-${ resp.data.boceto.id }" onclick="${setBocetoAttribute(resp.data.boceto)}" class="material-icons pointer" data-toggle="modal" data-target="#deleteModal">
-                                            delete_forever
-                                        </span>
-                                    </td>
-                        `;
-                        // Insert the new element to the DOM
-                        tbody.appendChild(tr);
+                        if ( tbody ) {
+                            const tr = document.createElement('tr');
+                            tr.id = resp.data.boceto.id;
+                            const date = new Date( resp.data.boceto.updated_at );
+                            const month = (date.getMonth() + 1 ) < 9 ? `0${ date.getMonth() + 1  }` : `${ date.getMonth() + 1  }`;
+
+                            // Create the new row
+                            tr.innerHTML = `
+                                        <td class="">
+                                            ${ resp.data.boceto.id }
+                                        </td>
+                                        <td>
+                                            ${ resp.data.boceto.titulo }
+                                        </td>
+                                        <td>
+                                            ${ resp.data.boceto.descripcion }
+                                        </td>
+                                        <td class="">
+                                            ${ resp.data.user.name }
+                                        </td>
+                                        <td class="">
+                                            ${ date.getDate() }-${ month }-${ date.getFullYear() }
+                                        </td>
+                                        <td>
+                                            <span id="icon-delete-${ resp.data.boceto.id }" onclick="${ setBocetoAttribute( resp.data.boceto )}" class="material-icons pointer" data-toggle="modal" data-target="#deleteModal">
+                                                delete_forever
+                                            </span>
+                                        </td>
+                            `;
+                            // Insert the new element to the DOM
+                            tbody.appendChild(tr);
+
+                        } else {
+                            location.reload();
+                        }
+
 
                     }
 
@@ -179,7 +186,7 @@
                 if ( resp.status === 200 ) {
                     const tbody = document.getElementById('tbody');
                     const tr = document.getElementById(bocetoId);
-
+                    console.log(tr)
                     tbody.removeChild(tr);
 
                     // Hide Modal
