@@ -30,12 +30,8 @@ Route::resource('/perfil', 'PerfilController');
 //tareas 
 Route::resource('/tareas', 'TareaController');
 Route::put('/aprovados/{aprovado}', 'ProveedorController@aprobado')->name('aprovados.update');
-
 Route::resource('/proveedores', 'ProveedorController');
-
-
 // Arte
 Route::resource('/artes', 'ArteController');
-
 Route::get('/usuarios', 'TareaController@usuarios');
-
+Route::get('/proveedor-aprobado', 'ProveedorController@listaAprobado')->name('proveedor-aprobado');

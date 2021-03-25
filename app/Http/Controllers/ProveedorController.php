@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Proveedor;
 use App\PivotTareaProveeder;
+use App\Tarea;
 use Illuminate\Http\Request;
 
 class ProveedorController extends Controller
@@ -127,5 +128,15 @@ class ProveedorController extends Controller
     public function destroy(Proveedor $proveedor)
     {
         //
+    }
+
+    public function listaAprobado()
+    {
+        
+        $aprobados = PivotTareaProveeder::all();
+
+        
+        
+        return view('proveedor.index',compact('aprobados'));
     }
 }
