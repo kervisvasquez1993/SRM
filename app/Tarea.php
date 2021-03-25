@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tarea extends Model
 {
+    public function principalPivot()
+    {
+        return $this->hasMany(PivotTareaProveeder::class);
+    }
     public function usuarios()
     {
         return $this->belongsTo(User::class, 'user_id');

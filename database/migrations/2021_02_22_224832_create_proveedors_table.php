@@ -25,6 +25,7 @@ class CreateProveedorsTable extends Migration
             $table->string('contacto')->nullable();
             $table->string('telefono')->nullable();
             $table->string('email')->nullable();
+            $table->boolean('aprovado')->default(false);
             $table->timestamps();
         });
     }

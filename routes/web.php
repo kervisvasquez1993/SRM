@@ -29,6 +29,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/perfil', 'PerfilController');
 //tareas 
 Route::resource('/tareas', 'TareaController');
+Route::put('/aprovados/{aprovado}', 'ProveedorController@aprobado')->name('aprovados.update');
+Route::resource('/proveedores', 'ProveedorController');
 // bocetos
 Route::resource('/bocetos', 'BocetoController');
 
@@ -38,5 +40,8 @@ Route::resource('/validacion-bocetos', 'ValidacionBocetoController');
 // Arte
 Route::get('/artes/search', 'ArteController@search')->name('artes.search');
 Route::resource('/artes', 'ArteController');
-
 Route::get('/usuarios', 'TareaController@usuarios');
+
+
+/* lista de proveedor aprobado */
+Route::get('/proveedor-aprobado', 'ProveedorController@listaAprobado')->name('proveedor-aprobado');
