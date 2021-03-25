@@ -12,7 +12,7 @@
          >
         Agregar Empresa
         </a>
-        <a href="#" type="button" 
+        <a href="{{route('proveedor-aprobado')}}" type="button" 
         class="btn btn-info btn-sm" 
        
          >
