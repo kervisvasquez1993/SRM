@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\ConfirmacionProveedor;
+use App\Arte;
 use Illuminate\Http\Request;
+use App\ConfirmacionProveedor;
 
 class ConfirmacionProveedorController extends Controller
 {
@@ -12,9 +13,12 @@ class ConfirmacionProveedorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $arte = Arte::find( $request->get('arte') );
+        $confirmacionProveedores = $arte->confirmacionProveedor->where('enabled', 1);
+
+        return view('confirmacion-proveedor.index', compact('arte', 'confirmacionProveedores'));
     }
 
     /**
@@ -35,7 +39,18 @@ class ConfirmacionProveedorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all()['params'];
+        $confirmacionProveedor = new ConfirmacionProveedor();
+
+        $confirmacionProveedor->titulo = $data['titulo'];
+        $confirmacionProveedor->descripcion = $data['descripcion'];
+        // TODO: Add the LOGGED user here, currently not implemented
+        $confirmacionProveedor->user_id = 1;
+        $confirmacionProveedor->arte_id = $data['arte'];
+        $confirmacionProveedor->save();
+        $user = $confirmacionProveedor->user;
+         
+        return [ 'incidencia' => $confirmacionProveedor, 'user' => $user]; 
     }
 
     /**
@@ -80,6 +95,9 @@ class ConfirmacionProveedorController extends Controller
      */
     public function destroy(ConfirmacionProveedor $confirmacionProveedor)
     {
-        //
+        $confirmacionProveedor->enabled = false;
+        $confirmacionProveedor->save();
+
+        return $confirmacionProveedor;
     }
 }
