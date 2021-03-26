@@ -12,7 +12,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">Cerrar</button>
-          <button onclick="elimiarIncidencia({{ $id }}, '{{ $path }}')" type="button" class="btn btn-outline-primary btn-round">Eliminar</button>
+          <button onclick="elimiarIncidencia('{{ $path }}')" type="button" class="btn btn-outline-primary btn-round">Eliminar</button>
         </div>
       </div>
     </div>

@@ -31,11 +31,14 @@ Route::resource('/perfil', 'PerfilController');
 Route::resource('/tareas', 'TareaController');
 Route::put('/aprovados/{aprovado}', 'ProveedorController@aprobado')->name('aprovados.update');
 Route::resource('/proveedores', 'ProveedorController');
-// bocetos
+// Bocetos
 Route::resource('/bocetos', 'BocetoController');
 
 // Validacion de Bocetos
 Route::resource('/validacion-bocetos', 'ValidacionBocetoController');
+
+// Fichas
+Route::resource('/fichas', 'FichaController');
 
 // Arte
 Route::get('/artes/search', 'ArteController@search')->name('artes.search');

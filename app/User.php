@@ -54,4 +54,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(ValidacionBoceto::class);
     }
+    public function fichas()
+    {
+        return $this->hasMany(Ficha::class);
+    }
 }

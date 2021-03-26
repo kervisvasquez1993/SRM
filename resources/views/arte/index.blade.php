@@ -27,7 +27,7 @@
               <div class="status d-flex justify-content-between">
                   <span class="mr-3">
                     <strong class="text-secondary pointer-underline">
-                      <a href="">
+                      <a href="{{ route('fichas.index', ['arte' => $arte->id]) }}">
                         Creación de Fichas <span class="material-icons more-details"> north_east </span>:
                       </a>
                     </strong>

@@ -2,14 +2,12 @@
 
     // Set the Incidencia id using a data attribute
     function setIncidenciaAttribute( incidencia ) {
-        console.log('SET ATTR')
         const modal = document.getElementById('deleteModal');
         modal.setAttribute('data-incidencia', incidencia.id);
     }
 
     // Guardar para crear una incidencia
     function guardarIncidencia( arte, url ) {
-        console.log('URL recibido: ', url)
 
         const titulo = document.getElementById('titulo').value.trim();
         const descripcion = document.getElementById('descripcion').value.trim();
@@ -54,13 +52,16 @@
                                         ${ date.getDate() }-${ month }-${ date.getFullYear() }
                                     </td>
                                     <td>
-                                        <span id="icon-delete-${ resp.data.incidencia.id }" onclick="${ setIncidenciaAttribute( resp.data.incidencia )}" class="material-icons pointer" data-toggle="modal" data-target="#deleteModal">
+                                        <span id="icon-delete-${ resp.data.incidencia.id }" class="material-icons pointer" data-toggle="modal" data-target="#deleteModal">
                                             delete_forever
                                         </span>
                                     </td>
                         `;
+
                         // Insert the new element to the DOM
                         tbody.appendChild(tr);
+
+                        document.getElementById(`icon-delete-${ resp.data.incidencia.id }`).onclick = function() { setIncidenciaAttribute( resp.data.incidencia );  }                        
 
                     } else {
                         location.reload();
@@ -75,10 +76,9 @@
     }
 
     // Eliminar una incidencia
-    function elimiarIncidencia( boceto, url ) {
+    function elimiarIncidencia( url ) {
 
-        console.log('URL para borrar: ', url)
-        const modal = document.getElementById('deleteModal')
+        const modal = document.getElementById('deleteModal');
         const bocetoId = modal.dataset.incidencia;
 
         axios.post(`${ url }/${ bocetoId }`, 
@@ -90,13 +90,13 @@
             if ( resp.status === 200 ) {
                 const tbody = document.getElementById('tbody');
                 const tr = document.getElementById(bocetoId);
-                console.log(tr)
+                // Delete from DOM
                 tbody.removeChild(tr);
 
                 // Hide Modal
                 $(`#deleteModal`).modal('hide')
 
-                
+                // When the table is emptied
                 const childTrs = tbody.childNodes;
                 if ( childTrs.length <= 1 ) {
                     location.reload();
