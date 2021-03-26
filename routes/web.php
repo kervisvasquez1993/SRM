@@ -47,4 +47,5 @@ Route::get('/usuarios', 'TareaController@usuarios');
 
 
 /* lista de proveedor aprobado */
-Route::get('/proveedor-aprobado', 'ProveedorController@listaAprobado')->name('proveedor-aprobado');
+Route::get('/proveedor-aprobado', 'ProveedorController@listaAprobado')->name('proveedor-aprobado');  
+/*  */
