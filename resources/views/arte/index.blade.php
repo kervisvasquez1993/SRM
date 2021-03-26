@@ -36,7 +36,7 @@
 
                   <span class="mr-3">
                     <strong class="text-secondary pointer-underline">
-                      <a href="">
+                      <a href="{{ route('validacion-fichas.index', ['arte' => $arte->id]) }}">
                         Validación de Fichas <span class="material-icons more-details"> north_east </span>:
                       </a>
                     </strong> 
