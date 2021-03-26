@@ -25,10 +25,19 @@ class PivotTareaProveederController extends Controller
 
      public function arteAprobado($id)
      {
-       
         $pivot = PivotTareaProveeder::where('id', $id)->update(array('iniciar_arte' => 1));
         return  $pivot;
      }
+
+
+     public function produccionAprobado($id)
+     {
+        $pivot = PivotTareaProveeder::where('id', $id)->update(array('iniciar_produccion' => 1));
+        return  $pivot;
+     }
+
+
+
     public function create()
     {
         //

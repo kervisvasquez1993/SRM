@@ -48,7 +48,7 @@
         {{-- <input type="hidden" name="id" value="{{$value->proveedor->id}}"> --}}
         <input type="submit" value="Iniciar Arte" class="btn btn-sm  btn-secondary" >
       </form>
-      <form action="" method="post">
+      <form action="{{route('produccionAprobados.update', ['produccionAprobado' => $value->id])}}" method="post">
         @csrf
         @method('PUT')
         <input type="hidden" name="aprovado" value="1" >
