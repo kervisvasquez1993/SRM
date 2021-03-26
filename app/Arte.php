@@ -28,6 +28,11 @@ class Arte extends Model
         return $this->hasMany(Ficha::class);
     }
 
+    public function validacionFicha()
+    {
+        return $this->hasMany(ValidacionFicha::class);
+    }
+
     
     public function fichasEstatus()
     {
