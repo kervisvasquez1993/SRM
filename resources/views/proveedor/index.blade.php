@@ -4,6 +4,7 @@
 
 @foreach($aprobados as $value)
 @if($value->proveedor->aprovado )    
+  
   {{--   <div>{{$value->proveedor}}</div> 
     <div>{{$value->tarea->nombre}}</div>
     <div>{{$value->tarea->usuarios->name}}</div> --}}
@@ -40,7 +41,7 @@
     @endslot
 
     @slot('contenidoFooter')
-    <form action="{{route('arteAprobados.update', ['arteAprobado' => $value->proveedor->id])}}" method="post">
+    <form action="{{route('arteAprobados.update', ['arteAprobado' => $value->id])}}" method="post">
         @csrf
         @method('PUT')
         <input type="hidden" name="iniciar_arte" value="1" >

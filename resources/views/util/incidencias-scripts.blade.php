@@ -98,7 +98,7 @@
 
                 // When the table is emptied
                 const childTrs = tbody.childNodes;
-                if ( childTrs.length <= 1 ) {
+                if ( childTrs.length < 1 ) {
                     location.reload();
                 }
 

@@ -2,7 +2,7 @@
     <table class="table table-shopping">
         <thead>
             <tr>
-                <th class="text-center"><strong>ID</strong></th>
+                <th><strong>ID</strong></th>
                 <th><strong>Titulo</strong></th>
                 <th class="th-description"><strong>Descripción</strong></th>
                 <th class="th-description"><strong>Usuario</strong></th>
