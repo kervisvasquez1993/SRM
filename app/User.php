@@ -62,4 +62,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(ValidacionFicha::class);
     }
+    public function confirmacionProveedores()
+    {
+        return $this->hasMany(ConfirmacionProveedor::class);
+    }
 }
