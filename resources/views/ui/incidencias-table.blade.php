@@ -31,7 +31,13 @@
                     </td>
 
                     <td>
-                        <span id="icon-delete-{{ $incidencia->id }}" onclick="setIncidenciaAttribute({{ $incidencia }})" class="material-icons pointer" data-toggle="modal" data-target="#deleteModal">
+                        <span 
+                            id="icon-delete-{{ $incidencia->id }}" 
+                            onclick="setIncidenciaAttribute({{ $incidencia }})" 
+                            class="material-icons pointer" 
+                            data-toggle="modal" 
+                            data-target="#deleteModal"
+                        >
                             delete_forever
                         </span>
                     </td>

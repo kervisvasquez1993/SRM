@@ -27,5 +27,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PerfilSeeder::class);
         $this->call(ValidacionBocetoSeeder::class);
         $this->call(FichaSeeder::class);
+        $this->call(ValidacionFichaSeeder::class);
+        $this->call(ConfirmacionProveedorSeeder::class);
     }
 }

@@ -40,6 +40,12 @@ Route::resource('/validacion-bocetos', 'ValidacionBocetoController');
 // Fichas
 Route::resource('/fichas', 'FichaController');
 
+// Validacion de Fichas
+Route::resource('/validacion-fichas', 'ValidacionFichaController');
+
+// Confirmacion Proveedor
+Route::resource('/confirmacion-proveedor', 'ConfirmacionProveedorController');
+
 // Arte
 Route::get('/artes/search', 'ArteController@search')->name('artes.search');
 Route::resource('/artes', 'ArteController');

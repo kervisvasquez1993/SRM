@@ -28,7 +28,7 @@
                                     <div class="input-group-prepend">
                                         <div class="input-group-text"><i class="material-icons">description</i></div>
                                     </div>
-                                    <input id="descripcion" type="text" class="form-control" placeholder="Descripción...">
+                                    <input id="descripcion" type="text" class="form-control" autocomplete="off" placeholder="Descripción...">
                                 </div>
                             </div>
                         </div>
