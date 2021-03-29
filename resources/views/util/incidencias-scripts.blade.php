@@ -67,6 +67,13 @@
                         location.reload();
                     }
 
+                    // Reset inputs
+                    document.getElementById('titulo').value = '';
+                    document.getElementById('descripcion').value = '';
+
+                    // show toast message
+                    showToast('Incidencia creada exitosamente', 'check_circle_outline', 'success');
+
 
                 }
 
@@ -102,10 +109,48 @@
                     location.reload();
                 }
 
+                showToast('La incidencia ha sido eliminada', 'check_circle_outline', 'warning');
 
             }
 
 
         });
     }
+
+    // Show a toast message
+    function showToast(message, icon, alertClass) {
+        console.log('CREAR ALERT', document.getElementsByClassName('content'))
+        const alert = document.createElement('div');
+        alert.classList.add('alert');
+        alert.classList.add(`alert-${ alertClass }`);
+        alert.classList.add('alert-dismissible');
+        alert.classList.add('fade');
+        alert.classList.add('show');
+        alert.classList.add('d-flex');
+        alert.classList.add('flex-row');
+        alert.style.margin = '10px';
+        alert.style.position = 'absolute';
+        alert.style.top = '85vh';
+        alert.style.width = '90%';
+        alert.setAttribute('role', 'alert');
+
+        alert.innerHTML = `
+        <span class="material-icons mr-2">
+            ${ icon }
+        </span>
+        <span class="mt-1">${ message }</span>
+        
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        `;
+
+        // document.body.appendChild(alert);
+        document.getElementsByClassName('content')[0].appendChild(alert);
+
+        setTimeout(() => {
+            document.getElementsByClassName('content')[0].removeChild(alert);
+        }, 2500);
+    }
+    
  </script>
