@@ -29,7 +29,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/perfil', 'PerfilController');
 //tareas 
 Route::resource('/tareas', 'TareaController');
-Route::put('/aprovados/{aprovado}', 'ProveedorController@aprobado')->name('aprovados.update');
+Route::put('/negociaciones/{negociar}', 'ProveedorController@Negociar')->name('negociaciones.update');
 Route::resource('/proveedores', 'ProveedorController');
 // Bocetos
 Route::resource('/bocetos', 'BocetoController');

@@ -16,7 +16,7 @@
         class="btn btn-info btn-sm" 
        
          >
-        Empresas Aprovadas {{$aprovado->count()}}
+        Empresas en Negociacion {{$aprovado->count()}}
         </a>       
       </div>
                     @if (session('aprobado'))
@@ -40,12 +40,12 @@
                     @slot('titulo')
                     <div> Nombre Empresa: {{$proveedor->nombre}}</div>  
                     <div class="d-flex">
-                      <form action="{{route('aprovados.update', ['aprovado' => $proveedor->id])}}" method="post">
+                      <form action="{{route('negociaciones.update', ['negociar' => $proveedor->id])}}" method="post">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="aprovado" value="1" >
                         <input type="hidden" name="name" value="{{$proveedor->id}}" >
-                        <input type="submit" value="aprobar" class="btn btn-sm  btn-info" >
+                        <input type="submit" value="Negociar" class="btn btn-sm  btn-info" >
                       </form>
                       {{-- //TODO: CAMBIAR LA FUNCIONALIDAD PARA QUE SE ENVIA POR JS Y NO POR UN FORMULARIO --}}
                       <a href="#" type="button" 
