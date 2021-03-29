@@ -54,8 +54,12 @@ Route::get('/usuarios', 'TareaController@usuarios');
 
 /* lista de proveedor aprobado */
 Route::get('/proveedor-aprobado', 'ProveedorController@listaAprobado')->name('proveedor-aprobado');  
+
 /* aprobar artes  actualizar*/
 
 Route::put('/arteAprobados/{arteAprobado}', 'PivotTareaProveederController@arteAprobado')->name('arteAprobados.update');
 Route::put('/produccionAprobados/{produccionAprobado}', 'PivotTareaProveederController@produccionAprobado')->name('produccionAprobados.update');
 Route::put('/arteProduccionAprobados/{arteProduccionAprobado}', 'PivotTareaProveederController@arteProduccionAprobado')->name('arteProduccionAprobados.update');
+
+// Productos
+Route::resource('productos', 'ProductoController');
