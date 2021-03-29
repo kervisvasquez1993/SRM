@@ -1,7 +1,11 @@
 @extends('admin.dashboar')
 
 @section('content')
-
+@if (session('flash'))
+<div class="alert alert-success"  id="flash" role="alert">
+    {{ session('flash') }}
+</div>
+@endif
 @foreach($aprobados as $value)
 @if($value->proveedor->aprovado )    
   
@@ -10,7 +14,7 @@
     <div>{{$value->tarea->usuarios->name}}</div> --}}
     
 
-
+  
 
     @component('componentes.cardGeneral')
     @slot('titulo')

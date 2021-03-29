@@ -41,7 +41,7 @@ class PivotTareaProveederController extends Controller
          $arte->confirmacion_proveedor = 1;
          $arte->fecha_fin = Carbon::now(); /* //TODO cambiar el metodo de carbon por fecha de finalizacion recibida de request */
          $arte->save();
-        return  "arte creado";
+        return  back()->with('flash', 'Añadido a arte exitosamente');
      }
 
 

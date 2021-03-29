@@ -19,11 +19,11 @@
         Empresas en Negociacion {{$aprovado->count()}}
         </a>       
       </div>
-                    @if (session('aprobado'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('aprobado') }}
-                        </div>
-                    @endif
+         @if (session('aprobado'))
+             <div class="alert alert-success" role="alert">
+                 {{ session('aprobado') }}
+             </div>
+         @endif
         <div class="col-md-12">
           <div class="row">
               <h3 class="navbar-brand font-weight-bold" >{{$tarea->nombre}}. Finalizacion :{{ date('d-M-Y', strtotime($tarea->fecha_fin))}}</h3>
