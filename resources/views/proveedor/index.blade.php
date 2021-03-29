@@ -41,7 +41,7 @@
     @endslot
 
     @slot('contenidoFooter')
-    <form action="{{route('arteAprobados.update', ['arteAprobado' => $value->id])}}" method="post">
+      <form action="{{route('arteAprobados.update', ['arteAprobado' => $value->id])}}" method="post">
         @csrf
         @method('PUT')
         <input type="submit" value="Iniciar Arte" class="btn btn-sm  btn-secondary" >

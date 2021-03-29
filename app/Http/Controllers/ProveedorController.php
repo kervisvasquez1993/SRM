@@ -133,9 +133,7 @@ class ProveedorController extends Controller
     public function listaAprobado()
     {
         
-        $aprobados = PivotTareaProveeder::all();
-
-        
+        $aprobados = PivotTareaProveeder::all();      
         
         return view('proveedor.index',compact('aprobados'));
     }
