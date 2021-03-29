@@ -22,6 +22,32 @@ class PivotTareaProveederController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function arteAprobado($id)
+     {
+        $pivot = PivotTareaProveeder::where('id', $id)->update(array('iniciar_arte' => 1));
+        return  $pivot;
+     }
+
+
+     public function produccionAprobado($id)
+     {
+        $pivot = PivotTareaProveeder::where('id', $id)->update(array('iniciar_produccion' => 1));
+        return  $pivot;
+     }
+
+     public function arteProduccionAprobado($id)
+     {
+        $pivot = PivotTareaProveeder::where('id', $id)->update(
+            array(
+            'iniciar_produccion' => 1,
+            'iniciar_arte' => 1
+        ));
+        return  $pivot;
+     }
+
+
+
     public function create()
     {
         //
