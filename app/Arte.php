@@ -13,6 +13,8 @@ class Arte extends Model
         
     }
 
+    
+
     public function boceto()
     {
         return $this->hasMany(Boceto::class);
