@@ -53,7 +53,7 @@ Route::get('/usuarios', 'TareaController@usuarios');
 
 
 /* lista de proveedor aprobado */
-Route::get('/proveedor-aprobado', 'ProveedorController@listaAprobado')->name('proveedor-aprobado');  
+Route::get('/proveedor-negociacion', 'ProveedorController@listaAprobado')->name('proveedor-negociacion');  
 /* aprobar artes  actualizar*/
 
 Route::put('/arteAprobados/{arteAprobado}', 'PivotTareaProveederController@arteAprobado')->name('arteAprobados.update');
