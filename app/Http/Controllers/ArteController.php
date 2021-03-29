@@ -37,10 +37,9 @@ class ArteController extends Controller
             ->validacionBoceto( $validacion_boceto_id )
             ->confirmacionProveedor( $confirmacion_proveedor_id )->get(); 
 
-          
-        $proveedorAprobado = PivotTareaProveeder::where('iniciar_arte', 1 )->get();
+       
 
-        return view('arte.index', compact('artes', 'estatus', 'proveedorAprobado'));
+        return view('arte.index', compact('artes', 'estatus'));
     }
 
 

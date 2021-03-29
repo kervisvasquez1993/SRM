@@ -6,17 +6,11 @@
   @include('ui.filter',  array('estatus' => $estatus))
 
   <div class="">
-    @foreach($proveedorAprobado as $value)
-        {{$value->proveedor}}
-        <br>
-        <br>
-        {{$value->tarea}}
-    @endforeach
-    
+  
     @if( count($artes) > 0 )
       
       @foreach( $artes as $arte )
-      {{$arte->pivotTable->iniciar_arte}}
+      
         {{-- Card --}}
         <div id="{{ $arte->id }}" class="card">
 
