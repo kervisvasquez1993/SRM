@@ -22,6 +22,20 @@
 
         @foreach($productos as $producto)
             <div class="card">
+                <div class="">
+                   <a
+                        class="btn  btn-sm btn-round"
+                        type="button"
+                        href="{{ route('productos.edit', ['producto' => $producto->id ] )  }}" 
+                    >
+                      <span class="material-icons">
+                        edit
+                      </span>
+                      <span class="text-primary">
+                          Editar
+                      </span>
+                    </a>
+                </div>
                 <div class="card-header d-flex justify-content-around flex-wrap">
                     <h4><strong>Nombre</strong>: {{ $producto->product_name }}</h4>
                     <h4><strong>Marca</strong>: {{ $producto->brand }}</h4>
