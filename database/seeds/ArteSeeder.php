@@ -53,3 +53,4 @@ class ArteSeeder extends Seeder
          ]);
     }
 }
+/*  */
