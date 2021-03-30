@@ -25,7 +25,7 @@ class CreateProductosTable extends Migration
             $table->decimal('total_pcs');
             $table->double('pcs_unit');
             $table->decimal('pcs_inner_box');
-            $table->decimal('psm_ctn');
+            $table->decimal('pcs_ctn');
             $table->decimal('ctn_packing_size_l');
             $table->decimal('ctn_packing_size_w');
             $table->decimal('ctn_packing_size_h');

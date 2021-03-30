@@ -20,14 +20,8 @@
     @slot('titulo')
     <div> Nombre Empresa: {{$value->proveedor->nombre}}</div>  
     <div class="d-flex">
-        <form action="" method="post">
-            @csrf
-            @method('PUT')
-            <input type="hidden" name="aprovado" value="1" >
-            <input type="hidden" name="name" value="" >
-            <input type="submit" value="agregar Productos" class="btn btn-sm  btn-success" >
-          </form>
-            
+
+      <a href="{{ route('productos.index', ['id_proveedor' => $value->proveedor->id]) }}" type="button" class="btn btn-sm btn-success">Agregar Productos</a>          
     
      </div>
     @endslot
@@ -49,20 +43,20 @@
         @csrf
         @method('PUT')
         <input type="submit" value="Iniciar Arte" class="btn btn-sm  btn-secondary" >
-      </form>
+    </form>
 
 
-      <form action="{{route('produccionAprobados.update', ['produccionAprobado' => $value->id])}}" method="post">
-        @csrf
-        @method('PUT')
-        <input type="submit" value="Iniciar Producción" class="btn btn-sm  btn-warning">
-      </form>
+    <form action="{{route('produccionAprobados.update', ['produccionAprobado' => $value->id])}}" method="post">
+      @csrf
+      @method('PUT')
+      <input type="submit" value="Iniciar Producción" class="btn btn-sm  btn-warning">
+    </form>
 
-      <form action="{{route('arteProduccionAprobados.update', ['arteProduccionAprobado' => $value->id])}}" method="post">
-        @csrf
-        @method('PUT')
-        <input type="submit" value="Iniciar Producción y Artes" class="btn btn-sm  btn-success" >
-      </form>
+    <form action="{{route('arteProduccionAprobados.update', ['arteProduccionAprobado' => $value->id])}}" method="post">
+      @csrf
+      @method('PUT')
+      <input type="submit" value="Iniciar Producción y Artes" class="btn btn-sm  btn-success" >
+    </form>
         
     @endslot
  @endcomponent

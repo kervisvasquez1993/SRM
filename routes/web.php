@@ -63,3 +63,6 @@ Route::put('/arteAprobados/{arteAprobado}', 'PivotTareaProveederController@arteA
 
 Route::put('/produccionAprobados/{produccionAprobado}', 'PivotTareaProveederController@produccionAprobado')->name('produccionAprobados.update');
 Route::put('/arteProduccionAprobados/{arteProduccionAprobado}', 'PivotTareaProveederController@arteProduccionAprobado')->name('arteProduccionAprobados.update');
+
+// Productos
+Route::resource('productos', 'ProductoController');
