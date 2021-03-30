@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Arte;
 use App\Estatus;
+use App\PivotTareaProveeder;
 use Illuminate\Http\Request;
 
 class ArteController extends Controller
@@ -13,14 +14,17 @@ class ArteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    
+    
+    
+     public function index(Request $request)
     {
         
         // $artes = Arte::all();
 
         $estatus = Estatus::all();
         
-         // Request data
+       // Request data
         $creacion_ficha_id = $request->get('campo_filtro') === 'creacion_fichas' ? $request->get('estatus_id'): null;
         $validacion_ficha_id = $request->get('campo_filtro') === 'validacion_fichas' ? $request->get('estatus_id'): null;
         $creacion_boceto_id = $request->get('campo_filtro') === 'creacion_boceto' ? $request->get('estatus_id'): null; 
@@ -31,62 +35,16 @@ class ArteController extends Controller
             ->validacionFicha( $validacion_ficha_id)
             ->creacionBoceto( $creacion_boceto_id )
             ->validacionBoceto( $validacion_boceto_id )
-            ->confirmacionProveedor( $confirmacion_proveedor_id )->get();
+            ->confirmacionProveedor( $confirmacion_proveedor_id )->get(); 
 
+       
 
         return view('arte.index', compact('artes', 'estatus'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Arte  $arte
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Arte $arte)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Arte  $arte
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Arte $arte)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Arte  $arte
-     * @return \Illuminate\Http\Response
-     */
+ 
+ 
     public function update(Request $request, Arte $arte)
     {
         $data = $request->all()['params'];

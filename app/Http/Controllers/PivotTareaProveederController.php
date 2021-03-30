@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Arte;
 use App\PivotTareaProveeder;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class PivotTareaProveederController extends Controller
 {
@@ -25,8 +28,20 @@ class PivotTareaProveederController extends Controller
 
      public function arteAprobado($id)
      {
-        $pivot = PivotTareaProveeder::where('id', $id)->update(array('iniciar_arte' => 1));
-        return  $pivot;
+         $pivot = PivotTareaProveeder::findOrFail($id);
+         $pivot->iniciar_arte = 1;
+         $pivot->save();
+         $arte = new Arte();
+         $arte->pivot_tarea_proveeder_id = $pivot->id;
+         $arte->nombre = 'sin definir';
+         $arte->creacion_fichas = 1;
+         $arte->validacion_fichas = 1;
+         $arte->creacion_boceto =  1;
+         $arte->validacion_boceto = 1;
+         $arte->confirmacion_proveedor = 1;
+         $arte->fecha_fin = Carbon::now(); /* //TODO cambiar el metodo de carbon por fecha de finalizacion recibida de request */
+         $arte->save();
+        return  back()->with('flash', 'Añadido a arte exitosamente');
      }
 
 

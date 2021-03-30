@@ -1,7 +1,11 @@
 @extends('admin.dashboar')
 
 @section('content')
-
+@if (session('flash'))
+<div class="alert alert-success"  id="flash" role="alert">
+    {{ session('flash') }}
+</div>
+@endif
 @foreach($aprobados as $value)
 @if($value->proveedor->aprovado )    
   
@@ -10,7 +14,7 @@
     <div>{{$value->tarea->usuarios->name}}</div> --}}
     
 
-
+  
 
     @component('componentes.cardGeneral')
     @slot('titulo')
@@ -35,7 +39,7 @@
     @endslot
 
     @slot('contenidoFooter')
-    <form action="{{route('arteAprobados.update', ['arteAprobado' => $value->id])}}" method="post">
+      <form action="{{route('arteAprobados.update', ['arteAprobado' => $value->id])}}" method="post">
         @csrf
         @method('PUT')
         <input type="submit" value="Iniciar Arte" class="btn btn-sm  btn-secondary" >

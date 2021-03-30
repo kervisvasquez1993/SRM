@@ -6,12 +6,11 @@
   @include('ui.filter',  array('estatus' => $estatus))
 
   <div class="">
-
-
+  
     @if( count($artes) > 0 )
       
       @foreach( $artes as $arte )
-
+      
         {{-- Card --}}
         <div id="{{ $arte->id }}" class="card">
 
