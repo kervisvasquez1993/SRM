@@ -2,19 +2,21 @@
 
 @section('content')
     <div class="d-flex justify-content-end">
-        <button
-        class="btn btn-outline-primary btn-round"
+        <a
+            class="btn btn-outline-primary btn-round"
+            type="button"
+            href="{{ route('productos.create', ['id_proveedor' => $id_proveedor] ) }}"
         >
-          <span class="material-icons mr-2">
+          <span class="material-icons mr-2 text-primary">
             add_circle_outline
           </span>
-          Crear Producto
-        </button>
+          <span class="text-primary">
+              Crear Producto
+          </span>
+        </a>
     </div>
 
-    <h4><strong>Proveedor</strong>: Empresa Proveedor </h4>
-
-    {{$productos}}
+    <h4><strong>Proveedor</strong>: Empresa Proveedor {{ $id_proveedor }}</h4>
 
     <div id="accordion" role="tablist">
 
@@ -32,25 +34,32 @@
                         <p><strong>Descripción</strong>: {{ $producto->description }}</p>
                     </div>
 
-                    <div class="d-flex justify-content-around flex-wrap">
-                        <h5><strong>Vida útil (meses)</strong>: {{ $producto->shelf_life }}</h5>
-                        <h5><strong>Total de piezas</strong>: {{ $producto->total_pcs }}</h5>
-                        <h5><strong>Piezas empaque unitario</strong>: {{ $producto->pcs_unit }}</h5>
-                        <h5><strong>Piezas carton (cm)</strong>: {{ $producto->pcs_ctn }}</h5>
-                        <h5><strong>Largo Carton (cm)</strong>: {{ $producto->ctn_packing_size_l }}</h5>
-                        <h5><strong>Alto Carton (cm)</strong>: {{ $producto->ctn_packing_size_h }}</h5>
-                        <h5><strong>Ancho Carton (cm)</strong>: {{ $producto->ctn_packing_size_w }}</h5>
-                        <h5><strong>CBM</strong>: 32</h5>
-                    </div>
+                    <div class="d-flex flex-column justify-content-between flex-sm-row">
 
-                    <div class="d-flex justify-content-around flex-wrap">
-                        <h5><strong>Peso Neto (kg)</strong>: 32</h5>
-                        <h5><strong>Peso Bruto (kg)</strong>: 32</h5>
-                        <h5><strong>Total CBM</strong>: 32</h5>
-                        <h5><strong>Total Peso Neto</strong>: 32</h5>
-                        <h5><strong>Total Peso Bruto</strong>: 32</h5>
-                        <h5><strong>Total CTN</strong>: 32</h5>
-                        <h5><strong>Corregido Total PCS</strong>: 32</h5>
+                        <div class="d-flex flex-column">
+                            <h5><strong>Vida útil (meses)</strong>: {{ $producto->shelf_life }}</h5>
+                            <h5><strong>Total de piezas</strong>: {{ $producto->total_pcs }}</h5>
+                            <h5><strong>Piezas empaque unitario</strong>: {{ $producto->pcs_unit }}</h5>
+                            <h5><strong>Piezas carton (cm)</strong>: {{ $producto->pcs_ctn }}</h5>
+                            <h5><strong>Largo Carton (cm)</strong>: {{ $producto->ctn_packing_size_l }}</h5>
+                        </div>
+
+                        <div class="d-flex flex-column">
+                            <h5><strong>Alto Carton (cm)</strong>: {{ $producto->ctn_packing_size_h }}</h5>
+                            <h5><strong>Ancho Carton (cm)</strong>: {{ $producto->ctn_packing_size_w }}</h5>
+                            <h5><strong>CBM</strong>: {{ $producto->cbm }}</h5>
+                            <h5><strong>Peso Neto (kg)</strong>: {{ $producto->n_w_ctn }}</h5>
+                            <h5><strong>Peso Bruto (kg)</strong>: {{ $producto->g_w_ctn }}</h5>
+                        </div>
+
+                        <div class="d-flex flex-column">
+                            <h5><strong>Total CBM</strong>: {{ $producto->total_cbm }}</h5>
+                            <h5><strong>Total Peso Neto (kg)</strong>: {{ $producto->total_n_w }}</h5>
+                            <h5><strong>Total Peso Bruto (kg)</strong>: {{ $producto->total_g_w }}</h5>
+                            <h5><strong>Total CTN</strong>: {{ $producto->total_ctn }}</h5>
+                            <h5><strong>Corregido Total PCS</strong>: {{ $producto->corregido_total_pcs }}</h5>
+                        </div>
+
                     </div>
                 </div>
 
