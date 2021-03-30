@@ -50,12 +50,11 @@ class TareaController extends Controller
             'user_id'     => 'required',
             'descripcion' => 'required'
         ]);
-
         $tarea = new Tarea();
         $tarea->nombre = $request->nombre;
         $tarea->user_id = $request->user_id;
         $tarea->descripcion = $request->descripcion;
-        $tarea->fecha_fin = Carbon::now();
+        $tarea->fecha_fin = $request->fecha_fin;
         $tarea->save();
         return redirect()->action('TareaController@index');
 

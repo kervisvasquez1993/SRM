@@ -21,7 +21,7 @@
 <div class="form-row">
     <div class="col-md-12 mb-3">
         <label for="fecha_fin">Fecha Finalizacion<span class="red">*</span></label>
-        <input type="text" class="form-control" id="fecha_fin" name="fecha_fin" >
+        <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" >
     </div>
 </div>
 <div class="form-group">

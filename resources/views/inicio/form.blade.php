@@ -51,7 +51,7 @@
 <div class="form-row">
     <div class="col-md-12 mb-3">
         <label for="email">Email</label>
-        <input type="text" class="form-control" id="email" name="email">
+        <input type="email" class="form-control" id="email" name="email">
     </div>
 </div>
 <div class="form-group">
@@ -66,3 +66,4 @@
     <button class="btn btn-primary" type="submit">Enviar</button>
     <button class="btn btn-success" type="reset" name="reset">Limpiar</button>
 </div>
+{{-- MERGE  --}}
