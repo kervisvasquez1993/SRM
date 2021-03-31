@@ -29,5 +29,6 @@ class DatabaseSeeder extends Seeder
         $this->call(FichaSeeder::class);
         $this->call(ValidacionFichaSeeder::class);
         $this->call(ConfirmacionProveedorSeeder::class);
+        $this->call(ProduccionTransitoSeeder::class);
     }
 }

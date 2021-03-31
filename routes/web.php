@@ -46,6 +46,9 @@ Route::resource('/validacion-fichas', 'ValidacionFichaController');
 // Confirmacion Proveedor
 Route::resource('/confirmacion-proveedor', 'ConfirmacionProveedorController');
 
+// Produccion Transito
+Route::resource('/produccion-transito', 'ProduccionTransitoController');
+
 // Arte
 Route::get('/artes/search', 'ArteController@search')->name('artes.search');
 Route::resource('/artes', 'ArteController');

@@ -14,7 +14,7 @@ class ProduccionTransitoController extends Controller
      */
     public function index()
     {
-        //
+        return view('produccion-transito.index');
     }
 
     /**
