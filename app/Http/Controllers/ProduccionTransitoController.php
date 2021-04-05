@@ -14,7 +14,9 @@ class ProduccionTransitoController extends Controller
      */
     public function index()
     {
-        //
+        $produccionTransitos = ProduccionTransito::all();
+
+        return view('produccion-transito.index', compact('produccionTransitos'));
     }
 
     /**
