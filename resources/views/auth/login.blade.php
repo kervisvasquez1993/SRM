@@ -11,9 +11,9 @@
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
-                        <div class="form-group row">
+                        <div class="form-group col-md-12">
                             <label for="email" class="bmd-label-floating">{{ __('E-Mail Address') }}</label>
-                                <div class="col-md-12">
+                                <div>
                                     <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
     
                                     @error('email')
@@ -24,10 +24,10 @@
                                 </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="form-group col-md-12">
                             <label for="password" class="bmd-label-floating">{{ __('Password') }}</label>
 
-                            <div class="col-md-12">
+                            <div>
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
                                 @error('password')
@@ -40,8 +40,8 @@
 
 
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
+                        <div class="form-group col-md-12">
+                            <div class="">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
                                 </button>
