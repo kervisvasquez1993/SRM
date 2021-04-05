@@ -119,7 +119,7 @@
 
     // Show a toast message
     function showToast(message, icon, alertClass) {
-        console.log('CREAR ALERT', document.getElementsByClassName('content'))
+        
         const alert = document.createElement('div');
         alert.classList.add('alert');
         alert.classList.add(`alert-${ alertClass }`);
