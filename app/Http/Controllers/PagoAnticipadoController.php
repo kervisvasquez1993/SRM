@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\PagoAnticipado;
+use App\ProduccionTransito;
 use Illuminate\Http\Request;
 
 class PagoAnticipadoController extends Controller
@@ -12,9 +13,12 @@ class PagoAnticipadoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index(Request $request)
+    {   
+        $produccionTransito = ProduccionTransito::find( $request->get('produccion-transito-id') );
+        $pagos = PagoAnticipado::all();
+        // dd($produccionTransito);
+        return view('pago-anticipado.index', compact('pagos', 'produccionTransito'));
     }
 
     /**

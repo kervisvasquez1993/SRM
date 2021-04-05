@@ -49,6 +49,9 @@ Route::resource('/confirmacion-proveedor', 'ConfirmacionProveedorController');
 // Produccion Transito
 Route::resource('/produccion-transito', 'ProduccionTransitoController');
 
+// Pago anticipado
+Route::resource('/pago-anticipado', 'PagoAnticipadoController');
+
 // Arte
 Route::get('/artes/search', 'ArteController@search')->name('artes.search');
 Route::resource('/artes', 'ArteController');
