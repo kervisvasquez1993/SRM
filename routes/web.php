@@ -20,6 +20,12 @@ Route::get('/', function () {
 });
 Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
+    /* Rutas asociadas a compradores */
+    Route::group(['middleware' => ['Comprador']], function () {
+
+
+    });
+
         Route::get('/home', 'HomeController@index')->name('home');
         //perfil view
         Route::resource('/perfil', 'PerfilController');
