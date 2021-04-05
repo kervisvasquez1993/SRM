@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class PerfilController extends Controller
 {
+  
+    public function __construct()
+{
+    $this->middleware('comprador', ['only']);
+}
     /**
      * Display a listing of the resource.
      *

@@ -26,14 +26,18 @@ Route::get('/', function () {
  
 
 
-    /* comprador */
+    /* Zona de Middleware para compradores y coordinador */
     Route::resource('/perfil', 'PerfilController')->middleware('comprador');
+    //tareas 
+    Route::resource('/tareas', 'TareaController')->middleware(  'comprador', ['only' => ['index', 'show']]  );
+
+    Route::get('/proveedor-negociacion', 'ProveedorController@listaAprobado')->name('proveedor-negociacion'); 
+    
 
         Route::get('/home', 'HomeController@index')->name('home');
         //perfil view
         
-        //tareas 
-        Route::resource('/tareas', 'TareaController');
+        
         Route::put('/negociaciones/{negociar}', 'ProveedorController@Negociar')->name('negociaciones.update');
         Route::resource('/proveedores', 'ProveedorController');
         // Bocetos
@@ -58,7 +62,7 @@ Route::get('/', function () {
         
         
         /* lista de proveedor aprobado */
-        Route::get('/proveedor-negociacion', 'ProveedorController@listaAprobado')->name('proveedor-negociacion');  
+         
         /* aprobar artes  actualizar*/
         
         Route::put('/arteAprobados/{arteAprobado}', 'PivotTareaProveederController@arteAprobado')->name('arteAprobados.update');

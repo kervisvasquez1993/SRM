@@ -4,8 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-
-class Comprador
+class Coordinador
 {
     /**
      * Handle an incoming request.
@@ -16,8 +15,7 @@ class Comprador
      */
     public function handle($request, Closure $next)
     {
-        
-        if( $request->user()->rol == 'comprador' || $request->user()->rol == 'coordinador'    )
+        if( $request->user()->rol == 'coordinador')
         {
             return $next($request);
         }
