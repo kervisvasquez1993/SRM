@@ -18,17 +18,20 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Auth::routes();
-Route::group(['middleware' => 'auth'], function () {
+   Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+   Route::post('login', 'Auth\LoginController@login');
+   Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+   Route::group(['middleware' => 'auth'], function () {
     /* Rutas asociadas a compradores */
-    Route::group(['middleware' => ['Comprador']], function () {
+ 
 
 
-    });
+    /* comprador */
+    Route::resource('/perfil', 'PerfilController')->middleware('comprador');
 
         Route::get('/home', 'HomeController@index')->name('home');
         //perfil view
-        Route::resource('/perfil', 'PerfilController');
+        
         //tareas 
         Route::resource('/tareas', 'TareaController');
         Route::put('/negociaciones/{negociar}', 'ProveedorController@Negociar')->name('negociaciones.update');
