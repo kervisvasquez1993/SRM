@@ -22,7 +22,7 @@
             
           </a>
         </li>
-        @if(Auth::user()->rol == "comprador") 
+        @if(Auth::user()->rol == "comprador" || Auth::user()->rol == "coordinador") 
         <li class="nav-item">
           <a class="nav-link" href="{{route('perfil.index')}}">
             <i class="material-icons">dashboard</i>
@@ -39,9 +39,9 @@
           </a>
         </li>
         @endif
-        @if(Auth::user()->rol == "arte" || Auth::user()->rol == "coordinador" )
+        @if(Auth::user()->rol == "artes" || Auth::user()->rol == "coordinador" )
         <li class="nav-item ">
-          <a class="nav-link" href={{route('proveedor-negociacion')}}>
+          <a class="nav-link" href="{{route('artes.index')}}">
             <i class="material-icons">person</i>
             <p>Artes</p>
           </a>
