@@ -15,8 +15,9 @@ class PagoAnticipadoController extends Controller
      */
     public function index(Request $request)
     {   
-        $produccionTransito = ProduccionTransito::find( $request->get('produccion-transito-id') );
-        $pagos = PagoAnticipado::all();
+
+        $produccionTransito = ProduccionTransito::find( $request->get('produccionTransitoId') );
+        $pagos = $produccionTransito->pagosAnticipados;
         // dd($produccionTransito);
         return view('pago-anticipado.index', compact('pagos', 'produccionTransito'));
     }
@@ -26,9 +27,10 @@ class PagoAnticipadoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create(Request $request)
+    {   
+        $idProduccionTransito = $request->query('id_produccion_transito');
+        return view('pago-anticipado.create', compact('idProduccionTransito'));
     }
 
     /**
@@ -39,7 +41,34 @@ class PagoAnticipadoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+
+        $produccionTransitoId = $request->query('id_produccion_transito');
+
+        $data = $request->validate([
+            'titulo' => 'required',
+            'total' => 'required|numeric',
+            'porcentaje' => 'required|numeric|digits_between:1,100',
+            'pathfile' => 'required',
+            'descripcion' => 'required',
+            'fecha_pago' => 'required|date'
+        ]);
+
+        $pagoAnticipado = new PagoAnticipado();
+
+        $pagoAnticipado->produccion_transito_id = $produccionTransitoId;
+        $pagoAnticipado->titulo = $data['titulo'];
+        $pagoAnticipado->monto_total = $data['total'];
+        $pagoAnticipado->porcentaje = $data['porcentaje'];
+        $pagoAnticipado->file_pago = $data['pathfile'];
+        $pagoAnticipado->descripcion = $data['descripcion'];
+        $pagoAnticipado->fecha_pago = $data['fecha_pago'];
+
+        $pagoAnticipado->save();
+
+        return redirect()->action('PagoAnticipadoController@index', compact('produccionTransitoId'));
+
+
     }
 
     /**

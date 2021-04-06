@@ -13,7 +13,7 @@
     
             <div class="card-body ">
                 <h5 class="d-flex align-items-center">
-                    <a href="{{ route('pago-anticipado.index', ['produccion-transito-id' =>  $produccionTransito->id]) }}"><strong>Pago Anticipado</strong></a>: 
+                    <a href="{{ route('pago-anticipado.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"><strong>Pago Anticipado</strong></a>: 
                     @if($produccionTransito->pagos_anticipados)
                         <span class="material-icons text-success">
                             done_all

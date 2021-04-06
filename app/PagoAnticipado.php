@@ -10,4 +10,9 @@ class PagoAnticipado extends Model
     {
         return $this->hasOne(PagoBalance::class);
     }
+    
+    public function produccionTransito()
+    {
+        return $this->hasOne(ProduccionTransito::class, 'produccion_transito_id');
+    }
 }
