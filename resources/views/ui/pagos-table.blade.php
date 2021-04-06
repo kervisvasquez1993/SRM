@@ -9,6 +9,7 @@
                 <th class="th-description"><strong>Archivo</strong></th>
                 <th class="th-description"><strong>Fecha Pago</strong></th>
                 <th class="th-description"><strong>Descripción</strong></th>
+                <th></th>
             </tr>
         </thead>
         <tbody id="tbody">
@@ -34,6 +35,22 @@
                     </td>
                     <td class="">
                         {{ $pago->descripcion }}
+                    </td>
+
+                    <td>
+                        <a href="{{ route('pago-anticipado.create') }}" class="btn btn-outline-primary btn-fab btn-fab-mini btn-round">
+                            <i class="material-icons">mode_edit</i>
+                        </a>
+
+                        {{-- <a href="{{ route('pago-anticipado.destroy', $pago->id) }}" class="btn btn-outline-primary btn-fab btn-fab-mini btn-round">
+                            <i class="material-icons">delete</i>
+                        </a> --}}
+
+                        <form action="{{ route('pago-anticipado.destroy', ['pago_anticipado' => $pago->id, 'id_produccion_transito' => $produccion_transito->id]) }}" method="POST" style="display: contents;">
+                            @csrf
+                            @method('delete')
+                            <button type="submit" class="btn btn-outline-primary btn-fab btn-fab-mini btn-round"><i class="material-icons">delete</i></button>
+                        </form>
                     </td>
 
                 </tr>

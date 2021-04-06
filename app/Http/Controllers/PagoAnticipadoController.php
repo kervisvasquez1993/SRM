@@ -111,8 +111,14 @@ class PagoAnticipadoController extends Controller
      * @param  \App\PagoAnticipado  $pagoAnticipado
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PagoAnticipado $pagoAnticipado)
+    public function destroy(Request $request, PagoAnticipado $pagoAnticipado)
     {
-        //
+
+        // dd($request->all(), $pagoAnticipado);
+        $produccionTransitoId = $request->query('id_produccion_transito');
+
+        $pagoAnticipado->delete();
+
+        return redirect()->action('PagoAnticipadoController@index', compact('produccionTransitoId'));
     }
 }

@@ -27,7 +27,7 @@
     </div>
 
     @if( count($pagos) > 0 )
-        @include('ui.pagos-table', array('pagos' => $pagos, 'produccion-transito' => $produccionTransito))
+        @include('ui.pagos-table', array('pagos' => $pagos, 'produccion_transito' => $produccionTransito))
     
     @else
         {{-- Empty view --}}

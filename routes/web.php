@@ -51,6 +51,7 @@ Route::resource('/produccion-transito', 'ProduccionTransitoController');
 
 // Pago anticipado
 Route::resource('/pago-anticipado', 'PagoAnticipadoController');
+// Route::get('pago-anticipado/{id_pago}/delete', 'PagoAnticipadoController@destroy')->name('PagoAnticipado.destroy');
 
 // Arte
 Route::get('/artes/search', 'ArteController@search')->name('artes.search');
