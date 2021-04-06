@@ -36,14 +36,12 @@
 <body>
 <div id="app">
   <div class="wrapper">
-    @yield('sidebar')
-    @yield('nav')
-   {{--  <div class="main-panel">
-        <div class="content"> --}}
+    @include('ui.sidebar')
+    <div class="main-panel">
+      @include('ui.nav')
         @yield('content')
-      {{--   </div>
-    </div> --}}
-    @yield('footer') 
+       @yield('footer') 
+    </div>
   </div>
 </div>
 
