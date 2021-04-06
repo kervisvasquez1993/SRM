@@ -1,3 +1,4 @@
+{{-- //TODO: AGREGAR ICONO PARA CADA RUTA --}}
 <div class="sidebar" data-color="purple" data-background-color="white" data-image="../assets/img/sidebar-1.jpg">
     <div class="logo"><a href="" class="simple-text logo-normal">
         SRM Dynamics
@@ -13,7 +14,7 @@
             
           </a>
         </li>
-        @if(Auth::user()->rol == "comprador" || Auth::user()->rol == "coordinador")
+        @if(Auth::user()->rol == "coordinador")
         <li class="nav-item">
           <a class="nav-link" href="{{route('tareas.index')}}">
             <i class="material-icons">dashboard</i>
@@ -22,6 +23,7 @@
             
           </a>
         </li>
+        @endif
         @if(Auth::user()->rol == "comprador" || Auth::user()->rol == "coordinador") 
         <li class="nav-item">
           <a class="nav-link" href="{{route('perfil.index')}}">
@@ -31,14 +33,15 @@
             
           </a>
         </li>
-         @endif        
+               
         <li class="nav-item ">
           <a class="nav-link" href={{route('proveedor-negociacion')}}>
             <i class="material-icons">person</i>
             <p>Negociaciones</p>
           </a>
         </li>
-        @endif
+        @endif  
+        
         @if(Auth::user()->rol == "artes" || Auth::user()->rol == "coordinador" )
         <li class="nav-item ">
           <a class="nav-link" href="{{route('artes.index')}}">

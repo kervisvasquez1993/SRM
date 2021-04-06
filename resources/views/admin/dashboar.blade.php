@@ -37,10 +37,13 @@
 <div id="app">
   <div class="wrapper">
     @include('ui.sidebar')
+    
     <div class="main-panel">
       @include('ui.nav')
+      <div class="content">
         @yield('content')
-       @yield('footer') 
+        @yield('footer') 
+      </div>
     </div>
   </div>
 </div>
