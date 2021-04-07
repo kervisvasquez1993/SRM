@@ -34,3 +34,33 @@
         @include('ui.nada-para-mostrar')
     @endif
 @endsection
+
+
+@section('css')
+
+    <style>
+        .toast {
+            display: flex;
+            justify-content: center;
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            right: 10px;
+            align-items: center;
+        }
+    </style>
+    
+@endsection
+
+
+@section('script')
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                if(document.getElementById('toast')) {
+                    document.getElementById('toast').style.display = 'none';
+                }
+            }, 2000);
+        });
+    </script>
+@endsection

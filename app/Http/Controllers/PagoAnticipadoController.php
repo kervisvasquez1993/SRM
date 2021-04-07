@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\PagoAnticipado;
 use App\ProduccionTransito;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class PagoAnticipadoController extends Controller
 {
@@ -66,6 +67,9 @@ class PagoAnticipadoController extends Controller
 
         $pagoAnticipado->save();
 
+        Session::flash('message', 'Pago Anticipado creado exitosamente.');
+        Session::flash('class', 'success');
+
         return redirect()->action('PagoAnticipadoController@index', compact('produccionTransitoId'));
 
 
@@ -124,6 +128,9 @@ class PagoAnticipadoController extends Controller
 
         $pagoAnticipado->save();
 
+        Session::flash('message', 'Pago Anticipado modificado exitosamente.');
+        Session::flash('class', 'success');
+
         return redirect()->action('PagoAnticipadoController@index', compact('produccionTransitoId'));
     }
 
@@ -140,6 +147,9 @@ class PagoAnticipadoController extends Controller
         $produccionTransitoId = $request->query('id_produccion_transito');
 
         $pagoAnticipado->delete();
+
+        Session::flash('message', 'Pago Anticipado eliminado exitosamente.');
+        Session::flash('class', 'warning');
 
         return redirect()->action('PagoAnticipadoController@index', compact('produccionTransitoId'));
     }
