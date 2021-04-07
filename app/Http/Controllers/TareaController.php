@@ -52,7 +52,7 @@ class TareaController extends Controller
             'nombre'      => 'required',
             'user_id'     => 'required',
             'descripcion' => 'required ',
-            'fecha_fin'  =>  'required|date|after: 0 days'
+            'fecha_fin'  =>  'required | date | after: 0 days'
         ]);
         $tarea = new Tarea();
         $tarea->nombre = $request->nombre;
