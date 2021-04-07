@@ -14,6 +14,12 @@ class ProveedorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function __construct()
+     {
+        $this->middleware('comprador');
+     }
+     
     public function index()
     {
         //

@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
     {
         DB::table('users')->insert([
             'name' => 'kervis vasquez',
-            'rol_id' => "1",
+            'rol' => "comprador",
             'email' => 'kervisvasquez24@gmail.com',
             'password' =>Hash::make("123456789"),
             
@@ -23,14 +23,14 @@ class UserSeeder extends Seeder
 
         DB::table('users')->insert([
             'name' => 'Juan',
-            'rol_id' => "1",
+            'rol' => "comprador",
             'email' => 'juan@gmail.com',
             'password' =>Hash::make("123456789"),
         ]);
 
         DB::table('users')->insert([
             'name' => 'pedro',
-            'rol_id' => "1",
+            'rol' => "comprador",
             'email' => 'pedro@gmail.com',
             'password' =>Hash::make("123456789"),
             
@@ -38,14 +38,14 @@ class UserSeeder extends Seeder
 
         DB::table('users')->insert([
             'name' => 'jesus',
-            'rol_id' => "1",
+            'rol' => "comprador",
             'email' => 'jesus@gmail.com',
             'password' =>Hash::make("123456789"),
             
         ]);
         DB::table('users')->insert([
             'name' => 'arte',
-            'rol_id' => "4",
+            'rol' => "artes",
             'email' => 'arte@gmail.com',
             'password' =>Hash::make("123456789"),
             
