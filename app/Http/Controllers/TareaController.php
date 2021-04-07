@@ -14,7 +14,10 @@ class TareaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    
+    
+    
+     public function index(Request $request)
     {   
         $usuarios = User::all();
         $tareas = Tarea::all();
