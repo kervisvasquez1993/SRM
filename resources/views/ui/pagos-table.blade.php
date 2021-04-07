@@ -38,13 +38,9 @@
                     </td>
 
                     <td>
-                        <a href="{{ route('pago-anticipado.create') }}" class="btn btn-outline-primary btn-fab btn-fab-mini btn-round">
+                        <a href="{{ route('pago-anticipado.edit', ['pago_anticipado' => $pago->id, 'id_produccion_transito' => $produccion_transito->id]) }}" class="btn btn-outline-primary btn-fab btn-fab-mini btn-round">
                             <i class="material-icons">mode_edit</i>
                         </a>
-
-                        {{-- <a href="{{ route('pago-anticipado.destroy', $pago->id) }}" class="btn btn-outline-primary btn-fab btn-fab-mini btn-round">
-                            <i class="material-icons">delete</i>
-                        </a> --}}
 
                         <form action="{{ route('pago-anticipado.destroy', ['pago_anticipado' => $pago->id, 'id_produccion_transito' => $produccion_transito->id]) }}" method="POST" style="display: contents;">
                             @csrf
