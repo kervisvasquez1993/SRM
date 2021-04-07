@@ -36,6 +36,8 @@ Route::get('/', function () {
     Route::put('/negociaciones/{negociar}', 'ProveedorController@Negociar')->name('negociaciones.update');
     Route::resource('/proveedores', 'ProveedorController');
   
+
+    /* middleware para los usuarios de Artes */
     Route::group(['middleware' => 'Artes'], function () 
     {
         // Bocetos
@@ -57,16 +59,18 @@ Route::get('/', function () {
          Route::get('/artes/search', 'ArteController@search')->name('artes.search');
          Route::resource('/artes', 'ArteController');
            /* lista de proveedor aprobado */
-     
+      // Route::get('pago-anticipado/{id_pago}/delete', 'PagoAnticipadoController@destroy')->name('PagoAnticipado.destroy');
+         Route::put('/arteAprobados/{arteAprobado}', 'PivotTareaProveederController@arteAprobado')->name('arteAprobados.update');
+    });
+
+    /* fin de Middleware de Artes */
+
+         
     /* aprobar artes  actualizar*/
     // Produccion Transito
     Route::resource('/produccion-transito', 'ProduccionTransitoController');
     // Pago anticipado
     Route::resource('/pago-anticipado', 'PagoAnticipadoController');
-    // Route::get('pago-anticipado/{id_pago}/delete', 'PagoAnticipadoController@destroy')->name('PagoAnticipado.destroy');
-    
-    Route::put('/arteAprobados/{arteAprobado}', 'PivotTareaProveederController@arteAprobado')->name('arteAprobados.update');
-    });
 
 
 
