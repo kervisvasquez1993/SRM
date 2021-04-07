@@ -1,5 +1,5 @@
 @extends('admin.dashboar')
-
+@section('content')
 <div class="d-flex justify-content-end">
     <a
         class="btn btn-outline-primary btn-round" 
@@ -109,3 +109,4 @@
     </div>
 
 </form>
+@endsection
