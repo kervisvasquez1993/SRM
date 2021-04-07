@@ -83,8 +83,7 @@ Route::get('/', function () {
      // Productos
     Route::resource('productos', 'ProductoController');
  Route::get('/home', 'HomeController@index')->name('home');
- Route::resource('/produccion-transito', 'ProduccionTransitoController');
-
-// Pago anticipado
+ // Pago anticipado
 Route::resource('/pago-anticipado', 'PagoAnticipadoController');
+// Route::get('pago-anticipado/{id_pago}/delete', 'PagoAnticipadoController@destroy')->name('PagoAnticipado.destroy');
 });
