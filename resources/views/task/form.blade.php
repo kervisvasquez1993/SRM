@@ -32,7 +32,7 @@
     <div class="col-md-12 mb-3">
         <label for="fecha_fin">Fecha Finalizacion<span class="red">*</span></label>
         
-        <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" value="{{old('fecha_fin')}}"  pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}">
+        <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" @error('fecha_fin') value="{{old('fecha_fin')}}" @enderror  pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}">
         @error('fecha_fin')
         <span class="invalid-feedback d-block" role="alert">
             <strong> {{$message}}</strong>

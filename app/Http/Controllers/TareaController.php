@@ -21,7 +21,8 @@ class TareaController extends Controller
     {   
         $usuarios = User::where('rol', 'comprador')->get();
         $tareas = Tarea::all();
-        return view('task.index', compact('tareas', 'usuarios'));
+        $date = Carbon::class;
+        return view('task.index', compact('tareas', 'usuarios', 'date'));
     }
 
     /**

@@ -29,7 +29,7 @@
                 data-id_tarea="{{$tarea->id}}"
                 data-tarea="{{$tarea->nombre}}"
                 data-user_name={{$tarea->user_id}}
-                data-fecha_fin="{{$tarea->fecha_fin}}"
+                data-fecha_fin="{{date('d-m-Y', strtotime($tarea->fecha_fin))}}"
                 data-descripcion="{{$tarea->descripcion}}"
                 data-toggle="modal"
                 data-target="#abrirmodalEditar">
