@@ -52,12 +52,8 @@
   <script src="{{asset('assets/js/core/jquery.min.js')}}"></script>
   <script src="{{asset('assets/js/core/popper.min.js')}}"></script>
   <script src="{{asset('assets/js/core/bootstrap-material-design.min.js')}}"></script>
-  <script src="{{asset('assets/js/plugins/moment.min.js')}}"></script>
-. <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
-  <script src="{{asset('assets/js/plugins/bootstrap-selectpicker.js')}}"></script>
-  <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
-  <script src="{{asset('assets/js/plugins/bootstrap-datetimepicker.min.js')}}"></script>
-  <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
+ 
+
   <script src="{{asset('assets/js/material-dashboard.js')}}" type="text/javascript"></script>
   <!-- Material Dashboard DEMO methods, don't include it in your project! -->
   <script>
@@ -68,27 +64,23 @@
          $('#abrirmodalEditar').on('show.bs.modal', function (event) {
            var button = $(event.relatedTarget) 
            var nombre_modal_tarea = button.data('tarea')
+           var nombre_modal_user_name = button.data('user_name')
            var nombre_modal_comprador = button.data('comprador')
            var nombre_modal_descripcion = button.data('descripcion')
            var nombre_modal_fecha_fin = button.data('fecha_fin')
-           var nombre_modal_user_name = button.data('user_name')
            var id_categoria = button.data('id_tarea')
-           /* var descripcion_modal_editar = button.data('descripcion')
-            */
+           var descripcion_modal_editar = button.data('descripcion')
            var modal = $(this)
-          
-           // modal.find('.modal-title').text('New message to ' + recipient)
            modal.find('.modal-body #id_tarea').val(id_categoria);
            modal.find('.modal-body #user_id').val(nombre_modal_user_name);
-           /* modal.find('.modal-body #nombre').val(nombre_modal_tarea); */
+           modal.find('.modal-body #nombre').val(nombre_modal_tarea); 
            modal.find('.modal-body #descripcion').val(nombre_modal_descripcion);
-           modal.find('.modal-body #fecha_fin').val('07-04-2021');
-           console.log(modal.find('.modal-body #nombre').val(nombre_modal_tarea));
-          
-            
-           /* modal.find('.modal-body #descripcion').val(descripcion_modal_editar); */
+           modal.find('.modal-body #fecha_fin').val(nombre_modal_fecha_fin);
+           modal.find('.modal-body #descripcion').val(descripcion_modal_editar); 
+           console.log(nombre_modal_fecha_fin)
+
            
-           })
+       })
       }
 
       if ($('#abrirmodalEditarProveedor'))
@@ -101,23 +93,16 @@
            var nombre_modal_fecha_fin = button.data('fecha_fin')
            var nombre_modal_user_name = button.data('user_name')
            var id_categoria = button.data('id_tarea')
-           
-           /* var descripcion_modal_editar = button.data('descripcion')
-            */
+           var descripcion_modal_editar = button.data('descripcion')
            var modal = $(this)
-          
            // modal.find('.modal-title').text('New message to ' + recipient)
            modal.find('.modal-body #id_tarea').val(id_categoria);
            modal.find('.modal-body #user_id').val(nombre_modal_user_name);
            modal.find('.modal-body #nombre').val(nombre_modal_tarea);
            modal.find('.modal-body #descripcion').val(nombre_modal_descripcion);
            modal.find('.modal-body #fecha_fin').val(nombre_modal_fecha_fin);
-           
-   
-            
-           /* modal.find('.modal-body #descripcion').val(descripcion_modal_editar); */
-           
-           })
+           modal.find('.modal-body #descripcion').val(descripcion_modal_editar); 
+          })
       }
 
       $().ready(function() {
@@ -289,13 +274,7 @@
       });
     });
   </script>
-  <script>
-    $(document).ready(function() {
-      // Javascript method's body can be found in assets/js/demos.js
-      md.initDashboardPageCharts();
 
-    });
-  </script>
   @yield('scripts')
 </body>
 

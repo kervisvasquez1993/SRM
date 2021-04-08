@@ -38,6 +38,3 @@ const app = new Vue({
     el: '#app',
 });
 
-$(function () {
-    $('#datetimepicker1').datetimepicker();
-});

@@ -19021,9 +19021,6 @@ Vue.component('estado-negociar', require('./components/EstadoNegociar.vue').defa
 var app = new Vue({
   el: '#app'
 });
-$(function () {
-  $('#datetimepicker1').datetimepicker();
-});
 
 /***/ }),
 
