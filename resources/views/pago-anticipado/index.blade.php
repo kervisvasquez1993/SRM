@@ -42,7 +42,7 @@
         .toast {
             display: flex;
             justify-content: center;
-            position: absolute;
+            position: fixed;
             top: 50%;
             left: 10px;
             right: 10px;

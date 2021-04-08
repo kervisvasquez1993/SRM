@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ProduccionTransito;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class ProduccionTransitoController extends Controller
 {
@@ -84,4 +85,22 @@ class ProduccionTransitoController extends Controller
     {
         //
     }
+
+    public function iniciarProduccion(Request $request, $id)
+    {
+        // dd($request->all(), $id);
+        // $produccionTransito = ProduccionTransito::where('id', $id);
+        $produccionTransito = ProduccionTransito::find( $id );
+        $produccionTransito->inicio_produccion = true;
+        $produccionTransito->save();
+
+        $produccionTransitos = ProduccionTransito::all();
+
+        Session::flash('message', 'Se ha iniciado la producción exitosamente.');
+        Session::flash('class', 'success');
+        return view('produccion-transito.index', compact('produccionTransitos'));
+
+
+    }
+
 }

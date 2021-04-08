@@ -67,6 +67,9 @@ class PagoAnticipadoController extends Controller
 
         $pagoAnticipado->save();
 
+        // Upodate ProduccionTransito status
+        $produccionTransito = ProduccionTransito::where( 'id', $produccionTransitoId )->update([ 'pagos_anticipados' => 1]);
+
         Session::flash('message', 'Pago Anticipado creado exitosamente.');
         Session::flash('class', 'success');
 
