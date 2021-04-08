@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\PagoAnticipado;
+use App\ProduccionTransito;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class PagoAnticipadoController extends Controller
 {
@@ -12,9 +14,13 @@ class PagoAnticipadoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index(Request $request)
+    {   
+
+        $produccionTransito = ProduccionTransito::find( $request->get('produccionTransitoId') );
+        $pagos = $produccionTransito->pagosAnticipados;
+        // dd($produccionTransito);
+        return view('pago-anticipado.index', compact('pagos', 'produccionTransito'));
     }
 
     /**
@@ -22,9 +28,10 @@ class PagoAnticipadoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create(Request $request)
+    {   
+        $idProduccionTransito = $request->query('id_produccion_transito');
+        return view('pago-anticipado.create', compact('idProduccionTransito'));
     }
 
     /**
@@ -35,7 +42,37 @@ class PagoAnticipadoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+
+        $produccionTransitoId = $request->query('id_produccion_transito');
+
+        $data = $request->validate([
+            'titulo' => 'required',
+            'total' => 'required|numeric',
+            'porcentaje' => 'required|numeric|digits_between:1,100',
+            'pathfile' => 'required',
+            'descripcion' => 'required',
+            'fecha_pago' => 'required|date'
+        ]);
+
+        $pagoAnticipado = new PagoAnticipado();
+
+        $pagoAnticipado->produccion_transito_id = $produccionTransitoId;
+        $pagoAnticipado->titulo = $data['titulo'];
+        $pagoAnticipado->monto_total = $data['total'];
+        $pagoAnticipado->porcentaje = $data['porcentaje'];
+        $pagoAnticipado->file_pago = $data['pathfile'];
+        $pagoAnticipado->descripcion = $data['descripcion'];
+        $pagoAnticipado->fecha_pago = $data['fecha_pago'];
+
+        $pagoAnticipado->save();
+
+        Session::flash('message', 'Pago Anticipado creado exitosamente.');
+        Session::flash('class', 'success');
+
+        return redirect()->action('PagoAnticipadoController@index', compact('produccionTransitoId'));
+
+
     }
 
     /**
@@ -55,9 +92,11 @@ class PagoAnticipadoController extends Controller
      * @param  \App\PagoAnticipado  $pagoAnticipado
      * @return \Illuminate\Http\Response
      */
-    public function edit(PagoAnticipado $pagoAnticipado)
+    public function edit(Request $request, PagoAnticipado $pagoAnticipado)
     {
-        //
+        $idProduccionTransito = $request->query('id_produccion_transito');
+        // dd($pagoAnticipado);
+        return view('pago-anticipado.edit',  compact('idProduccionTransito', 'pagoAnticipado'));
     }
 
     /**
@@ -69,7 +108,30 @@ class PagoAnticipadoController extends Controller
      */
     public function update(Request $request, PagoAnticipado $pagoAnticipado)
     {
-        //
+        $produccionTransitoId = $request->query('id_produccion_transito');
+
+        $data = $request->validate([
+            'titulo' => 'required',
+            'total' => 'required|numeric',
+            'porcentaje' => 'required|numeric|digits_between:1,100',
+            'pathfile' => 'required',
+            'descripcion' => 'required',
+            'fecha_pago' => 'required|date'
+        ]);
+
+        $pagoAnticipado->titulo = $data['titulo'];
+        $pagoAnticipado->monto_total = $data['total'];
+        $pagoAnticipado->porcentaje = $data['porcentaje'];
+        $pagoAnticipado->file_pago = $data['pathfile'];
+        $pagoAnticipado->descripcion = $data['descripcion'];
+        $pagoAnticipado->fecha_pago = $data['fecha_pago'];
+
+        $pagoAnticipado->save();
+
+        Session::flash('message', 'Pago Anticipado modificado exitosamente.');
+        Session::flash('class', 'success');
+
+        return redirect()->action('PagoAnticipadoController@index', compact('produccionTransitoId'));
     }
 
     /**
@@ -78,8 +140,17 @@ class PagoAnticipadoController extends Controller
      * @param  \App\PagoAnticipado  $pagoAnticipado
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PagoAnticipado $pagoAnticipado)
+    public function destroy(Request $request, PagoAnticipado $pagoAnticipado)
     {
-        //
+
+        // dd($request->all(), $pagoAnticipado);
+        $produccionTransitoId = $request->query('id_produccion_transito');
+
+        $pagoAnticipado->delete();
+
+        Session::flash('message', 'Pago Anticipado eliminado exitosamente.');
+        Session::flash('class', 'warning');
+
+        return redirect()->action('PagoAnticipadoController@index', compact('produccionTransitoId'));
     }
 }

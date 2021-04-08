@@ -13,7 +13,7 @@
     
             <div class="card-body ">
                 <h5 class="d-flex align-items-center">
-                    <strong>Pago Anticipado</strong>: 
+                    <a href="{{ route('pago-anticipado.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"><strong>Pago Anticipado</strong></a>: 
                     @if($produccionTransito->pagos_anticipados)
                         <span class="material-icons text-success">
                             done_all
@@ -28,11 +28,14 @@
 
 
                 @if($produccionTransito->pagos_anticipados)
-                    <h5><strong>Pagado (%)</strong>: 100%</h5>
+                    <h5>
+                        <strong>Pagado (%)</strong>: 
+                        100%
+                    </h5>
                 @endif
 
                 <h5>
-                    <strong>Inicio Producción:</strong>: 
+                    <a href=""><strong>Inicio Producción:</strong></a>: 
                     @if($produccionTransito->inicio_produccion)
                     <span class="material-icons text-success">
                         done_all
@@ -46,7 +49,7 @@
                 </h5>
 
                 <h5>
-                    <strong>Pago de Balance:</strong>: 
+                    <a href=""><strong>Pago de Balance:</strong></a>: 
                     @if($produccionTransito->pago_balance)
                         <span class="material-icons text-success">
                             done_all
@@ -60,11 +63,14 @@
                 </h5>
 
                 @if($produccionTransito->pago_balance)
-                    <h5><strong>Pagado Balance (%): 90%</strong>:  </h5>
+                    <h5>
+                        <strong>Pagado Balance (%)</strong>:
+                        90%
+                    </h5>
                 @endif
 
                 <h5>
-                    <strong>Transito Nacionalización</strong>: 
+                    <a href=""><strong>Transito Nacionalización</strong></a>: 
                     @if($produccionTransito->transito_nacionalizacion)
                         <span class="material-icons text-success">
                             done_all
