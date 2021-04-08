@@ -21,7 +21,11 @@
 
     @slot('contenidoFooter')
    <div class="stats">
-      <i class="material-icons">access_time</i> Finalización : {{ date('d-M-Y', strtotime($tarea->fecha_fin)) }}
+       @php
+           $fecha_asignada  = $date::parse(date('d-M-Y', strtotime($tarea->fecha_fin)));
+           $fecha_restantes =  $fecha_asignada->diffInDays($date::now()); 
+       @endphp
+      <i class="material-icons">access_time</i> Finalización : {{ date('d-M-Y', strtotime($tarea->fecha_fin)) }}. Días Restantes: {{$fecha_restantes}} Días
     </div>
     <div>
         <a href="#" type="button" 
