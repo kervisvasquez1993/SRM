@@ -26,7 +26,13 @@
          @endif
         <div class="col-md-12">
           <div class="row">
-              <h3 class="navbar-brand font-weight-bold" >{{$tarea->nombre}}. Finalizacion :{{ date('d-M-Y', strtotime($tarea->fecha_fin))}}</h3>
+              @php
+                $fecha_asignada  = $date::parse(date('d-M-Y', strtotime($tarea->fecha_fin)));
+                $fecha_restantes =  $fecha_asignada->diffInDays($date::now()); 
+              @endphp
+              <p class="border border-success rounded m-1 p-2"><span class="font-weight-bold">Nombre de tarea:</span>{{$tarea->nombre}}.</p>
+              <p class="border border-success rounded m-1 p-2"> <span class="font-weight-bold"> Fecha de Finalizacion</span> : {{ date('d-M-Y', strtotime($tarea->fecha_fin))}}.</p>
+              <p class="border border-success rounded m-1 p-2"><span class="font-weight-bold">DIAS RESTANTE </span> :{{$fecha_restantes}} dias</p>
               <p class=""></p>
               <p>
                 {{$tarea->descripcion}}

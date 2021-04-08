@@ -42,17 +42,10 @@
     <a href="{{route('tareas.show', ['tarea' => $tarea->id])}}" class="btn btn-success btn-sm ">Ver Detalle</a>
    </div>
   @endslot
-    
-    
-    
-        
-    @endcomponent
+ @endcomponent
 
 @endforeach
-
-
-
-    {{-- componente para listar las tareas --}}
+ {{-- componente para listar las tareas --}}
     <div class="modal fade" id="abrirmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-primary modal-lg" role="document">
             <div class="modal-content">
@@ -62,28 +55,18 @@
                       <span aria-hidden="true">×</span>
                     </button>
                 </div>
-               
                 <div class="modal-body">
                     <form action="{{route('tareas.store')}}" method="post" class="form-horizontal">
-                               
                         {{csrf_field()}}
-                        
                         @include('task.form')
-                        
                     </form>
-
-                  
-
                 </div>
-                
             </div>
             <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
     </div>
-    
-
-     <!--Inicio del modal actualizar-->
+    <!--Inicio del modal actualizar-->
      <div class="modal fade" id="abrirmodalEditar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-primary modal-lg" role="document">
             <div class="modal-content">

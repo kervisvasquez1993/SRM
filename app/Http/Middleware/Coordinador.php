@@ -19,6 +19,6 @@ class Coordinador
         {
             return $next($request);
         }
-       return back()->with('flash', 'Acceso restringido');
+       return back()->with('messege', 'Acceso restringido');
     }
 }

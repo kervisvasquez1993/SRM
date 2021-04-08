@@ -176,7 +176,7 @@ class ProductoController extends Controller
         $producto->total_ctn = $data['total-ctn'];
         $producto->corregido_total_pcs = $data['corregido-total-pcs'];
         $producto->save();
-        return back()->with('flash', 'Actualizado correctamente');
+        return back()->with('message', 'Actualizado correctamente');
 
     }
 

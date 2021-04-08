@@ -79,7 +79,8 @@ class TareaController extends Controller
         $proveedores = $tarea->proveedor;
         $noAprovado  = $proveedores->where('aprovado', 0);
         $aprovado  = $proveedores->where('aprovado', 1);
-        return view('task.show', compact('tarea', 'noAprovado', 'aprovado'));
+        $date = Carbon::class;
+        return view('task.show', compact('tarea', 'noAprovado', 'aprovado' ,'date'));
     }
 
     /**
