@@ -1,7 +1,7 @@
 @extends('admin.dashboar')
 @section('content')
 <div class="container-fluid">
-    <button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#abrirmodal">
+    <button class="btn btn-sm btn-outline-primary btn-round" type="button" data-toggle="modal" data-target="#abrirmodal">
         <i class="fa fa-plus fa-2x"></i>&nbsp;&nbsp;Agregar Tarea
     </button>
 </div>
@@ -9,7 +9,7 @@
     @component('componentes.cardGeneral')
 
     @slot('titulo')
-       <span>{{$tarea->nombre}}</span> <span>{{$tarea->usuarios->name}}</span>
+       <span> <div class="info-status"></div> Tarea: {{$tarea->nombre}}</span> <span>Comprador : {{$tarea->usuarios->name}}</span>
     @endslot
     @slot('fechaFin')
     {{ date('d-M-Y', strtotime($tarea->fecha_fin)) }}
@@ -29,7 +29,7 @@
     </div>
     <div>
         <a href="#" type="button" 
-                class="btn btn-primary btn-sm "  
+                class="btn btn-sm btn-outline-warning btn-round "  
                 data-id_tarea="{{$tarea->id}}"
                 data-tarea="{{$tarea->nombre}}"
                 data-user_name={{$tarea->user_id}}
@@ -39,7 +39,7 @@
                 data-target="#abrirmodalEditar">
                Editar
         </a>
-    <a href="{{route('tareas.show', ['tarea' => $tarea->id])}}" class="btn btn-success btn-sm ">Ver Detalle</a>
+    <a href="{{route('tareas.show', ['tarea' => $tarea->id])}}" class="btn btn-sm btn-outline-success btn-round">Ver Detalle</a>
    </div>
   @endslot
  @endcomponent

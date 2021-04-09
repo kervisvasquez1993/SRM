@@ -18,13 +18,13 @@
       </div>
       <div>
           <a href="#" type="button" 
-                      class="btn btn-primary btn-sm" 
+                      class="btn btn-sm btn-outline-warning btn-round" 
                       data-id_tarea={{$tarea->id}}
                       data-toggle="modal" data-target="#abrirmodalEditar"
                   >
                  Agregar Empresa
           </a>
-      <a href="{{route('tareas.show', ['tarea' => $tarea->id])}}" class="btn btn-success btn-sm ">Ver Detalle</a>
+      <a href="{{route('tareas.show', ['tarea' => $tarea->id])}}" class="btn btn-sm btn-outline-primary btn-round">Ver Detalle</a>
      </div>
 
     @endslot
