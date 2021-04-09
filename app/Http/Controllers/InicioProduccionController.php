@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\InicioProduccion;
 use App\ProduccionTransito;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class InicioProduccionController extends Controller
 {
@@ -26,9 +27,10 @@ class InicioProduccionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $produccionTransito = ProduccionTransito::find( $request->get('id_produccion_transito') );
+        return view('inicio-produccion.create', compact('produccionTransito'));
     }
 
     /**
@@ -39,7 +41,26 @@ class InicioProduccionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $produccionTransitoId = $request->get('id_produccion_transito');
+
+        $data = $request->validate([
+            'titulo' => 'required',
+            'descripcion' => 'required',
+        ]);
+        
+        $inicioProduccion = new InicioProduccion();
+
+        $inicioProduccion->produccion_transito_id = $produccionTransitoId;
+        $inicioProduccion->titulo = $data['titulo'];
+        $inicioProduccion->descripcion = $data['descripcion'];
+        // TODO: Add logic to set here the user who create the incidence
+        $inicioProduccion->user_id = 1;
+
+        $inicioProduccion->save();
+
+        Session::flash('message', 'Incidencia creada exitosamente.');
+        Session::flash('class', 'success');
+        return redirect()->action('InicioProduccionController@index', compact('produccionTransitoId'));
     }
 
     /**
