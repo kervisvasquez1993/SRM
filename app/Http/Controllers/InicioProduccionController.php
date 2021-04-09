@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\InicioProduccion;
+use App\ProduccionTransito;
 use Illuminate\Http\Request;
 
 class InicioProduccionController extends Controller
@@ -12,9 +13,12 @@ class InicioProduccionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $produccionTransito = ProduccionTransito::find( $request->get('produccionTransitoId') );
+        $inicioProducciones = InicioProduccion::all();
+
+        return view('inicio-produccion.index', compact('inicioProducciones', 'produccionTransito'));
     }
 
     /**
@@ -80,6 +84,8 @@ class InicioProduccionController extends Controller
      */
     public function destroy(InicioProduccion $inicioProduccion)
     {
-        //
+        $inicioProduccion->delete();
+
+        return $inicioProduccion;
     }
 }

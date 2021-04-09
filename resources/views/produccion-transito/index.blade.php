@@ -35,7 +35,7 @@
                 @endif
 
                 <h5 class="d-flex">
-                    <a href=""><strong>Inicio Producción:</strong></a>: 
+                    <a href="{{ route('inicio-produccion.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"><strong>Inicio Producción:</strong></a>: 
                     @if($produccionTransito->inicio_produccion)
                         <span class="material-icons text-success">
                             done_all

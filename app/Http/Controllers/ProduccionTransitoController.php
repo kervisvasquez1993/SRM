@@ -98,7 +98,9 @@ class ProduccionTransitoController extends Controller
 
         Session::flash('message', 'Se ha iniciado la producción exitosamente.');
         Session::flash('class', 'success');
-        return view('produccion-transito.index', compact('produccionTransitos'));
+
+        // return view('produccion-transito.index', compact('produccionTransitos'));
+        return redirect()->action('ProduccionTransitoController@index', compact('produccionTransitos'));
 
 
     }
