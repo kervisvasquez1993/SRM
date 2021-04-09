@@ -9,7 +9,7 @@
     @component('componentes.cardGeneral')
 
     @slot('titulo')
-       <span> <div class="info-status"></div> Tarea: {{$tarea->nombre}}</span> <span>Comprador : {{$tarea->usuarios->name}}</span>
+       <span class="tarea"> <status-colors></status-colors> Tarea: {{$tarea->nombre}}</span> <span>Comprador : {{$tarea->usuarios->name}}</span>
     @endslot
     @slot('fechaFin')
     {{ date('d-M-Y', strtotime($tarea->fecha_fin)) }}
