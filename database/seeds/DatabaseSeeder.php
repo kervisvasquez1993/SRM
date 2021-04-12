@@ -31,10 +31,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ConfirmacionProveedorSeeder::class);
         $this->call(ProduccionTransitoSeeder::class);
         $this->call(PagoAnticipadoSeeder::class);
-<<<<<<< HEAD
         $this->call(PagoBalanceSeeder::class);
-=======
         $this->call(InicioProduccionSeeder::class);
->>>>>>> 79d4ea95989a8f74ed545a49c17e25432849ad2d
     }
 }
