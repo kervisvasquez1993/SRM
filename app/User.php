@@ -66,4 +66,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ConfirmacionProveedor::class);
     }
+
+    public function inicioProduccion()
+    {
+        return $this->hasMany(inicioProduccion::class);
+    }
 }

@@ -69,7 +69,9 @@ Route::get('/', function () {
     /* aprobar artes  actualizar*/
     // Produccion Transito
     Route::resource('/produccion-transito', 'ProduccionTransitoController');
-    // Pago anticipado
+    Route::put('/produccion-transito/inciar-produccion/{id}', 'ProduccionTransitoController@iniciarProduccion')->name('ProduccionTransito.iniciarProd');
+
+    
     Route::resource('/pago-anticipado', 'PagoAnticipadoController');
 
 
@@ -86,8 +88,11 @@ Route::get('/', function () {
     Route::put('/arteProduccionAprobados/{arteProduccionAprobado}', 'PivotTareaProveederController@arteProduccionAprobado')->name('arteProduccionAprobados.update');
      // Productos
     Route::resource('productos', 'ProductoController');
- Route::get('/home', 'HomeController@index')->name('home');
- // Pago anticipado
-Route::resource('/pago-anticipado', 'PagoAnticipadoController');
-// Route::get('pago-anticipado/{id_pago}/delete', 'PagoAnticipadoController@destroy')->name('PagoAnticipado.destroy');
+    Route::get('/home', 'HomeController@index')->name('home');
+    // Pago anticipado
+    Route::resource('/pago-anticipado', 'PagoAnticipadoController');
+    // Route::get('pago-anticipado/{id_pago}/delete', 'PagoAnticipadoController@destroy')->name('PagoAnticipado.destroy');
+
+    // Inicio Produccion
+    Route::resource('/inicio-produccion', 'InicioProduccionController');
 });
