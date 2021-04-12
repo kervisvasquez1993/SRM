@@ -1,5 +1,5 @@
 @extends('admin.dashboar')
-
+@section('content')
 <div class="d-flex justify-content-end">
     <a
         class="btn btn-outline-primary btn-round" 
@@ -61,7 +61,11 @@
         <div class="col-12 col-sm-6 col-md-3 col-lg-3">
             <div class="form-group  @error('fecha_pago') has-danger @enderror">
                 <label class="">Fecha del Pago</label>
-                <input value="{{ date('d/m/Y', strtotime($pagoAnticipado->fecha_pago)) }}" autocomplete="off" name="fecha_pago" type="date" class="form-control">
+                  
+                {{-- <input value="31-11-2017"  type="date" class="form-control"  pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}"> --}}
+                
+                <input type="date" value="{{date('Y-m-d', strtotime($pagoAnticipado->fecha_pago))}}" name="fecha_pago" class="form-control" id="fecha_pago">
+                
             </div>
             @error('fecha_pago')
                 <span class="invalid-feedback d-block" role="alert">
@@ -110,3 +114,4 @@
     </div>
 
 </form>
+@endsection
