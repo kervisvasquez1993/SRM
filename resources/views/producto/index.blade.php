@@ -1,7 +1,20 @@
 @extends('admin.dashboar')
 
 @section('content')
-    <div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-between">
+       
+        <a
+            class="btn btn-outline-primary btn-round"
+            type="button"
+            href="{{ route('producto.showImport', ['producto' => $id_proveedor] ) }}"
+        >
+          <span class="material-icons mr-2 text-primary">
+            add_circle_outline
+          </span>
+          <span class="text-primary">
+              Importar Productos
+          </span>
+        </a>
         <a
             class="btn btn-outline-primary btn-round"
             type="button"

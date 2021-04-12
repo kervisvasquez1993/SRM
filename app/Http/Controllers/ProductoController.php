@@ -180,6 +180,22 @@ class ProductoController extends Controller
 
     }
 
+    public function showImport($producto)
+    {
+         return view('producto.showImport');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required'
+         ]) ;
+
+         $path = $request->file('file');
+         $archivos = file($path);
+         return $archivos;
+    }
+
     /**
      * Remove the specified resource from storage.
      *
