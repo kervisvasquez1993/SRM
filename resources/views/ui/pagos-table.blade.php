@@ -37,12 +37,14 @@
                         {{ $pago->descripcion }}
                     </td>
 
-                    <td>
-                        <a href="{{ route('pago-anticipado.edit', ['pago_anticipado' => $pago->id, 'id_produccion_transito' => $produccion_transito->id]) }}" class="btn btn-outline-primary btn-fab btn-fab-mini btn-round">
+                    <td class="d-flex">
+                        <a href='{{ route("$route_name.edit", [ $route_entity => $pago->id, "id_produccion_transito" => $produccion_transito->id]) }}' 
+                            class="btn btn-outline-primary btn-fab btn-fab-mini btn-round"
+                        >
                             <i class="material-icons">mode_edit</i>
                         </a>
 
-                        <form action="{{ route('pago-anticipado.destroy', ['pago_anticipado' => $pago->id, 'id_produccion_transito' => $produccion_transito->id]) }}" method="POST" style="display: contents;">
+                        <form action='{{ route("$route_name.destroy", [ $route_entity => $pago->id, 'id_produccion_transito' => $produccion_transito->id]) }}" method="POST" style="display: contents;'>
                             @csrf
                             @method('delete')
                             <button type="submit" class="btn btn-outline-primary btn-fab btn-fab-mini btn-round"><i class="material-icons">delete</i></button>

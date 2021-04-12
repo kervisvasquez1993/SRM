@@ -10,4 +10,9 @@ class PagoBalance extends Model
     {
         return $this->belongsTo(PagoAnticipado::class, 'pago_anticipado');
     }
+
+    public function produccionTransito()
+    {
+        return $this->hasOne(ProduccionTransito::class, 'produccion_transito_id');
+    }
 }

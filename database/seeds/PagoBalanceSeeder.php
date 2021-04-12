@@ -14,10 +14,12 @@ class PagoBalanceSeeder extends Seeder
         DB::table('pago_balances')->insert([
             'pago_anticipado_id' => 1,
             'produccion_transito_id' => 1,
-            'fecha_pago_balance' => date('Y-m-d H:i:s'),
-            'file_pago_balance' => 'path/pagoBalance.png',
+            'titulo' => 'Primer pago Balance',
+            'fecha_pago' => date('Y-m-d H:i:s'),
+            'file_pago' => 'path/pagoBalance.png',
+            'monto_total' => 1200,
             'pago_completo' => true,
-            'descripcion' => date('Y-m-d H:i:s'),
+            'descripcion' => 'Descripcion del pago',
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
@@ -25,10 +27,12 @@ class PagoBalanceSeeder extends Seeder
         DB::table('pago_balances')->insert([
             'pago_anticipado_id' => 2,
             'produccion_transito_id' => 2,
-            'fecha_pago_balance' => date('Y-m-d H:i:s'),
-            'file_pago_balance' => 'path/pagoBalance.png',
-            'pago_completo' => true,
-            'descripcion' => date('Y-m-d H:i:s'),
+            'titulo' => 'segundo pago Balance',
+            'fecha_pago' => date('Y-m-d H:i:s'),
+            'file_pago' => 'path/pagoBalance.png',
+            'monto_total' => 850,
+            'pago_completo' => false,
+            'descripcion' => 'Descripcion del pago',
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
@@ -36,10 +40,12 @@ class PagoBalanceSeeder extends Seeder
         DB::table('pago_balances')->insert([
             'pago_anticipado_id' => 2,
             'produccion_transito_id' => 1,
-            'fecha_pago_balance' => date('Y-m-d H:i:s'),
-            'file_pago_balance' => 'path/pagoBalance.png',
+            'titulo' => 'tercero pago Balance',
+            'fecha_pago' => date('Y-m-d H:i:s'),
+            'file_pago' => 'path/pagoBalance.png',
+            'monto_total' => 1000,
             'pago_completo' => true,
-            'descripcion' => date('Y-m-d H:i:s'),
+            'descripcion' => 'Descripcion del pago',
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);

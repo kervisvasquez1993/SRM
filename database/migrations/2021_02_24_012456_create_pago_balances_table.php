@@ -17,8 +17,10 @@ class CreatePagoBalancesTable extends Migration
             $table->id();
             $table->foreignId('pago_anticipado_id')->references('id')->on('pago_anticipados');
             $table->foreignId('produccion_transito_id')->references('id')->on('produccion_transitos');
-            $table->timestamp('fecha_pago_balance');
-            $table->string('file_pago_balance');
+            $table->string('titulo');
+            $table->string('monto_total');
+            $table->timestamp('fecha_pago');
+            $table->string('file_pago');
             $table->boolean('pago_completo')->default(false);
             $table->text('descripcion');
             $table->timestamps();

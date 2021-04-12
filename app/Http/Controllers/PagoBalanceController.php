@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\PagoBalance;
+use App\ProduccionTransito;
 use Illuminate\Http\Request;
 
 class PagoBalanceController extends Controller
@@ -12,9 +13,13 @@ class PagoBalanceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $produccionTransito = ProduccionTransito::find( $request->get('produccionTransitoId') );
+        $pagos = $produccionTransito->pagosBalance;
+
+        return view('pago-balance.index', compact('pagos', 'produccionTransito'));
+
     }
 
     /**
@@ -24,7 +29,8 @@ class PagoBalanceController extends Controller
      */
     public function create()
     {
-        //
+        $idProduccionTransito = $request->query('id_produccion_transito');
+        return view('pago-balance.create', compact('idProduccionTransito'));
     }
 
     /**

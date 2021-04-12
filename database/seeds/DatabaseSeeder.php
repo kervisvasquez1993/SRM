@@ -28,10 +28,10 @@ class DatabaseSeeder extends Seeder
         $this->call(ValidacionBocetoSeeder::class);
         $this->call(FichaSeeder::class);
         $this->call(ValidacionFichaSeeder::class);
+        $this->call(InicioProduccionSeeder::class);
         $this->call(ConfirmacionProveedorSeeder::class);
         $this->call(ProduccionTransitoSeeder::class);
         $this->call(PagoAnticipadoSeeder::class);
         $this->call(PagoBalanceSeeder::class);
-        $this->call(InicioProduccionSeeder::class);
     }
 }

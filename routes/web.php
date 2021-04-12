@@ -67,15 +67,19 @@ Route::get('/', function () {
 
          
     /* aprobar artes  actualizar*/
+
     // Produccion Transito
     Route::resource('/produccion-transito', 'ProduccionTransitoController');
     Route::put('/produccion-transito/inciar-produccion/{id}', 'ProduccionTransitoController@iniciarProduccion')->name('ProduccionTransito.iniciarProd');
 
-    
+    // Pago Anticipado
     Route::resource('/pago-anticipado', 'PagoAnticipadoController');
+    
+    // Pago Balance
+    Route::resource('/pago-balance', 'PagoBalanceController');
 
 
-
+    // usuarios
     Route::get('/usuarios', 'TareaController@usuarios');
     
     

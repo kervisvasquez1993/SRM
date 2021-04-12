@@ -79,7 +79,7 @@
                 </h5>
 
                 <h5>
-                    <a href=""><strong>Pago de Balance:</strong></a>: 
+                    <a href="{{ route('pago-balance.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"><strong>Pago de Balance:</strong></a>: 
                     @if($produccionTransito->pago_balance)
                         <span class="material-icons text-success">
                             done_all

@@ -15,7 +15,7 @@
     </a>
 </div>
 
-<h4>Crear Pago de Anticipo</h4>
+<h4>Editar Pago de Anticipo</h4>
 
 <form novalidate class="m-2" method="POST" action="{{ route('pago-anticipado.update', [ 'pago_anticipado' => $pagoAnticipado->id, 'id_produccion_transito' => $idProduccionTransito]) }}">
     @method('put')
