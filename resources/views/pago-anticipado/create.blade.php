@@ -37,7 +37,7 @@
         
         <div class="col-12 col-sm-6 col-md-3 col-lg-3">
             <div class="form-group  @error('total') has-danger @enderror">
-                <label class="bmd-label-floating">Total a pagar</label>
+                <label class="bmd-label-floating">Monto a pagar</label>
                 <input value="{{ old('total') }}" autocomplete="off" name="total" type="number" step="0.01" class="form-control">
                 @error('total')
                     <span class="invalid-feedback d-block" role="alert">

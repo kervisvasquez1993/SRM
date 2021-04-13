@@ -12,7 +12,6 @@ class PagoBalanceSeeder extends Seeder
     public function run()
     {
         DB::table('pago_balances')->insert([
-            'pago_anticipado_id' => 1,
             'produccion_transito_id' => 1,
             'titulo' => 'Primer pago Balance',
             'fecha_pago' => date('Y-m-d H:i:s'),
@@ -25,7 +24,6 @@ class PagoBalanceSeeder extends Seeder
         ]);
 
         DB::table('pago_balances')->insert([
-            'pago_anticipado_id' => 2,
             'produccion_transito_id' => 2,
             'titulo' => 'segundo pago Balance',
             'fecha_pago' => date('Y-m-d H:i:s'),
@@ -38,7 +36,6 @@ class PagoBalanceSeeder extends Seeder
         ]);
 
         DB::table('pago_balances')->insert([
-            'pago_anticipado_id' => 2,
             'produccion_transito_id' => 1,
             'titulo' => 'tercero pago Balance',
             'fecha_pago' => date('Y-m-d H:i:s'),
