@@ -30,13 +30,15 @@
 @endsection
 
 @section('content')
+
+
 <form 
 action="{{route('importProduct')}}" 
 method="post" enctype="multipart/form-data"  
 class="m-2 @error('file') is-invalid @enderror"
 >
 @csrf
-
+<input type="hidden" name="id_proveedor" value="{{$producto}}">
 <input type="file" name="file" class="">
 <button class="btn btn-outline-primary ml-3">Importar</button>
 @error('file')

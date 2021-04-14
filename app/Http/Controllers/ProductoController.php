@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Producto;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ProductoController extends Controller
@@ -182,18 +183,79 @@ class ProductoController extends Controller
 
     public function showImport($producto)
     {
-         return view('producto.showImport');
+        
+        return view('producto.showImport',compact('producto'));
     }
 
     public function import(Request $request)
     {
+        
+        
         $request->validate([
             'file' => 'required'
          ]) ;
 
          $path = $request->file('file');
          $archivos = file($path);
-         return $archivos;
+         $archivos = file($path);
+         $producto = "" ;
+         $data = $this->convert_from_latin1_to_utf8_recursively($archivos);
+         $utf8_archivos = array_map('utf8_decode', $data);
+         $array =  array_map('str_getcsv', $utf8_archivos); 
+         /* return $array[1][1];  */
+        $i = 1;
+         for($i ; $i < sizeof($array) ; $i++)
+         {
+            
+            $producto = new Producto();
+            $producto->proveedor_id        = $request->id_proveedor;
+            $producto->hs_code             = $array[$i][0];   
+            $producto->product_code        = $array[$i][1];
+            $producto->brand               = $array[$i][2];
+            $producto->product_name        = $array[$i][3];
+            $producto->description         = $array[$i][4];
+            $producto->shelf_life          = $array[$i][5];
+            $producto->total_pcs           = $array[$i][6];
+            $producto->pcs_unit            = $array[$i][7];
+            $producto->pcs_inner_box       = $array[$i][8];
+            $producto->pcs_ctn             = $array[$i][9];
+            $producto->ctn_packing_size_l  =  $array[$i][10];
+            $producto->ctn_packing_size_w  = $array[$i][11];
+            $producto->ctn_packing_size_h  = $array[$i][12];
+            $producto->cbm                 = $array[$i][13];
+            $producto->n_w_ctn             = $array[$i][14];
+            $producto->g_w_ctn             = $array[$i][15];
+            $producto->total_ctn           = $array[$i][16];
+            $producto->corregido_total_pcs = $array[$i][17];
+            $producto->total_cbm           = $array[$i][18];
+            $producto->total_n_w           = $array[$i][19];
+            $producto->total_g_w           = $array[$i][20]; 
+            $producto->created_at          = Carbon::now();  
+            $producto->save();
+            
+            
+         }
+
+         
+         
+
+    }
+    public  function convert_from_latin1_to_utf8_recursively($dat)
+    {
+       if (is_string($dat)) {
+          return utf8_encode($dat);
+       } elseif (is_array($dat)) {
+          $ret = [];
+          foreach ($dat as $i => $d) $ret[ $i ] = self::convert_from_latin1_to_utf8_recursively($d);
+ 
+          return $ret;
+       } elseif (is_object($dat)) {
+          foreach ($dat as $i => $d) $dat->$i = self::convert_from_latin1_to_utf8_recursively($d);
+ 
+          return $dat;
+       } else {
+          return $dat;
+       }
     }
 
     /**
