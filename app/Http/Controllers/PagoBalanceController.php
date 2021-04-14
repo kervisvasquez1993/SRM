@@ -91,9 +91,11 @@ class PagoBalanceController extends Controller
      * @param  \App\PagoBalance  $pagoBalance
      * @return \Illuminate\Http\Response
      */
-    public function edit(PagoBalance $pagoBalance)
+    public function edit(Request $request, PagoBalance $pagoBalance)
     {
-        //
+        $idProduccionTransito = $request->query('id_produccion_transito');
+        return view('pago-balance.edit',  compact('idProduccionTransito', 'pagoBalance'));
+
     }
 
     /**
@@ -104,8 +106,32 @@ class PagoBalanceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, PagoBalance $pagoBalance)
-    {
-        //
+    {   
+        // dd($pagoBalance);
+        // dd($request->get('pago_completo'));
+        $produccionTransitoId = $request->query('id_produccion_transito');
+
+        $data = $request->validate([
+            'titulo' => 'required',
+            'total' => 'required|numeric',
+            'pathfile' => 'required',
+            'descripcion' => 'required',
+            'fecha_pago' => 'required|date'
+        ]);
+            
+        $pagoBalance->titulo = $data['titulo'];
+        $pagoBalance->monto_total = $data['total'];
+        $pagoBalance->file_pago = $data['pathfile'];
+        $pagoBalance->descripcion = $data['descripcion'];
+        $pagoBalance->fecha_pago = $data['fecha_pago'];
+        $pagoBalance->pago_completo = $request->get('pago_completo') ? true : false;
+
+        $pagoBalance->save();
+
+        Session::flash('message', 'Pago Balance modificado exitosamente.');
+        Session::flash('class', 'success');
+
+        return redirect()->action('PagoBalanceController@index', compact('produccionTransitoId'));
     }
 
     /**

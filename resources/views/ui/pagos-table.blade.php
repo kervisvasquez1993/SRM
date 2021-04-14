@@ -4,9 +4,14 @@
             <tr>
                 <th><strong>ID</strong></th>
                 <th><strong>Titulo</strong></th>
-                <th class="th-description"><strong>Monto Total</strong></th>
-                <th class="th-description"><strong>%</strong></th>
+                <th class="th-description text-center"><strong>Monto Total</strong></th>
+                @if(Request::is('pago-anticipado'))
+                    <th class="th-description"><strong>%</strong></th>
+                @endif
                 <th class="th-description"><strong>Archivo</strong></th>
+                @if( Request::is('pago-balance') )
+                    <th class="th-description text-center"><strong>Pago Completo</strong></th>
+                @endif
                 <th class="th-description"><strong>Fecha Pago</strong></th>
                 <th class="th-description"><strong>Descripción</strong></th>
                 <th></th>
@@ -21,15 +26,35 @@
                     <td>
                         {{ $pago->titulo }}
                     </td>
-                    <td>
+                    <td class="text-center">
                         {{ $pago->monto_total }}
                     </td>
-                    <td class="">
-                        {{ $pago->porcentaje }}
-                    </td>
+                    @if(Request::is('pago-anticipado'))
+                        <td class="">
+                            {{ $pago->porcentaje }}
+                        </td>
+                    @endif
                     <td class="">
                         {{ $pago->file_pago }}
                     </td>
+
+                    @if( Request::is('pago-balance') )
+
+                        <td class="text-center">
+
+                            @if($pago->pago_completo)
+                                <span class="material-icons text-success">
+                                    check_circle
+                                </span>
+    
+                            @else   
+                                <span class="material-icons text-danger">
+                                    highlight_off
+                                </span>
+                            @endif
+                        </td>
+    
+                    @endif
                     <td class="">
                         {{ date('d-m-Y', strtotime($pago->fecha_pago)) }}
                     </td>
@@ -44,10 +69,10 @@
                             <i class="material-icons">mode_edit</i>
                         </a>
 
-                        <form action='{{ route("$route_name.destroy", [ $route_entity => $pago->id, 'id_produccion_transito' => $produccion_transito->id]) }}" method="POST" style="display: contents;'>
-                            @csrf
+                        <form action='{{ route("$route_name.destroy", [ $route_entity => $pago->id, 'id_produccion_transito' => $produccion_transito->id]) }}' method="POST" style="display: contents;">
                             @method('delete')
-                            <button type="submit" class="btn btn-outline-primary btn-fab btn-fab-mini btn-round"><i class="material-icons">delete</i></button>
+                            @csrf
+                            <button type="submit" class="btn btn-outline-primary btn-fab btn-fab-mini btn-round ml-2"><i class="material-icons">delete</i></button>
                         </form>
                     </td>
 
