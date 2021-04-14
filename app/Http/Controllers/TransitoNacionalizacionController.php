@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\TransitoNacionalizacion;
+use App\ProduccionTransito;
 use Illuminate\Http\Request;
+use App\TransitoNacionalizacion;
 
 class TransitoNacionalizacionController extends Controller
 {
@@ -12,9 +13,12 @@ class TransitoNacionalizacionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $produccionTransito = ProduccionTransito::find( $request->get('produccionTransitoId') );
+        $transitos = $produccionTransito->transitosNacionalizacion;
+
+        return view('transito-nacionalizacion.index', compact('transitos', 'produccionTransito'));
     }
 
     /**

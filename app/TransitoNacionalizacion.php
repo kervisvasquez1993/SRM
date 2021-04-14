@@ -10,4 +10,9 @@ class TransitoNacionalizacion extends Model
     {
         return $this->hasOne(RecepcionReclamoDevolucion::class);
     }
+
+    public function produccionTransito()
+    {
+        return $this->hasOne(ProduccionTransito::class, 'produccion_transito_id');
+    }
 }

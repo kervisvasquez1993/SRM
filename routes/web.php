@@ -77,6 +77,9 @@ Route::get('/', function () {
     
     // Pago Balance
     Route::resource('/pago-balance', 'PagoBalanceController');
+    
+    // Transito Nacionalizacion
+    Route::resource('/transito-nacionalizacion', 'TransitoNacionalizacionController');
 
 
     // usuarios
