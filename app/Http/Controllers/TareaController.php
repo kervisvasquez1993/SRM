@@ -19,9 +19,10 @@ class TareaController extends Controller
     
      public function index(Request $request)
     {   
-        $usuarios = User::all();
+        $usuarios = User::where('rol', 'comprador')->get();
         $tareas = Tarea::all();
-        return view('task.index', compact('tareas', 'usuarios'));
+        $date = Carbon::class;
+        return view('task.index', compact('tareas', 'usuarios', 'date'));
     }
 
     /**
@@ -51,7 +52,8 @@ class TareaController extends Controller
         $data = request()->validate([
             'nombre'      => 'required',
             'user_id'     => 'required',
-            'descripcion' => 'required'
+            'descripcion' => 'required ',
+            'fecha_fin'  =>  'required | date | after: 0 days'
         ]);
         $tarea = new Tarea();
         $tarea->nombre = $request->nombre;
@@ -77,7 +79,8 @@ class TareaController extends Controller
         $proveedores = $tarea->proveedor;
         $noAprovado  = $proveedores->where('aprovado', 0);
         $aprovado  = $proveedores->where('aprovado', 1);
-        return view('task.show', compact('tarea', 'noAprovado', 'aprovado'));
+        $date = Carbon::class;
+        return view('task.show', compact('tarea', 'noAprovado', 'aprovado' ,'date'));
     }
 
     /**

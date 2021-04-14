@@ -63,7 +63,7 @@
 
 
 <div class="form-group mb-10">
-    <button class="btn btn-primary" type="submit">Enviar</button>
-    <button class="btn btn-success" type="reset" name="reset">Limpiar</button>
+    <button class="btn btn-sm btn-outline-success btn-round" type="submit">Enviar</button>
+    <button class="btn btn-sm btn-outline-warning btn-round" type="reset" name="reset">Limpiar</button>
 </div>
 {{-- MERGE  --}}

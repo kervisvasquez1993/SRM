@@ -11,6 +11,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 // Axios
 window.axios = require('axios');
 window.Vue = require('vue');
+require('./script')
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -24,6 +25,7 @@ window.Vue = require('vue');
 
 Vue.use(VueSweetalert2)
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('status-colors', require('./components/StatusColors.vue').default);
 /* Vue.component('agregar-nueva-tarea', require('./components/AgregarNuevaTarea.vue').default);
 Vue.component('estado-negociar', require('./components/EstadoNegociar.vue').default); */
 
@@ -38,6 +40,3 @@ const app = new Vue({
     el: '#app',
 });
 
-$(function () {
-    $('#datetimepicker1').datetimepicker();
-});

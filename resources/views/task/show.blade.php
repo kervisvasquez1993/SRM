@@ -1,38 +1,91 @@
 @extends('admin.dashboar')
 @section('content')
-
+@php
+$fecha_asignada   = $date::parse(date('d-M-Y', strtotime($tarea->fecha_fin)));
+if($fecha_asignada > $date::now())
+{
+  $fecha_restantes  = $fecha_asignada->diffInDays($date::now());
+}
+else
+{
+  $fecha_restantes  = 0; 
+}
+$dias_creacion    = $date::parse(date('d-M-Y', strtotime($tarea->created_at)));
+$dias_totales     =  $fecha_asignada->diffInDays($dias_creacion);
+if($dias_totales == 0)
+{
+   $porcentaje = 100;
+}
+else 
+{
+  $porcentaje =  round(($fecha_restantes * 100) / $dias_totales);   
+}
+@endphp
 <div class="content">
+  @if (session('aprobado'))
+  <div class="alert alert-success" role="alert">
+      {{ session('aprobado') }}
+  </div>
+ @endif
 <div class="container-fluid">
     <div class="row">
       <div class="container-fluid">
         <a href="#" type="button" 
-        class="btn btn-primary btn-sm" 
+        class="btn btn-sm btn-outline-primary btn-round" 
         data-id_tarea={{$tarea->id}}
         data-toggle="modal" data-target="#abrirmodalEditar"
          >
-        Agregar Empresa
+            Agregar Empresa
         </a>
         <a href="{{route('proveedor-negociacion')}}" type="button" 
-        class="btn btn-info btn-sm" 
-       
+        class="btn btn-sm btn-outline-primary btn-round" 
          >
-        Empresas en Negociacion {{$aprovado->count()}}
-        </a>       
+            <span class="font-weight-bold">
+                Empresas en Negociacion {{$aprovado->count()}}
+            </span>
+        </a>    
       </div>
-         @if (session('aprobado'))
-             <div class="alert alert-success" role="alert">
-                 {{ session('aprobado') }}
-             </div>
-         @endif
+        
         <div class="col-md-12">
           <div class="row">
-              <h3 class="navbar-brand font-weight-bold" >{{$tarea->nombre}}. Finalizacion :{{ date('d-M-Y', strtotime($tarea->fecha_fin))}}</h3>
-              <p class=""></p>
-              <p>
-                {{$tarea->descripcion}}
-              </p>
-
-              
+            <div class="col-md-12">
+              <div class="places-buttons">
+                <div class="row">
+                  <div class="col-md-6 ml-auto mr-auto text-center">
+                    <h4 class="card-title">
+                      Detalles
+                    </h4>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-8 col-md-10 ml-auto mr-auto">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <button class="btn btn-outline-primary btn-round" onclick="md.showNotification('top','left')">Nombre de Tarea : {{$tarea->nombre}}</button>
+                      </div>
+                      <div class="col-md-4">
+                        <button class="btn btn-outline-primary btn-round" onclick="md.showNotification('top','center')">Fecha de Finalizacion : {{ date('d-M-Y', strtotime($tarea->fecha_fin))}} </button>
+                      </div>
+                      <div class="col-md-4">
+                        <button class="btn btn-outline-primary btn-round" onclick="md.showNotification('top','right')">Días Totales : {{$dias_totales}} Días</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                      <button class="btn btn-outline-primary btn-round" onclick="md.showNotification('bottom','left')">Días Restante : {{$fecha_restantes}} Días restante</button>
+                  </div>
+                  <div class="col-md-4">
+                    <button class="btn btn-outline-primary btn-round" onclick="md.showNotification('bottom','left')">Finalizacion : {{$porcentaje}} %</button>
+                </div>
+                
+                </div>
+                 
+              </div>
+            </div>
+             {{$tarea->descripcion}}
+           
+            
+             
               @foreach($noAprovado as $proveedor)
                  {{-- <h3>Nombre del Proveedor:  {{$proveedor->nombre}}</h3> --}}
            

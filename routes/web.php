@@ -92,11 +92,12 @@ Route::get('/', function () {
     Route::put('/arteProduccionAprobados/{arteProduccionAprobado}', 'PivotTareaProveederController@arteProduccionAprobado')->name('arteProduccionAprobados.update');
      // Productos
     Route::resource('productos', 'ProductoController');
+    Route::post('/importProduct', 'ProductoController@import')->name('importProduct');
+    Route::get('showImport/{producto}', 'ProductoController@showImport')->name('producto.showImport');
     Route::get('/home', 'HomeController@index')->name('home');
     // Pago anticipado
     Route::resource('/pago-anticipado', 'PagoAnticipadoController');
     // Route::get('pago-anticipado/{id_pago}/delete', 'PagoAnticipadoController@destroy')->name('PagoAnticipado.destroy');
-
     // Inicio Produccion
     Route::resource('/inicio-produccion', 'InicioProduccionController');
 });

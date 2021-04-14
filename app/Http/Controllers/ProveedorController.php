@@ -68,7 +68,7 @@ class ProveedorController extends Controller
             $this->pivotTareaProveedor($id_tarea, $proveedor->id);
 
 
-            return back()->with('estado', 'Se Añadio empresa correctamente');
+            return back()->with('message', 'Se Añadio empresa correctamente');
 
 
             
@@ -77,7 +77,7 @@ class ProveedorController extends Controller
     {
         
          Proveedor::where('id', $request['name'])->update(array('aprovado' => 1));
-        return back()->with('aprobado', 'La empresa se aprobo correctamente');
+        return back()->with('message', 'La empresa se aprobo correctamente');
     }
 
     public function pivotTareaProveedor($id_tarea, $id_proveedor)

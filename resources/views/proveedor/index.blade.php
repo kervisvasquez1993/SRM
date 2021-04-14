@@ -21,7 +21,7 @@
     <div> Nombre Empresa: {{$value->proveedor->nombre}}</div>  
     <div class="d-flex">
 
-      <a href="{{ route('productos.index', ['id_proveedor' => $value->proveedor->id]) }}" type="button" class="btn btn-sm btn-success">Agregar Productos</a>          
+      <a href="{{ route('productos.index', ['id_proveedor' => $value->proveedor->id]) }}" type="button" class="btn btn-sm btn-outline-success btn-round">Agregar Productos</a>          
     
      </div>
     @endslot

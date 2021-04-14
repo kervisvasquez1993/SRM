@@ -20,6 +20,6 @@ class Artes
         {
             return $next($request);
         }
-       return back()->with('flash', 'Acceso restringido');
+       return back()->with('message', 'Acceso restringido');
     }
 }
