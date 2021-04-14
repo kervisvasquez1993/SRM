@@ -236,6 +236,8 @@ class ProductoController extends Controller
             
          }
 
+         return back()->with('message', 'datos guardados correctamente'); 
+
          
          
 

@@ -33,7 +33,7 @@
 
 
 <form 
-action="{{route('importProduct')}}" 
+action="{{route('importProduct', ['id' => $producto ])}}" 
 method="post" enctype="multipart/form-data"  
 class="m-2 @error('file') is-invalid @enderror"
 >
@@ -129,7 +129,7 @@ class="m-2 @error('file') is-invalid @enderror"
             
             // Dropzone
             const dropzoneDevJobs = new Dropzone('#dropzone', {
-                url: '/productos-import',
+                url: '/importProduct',
                 dictDefaultMessage: 'Sube aqui el archivo',
                 acceptedFiles: '.csv',
                 addRemoveLinks: true,
