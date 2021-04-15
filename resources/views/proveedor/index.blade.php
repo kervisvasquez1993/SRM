@@ -28,10 +28,48 @@
     @slot('bodyCard')
     <h6 class="font-weight-bold">Pais: {{$value->proveedor->pais}} , Ciudad: {{$value->proveedor->ciudad}} , Distrito: {{$value->proveedor->distrito}} </h6>
     <div>
-      <p>
+      @php
+          $array_pcs       = array();
+          $array_cbm       = array();
+          $array_ctn       = array();
+          $array_total_cbm = array();
+          $array_total_n_w = array();
+          $array_total_g_w = array();
+      @endphp
         @foreach($value->proveedor->productos as $productos)
-            {{$productos}}
+              <div>
+                  @php
+                      array_push($array_pcs, $productos->total_pcs);
+                      array_push($array_cbm, $productos->cbm);
+                      array_push($array_ctn, $productos->total_ctn);
+                      array_push($array_total_cbm, $productos->total_cbm);
+                      array_push($array_total_n_w, $productos->total_n_w);
+                      array_push($array_total_g_w, $productos->total_g_w);
+                  @endphp          
         @endforeach
+      
+      
+        <br>
+        @json($array_cbm)
+        <br>
+        @json($array_ctn)
+        <br>
+        @json($array_total_cbm)
+        <br>
+        @json($array_total_n_w)
+        <br>
+        @json($array_total_g_w)
+
+        <resumen-productos
+            
+        ></resumen-productos>
+
+    
+
+        
+
+
+       
       </p>
     </div>
    

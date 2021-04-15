@@ -219,7 +219,7 @@ class ProductoController extends Controller
             $producto->pcs_unit            = $array[$i][7];
             $producto->pcs_inner_box       = $array[$i][8];
             $producto->pcs_ctn             = $array[$i][9];
-            $producto->ctn_packing_size_l  =  $array[$i][10];
+            $producto->ctn_packing_size_l  = $array[$i][10];
             $producto->ctn_packing_size_w  = $array[$i][11];
             $producto->ctn_packing_size_h  = $array[$i][12];
             $producto->cbm                 = $array[$i][13];
