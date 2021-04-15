@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\ProduccionTransito;
 use Illuminate\Http\Request;
 use App\TransitoNacionalizacion;
+use Illuminate\Support\Facades\Session;
 
 class TransitoNacionalizacionController extends Controller
 {
@@ -26,9 +27,10 @@ class TransitoNacionalizacionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $idProduccionTransito = $request->query('id_produccion_transito');
+        return view('transito-nacionalizacion.create', compact('idProduccionTransito'));
     }
 
     /**
@@ -39,7 +41,26 @@ class TransitoNacionalizacionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all(), $request->query('id_produccion_transito'));
+        $produccionTransitoId = $request->query('id_produccion_transito');
+        $data = $request->validate([
+            'titulo' => 'required',
+            'descripcion' => 'required',
+        ]);
+
+        $transitoNacionalizacion = new TransitoNacionalizacion();
+
+        $transitoNacionalizacion->produccion_transito_id = $produccionTransitoId;
+        $transitoNacionalizacion->titulo = $data['titulo'];
+        $transitoNacionalizacion->descripcion = $data['descripcion'];
+
+        $transitoNacionalizacion->save();
+
+        Session::flash('message', 'Transito creado exitosamente.');
+        Session::flash('class', 'success');
+
+        return redirect()->action('TransitoNacionalizacionController@index', compact('produccionTransitoId'));
+
     }
 
     /**
