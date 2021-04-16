@@ -48,6 +48,7 @@
   </div>
 </div>
 
+
   <!--   Core JS Files   -->
   <script src="{{asset('assets/js/core/jquery.min.js')}}"></script>
   <script src="{{asset('assets/js/core/popper.min.js')}}"></script>
@@ -58,9 +59,12 @@
   <!-- Material Dashboard DEMO methods, don't include it in your project! -->
   <script>
     $(document).ready(function() {
-
-      if ($('#abrirmodalEditar'))
+      var abrirModal = document.querySelector('#abrirmodalEditar')
+      var abrirmodalEditarProveedor = document.querySelector('#abrirmodalEditarProveedor')
+      if(abrirModal)
       {
+
+        console.log('holaaaa')
          $('#abrirmodalEditar').on('show.bs.modal', function (event) {
            var button = $(event.relatedTarget) 
            var nombre_modal_tarea = button.data('tarea')
@@ -77,14 +81,15 @@
            modal.find('.modal-body #descripcion').val(nombre_modal_descripcion);
            modal.find('.modal-body #fecha_fin').val(nombre_modal_fecha_fin);
            modal.find('.modal-body #descripcion').val(descripcion_modal_editar); 
-           console.log(nombre_modal_fecha_fin)
+           
 
            
        })
       }
 
-      if ($('#abrirmodalEditarProveedor'))
+      if (abrirmodalEditarProveedor)
       {
+        console.log('testtttt')
          $('#abrirmodalEditarProveedor').on('show.bs.modal', function (event) {
            var button = $(event.relatedTarget) 
            var nombre_modal_tarea = button.data('tarea')

@@ -1993,8 +1993,42 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: []
+  props: ['cbm', 'ctn', 'total_cbm', 'total_n_w', 'total_g_w'],
+  methods: {
+    totalResultado: function totalResultado(argument) {
+      var cbmNumber = argument.map(function (element) {
+        element = element.replace(',', '.');
+        var elementNumber = parseFloat(element);
+        return elementNumber;
+      });
+      var resultado = cbmNumber.reduce(function (total, cantidad) {
+        return total + cantidad;
+      });
+      return resultado.toFixed(3);
+    }
+  },
+  computed: {
+    cbm_unit_total: function cbm_unit_total() {
+      return this.totalResultado(this.cbm);
+    },
+    ctn_total: function ctn_total() {
+      return this.totalResultado(this.ctn);
+    },
+    total_cbm_final: function total_cbm_final() {
+      return this.totalResultado(this.total_cbm);
+    },
+    total_n_w_resulta: function total_n_w_resulta() {
+      return this.totalResultado(this.total_n_w);
+    },
+    total_g_w_resulta: function total_g_w_resulta() {
+      return this.totalResultado(this.total_g_w);
+    }
+  }
 });
 
 /***/ }),
@@ -6823,7 +6857,17 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("div", [
+    _c("h4", [_vm._v(_vm._s(_vm.cbm_unit_total) + " cbm totales por unidad")]),
+    _vm._v(" "),
+    _c("h4", [_vm._v(_vm._s(_vm.ctn_total) + " ctn totales")]),
+    _vm._v(" "),
+    _c("h4", [_vm._v(_vm._s(_vm.total_cbm_final) + " total cbm")]),
+    _vm._v(" "),
+    _c("h4", [_vm._v(_vm._s(_vm.total_n_w_resulta) + " total n.w ")]),
+    _vm._v(" "),
+    _c("h4", [_vm._v(_vm._s(_vm.total_g_w_resulta) + " total g.w  ")])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
