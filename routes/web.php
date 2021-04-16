@@ -81,7 +81,8 @@ Route::get('/', function () {
     // Transito Nacionalizacion
     Route::resource('/transito-nacionalizacion', 'TransitoNacionalizacionController');
 
-
+    // Fin Produccion
+    Route::resource('/fin-produccion', 'FinProduccionController');
     // usuarios
     Route::get('/usuarios', 'TareaController@usuarios');
     

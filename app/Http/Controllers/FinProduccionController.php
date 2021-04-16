@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\FinProduccion;
+use App\ProduccionTransito;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class FinProduccionController extends Controller
 {
@@ -12,9 +14,12 @@ class FinProduccionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $produccionTransito = ProduccionTransito::find( $request->get('produccionTransitoId') );
+        $finProducciones = $produccionTransito->finProduccion;
+
+        return view('fin-produccion.index', compact('finProducciones', 'produccionTransito'));
     }
 
     /**
@@ -22,9 +27,10 @@ class FinProduccionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $idProduccionTransito = $request->query('id_produccion_transito');
+        return view('fin-produccion.create', compact('idProduccionTransito'));
     }
 
     /**
@@ -35,7 +41,27 @@ class FinProduccionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $produccionTransitoId = $request->query('id_produccion_transito');
+
+        $data = $request->validate([
+            'titulo' => 'required',
+            'descripcion' => 'required',
+        ]);
+
+        $finProduccion = new FinProduccion();
+
+        $finProduccion->produccion_transito_id = $produccionTransitoId;
+        $finProduccion->titulo = $data['titulo'];
+        $finProduccion->descripcion = $data['descripcion'];
+
+        $finProduccion->save();
+
+        Session::flash('message', 'Incidencia de Fin de Produccion creado exitosamente.');
+        Session::flash('class', 'success');
+
+        return redirect()->action('FinProduccionController@index', compact('produccionTransitoId'));
+
+
     }
 
     /**
@@ -55,9 +81,12 @@ class FinProduccionController extends Controller
      * @param  \App\FinProduccion  $finProduccion
      * @return \Illuminate\Http\Response
      */
-    public function edit(FinProduccion $finProduccion)
+    public function edit(Request $request, FinProduccion $finProduccion)
     {
-        //
+        $idProduccionTransito = $request->query('id_produccion_transito');
+
+        return view('fin-produccion.edit',  compact('idProduccionTransito', 'finProduccion'));
+
     }
 
     /**
@@ -69,7 +98,22 @@ class FinProduccionController extends Controller
      */
     public function update(Request $request, FinProduccion $finProduccion)
     {
-        //
+        $produccionTransitoId = $request->query('id_produccion_transito');
+
+        $data = $request->validate([
+            'titulo' => 'required',
+            'descripcion' => 'required',
+        ]);
+
+        $finProduccion->titulo = $data['titulo'];
+        $finProduccion->descripcion = $data['descripcion'];
+
+        $finProduccion->save();
+
+        Session::flash('message', 'Incidencia de Fin de Produccion editada exitosamente.');
+        Session::flash('class', 'success');
+
+        return redirect()->action('FinProduccionController@index', compact('produccionTransitoId'));
     }
 
     /**
@@ -78,8 +122,15 @@ class FinProduccionController extends Controller
      * @param  \App\FinProduccion  $finProduccion
      * @return \Illuminate\Http\Response
      */
-    public function destroy(FinProduccion $finProduccion)
+    public function destroy(Request $request, FinProduccion $finProduccion)
     {
-        //
+        $produccionTransitoId = $request->query('id_produccion_transito');
+
+        $finProduccion->delete();
+
+        Session::flash('message', 'Incidencia de Fin de Produccion eliminada exitosamente.');
+        Session::flash('class', 'warning');
+
+        return redirect()->action('FinProduccionController@index', compact('produccionTransitoId'));
     }
 }

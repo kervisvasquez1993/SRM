@@ -27,4 +27,9 @@ class ProduccionTransito extends Model
     {
         return $this->hasMany(TransitoNacionalizacion::class);
     }
+
+    public function finProduccion()
+    {
+        return $this->hasMany(FinProduccion::class);
+    }
 }

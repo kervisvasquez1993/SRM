@@ -89,7 +89,7 @@
                 @endif
 
                 <h5>
-                    <a href=""><strong>Fin de Producción</strong></a>: 
+                    <a href="{{ route('fin-produccion.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"><strong>Fin de Producción</strong></a>: 
                     @if($produccionTransito->transito_nacionalizacion)
                         <span class="material-icons text-success">
                             done_all
