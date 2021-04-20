@@ -35,5 +35,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PagoBalanceSeeder::class);
         $this->call(TransitoNacionalizacionSeeder::class);
         $this->call(FinProduccionSeeder::class);
+        $this->call(RecepcionReclamosDevolucionesSeeder::class);
     }
 }
