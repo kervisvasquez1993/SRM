@@ -8,6 +8,6 @@ class RecepcionReclamoDevolucion extends Model
 {
     public function ProduccionTransito()
     {
-        return $this->belongsTo(TransitoNacionalizacion::class, 'transito_nacionalizacions_id');
+        return $this->belongsTo(ProduccionTransito::class, 'produccion_transito_id');
     }
 }
