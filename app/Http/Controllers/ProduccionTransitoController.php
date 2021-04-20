@@ -30,6 +30,11 @@ class ProduccionTransitoController extends Controller
         //
     }
 
+    public function salidaPuerto()
+    {
+        
+    }
+
     /**
      * Store a newly created resource in storage.
      *

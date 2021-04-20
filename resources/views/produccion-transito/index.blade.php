@@ -118,23 +118,22 @@
                     @endif
                 </h5>
                 <h5>
-                    <a href="{{ route('transito-nacionalizacion.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}">
-                        <strong>Salida de Puerto de Origen </strong>
-                    </a>: 
-                    @if($produccionTransito->transito_nacionalizacion)
-                        <span class="material-icons text-success">
-                            done_all
-                        </span>
-
-                    @else
-                        <span class="material-icons text-danger">
-                            clear
-                        </span>
-                    @endif
-                </h5>
-
-            </div>
+                    <form  method="POST" action="{{ route('salida-puerto-origen.update', ['id' =>  $produccionTransito->id]) }}">
+                        
+                       {{--  @if($produccionTransito->ProduccionTransito)
+                            <span class="material-icons text-success">
+                                done_all
+                            </span>
     
+                        @else
+                            <span class="material-icons text-danger">
+                                clear
+                            </span>
+                        @endif --}}
+                    </form>
+                </h5>
+                <salida-puerto-origen></salida-puerto-origen>
+            </div>
         </div>
     @endforeach
 

@@ -22,9 +22,6 @@
   @yield('css')
   <!-- Scripts -->
   
-  <script src="{{ asset('js/app.js') }}" defer></script>
-
-  @yield('script')
 
   <!-- Styles -->
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -274,8 +271,8 @@
       });
     });
   </script>
-
-  @yield('scripts')
+ <script src="{{ asset('js/app.js') }}"></script>
+ @yield('scripts')
 </body>
 
 </html>

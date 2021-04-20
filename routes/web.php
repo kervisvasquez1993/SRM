@@ -70,6 +70,7 @@ Route::get('/', function () {
 
     // Produccion Transito
     Route::resource('/produccion-transito', 'ProduccionTransitoController');
+    Route::put('/salida-puerto-origen/{id}', 'ProduccionTransitoController@salidaPuerto')->name('salida-puerto-origen.update');
     Route::put('/produccion-transito/inciar-produccion/{id}', 'ProduccionTransitoController@iniciarProduccion')->name('ProduccionTransito.iniciarProd');
 
     // Pago Anticipado
