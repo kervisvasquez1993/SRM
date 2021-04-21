@@ -69,7 +69,7 @@ class="m-2 @error('file') is-invalid @enderror"
                     <strong> {{__('Abjunte un archivo CSV')}}</strong>
                 </span>
             @enderror
-
+            <input type="hidden" id="id_proveedor" name="id_proveedor" value="{{$producto}}">
             <div id="dropzone" class="dropzone rounded bg-gray-100">
             
             </div>
@@ -123,13 +123,14 @@ class="m-2 @error('file') is-invalid @enderror"
     </script>
 
     <script>
+        let id_proveedor = document.getElementById('id_proveedor').value
         Dropzone.autoDiscover = false;
 
         document.addEventListener('DOMContentLoaded', function() {
             
             // Dropzone
             const dropzoneDevJobs = new Dropzone('#dropzone', {
-                url: '/importProduct',
+                url: `/importProduct/${id_proveedor}`,
                 dictDefaultMessage: 'Sube aqui el archivo',
                 acceptedFiles: '.csv',
                 addRemoveLinks: true,
@@ -141,11 +142,13 @@ class="m-2 @error('file') is-invalid @enderror"
                 }, 
                 success: ( file, response ) => {
                     document.querySelector('#error').textContent = '';
+                    console.log(response)
                 },
                 error: ( file, response ) => {
 
                     document.querySelector('#error').textContent = 'Ha ocurrido un error. Por favor verifique el formato y estructura del archivo.'
-
+                    console.log(response)
+                    console.log(this.url)
                 },
                 maxfilesexceeded: function(file) {
     

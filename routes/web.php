@@ -97,7 +97,7 @@ Route::get('/', function () {
      // Productos
     Route::resource('productos', 'ProductoController');
     Route::post('/importProduct/{id}', 'ProductoController@import')->name('importProduct');
-    Route::get('showImport/{producto}', 'ProductoController@showImport')->name('producto.showImport');
+    Route::get('showImport/{proveedor_id}', 'ProductoController@showImport')->name('producto.showImport');
     Route::get('/home', 'HomeController@index')->name('home');
     // Pago anticipado
     Route::resource('/pago-anticipado', 'PagoAnticipadoController');
