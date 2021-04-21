@@ -31,23 +31,6 @@
 
 @section('content')
 
-
-<form 
-action="{{route('importProduct', ['id' => $producto ])}}" 
-method="post" enctype="multipart/form-data"  
-class="m-2 @error('file') is-invalid @enderror"
->
-@csrf
-<input type="hidden" name="id_proveedor" value="{{$producto}}">
-<input type="file" name="file" class="">
-<button class="btn btn-outline-primary ml-3">Importar</button>
-@error('file')
-    <span class="invalid-feedback d-block" role="alert">
-        <strong> {{__('Abjunte un archivo CSV')}}</strong>
-    </span>
-@enderror
-
-</form>
     <div class="container">
         <div class="mb-5">
             <h5>
