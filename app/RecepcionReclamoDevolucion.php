@@ -11,7 +11,7 @@ class RecepcionReclamoDevolucion extends Model
         return $this->belongsTo(ProduccionTransito::class, 'produccion_transito_id');
     }
 
-    public function recepcionTransito()
+    public function recepcionMercancia()
     {
         return $this->hasMany(RecepcionMercancia::class);
     }

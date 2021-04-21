@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\RecepcionMercancia;
 use Illuminate\Http\Request;
+use App\RecepcionReclamoDevolucion;
 
 class RecepcionMercanciaController extends Controller
 {
@@ -12,9 +13,11 @@ class RecepcionMercanciaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $recepcionReclamoDevolucion = RecepcionReclamoDevolucion::find( $request->get('rcdId') );
+        $recepcionesMercancia = $recepcionReclamoDevolucion->recepcionMercancia;
+        return view('recepcion-mercancia.index', compact('recepcionesMercancia', 'recepcionReclamoDevolucion'));   
     }
 
     /**
