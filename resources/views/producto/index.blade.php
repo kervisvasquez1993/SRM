@@ -6,7 +6,7 @@
         <a
             class="btn btn-outline-primary btn-round"
             type="button"
-            href="{{ route('producto.showImport', ['producto' => $id_proveedor] ) }}"
+            href="{{ route('producto.showImport', ['proveedor_id' => $id_proveedor] ) }}"
         >
           <span class="material-icons mr-2 text-primary">
             add_circle_outline
