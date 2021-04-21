@@ -22,4 +22,14 @@ class ProduccionTransito extends Model
     {
         return $this->hasMany(PagoBalance::class);
     }
+
+    public function transitosNacionalizacion()
+    {
+        return $this->hasMany(TransitoNacionalizacion::class);
+    }
+
+    public function finProduccion()
+    {
+        return $this->hasMany(FinProduccion::class);
+    }
 }

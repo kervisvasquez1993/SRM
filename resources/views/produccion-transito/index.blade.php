@@ -48,17 +48,6 @@
 
                         <div class="d-flex text-primary pointer ml-2 align-items-center">
                             
-                            {{-- <a href="{{ route('ProduccionTransito.iniciarProd', ['id' => $produccionTransito->id]) }}">
-                                <span class="material-icons">
-                                    security_update_good
-                                </span>
-                                <small class="iniciar-prod font-weight-light">
-                                    Iniciar
-        
-                                </small>
-                            </a> --}}
-
-
                             <form action="{{ route('ProduccionTransito.iniciarProd', ['id' => $produccionTransito->id]) }}" method="POST" style="display: contents;">
                                 @csrf
                                 @method('put')
@@ -100,7 +89,7 @@
                 @endif
 
                 <h5>
-                    <a href=""><strong>Fin de Producción</strong></a>: 
+                    <a href="{{ route('fin-produccion.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"><strong>Fin de Producción</strong></a>: 
                     @if($produccionTransito->transito_nacionalizacion)
                         <span class="material-icons text-success">
                             done_all
@@ -114,7 +103,9 @@
                 </h5>
 
                 <h5>
-                    <a href=""><strong>Transito Nacionalización</strong></a>: 
+                    <a href="{{ route('transito-nacionalizacion.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}">
+                        <strong>Transito Nacionalización</strong>
+                    </a>: 
                     @if($produccionTransito->transito_nacionalizacion)
                         <span class="material-icons text-success">
                             done_all
