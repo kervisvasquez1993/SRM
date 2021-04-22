@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="d-flex flex-wrap justify-content-center">
+<div class="d-flex flex-wrap justify-content-center wrapper-card">
     @foreach($produccionTransitos as $produccionTransito )
 
         <div class="card m-3">
@@ -10,10 +10,10 @@
                 <h4><strong>Tarea</strong>: {{ $produccionTransito->pivotTable->tarea->nombre }}</h4>
                 <h4><strong>Proveedor</strong>: {{ $produccionTransito->pivotTable->proveedor->nombre }}</h4>
             </div>
-    
+
             <div class="card-body ">
                 <h5 class="d-flex align-items-center">
-                    <a href="{{ route('pago-anticipado.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"><strong>Pago Anticipado</strong></a>: 
+                    <a href="{{ route('pago-anticipado.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"><strong>Pago Anticipado</strong></a>:
                     @if($produccionTransito->pagos_anticipados)
                         <span class="material-icons text-success">
                             done_all
@@ -29,13 +29,13 @@
 
                 @if($produccionTransito->pagos_anticipados)
                     <h5>
-                        <strong>Pagado (%)</strong>: 
+                        <strong>Pagado (%)</strong>:
                         100%
                     </h5>
                 @endif
 
                 <h5 class="d-flex">
-                    <a href="{{ route('inicio-produccion.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"><strong>Inicio Producción:</strong></a>: 
+                    <a href="{{ route('inicio-produccion.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"><strong>Inicio Producción:</strong></a>:
                     @if($produccionTransito->inicio_produccion)
                         <span class="material-icons text-success">
                             done_all
@@ -47,7 +47,7 @@
                         </span>
 
                         <div class="d-flex text-primary pointer ml-2 align-items-center">
-                            
+
                             <form action="{{ route('ProduccionTransito.iniciarProd', ['id' => $produccionTransito->id]) }}" method="POST" style="display: contents;">
                                 @csrf
                                 @method('put')
@@ -57,18 +57,18 @@
                                     </span>
                                     <small class="iniciar-prod font-weight-light">
                                         Iniciar
-            
+
                                     </small>
                                 </button>
                             </form>
                         </div>
                     @endif
-                    
+
 
                 </h5>
 
                 <h5>
-                    <a href="{{ route('pago-balance.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"><strong>Pago de Balance:</strong></a>: 
+                    <a href="{{ route('pago-balance.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"><strong>Pago de Balance:</strong></a>:
                     @if($produccionTransito->pago_balance)
                         <span class="material-icons text-success">
                             done_all
@@ -89,7 +89,7 @@
                 @endif
 
                 <h5>
-                    <a href="{{ route('fin-produccion.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"><strong>Fin de Producción</strong></a>: 
+                    <a href="{{ route('fin-produccion.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"><strong>Fin de Producción</strong></a>:
                     @if($produccionTransito->transito_nacionalizacion)
                         <span class="material-icons text-success">
                             done_all
@@ -105,7 +105,7 @@
                 <h5>
                     <a href="{{ route('transito-nacionalizacion.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}">
                         <strong>Transito Nacionalización</strong>
-                    </a>: 
+                    </a>:
                     @if($produccionTransito->transito_nacionalizacion)
                         <span class="material-icons text-success">
                             done_all
@@ -118,21 +118,20 @@
                     @endif
                 </h5>
                 <h5>
-                    <form  method="POST" action="{{ route('salida-puerto-origen.update', ['id' =>  $produccionTransito->id]) }}">
-                        
-                       {{--  @if($produccionTransito->ProduccionTransito)
-                            <span class="material-icons text-success">
-                                done_all
-                            </span>
-    
-                        @else
-                            <span class="material-icons text-danger">
-                                clear
-                            </span>
-                        @endif --}}
-                    </form>
-                </h5>
-                <salida-puerto-origen></salida-puerto-origen>
+                    <a href="#">
+                        <strong>Salida de Puerto Origen</strong>
+                    </a>:
+                    <span class="form-check">
+                            <label class="form-check-label">
+                              <input class="form-check-input" type="checkbox" value="{{$produccionTransito->id}}">
+                              <span class="form-check-sign">
+                                <span class="check"></span>
+                              </span>
+                            </label>
+                    </span>
+                    
+                
+
             </div>
         </div>
     @endforeach
@@ -151,7 +150,7 @@
         </div>
     @endif
 
-</div>   
+</div>
 
 
 @endsection
@@ -182,7 +181,7 @@
     </style>
 @endsection
 
-@section('script')
+@section('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
@@ -191,5 +190,31 @@
                 }
             }, 2000);
         });
+        
+        {{--  selecionar elemento para enviar  --}}
+        cargarEventListener();
+
+        function cargarEventListener()
+        {
+            let wrapperCard = document.querySelector('.wrapper-card')
+            wrapperCard.addEventListener('click', function(e){
+                if(e.target.classList.contains('form-check-input'))
+                {
+                    let checkOut = e.target.checked
+                    if(checkOut)
+                    {
+                        let id = e.target.value
+                        axios.put(`/salida-puerto-origen/${id}`)
+                        .then(response => console.log(response.data))
+                    }
+                    else{
+                        e.target.checked = true
+
+                    }
+                }
+                
+            })
+        }
+
     </script>
 @endsection

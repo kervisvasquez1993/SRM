@@ -30,9 +30,11 @@ class ProduccionTransitoController extends Controller
         //
     }
 
-    public function salidaPuerto()
+    public function salidaPuerto($id)
     {
         
+        $produccionTransito = ProduccionTransito::findOrfiel('id', $id);
+        return response()->json($id);
     }
 
     /**

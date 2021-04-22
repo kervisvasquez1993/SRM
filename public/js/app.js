@@ -6850,8 +6850,10 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "salida-puerto" }, [
-      _c("p", {}, [_vm._v("Salida de Puerto")]),
-      _vm._v(" :\n    "),
+      _c("a", { attrs: { href: "#" } }, [
+        _c("strong", [_vm._v("Salida de Puerto Origen: ")])
+      ]),
+      _vm._v(" "),
       _c("div", { staticClass: "center-checkbox" }, [
         _c("input", { attrs: { type: "checkbox", name: "" } }),
         _vm._v(" "),
@@ -19375,8 +19377,8 @@ document.addEventListener('DOMContentLoaded', function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /var/www/html/SRMDynamics/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /var/www/html/SRMDynamics/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /var/www/html/srm/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /var/www/html/srm/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

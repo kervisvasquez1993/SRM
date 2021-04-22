@@ -1,6 +1,6 @@
 <template>
         <div class="salida-puerto">
-            <p class="">Salida de Puerto</p> :
+             <a href="#"><strong>Salida de Puerto Origen: </strong></a>
             <div class="center-checkbox">
                         <input type="checkbox" name="">
                         <span class="span">On</span>
@@ -10,6 +10,7 @@
 </template>
 <script>
 export default {
-    
+
+
 }
 </script>
