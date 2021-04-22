@@ -118,19 +118,19 @@
                     @endif
                 </h5>
                 <h5>                   
-                     <span class="form-check d-flex justify-content-around">
+                     <span class="form-check d-flex justify-content-start">
                         <a href="">
                             Salida de Puerto Origen :
                         </a>
                         
-                            <label class="form-check-label">
+                            <label class="form-check-label mx-3">
                               <input class="form-check-input" type="checkbox" value="{{$produccionTransito->id}}" {{$produccionTransito->salida_puero_origen ? 'checked' : ''}}>
                               <span class="form-check-sign">
                                 <span class="check"></span>
                               </span>
                             </label>
                     </span>
-                    
+                </h5>   
                 
 
             </div>
@@ -190,19 +190,37 @@
                     document.getElementById('toast').style.display = 'none';
                 }
             }, 2000);
-        });
-        
-        {{--  selecionar elemento para enviar  --}}
+        });  
         cargarEventListener();
 
         function cargarEventListener()
         {
-            let wrapperCard = document.querySelector('.wrapper-card')
+            let wrapperCard = document.querySelector('.wrapper-card'),
+                card        = document.querySelectorAll('.card'),
+                cardArray   = Array.from(card);
+                cardArray.forEach(element => {
+                    let newElement      = element.querySelectorAll('.material-icons')
+                       let disableButon = 'vacio'
+                       let arrayEle = Array.from(newElement)
+                       console.log('=======**********=========')
+
+                       console.log(disableButon)
+                       console.log(arrayEle)
+                       
+                       
+                    
+                })
+                
+                
+            
             wrapperCard.addEventListener('click', function(e){
                 if(e.target.classList.contains('form-check-input'))
                 {
-                    let checkOut = e.target.checked
+                    let checkOut = e.target.checked;
                     let csrfToken = document.head.querySelector("[name~=csrf-token][content]").content; 
+                    
+                    
+                    
                     if(checkOut)
                     {
                         let id = e.target.value
@@ -215,22 +233,7 @@
                         })
                         .then(response => response.json())
                         .then( data => console.log(data) )
-                        .catch(e => console.log(e))
-                        
-                       /* let id = e.target.value
-                     
-                        axios.put(`/salida-puerto-origen/${id}`, {
-                            method: 'patch',
-                            headers: {"X-CSRFToken": csrfToken}
-                        })
-                        .then(
-                            
-                            response => console.log(response.data)
-
-                            )
-                            */
-                            
-                           
+                        .catch(e => console.log(e))                      
                     }
                     else{
                         e.target.checked = true

@@ -36,7 +36,8 @@ class ProduccionTransitoController extends Controller
         $produccionTransito = ProduccionTransito::where('id', $id)->get();
         $produccionTransito[0]->salida_puero_origen = 1;
         $produccionTransito[0]->save();
-        return response()->json($produccionTransito[0]);
+        return response()->json($produccionTransito[0]); 
+
     }
 
     /**
