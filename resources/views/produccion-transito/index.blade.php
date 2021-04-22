@@ -223,24 +223,7 @@
 
         function cargarEventListener()
         {
-            let wrapperCard = document.querySelector('.wrapper-card'),
-                card        = document.querySelectorAll('.card'),
-                cardArray   = Array.from(card);
-                cardArray.forEach(element => {
-                    let newElement      = element.querySelectorAll('.material-icons')
-                       let disableButon = 'vacio'
-                       let arrayEle = Array.from(newElement)
-                       console.log('=======**********=========')
-
-                       console.log(disableButon)
-                       console.log(arrayEle)
-                       
-                       
-                    
-                })
-                
-                
-            
+            let wrapperCard = document.querySelector('.wrapper-card');            
             wrapperCard.addEventListener('click', function(e){
                 if(e.target.classList.contains('form-check-input'))
                 {
