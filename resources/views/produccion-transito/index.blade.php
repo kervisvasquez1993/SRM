@@ -3,14 +3,17 @@
 @section('content')
 
 <div class="d-flex flex-wrap justify-content-center wrapper-card">
+   
     @foreach($produccionTransitos as $produccionTransito )
-
+    @php
+    $contador = 0 ;
+@endphp
         <div class="card m-3">
             <div class="card-header d-inline-flex justify-content-around flex-wrap">
                 <h4><strong>Tarea</strong>: {{ $produccionTransito->pivotTable->tarea->nombre }}</h4>
                 <h4><strong>Proveedor</strong>: {{ $produccionTransito->pivotTable->proveedor->nombre }}</h4>
             </div>
-
+            
             <div class="card-body ">
                 <h5 class="d-flex align-items-center">
                     <a href="{{ route('pago-anticipado.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"><strong>Pago Anticipado</strong></a>:
@@ -18,7 +21,7 @@
                         <span class="material-icons text-success">
                             done_all
                         </span>
-
+                        {{$contador++}}
                     @else
                         <span class="material-icons text-danger">
                             clear
@@ -39,6 +42,7 @@
                     @if($produccionTransito->inicio_produccion)
                         <span class="material-icons text-success">
                             done_all
+                            {{$contador++}}
                         </span>
 
                     @else
@@ -72,6 +76,8 @@
                     @if($produccionTransito->pago_balance)
                         <span class="material-icons text-success">
                             done_all
+                            {{$contador++}}
+                            
                         </span>
 
                     @else
@@ -93,6 +99,7 @@
                     @if($produccionTransito->transito_nacionalizacion)
                         <span class="material-icons text-success">
                             done_all
+                            {{$contador++}}
                         </span>
 
                     @else
@@ -109,6 +116,7 @@
                     @if($produccionTransito->transito_nacionalizacion)
                         <span class="material-icons text-success">
                             done_all
+                            {{$contador++}}
                         </span>
 
                     @else
@@ -117,18 +125,33 @@
                         </span>
                     @endif
                 </h5>
-                <h5>                   
+                @php
+                    $disabled = 'disabled';
+                    $bgAlert = 'bg-danger';
+                @endphp
+                @if($contador >= 5)
+                    @php
+                    $disabled = '';
+                    $bgAlert  = 'bg-success'; 
+                    @endphp
+                
+                @endif
+                
+                <h5 class="py-1 d-flex  justify-content-start align-items-center">  
+                                     
                      <span class="form-check d-flex justify-content-start">
+                        <div class="circle {{$bgAlert}} mx-1"></div>
                         <a href="">
                             Salida de Puerto Origen :
                         </a>
                         
                             <label class="form-check-label mx-3">
-                              <input class="form-check-input" type="checkbox" value="{{$produccionTransito->id}}" {{$produccionTransito->salida_puero_origen ? 'checked' : ''}}>
+                              <input class="form-check-input" type="checkbox" value="{{$produccionTransito->id}}" {{$disabled}} {{$produccionTransito->salida_puero_origen ? 'checked' : ''}}>
                               <span class="form-check-sign">
                                 <span class="check"></span>
                               </span>
                             </label>
+                            
                     </span>
                 </h5>   
                 
@@ -158,6 +181,11 @@
 
 @section('ccs_file')
     <style>
+        .circle{
+            width:20px;
+            height: 20px;
+            border-radius: 50%;
+        }
         .card {
             max-width: 300px;
         }
