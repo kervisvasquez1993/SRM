@@ -87,8 +87,12 @@ Route::get('/', function () {
     Route::resource('/fin-produccion', 'FinProduccionController');
     // usuarios
     Route::get('/usuarios', 'TareaController@usuarios');
+
+    // Reclamos y devoluciones
+    Route::resource('/reclamos-devoluciones', 'RecepcionReclamoDevolucionController');
     
-    
+    // Recepcion mercancia
+    Route::resource('/recepcion-mercancias', 'RecepcionMercanciaController');
   
     
     /* fin arte aprobado */

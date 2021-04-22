@@ -14,7 +14,8 @@ class RecepcionReclamoDevolucionController extends Controller
      */
     public function index()
     {
-        //
+        $recepcionReclamoDevolucion = RecepcionReclamoDevolucion::all();
+        return view('reclamos-devoluciones.index', compact('recepcionReclamoDevolucion'));
     }
 
     /**
