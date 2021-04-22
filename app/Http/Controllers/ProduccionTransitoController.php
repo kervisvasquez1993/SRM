@@ -33,8 +33,10 @@ class ProduccionTransitoController extends Controller
     public function salidaPuerto($id)
     {
         
-        $produccionTransito = ProduccionTransito::findOrfiel('id', $id);
-        return response()->json($id);
+        $produccionTransito = ProduccionTransito::where('id', $id)->get();
+        $produccionTransito[0]->salida_puero_origen = 1;
+        $produccionTransito[0]->save();
+        return response()->json($produccionTransito[0]);
     }
 
     /**

@@ -117,13 +117,14 @@
                         </span>
                     @endif
                 </h5>
-                <h5>
-                    <a href="#">
-                        <strong>Salida de Puerto Origen</strong>
-                    </a>:
-                    <span class="form-check">
+                <h5>                   
+                     <span class="form-check d-flex justify-content-around">
+                        <a href="">
+                            Salida de Puerto Origen :
+                        </a>
+                        
                             <label class="form-check-label">
-                              <input class="form-check-input" type="checkbox" value="{{$produccionTransito->id}}">
+                              <input class="form-check-input" type="checkbox" value="{{$produccionTransito->id}}" {{$produccionTransito->salida_puero_origen ? 'checked' : ''}}>
                               <span class="form-check-sign">
                                 <span class="check"></span>
                               </span>
@@ -201,11 +202,35 @@
                 if(e.target.classList.contains('form-check-input'))
                 {
                     let checkOut = e.target.checked
+                    let csrfToken = document.head.querySelector("[name~=csrf-token][content]").content; 
                     if(checkOut)
                     {
                         let id = e.target.value
-                        axios.put(`/salida-puerto-origen/${id}`)
-                        .then(response => console.log(response.data))
+                        fetch(`/salida-puerto-origen/${id}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': csrfToken
+                            }
+                        })
+                        .then(response => response.json())
+                        .then( data => console.log(data) )
+                        .catch(e => console.log(e))
+                        
+                       /* let id = e.target.value
+                     
+                        axios.put(`/salida-puerto-origen/${id}`, {
+                            method: 'patch',
+                            headers: {"X-CSRFToken": csrfToken}
+                        })
+                        .then(
+                            
+                            response => console.log(response.data)
+
+                            )
+                            */
+                            
+                           
                     }
                     else{
                         e.target.checked = true
