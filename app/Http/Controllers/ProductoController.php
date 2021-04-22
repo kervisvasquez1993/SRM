@@ -187,28 +187,29 @@ class ProductoController extends Controller
         return view('producto.showImport',compact('producto'));
     }
 
-    public function import(Request $request)
+    public function import(Request $request, $proveedor_id)
     {
         
         
         $request->validate([
             'file' => 'required'
          ]) ;
-
+        
          $path = $request->file('file');
+         
          $archivos = file($path);
          $archivos = file($path);
          $producto = "" ;
          $data = $this->convert_from_latin1_to_utf8_recursively($archivos);
          $utf8_archivos = array_map('utf8_decode', $data);
          $array =  array_map('str_getcsv', $utf8_archivos); 
-         /* return $array[1][1];  */
+           /* return response()->json($request); *//* $array; */  
         $i = 1;
          for($i ; $i < sizeof($array) ; $i++)
          {
             
             $producto = new Producto();
-            $producto->proveedor_id        = $request->id_proveedor;
+            $producto->proveedor_id        = $proveedor_id;
             $producto->hs_code             = $array[$i][0];   
             $producto->product_code        = $array[$i][1];
             $producto->brand               = $array[$i][2];
@@ -219,7 +220,7 @@ class ProductoController extends Controller
             $producto->pcs_unit            = $array[$i][7];
             $producto->pcs_inner_box       = $array[$i][8];
             $producto->pcs_ctn             = $array[$i][9];
-            $producto->ctn_packing_size_l  =  $array[$i][10];
+            $producto->ctn_packing_size_l  = $array[$i][10];
             $producto->ctn_packing_size_w  = $array[$i][11];
             $producto->ctn_packing_size_h  = $array[$i][12];
             $producto->cbm                 = $array[$i][13];
@@ -235,6 +236,10 @@ class ProductoController extends Controller
             
             
          }
+
+         return response()->json($proveedor_id);
+
+         return back()->with('message', 'datos guardados correctamente'); 
 
          
          

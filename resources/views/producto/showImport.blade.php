@@ -31,23 +31,6 @@
 
 @section('content')
 
-
-<form 
-action="{{route('importProduct')}}" 
-method="post" enctype="multipart/form-data"  
-class="m-2 @error('file') is-invalid @enderror"
->
-@csrf
-<input type="hidden" name="id_proveedor" value="{{$producto}}">
-<input type="file" name="file" class="">
-<button class="btn btn-outline-primary ml-3">Importar</button>
-@error('file')
-    <span class="invalid-feedback d-block" role="alert">
-        <strong> {{__('Abjunte un archivo CSV')}}</strong>
-    </span>
-@enderror
-
-</form>
     <div class="container">
         <div class="mb-5">
             <h5>
@@ -69,7 +52,7 @@ class="m-2 @error('file') is-invalid @enderror"
                     <strong> {{__('Abjunte un archivo CSV')}}</strong>
                 </span>
             @enderror
-
+            <input type="hidden" id="id_proveedor" name="id_proveedor" value="{{$producto}}">
             <div id="dropzone" class="dropzone rounded bg-gray-100">
             
             </div>
@@ -123,13 +106,14 @@ class="m-2 @error('file') is-invalid @enderror"
     </script>
 
     <script>
+        let id_proveedor = document.getElementById('id_proveedor').value
         Dropzone.autoDiscover = false;
 
         document.addEventListener('DOMContentLoaded', function() {
             
             // Dropzone
             const dropzoneDevJobs = new Dropzone('#dropzone', {
-                url: '/productos-import',
+                url: `/importProduct/${id_proveedor}`,
                 dictDefaultMessage: 'Sube aqui el archivo',
                 acceptedFiles: '.csv',
                 addRemoveLinks: true,
@@ -141,11 +125,13 @@ class="m-2 @error('file') is-invalid @enderror"
                 }, 
                 success: ( file, response ) => {
                     document.querySelector('#error').textContent = '';
+                    console.log(response)
                 },
                 error: ( file, response ) => {
 
                     document.querySelector('#error').textContent = 'Ha ocurrido un error. Por favor verifique el formato y estructura del archivo.'
-
+                    console.log(response)
+                    console.log(this.url)
                 },
                 maxfilesexceeded: function(file) {
     
