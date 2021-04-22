@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ProduccionTransito;
+use App\RecepcionReclamoDevolucion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -36,7 +37,10 @@ class ProduccionTransitoController extends Controller
         $produccionTransito = ProduccionTransito::where('id', $id)->get();
         $produccionTransito[0]->salida_puero_origen = 1;
         $produccionTransito[0]->save();
-        return response()->json($produccionTransito[0]); 
+        $reclamos = new RecepcionReclamoDevolucion();
+        $reclamos->produccion_transito_id = $id;
+        $reclamos->save();
+        return response()->json('Cambios guardados correctamentes'); 
 
     }
 
