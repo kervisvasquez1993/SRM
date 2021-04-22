@@ -90,7 +90,7 @@ Route::get('/', function () {
     Route::resource('/reclamos-devoluciones', 'RecepcionReclamoDevolucionController');
     
     // Recepcion mercancia
-    Route::resource('/recepcion-mercancia', 'RecepcionMercanciaController');
+    Route::resource('/recepcion-mercancias', 'RecepcionMercanciaController');
   
     
     /* fin arte aprobado */

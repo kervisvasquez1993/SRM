@@ -15,7 +15,7 @@
 
                 <div class="card-body">
                     <h5 class="d-flex align-items-center">
-                        <a href="{{ route('recepcion-mercancia.index', ['rcdId' => $rcd->id]) }}">
+                        <a href="{{ route('recepcion-mercancias.index', ['rcdId' => $rcd->id]) }}">
                             <strong>
                                 Recepción Mercancía
                             </strong>
