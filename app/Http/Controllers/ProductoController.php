@@ -204,8 +204,8 @@ class ProductoController extends Controller
          $utf8_archivos = array_map('utf8_decode', $data);
          $array =  array_map('str_getcsv', $utf8_archivos); 
            /* return response()->json($request); *//* $array; */  
-        $i = 1;
-         for($i ; $i < sizeof($array) ; $i++)
+         
+         for($i = 1 ; $i < sizeof($array) ; $i++)
          {
             
             $producto = new Producto();
