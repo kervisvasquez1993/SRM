@@ -50,6 +50,24 @@
           </a>
         </li>
         @endif
+
+        @if(Auth::user()->rol == "comprador" || Auth::user()->rol == "coordinador" )
+        <li class="nav-item ">
+          <a class="nav-link" href="{{route('produccion-transito.index')}}">
+            <i class="material-icons">person</i>
+            <p>Produccion y Transito</p>
+          </a>
+        </li>
+        @endif
+     
+        @if(Auth::user()->rol == "comprador" || Auth::user()->rol == "coordinador" )
+        <li class="nav-item ">
+          <a class="nav-link" href="{{route('reclamos-devoluciones.index')}}">
+            <i class="material-icons">person</i>
+            <p>Reclamos y Devoluciones</p>
+          </a>
+        </li>
+        @endif
       </ul>
     </div> 
   </div>
