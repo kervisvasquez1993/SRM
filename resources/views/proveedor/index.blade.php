@@ -47,6 +47,7 @@
             :total_g_w = "{{json_encode($array_total_g_w)}}"
 
         ></resumen-productos>
+       
     
    
 

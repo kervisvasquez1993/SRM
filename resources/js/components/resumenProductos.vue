@@ -1,11 +1,65 @@
 <template>
-    <div>
-       <h4>{{cbm_unit_total}} cbm totales por unidad</h4>
-       <h4>{{ctn_total}} ctn totales</h4>
-       <h4>{{total_cbm_final}} total cbm</h4>
-       <h4>{{total_n_w_resulta}} total n.w </h4>
-       <h4>{{total_g_w_resulta}} total g.w  </h4>
+    <div class="">
+       
+             
+             <div class="card">
+  
+                <div class="card-header d-flex justify-content-around flex-wrap">
+                    <h4><strong>Nombre</strong>: {{  }}</h4>
+                    <h4><strong>Marca</strong>: {{  }}</h4>
+                    <h4><strong>Código</strong>: {{  }}</h4>
+                    <h4><strong>Código HS</strong>: {{  }}</h4>
+
+                </div>
+
+                <div class="card-body">
+                    <div class="d-flex flex-wrap">
+                        <p><strong>Descripción</strong>: {{  }}</p>
+                    </div>
+
+                    <div class="d-flex flex-column justify-content-between flex-sm-row">
+
+                        <div class="d-flex flex-column">
+                            <h5><strong>cbm totales por unidad</strong>: {{cbm_unit_total}}</h5>
+                            <h5><strong>ctn totales</strong>: {{total_cbm_final}}</h5>
+                            <h5><strong>total cbm</strong>: {{total_cbm_final}}</h5>
+                            <h5><strong>total n.w</strong>: {{total_n_w_resulta}}  </h5>
+                            <h5><strong>total g.w</strong>:  {{total_g_w_resulta}}</h5>
+                        </div>
+
+                        <div class="d-flex flex-column">
+                            <h5><strong>Alto Carton (cm)</strong>: {{  }}</h5>
+                            <h5><strong>Ancho Carton (cm)</strong>: {{  }}</h5>
+                            <h5><strong>CBM</strong>: {{  }}</h5>
+                            <h5><strong>Peso Neto (kg)</strong>: {{  }}</h5>
+                            <h5><strong>Peso Bruto (kg)</strong>: {{  }}</h5>
+                        </div>
+
+                        <div class="d-flex flex-column">
+                            <h5><strong>Total CBM</strong>: {{  }}</h5>
+                            <h5><strong>Total Peso Neto (kg)</strong>: {{  }}</h5>
+                            <h5><strong>Total Peso Bruto (kg)</strong>: {{  }}</h5>
+                            <h5><strong>Total CTN</strong>: {{  }}</h5>
+                            <h5><strong>Corregido Total PCS</strong>: {{  }}</h5>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                 
+                       <span class="material-icons">
+                         edit
+                       </span>
+                       <span class="text-primary">
+                       </span>
+                     </a>
+                 </div>
+            </div>
+    
     </div>
+
+    
 </template>
 <script>
 export default {
