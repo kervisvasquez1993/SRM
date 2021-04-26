@@ -51,7 +51,7 @@
                     </h5>
 
                     <h5 class="d-flex align-items-center">
-                        <a href="">
+                        <a href="{{ route('reclamo-devoluciones.index', ['rcdId' => $rcd->id]) }}">
                             <strong>
                                 Reclamos Devoluciones
                             </strong>

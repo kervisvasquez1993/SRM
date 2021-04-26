@@ -94,6 +94,9 @@ Route::get('/', function () {
     
     // Inspeccion carga
     Route::resource('/inspeccion-cargas', 'InspeccionCargaController');
+
+    // Reclamo Devolucion
+    Route::resource('/reclamo-devoluciones', 'ReclamosDevolucioneController');
   
     
     /* fin arte aprobado */
