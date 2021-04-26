@@ -32,13 +32,19 @@
 
                         <td class="d-flex">
                             <a
-                                href="{{ route('recepcion-mercancias.edit', ['recepcion_mercancia' => $incidencia->id, 'rcdId' => $rcdId]) }}"
+                                {{-- href="{{ route('recepcion-mercancias.edit', ['recepcion_mercancia' => $incidencia->id, 'rcdId' => $rcdId]) }}" --}}
+                                href='{{ route("$route_name.edit", [ $route_entity => $incidencia->id, "rcdId" => $rcdId]) }}'
                                 class="btn btn-outline-primary btn-fab btn-fab-mini btn-round"
                             >
                                 <i class="material-icons">mode_edit</i>
                             </a>
     
-                            <form action="{{ route('recepcion-mercancias.destroy', ['recepcion_mercancia' => $incidencia->id, 'rcdId' => $rcdId]) }}" method="POST" style="display: contents;">
+                            <form 
+                                {{-- action="{{ route('recepcion-mercancias.destroy', ['recepcion_mercancia' => $incidencia->id, 'rcdId' => $rcdId]) }}"  --}}
+                                action='{{ route("$route_name.destroy", [ $route_entity => $incidencia->id, 'rcdId' => $rcdId]) }}'
+                                method="POST" 
+                                style="display: contents;"
+                            >
                                 @method('delete')
                                 @csrf
                                 <button type="submit" class="btn btn-outline-primary btn-fab btn-fab-mini btn-round ml-2"><i class="material-icons">delete</i></button>

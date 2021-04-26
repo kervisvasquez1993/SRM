@@ -80,9 +80,11 @@ class InspeccionCargaController extends Controller
      * @param  \App\InspeccionCarga  $inspeccionCarga
      * @return \Illuminate\Http\Response
      */
-    public function edit(InspeccionCarga $inspeccionCarga)
+    public function edit(Request $request, InspeccionCarga $inspeccionCarga)
     {
-        //
+        $rcdId =  $request->get('rcdId');
+
+        return view('inspeccion-carga.edit', compact('inspeccionCarga', 'rcdId'));
     }
 
     /**
@@ -94,7 +96,22 @@ class InspeccionCargaController extends Controller
      */
     public function update(Request $request, InspeccionCarga $inspeccionCarga)
     {
-        //
+        $rcdId =  $request->get('rcdId');
+
+        $data = $request->validate([
+            'titulo' => 'required',
+            'descripcion' => 'required',
+        ]);
+
+        $inspeccionCarga->titulo = $data['titulo'];
+        $inspeccionCarga->descripcion = $data['descripcion'];
+
+        $inspeccionCarga->save();
+
+        Session::flash('message', 'Incidencia de Inspección de Carga editada exitosamente.');
+        Session::flash('class', 'success');
+
+        return redirect()->action('InspeccionCargaController@index', compact('rcdId'));
     }
 
     /**
@@ -103,8 +120,15 @@ class InspeccionCargaController extends Controller
      * @param  \App\InspeccionCarga  $inspeccionCarga
      * @return \Illuminate\Http\Response
      */
-    public function destroy(InspeccionCarga $inspeccionCarga)
+    public function destroy(Request $request, InspeccionCarga $inspeccionCarga)
     {
-        //
+        $rcdId =  $request->get('rcdId');
+
+        $inspeccionCarga->delete();
+
+        Session::flash('message', 'Incidencia de Inspección de Carga eliminada exitosamente.');
+        Session::flash('class', 'warning');
+
+        return redirect()->action('InspeccionCargaController@index', compact('rcdId'));
     }
 }

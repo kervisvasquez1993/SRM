@@ -28,7 +28,14 @@
     </div>
 
     @if( count($inspeccionesCarga) > 0 )
-        @include('ui.r-reclamos-devoluciones', array('incidencias' => $inspeccionesCarga, 'rcdId' => $recepcionReclamoDevolucion->id))
+        @include('ui.r-reclamos-devoluciones', 
+            array(
+                'incidencias' => $inspeccionesCarga, 
+                'rcdId' => $recepcionReclamoDevolucion->id,
+                'route_name' => 'inspeccion-cargas', 
+                'route_entity' => 'inspeccion_carga'
+            )
+        )
     @else
        {{-- Empty view --}}
        @include('ui.nada-para-mostrar') 
