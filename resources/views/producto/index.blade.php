@@ -3,30 +3,34 @@
 @section('content')
     <div class="d-flex justify-content-between">
        
-        <a
-            class="btn btn-outline-primary btn-round"
-            type="button"
-            href="{{ route('producto.showImport', ['proveedor_id' => $id_proveedor] ) }}"
-        >
-          <span class="material-icons mr-2 text-primary">
-            add_circle_outline
-          </span>
-          <span class="text-primary">
-              Importar Productos
-          </span>
-        </a>
-        <a
-            class="btn btn-outline-primary btn-round"
-            type="button"
-            href="{{ route('productos.create', ['id_proveedor' => $id_proveedor] ) }}"
-        >
-          <span class="material-icons mr-2 text-primary">
-            add_circle_outline
-          </span>
-          <span class="text-primary">
-              Crear Producto
-          </span>
-        </a>
+       <div>
+            <a
+                class="btn btn-sm btn-outline-primary btn-round"
+                type="button"
+                href="{{ route('producto.showImport', ['proveedor_id' => $id_proveedor] ) }}"
+            >
+              <span class="material-icons mr-2 text-primary">
+                add_circle_outline
+              </span>
+              <span class="text-primary">
+                  Importar Productos
+              </span>
+            </a>
+            <a
+                class="btn btn-sm btn-outline-primary btn-round"
+                type="button"
+                href="{{ route('productos.create', ['id_proveedor' => $id_proveedor] ) }}"
+            >
+              <span class="material-icons mr-2 text-primary">
+                add_circle_outline
+              </span>
+              <span class="text-primary">
+                  Crear Producto
+              </span>
+            </a>
+       </div>
+       @include('ui.previous')
+        
     </div>
 
     <h4><strong>Proveedor</strong>: Empresa Proveedor {{ $id_proveedor }}</h4>
