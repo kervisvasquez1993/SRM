@@ -15,4 +15,9 @@ class RecepcionReclamoDevolucion extends Model
     {
         return $this->hasMany(RecepcionMercancia::class);
     }
+
+    public function inspeccionCarga()
+    {
+        return $this->hasMany(InspeccionCarga::class);
+    }
 }

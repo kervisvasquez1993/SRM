@@ -33,7 +33,7 @@
                     </h5>
 
                     <h5 class="d-flex align-items-center">
-                        <a href="">
+                        <a href="{{ route('inspeccion-cargas.index', ['rcdId' => $rcd->id]) }}">
                             <strong>
                                 Inspección de Carga
                             </strong>

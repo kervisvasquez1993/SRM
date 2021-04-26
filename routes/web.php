@@ -91,6 +91,9 @@ Route::get('/', function () {
     
     // Recepcion mercancia
     Route::resource('/recepcion-mercancias', 'RecepcionMercanciaController');
+    
+    // Inspeccion carga
+    Route::resource('/inspeccion-cargas', 'InspeccionCargaController');
   
     
     /* fin arte aprobado */
