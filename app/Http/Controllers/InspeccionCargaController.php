@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\InspeccionCarga;
 use Illuminate\Http\Request;
 use App\RecepcionReclamoDevolucion;
+use Illuminate\Support\Facades\Session;
 
 class InspeccionCargaController extends Controller
 {
@@ -26,9 +27,10 @@ class InspeccionCargaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $rcdId =  $request->get('rcdId');
+        return view('inspeccion-carga.create', compact('rcdId'));
     }
 
     /**
@@ -39,7 +41,26 @@ class InspeccionCargaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rcdId =  $request->get('rcdId');
+        
+        $data = $request->validate([
+            'titulo' => 'required',
+            'descripcion' => 'required',
+        ]);
+
+        $inspeccionCarga = new InspeccionCarga();
+
+        $inspeccionCarga->recepcion_reclamo_devolucion_id = $rcdId;
+        $inspeccionCarga->titulo = $data['titulo'];
+        $inspeccionCarga->descripcion = $data['descripcion'];
+
+        $inspeccionCarga->save();
+
+        Session::flash('message', 'Incidencia de Inspecciión de Carga creada exitosamente.');
+        Session::flash('class', 'success');
+
+        return redirect()->action('InspeccionCargaController@index', compact('rcdId'));
+
     }
 
     /**

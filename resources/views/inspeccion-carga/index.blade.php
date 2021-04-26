@@ -5,7 +5,7 @@
     <div class="d-flex justify-content-between">
         <a
             class="btn btn-outline-primary btn-round"
-            href="{{ route('recepcion-mercancias.create', ['rcdId' => $recepcionReclamoDevolucion->id]) }}"
+            href="{{ route('inspeccion-cargas.create', ['rcdId' => $recepcionReclamoDevolucion->id]) }}"
         >
             <span class="material-icons mr-2">
                 add_circle_outline
