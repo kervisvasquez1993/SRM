@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Producto;
+use App\Proveedor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -16,8 +17,9 @@ class ProductoController extends Controller
     public function index(Request $request)
     {   
         $id_proveedor = $request->query('id_proveedor');
-        $productos = Producto::all();
-        return view('producto.index', compact('productos', 'id_proveedor'));
+        $proveedor = Proveedor::findOrFail($id_proveedor);
+        
+        return view('producto.index', compact('id_proveedor', 'proveedor'));
     }
 
     /**

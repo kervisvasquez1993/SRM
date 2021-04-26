@@ -33,11 +33,12 @@
         
     </div>
 
-    <h4><strong>Proveedor</strong>: Empresa Proveedor {{ $id_proveedor }}</h4>
-
+    <h4><strong>Proveedor</strong>: {{ $proveedor->nombre }}</h4>
+    
     <div id="accordion" role="tablist">
 
-        @foreach($productos as $producto)
+
+        @foreach( $proveedor->productos as $producto)
             <div class="card">
   
                 <div class="card-header d-flex justify-content-around flex-wrap">
