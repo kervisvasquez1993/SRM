@@ -29,21 +29,25 @@ else
  @endif
 <div class="container-fluid">
     <div class="row">
-      <div class="container-fluid">
-        <a href="#" type="button" 
-        class="btn btn-sm btn-outline-primary btn-round" 
-        data-id_tarea={{$tarea->id}}
-        data-toggle="modal" data-target="#abrirmodalEditar"
-         >
-            Agregar Empresa
-        </a>
-        <a href="{{route('proveedor-negociacion')}}" type="button" 
-        class="btn btn-sm btn-outline-primary btn-round" 
-         >
-            <span class="font-weight-bold">
-                Empresas en Negociacion {{$aprovado->count()}}
-            </span>
-        </a>    
+      <div class="container-fluid d-flex justify-content-between">
+        <div>
+             <a href="#" type="button" 
+             class="btn btn-sm btn-outline-primary btn-round" 
+             data-id_tarea={{$tarea->id}}
+             data-toggle="modal" data-target="#abrirmodalEditar"
+              >
+                 Agregar Empresa
+             </a>
+             <a href="{{route('proveedor-negociacion')}}" type="button" 
+             class="btn btn-sm btn-outline-primary btn-round" 
+              >
+                 <span class="font-weight-bold">
+                     Empresas en Negociacion {{$aprovado->count()}}
+                 </span>
+             </a>  
+        </div>  
+
+        @include('ui.previous')
       </div>
         
         <div class="col-md-12">

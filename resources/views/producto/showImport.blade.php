@@ -30,7 +30,9 @@
 @endsection
 
 @section('content')
-
+<div class="d-flex justify-content-end">
+    @include('ui.previous')
+</div>
     <div class="container">
         <div class="mb-5">
             <h5>
