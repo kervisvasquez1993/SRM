@@ -17,9 +17,7 @@
     
      </div>
     @endslot
-    @slot('bodyCard')
-    <h6 class="font-weight-bold">Pais: {{$value->proveedor->pais}} , Ciudad: {{$value->proveedor->ciudad}} , Distrito: {{$value->proveedor->distrito}} </h6>
-    
+    @slot('bodyCard')   
         @php
             $array_pcs       = array();
             $array_cbm       = array();
@@ -28,6 +26,13 @@
             $array_total_n_w = array();
             $array_total_g_w = array();
         @endphp
+         <div class="card-header d-flex justify-content-around flex-wrap">
+          <h4><strong>País</strong>:  {{$value->proveedor->pais}}. </h4>
+          <h4><strong>Ciudad</strong>: {{$value->proveedor->ciudad}}. </h4>
+          <h4><strong>Distrito</strong>: {{$value->proveedor->distrito}}. </h4>
+          <h4><strong>Porvincia</strong>: </h4>
+
+      </div>
         @foreach($value->proveedor->productos as $productos)
               
                   @php

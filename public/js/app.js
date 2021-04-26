@@ -2038,58 +2038,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['cbm', 'ctn', 'total_cbm', 'total_n_w', 'total_g_w'],
   methods: {
@@ -7017,142 +6965,34 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", {}, [
-    _c("div", { staticClass: "card" }, [
-      _c(
-        "div",
-        { staticClass: "card-header d-flex justify-content-around flex-wrap" },
-        [
-          _c("h4", [_c("strong", [_vm._v("Nombre")]), _vm._v(": " + _vm._s())]),
-          _vm._v(" "),
-          _c("h4", [_c("strong", [_vm._v("Marca")]), _vm._v(": " + _vm._s())]),
-          _vm._v(" "),
-          _c("h4", [_c("strong", [_vm._v("Código")]), _vm._v(": " + _vm._s())]),
-          _vm._v(" "),
-          _c("h4", [
-            _c("strong", [_vm._v("Código HS")]),
-            _vm._v(": " + _vm._s())
-          ])
-        ]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _c("div", { staticClass: "d-flex flex-wrap" }, [
-          _c("p", [
-            _c("strong", [_vm._v("Descripción")]),
-            _vm._v(": " + _vm._s())
-          ])
-        ]),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass:
-              "d-flex flex-column justify-content-between flex-sm-row"
-          },
-          [
-            _c("div", { staticClass: "d-flex flex-column" }, [
-              _c("h5", [
-                _c("strong", [_vm._v("cbm totales por unidad")]),
-                _vm._v(": " + _vm._s(_vm.cbm_unit_total))
-              ]),
-              _vm._v(" "),
-              _c("h5", [
-                _c("strong", [_vm._v("ctn totales")]),
-                _vm._v(": " + _vm._s(_vm.total_cbm_final))
-              ]),
-              _vm._v(" "),
-              _c("h5", [
-                _c("strong", [_vm._v("total cbm")]),
-                _vm._v(": " + _vm._s(_vm.total_cbm_final))
-              ]),
-              _vm._v(" "),
-              _c("h5", [
-                _c("strong", [_vm._v("total n.w")]),
-                _vm._v(": " + _vm._s(_vm.total_n_w_resulta) + "  ")
-              ]),
-              _vm._v(" "),
-              _c("h5", [
-                _c("strong", [_vm._v("total g.w")]),
-                _vm._v(":  " + _vm._s(_vm.total_g_w_resulta))
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "d-flex flex-column" }, [
-              _c("h5", [
-                _c("strong", [_vm._v("Alto Carton (cm)")]),
-                _vm._v(": " + _vm._s())
-              ]),
-              _vm._v(" "),
-              _c("h5", [
-                _c("strong", [_vm._v("Ancho Carton (cm)")]),
-                _vm._v(": " + _vm._s())
-              ]),
-              _vm._v(" "),
-              _c("h5", [
-                _c("strong", [_vm._v("CBM")]),
-                _vm._v(": " + _vm._s())
-              ]),
-              _vm._v(" "),
-              _c("h5", [
-                _c("strong", [_vm._v("Peso Neto (kg)")]),
-                _vm._v(": " + _vm._s())
-              ]),
-              _vm._v(" "),
-              _c("h5", [
-                _c("strong", [_vm._v("Peso Bruto (kg)")]),
-                _vm._v(": " + _vm._s())
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "d-flex flex-column" }, [
-              _c("h5", [
-                _c("strong", [_vm._v("Total CBM")]),
-                _vm._v(": " + _vm._s())
-              ]),
-              _vm._v(" "),
-              _c("h5", [
-                _c("strong", [_vm._v("Total Peso Neto (kg)")]),
-                _vm._v(": " + _vm._s())
-              ]),
-              _vm._v(" "),
-              _c("h5", [
-                _c("strong", [_vm._v("Total Peso Bruto (kg)")]),
-                _vm._v(": " + _vm._s())
-              ]),
-              _vm._v(" "),
-              _c("h5", [
-                _c("strong", [_vm._v("Total CTN")]),
-                _vm._v(": " + _vm._s())
-              ]),
-              _vm._v(" "),
-              _c("h5", [
-                _c("strong", [_vm._v("Corregido Total PCS")]),
-                _vm._v(": " + _vm._s())
-              ])
-            ])
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _vm._m(0)
+  return _c("div", { staticClass: "d-flex flex-column" }, [
+    _c("h5", [
+      _c("strong", [_vm._v("cbm totales por unidad")]),
+      _vm._v(": " + _vm._s(_vm.cbm_unit_total))
+    ]),
+    _vm._v(" "),
+    _c("h5", [
+      _c("strong", [_vm._v("ctn totales")]),
+      _vm._v(": " + _vm._s(_vm.total_cbm_final))
+    ]),
+    _vm._v(" "),
+    _c("h5", [
+      _c("strong", [_vm._v("total cbm")]),
+      _vm._v(": " + _vm._s(_vm.total_cbm_final))
+    ]),
+    _vm._v(" "),
+    _c("h5", [
+      _c("strong", [_vm._v("total n.w")]),
+      _vm._v(": " + _vm._s(_vm.total_n_w_resulta) + "  ")
+    ]),
+    _vm._v(" "),
+    _c("h5", [
+      _c("strong", [_vm._v("total g.w")]),
+      _vm._v(":  " + _vm._s(_vm.total_g_w_resulta))
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-flex justify-content-end" }, [
-      _c("span", { staticClass: "material-icons" }, [
-        _vm._v("\n                     edit\n                   ")
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "text-primary" })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
