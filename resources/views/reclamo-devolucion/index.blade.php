@@ -5,7 +5,7 @@
     <div class="d-flex justify-content-between">
         <a
             class="btn btn-outline-primary btn-round"
-            href="{{ route('recepcion-mercancias.create', ['rcdId' => $recepcionReclamoDevolucion->id]) }}"
+            href="{{ route('reclamo-devoluciones.create', ['rcdId' => $recepcionReclamoDevolucion->id]) }}"
         >
             <span class="material-icons mr-2">
                 add_circle_outline
@@ -27,13 +27,13 @@
         </a>
     </div>
 
-    @if( count($recepcionesMercancia) > 0 )
+    @if( count($reclamosDevoluciones) > 0 )
         @include('ui.r-reclamos-devoluciones', 
             array(
-                'incidencias' => $recepcionesMercancia, 
+                'incidencias' => $reclamosDevoluciones, 
                 'rcdId' => $recepcionReclamoDevolucion->id,
-                'route_name' => 'recepcion-mercancias', 
-                'route_entity' => 'recepcion_mercancia'
+                'route_name' => 'reclamo-devoluciones', 
+                'route_entity' => 'reclamo_devolucione'
             )
         )
     @else

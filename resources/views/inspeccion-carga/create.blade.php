@@ -16,9 +16,9 @@
         </a>
     </div>
 
-    <h4>Crear una incidencia sobre la Recepción de Mercancia</h4>
+    <h4>Crear una incidencia sobre la Inspección de Carga</h4>
 
-    <form method="POST" action="{{ route('recepcion-mercancias.store', ['rcdId' => $rcdId]) }}">
+    <form method="POST" action="{{ route('inspeccion-cargas.store', ['rcdId' => $rcdId]) }}">
         @csrf
 
         <div class="form-container">
