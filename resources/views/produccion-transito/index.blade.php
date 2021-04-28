@@ -6,8 +6,8 @@
    
     @foreach($produccionTransitos as $produccionTransito )
     @php
-    $contador = 0 ;
-@endphp
+        $contador = 0 ;
+    @endphp
         <div class="card m-3">
             <div class="card-header d-inline-flex justify-content-around flex-wrap">
                 <h4><strong>Tarea</strong>: {{ $produccionTransito->pivotTable->tarea->nombre }}</h4>
@@ -16,7 +16,8 @@
             
             <div class="card-body ">
                 <h5 class="d-flex align-items-center">
-                    <a href="{{ route('pago-anticipado.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"><strong>Pago Anticipado</strong></a>:
+                    <a  @if(Auth::user()->rol == 'comprador')  href="{{ route('pago-anticipado.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"  else  href="#" onclick="deshabilitar(this)" @endif>
+                    <strong>Pago Anticipado</strong></a>:
                     @if($produccionTransito->pagos_anticipados)
                         <span class="material-icons text-success">
                             done_all
@@ -38,7 +39,8 @@
                 @endif
 
                 <h5 class="d-flex">
-                    <a href="{{ route('inicio-produccion.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"><strong>Inicio Producción:</strong></a>:
+                    <a  @if(Auth::user()->rol == 'comprador') href="{{ route('inicio-produccion.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"  else { href="#" onclick="deshabilitar(this)" @endif>
+                      <strong>Inicio Producción:</strong></a>:
                     @if($produccionTransito->inicio_produccion)
                         <span class="material-icons text-success">
                             done_all
@@ -72,7 +74,8 @@
                 </h5>
 
                 <h5>
-                    <a href="{{ route('pago-balance.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"><strong>Pago de Balance:</strong></a>:
+                    <a  @if(Auth::user()->rol == 'comprador') href="{{ route('pago-balance.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"  else { href="#" onclick="deshabilitar(this)" @endif>
+                    <strong>Pago de Balance:</strong></a>:
                     @if($produccionTransito->pago_balance)
                         <span class="material-icons text-success">
                             done_all
@@ -95,7 +98,8 @@
                 @endif
 
                 <h5>
-                    <a href="{{ route('fin-produccion.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"><strong>Fin de Producción</strong></a>:
+                    <a  @if(Auth::user()->rol == 'comprador') href="{{ route('fin-produccion.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"  else { href="#" onclick="deshabilitar(this)" @endif>
+                    <strong>Fin de Producción</strong></a>:
                     @if($produccionTransito->transito_nacionalizacion)
                         <span class="material-icons text-success">
                             done_all
@@ -110,7 +114,8 @@
                 </h5>
 
                 <h5>
-                    <a href="{{ route('transito-nacionalizacion.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}">
+                    <a  @if(Auth::user()->rol == 'logistica') href="{{ route('transito-nacionalizacion.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}" else { href="#" onclick="deshabilitar(this)" @endif>
+                    
                         <strong>Transito Nacionalización</strong>
                     </a>:
                     @if($produccionTransito->transito_nacionalizacion)

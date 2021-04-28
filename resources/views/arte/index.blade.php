@@ -35,7 +35,7 @@
 
                   <span class="mr-3">
                     <strong class="text-secondary pointer-underline">
-                      <a  @if(Auth::user()->rol == 'arte') href="{{ route('validacion-fichas.index', ['arte' => $arte->id]) }}"  else { href="#" onclick="deshabilitar(this)" @endif>
+                      <a  @if(Auth::user()->rol == 'artes') href="{{ route('validacion-fichas.index', ['arte' => $arte->id]) }}"  else { href="#" onclick="deshabilitar(this)" @endif>
                         Validación de Fichas <span class="material-icons more-details"> north_east </span>:
                       </a>
                     </strong> 
