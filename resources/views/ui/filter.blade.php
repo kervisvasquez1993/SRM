@@ -78,7 +78,7 @@
 </style>
 @endsection
 
-@section('scripts')
+@push('scripts')
 <script type="application/javascript">
 
     document.getElementById('result').style.display = 'none';
@@ -105,4 +105,4 @@
   }
 </script>
 
-@endsection
+@endpush

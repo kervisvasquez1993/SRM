@@ -26,6 +26,6 @@
 
 @endsection
 
-@section('script')
+@push('scripts')
     @include('util.incidencias-scripts')
-@endsection
+@endpush

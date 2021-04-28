@@ -173,9 +173,11 @@
 
 @endsection
 
-@section('script')
-<script>
-
+@push('scripts')
+   <script>console.log('hola')</script>
+  <script>
+ 
+ 
   /** 
     Display Arte information on modal
   */
@@ -260,8 +262,8 @@
     })
     
   }
-</script>
-@endsection
+  </script>
+@endpush
 
 @section('ccs_file')
 <style>
