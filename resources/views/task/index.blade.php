@@ -1,10 +1,12 @@
 @extends('admin.dashboar')
 @section('content')
+@if(Auth::user()->rol == 'coordinador')
 <div class="container-fluid">
-    <button class="btn btn-sm btn-outline-primary btn-round" type="button" data-toggle="modal" data-target="#abrirmodal">
+        <button class="btn btn-sm btn-outline-primary btn-round" type="button" data-toggle="modal" data-target="#abrirmodal">
         <i class="fa fa-plus fa-2x"></i>&nbsp;&nbsp;Agregar Tarea
     </button>
 </div>
+@endif
 @foreach($tareas as $tarea)
     @component('componentes.cardGeneral')
 
@@ -27,7 +29,9 @@
        @endphp
       <i class="material-icons">access_time</i> Finalización : {{ date('d-M-Y', strtotime($tarea->fecha_fin)) }}. Días Restantes: {{$fecha_restantes}} Días
     </div>
+    
     <div>
+        @if(Auth::user()->rol == 'coordinador')
         <a href="#" type="button" 
                 class="btn btn-sm btn-outline-warning btn-round "  
                 data-id_tarea="{{$tarea->id}}"
@@ -38,9 +42,10 @@
                 data-toggle="modal"
                 data-target="#abrirmodalEditar">
                Editar
-        </a>
+        </a> @endif
     <a href="{{route('tareas.show', ['tarea' => $tarea->id])}}" class="btn btn-sm btn-outline-success btn-round">Ver Detalle</a>
    </div>
+  
   @endslot
  @endcomponent
 
@@ -50,6 +55,7 @@
         <div class="modal-dialog modal-primary modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
+                    
                     <h4 class="modal-title">Agregar Nueva Tarea</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">×</span>
