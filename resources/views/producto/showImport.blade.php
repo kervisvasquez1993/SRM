@@ -98,7 +98,7 @@
   @endif
 @endsection
 
-@section('scripts')
+@push('scripts')
     
     <script 
         src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.6/dropzone.min.js" 
@@ -194,4 +194,4 @@
         });
     </script>
 
-@endsection
+@endpush

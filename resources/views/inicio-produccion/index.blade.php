@@ -65,7 +65,7 @@
     
 @endsection
 
-@section('script')
+@push('scripts')
     @include('util.incidencias-scripts')
 
     <script>
@@ -77,4 +77,4 @@
             }, 2000);
         });
     </script>
-@endsection
+@endpush

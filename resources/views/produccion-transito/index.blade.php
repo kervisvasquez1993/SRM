@@ -210,7 +210,7 @@
     </style>
 @endsection
 
-@section('scripts')
+@push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
@@ -256,4 +256,4 @@
         }
 
     </script>
-@endsection
+@endpush

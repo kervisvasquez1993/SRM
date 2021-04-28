@@ -60,7 +60,7 @@
 @endsection
 
 
-@section('script')
+@push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
@@ -70,4 +70,4 @@
             }, 2000);
         });
     </script>
-@endsection
+@endpush
