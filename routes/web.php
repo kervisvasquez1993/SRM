@@ -116,4 +116,8 @@ Route::get('/', function () {
     // Route::get('pago-anticipado/{id_pago}/delete', 'PagoAnticipadoController@destroy')->name('PagoAnticipado.destroy');
     // Inicio Produccion
     Route::resource('/inicio-produccion', 'InicioProduccionController');
+
+    // Create user routes
+    Route::get('createUser', 'UserController@showCreateForm')->name('showRegister');
+    Route::post('createUser', 'UserController@register')->name('register');
 });
