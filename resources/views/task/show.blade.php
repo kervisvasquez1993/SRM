@@ -31,13 +31,15 @@ else
     <div class="row">
       <div class="container-fluid d-flex justify-content-between">
         <div>
-             <a href="#" type="button" 
-             class="btn btn-sm btn-outline-primary btn-round" 
-             data-id_tarea={{$tarea->id}}
-             data-toggle="modal" data-target="#abrirmodalEditar"
-              >
-                 Agregar Empresa
-             </a>
+            @if(Auth::user()->rol == 'comprador')
+                 <a href="#" type="button" 
+                 class="btn btn-sm btn-outline-primary btn-round" 
+                 data-id_tarea={{$tarea->id}}
+                 data-toggle="modal" data-target="#abrirmodalEditar"
+                  >
+                     Agregar Empresa
+                 </a>
+            @endif
              <a href="{{route('proveedor-negociacion')}}" type="button" 
              class="btn btn-sm btn-outline-primary btn-round" 
               >
@@ -96,30 +98,34 @@ else
                     @slot('titulo')
                     <div> Nombre Empresa: {{$proveedor->nombre}}</div>  
                     <div class="d-flex">
-                      <form action="{{route('negociaciones.update', ['negociar' => $proveedor->id])}}" method="post">
-                        @csrf
-                        @method('PUT')
-                        <input type="hidden" name="aprovado" value="1" >
-                        <input type="hidden" name="name" value="{{$proveedor->id}}" >
-                        <input type="submit" value="Negociar" class="btn btn-sm  btn-info" >
-                      </form>
+                      @if(Auth::user()->rol == 'coordinador')
+                          <form action="{{route('negociaciones.update', ['negociar' => $proveedor->id])}}" method="post">
+                            @csrf
+                            @method('PUT')
+                            <input type="hidden" name="aprovado" value="1" >
+                            <input type="hidden" name="name" value="{{$proveedor->id}}" >
+                            <input type="submit" value="Negociar" class="btn btn-sm  btn-info" >
+                          </form>
+                      @endif
                       {{-- //TODO: CAMBIAR LA FUNCIONALIDAD PARA QUE SE ENVIA POR JS Y NO POR UN FORMULARIO --}}
-                      <a href="#" type="button" 
-                                class="btn btn-warning btn-sm "  
-                                data-id_tarea="{{$proveedor->id}}"
-                                data-tarea="{{$proveedor->nombre}}"
-                                data-pais="{{$proveedor->pais}}"
-                                data-ciudad="{{$proveedor->ciudad}}"
-                                data-distrito="{{$proveedor->distrito}}"
-                                data-direccion="{{$proveedor->direccion}}"
-                                data-contactos="{{$proveedor->contacto}}"
-                                data-telefonos="{{$proveedor->telefono}}"
-                                data-email="{{$proveedor->email}}"
-                                data-descripcion="{{$proveedor->descripcion}}"
-                                data-toggle="modal"
-                                data-target="#abrirmodalEditarProveedor">
-                         Editar
-                      </a>
+                      @if(Auth::user()->rol == 'comprador')
+                          <a href="#" type="button" 
+                                    class="btn btn-warning btn-sm "  
+                                    data-id_tarea="{{$proveedor->id}}"
+                                    data-tarea="{{$proveedor->nombre}}"
+                                    data-pais="{{$proveedor->pais}}"
+                                    data-ciudad="{{$proveedor->ciudad}}"
+                                    data-distrito="{{$proveedor->distrito}}"
+                                    data-direccion="{{$proveedor->direccion}}"
+                                    data-contactos="{{$proveedor->contacto}}"
+                                    data-telefonos="{{$proveedor->telefono}}"
+                                    data-email="{{$proveedor->email}}"
+                                    data-descripcion="{{$proveedor->descripcion}}"
+                                    data-toggle="modal"
+                                    data-target="#abrirmodalEditarProveedor">
+                             Editar
+                          </a>
+                      @endif
                   </div>
                     @endslot
                     @slot('bodyCard')
