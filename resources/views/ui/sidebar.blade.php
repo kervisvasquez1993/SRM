@@ -16,6 +16,16 @@
         </li>
         @if(Auth::user()->rol == "coordinador")
         <li class="nav-item">
+          <a class="nav-link" href="{{route('showRegister')}}">
+            <i class="material-icons">dashboard</i>
+            
+              <p>Crear Usuario</p>
+            
+          </a>
+        </li>
+        @endif
+        @if(Auth::user()->rol == "coordinador")
+        <li class="nav-item">
           <a class="nav-link" href="{{route('tareas.index')}}">
             <i class="material-icons">dashboard</i>
             
