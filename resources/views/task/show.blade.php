@@ -21,6 +21,7 @@ else
   $porcentaje =  round(($fecha_restantes * 100) / $dias_totales);   
 }
 @endphp
+
 <div class="content">
   @if (session('aprobado'))
   <div class="alert alert-success" role="alert">
@@ -104,7 +105,7 @@ else
                             @method('PUT')
                             <input type="hidden" name="aprovado" value="1" >
                             <input type="hidden" name="name" value="{{$proveedor->id}}" >
-                            <input type="submit" value="Negociar" class="btn btn-sm  btn-info" >
+                            <input type="submit" value="Negociar" class="btn btn-sm btn-outline-primary btn-round">
                           </form>
                       @endif
                       {{-- //TODO: CAMBIAR LA FUNCIONALIDAD PARA QUE SE ENVIA POR JS Y NO POR UN FORMULARIO --}}

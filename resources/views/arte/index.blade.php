@@ -12,8 +12,8 @@
       @foreach( $artes as $arte )
       
         {{-- Card --}}
-        <div id="{{ $arte->id }}" class="card">
-
+        <div id="{{ $arte->id }}" class="card" disabled>
+          
           <div class="card-header d-flex justify-content-between flex-wrap">
               <h4 class="card-title"><strong class="text-secondary">Tarea: </strong> <span id="arte-name">{{ $arte->nombre }}</span></h4>
               <h4 class=""> <strong class="text-secondary">Proveedor: </strong> {{ $arte->pivotTable->proveedor->nombre }}</h4>
@@ -26,7 +26,7 @@
               <div class="status d-flex justify-content-between">
                   <span class="mr-3">
                     <strong class="text-secondary pointer-underline">
-                      <a href="{{ route('fichas.index', ['arte' => $arte->id]) }}">
+                      <a  @if(Auth::user()->rol == 'artes')  href="{{ route('fichas.index', ['arte' => $arte->id]) }}"  else  href="#" onclick="deshabilitar(this)" @endif>
                         Creación de Fichas <span class="material-icons more-details"> north_east </span>:
                       </a>
                     </strong>
@@ -35,7 +35,7 @@
 
                   <span class="mr-3">
                     <strong class="text-secondary pointer-underline">
-                      <a href="{{ route('validacion-fichas.index', ['arte' => $arte->id]) }}">
+                      <a  @if(Auth::user()->rol == 'arte') href="{{ route('validacion-fichas.index', ['arte' => $arte->id]) }}"  else { href="#" onclick="deshabilitar(this)" @endif>
                         Validación de Fichas <span class="material-icons more-details"> north_east </span>:
                       </a>
                     </strong> 
@@ -44,7 +44,8 @@
 
                   <span class="mr-3">
                     <strong class="text-secondary pointer-underline">
-                      <a href="{{ route('bocetos.index', ['arte' => $arte->id]) }}">
+                      <a  @if(Auth::user()->rol == 'artes')  href="{{ route('bocetos.index', ['arte' => $arte->id]) }}"  else  href="#" onclick="deshabilitar(this)"  @endif>
+                      
                         Creación de Boceto <span class="material-icons more-details"> north_east </span>:
                       </a>
                     </strong> 
@@ -53,7 +54,8 @@
 
                   <span class="mr-3">
                     <strong class="text-secondary pointer-underline">
-                     <a href="{{ route('validacion-bocetos.index', ['arte' => $arte->id]) }}">
+                      <a  @if(Auth::user()->rol == 'artes')  href="{{ route('validacion-bocetos.index', ['arte' => $arte->id]) }}"  else  href="#" onclick="deshabilitar(this)"  @endif>
+                     
                        Validación de Boceto <span class="material-icons more-details"> north_east </span>:
                       </a> 
                     </strong> 
@@ -62,7 +64,8 @@
 
                   <span class="mr-3">
                     <strong class="text-secondary pointer-underline">
-                      <a href="{{ route('confirmacion-proveedor.index', ['arte' => $arte->id]) }}">
+                      <a  @if(Auth::user()->rol == 'artes') href="{{ route('confirmacion-proveedor.index', ['arte' => $arte->id]) }}"  else  href="#" onclick="deshabilitar(this)"  @endif >
+                      
                         Confirmación de Proveedor <span class="material-icons more-details"> north_east </span>:
                       </a>
                     </strong> 
@@ -72,7 +75,7 @@
           </div>
 
           <div class="d-flex justify-content-end m-2">
-            <span class="material-icons launch" onclick="showModal({{ $arte }}, {{ $estatus }})" data-toggle="modal" data-target="#modal-{{ $arte->id }}">
+            <span class="material-icons launch" @if(Auth::user()->rol == 'artes')  onclick="showModal({{ $arte }}, {{ $estatus }})"  data-toggle="modal" data-target="#modal-{{ $arte->id }}" @endif>
               launch
             </span>
           </div>
@@ -174,7 +177,7 @@
 @endsection
 
 @push('scripts')
-   <script>console.log('hola')</script>
+
   <script>
  
  

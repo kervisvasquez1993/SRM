@@ -12,9 +12,9 @@
     @slot('titulo')
     <div> Nombre Empresa: {{$value->proveedor->nombre}}</div>  
     <div class="d-flex">
-
-      <a href="{{ route('productos.index', ['id_proveedor' => $value->proveedor->id]) }}" type="button" class="btn btn-sm btn-outline-success btn-round">Agregar Productos</a>          
-    
+      @if(Auth::user()->rol == 'comprador')
+      <a href="{{ route('productos.index', ['id_proveedor' => $value->proveedor->id]) }}" type="button" class="btn btn-sm btn-outline-warning btn-round">Agregar Productos</a>          
+      @endif
      </div>
     @endslot
     @slot('bodyCard')   
@@ -59,25 +59,28 @@
     @endslot
 
     @slot('contenidoFooter')
+    @if(Auth::user()->rol == 'coordinador')
       <form action="{{route('arteAprobados.update', ['arteAprobado' => $value->id])}}" method="post">
         @csrf
         @method('PUT')
-        <input type="submit" value="Iniciar Arte" class="btn btn-sm  btn-secondary" >
-    </form>
+        <input type="submit" value="Iniciar Arte" class="btn btn-sm btn-outline-success btn-round" >
+      </form>
+    @endif
 
-
-    <form action="{{route('produccionAprobados.update', ['produccionAprobado' => $value->id])}}" method="post">
-      @csrf
-      @method('PUT')
-      <input type="submit" value="Iniciar Producción" class="btn btn-sm  btn-warning">
-    </form>
-
-    <form action="{{route('arteProduccionAprobados.update', ['arteProduccionAprobado' => $value->id])}}" method="post">
-      @csrf
-      @method('PUT')
-      <input type="submit" value="Iniciar Producción y Artes" class="btn btn-sm  btn-success" >
-    </form>
-        
+    @if(Auth::user()->rol == 'coordinador')
+      <form action="{{route('produccionAprobados.update', ['produccionAprobado' => $value->id])}}" method="post">
+        @csrf
+        @method('PUT')
+        <input type="submit" value="Iniciar Producción" class="btn btn-sm btn-outline-success btn-round">
+      </form>
+    @endif
+    @if(Auth::user()->rol == 'coordinador')
+      <form action="{{route('arteProduccionAprobados.update', ['arteProduccionAprobado' => $value->id])}}" method="post">
+        @csrf
+        @method('PUT')
+        <input type="submit" value="Iniciar Producción y Artes" class="btn btn-sm btn-outline-success btn-round" >
+      </form>
+    @endif
     @endslot
  @endcomponent
 

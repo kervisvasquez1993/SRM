@@ -1,6 +1,7 @@
 @extends('admin.dashboar')
 
 @section('content')
+
     <div class="main-register">
         <div class="main-form">
 
@@ -53,6 +54,7 @@
                     <label for="exampleFormControlSelect1" class="bmd-label-floating">Rol</label>
                     {{-- <input value="{{ old('rol') }}" autocomplete="off" name="rol" type="text" class="form-control"> --}}
                     <select class="form-control selectpicker" name="rol" data-style="btn btn-link" id="exampleFormControlSelect1">
+                        <option value="">Sin Definir</option>
                         <option value="coordinador">Coordinador</option>
                         <option value="artes">Artes</option>
                         <option value="comprador">Comprador</option>
