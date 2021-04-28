@@ -53,7 +53,7 @@ else
         <div class="col-md-12">
           <div class="row">
             <div class="col-md-12">
-              <div class="places-buttons">
+          
                 <div class="row">
                   <div class="col-md-6 ml-auto mr-auto text-center">
                     <h4 class="card-title">
@@ -61,27 +61,26 @@ else
                     </h4>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-lg-8 col-md-10 ml-auto mr-auto">
-                    <div class="row">
-                      <div class="col-md-4">
-                        <button class="btn btn-outline-primary btn-round" onclick="md.showNotification('top','left')">Nombre de Tarea : {{$tarea->nombre}}</button>
-                      </div>
-                      <div class="col-md-4">
-                        <button class="btn btn-outline-primary btn-round" onclick="md.showNotification('top','center')">Fecha de Finalizacion : {{ date('d-M-Y', strtotime($tarea->fecha_fin))}} </button>
-                      </div>
-                      <div class="col-md-4">
-                        <button class="btn btn-outline-primary btn-round" onclick="md.showNotification('top','right')">Días Totales : {{$dias_totales}} Días</button>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                      <button class="btn btn-outline-primary btn-round" onclick="md.showNotification('bottom','left')">Días Restante : {{$fecha_restantes}} Días restante</button>
-                  </div>
-                  <div class="col-md-4">
-                    <button class="btn btn-outline-primary btn-round" onclick="md.showNotification('bottom','left')">Finalizacion : {{$porcentaje}} %</button>
-                </div>
-                
+                <div class="row d-flex justify-content-between flex-wrap">
+                  
+                      <p class="badge badge-success text-wrap">
+                        Nombre de Tarea : {{$tarea->nombre}}
+                      </p>
+
+                      <p class="badge badge-success text-wrap">
+                        Fecha de Finalizacion : {{ date('d-M-Y', strtotime($tarea->fecha_fin))}} 
+                      </p>
+
+                      <p class="badge badge-success text-wrap">
+                        Días Totales : {{$dias_totales}} Días
+                      </p>
+                      <p class="badge badge-success text-wrap">
+                        Días Restante : {{$fecha_restantes}} Días restante
+                      </p>
+                      <p class="badge badge-success text-wrap">
+                        Finalizacion : {{$porcentaje}} %
+                      </p>
+                  
                 </div>
                  
               </div>
