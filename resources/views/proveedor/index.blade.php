@@ -13,7 +13,8 @@
     <div> Nombre Empresa: {{$value->proveedor->nombre}}</div>  
     <div class="d-flex">
       @if(Auth::user()->rol == 'comprador')
-      <a href="{{ route('productos.index', ['id_proveedor' => $value->proveedor->id]) }}" type="button" class="btn btn-sm btn-outline-warning btn-round">Agregar Productos</a>          
+      <a href="{{ route('productos.index', ['id_proveedor' => $value->proveedor->id]) }}" type="button" class="btn btn-sm btn-outline-warning btn-round">Agregar Productos</a> 
+      <a href="{{ route('compras.index', ['id_proveedor' => $value->proveedor->id]) }}" type="button" class="btn btn-sm btn-outline-warning btn-round">Agregar Compra</a>          
       @endif
      </div>
     @endslot

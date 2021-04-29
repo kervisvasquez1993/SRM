@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Compra;
+use App\Proveedor;
 use Illuminate\Http\Request;
 
 class CompraController extends Controller
@@ -12,9 +13,12 @@ class CompraController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $id_proveedor = $request->query('id_proveedor');
+        $proveedor = Proveedor::findOrFail($id_proveedor);
+
+        return view('compras.index',compact('proveedor', 'id_proveedor'));
     }
 
     /**

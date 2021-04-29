@@ -108,6 +108,7 @@ Route::get('/', function () {
     Route::put('/arteProduccionAprobados/{arteProduccionAprobado}', 'PivotTareaProveederController@arteProduccionAprobado')->name('arteProduccionAprobados.update');
      // Productos
     Route::resource('productos', 'ProductoController');
+    Route::resource('compras', 'CompraController');
     Route::post('/importProduct/{id}', 'ProductoController@import')->name('importProduct');
     Route::get('showImport/{proveedor_id}', 'ProductoController@showImport')->name('producto.showImport');
     Route::get('/home', 'HomeController@index')->name('home');
