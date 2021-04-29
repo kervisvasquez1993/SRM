@@ -15,4 +15,9 @@ class PagoBalance extends Model
     {
         return $this->hasOne(ProduccionTransito::class, 'produccion_transito_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

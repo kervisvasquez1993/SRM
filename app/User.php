@@ -71,4 +71,24 @@ class User extends Authenticatable
     {
         return $this->hasMany(inicioProduccion::class);
     }
+
+    public function pagosAnticipados()
+    {
+        return $this->hasMany(PagoAnticipado::class);
+    }
+
+    public function pagosBalance()
+    {
+        return $this->hasMany(PagoBalance::class);
+    }
+
+    public function finProducciones()
+    {
+        return $this->hasMany(FinProduccion::class);
+    }
+
+    public function transitoNacionalizaciones()
+    {
+        return $this->hasMany(TransitoNacionalizacion::class);
+    }
 }

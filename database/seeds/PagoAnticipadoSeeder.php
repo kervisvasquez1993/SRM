@@ -13,6 +13,7 @@ class PagoAnticipadoSeeder extends Seeder
     {
         DB::table('pago_anticipados')->insert([
             'produccion_transito_id' => 1,
+            'user_id' => 1,
             'titulo' => 'Primer anticipo',
             'monto_total' => 1200,
             'porcentaje' => 45,
@@ -25,6 +26,7 @@ class PagoAnticipadoSeeder extends Seeder
         ]);
         DB::table('pago_anticipados')->insert([
             'produccion_transito_id' => 2,
+            'user_id' => 1,
             'titulo' => 'Segundo anticipo',
             'monto_total' => 850,
             'porcentaje' => 50,
@@ -37,6 +39,7 @@ class PagoAnticipadoSeeder extends Seeder
         ]);
         DB::table('pago_anticipados')->insert([
             'produccion_transito_id' => 1,
+            'user_id' => 1,
             'titulo' => 'Un anticipo',
             'monto_total' => 2400,
             'porcentaje' => 60,
