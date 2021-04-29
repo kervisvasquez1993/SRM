@@ -91,4 +91,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(TransitoNacionalizacion::class);
     }
+
+    public function recepcionMercancias()
+    {
+        return $this->hasMany(RecepcionMercancia::class);
+    }
+
+    public function inspeccionCargas()
+    {
+        return $this->hasMany(InspeccionCarga::class);
+    }
+
+    public function reclamosDevolucione()
+    {
+        return $this->hasMany(ReclamosDevolucione::class);
+    }
 }

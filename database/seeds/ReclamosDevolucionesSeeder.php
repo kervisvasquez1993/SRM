@@ -13,6 +13,7 @@ class ReclamosDevolucionesSeeder extends Seeder
     {
         DB::table('reclamos_devoluciones')->insert([
             'recepcion_reclamo_devolucion_id' => 1,
+            'user_id' => 1,
             'titulo' => 'Primera incidencia',
             'descripcion' => 'Descripcion de reclamo',
             'created_at' => date('Y-m-d H:i:s'),
@@ -21,6 +22,7 @@ class ReclamosDevolucionesSeeder extends Seeder
 
         DB::table('reclamos_devoluciones')->insert([
             'recepcion_reclamo_devolucion_id' => 2,
+            'user_id' => 1,
             'titulo' => 'segunda incidencia',
             'descripcion' => 'Descripcion de reclamo',
             'created_at' => date('Y-m-d H:i:s'),
@@ -29,6 +31,7 @@ class ReclamosDevolucionesSeeder extends Seeder
 
         DB::table('reclamos_devoluciones')->insert([
             'recepcion_reclamo_devolucion_id' => 3,
+            'user_id' => 1,
             'titulo' => 'tercera incidencia',
             'descripcion' => 'Descripcion de reclamo',
             'created_at' => date('Y-m-d H:i:s'),
@@ -37,6 +40,7 @@ class ReclamosDevolucionesSeeder extends Seeder
 
         DB::table('reclamos_devoluciones')->insert([
             'recepcion_reclamo_devolucion_id' => 1,
+            'user_id' => 1,
             'titulo' => 'cuarta incidencia',
             'descripcion' => 'Descripcion de reclamo',
             'created_at' => date('Y-m-d H:i:s'),
