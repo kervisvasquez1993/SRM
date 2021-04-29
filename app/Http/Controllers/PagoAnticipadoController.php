@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\PagoAnticipado;
 use App\ProduccionTransito;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class PagoAnticipadoController extends Controller
@@ -64,6 +65,7 @@ class PagoAnticipadoController extends Controller
         $pagoAnticipado->file_pago = $data['pathfile'];
         $pagoAnticipado->descripcion = $data['descripcion'];
         $pagoAnticipado->fecha_pago = $data['fecha_pago'];
+        $pagoAnticipado->user_id = Auth::user()->id;
 
         $pagoAnticipado->save();
 

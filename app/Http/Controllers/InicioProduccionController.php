@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\InicioProduccion;
 use App\ProduccionTransito;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class InicioProduccionController extends Controller
@@ -54,7 +55,7 @@ class InicioProduccionController extends Controller
         $inicioProduccion->titulo = $data['titulo'];
         $inicioProduccion->descripcion = $data['descripcion'];
         // TODO: Add logic to set here the user who create the incidence
-        $inicioProduccion->user_id = 1;
+        $inicioProduccion->user_id = Auth::user()->id;;
 
         $inicioProduccion->save();
 

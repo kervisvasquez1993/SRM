@@ -14,6 +14,7 @@
                 @endif
                 <th class="th-description"><strong>Fecha Pago</strong></th>
                 <th class="th-description"><strong>Descripción</strong></th>
+                <th class="th-description"><strong>Usuario</strong></th>
                 <th></th>
             </tr>
         </thead>
@@ -60,6 +61,9 @@
                     </td>
                     <td class="">
                         {{ $pago->descripcion }}
+                    </td>
+                    <td class="">
+                        {{ $pago->user->name }}
                     </td>
 
                     <td class="d-flex">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\FinProduccion;
 use App\ProduccionTransito;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class FinProduccionController extends Controller
@@ -53,6 +54,7 @@ class FinProduccionController extends Controller
         $finProduccion->produccion_transito_id = $produccionTransitoId;
         $finProduccion->titulo = $data['titulo'];
         $finProduccion->descripcion = $data['descripcion'];
+        $finProduccion->user_id = Auth::user()->id;
 
         $finProduccion->save();
 
