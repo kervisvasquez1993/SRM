@@ -60,7 +60,7 @@ else
                 <div class="row">
                   <div class="col-md-6 ml-auto mr-auto text-center">
                     <h4 class="card-title">
-                      Detalles
+                      Detalles de Tarea
                     </h4>
                   </div>
                 </div>
