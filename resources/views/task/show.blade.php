@@ -90,8 +90,11 @@ else
             </div>
              {{$tarea->descripcion}}
            
-            
-             
+
+             <div class="empresas-titulo">
+               <h4>Empresas asociadas a la Tarea</h4>
+
+             </div>
               @foreach($noAprovado as $proveedor)
                  {{-- <h3>Nombre del Proveedor:  {{$proveedor->nombre}}</h3> --}}
            
@@ -111,7 +114,7 @@ else
                       {{-- //TODO: CAMBIAR LA FUNCIONALIDAD PARA QUE SE ENVIA POR JS Y NO POR UN FORMULARIO --}}
                       @if(Auth::user()->rol == 'comprador')
                           <a href="#" type="button" 
-                                    class="btn btn-warning btn-sm "  
+                                    class="btn btn-sm btn-outline-primary btn-round"  
                                     data-id_tarea="{{$proveedor->id}}"
                                     data-tarea="{{$proveedor->nombre}}"
                                     data-pais="{{$proveedor->pais}}"
@@ -124,6 +127,9 @@ else
                                     data-descripcion="{{$proveedor->descripcion}}"
                                     data-toggle="modal"
                                     data-target="#abrirmodalEditarProveedor">
+                            <span class="material-icons">
+                              edit
+                            </span>
                              Editar
                           </a>
                       @endif
@@ -205,3 +211,15 @@ else
       @include('inicio.form')
   @endslot
 @endcomponent
+
+@section('css')
+
+  <style>
+    .empresas-titulo {
+      display: flex;
+      justify-content: center;
+      margin-top: 1.6em
+    }
+  </style>
+    
+@endsection
