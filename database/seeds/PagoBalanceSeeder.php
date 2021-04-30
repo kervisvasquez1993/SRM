@@ -13,6 +13,7 @@ class PagoBalanceSeeder extends Seeder
     {
         DB::table('pago_balances')->insert([
             'produccion_transito_id' => 1,
+            'user_id' => 1,
             'titulo' => 'Primer pago Balance',
             'fecha_pago' => date('Y-m-d H:i:s'),
             'file_pago' => 'path/pagoBalance.png',
@@ -25,6 +26,7 @@ class PagoBalanceSeeder extends Seeder
 
         DB::table('pago_balances')->insert([
             'produccion_transito_id' => 2,
+            'user_id' => 1,
             'titulo' => 'segundo pago Balance',
             'fecha_pago' => date('Y-m-d H:i:s'),
             'file_pago' => 'path/pagoBalance.png',
@@ -37,6 +39,7 @@ class PagoBalanceSeeder extends Seeder
 
         DB::table('pago_balances')->insert([
             'produccion_transito_id' => 1,
+            'user_id' => 1,
             'titulo' => 'tercero pago Balance',
             'fecha_pago' => date('Y-m-d H:i:s'),
             'file_pago' => 'path/pagoBalance.png',

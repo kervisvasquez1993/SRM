@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Arte;
 use App\ValidacionBoceto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ValidacionBocetoController extends Controller
 {
@@ -44,8 +45,7 @@ class ValidacionBocetoController extends Controller
 
         $validacionBoceto->titulo = $data['titulo'];
         $validacionBoceto->descripcion = $data['descripcion'];
-        // TODO: Add the LOGGED user here, currently not implemented
-        $validacionBoceto->user_id = 1;
+        $validacionBoceto->user_id = Auth::user()->id;
         $validacionBoceto->arte_id = $data['arte'];
         $validacionBoceto->save();
         $user = $validacionBoceto->user;

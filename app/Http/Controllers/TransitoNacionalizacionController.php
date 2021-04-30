@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\ProduccionTransito;
 use Illuminate\Http\Request;
 use App\TransitoNacionalizacion;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class TransitoNacionalizacionController extends Controller
@@ -53,6 +54,7 @@ class TransitoNacionalizacionController extends Controller
         $transitoNacionalizacion->produccion_transito_id = $produccionTransitoId;
         $transitoNacionalizacion->titulo = $data['titulo'];
         $transitoNacionalizacion->descripcion = $data['descripcion'];
+        $transitoNacionalizacion->user_id = Auth::user()->id;
 
         $transitoNacionalizacion->save();
 

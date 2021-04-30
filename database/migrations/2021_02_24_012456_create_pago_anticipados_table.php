@@ -16,6 +16,7 @@ class CreatePagoAnticipadosTable extends Migration
         Schema::create('pago_anticipados', function (Blueprint $table) {
             $table->id();
             $table->foreignId('produccion_transito_id')->references('id')->on('produccion_transitos');
+            $table->foreignId('user_id')->references('id')->on('users');
             $table->string('titulo');
             $table->double('monto_total');
             $table->double('porcentaje');

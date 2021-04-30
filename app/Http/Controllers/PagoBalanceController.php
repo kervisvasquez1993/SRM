@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\PagoBalance;
 use App\ProduccionTransito;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class PagoBalanceController extends Controller
@@ -62,6 +63,7 @@ class PagoBalanceController extends Controller
         $pago_balance->descripcion = $data['descripcion'];
         $pago_balance->fecha_pago = $data['fecha_pago'];
         $pago_balance->pago_completo = $request->get('pago_completo') ? true : false;
+        $pago_balance->user_id = Auth::user()->id;
 
         $pago_balance->save();
 

@@ -57,7 +57,7 @@
                                 </td>
                                 <!--TODO: Configure migrations and model to get and set the user -->
                                 <td>
-                                    Pedro Perez
+                                    {{ $finProduccion->user->name }}
                                 </td>
 
                                 <td class="d-flex">

@@ -13,6 +13,7 @@ class FinProduccionSeeder extends Seeder
     {
         DB::table('fin_produccions')->insert([
             'produccion_transito_id' => 1,
+            'user_id' => 1,
             'titulo' => 'Primer fin',
             'descripcion' => 'Descripcion del fin',
             'created_at' => date('Y-m-d H:i:s'),
@@ -21,6 +22,7 @@ class FinProduccionSeeder extends Seeder
 
         DB::table('fin_produccions')->insert([
             'produccion_transito_id' => 2,
+            'user_id' => 1,
             'titulo' => 'Segundo fin',
             'descripcion' => 'Descripcion del fin',
             'created_at' => date('Y-m-d H:i:s'),
@@ -29,6 +31,7 @@ class FinProduccionSeeder extends Seeder
 
         DB::table('fin_produccions')->insert([
             'produccion_transito_id' => 1,
+            'user_id' => 1,
             'titulo' => 'Tercer fin',
             'descripcion' => 'Descripcion del fin',
             'created_at' => date('Y-m-d H:i:s'),

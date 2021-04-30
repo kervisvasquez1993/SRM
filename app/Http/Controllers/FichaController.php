@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Arte;
 use App\Ficha;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FichaController extends Controller
 {
@@ -45,7 +46,7 @@ class FichaController extends Controller
         $ficha->titulo = $data['titulo'];
         $ficha->descripcion = $data['descripcion'];
         // TODO: Add the LOGGED user here, currently not implemented
-        $ficha->user_id = 1;
+        $ficha->user_id = Auth::user()->id;
         $ficha->arte_id = $data['arte'];
         $ficha->save();
         $user = $ficha->user;

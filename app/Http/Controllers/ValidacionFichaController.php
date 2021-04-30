@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Arte;
 use App\ValidacionFicha;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ValidacionFichaController extends Controller
 {
@@ -44,8 +45,7 @@ class ValidacionFichaController extends Controller
 
         $validacionFicha->titulo = $data['titulo'];
         $validacionFicha->descripcion = $data['descripcion'];
-        // TODO: Add the LOGGED user here, currently not implemented
-        $validacionFicha->user_id = 1;
+        $validacionFicha->user_id = Auth::user()->id;
         $validacionFicha->arte_id = $data['arte'];
         $validacionFicha->save();
         $user = $validacionFicha->user;

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Arte;
 use App\Boceto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BocetoController extends Controller
 {
@@ -46,8 +47,7 @@ class BocetoController extends Controller
 
         $boceto->titulo = $data['titulo'];
         $boceto->descripcion = $data['descripcion'];
-        // TODO: Add the LOGGED user here, currently not implemented
-        $boceto->user_id = 1;
+        $boceto->user_id = Auth::user()->id;
         $boceto->arte_id = $data['arte'];
         $boceto->save();
         $user = $boceto->user;

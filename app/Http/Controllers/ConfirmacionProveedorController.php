@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Arte;
 use Illuminate\Http\Request;
 use App\ConfirmacionProveedor;
+use Illuminate\Support\Facades\Auth;
 
 class ConfirmacionProveedorController extends Controller
 {
@@ -44,8 +45,7 @@ class ConfirmacionProveedorController extends Controller
 
         $confirmacionProveedor->titulo = $data['titulo'];
         $confirmacionProveedor->descripcion = $data['descripcion'];
-        // TODO: Add the LOGGED user here, currently not implemented
-        $confirmacionProveedor->user_id = 1;
+        $confirmacionProveedor->user_id = Auth::user()->id;
         $confirmacionProveedor->arte_id = $data['arte'];
         $confirmacionProveedor->save();
         $user = $confirmacionProveedor->user;
