@@ -90,7 +90,7 @@ class CompraController extends Controller
      */
     public function edit(Compra $compra)
     {
-        //
+        return view('compras.edit', compact('compra'));
     }
 
     /**
@@ -102,7 +102,18 @@ class CompraController extends Controller
      */
     public function update(Request $request, Compra $compra)
     {
-        //
+        $compra->orden_compra   = $request->orden_compra;
+        $compra->proveedor_id   = $request->proveedor_id;
+        $compra->item           = $request->item;
+        $compra->descripcion    = $request->descripcion;
+        $compra->registro_salud = $request->registro_salud;
+        $compra->cantidad_pcs   = $request->cantidad_pcs;
+        $compra->total          = $request->total;
+        $compra->save();
+        Session::flash('message', 'Orden Actualizada Correctamente');
+        Session::flash('class', 'success');
+        return redirect()->action('ProveedorController@listaAprobado');
+        
     }
 
     /**
