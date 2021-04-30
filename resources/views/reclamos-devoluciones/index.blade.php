@@ -11,6 +11,12 @@
                 <div class="card-header d-inline-flex justify-content-around flex-wrap">
                     <h4><strong>Tarea</strong>: {{ $rcd->ProduccionTransito->pivotTable->tarea->nombre }}</h4>
                     <h4><strong>Proveedor</strong>: {{ $rcd->ProduccionTransito->pivotTable->proveedor->nombre }}</h4>
+                    <h4><strong>Pais</strong>: {{ $rcd->ProduccionTransito->pivotTable->proveedor->pais }}</h4>
+                    <h4><strong>Ciudad</strong>: {{ $rcd->ProduccionTransito->pivotTable->proveedor->ciudad }}</h4>
+                    @if($rcd->ProduccionTransito->pivotTable->proveedor->distrito)
+                        <h4><strong>Distrito</strong>: {{ $rcd->ProduccionTransito->pivotTable->proveedor->distrito }}</h4>
+                        
+                    @endif
                 </div>
 
                 <div class="card-body">
