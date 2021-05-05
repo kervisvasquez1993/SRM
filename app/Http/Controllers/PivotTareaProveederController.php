@@ -44,7 +44,8 @@ class PivotTareaProveederController extends Controller
         {
             return "Ya existe el Proveedor en Arte";
         }
-        else{
+        else
+        {
             $arte = new Arte();
             $arte->pivot_tarea_proveeder_id = $id;
             $arte->nombre = 'Esto es una Prueba';
@@ -56,9 +57,7 @@ class PivotTareaProveederController extends Controller
             $arte->fecha_fin = Carbon::now(); /* //TODO cambiar el metodo de carbon por fecha de finalizacion recibida de request */
             $arte->save();
         }
-
         return $arte;
-        
      }
 
 

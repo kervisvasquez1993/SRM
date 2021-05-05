@@ -64,9 +64,11 @@
 
     @endslot
 
+
     @slot('contenidoFooter')
+    @if(Auth::user()->rol == 'coordinador')
       {{-- <div id="eventInit" class="d-flex justify-content-between w-100"> --}}
-        @if(Auth::user()->rol == 'coordinador')
+       
           {{-- <form action="{{route('arteAprobados.update', ['arteAprobado' => $value->id])}}" method="post">
             @csrf
             @method('PUT')
@@ -75,24 +77,19 @@
           <button id="iniciarArte" data-id="{{$value->id}}" class=" iniciarArte btn btn-sm btn-online-success btn-round">
             Iniciar Arte
           </button>
-        @endif
-    
-        @if(Auth::user()->rol == 'coordinador')
-          <form action="{{route('produccionAprobados.update', ['produccionAprobado' => $value->id])}}" method="post">
-            @csrf
-            @method('PUT')
-            <input type="submit" value="Iniciar Producción" class="btn btn-sm btn-outline-success btn-round">
-          </form>
-        @endif
-        @if(Auth::user()->rol == 'coordinador')
-          <form action="{{route('arteProduccionAprobados.update', ['arteProduccionAprobado' => $value->id])}}" method="post">
-            @csrf
-            @method('PUT')
-            <input type="submit" value="Iniciar Producción y Artes" class="btn btn-sm btn-outline-success btn-round" >
-          </form>
-        @endif
+            
+
+          <button data-id="{{$value->id}}" class="iniciarProduccion btn btn-sm btn-outline-success btn-round">
+            Iniciar Produccion
+          </button>   
+          
+          <button data-id="{{$value->id}}" class="iniciarArteProduccion btn btn-sm btn-outline-success btn-round">
+            Iniciar Arte y Producción
+          </button>          
       {{-- </div> --}}
-    @endslot
+      @endif
+      @endslot
+    
  @endcomponent
 
 @endif
@@ -107,17 +104,33 @@
             csrfToken = document.head.querySelector("[name~=csrf-token][content]").content; 
             iniciarArte.addEventListener('click', e =>
                   {
-                      let arte = e.target.classList.contains('iniciarArte')
+                      let arte           = e.target.classList.contains('iniciarArte'),
+                          produccion     = e.target.classList.contains('iniciarProduccion'),
+                          arteProduccion = e.target.classList.contains('iniciarArteProduccion') 
                        if(arte)
                        {       
-                       
-                            id     = e.target.getAttribute('data-id'),
-                            console.log(id)
-                            url = `/produccionAprobados/${id}`
-                        
-                        actualizarRuta(url)
-                                  
-                      }
+                         let  id  = e.target.getAttribute('data-id'),
+                              url = `/arteAprobados/${id}`
+                              console.log(id)
+                         actualizarRuta(url)         
+                       }
+
+                       if(produccion)
+                       {
+                         let id  = e.target.getAttribute('data-id'),
+                             url = `/produccionAprobados/${id}`
+                             actualizarRuta(url) 
+                             console.log(id)
+                       }
+
+                       if(arteProduccion)
+                       {
+                          let id  = e.target.getAttribute('data-id'),
+                              url = `/arteProduccionAprobados/${id}`
+                              actualizarRuta(url)
+                              
+                            
+                       }
                   })
 
 

@@ -12,8 +12,6 @@ class DevolucionReclamosDevolucionesSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('recepcion_reclamo_devolucions')->insert([
-            'produccion_transito_id' => 1
-        ]);
+       
     }
 }
