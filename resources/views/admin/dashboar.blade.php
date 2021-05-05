@@ -37,7 +37,7 @@
     <div class="main-panel">
       @include('ui.nav')
       
-      <div class="content">
+      <div class="content" id="eventInit">
         @yield('content')
         @yield('footer') 
       </div>
