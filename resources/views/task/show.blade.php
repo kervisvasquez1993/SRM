@@ -32,7 +32,7 @@ else
     <div class="row">
       <div class="container-fluid d-flex justify-content-between">
         <div>
-            @if(Auth::user()->rol == 'comprador')
+            @if(Auth::user()->rol == 'comprador' || Auth::user()->rol == 'coordinador')
                  <a href="#" type="button" 
                  class="btn btn-sm btn-outline-primary btn-round" 
                  data-id_tarea={{$tarea->id}}
