@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\RecepcionMercancia;
 use Illuminate\Http\Request;
 use App\RecepcionReclamoDevolucion;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class RecepcionMercanciaController extends Controller
@@ -32,12 +33,7 @@ class RecepcionMercanciaController extends Controller
         return view('recepcion-mercancia.create', compact('rcdId'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
         $rcdId =  $request->get('rcdId');
@@ -50,8 +46,9 @@ class RecepcionMercanciaController extends Controller
         $recepcionMercancia = new RecepcionMercancia();
         $recepcionMercancia->recepcion_reclamo_devolucion_id = $rcdId;
         $recepcionMercancia->titulo = $data['titulo'];
+        $recepcionMercancia->user_id = Auth::user()->id;
         $recepcionMercancia->descripcion = $data['descripcion'];
-
+        
         $recepcionMercancia->save();
 
         Session::flash('message', 'Incidencia de Recepción de Mercancia creada exitosamente.');

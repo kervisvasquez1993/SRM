@@ -1,8 +1,6 @@
 @extends('admin.dashboar')
 
 @section('content')
-
-
     <div class="d-flex flex-wrap justify-content-center">
         @foreach($recepcionReclamoDevolucion as $rcd)
         
@@ -13,13 +11,13 @@
                     <h4><strong>Proveedor</strong>: {{ $rcd->ProduccionTransito->pivotTable->proveedor->nombre }}</h4>
                     <h4><strong>Pais</strong>: {{ $rcd->ProduccionTransito->pivotTable->proveedor->pais }}</h4>
                     <h4><strong>Ciudad</strong>: {{ $rcd->ProduccionTransito->pivotTable->proveedor->ciudad }}</h4>
+                    <h4><strong>Provincia</strong>: {{ $rcd->ProduccionTransito->pivotTable->proveedor->provincia }}</h4>
                     @if($rcd->ProduccionTransito->pivotTable->proveedor->distrito)
                         <h4><strong>Distrito</strong>: {{ $rcd->ProduccionTransito->pivotTable->proveedor->distrito }}</h4>
-                        
                     @endif
                 </div>
 
-                <div class="card-body">
+                <div class="card-body d-flex justify-content-between">
                     <h5 class="d-flex align-items-center">
                         <a href="{{ route('recepcion-mercancias.index', ['rcdId' => $rcd->id]) }}">
                             <strong>
@@ -84,10 +82,6 @@
 
 @section('ccs_file')
     <style>
-        .card {
-            max-width: 300px;
-        }
-
         .btn-secondary {
             padding: 0px
         }

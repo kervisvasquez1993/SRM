@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\ReclamosDevolucione;
 use Illuminate\Http\Request;
 use App\RecepcionReclamoDevolucion;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class ReclamosDevolucioneController extends Controller
@@ -52,7 +53,7 @@ class ReclamosDevolucioneController extends Controller
         $reclamoDevolucion->recepcion_reclamo_devolucion_id = $rcdId;
         $reclamoDevolucion->titulo = $data['titulo'];
         $reclamoDevolucion->descripcion = $data['descripcion'];
-
+        $reclamoDevolucion->user_id = Auth::user()->id;
         $reclamoDevolucion->save();
 
         Session::flash('message', 'Incidencia de Reclamo/Devolución creada exitosamente.');
@@ -61,12 +62,7 @@ class ReclamosDevolucioneController extends Controller
         return redirect()->action('ReclamosDevolucioneController@index', compact('rcdId'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\ReclamosDevolucione  $reclamosDevolucione
-     * @return \Illuminate\Http\Response
-     */
+    
     public function show(ReclamosDevolucione $reclamosDevolucione)
     {
         //

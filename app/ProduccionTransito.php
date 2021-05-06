@@ -18,6 +18,10 @@ class ProduccionTransito extends Model
         return $this->hasMany(PagoAnticipado::class);
     }
 
+    public function inicioProduccion()
+    {
+        return $this->hasMany(InicioProduccion::class);
+    }
     public function pagosBalance()
     {
         return $this->hasMany(PagoBalance::class);

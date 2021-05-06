@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\InspeccionCarga;
 use Illuminate\Http\Request;
 use App\RecepcionReclamoDevolucion;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class InspeccionCargaController extends Controller
@@ -53,7 +54,7 @@ class InspeccionCargaController extends Controller
         $inspeccionCarga->recepcion_reclamo_devolucion_id = $rcdId;
         $inspeccionCarga->titulo = $data['titulo'];
         $inspeccionCarga->descripcion = $data['descripcion'];
-
+        $inspeccionCarga->user_id = Auth::user()->id;
         $inspeccionCarga->save();
 
         Session::flash('message', 'Incidencia de Inspecciión de Carga creada exitosamente.');

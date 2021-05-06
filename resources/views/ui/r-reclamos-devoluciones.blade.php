@@ -14,7 +14,8 @@
 
             <tbody>
                 @foreach($incidencias as $incidencia)
-                    <tr>
+                    
+                   <tr>
                         <td>{{ $incidencia->id }}</td>
                         <td class="td-name">
                             {{ $incidencia->titulo }}

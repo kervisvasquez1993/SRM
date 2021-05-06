@@ -49,12 +49,12 @@
                   <h5 class="d-flex">
                     <a  @if(Auth::user()->rol == 'comprador' || Auth::user()->rol == 'coordinador') href="{{ route('inicio-produccion.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"  else { href="#" onclick="deshabilitar(this)" @endif>
                       <strong>Inicio Producción:</strong></a>:
-                    @if($produccionTransito->inicio_produccion)
+                      
+                    @if($produccionTransito->inicioProduccion)
                         <span class="material-icons text-success">
                             done_all
                             {{$contador++}}
                         </span>
-
                     @else
                         <span class="material-icons text-danger">
                             clear
@@ -112,12 +112,11 @@
                   <h5>
                     <a  @if(Auth::user()->rol == 'comprador' || Auth::user()->rol == 'coordinador') href="{{ route('fin-produccion.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"  else { href="#" onclick="deshabilitar(this)" @endif>
                     <strong>Fin de Producción</strong></a>:
-                    @if($produccionTransito->transito_nacionalizacion)
+                    @if($produccionTransito->finProduccion)
                         <span class="material-icons text-success">
                             done_all
                             {{$contador++}}
                         </span>
-
                     @else
                         <span class="material-icons text-danger">
                             clear
@@ -131,7 +130,7 @@
                     
                         <strong>Transito Nacionalización</strong>
                     </a>:
-                    @if($produccionTransito->transito_nacionalizacion)
+                    @if($produccionTransito->transitosNacionalizacion)
                         <span class="material-icons text-success">
                             done_all
                             {{$contador++}}

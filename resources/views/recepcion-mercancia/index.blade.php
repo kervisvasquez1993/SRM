@@ -1,7 +1,7 @@
 @extends('admin.dashboar')
 
 @section('content')
-
+    
     <div class="d-flex justify-content-between">
         <a
             class="btn btn-outline-primary btn-round"
