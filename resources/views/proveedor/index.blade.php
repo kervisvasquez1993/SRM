@@ -12,7 +12,7 @@
     @slot('titulo')
     <div> Nombre Empresa: {{$value->proveedor->nombre}}</div>  
     <div class="d-flex">
-      @if(Auth::user()->rol == 'comprador')
+      @if(Auth::user()->rol == 'comprador' || Auth::user()->rol == 'coordinador')
       <a href="{{ route('productos.index', ['id_proveedor' => $value->proveedor->id]) }}" type="button" class="btn btn-sm btn-outline-warning btn-round">Agregar Productos</a> 
       
       @if($value->proveedor->compra->count() >= 1)
@@ -107,29 +107,27 @@
                       let arte           = e.target.classList.contains('iniciarArte'),
                           produccion     = e.target.classList.contains('iniciarProduccion'),
                           arteProduccion = e.target.classList.contains('iniciarArteProduccion') 
+                       
+                        function initUrl(url)
+                        {
+                            let id  = e.target.getAttribute('data-id'),
+                                nuevaUrl = `/${url}/${id}`
+                                actualizarRuta(nuevaUrl)
+                        }
+                       
                        if(arte)
                        {       
-                         let  id  = e.target.getAttribute('data-id'),
-                              url = `/arteAprobados/${id}`
-                              console.log(id)
-                         actualizarRuta(url)         
+                          initUrl('arteAprobados')           
                        }
 
                        if(produccion)
                        {
-                         let id  = e.target.getAttribute('data-id'),
-                             url = `/produccionAprobados/${id}`
-                             actualizarRuta(url) 
-                             console.log(id)
+                         initUrl('produccionAprobados') 
                        }
 
                        if(arteProduccion)
                        {
-                          let id  = e.target.getAttribute('data-id'),
-                              url = `/arteProduccionAprobados/${id}`
-                              actualizarRuta(url)
-                              
-                            
+                         initUrl('arteProduccionAprobados')    
                        }
                   })
 
