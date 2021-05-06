@@ -8,21 +8,19 @@
   <div class="">
   
     @if( count($artes) > 0 )
-      
       @foreach( $artes as $arte )
       
         {{-- Card --}}
         <div id="{{ $arte->id }}" class="card" disabled>
           
-          <div class="card-header d-flex justify-content-between flex-wrap">
+             <div class="card-header d-flex justify-content-between flex-wrap">
               <h4 class="card-title"><strong class="text-secondary">Tarea: </strong> <span id="arte-name">{{ $arte->nombre }}</span></h4>
               <h4 class=""> <strong class="text-secondary">Proveedor: </strong> {{ $arte->pivotTable->proveedor->nombre }}</h4>
               <h4 class=""> <strong class="text-secondary">Fecha Fin: </strong> {{ date('d-m-Y', strtotime($arte->fecha_fin)) }}</h4>
-          </div>
-          <hr class="separator">
-          <div class="card-body">
+             </div>
+             <hr class="separator">
+             <div class="card-body d-flex flex-wrap p-2 m-2">
               <strong class="text-secondary">Estatus: </strong>
-
               <div class="status d-flex justify-content-between">
                   <span class="mr-3">
                     <strong class="text-secondary pointer-underline">
@@ -72,14 +70,12 @@
                     <span id="card-confirm-proveedor-{{ $arte->id }}">{{ $arte->confirmacionProveedorEstatus->estatus }}</span>
                   </span>
               </div>
-          </div>
-
-          <div class="d-flex justify-content-end m-2">
-            <span class="material-icons launch" @if(Auth::user()->rol == 'artes')  onclick="showModal({{ $arte }}, {{ $estatus }})"  data-toggle="modal" data-target="#modal-{{ $arte->id }}" @endif>
-              launch
-            </span>
-          </div>
-
+             </div>
+             <div class="d-flex justify-content-end m-2">
+                  <span class="material-icons launch" @if(Auth::user()->rol == 'artes')  onclick="showModal({{ $arte }}, {{ $estatus }})"  data-toggle="modal" data-target="#modal-{{ $arte->id }}" @endif>
+                    launch
+                  </span>
+             </div>
         </div>
           
           
@@ -161,11 +157,7 @@
               </div>
             </div>
           </div>
-        @endforeach
-
-
-
-
+      @endforeach
     @else
       {{-- Empty view --}}
       @include('ui.nada-para-mostrar')

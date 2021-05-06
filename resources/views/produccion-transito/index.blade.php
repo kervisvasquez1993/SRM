@@ -8,14 +8,15 @@
     @php
         $contador = 0 ;
     @endphp
-        <div class="card m-3">
+        <div class="card">
             <div class="card-header d-inline-flex justify-content-around flex-wrap">
                 <h4><strong>Tarea</strong>: {{ $produccionTransito->pivotTable->tarea->nombre }}</h4>
                 <h4><strong>Proveedor</strong>: {{ $produccionTransito->pivotTable->proveedor->nombre }}</h4>
             </div>
             
-            <div class="card-body ">
-                <h5 class="d-flex align-items-center">
+            <div class="card-body d-flex justify-content-between flex-wrap ">
+                <div class="p-3">
+                   <h5 class="d-flex align-items-center">
                     <a  @if(Auth::user()->rol == 'comprador')  href="{{ route('pago-anticipado.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"  else  href="#" onclick="deshabilitar(this)" @endif>
                     <strong>Pago Anticipado</strong></a>:
                     @if($produccionTransito->pagos_anticipados)
@@ -28,17 +29,20 @@
                             clear
                         </span>
                     @endif
-                </h5>
+                   </h5>
+                </div>
 
 
                 @if($produccionTransito->pagos_anticipados)
+                <div class="p-3">
                     <h5>
                         <strong>Pagado (%)</strong>:
                         100%
                     </h5>
+                </div>
                 @endif
-
-                <h5 class="d-flex">
+                <div class="p-3">
+                  <h5 class="d-flex">
                     <a  @if(Auth::user()->rol == 'comprador') href="{{ route('inicio-produccion.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"  else { href="#" onclick="deshabilitar(this)" @endif>
                       <strong>Inicio Producción:</strong></a>:
                     @if($produccionTransito->inicio_produccion)
@@ -71,9 +75,10 @@
                     @endif
 
 
-                </h5>
-
-                <h5>
+                  </h5>
+                </div>
+                <div class="p-3">
+                   <h5>
                     <a  @if(Auth::user()->rol == 'comprador') href="{{ route('pago-balance.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"  else { href="#" onclick="deshabilitar(this)" @endif>
                     <strong>Pago de Balance:</strong></a>:
                     @if($produccionTransito->pago_balance)
@@ -88,16 +93,19 @@
                             clear
                         </span>
                     @endif
-                </h5>
+                   </h5>
+                </div>
 
                 @if($produccionTransito->pago_balance)
+                <div class="p-3">    
                     <h5>
-                        <strong>Pagado Balance (%)</strong>:
+                      <strong>Pagado Balance (%)</strong>:
                         90%
                     </h5>
+                </div>
                 @endif
-
-                <h5>
+                <div class="p-3">
+                  <h5>
                     <a  @if(Auth::user()->rol == 'comprador') href="{{ route('fin-produccion.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}"  else { href="#" onclick="deshabilitar(this)" @endif>
                     <strong>Fin de Producción</strong></a>:
                     @if($produccionTransito->transito_nacionalizacion)
@@ -111,9 +119,10 @@
                             clear
                         </span>
                     @endif
-                </h5>
-
-                <h5>
+                  </h5>
+                </div>
+                <div class="p-3">
+                   <h5>
                     <a  @if(Auth::user()->rol == 'logistica') href="{{ route('transito-nacionalizacion.index', ['produccionTransitoId' =>  $produccionTransito->id]) }}" else { href="#" onclick="deshabilitar(this)" @endif>
                     
                         <strong>Transito Nacionalización</strong>
@@ -129,7 +138,8 @@
                             clear
                         </span>
                     @endif
-                </h5>
+                   </h5>
+                </div>
                 @php
                     $disabled = 'disabled';
                     $bgAlert = 'bg-danger';
@@ -141,8 +151,8 @@
                     @endphp
                 
                 @endif
-                
-                <h5 class="py-1 d-flex  justify-content-start align-items-center">  
+                <div class="p-3">
+                  <h5 class="py-1 d-flex  justify-content-start align-items-center">  
                                      
                      <span class="form-check d-flex justify-content-start">
                         <div class="circle {{$bgAlert}} mx-1"></div>
@@ -158,7 +168,8 @@
                             </label>
                             
                     </span>
-                </h5>   
+                  </h5>   
+                </div>
                 
 
             </div>
@@ -191,9 +202,7 @@
             height: 20px;
             border-radius: 50%;
         }
-        .card {
-            max-width: 300px;
-        }
+       
 
         .iniciar-prod {
             margin-left: -5px
