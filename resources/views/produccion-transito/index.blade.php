@@ -8,15 +8,17 @@
     @php
         $contador = 0 ;
     @endphp
+        @if($produccionTransito->pivotTable->tarea->usuarios->name == Auth::user()->name || Auth::user()->rol == 'coordinador' || Auth::user()->rol == 'logistica')
         <div class="card">
             <div class="card-header d-flex justify-content-around flex-wrap flex-wrap">
                 <h6><strong>Tarea</strong>: {{ $produccionTransito->pivotTable->tarea->nombre }}</h6>
                 <h6><strong>Proveedor</strong>: {{ $produccionTransito->pivotTable->proveedor->nombre }}</h6>
                 <h6><strong>Pais</strong> : {{$produccionTransito->pivotTable->proveedor->pais}}</h6>
-                <h6><strong>Provincia</strong> : {{$produccionTransito->pivotTable->proveedor->ciudad}}</h6>
-                <h6><strong>Provincia</strong> : {{$produccionTransito->pivotTable->proveedor->provincia}}</h6>
-                <h6><strong>Conatacto</strong> : {{$produccionTransito->pivotTable->contacto}}</h6>   
-                <h6><strong>Télefono</strong> : {{$produccionTransito->pivotTable->telefono}}</h6>              
+                <h6><strong>Ciudad</strong> : {{$produccionTransito->pivotTable->proveedor->ciudad}}</h6>
+                <h6><strong>Distrito</strong> : {{$produccionTransito->pivotTable->proveedor->distrito}}</h6>
+                <h6><strong>Conatacto</strong> : {{$produccionTransito->pivotTable->proveedor->contacto}}</h6>   
+                <h6><strong>Télefono</strong> : {{$produccionTransito->pivotTable->proveedor->telefono}}</h6>  
+                <h6><strong>Email</strong> : {{$produccionTransito->pivotTable->proveedor->email}}</h6>              
             </div>
             <div class="card-body d-flex justify-content-between flex-wrap">
                 <div class="p-3">
@@ -177,6 +179,7 @@
 
             </div>
         </div>
+        @endif
     @endforeach
 
     @if(Session::has('message'))

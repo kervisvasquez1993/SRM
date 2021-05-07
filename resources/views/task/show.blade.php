@@ -102,7 +102,7 @@ else
                     @slot('titulo')
                     <div> Nombre Empresa: {{$proveedor->nombre}}</div>  
                     <div class="d-flex">
-                      @if(Auth::user()->rol == 'coordinador')
+                      @if(Auth::user()->rol == 'coordinador' || Auth::user()->rol == 'comprador')
                           <form action="{{route('negociaciones.update', ['negociar' => $proveedor->id])}}" method="post">
                             @csrf
                             @method('PUT')
@@ -112,7 +112,7 @@ else
                           </form>
                       @endif
                       {{-- //TODO: CAMBIAR LA FUNCIONALIDAD PARA QUE SE ENVIA POR JS Y NO POR UN FORMULARIO --}}
-                      @if(Auth::user()->rol == 'comprador')
+                      @if(Auth::user()->rol == 'comprador' || Auth::user()->rol == 'coordinador')
                           <a href="#" type="button" 
                                     class="btn btn-sm btn-outline-primary btn-round"  
                                     data-id_tarea="{{$proveedor->id}}"

@@ -1,5 +1,4 @@
 
-
 <div class="form-row">
     <div class="col-md-12 mb-3">
         <label for="nombre">Titulo de la Tarea<span class="red">*</span></label>

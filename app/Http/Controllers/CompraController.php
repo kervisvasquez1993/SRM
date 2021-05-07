@@ -56,13 +56,13 @@ class CompraController extends Controller
         );
 
         $compra = new Compra();
-
         $compra->orden_compra = $data['orden_compra'];
         $compra->item = $data['item'];
         $compra->proveedor_id = $request->proveedor_id;
         $compra->descripcion = $data['descripcion'];
         $compra->registro_salud = $data['registro_salud'];
         $compra->total = $data['total'];
+        $compra->cantidad_pcs = $data['cantidad_pcs'];
         $compra->save();
         Session::flash('message', 'Orden Añadida correctamente');
         Session::flash('class', 'success');

@@ -10,4 +10,10 @@ class Producto extends Model
     {
         return $this->belongsTo(Proveedor::class, 'proveedor_id');
     }
+
+    public function productOverview()
+    {
+        return $this->belongsTo(ProductOverview::class);
+    }
+    
 }

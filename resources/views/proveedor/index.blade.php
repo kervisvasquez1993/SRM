@@ -8,11 +8,12 @@
 @endif
 @foreach($aprobados as $value)
 @if($value->proveedor->aprovado )    
+  @if((Auth::user()->name == $value->tarea->usuarios->name) || Auth::user()->rol == 'coordinador')
     @component('componentes.cardGeneral')
     @slot('titulo')
     <div> Nombre Empresa: {{$value->proveedor->nombre}}</div>  
     <div> Nombre de Tarea: {{$value->tarea->nombre}}</div>
-    <div> Comprador Asignado: {{$value->tarea->user}}</div>
+    <div> Comprador Asignado: {{$value->tarea->usuarios->name}}</div>
     
     <div class="d-flex">
       @if(Auth::user()->rol == 'comprador' || Auth::user()->rol == 'coordinador')
@@ -47,24 +48,27 @@
                       array_push($array_total_g_w, $productos->total_g_w);
                   @endphp          
         @endforeach
-    <div>
+       <div>
         <div class="card-header card-header-tabs">        
           <ul class="nav nav-tabs" data-tabs="tabs">
-          <li class="nav-item bg-primary d-block">
+          <li class="nav-item bg-secondary d-block">
+            
             <a class="nav-link   active show" href="#profile-{{$value->id}}" data-toggle="tab">
-              <i class="material-icons">bug_report</i> Detalle de Proveedor
+              <span class="material-icons">
+                business
+                </span> Detalle de Proveedor
               <div class="ripple-container"></div>
             <div class="ripple-container"></div></a>
           </li>
-          <li class="nav-item bg-primary d-block">
+          <li class="nav-item bg-secondary d-block">
             <a class="nav-link" href="#messages-{{$value->id}}" data-toggle="tab">
-              <i class="material-icons">code</i> Detalles de Productos
+              <i class="material-icons">info</i> Detalles de Productos
               <div class="ripple-container"></div>
             <div class="ripple-container"></div></a>
           </li>
-          <li class="nav-item bg-primary d-block">
+          <li class="nav-item bg-secondary d-block">
             <a class="nav-link" href="#settings-{{$value->id}}" data-toggle="tab">
-              <i class="material-icons">cloud</i> Detalle De Compra
+              <i class="material-icons">shopping_cart</i> Detalle De Compra
               <div class="ripple-container"></div>
             <div class="ripple-container"></div></a>
           </li>
@@ -74,11 +78,16 @@
           <div class="tab-content">
           <div class="tab-pane active show" id="profile-{{$value->id}}">
             <table class="table">
-              <div class="d-flex w-100  justify-content-between">
-                   <h4><strong>País</strong>:  {{$value->proveedor->pais}}. </h4>
-                   <h4><strong>Ciudad</strong>: {{$value->proveedor->ciudad}}. </h4>
-                   <h4><strong>Distrito</strong>: {{$value->proveedor->distrito}}. </h4>
-                   <h4><strong>Porvincia</strong>: </h4>
+              <div class="d-flex w-100  flex-wrap justify-content-between">
+                   <h4 class="p-4"><strong>País</strong>:  {{$value->proveedor->pais}}. </h4>
+                   <h4 class="p-4"><strong>Ciudad</strong>: {{$value->proveedor->ciudad}}. </h4>
+                   <h4 class="p-4"><strong>Distrito</strong>: {{$value->proveedor->distrito}}. </h4>
+                   <h4 class="p-4"><strong>Descripcion</strong>: {{$value->proveedor->descripcion}}. </h4>
+                   <h4 class="p-4"><strong>Direccion</strong>: {{$value->proveedor->address}}. </h4>
+                   <h4 class="p-4"><strong>Contacto</strong>: {{$value->proveedor->contacto}}. </h4>
+                   <h4 class="p-4"><strong>Teléfono</strong>: {{$value->proveedor->telefono}}. </h4>
+                   <h4 class="p-4"><strong>Email</strong>: {{$value->proveedor->email}}. </h4>
+                   
               </div>
             </table>
           </div>
@@ -102,7 +111,9 @@
                     <h5 class="p-3"><strong>Item</strong>: {{$key->item }} </h5>
                     <h5 class="p-3"><strong>Registro Salud</strong>: {{$key->registro_salud}}</h5>
                     <h5 class="p-3"><strong>Cantidad PCS</strong>: {{$key->cantidad_pcs}} </h5>
-                    <h5 class="p-3"><strong>Descripción</strong>:  {{$key->descripcion}}</h5>           
+                    <h5 class="p-3"><strong>Descripción</strong>:  {{$key->descripcion}}</h5>
+                    <h5 class="p-3"><strong>Total</strong>:  {{$key->total}}</h5>  
+
                   </div>
                 @endforeach
                  
@@ -111,22 +122,10 @@
           </div>
           </div>
         </div>
-    </div>
-      
-    
-
+      </div>
     @endslot
-
-
     @slot('contenidoFooter')
     @if(Auth::user()->rol == 'coordinador')
-      {{-- <div id="eventInit" class="d-flex justify-content-between w-100"> --}}
-       
-          {{-- <form action="{{route('arteAprobados.update', ['arteAprobado' => $value->id])}}" method="post">
-            @csrf
-            @method('PUT')
-            <input type="submit" value="Iniciar Arte" class="btn btn-sm btn-outline-success btn-round" >
-          </form> --}}
           <button id="iniciarArte" data-id="{{$value->id}}" class=" iniciarArte btn btn-sm btn-online-success btn-round">
             Iniciar Arte
           </button>
@@ -141,9 +140,9 @@
           </button>          
       {{-- </div> --}}
       @endif
-      @endslot
-    
- @endcomponent
+      @endslot   
+    @endcomponent
+  @endif
 
 @endif
     
