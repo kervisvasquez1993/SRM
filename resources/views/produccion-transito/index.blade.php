@@ -20,6 +20,17 @@
                 <h6><strong>Télefono</strong> : {{$produccionTransito->pivotTable->proveedor->telefono}}</h6>  
                 <h6><strong>Email</strong> : {{$produccionTransito->pivotTable->proveedor->email}}</h6>              
             </div>
+            <hr>
+            <div class="card-header d-flex justify-content-around flex-wrap flex-wrap"> 
+                 @foreach( $produccionTransito->pivotTable->proveedor->compra as $compra)
+                        <h6><strong>Orden Compra</strong>: {{ $compra->orden_compra}}</h6>
+                        <h6><strong>Item</strong>: {{ $compra->item }}</h6>
+                        <h6><strong>Registro de Salud</strong>: {{ $compra->registro_salud}}</h6>
+                        <h6><strong>Cantidad PCS</strong>: {{ $compra->cantidad_pcs }}</h6>
+                        <h6><strong>Total</strong>: {{ $compra->total }}</h6>
+                 @endforeach                         
+            </div>
+            <hr>
             <div class="card-body d-flex justify-content-between flex-wrap">
                 <div class="p-3">
                    <h5 class="d-flex align-items-center">
