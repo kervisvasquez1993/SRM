@@ -33,13 +33,6 @@ class ReclamosDevolucioneController extends Controller
         $rcdId =  $request->get('rcdId');
         return view('reclamo-devolucion.create', compact('rcdId'));
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $rcdId =  $request->get('rcdId');
@@ -68,12 +61,6 @@ class ReclamosDevolucioneController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\ReclamosDevolucione  $reclamosDevolucione
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Request $request, $id)
     {
         $rcdId =  $request->get('rcdId');

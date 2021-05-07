@@ -140,7 +140,6 @@ class ProveedorController extends Controller
     {
         
         $aprobados = PivotTareaProveeder::all();      
-        
         return view('proveedor.index',compact('aprobados'));
     }
 }

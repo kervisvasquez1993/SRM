@@ -3,7 +3,6 @@
 @section('content')
     <div class="d-flex flex-wrap justify-content-center">
         @foreach($recepcionReclamoDevolucion as $rcd)
-        
             <div class="card m-3">
 
                 <div class="card-header d-inline-flex justify-content-around flex-wrap">
@@ -24,7 +23,8 @@
                                 Recepción Mercancía
                             </strong>
                         </a>: 
-                        @if($rcd->recepcion_mercancia)
+
+                        @if($rcd->recepcionMercancia)
                             <span class="material-icons text-success">
                                 done_all
                             </span>
@@ -42,7 +42,7 @@
                                 Inspección de Carga
                             </strong>
                         </a>: 
-                        @if($rcd->inspeccion_carga)
+                        @if($rcd->inspeccionCarga)
                             <span class="material-icons text-success">
                                 done_all
                             </span>
@@ -60,7 +60,8 @@
                                 Reclamos Devoluciones
                             </strong>
                         </a>: 
-                        @if($rcd->reclamos_devoluciones)
+                        
+                        @if($rcd->reclamoDevolucion)
                             <span class="material-icons text-success">
                                 done_all
                             </span>
@@ -71,6 +72,13 @@
                             </span>
                         @endif
                     </h5>
+
+                    {{-- <h6>testtt:</h6>
+                    <div>
+                        {{$rcd->reclamoDevolucion}}
+                    </div> --}}
+
+                    {{-- TODO: CORREGIR ERROR PARA MOSTRAR INFORMACION --}}
 
                 </div>
             </div>

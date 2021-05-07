@@ -1,10 +1,10 @@
 <template>
-    <div class="d-flex flex-column">
-        <h5><strong>cbm totales por unidad</strong>: {{cbm_unit_total}}</h5>
-        <h5><strong>ctn totales</strong>: {{total_cbm_final}}</h5>
-        <h5><strong>total cbm</strong>: {{total_cbm_final}}</h5>
-        <h5><strong>total n.w</strong>: {{total_n_w_resulta}}  </h5>
-        <h5><strong>total g.w</strong>:  {{total_g_w_resulta}}</h5>           
+    <div class="d-flex w-100  justify-content-between">
+        <h5 class="p-3"><strong>cbm totales por unidad</strong>: {{cbm_unit_total}}</h5>
+        <h5 class="p-3"><strong>ctn totales</strong>: {{total_cbm_final}}</h5>
+        <h5 class="p-3"><strong>total cbm</strong>: {{total_cbm_final}}</h5>
+        <h5 class="p-3"><strong>total n.w</strong>: {{total_n_w_resulta}}  </h5>
+        <h5 class="p-3"><strong>total g.w</strong>:  {{total_g_w_resulta}}</h5>           
     </div>
 
     

@@ -11,6 +11,9 @@
     @component('componentes.cardGeneral')
     @slot('titulo')
     <div> Nombre Empresa: {{$value->proveedor->nombre}}</div>  
+    <div> Nombre de Tarea: {{$value->tarea->nombre}}</div>
+    <div> Comprador Asignado: {{$value->tarea->user}}</div>
+    
     <div class="d-flex">
       @if(Auth::user()->rol == 'comprador' || Auth::user()->rol == 'coordinador')
       <a href="{{ route('productos.index', ['id_proveedor' => $value->proveedor->id]) }}" type="button" class="btn btn-sm btn-outline-warning btn-round">Agregar Productos</a> 
@@ -22,6 +25,7 @@
       @endif
       @endif 
      </div>
+              
     @endslot
     @slot('bodyCard')   
         @php
@@ -32,13 +36,6 @@
             $array_total_n_w = array();
             $array_total_g_w = array();
         @endphp
-         <div class="card-header d-flex justify-content-around flex-wrap">
-          <h4><strong>País</strong>:  {{$value->proveedor->pais}}. </h4>
-          <h4><strong>Ciudad</strong>: {{$value->proveedor->ciudad}}. </h4>
-          <h4><strong>Distrito</strong>: {{$value->proveedor->distrito}}. </h4>
-          <h4><strong>Porvincia</strong>: </h4>
-
-      </div>
         @foreach($value->proveedor->productos as $productos)
               
                   @php
@@ -50,17 +47,73 @@
                       array_push($array_total_g_w, $productos->total_g_w);
                   @endphp          
         @endforeach
-        <resumen-productos
-            :cbm       = "{{json_encode($array_cbm)}}"
-            :ctn       = "{{json_encode($array_ctn)}}"
-            :total_cbm = "{{json_encode($array_total_cbm)}}"
-            :total_n_w = "{{json_encode($array_total_n_w)}}"
-            :total_g_w = "{{json_encode($array_total_g_w)}}"
-
-        ></resumen-productos>
-       
+    <div>
+        <div class="card-header card-header-tabs">        
+          <ul class="nav nav-tabs" data-tabs="tabs">
+          <li class="nav-item bg-primary d-block">
+            <a class="nav-link   active show" href="#profile-{{$value->id}}" data-toggle="tab">
+              <i class="material-icons">bug_report</i> Detalle de Proveedor
+              <div class="ripple-container"></div>
+            <div class="ripple-container"></div></a>
+          </li>
+          <li class="nav-item bg-primary d-block">
+            <a class="nav-link" href="#messages-{{$value->id}}" data-toggle="tab">
+              <i class="material-icons">code</i> Detalles de Productos
+              <div class="ripple-container"></div>
+            <div class="ripple-container"></div></a>
+          </li>
+          <li class="nav-item bg-primary d-block">
+            <a class="nav-link" href="#settings-{{$value->id}}" data-toggle="tab">
+              <i class="material-icons">cloud</i> Detalle De Compra
+              <div class="ripple-container"></div>
+            <div class="ripple-container"></div></a>
+          </li>
+        </ul>  
+        </div>
+        <div class="card-body">
+          <div class="tab-content">
+          <div class="tab-pane active show" id="profile-{{$value->id}}">
+            <table class="table">
+              <div class="d-flex w-100  justify-content-between">
+                   <h4><strong>País</strong>:  {{$value->proveedor->pais}}. </h4>
+                   <h4><strong>Ciudad</strong>: {{$value->proveedor->ciudad}}. </h4>
+                   <h4><strong>Distrito</strong>: {{$value->proveedor->distrito}}. </h4>
+                   <h4><strong>Porvincia</strong>: </h4>
+              </div>
+            </table>
+          </div>
+          <div class="tab-pane" id="messages-{{$value->id}}">
+            <table class="table">
+              <resumen-productos
+                :cbm       = "{{json_encode($array_cbm)}}"
+                :ctn       = "{{json_encode($array_ctn)}}"
+                :total_cbm = "{{json_encode($array_total_cbm)}}"
+                :total_n_w = "{{json_encode($array_total_n_w)}}"
+                :total_g_w = "{{json_encode($array_total_g_w)}}"
+              ></resumen-productos>
+            </table>
+          </div>
+          <div class="tab-pane" id="settings-{{$value->id}}">
+            <table class="table">
+                
+                @foreach($value->proveedor->compra as $key)
+                  <div class="d-flex w-100  justify-content-between">
+                    <h5 class="p-3"><strong>Orden de Compra</strong>: {{$key->orden_compra}}</h5>
+                    <h5 class="p-3"><strong>Item</strong>: {{$key->item }} </h5>
+                    <h5 class="p-3"><strong>Registro Salud</strong>: {{$key->registro_salud}}</h5>
+                    <h5 class="p-3"><strong>Cantidad PCS</strong>: {{$key->cantidad_pcs}} </h5>
+                    <h5 class="p-3"><strong>Descripción</strong>:  {{$key->descripcion}}</h5>           
+                  </div>
+                @endforeach
+                 
+          
+            </table>
+          </div>
+          </div>
+        </div>
+    </div>
+      
     
-   
 
     @endslot
 
