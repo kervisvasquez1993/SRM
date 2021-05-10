@@ -17,12 +17,12 @@
             href="{{ url('/produccion-transito') }}"
             data-toggle="tooltip" 
             data-placement="left" 
-            title="Regresar"
+            title="Atras"
         >
             <span class="material-icons mr-2">
                 keyboard_backspace
             </span>
-            Regresar
+            Atras
         </a>
     </div>
 

@@ -13,7 +13,7 @@
         keyboard_backspace
       </span>
       <span class="text-primary">
-          Regresar
+          Atras
       </span>
     </a>
 </div>
