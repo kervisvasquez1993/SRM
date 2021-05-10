@@ -3,31 +3,59 @@
 @section('content')
 
 <div class="d-flex flex-wrap justify-content-center wrapper-card">
-   
+    
+    @php
+        $array_user = array();
+    @endphp
+    @foreach($produccionTransitos as $produccionTransito )
+       @php
+            $user = $produccionTransito->pivotTable->tarea->usuarios->name;
+            array_push($array_user, $user);           
+       @endphp    
+    @endforeach
+    @php
+        $numero = 0;
+        $array_user_unico = array_unique($array_user);
+    @endphp
+    
+
+
+    <div class="container">
+        <div class="row">            
+          <ul class="simplefilter">
+            <li class="fltr-controls active" data-filter="all">All</li>
+            @foreach ($array_user_unico as $item)
+            <li class="fltr-controls" data-filter="{{++$numero}}">{{$item}}</li>
+            @endforeach
+          </ul>
+        </div>
+    </div>
     @foreach($produccionTransitos as $produccionTransito )
     @php
         $contador = 0 ;
     @endphp
+        
+
         @if($produccionTransito->pivotTable->tarea->usuarios->name == Auth::user()->name || Auth::user()->rol == 'coordinador' || Auth::user()->rol == 'logistica')
         <div class="card">
             <div class="card-header d-flex justify-content-around flex-wrap flex-wrap">
-                <h6><strong>Tarea</strong>: {{ $produccionTransito->pivotTable->tarea->nombre }}</h6>
-                <h6><strong>Proveedor</strong>: {{ $produccionTransito->pivotTable->proveedor->nombre }}</h6>
-                <h6><strong>Pais</strong> : {{$produccionTransito->pivotTable->proveedor->pais}}</h6>
-                <h6><strong>Ciudad</strong> : {{$produccionTransito->pivotTable->proveedor->ciudad}}</h6>
-                <h6><strong>Distrito</strong> : {{$produccionTransito->pivotTable->proveedor->distrito}}</h6>
-                <h6><strong>Conatacto</strong> : {{$produccionTransito->pivotTable->proveedor->contacto}}</h6>   
-                <h6><strong>Télefono</strong> : {{$produccionTransito->pivotTable->proveedor->telefono}}</h6>  
-                <h6><strong>Email</strong> : {{$produccionTransito->pivotTable->proveedor->email}}</h6>              
+                <h6 class="p-3"><strong>Tarea</strong>: {{ $produccionTransito->pivotTable->tarea->nombre }}</h6>
+                <h6 class="p-3"><strong>Proveedor</strong>: {{ $produccionTransito->pivotTable->proveedor->nombre }}</h6>
+                <h6 class="p-3"><strong>Pais</strong> : {{$produccionTransito->pivotTable->proveedor->pais}}</h6>
+                <h6 class="p-3"><strong>Ciudad</strong> : {{$produccionTransito->pivotTable->proveedor->ciudad}}</h6>
+                <h6 class="p-3"><strong>Distrito</strong> : {{$produccionTransito->pivotTable->proveedor->distrito}}</h6>
+                <h6 class="p-3"><strong>Conatacto</strong> : {{$produccionTransito->pivotTable->proveedor->contacto}}</h6>   
+                <h6 class="p-3"><strong>Télefono</strong> : {{$produccionTransito->pivotTable->proveedor->telefono}}</h6>  
+                <h6 class="p-3"><strong>Email</strong> : {{$produccionTransito->pivotTable->proveedor->email}}</h6>              
             </div>
             <hr>
             <div class="card-header d-flex justify-content-around flex-wrap flex-wrap"> 
                  @foreach( $produccionTransito->pivotTable->proveedor->compra as $compra)
-                        <h6><strong>Orden Compra</strong>: {{ $compra->orden_compra}}</h6>
-                        <h6><strong>Item</strong>: {{ $compra->item }}</h6>
-                        <h6><strong>Registro de Salud</strong>: {{ $compra->registro_salud}}</h6>
-                        <h6><strong>Cantidad PCS</strong>: {{ $compra->cantidad_pcs }}</h6>
-                        <h6><strong>Total</strong>: {{ $compra->total }}</h6>
+                        <h6 class="p-3"><strong>Orden Compra</strong>: {{ $compra->orden_compra}}</h6>
+                        <h6 class="p-3"><strong>Item</strong>: {{ $compra->item }}</h6>
+                        <h6 class="p-3"><strong>Registro de Salud</strong>: {{ $compra->registro_salud}}</h6>
+                        <h6 class="p-3"><strong>Cantidad PCS</strong>: {{ $compra->cantidad_pcs }}</h6>
+                        <h6 class="p-3"><strong>Total</strong>: {{ $compra->total }}</h6>
                  @endforeach                         
             </div>
             <hr>
@@ -286,5 +314,24 @@
             })
         }
 
+        
+
     </script>
+    
+@endpush
+@push('scripts')
+<script type="text/javascript" src="{{asset('assets/js/jquery.filterizr.min.js')}}"></script>
+<script type="text/javascript">
+    const simpleFilters = document.querySelectorAll('.simplefilter li');
+    Array.from(simpleFilters).forEach((node) =>
+      node.addEventListener('click', function() {
+        simpleFilters.forEach((filter) => filter.classList.remove('active'));
+        node.classList.add('active');
+      })
+    );
+
+
+
+  
+</script>
 @endpush

@@ -31,6 +31,18 @@
 
 @section('content')
 <div class="d-flex justify-content-end">
+    <a
+     class="btn btn-sm btn-outline-primary btn-round"
+     type="button"
+     href=""
+    >
+      <span class="material-icons mr-2 text-primary">
+        add_circle_outline
+      </span>
+      <span class="text-primary">
+          Formato de productos
+      </span>
+    </a>
     @include('ui.previous')
 </div>
     <div class="container">
