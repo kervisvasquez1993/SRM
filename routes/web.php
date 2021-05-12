@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\PerfilController;
+use App\Http\Livewire\ShowPosts;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PerfilController;
 
 
 /*

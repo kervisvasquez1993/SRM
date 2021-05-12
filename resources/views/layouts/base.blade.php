@@ -73,7 +73,7 @@
             </div>
         </nav>
         
-        <main class="py-4">
+        <main class="py-4 mx-4">
             <h1>base</h1>
             {{$slot}}
         </main>

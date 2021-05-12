@@ -1,23 +1,26 @@
 <?php
 
 namespace App\Http\Livewire;
-
+use App\ProduccionTransito;
 use Livewire\Component;
 
 class ShowPosts extends Component
 {
 
   
-     public  $title; 
-     public  $name;
+/*      public  $title; 
+     public  $name; */
      
-     public function mount($name)
+    /*  public function mount($name)
      {
          $this->name = $name;
      }
- 
+  */
+
+    public $message;
     public function render()
     {
-        return view('livewire.show-posts')->layout('layouts.base');
+        $produccion = ProduccionTransito::all();
+        return view('livewire.show-posts', compact(('produccion')))->layout('layouts.base');
     }
 }
