@@ -10,6 +10,20 @@
   text-decoration: underline;
 }
 
+.w-200 {
+  width: 200px;
+}
+
+.w-350 {
+  width: 350px;
+}
+
+a,
+a:hover,
+.c-black > * {
+  color: black !important;
+}
+
 .toast {
   display: flex;
   justify-content: center;

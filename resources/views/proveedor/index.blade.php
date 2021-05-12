@@ -50,8 +50,8 @@
         @endforeach
        <div>
         <div class="card-header card-header-tabs">        
-          <ul class="nav nav-tabs" data-tabs="tabs">
-          <li class="nav-item bg-secondary btn-sm ">
+          <ul class="nav" data-tabs="tabs">
+          <li class="btn btn-sm ">
             
             <a class="nav-link   active show" href="#profile-{{$value->id}}" data-toggle="tab">
               <span class="material-icons">
@@ -60,13 +60,13 @@
               <div class="ripple-container"></div>
             <div class="ripple-container"></div></a>
           </li>
-          <li class="nav-item bg-secondary btn-sm d-block">
+          <li class="btn  btn-sm d-block">
             <a class="nav-link" href="#messages-{{$value->id}}" data-toggle="tab">
               <i class="material-icons">info</i> Detalles de Productos
               <div class="ripple-container"></div>
             <div class="ripple-container"></div></a>
           </li>
-          <li class="nav-item bg-secondary btn-sm d-block">
+          <li class="btn  btn-sm d-block">
             <a class="nav-link" href="#settings-{{$value->id}}" data-toggle="tab">
               <i class="material-icons">shopping_cart</i> Detalle De Compra
               <div class="ripple-container"></div>

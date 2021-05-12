@@ -8,6 +8,7 @@ import VueSweetalert2 from 'vue-sweetalert2';
 
 import 'sweetalert2/dist/sweetalert2.min.css';
 
+
 // Axios
 window.axios = require('axios');
 window.Vue = require('vue');
@@ -22,6 +23,9 @@ require('./script');
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+
+
+
 
 Vue.use(VueSweetalert2)
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
