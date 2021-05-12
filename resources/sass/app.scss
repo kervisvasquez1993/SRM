@@ -4,14 +4,5 @@
 // Variables
 @import 'variables';
 
-// components
-@import './base';
-
-
-@import './toast';
 // Bootstrap
-// @import '~bootstrap/scss/bootstrap';
-@import './config_general';
-
-@import './_flip-checkbox'
-
+@import '~bootstrap/scss/bootstrap';

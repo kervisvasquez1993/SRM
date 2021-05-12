@@ -72,9 +72,10 @@
                 </div>
             </div>
         </nav>
-
+        
         <main class="py-4">
-            @yield('content')
+            <h1>base</h1>
+            {{$slot}}
         </main>
     </div>
     @livewireScripts

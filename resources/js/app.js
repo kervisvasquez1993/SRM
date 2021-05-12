@@ -12,6 +12,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 // Axios
 window.axios = require('axios');
 window.Vue = require('vue');
+require('./bootstrap');
 require('./script');
 /**
  * The following block of code may be used to automatically register your
