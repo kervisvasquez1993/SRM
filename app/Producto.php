@@ -15,5 +15,14 @@ class Producto extends Model
     {
         return $this->belongsTo(ProductOverview::class);
     }
+
+
+    
+    public function scopeFilterProductos($query, $proveedor)
+    {
+        return $query->when(count($proveedor), function($query) use ($proveedor){
+            $query->whereIn('proveedor_id', $proveedor);
+        });
+    }
     
 }

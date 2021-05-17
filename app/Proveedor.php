@@ -28,4 +28,19 @@ class Proveedor extends Model
     {
         return $this->hasMany(Compra::class);
     }
+
+
+    public function scopeFilterProductos($query, $productos)
+    {
+        return $query->when(count($productos), function($query){
+            $query->with('productos', function($query, $productos){
+                    $query->where('proveedor_id', $productos);
+            });
+          });/* ->when(count($compra), function($query)
+          {
+              $query->whith('compra_id', function($query, $compra){
+                $query->where('proveedor_id', $compra);
+              });
+          }); */
+    }
 }

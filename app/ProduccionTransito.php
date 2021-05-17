@@ -36,4 +36,15 @@ class ProduccionTransito extends Model
     {
         return $this->hasMany(FinProduccion::class);
     }
+
+
+
+    public function scopeWidthFilters($query, $pivot )
+    {
+            return $query->when(count($pivot), function($query) use ($pivot){
+                   $query->whereIn('pivot_tarea_proveeder_id', $pivot);
+            });
+
+    }
+    
 }
