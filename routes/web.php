@@ -105,9 +105,9 @@ use App\Http\Controllers\PerfilController;
     
     /* fin arte aprobado */
     
-    Route::put('/arteAprobados/{arteAprobado}', 'PivotTareaProveederController@arteAprobado')->name('arteAprobados.update');
-    Route::put('/produccionAprobados/{produccionAprobado}', 'PivotTareaProveederController@produccionAprobado')->name('produccionAprobados.update');    
-    Route::put('/arteProduccionAprobados/{arteProduccionAprobado}', 'PivotTareaProveederController@arteProduccionAprobado')->name('arteProduccionAprobados.update');
+    Route::put('/arteAprobados/{arteAprobado}/{proveedor}', 'PivotTareaProveederController@arteAprobado')->name('arteAprobados.update');
+    Route::put('/produccionAprobados/{produccionAprobado}/{proveedor}', 'PivotTareaProveederController@produccionAprobado')->name('produccionAprobados.update');    
+    Route::put('/arteProduccionAprobados/{arteProduccionAprobado}/{proveedor}', 'PivotTareaProveederController@arteProduccionAprobado')->name('arteProduccionAprobados.update');
      // Productos
     Route::resource('productos', 'ProductoController');
     Route::resource('compras', 'CompraController');

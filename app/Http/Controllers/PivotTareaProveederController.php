@@ -7,7 +7,9 @@ use Carbon\Carbon;
 use App\ProduccionTransito;
 use App\PivotTareaProveeder;
 use Illuminate\Http\Request;
+use App\FilterProduccionTransito;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Support\Facades\Auth;
 
 class PivotTareaProveederController extends Controller
 {
@@ -27,14 +29,39 @@ class PivotTareaProveederController extends Controller
      }
 
 
-     public function arteProduccionAprobado($id)
+     public function arteProduccionAprobado($id, $proveedorId)
      {
+        
+         
         $pivot = PivotTareaProveeder::where('id', $id)->update( array( 'iniciar_produccion' => 1, 'iniciar_arte' => 1 ));
         $this->artes($id);
         $this->iniciarProduccion($id);    
+        $produccionTransito =  $this->iniciarProduccion($id); 
+        $this->filterProduccionTransito($id, $proveedorId,$produccionTransito);
+
         return response()->json("Datos Actualizado");
      }
 
+     public function filterProduccionTransito($id,$proveedorId, $produccionTransito)
+     {
+        $filterProduccionTransito = FilterProduccionTransito::where('pivot_tarea_proveedor_id', $id)->get(); 
+        if(sizeof($filterProduccionTransito))
+        {
+            return "Ya existe el Proveedor Filtro";
+        }
+        else{
+            $filterProduccionTransito = new FilterProduccionTransito(); 
+            $filterProduccionTransito->user_id = Auth::user()->id;
+            $filterProduccionTransito->proveedor_id = $proveedorId;
+            $filterProduccionTransito->pivot_tarea_proveedor_id = PivotTareaProveeder::where('id', $id)->get()[0]->id;
+            $filterProduccionTransito->produccion_transitos_id = $produccionTransito;
+            $filterProduccionTransito->save();
+            return $filterProduccionTransito;
+        }
+        
+       
+         
+     }
 
      public function artes($id)
      {
@@ -66,7 +93,7 @@ class PivotTareaProveederController extends Controller
      {
         $produccionAprobar = ProduccionTransito::where('pivot_tarea_proveeder_id', $id)->get();
         if(sizeof($produccionAprobar)){
-            return "Ya existe el Produccion";
+            return $produccionAprobar[0]->id;
         }
         else
         {
@@ -75,7 +102,7 @@ class PivotTareaProveederController extends Controller
             $produccionAprobar->save();
         }
 
-        return $produccionAprobar;
+        return $produccionAprobar->id;
      }
 
     

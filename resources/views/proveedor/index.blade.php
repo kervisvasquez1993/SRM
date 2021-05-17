@@ -79,7 +79,7 @@
           <div class="tab-pane active show" id="profile-{{$value->id}}">
             <table class="table">
               <div class="d-flex w-100  flex-wrap justify-content-between">
-                   <h4 class="p-4"><strong>País</strong>:  {{$value->proveedor->pais}}. </h4>
+                   <h4 class="p-4" id="id-proveedor{{$value->proveedor->id}}"><strong>País</strong>:  {{$value->proveedor->pais}}. </h4>
                    <h4 class="p-4"><strong>Ciudad</strong>: {{$value->proveedor->ciudad}}. </h4>
                    <h4 class="p-4"><strong>Distrito</strong>: {{$value->proveedor->distrito}}. </h4>
                    <h4 class="p-4"><strong>Descripcion</strong>: {{$value->proveedor->descripcion}}. </h4>
@@ -126,16 +126,16 @@
     @endslot
     @slot('contenidoFooter')
     @if(Auth::user()->rol == 'coordinador')
-          <button id="iniciarArte" data-id="{{$value->id}}" class=" iniciarArte btn btn-sm btn-online-success btn-round">
+          <button id="iniciarArte" data-id="{{$value->id}}" data-proveedor="{{$value->proveedor->id}}" class=" iniciarArte btn btn-sm btn-online-success btn-round">
             Iniciar Arte
           </button>
             
 
-          <button data-id="{{$value->id}}" class="iniciarProduccion btn btn-sm btn-outline-success btn-round">
+          <button data-id="{{$value->id}}"  data-proveedor="{{$value->proveedor->id}}" class="iniciarProduccion btn btn-sm btn-outline-success btn-round">
             Iniciar Produccion
           </button>   
           
-          <button data-id="{{$value->id}}" class="iniciarArteProduccion btn btn-sm btn-outline-success btn-round">
+          <button data-id="{{$value->id}}" data-proveedor="{{$value->proveedor->id}}" class="iniciarArteProduccion btn btn-sm btn-outline-success btn-round">
             Iniciar Arte y Producción
           </button>          
       {{-- </div> --}}
@@ -163,7 +163,8 @@
                         function initUrl(url)
                         {
                             let id  = e.target.getAttribute('data-id'),
-                                nuevaUrl = `/${url}/${id}`
+                                proveedorId = e.target.getAttribute('data-proveedor'),
+                                nuevaUrl = `/${url}/${id}/${proveedorId}`
                                 actualizarRuta(nuevaUrl)
                         }
                        
