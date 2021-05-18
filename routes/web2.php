@@ -20,4 +20,6 @@ use App\Http\Controllers\PerfilController;
 /* Route::get('/', 'InicioController@index'); */
 
 Route::get('/test/{name}', ShowPosts::class);
+
+
   

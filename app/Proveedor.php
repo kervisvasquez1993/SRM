@@ -29,6 +29,11 @@ class Proveedor extends Model
         return $this->hasMany(Compra::class);
     }
 
+    public function filter()
+    {
+        return $this->hasMany(FilterProduccionTransito::class);
+    }
+
 
     public function scopeFilterProductos($query, $productos)
     {

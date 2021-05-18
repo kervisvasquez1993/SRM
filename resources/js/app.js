@@ -33,6 +33,7 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.component('salida-puerto-origen', require('./components/SalidaPuertoOrigen.vue').default);
 Vue.component('status-colors', require('./components/StatusColors.vue').default);
 Vue.component('resumen-productos', require('./components/resumenProductos.vue').default);
+Vue.component('filter-api', require('./components/Filter.vue').default);
 /* Vue.component('agregar-nueva-tarea', require('./components/AgregarNuevaTarea.vue').default);
 Vue.component('estado-negociar', require('./components/EstadoNegociar.vue').default); */
 

@@ -2,10 +2,11 @@
 
 namespace App\Http\Livewire;
 
-use App\PivotTareaProveeder;
 use App\User;
 use Livewire\Component;
 use App\ProduccionTransito;
+use App\PivotTareaProveeder;
+use App\FilterProduccionTransito;
 use Illuminate\Support\Facades\DB;
 
 class ShowPosts extends Component
@@ -63,18 +64,11 @@ class ShowPosts extends Component
              
        }])
        ->get(); */     
-       $pp = [1];
-       $proveedores = ProduccionTransito::with(['pivotTable' => function($query) use ($pp){
-           $query->FilterPivot([],[]);
-           $query->with(['proveedor' => function($scope) use ($pp)
-           {
-              $prove =  $scope->where('aprovado', $pp);
-
-              $prove->with(['productos' => function($query) use ($pp){
-                  $query->where('proveedor_id', $pp);
-              }]);
-           }]);
-       }])->get();
+       $proveedores = FilterProduccionTransito::width(
+           
+        
+        
+       )->get();
        
     /*    $proveedores = PivotTareaProveeder::FilterPivot([1], [0])->get(); */
 
