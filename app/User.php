@@ -106,4 +106,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ReclamosDevolucione::class);
     }
+
+    public function filter()
+    {
+        return $this->hasMany(FilterProduccionTransito::class);
+    }
 }

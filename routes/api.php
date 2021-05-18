@@ -19,4 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/proveedor', 'Api\ProveedorController@index'); 
+Route::get('/proveedor', 'Api\ProveedorController@index');
+Route::get('/users', 'Api\UserController@index');
+Route::get('/filter', 'Api\FilterProduccionTransitoController@index'); 
+

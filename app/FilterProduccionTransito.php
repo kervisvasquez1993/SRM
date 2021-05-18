@@ -31,9 +31,11 @@ class FilterProduccionTransito extends Model
     
     public function scopeWidtFilter($query, $proveedor,$user,$produccion_transito, $pivot_tarea_proveedor)
     {
+        
      return $query->when(count($proveedor), function($query) use ($proveedor){
             $query->whereIn('proveedor_id', $proveedor);
-     })->when(count($user), function($query) use ($user){
+     })
+     ->when(count($user), function($query) use ($user){
          $query->whereIn('user_id', $user);
      })
      ->when(count($produccion_transito), function($query) use ($produccion_transito){

@@ -38,6 +38,10 @@ class ProduccionTransito extends Model
     }
 
 
+    public function filter()
+    {
+        return $this->hasMany(FilterProduccionTransito::class);
+    }
 
     public function scopeWidthFilters($query, $pivot )
     {

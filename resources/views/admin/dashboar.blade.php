@@ -53,6 +53,9 @@
   <script src="{{asset('assets/js/core/bootstrap-material-design.min.js')}}"></script>
  
 
+
+  <script src="{{ asset('js/app.js') }}"></script>
+  @stack('scripts')
   <script src="{{asset('assets/js/material-dashboard.js')}}" type="text/javascript"></script>
   <!-- Material Dashboard DEMO methods, don't include it in your project! -->
   <script>
@@ -277,8 +280,6 @@
       });
     });
   </script>
-  <script src="{{ asset('js/app.js') }}"></script>
-  @stack('scripts')
 </body>
 </html>
 git 
