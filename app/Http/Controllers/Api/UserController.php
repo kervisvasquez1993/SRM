@@ -14,9 +14,9 @@ class UserController extends Controller
     {
       $users = User::withCount(['filter'=> function($query){
             $query->WidtFilter(
-              request()->input('proveedor', [0]),
-              request()->input('user', [0]),
-              request()->input('produccion_transito', [0]),
+              request()->input('proveedor', []),
+              request()->input('user', []),
+              request()->input('produccion_transito', []),
               request()->input('pivot_tarea_proveedor', [])
             );
       }])->get();

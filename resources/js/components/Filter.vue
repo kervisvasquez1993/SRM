@@ -6,7 +6,7 @@
                 <div class="form-check" v-for="(user, index) in users">
                         <input class="" type="checkbox" :value="user.id" :id="'user'+index" v-model="selected.users">
                         <label class="form-check-label" :for="'category' + index">
-                            {{ user.name }} {{user.products_count}}
+                            {{ user.name }}
                         </label>
                 </div>
                  <hr>
@@ -14,7 +14,7 @@
                  <div class="form-check" v-for="(user, index) in proveedores">
                         <input class="" type="checkbox" :value="user.id" :id="'user'+index" v-model="selected.proveedores">
                         <label class="form-check-label" :for="'category' + index">
-                            {{ user.nombre }} {{user.products_count}}
+                            {{ user.nombre }} - {{user.pais}}
                         </label>
                 </div>
             </div>
