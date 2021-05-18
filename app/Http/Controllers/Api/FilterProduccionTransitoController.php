@@ -12,8 +12,8 @@ class FilterProduccionTransitoController extends Controller
     public function index()
     {
       $proveedor = FilterProduccionTransito::WidtFilter(
-              request()->input('proveedor', []),
-              request()->input('user', []),
+              request()->input('proveedores', []),
+              request()->input('users', []),
               request()->input('produccion_transito', []),
               request()->input('pivot_tarea_proveedor', [])
             )->get();   

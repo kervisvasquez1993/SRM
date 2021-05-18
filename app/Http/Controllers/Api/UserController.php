@@ -12,11 +12,11 @@ class UserController extends Controller
 {
     public function index()
     {
-      $users = User::with(['filter'=> function($query){
+      $users = User::withCount(['filter'=> function($query){
             $query->WidtFilter(
-              request()->input('proveedor', []),
-              request()->input('user', []),
-              request()->input('produccion_transito', []),
+              request()->input('proveedor', [0]),
+              request()->input('user', [0]),
+              request()->input('produccion_transito', [0]),
               request()->input('pivot_tarea_proveedor', [])
             );
       }])->get();
