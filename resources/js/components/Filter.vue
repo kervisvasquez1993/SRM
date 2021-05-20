@@ -2,7 +2,7 @@
      <div class="testtt" :class="{'loading': loading}">
          <div class="row">
             <div class="col-lg-3 mb-4">
-                <h5>user</h5>
+                <h5>Usuarios</h5>
                 <div class="form-check" v-for="(user, index) in users">
                         <input class="" type="checkbox" :value="user.id" :id="'user'+index" v-model="selected.users">
                         <label class="form-check-label" :for="'category' + index">
@@ -25,7 +25,7 @@
                         <div class="card h-100">
                             <div class="card-body">
                                 <h4 class="card-title">
-                                    <a href="#">{{ product }} </a>
+                                    {{ product }}
                                 </h4>
                             </div>
                         </div>
