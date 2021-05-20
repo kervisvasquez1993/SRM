@@ -43,31 +43,59 @@ class ProveedorController extends Controller
      */
     public function store(Request $request)
     {
-          
             $data = $request->validate([
                 'id_tarea' => 'required',
                 'nombre' => 'required',
                 'pais'   => 'required',
                 'ciudad' =>  'required',
             ]);
-            $id_tarea = $request['id_tarea'];
-            $proveedor = new Proveedor();
-            $proveedor->nombre = $data['nombre'];
-            $proveedor->pais   = $data['pais'];
-            $proveedor->ciudad = $data['ciudad'];
-            $proveedor->distrito = $request['distrito'];
-            $proveedor->address = $request['address'];
-            $proveedor->contacto = $request['contacto'];
-            $proveedor->telefono = $request['telefono'];
-            $proveedor->email = $request['email'];
-            $proveedor->descripcion = $request['descripcion'];
-            $proveedor->save();
-            
-            // informacion asociada a la tabla pivot
-
-            $this->pivotTareaProveedor($id_tarea, $proveedor->id);
+            $proveedorArr = Proveedor::all();
+            $excluidos = array();
+            foreach($proveedorArr as $proveedor1):
+                array_push($excluidos, $proveedor1->code_unit);
+            endforeach;
+            $aleatorio = rand(0,10000);
+            if(in_array($aleatorio,$excluidos)):
+                $aleatorio = rand(0,10000);
+            else:
+                $aleatorio;
+            endif;          
+            $proveedorExist = Proveedor::where('pais', strtoupper($data['pais']))->first();
 
 
+            if(!$proveedorExist):
+                $id_tarea = $request['id_tarea'];
+                $proveedor = new Proveedor();
+                $proveedor->nombre = $data['nombre'];
+                $proveedor->pais   = strtoupper($data['pais']);
+                $proveedor->ciudad = $data['ciudad'];
+                $proveedor->distrito = $request['distrito'];
+                $proveedor->code_unit = $aleatorio;
+                $proveedor->address = $request['address'];
+                $proveedor->contacto = $request['contacto'];
+                $proveedor->telefono = $request['telefono'];
+                $proveedor->email = $request['email'];
+                $proveedor->descripcion = $request['descripcion'];
+                $proveedor->save();
+                // informacion asociada a la tabla pivot
+                $this->pivotTareaProveedor($id_tarea, $proveedor->id);
+            else:
+                $id_tarea = $request['id_tarea'];
+                $proveedor = new Proveedor();
+                $proveedor->nombre = $data['nombre'];
+                $proveedor->pais   = strtoupper($data['pais']);
+                $proveedor->ciudad = $data['ciudad'];
+                $proveedor->distrito = $request['distrito'];
+                $proveedor->code_unit = $proveedorExist->code_unit;
+                $proveedor->address = $request['address'];
+                $proveedor->contacto = $request['contacto'];
+                $proveedor->telefono = $request['telefono'];
+                $proveedor->email = $request['email'];
+                $proveedor->descripcion = $request['descripcion'];
+                $proveedor->save();
+                // informacion asociada a la tabla pivot
+                $this->pivotTareaProveedor($id_tarea, $proveedor->id);
+            endif;
             return back()->with('message', 'Se Añadio empresa correctamente');
 
 

@@ -29,11 +29,11 @@ class FilterProduccionTransito extends Model
         return $this->belongsTo(PivotTareaProveeder::class, 'pivot_tarea_proveedor_id');
     }
     
-    public function scopeWidtFilter($query, $proveedor,$user,$produccion_transito, $pivot_tarea_proveedor)
+    public function scopeWidtFilter($query, $proveedor,$user,$produccion_transito, $pais, $pivot_tarea_proveedor)
     {
         
      return $query->when(count($proveedor), function($query) use ($proveedor){
-            $query->whereIn('proveedor_id', $proveedor);
+            $query->whereIn('code_unit', $proveedor);
      })
      ->when(count($user), function($query) use ($user){
          $query->whereIn('user_id', $user);
@@ -43,6 +43,10 @@ class FilterProduccionTransito extends Model
      })
      ->when(count($pivot_tarea_proveedor), function($query) use ($pivot_tarea_proveedor){
         $query->whereIn('pivot_tarea_proveedor_id', $pivot_tarea_proveedor );
+     })
+     ->when(count($pais), function($query) use ($pais)
+     {
+         $query->whereIn('code_unit', $pais);
      })
      ;
    }

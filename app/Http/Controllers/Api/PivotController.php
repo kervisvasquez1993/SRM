@@ -16,7 +16,8 @@ class PivotController extends Controller
               request()->input('proveedor', []),
               request()->input('user', []),
               request()->input('produccion_transito', []),
-              request()->input('pivot_tarea_proveedor', [])
+              request()->input('pivot_tarea_proveedor', []),
+              request()->input('code_unit', [])
             );
       }])->get();   
       return response()->json($proveedor);

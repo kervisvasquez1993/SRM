@@ -18,7 +18,8 @@ class ProveedorResource extends JsonResource
             'id' => $this->id,
             'nombre' => $this->nombre,
             'email' => $this->email,
-            'pais' => $this->pais
+            'pais' => $this->pais,
+            'code_unit' => $this->code_unit
            
         ];
     }

@@ -20,6 +20,7 @@ class CreateProveedorsTable extends Migration
             $table->string('ciudad')->nullable();
             $table->string('distrito')->nullable();
             $table->text('descripcion')->nullable();
+            $table->integer('code_unit');
             $table->string('archivos_src')->nullable();
             $table->string('address')->nullable();
             $table->string('contacto')->nullable();

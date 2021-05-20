@@ -12,9 +12,9 @@
                  <hr>
                  <h5>proveedores</h5>
                  <div class="form-check" v-for="(user, index) in proveedores">
-                        <input class="" type="checkbox" :value="user.id" :id="'user'+index" v-model="selected.proveedores">
+                        <input class="" type="checkbox" :value="user.code_unit" :id="'user'+index" v-model="selected.proveedores">
                         <label class="form-check-label" :for="'category' + index">
-                            {{ user.nombre }} - {{user.pais}}
+                            {{ user.code_unit }} - {{user.pais}}
                         </label>
                 </div>
             </div>
