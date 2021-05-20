@@ -8,6 +8,7 @@ use App\ProduccionTransito;
 use App\PivotTareaProveeder;
 use Illuminate\Http\Request;
 use App\FilterProduccionTransito;
+use App\Proveedor;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,18 +32,17 @@ class PivotTareaProveederController extends Controller
 
      public function arteProduccionAprobado($id, $proveedorId)
      {
-        
-         
+        $code_unit = Proveedor::where('id',$proveedorId)->first();
+        $idCodeUnit = $code_unit->code_unit;
         $pivot = PivotTareaProveeder::where('id', $id)->update( array( 'iniciar_produccion' => 1, 'iniciar_arte' => 1 ));
         $this->artes($id);
         $this->iniciarProduccion($id);    
         $produccionTransito =  $this->iniciarProduccion($id); 
-        $this->filterProduccionTransito($id, $proveedorId,$produccionTransito);
-
+        $this->filterProduccionTransito($id, $proveedorId,$produccionTransito, $idCodeUnit);
         return response()->json("Datos Actualizado");
      }
 
-     public function filterProduccionTransito($id,$proveedorId, $produccionTransito)
+     public function filterProduccionTransito($id,$proveedorId, $produccionTransito, $idCode)
      {
         $filterProduccionTransito = FilterProduccionTransito::where('pivot_tarea_proveedor_id', $id)->get(); 
         if(sizeof($filterProduccionTransito))
@@ -50,11 +50,15 @@ class PivotTareaProveederController extends Controller
             return "Ya existe el Proveedor Filtro";
         }
         else{
+            
+            
+            
             $filterProduccionTransito = new FilterProduccionTransito(); 
             $filterProduccionTransito->user_id = Auth::user()->id;
             $filterProduccionTransito->proveedor_id = $proveedorId;
             $filterProduccionTransito->pivot_tarea_proveedor_id = PivotTareaProveeder::where('id', $id)->get()[0]->id;
             $filterProduccionTransito->produccion_transitos_id = $produccionTransito;
+            $filterProduccionTransito->code_unit = $idCode;
             $filterProduccionTransito->save();
             return $filterProduccionTransito;
         }

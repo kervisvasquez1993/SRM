@@ -18,7 +18,7 @@ class ProveedorController extends Controller
               request()->input('users', []),
               request()->input('produccion_transito', []),
               request()->input('pivot_tarea_proveedor', []),
-              request()->input('code_unit', [])
+              
             );
       }])->get();
       
