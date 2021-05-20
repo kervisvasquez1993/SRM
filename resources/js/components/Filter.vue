@@ -10,11 +10,12 @@
                         </label>
                 </div>
                  <hr>
-                 <h5>proveedores</h5>
-                 <div class="form-check" v-for="(user, index) in proveedores">
-                        <input class="" type="checkbox" :value="user.code_unit" :id="'user'+index" v-model="selected.proveedores">
+                 <h5>Pais</h5>
+                 
+                 <div class="form-check" v-for="(proveedor, index) in proveedores">
+                        <input class="" type="checkbox" :value="proveedor.code_unit" :id="'user'+index" v-model="selected.proveedores">
                         <label class="form-check-label" :for="'category' + index">
-                            {{ user.code_unit }} - {{user.pais}}
+                            {{ proveedor.pais }}
                         </label>
                 </div>
             </div>
@@ -77,8 +78,9 @@ export default {
                 deep: true
             }
         },
-        methods: 
+    methods: 
         {
+
             loadProveedor: function()
             {
                 axios.get('/api/proveedor',
@@ -87,8 +89,20 @@ export default {
                 })
                 .then((response) => {
                     
-                    this.proveedores = response.data.data;
-                    console.log(this.proveedores)
+                    this.proveedores = []
+                    let unit = response.data.data;
+                    console.log()
+                    let result = [];
+                    
+                    unit.forEach(item => 
+                    {
+                        
+                        if(!result.includes(item.code_unit))
+                        {
+                    		result.push(item.code_unit)
+                            this.proveedores.push(item)
+    	                }
+                    });                  
                     this.loading = false;
     
                 })
