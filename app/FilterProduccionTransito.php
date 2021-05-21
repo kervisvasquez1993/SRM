@@ -24,6 +24,8 @@ class FilterProduccionTransito extends Model
         return $this->belongsTo(ProduccionTransito::class, 'produccion_transitos_id');
     }
 
+    
+
     public function pivotTareaProveeedor()
     {
         return $this->belongsTo(PivotTareaProveeder::class, 'pivot_tarea_proveedor_id');

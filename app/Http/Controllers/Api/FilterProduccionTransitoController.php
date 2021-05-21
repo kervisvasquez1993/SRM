@@ -17,7 +17,7 @@ class FilterProduccionTransitoController extends Controller
               request()->input('produccion_transito', []),
               request()->input('pivot_tarea_proveedor', []),
               request()->input('code_unit', [])
-            )->with('proveedor')->get();   
+            )->with('proveedor')->with('produccionTransito')->get();   
       return response()->json($proveedor);
     }
 }
