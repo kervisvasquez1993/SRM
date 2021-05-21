@@ -16,8 +16,10 @@ class CreateFichasTable extends Migration
         Schema::create('fichas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('arte_id')->references('id')->on('artes');
+            $table->foreignId('user_id')->references('id')->on('users');
             $table->string('titulo');
             $table->text('descripcion');
+            $table->boolean('enabled')->default(true);
             $table->timestamps();
         });
     }

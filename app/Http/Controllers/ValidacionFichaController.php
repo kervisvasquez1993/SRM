@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Arte;
 use App\ValidacionFicha;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ValidacionFichaController extends Controller
 {
@@ -12,9 +14,12 @@ class ValidacionFichaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $arte = Arte::find( $request->get('arte') );
+        $validacionFichas = $arte->validacionFicha->where('enabled', 1);
+
+        return view('validacion-ficha.index', compact('arte', 'validacionFichas'));
     }
 
     /**
@@ -35,7 +40,17 @@ class ValidacionFichaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all()['params'];
+        $validacionFicha = new ValidacionFicha();
+
+        $validacionFicha->titulo = $data['titulo'];
+        $validacionFicha->descripcion = $data['descripcion'];
+        $validacionFicha->user_id = Auth::user()->id;
+        $validacionFicha->arte_id = $data['arte'];
+        $validacionFicha->save();
+        $user = $validacionFicha->user;
+         
+        return [ 'incidencia' => $validacionFicha, 'user' => $user];        
     }
 
     /**
@@ -80,6 +95,9 @@ class ValidacionFichaController extends Controller
      */
     public function destroy(ValidacionFicha $validacionFicha)
     {
-        //
+        $validacionFicha->enabled = false;
+        $validacionFicha->save();
+
+        return $validacionFicha;        
     }
 }

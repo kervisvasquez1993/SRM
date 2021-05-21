@@ -15,6 +15,7 @@ class CreateComprasTable extends Migration
     {
         Schema::create('compras', function (Blueprint $table) {
             $table->id();
+            $table->string('orden_compra');
             $table->foreignId('proveedor_id')->references('id')->on('proveedors');
             $table->string('item');
             $table->text('descripcion');

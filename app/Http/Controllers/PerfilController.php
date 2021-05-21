@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class PerfilController extends Controller
 {
+  
+    public function __construct()
+{
+    $this->middleware('comprador', ['only']);
+}
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +19,7 @@ class PerfilController extends Controller
      */
     public function index()
     {
-        //
+        return view('inicio.index');
     }
 
     /**
@@ -24,7 +29,7 @@ class PerfilController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -35,7 +40,7 @@ class PerfilController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
@@ -46,7 +51,8 @@ class PerfilController extends Controller
      */
     public function show(Perfil $perfil)
     {
-        //
+        
+        return view('perfil.show', ['perfil' => $perfil]);
     }
 
     /**
@@ -57,7 +63,7 @@ class PerfilController extends Controller
      */
     public function edit(Perfil $perfil)
     {
-        //
+        return view('perfil.edit', compact('perfil'));
     }
 
     /**

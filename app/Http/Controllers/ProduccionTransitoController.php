@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\ProduccionTransito;
+use App\RecepcionReclamoDevolucion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class ProduccionTransitoController extends Controller
 {
@@ -14,7 +16,9 @@ class ProduccionTransitoController extends Controller
      */
     public function index()
     {
-        //
+        $produccionTransitos = ProduccionTransito::all();
+
+        return view('produccion-transito.index', compact('produccionTransitos'));
     }
 
     /**
@@ -22,9 +26,19 @@ class ProduccionTransitoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+   
+
+    public function salidaPuerto($id)
     {
-        //
+        
+        $produccionTransito = ProduccionTransito::where('id', $id)->get();
+        $produccionTransito[0]->salida_puero_origen = 1;
+        $produccionTransito[0]->save();
+        $reclamos = new RecepcionReclamoDevolucion();
+        $reclamos->produccion_transito_id = $id;
+        $reclamos->save();
+        return response()->json('Cambios guardados correctamentes'); 
+
     }
 
     /**
@@ -82,4 +96,24 @@ class ProduccionTransitoController extends Controller
     {
         //
     }
+
+    public function iniciarProduccion(Request $request, $id)
+    {
+        // dd($request->all(), $id);
+        // $produccionTransito = ProduccionTransito::where('id', $id);
+        $produccionTransito = ProduccionTransito::find( $id );
+        $produccionTransito->inicio_produccion = true;
+        $produccionTransito->save();
+
+        $produccionTransitos = ProduccionTransito::all();
+
+        Session::flash('message', 'Se ha iniciado la producción exitosamente.');
+        Session::flash('class', 'success');
+
+        // return view('produccion-transito.index', compact('produccionTransitos'));
+        return redirect()->action('ProduccionTransitoController@index', compact('produccionTransitos'));
+
+
+    }
+
 }

@@ -4,10 +4,16 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+import VueSweetalert2 from 'vue-sweetalert2';
 
+import 'sweetalert2/dist/sweetalert2.min.css';
+
+
+// Axios
+window.axios = require('axios');
 window.Vue = require('vue');
-
+require('./bootstrap');
+require('./script');
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -19,7 +25,18 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
+
+
+
+Vue.use(VueSweetalert2)
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('salida-puerto-origen', require('./components/SalidaPuertoOrigen.vue').default);
+Vue.component('status-colors', require('./components/StatusColors.vue').default);
+Vue.component('resumen-productos', require('./components/resumenProductos.vue').default);
+Vue.component('filter-api', require('./components/Filter.vue').default);
+/* Vue.component('agregar-nueva-tarea', require('./components/AgregarNuevaTarea.vue').default);
+Vue.component('estado-negociar', require('./components/EstadoNegociar.vue').default); */
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -30,3 +47,4 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 const app = new Vue({
     el: '#app',
 });
+

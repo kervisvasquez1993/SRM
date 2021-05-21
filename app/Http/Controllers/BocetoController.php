@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Arte;
 use App\Boceto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BocetoController extends Controller
 {
@@ -12,9 +14,13 @@ class BocetoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $arte = Arte::find( $request->get('arte') );
+        $bocetos = $arte->boceto->where('enabled', 1);
+        // dd( $bocetos );
+
+        return view('boceto.index', compact('bocetos', 'arte'));
     }
 
     /**
@@ -24,7 +30,8 @@ class BocetoController extends Controller
      */
     public function create()
     {
-        //
+        // Create a new Boceto
+        
     }
 
     /**
@@ -34,8 +41,18 @@ class BocetoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {   
+        $data = $request->all()['params'];
+        $boceto = new Boceto();
+
+        $boceto->titulo = $data['titulo'];
+        $boceto->descripcion = $data['descripcion'];
+        $boceto->user_id = Auth::user()->id;
+        $boceto->arte_id = $data['arte'];
+        $boceto->save();
+        $user = $boceto->user;
+         
+        return [ 'incidencia' => $boceto, 'user' => $user];
     }
 
     /**
@@ -80,6 +97,9 @@ class BocetoController extends Controller
      */
     public function destroy(Boceto $boceto)
     {
-        //
+        $boceto->enabled = false;
+        $boceto->save();
+
+        return $boceto;
     }
 }

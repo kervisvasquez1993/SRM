@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Tarea;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TareaController extends Controller
@@ -12,9 +14,15 @@ class TareaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    
+    
+    
+     public function index(Request $request)
+    {   
+        $usuarios = User::where('rol', 'comprador')->get();
+        $tareas = Tarea::all();
+        $date = Carbon::class;
+        return view('task.index', compact('tareas', 'usuarios', 'date'));
     }
 
     /**
@@ -22,9 +30,15 @@ class TareaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function usuarios()
+     {
+         return User::all();
+     }
+
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -35,7 +49,21 @@ class TareaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = request()->validate([
+            'nombre'      => 'required',
+            'user_id'     => 'required',
+            'descripcion' => 'required ',
+            'fecha_fin'  =>  'required | date | after: 0 days'
+        ]);
+        $tarea = new Tarea();
+        $tarea->nombre = $request->nombre;
+        $tarea->user_id = $request->user_id;
+        $tarea->descripcion = $request->descripcion;
+        $tarea->fecha_fin = $request->fecha_fin;
+        $tarea->save();
+        return redirect()->action('TareaController@index');
+
+
     }
 
     /**
@@ -46,7 +74,13 @@ class TareaController extends Controller
      */
     public function show(Tarea $tarea)
     {
-        //
+        
+        
+        $proveedores = $tarea->proveedor;
+        $noAprovado  = $proveedores->where('aprovado', 0);
+        $aprovado  = $proveedores->where('aprovado', 1);
+        $date = Carbon::class;
+        return view('task.show', compact('tarea', 'noAprovado', 'aprovado' ,'date'));
     }
 
     /**

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Arte;
 use App\Ficha;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FichaController extends Controller
 {
@@ -12,9 +14,12 @@ class FichaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $arte = Arte::find( $request->get('arte') );
+        $fichas = $arte->ficha->where('enabled', 1);
+
+        return view('ficha.index', compact('arte', 'fichas'));
     }
 
     /**
@@ -35,7 +40,18 @@ class FichaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all()['params'];
+        $ficha = new Ficha();
+
+        $ficha->titulo = $data['titulo'];
+        $ficha->descripcion = $data['descripcion'];
+        // TODO: Add the LOGGED user here, currently not implemented
+        $ficha->user_id = Auth::user()->id;
+        $ficha->arte_id = $data['arte'];
+        $ficha->save();
+        $user = $ficha->user;
+         
+        return [ 'incidencia' => $ficha, 'user' => $user];
     }
 
     /**
@@ -80,6 +96,9 @@ class FichaController extends Controller
      */
     public function destroy(Ficha $ficha)
     {
-        //
+        $ficha->enabled = false;
+        $ficha->save();
+
+        return $ficha;
     }
 }
