@@ -24,7 +24,14 @@
                     <div class="col-lg-4 col-md-6 col-sm-12" v-for="product in filters">
                         <div class="card h-100">
                             <div class="card-body">
+                                     
                                 <h5 class="d-flex align-items-center">
+                                    <a><strong>Nombre</strong></a>:
+                                        {{product.user.name}}
+                                </h5>
+                                <h5 class="d-flex align-items-center">
+
+                               
                                    <a><strong>Empresa</strong></a>:
                                         {{product.proveedor.nombre}}
                                 </h5>
