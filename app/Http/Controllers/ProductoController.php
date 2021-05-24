@@ -101,23 +101,6 @@ class ProductoController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Producto  $producto
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Producto $producto)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Producto  $producto
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Producto $producto)
     {
         
@@ -212,31 +195,29 @@ class ProductoController extends Controller
             
             $producto = new Producto();
             $producto->proveedor_id        = $proveedor_id;
-            $producto->hs_code             = $array[$i][0];   
-            $producto->product_code        = $array[$i][1];
-            $producto->brand               = $array[$i][2];
-            $producto->product_name        = $array[$i][3];
-            $producto->description         = $array[$i][4];
-            $producto->shelf_life          = $array[$i][5];
-            $producto->total_pcs           = $array[$i][6];
-            $producto->pcs_unit            = $array[$i][7];
-            $producto->pcs_inner_box       = $array[$i][8];
-            $producto->pcs_ctn             = $array[$i][9];
-            $producto->ctn_packing_size_l  = $array[$i][10];
-            $producto->ctn_packing_size_w  = $array[$i][11];
-            $producto->ctn_packing_size_h  = $array[$i][12];
-            $producto->cbm                 = $array[$i][13];
-            $producto->n_w_ctn             = $array[$i][14];
-            $producto->g_w_ctn             = $array[$i][15];
-            $producto->total_ctn           = $array[$i][16];
-            $producto->corregido_total_pcs = $array[$i][17];
-            $producto->total_cbm           = $array[$i][18];
-            $producto->total_n_w           = $array[$i][19];
-            $producto->total_g_w           = $array[$i][20]; 
+            $producto->hs_code             = $this->convertidor($array[$i][0]);   
+            $producto->product_code        = $this->convertidor($array[$i][1]);
+            $producto->brand               = $this->convertidor($array[$i][2]);
+            $producto->product_name        = $this->convertidor($array[$i][3]);
+            $producto->description         = $this->convertidor($array[$i][4]);
+            $producto->shelf_life          = $this->convertidor($array[$i][5]);
+            $producto->total_pcs           = $this->convertidor($array[$i][6]);
+            $producto->pcs_unit            = $this->convertidor($array[$i][7]);
+            $producto->pcs_inner_box       = $this->convertidor($array[$i][8]);
+            $producto->pcs_ctn             = $this->convertidor($array[$i][9]);
+            $producto->ctn_packing_size_l  = $this->convertidor($array[$i][10]);
+            $producto->ctn_packing_size_w  = $this->convertidor($array[$i][11]);
+            $producto->ctn_packing_size_h  = $this->convertidor($array[$i][12]);
+            $producto->cbm                 = $this->convertidor($array[$i][13]);
+            $producto->n_w_ctn             = $this->convertidor($array[$i][14]);
+            $producto->g_w_ctn             = $this->convertidor($array[$i][15]);
+            $producto->total_ctn           = $this->convertidor($array[$i][16]);
+            $producto->corregido_total_pcs = $this->convertidor($array[$i][17]);
+            $producto->total_cbm           = $this->convertidor($array[$i][18]);
+            $producto->total_n_w           = $this->convertidor($array[$i][19]);
+            $producto->total_g_w           = $this->convertidor($array[$i][20]); 
             $producto->created_at          = Carbon::now();  
-            $producto->save();
-            
-            
+            $producto->save();  
          }
 
          return response()->json($proveedor_id);
@@ -246,6 +227,20 @@ class ProductoController extends Controller
          
          
 
+    }
+
+    public function convertidor($remplazar)
+    {
+        
+        
+       
+       
+            
+            $resultado = str_replace(",", ".", $remplazar);
+            return $resultado;
+       
+      
+     
     }
     public  function convert_from_latin1_to_utf8_recursively($dat)
     {
