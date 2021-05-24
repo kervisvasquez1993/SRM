@@ -70,9 +70,9 @@ class PivotTareaProveederController extends Controller
      public function artes($id)
      {
        
-        $arteTrue = Arte::where('pivot_tarea_proveeder_id', $id)->get();
+        $arteTrue = Arte::where('pivot_tarea_proveeder_id', $id)->first();
         
-        if(sizeof($arteTrue))
+        if($arteTrue)
         {
             return "Ya existe el Proveedor en Arte";
         }
@@ -80,7 +80,7 @@ class PivotTareaProveederController extends Controller
         {
             $arte = new Arte();
             $arte->pivot_tarea_proveeder_id = $id;
-            $arte->nombre = 'Esto es una Prueba';
+            $arte->nombre = '';
             $arte->creacion_fichas = 1;
             $arte->validacion_fichas = 1;
             $arte->creacion_boceto =  1;
@@ -88,9 +88,9 @@ class PivotTareaProveederController extends Controller
             $arte->confirmacion_proveedor = 1;
             $arte->fecha_fin = Carbon::now(); /* //TODO cambiar el metodo de carbon por fecha de finalizacion recibida de request */
             $arte->save();
-            return $arte;
+            
         }
-        
+        return $arte;
      }
 
      public function iniciarProduccion($id)
