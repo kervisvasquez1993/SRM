@@ -18,8 +18,16 @@ class ProductoController extends Controller
     {   
         $id_proveedor = $request->query('id_proveedor');
         $proveedor = Proveedor::findOrFail($id_proveedor);
-        
-        return view('producto.index', compact('id_proveedor', 'proveedor'));
+
+        $resumenProducto = Producto::where('proveedor_id', $id_proveedor);
+
+        $totalNW = $resumenProducto->sum('total_g_w'); 
+        $totalGW = $resumenProducto->sum('total_g_w');
+        $totalCBM = $resumenProducto->sum('total_cbm');
+        $totalPCS = $resumenProducto->sum('corregido_total_pcs');
+        $totalCTN = $resumenProducto->sum('total_ctn');
+        $cantidadProducto = $resumenProducto->count();
+        return view('producto.index', compact('id_proveedor', 'cantidadProducto', 'proveedor',  'totalNW', 'totalGW', 'totalCBM', 'totalPCS', 'totalCTN' ));
     }
 
     /**
@@ -107,13 +115,7 @@ class ProductoController extends Controller
         return view('producto.edit', compact('producto'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Producto  $producto
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function update(Request $request, Producto $producto)
     {
         $data = $request->validate([
@@ -219,27 +221,14 @@ class ProductoController extends Controller
             $producto->created_at          = Carbon::now();  
             $producto->save();  
          }
-
          return response()->json($proveedor_id);
-
          return back()->with('message', 'datos guardados correctamente'); 
 
-         
-         
-
     }
-
     public function convertidor($remplazar)
     {
-        
-        
-       
-       
-            
             $resultado = str_replace(",", ".", $remplazar);
             return $resultado;
-       
-      
      
     }
     public  function convert_from_latin1_to_utf8_recursively($dat)

@@ -37,7 +37,13 @@
     
     <div id="accordion" role="tablist">
 
-
+    {{$totalNW}} totoal nw
+    {{$totalGW}} total GW
+    {{$totalCBM}} total cbm
+    {{$totalPCS}} corregido total pcs
+    {{$totalCTN}} total ctn
+    {{$cantidadProducto}} cantidad producto
+      
         @foreach( $proveedor->productos as $producto)
             <div class="card">
   
