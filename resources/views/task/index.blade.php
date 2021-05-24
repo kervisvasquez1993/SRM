@@ -99,7 +99,7 @@
 @stop
 
 @push('scripts')
-   <script type="text/javascript" src="{{asset('assets/js/jquery.filterizr.min')}}"></script>
+   
 @endpush
 
 

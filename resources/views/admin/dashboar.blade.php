@@ -13,7 +13,7 @@
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- CSS Files -->
-  <link href="{{asset('assets/css/material-dashboard.css?v=2.1.2')}}" rel="stylesheet" />
+  
   <link href="{{asset('assets/css/index.css')}}" rel="stylesheet" />
   @yield('ccs_file')
   <!-- CSS Just for demo purpose, don't include it in your project -->
@@ -26,6 +26,7 @@
 
   <!-- Styles -->
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+  <link href="{{asset('assets/css/material-dashboard.css?v=2.1.2')}}" rel="stylesheet" />
   @include('util.style')
 
 </head>
@@ -51,11 +52,7 @@
   <script src="{{asset('assets/js/core/jquery.min.js')}}"></script>
   <script src="{{asset('assets/js/core/popper.min.js')}}"></script>
   <script src="{{asset('assets/js/core/bootstrap-material-design.min.js')}}"></script>
- 
 
-
-  <script src="{{ asset('js/app.js') }}"></script>
-  @stack('scripts')
   <script src="{{asset('assets/js/material-dashboard.js')}}" type="text/javascript"></script>
   <!-- Material Dashboard DEMO methods, don't include it in your project! -->
   <script>
@@ -280,6 +277,8 @@
       });
     });
   </script>
+    <script src="{{ asset('js/app.js') }}"></script>
+    @stack('scripts')
 </body>
 </html>
 git 

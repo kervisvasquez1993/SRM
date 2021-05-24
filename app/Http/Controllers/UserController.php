@@ -25,16 +25,15 @@ class UserController extends Controller
             'name' => 'required|min:4',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:8|confirmed',
-            'rol' => ['required', /* Rule::in(['coordinador', 'comprador', 'artes']) */]
+            'rol' => ['required',  Rule::in(['coordinador', 'comprador', 'artes']) ]
         ]);
         
-        User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'rol' => $data['rol']
-        ]);
-
+        $user = new User();
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->password = Hash::make($data['password']);
+        $user->rol = $data['rol'];
+        $user->save();
         Session::flash('message', 'El usuario ha sido creado satisfactoriamente');
         Session::flash('class', 'success');
 
