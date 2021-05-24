@@ -86,12 +86,8 @@
                 <h4 class="p-4" id=""><strong>total CBM</strong>:  {{$value->proveedor->productos->sum('total_cbm')}} </h4>
                 <h4 class="p-4" id=""><strong>total PCS</strong>:  {{$value->proveedor->productos->sum('corregido_total_pcs')}} </h4>
                 <h4 class="p-4" id=""><strong>total CTN</strong>:    {{$value->proveedor->productos->sum('total_ctn')}} </h4>
-                
-
-               
-                
-           </div>
-              {{$value->proveedor->productos->sum('g_w_ctn')}} 
+              </div>
+       
             </table>
           </div>
           <div class="tab-pane" id="settings-{{$value->id}}">
