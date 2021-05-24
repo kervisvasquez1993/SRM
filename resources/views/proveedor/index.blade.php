@@ -29,25 +29,11 @@
               
     @endslot
     @slot('bodyCard')   
-        @php
-            $array_pcs       = array();
-            $array_cbm       = array();
-            $array_ctn       = array();
-            $array_total_cbm = array();
-            $array_total_n_w = array();
-            $array_total_g_w = array();
-        @endphp
-        @foreach($value->proveedor->productos as $productos)
+      
+       
               
-                  @php
-                      array_push($array_pcs, $productos->total_pcs);
-                      array_push($array_cbm, $productos->cbm);
-                      array_push($array_ctn, $productos->total_ctn);
-                      array_push($array_total_cbm, $productos->total_cbm);
-                      array_push($array_total_n_w, $productos->total_n_w);
-                      array_push($array_total_g_w, $productos->total_g_w);
-                  @endphp          
-        @endforeach
+              
+        
        <div>
         <div class="card-header card-header-tabs">        
           <ul class="nav" data-tabs="tabs">
@@ -93,13 +79,19 @@
           </div>
           <div class="tab-pane" id="messages-{{$value->id}}">
             <table class="table">
-              <resumen-productos
-                :cbm       = "{{json_encode($array_cbm)}}"
-                :ctn       = "{{json_encode($array_ctn)}}"
-                :total_cbm = "{{json_encode($array_total_cbm)}}"
-                :total_n_w = "{{json_encode($array_total_n_w)}}"
-                :total_g_w = "{{json_encode($array_total_g_w)}}"
-              ></resumen-productos>
+              <div class="d-flex w-100  flex-wrap justify-content-between">
+                <h4 class="p-4" id=""><strong>Cantidad de Productos</strong>:  {{$value->proveedor->productos->count()}} </h4>
+                <h4 class="p-4" id=""><strong>total NW</strong>:  {{$value->proveedor->productos->sum('total_n_w')}}  </h4>
+                <h4 class="p-4" id=""><strong>total GW</strong>: {{$value->proveedor->productos->sum('total_g_w')}} </h4>
+                <h4 class="p-4" id=""><strong>total CBM</strong>:  {{$value->proveedor->productos->sum('total_cbm')}} </h4>
+                <h4 class="p-4" id=""><strong>total PCS</strong>:  {{$value->proveedor->productos->sum('corregido_total_pcs')}} </h4>
+                <h4 class="p-4" id=""><strong>total CTN</strong>:    {{$value->proveedor->productos->sum('total_ctn')}} </h4>
+                
+
+               
+                
+           </div>
+              {{$value->proveedor->productos->sum('g_w_ctn')}} 
             </table>
           </div>
           <div class="tab-pane" id="settings-{{$value->id}}">

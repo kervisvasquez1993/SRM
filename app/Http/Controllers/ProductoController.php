@@ -21,7 +21,7 @@ class ProductoController extends Controller
 
         $resumenProducto = Producto::where('proveedor_id', $id_proveedor);
 
-        $totalNW = $resumenProducto->sum('total_g_w'); 
+        $totalNW = $resumenProducto->sum('total_n_w'); 
         $totalGW = $resumenProducto->sum('total_g_w');
         $totalCBM = $resumenProducto->sum('total_cbm');
         $totalPCS = $resumenProducto->sum('corregido_total_pcs');
