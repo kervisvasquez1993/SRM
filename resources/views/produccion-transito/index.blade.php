@@ -57,11 +57,11 @@
        
     </div>
     <div class="filtro-container d-flex flex-wrap justify-content-betwen ">
-    @foreach($produccionTransitos as $produccionTransito )
-    @php
+       @foreach($produccionTransitos as $produccionTransito )
+        @php
         $contador = 0 ;
         $numero
-    @endphp
+        @endphp
         @if($produccionTransito->pivotTable->tarea->usuarios->name == Auth::user()->name || Auth::user()->rol == 'coordinador' || Auth::user()->rol == 'logistica')
         <div class="card filtr-item w-350 m-5" data-category="{{$produccionTransito->pivotTable->tarea->usuarios->name}},{{$produccionTransito->pivotTable->proveedor->pais}},{{$produccionTransito->pivotTable->proveedor->nombre}}">
                   <div class="card-body  m3 p-3 d-flex justify-content-between flex-wrap">
@@ -253,7 +253,7 @@
                 </div>
         </div>
         @endif
-    @endforeach 
+       @endforeach 
     </div>
 
     @if(Session::has('message'))
@@ -362,13 +362,6 @@
     if($('.filtro-container').length){
     $('.filtro-container').filterizr();
   }
- })
- 
-
-
-
-
-
-  
+ })  
 </script>
 @endpush
