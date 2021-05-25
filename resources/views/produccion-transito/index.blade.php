@@ -54,8 +54,7 @@
             </div>
             @endforeach       
         </div>
-       
-    </div>
+     </div>
     <div class="filtro-container d-flex flex-wrap justify-content-betwen ">
        @foreach($produccionTransitos as $produccionTransito )
         @php

@@ -6,11 +6,36 @@
         {{ session('flash') }}
     </div>
   @endif
+  @php
+      $array_tareas = [];
+      $array_users  = [];
+      $array_paises = [];
+      foreach ($aprobados as $value):
+            /* echo ($value->tarea->usuarios); */
+            array_push($array_paises, strtoupper($value->proveedor->pais));
+      endforeach;
+      $array_unico_paises = array_unique($array_paises);
+  @endphp
+    <div class="container">
+      <div class="row">      
+         
+          <div  class="menu_iconos btn btn-sm" data-filter="all">
+              Todos
+          </div>     
+          @foreach ($array_unico_paises as $item)
+          <div  class="menu_iconos btn btn-sm" data-filter="{{$item}}">
+              {{$item}}
+          </div>
+          @endforeach     
+      </div>
+    </div>
+<div class="filtro-container">
   @foreach($aprobados as $value)
-    @if($value->proveedor->aprovado )   
-        <div class="filtro-container"> 
+    @if($value->proveedor->aprovado )  
+           
           @if((Auth::user()->name == $value->tarea->usuarios->name) || Auth::user()->rol == 'coordinador')
-          @component('componentes.cardGeneral')
+          <div class="card filtr-item" data-category="{{Str::upper($value->proveedor->pais) }}">
+            @component('componentes.cardGeneral')
             @slot('titulo')
              <div> Empresa: {{$value->proveedor->nombre}}</div>  
              <div> Tarea: {{$value->tarea->nombre}}</div>
@@ -123,11 +148,12 @@
               </button>          
             @endif
             @endslot   
-          @endcomponent
+            @endcomponent
+          </div>
           @endif
-        </div>
     @endif
   @endforeach
+</div>
 @endsection
 @push('scripts')
     <script>
