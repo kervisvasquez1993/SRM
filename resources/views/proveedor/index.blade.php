@@ -13,16 +13,28 @@
       foreach ($aprobados as $value):
             /* echo ($value->tarea->usuarios); */
             array_push($array_paises, strtoupper($value->proveedor->pais));
+            array_push($array_tareas, strtoupper($value->tarea->nombre));
       endforeach;
       $array_unico_paises = array_unique($array_paises);
+      $array_unico_tareas = array_unique($array_tareas);
   @endphp
+    
     <div class="container">
-      <div class="row">      
-         
+      <div class="row">     
+
           <div  class="menu_iconos btn btn-sm" data-filter="all">
               Todos
           </div>     
           @foreach ($array_unico_paises as $item)
+          <div  class="menu_iconos btn btn-sm" data-filter="{{$item}}">
+              {{$item}}
+          </div>
+          @endforeach     
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">       
+          @foreach ($array_unico_tareas as $item)
           <div  class="menu_iconos btn btn-sm" data-filter="{{$item}}">
               {{$item}}
           </div>
@@ -34,7 +46,7 @@
     @if($value->proveedor->aprovado )  
            
           @if((Auth::user()->name == $value->tarea->usuarios->name) || Auth::user()->rol == 'coordinador')
-          <div class="card filtr-item" data-category="{{Str::upper($value->proveedor->pais) }}">
+          <div class="card filtr-item w-350" data-category="{{Str::upper($value->proveedor->pais)}}, {{Str::upper($value->tarea->nombre) }}">
             @component('componentes.cardGeneral')
             @slot('titulo')
              <div> Empresa: {{$value->proveedor->nombre}}</div>  
