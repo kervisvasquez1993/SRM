@@ -248,8 +248,8 @@ function setVisibility() {
   allPlayers.map(function (el) 
  {
    
-    var paisesFilter = checked.paisesFilter.length ? _.intersection(Array.from(el.classList), checked.startingReserves).length : true;
-    var tareas = checked.tareas.length ? _.intersection(Array.from(el.classList), checked.injured).length : true;
+    var paisesFilter = checked.paisesFilter.length ? _.intersection(Array.from(el.classList), checked.paisesFilter).length : true;
+    var tareas = checked.tareas.length ? _.intersection(Array.from(el.classList), checked.tareas).length : true;
     
     if (paisesFilter && tareas) 
     {
