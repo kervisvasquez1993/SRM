@@ -6,29 +6,70 @@
         {{ session('flash') }}
     </div>
   @endif
+
+
   @php
+
+  //condicional para administrador
       $array_tareas = [];
       $array_users  = [];
       $array_paises = [];
       foreach ($aprobados as $value):
-            echo ($value->tarea->usuarios); 
+            
             array_push($array_paises, strtoupper($value->proveedor->pais));
             array_push($array_tareas, strtoupper($value->tarea->nombre));
+            array_push($array_users, strtoupper($value->tarea->usuario->name));
+            
+            
       endforeach;
+
+      
       $array_unico_paises = array_unique($array_paises);
       $array_unico_tareas = array_unique($array_tareas);
+      $array_users_unico = array_unique($array_users);
+
+  
+
+      //seccion para comprador 
+
+      $array_tarea_comprador = [];
+      $array_paises_comprador = [];
+      foreach($userAut->tareas as $tarea):
+             array_push($array_tarea_comprador, strtoupper($tarea->nombre));
+             
+             foreach ($tarea->proveedor as $proveedor):
+              array_push($array_paises_comprador, strtoupper($proveedor->pais));
+             endforeach;
+      endforeach;
+      $array_unico_pais_comprador = array_unique($array_paises_comprador);
+
+
+      $array_unico_tarea_comprador = array_unique($array_tarea_comprador);
+
+
   @endphp
+  
+  
     
     <div class="container">
       <div class="row d-flex">   
-          <aside>
-            <h3>Pais</h3>
+        @if( Auth::user()->rol == 'coordinador')
+          <aside class="">
+            <h6>Compradores</h6>
+            <div class="d-flex flex-wrap">
+                @foreach ($array_users_unico as $item)
+                   <div class="m-2"><input type="checkbox" name="userFilter" value="{{$item}}" id="{{$item}}"><label for="{{$item}}">{{$item}}</label></div>
+                @endforeach
+            </div>
+            <hr>
+            <h6>Pais</h6>
             <div class="d-flex flex-wrap">
                 @foreach ($array_unico_paises as $item)
                    <div class="m-2"><input type="checkbox" name="paisesFilter" value="{{$item}}" id="{{$item}}"><label for="{{$item}}">{{$item}}</label></div>
                 @endforeach
             </div>
-              <h3>Tareas</h3>
+            <hr>
+              <h6>Tareas</h6>
             <div class="d-flex flex-wrap">
               @foreach ($array_unico_tareas as $item)
                 <div class="m-2">
@@ -37,11 +78,33 @@
               @endforeach
             </div>
           </aside>
+          @endif
+          @if((Auth::user()->name == $value->tarea->usuarios->name) || Auth::user()->rol == 'comprador')
+              <aside>
+                <h3>Pais</h3>
+                <div class="d-flex flex-wrap">
+                    @foreach ($array_unico_pais_comprador as $item)
+                       <div class="m-2"><input type="checkbox" name="paisesFilter" value="{{$item}}" id="{{$item}}"><label for="{{$item}}">{{$item}}</label></div>
+                    @endforeach
+                </div>
+                  <h3>Tareas</h3>
+                <div class="d-flex flex-wrap">
+                  @foreach ($array_unico_tarea_comprador as $item)
+                    <div class="m-2">
+                      <input type="checkbox" name="tareas" value="{{$item}}" id="{{$item}}"><label for="{{$item}}">{{$item}}</label>
+                    </div>
+                  @endforeach
+                </div>
+              </aside>
+           @endif
+          
           @foreach($aprobados as $value)
+
+          
           @if($value->proveedor->aprovado )  
                  
                 @if((Auth::user()->name == $value->tarea->usuarios->name) || Auth::user()->rol == 'coordinador')
-                <div class="player {{Str::upper($value->proveedor->pais)}}  {{Str::upper($value->tarea->nombre) }}" {{-- data-category="{{Str::upper($value->proveedor->pais)}}, {{Str::upper($value->tarea->nombre) }}" --}}>
+                <div class="player {{Str::upper($value->proveedor->pais)}}  {{Str::upper($value->tarea->nombre)}} {{Str::upper($value->tarea->usuario->name)}} " {{-- data-category="{{Str::upper($value->proveedor->pais)}}, {{Str::upper($value->tarea->nombre) }}" --}}>
                   @component('componentes.cardGeneral')
                   @slot('titulo')
                    <div> Empresa: {{$value->proveedor->nombre}}</div>  
@@ -231,6 +294,7 @@ var checked = {};
 
 getChecked('paisesFilter');
 getChecked('tareas');
+getChecked('userFilter');
 
 Array.prototype.forEach.call(allCheckboxes, function (el) 
 {
@@ -257,15 +321,16 @@ function setVisibility() {
    
     var paisesFilter = checked.paisesFilter.length ? _.intersection(Array.from(el.classList), checked.paisesFilter).length : true;
     var tareas = checked.tareas.length ? _.intersection(Array.from(el.classList), checked.tareas).length : true;
+    var users = checked.userFilter.length ? _.intersection(Array.from(el.classList), checked.userFilter).length : true;
     
-    if (paisesFilter && tareas) 
+    if (paisesFilter && tareas && users) 
     {
 
       el.style.display = 'block';
     } else {
       el.style.display = 'none';
     }
-    console.log('hola4')
+
   });
 }
 </script>

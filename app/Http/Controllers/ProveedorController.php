@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Tarea;
 use App\Proveedor;
 use App\PivotTareaProveeder;
-use App\Tarea;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProveedorController extends Controller
 {
@@ -104,7 +105,8 @@ class ProveedorController extends Controller
     public function Negociar(Request $request)
     {
         
-         Proveedor::where('id', $request['name'])->update(array('aprovado' => 1));
+        Proveedor::where('id', $request['name'])->update(array('aprovado' => 1));
+
         return back()->with('message', 'La empresa se aprobo correctamente');
     }
 
@@ -167,7 +169,8 @@ class ProveedorController extends Controller
     public function listaAprobado()
     {
         
-        $aprobados = PivotTareaProveeder::all();      
-        return view('proveedor.index',compact('aprobados'));
+        $aprobados = PivotTareaProveeder::all();    
+        $userAut = Auth::user();  
+        return view('proveedor.index',compact('aprobados', 'userAut'));
     }
 }
