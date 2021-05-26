@@ -20,33 +20,29 @@
   @endphp
     
     <div class="container">
-      <div class="row">     
+      <div class="row">   
+          <aside>
+            <h3>Pais</h3>
+            @foreach ($array_unico_paises as $item)
+               <div><input type="checkbox" name="paisesFilter" value="{{$item}}" id="{{$item}}"><label for="{{$item}}">{{$item}}</label></div>
+            @endforeach
+              <h3>Tareas</h3>
+            @foreach ($array_unico_tareas as $item)
+              <div>
+                <div>
+                  <input type="checkbox" name="tareas" value="{{$item}}" id="{{$item}}"><label for="{{$item}}">{{$item}}</label>
+                </div>
+              </div>
+            @endforeach
+          </aside>
+      </div>
+    </div>
 
-          <div  class="menu_iconos btn btn-sm" data-filter="all">
-              Todos
-          </div>     
-          @foreach ($array_unico_paises as $item)
-          <div  class="menu_iconos btn btn-sm" data-filter="{{$item}}">
-              {{$item}}
-          </div>
-          @endforeach     
-      </div>
-    </div>
-    <div class="container">
-      <div class="row">       
-          @foreach ($array_unico_tareas as $item)
-          <div  class="menu_iconos btn btn-sm" data-filter="{{$item}}">
-              {{$item}}
-          </div>
-          @endforeach     
-      </div>
-    </div>
-<div class="filtro-container">
   @foreach($aprobados as $value)
     @if($value->proveedor->aprovado )  
            
           @if((Auth::user()->name == $value->tarea->usuarios->name) || Auth::user()->rol == 'coordinador')
-          <div class="card filtr-item w-350" data-category="{{Str::upper($value->proveedor->pais)}}, {{Str::upper($value->tarea->nombre) }}">
+          <div class="player {{Str::upper($value->proveedor->pais)}}  {{Str::upper($value->tarea->nombre) }}" {{-- data-category="{{Str::upper($value->proveedor->pais)}}, {{Str::upper($value->tarea->nombre) }}" --}}>
             @component('componentes.cardGeneral')
             @slot('titulo')
              <div> Empresa: {{$value->proveedor->nombre}}</div>  
@@ -149,12 +145,9 @@
               <button id="iniciarArte" data-id="{{$value->id}}" data-proveedor="{{$value->proveedor->id}}" class=" iniciarArte btn btn-sm btn-online-success btn-round">
                 Iniciar Arte
               </button>
-                
-    
               <button data-id="{{$value->id}}"  data-proveedor="{{$value->proveedor->id}}" class="iniciarProduccion btn btn-sm btn-outline-success btn-round">
                 Iniciar Produccion
               </button>   
-              
               <button data-id="{{$value->id}}" data-proveedor="{{$value->proveedor->id}}" class="iniciarArteProduccion btn btn-sm btn-outline-success btn-round">
                 Iniciar Arte y Producción
               </button>          
@@ -165,7 +158,7 @@
           @endif
     @endif
   @endforeach
-</div>
+
 @endsection
 @push('scripts')
     <script>
@@ -219,15 +212,55 @@
     </script>
 
 @endpush
-
 @push('scripts')
-<script type="text/javascript" src="{{asset('assets/js/jquery.filterizr.min.js')}}"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
 <script type="text/javascript">
- $(document).ready(function() 
+  
+var allCheckboxes = document.querySelectorAll('input[type=checkbox]');
+var allPlayers = Array.from(document.querySelectorAll('.player'));
+var checked = {};
+
+
+
+getChecked('paisesFilter');
+getChecked('tareas');
+
+Array.prototype.forEach.call(allCheckboxes, function (el) 
+{
+  el.addEventListener('change', toggleCheckbox);  
+});
+
+function toggleCheckbox(e) 
+{
+  
+  getChecked(e.target.name);
+  setVisibility();
+}
+
+function getChecked(name) {
+  checked[name] = Array.from(document.querySelectorAll('input[name=' + name + ']:checked')).map(function (el) {
+    return el.value;
+  });
+}
+
+function setVisibility() {
+  
+  allPlayers.map(function (el) 
  {
-    if($('.filtro-container').length){
-    $('.filtro-container').filterizr();
-  }
- })  
+   
+    var paisesFilter = checked.paisesFilter.length ? _.intersection(Array.from(el.classList), checked.startingReserves).length : true;
+    var tareas = checked.tareas.length ? _.intersection(Array.from(el.classList), checked.injured).length : true;
+    
+    if (paisesFilter && tareas) 
+    {
+
+      el.style.display = 'block';
+    } else {
+      el.style.display = 'none';
+    }
+    console.log('hola4')
+  });
+}
 </script>
+
 @endpush

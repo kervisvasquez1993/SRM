@@ -25,8 +25,9 @@
   
 
   <!-- Styles -->
-  <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+ 
   <link href="{{asset('assets/css/material-dashboard.css?v=2.1.2')}}" rel="stylesheet" />
+  <link href="{{ asset('css/app.css') }}" rel="stylesheet">
   @include('util.style')
 
 </head>
