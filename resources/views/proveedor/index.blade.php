@@ -11,7 +11,7 @@
       $array_users  = [];
       $array_paises = [];
       foreach ($aprobados as $value):
-            /* echo ($value->tarea->usuarios); */
+            echo ($value->tarea->usuarios); 
             array_push($array_paises, strtoupper($value->proveedor->pais));
             array_push($array_tareas, strtoupper($value->tarea->nombre));
       endforeach;
@@ -141,15 +141,19 @@
                   @endslot
                   @slot('contenidoFooter')
                   @if(Auth::user()->rol == 'coordinador')
-                    <button id="iniciarArte" data-id="{{$value->id}}" data-proveedor="{{$value->proveedor->id}}" class=" iniciarArte btn btn-sm btn-online-success btn-round">
-                      Iniciar Arte
-                    </button>
-                    <button data-id="{{$value->id}}"  data-proveedor="{{$value->proveedor->id}}" class="iniciarProduccion btn btn-sm btn-outline-success btn-round">
-                      Iniciar Produccion
-                    </button>   
-                    <button data-id="{{$value->id}}" data-proveedor="{{$value->proveedor->id}}" class="iniciarArteProduccion btn btn-sm btn-outline-success btn-round">
-                      Iniciar Arte y Producción
-                    </button>          
+                  <div class="card-footer">
+                    <div class="d-flex justify-content-between w-100 flex-wrap">
+                        <button id="iniciarArte" data-id="{{$value->id}}" data-proveedor="{{$value->proveedor->id}}" class=" iniciarArte btn btn-sm btn-online-success btn-round">
+                          Iniciar Arte
+                        </button>
+                        <button data-id="{{$value->id}}"  data-proveedor="{{$value->proveedor->id}}" class="iniciarProduccion btn btn-sm btn-outline-success btn-round">
+                          Iniciar Produccion
+                        </button>   
+                        <button data-id="{{$value->id}}" data-proveedor="{{$value->proveedor->id}}" class="iniciarArteProduccion btn btn-sm btn-outline-success btn-round">
+                          Iniciar Arte y Producción
+                        </button>  
+                      </div>
+                    </div>        
                   @endif
                   @endslot   
                   @endcomponent

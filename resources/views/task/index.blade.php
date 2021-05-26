@@ -22,29 +22,33 @@
     @endslot
 
     @slot('contenidoFooter')
-   <div class="stats">
-       @php
-           $fecha_asignada  = $date::parse(date('d-M-Y', strtotime($tarea->fecha_fin)));
-           $fecha_restantes =  $fecha_asignada->diffInDays($date::now()); 
-       @endphp
-      <i class="material-icons">access_time</i> Finalización : {{ date('d-M-Y', strtotime($tarea->fecha_fin)) }}. Días Restantes: {{$fecha_restantes}} Días
+    <div class="card-footer">
+        <div class="d-flex justify-content-between w-100 flex-wrap">
+            <div class="stats">
+                @php
+                    $fecha_asignada  = $date::parse(date('d-M-Y', strtotime($tarea->fecha_fin)));
+                    $fecha_restantes =  $fecha_asignada->diffInDays($date::now()); 
+                @endphp
+               <i class="material-icons">access_time</i> Finalización : {{ date('d-M-Y', strtotime($tarea->fecha_fin)) }}. Días Restantes: {{$fecha_restantes}} Días
+             </div>
+             
+             <div>
+                 @if(Auth::user()->rol == 'coordinador')
+                 <a href="#" type="button" 
+                         class="btn btn-sm btn-outline-warning btn-round "  
+                         data-id_tarea="{{$tarea->id}}"
+                         data-tarea="{{$tarea->nombre}}"
+                         data-user_name={{$tarea->user_id}}
+                         data-fecha_fin="{{date('Y-m-d', strtotime($tarea->fecha_fin))}}" 
+                         data-descripcion="{{$tarea->descripcion}}"
+                         data-toggle="modal"
+                         data-target="#abrirmodalEditar">
+                        Editar
+                 </a> @endif
+             <a href="{{route('tareas.show', ['tarea' => $tarea->id])}}" class="btn btn-sm btn-outline-success btn-round">Ver Detalle</a>
+            </div>
+        </div>
     </div>
-    
-    <div>
-        @if(Auth::user()->rol == 'coordinador')
-        <a href="#" type="button" 
-                class="btn btn-sm btn-outline-warning btn-round "  
-                data-id_tarea="{{$tarea->id}}"
-                data-tarea="{{$tarea->nombre}}"
-                data-user_name={{$tarea->user_id}}
-                data-fecha_fin="{{date('Y-m-d', strtotime($tarea->fecha_fin))}}" 
-                data-descripcion="{{$tarea->descripcion}}"
-                data-toggle="modal"
-                data-target="#abrirmodalEditar">
-               Editar
-        </a> @endif
-    <a href="{{route('tareas.show', ['tarea' => $tarea->id])}}" class="btn btn-sm btn-outline-success btn-round">Ver Detalle</a>
-   </div>
   
   @endslot
  @endcomponent
