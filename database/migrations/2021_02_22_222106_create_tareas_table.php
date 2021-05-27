@@ -16,7 +16,6 @@ class CreateTareasTable extends Migration
         Schema::create('tareas', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('sender_id');
-            $table->unsignedBigInteger('recipient_id');
             $table->foreignId('user_id')->references('id')->on('users');
             $table->string('nombre');
             $table->text('descripcion');

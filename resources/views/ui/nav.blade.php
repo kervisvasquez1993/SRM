@@ -16,7 +16,9 @@
           <li class="nav-item">
             <a class="nav-link" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="material-icons">notifications</i>
-              <span class="notification">5</span>
+               @if($count = Auth::user()->notifications->count())
+                  <span class="notification">{{$count}}</span>
+               @endif
               <p class="d-lg-none d-md-block">
                 Some Actions
               </p>
