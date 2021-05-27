@@ -21884,3 +21884,30 @@ a.text-dark:focus {
   display: inline-block;
 }
 
+.tarea-detalles {
+  display: grid;
+  grid-column-gap: 3rem;
+  grid-row-gap: 1rem;
+  padding: 1rem;
+  color: white;
+  font-size: 0.8rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 600px) {
+  .tarea-detalles {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1200px) {
+  .tarea-detalles {
+    display: flex;
+  }
+}
+
+.bg-orange {
+  background-color: #ffa500;
+}
+

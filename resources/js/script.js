@@ -18,7 +18,7 @@ circulos.forEach(circulo => {
     if (diferenciaDias <= 2) {
         circulo.classList.add("bg-danger");
     } else if (diferenciaDias <= 4) {
-        circulo.classList.add("bg-warning");
+        circulo.classList.add("bg-orange");
     } else {
         if (diferencia < 0.333) {
             circulo.classList.add("bg-danger");
