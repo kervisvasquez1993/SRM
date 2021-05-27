@@ -19,7 +19,7 @@ class TareaController extends Controller
     
      public function index(Request $request)
     {   
-        $usuarios = User::where('rol', 'comprador')->get();
+        $usuarios = User::where('rol', 'comprador')->Orwhere('rol', 'coordinador')->get();
         $tareas = Tarea::all();
         $date = Carbon::class;
         return view('task.index', compact('tareas', 'usuarios', 'date'));

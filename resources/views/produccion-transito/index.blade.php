@@ -276,11 +276,7 @@
 
 @section('ccs_file')
     <style>
-        .circle{
-            width:20px;
-            height: 20px;
-            border-radius: 50%;
-        }
+        
        
 
         .iniciar-prod {

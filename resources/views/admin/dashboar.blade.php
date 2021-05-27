@@ -282,4 +282,3 @@
     @stack('scripts')
 </body>
 </html>
-git 
