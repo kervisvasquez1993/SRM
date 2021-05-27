@@ -13,8 +13,7 @@
     @endslot
 
     @slot('contenidoFooter')
-    <div class="card-footer">
-      <div class="d-flex justify-content-between w-100 flex-wrap">
+
             <div class="stats">
               <i class="material-icons">access_time</i> Finalización : {{ date('d-M-Y', strtotime($tarea->fecha_fin)) }}
             </div>
@@ -29,8 +28,7 @@
                 </a>
                 @endif
                <a href="{{route('tareas.show', ['tarea' => $tarea->id])}}" class="btn btn-sm btn-outline-primary btn-round">Ver Detalle</a>
-           </div>
-      </div>
+         
     </div>
 
     @endslot
