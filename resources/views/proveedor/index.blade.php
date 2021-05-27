@@ -79,7 +79,7 @@
             </div>
           </aside>
           @endif
-          @if((Auth::user()->name == $value->tarea->usuarios->name) || Auth::user()->rol == 'comprador')
+          @if(Auth::user()->rol == 'comprador')
               <aside>
                 <h3>Pais</h3>
                 <div class="d-flex flex-wrap">
