@@ -16,7 +16,7 @@
           <li class="nav-item">
             <a class="nav-link" href="{{route('notifications.index')}}"  >
               <i class="material-icons">notifications</i>
-               @if($count = Auth::user()->notifications->count())
+               @if($count = Auth::user()->unreadNotifications->count())
                    <span class="notification">{{$count}}</span>
                @endif
               <p class="d-lg-none d-md-block">
