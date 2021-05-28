@@ -28,7 +28,7 @@
 
     <!-- Styles -->
 
-    <link href="{{asset('assets/css/material-dashboard.css?v=2.1.2')}}" rel="stylesheet" />
+    {{-- <link href="{{asset('assets/css/material-dashboard.css?v=2.1.2')}}" rel="stylesheet" /> --}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @include('util.style')
 
@@ -58,9 +58,9 @@
     <!--   Core JS Files   -->
     <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
-    <script src="{{ asset('assets/js/core/bootstrap-material-design.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/core/bootstrap-material-design.min.js') }}"></script> --}}
 
-    <script src="{{ asset('assets/js/material-dashboard.js') }}" type="text/javascript"></script>]
+    {{-- <script src="{{ asset('assets/js/material-dashboard.js') }}" type="text/javascript"></script>] --}}
     <!-- Material Dashboard DEMO methods, don't include it in your project! -->
     <script>
         $(document).ready(function() {
