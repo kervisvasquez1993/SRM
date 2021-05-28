@@ -22,6 +22,7 @@ class CreateComprasTable extends Migration
             $table->string('registro_salud');
             $table->double('cantidad_pcs');
             $table->double('total');
+            $table->unsignedBigInteger('vendedor');
             $table->timestamps();
         });
     }
