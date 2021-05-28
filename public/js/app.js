@@ -65911,7 +65911,10 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! ./components/Example */ "./resources/js/components/Example.js");
 
-__webpack_require__(/*! ./script */ "./resources/js/script.js");
+__webpack_require__(/*! ./script */ "./resources/js/script.js"); // Script del sidebar
+
+
+__webpack_require__(/*! ./sidebar */ "./resources/js/sidebar.js");
 
 /***/ }),
 
@@ -66035,6 +66038,26 @@ circulos.forEach(function (circulo) {
     }
   }
 });
+
+/***/ }),
+
+/***/ "./resources/js/sidebar.js":
+/*!*********************************!*\
+  !*** ./resources/js/sidebar.js ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var navbarToggler = document.querySelector("#botonSidebar");
+var menuWrapper = document.querySelector(".menu-wrapper");
+navbarToggler.addEventListener("click", function () {
+  menuWrapper.classList.toggle("mostrar");
+  console.log("hola");
+}); // window.addEventListener("resize", () => {
+//     if (window.innerWidth >= 699) {
+//         menuWrapper.classList.remove("mostrar")
+//     }
+// })
 
 /***/ }),
 

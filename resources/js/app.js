@@ -16,3 +16,6 @@ require('./components/Example');
 
 
 require('./script');
+
+// Script del sidebar
+require('./sidebar');
