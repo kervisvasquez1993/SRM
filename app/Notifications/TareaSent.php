@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -55,6 +56,9 @@ class TareaSent extends Notification
      */
     public function toArray($notifiable)
     {
-        return $this->tarea->toArray();
+        return [
+            'link' => route('tareas.show', $this->tarea->id),
+            'text' => "Has recibido un mensaje de ". User::find($this->tarea->sender_id)->name
+        ];
     }
 }
