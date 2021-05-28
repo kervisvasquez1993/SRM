@@ -61,8 +61,17 @@
                 <span>Reclamos y Devoluciones</span>
             </a>
         @endif
+
+        <a class="menu-link cerrar-sesion" href="javascript:;" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <i class="material-icons">logout</i>
+            <span>{{ __('Logout') }}</span>
+        </a>
     </nav>
 </div>
+
+<form id="logout-form" action="{{ route('logout') }}" method="POST">
+    @csrf
+</form>
 
 
 {{-- <div class="sidebar" data-color="purple" data-background-color="white" data-image="../assets/img/sidebar-1.jpg">
