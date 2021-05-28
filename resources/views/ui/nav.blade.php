@@ -14,9 +14,6 @@
             notifications
         </i>
         <span class="campana-numero">5</span>
-        <p class="d-none">
-            Some Actions
-        </p>
     </a>
 
     <span class="usuario-nombre">
