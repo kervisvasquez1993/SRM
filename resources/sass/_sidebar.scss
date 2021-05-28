@@ -1,0 +1,88 @@
+#app {
+    overflow: hidden;
+}
+
+.wrapper {
+    position: relative;
+    left: 0;
+    transition: left 0.5s;
+    width: 100%;
+    padding: 1rem;
+}
+
+.menu {
+    background-color: rgb(33, 37, 41);
+    color: rgb(169, 175, 187);
+    height: 100vh;
+    width: $sidebar-ancho;
+    position: fixed;
+    left: -$sidebar-ancho;
+    transition: left 0.5s;
+}
+
+.menu-wrapper.mostrar .menu {
+    left: 0;
+}
+
+.menu-wrapper.mostrar .wrapper {
+    left: $sidebar-ancho;
+}
+
+@media (min-width: 1400px) {
+    .menu {
+        left: 0;
+    }
+
+    .wrapper {
+        left: $sidebar-ancho;
+        width: calc(100% - #{$sidebar-ancho});
+        padding: 3rem;
+    }
+
+    #botonSidebar {
+        display: none;
+    }
+}
+
+.logo a {
+    padding: 3rem;
+    display: block;
+    color: rgb(255, 255, 255);
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    border-bottom: solid 1px rgb(182, 182, 182);
+}
+
+.menu-link {
+    display: block;
+    color: rgb(182, 182, 182);
+    display: flex;
+    align-items: center;
+    padding: 1rem 2.5rem;
+}
+
+.menu-link:hover {
+    background-color: rgb(65, 65, 65);
+    color: white;
+    text-decoration: none;
+}
+
+.menu-link .material-icons {
+    margin-right: 1rem;
+}
+
+#botonSidebar {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-size: 2rem;
+}
+
+#botonSidebar svg {
+    width: 40px;
+    height: 40px;
+}
+
+#botonSidebar svg:hover {
+    transform: scale(1.1);
+}
