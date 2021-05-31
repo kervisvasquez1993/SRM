@@ -9,11 +9,16 @@
         </button>
     </div>
     
-    <a class="campana" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <a class="campana" href="{{route('notifications.index')}}">
         <i class="material-icons">
             notifications
-        </i>
-        <span class="campana-numero">5</span>
+        </i>        @if($count = Auth::user()->unreadNotifications->count())
+        <span class="campana-numero">
+  
+             <span class="notification">{{$count}}</span>
+          
+    </span>
+    @endif
     </a>
 
     <span class="usuario-nombre">
@@ -25,3 +30,4 @@
         
     </a>
 </nav>
+
