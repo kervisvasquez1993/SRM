@@ -1,0 +1,78 @@
+.navbar-dashboard {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.cerrar-sesion-dashboard {
+    display: none;
+    margin-left: 2rem;
+}
+
+.usuario-nombre {
+    padding-left: 2rem;
+}
+
+.campana {
+    position: relative;
+    color: rgb(33, 37, 41);
+    font-size: 1.1rem;
+}
+
+.campana:hover {
+    color: rgb(105, 105, 105);
+}
+
+.campana .material-icons {
+    font-size: 1.5rem;
+}
+
+.campana-numero {
+    position: absolute;
+    top: -0.5em;
+    right: -0.5em;
+    color: white;
+    background-color: $red;
+    width: 1.3em;
+    height: 1.3em;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: top 0.2s;
+}
+
+.campana:hover .campana-numero {
+    top: -0.7em;
+}
+
+.navbar-inicio {
+    flex-grow: 1;
+}
+
+#botonSidebar {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-size: 2rem;
+}
+
+#botonSidebar svg {
+    width: 40px;
+    height: 40px;
+}
+
+#botonSidebar svg:hover {
+    transform: scale(1.1);
+}
+
+@media (min-width: $sidebar-break-point) {
+    .cerrar-sesion-dashboard {
+        display: block;
+    }
+
+    #botonSidebar {
+        display: none;
+    }
+}

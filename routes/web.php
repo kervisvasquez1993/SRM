@@ -26,9 +26,9 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::group(['middleware' => 'auth'], function () {
 
-    // Route::view('/{path?}', 'dashboard')
-    //  ->where('path', '.*')
-    //  ->name('react');
+    Route::view('/{path?}', 'dashboard')
+     ->where('path', '.*')
+     ->name('react');
 
     /* Rutas asociadas a compradores */
 

@@ -9,34 +9,35 @@ import TaskList from "./Tasks/TaskList";
 
 const App = () => {
     return (
-        <div>
+        <React.Fragment>
+            >
             <div id="app">
-                <div className="wrapper">
+                <div className="menu-wrapper">
                     <Sidebar />
 
-                    <div className="main-panel">
-                        <Navbar />
+                    <div className="wrapper">
+                        <div className="main-panel">
+                            <Navbar />
 
-                        <div className="content" id="eventInit">
-                            <Switch>
-                                <Route path="/home">
-                                    <Example />
-                                </Route>
-                                <Route path="/tasks">
-                                    <TaskList />
-                                </Route>
-                                <Route path="*">
-                                    <Error/>
-                                </Route>
-                            </Switch>
-
-                            
+                            <div className="content" id="eventInit">
+                                <Switch>
+                                    <Route path="/home">
+                                        <Example />
+                                    </Route>
+                                    <Route path="/tasks">
+                                        <TaskList />
+                                    </Route>
+                                    <Route path="*">
+                                        <Error />
+                                    </Route>
+                                </Switch>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <Modal/>
-        </div>
+            <Modal />
+        </React.Fragment>
     );
 };
 
