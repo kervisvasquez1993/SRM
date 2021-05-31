@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notification;
 
 class purchaseDone extends Notification
 {
-    protected $ordenCompra;
+    protected $compra;
     use Queueable;
 
     /**
@@ -17,9 +17,9 @@ class purchaseDone extends Notification
      *
      * @return void
      */
-    public function __construct($ordenCompra)
+    public function __construct($compra)
     {
-        $this->ordenCompra = $ordenCompra;
+        $this->compra = $compra;
     }
 
     /**
@@ -55,8 +55,10 @@ class purchaseDone extends Notification
      */
     public function toArray($notifiable)
     {
+        /* return $this->compra->toArray(); */
         return [
-            //
+            
+            
         ];
     }
 }

@@ -8,6 +8,8 @@
             <h2>Notificaciones</h2>
             <ul class="list-group">
                 @foreach ($unreadNotifications as $undreadNotification)
+                    {{var_dump($undreadNotification->data)}}
+                    <br>
                     @if($undreadNotification->type == "App\Notifications\TareaSent")
                     <li class="list-group-item">
                         <a href="{{$undreadNotification->data['link']}}"> {{$undreadNotification->data['text']}}</a>
