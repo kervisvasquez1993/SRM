@@ -123,4 +123,8 @@ use App\Http\Controllers\PerfilController;
     // Create user routes
     Route::get('createUser', 'UserController@showCreateForm')->name('showRegister');
     Route::post('createUser', 'UserController@register')->name('register');
-});
+
+    Route::get('/notification', 'NotificationController@index')->name('notifications.index');
+    Route::patch('/notification/{id}', 'NotificationController@read')->name('notification.read');
+
+  });

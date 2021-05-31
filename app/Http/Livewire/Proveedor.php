@@ -1,6 +1,6 @@
-<?php
+<!-- <?php
 
-namespace App\Http\Livewire;
+/* namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\FilterProduccionTransito;
@@ -35,3 +35,4 @@ class Proveedor extends Component
         $this->selected = $selected;
     }
 }
+ */
