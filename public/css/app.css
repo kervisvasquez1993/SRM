@@ -11088,6 +11088,9 @@ a.text-dark:focus {
   background-color: transparent;
   border: none;
   outline: none;
+}
+
+#botonSidebar .material-icons {
   font-size: 2rem;
 }
 
