@@ -43,9 +43,11 @@ $app->singleton(
 
 //public_path 
 
+/*
 $app->bind('path.public', function(){
     return realpath('../..public/');
 });
+*/
 
 /*
 |--------------------------------------------------------------------------
