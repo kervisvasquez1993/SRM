@@ -24,4 +24,4 @@ Route::get('/users', 'Api\UserController@index');
 Route::get('/filter', 'Api\FilterProduccionTransitoController@index'); 
 
 // Nuevo
-Route::apiResource('/tarea', 'Api\TareaController');
+Route::apiResource('tarea', 'Api\Tarea\TareaController');
