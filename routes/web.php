@@ -20,15 +20,15 @@ use App\Http\Controllers\PerfilController;
 /* Route::get('/', 'InicioController@index'); */
 
 
-Route::get('/', 'Auth\LoginController@showLoginForm')->name('login');/* cambiamos el login */
-Route::post('/', 'Auth\LoginController@login');
-Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+// Route::get('/', 'Auth\LoginController@showLoginForm')->name('login');/* cambiamos el login */
+// Route::post('/', 'Auth\LoginController@login');
+// Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+
+Route::view('/{path?}', 'dashboard')
+->where('path', '.*')
+->name('react');
 
 Route::group(['middleware' => 'auth'], function () {
-
-    Route::view('/{path?}', 'dashboard')
-     ->where('path', '.*')
-     ->name('react');
 
     /* Rutas asociadas a compradores */
 

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
 import TaskCard from "./TaskCard";
@@ -8,6 +8,7 @@ import TaskModal from "./TaskModal";
 
 const TaskList = () => {
     const dispatch = useDispatch();
+    const user = useSelector(state => state.auth.user);
     const [tasks, setTasks] = useState([]);
 
     useEffect(() => {

@@ -24,9 +24,5 @@
     <div id="root">
 
     </div>
-
-    <script>
-        window.user = {!! json_encode(Auth::user()) !!}
-    </script>
 </body>
 </html>
