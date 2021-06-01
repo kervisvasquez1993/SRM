@@ -10951,7 +10951,7 @@ a.text-dark:focus {
 .wrapper {
   position: relative;
   left: 0;
-  transition: left 0.5s;
+  transition: left 0.3s;
   width: 100%;
   padding: 1rem;
 }
@@ -10965,15 +10965,17 @@ a.text-dark:focus {
   top: 0;
   left: 0;
   left: -300px;
-  transition: left 0.5s;
+  transition: left 0.1s;
 }
 
 .menu-wrapper.mostrar .menu {
   left: 0;
+  transition: left 0.4s;
 }
 
 .menu-wrapper.mostrar .wrapper {
   left: 300px;
+  transition: left 0.4s;
 }
 
 .logo a {
@@ -11088,9 +11090,6 @@ a.text-dark:focus {
   background-color: transparent;
   border: none;
   outline: none;
-}
-
-#botonSidebar .material-icons {
   font-size: 2rem;
 }
 
