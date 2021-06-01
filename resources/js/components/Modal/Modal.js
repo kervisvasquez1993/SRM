@@ -13,6 +13,10 @@ const Modal = () => {
         dispatch(closeModal());
     };
 
+    if (!isOpen) {
+        return null;
+    }
+
     return (
         <React.Fragment>
             {
