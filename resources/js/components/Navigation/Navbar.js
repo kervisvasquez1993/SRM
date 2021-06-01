@@ -1,14 +1,16 @@
 import axios from "axios";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { logout } from "../../store/actions/authActions";
 import { toggleSidebar } from "../../store/actions/sidebarActions";
 
 const Navbar = () => {
     const dispatch = useDispatch();
+    const user = useSelector(state => state.auth.user);
     
     const handleLogout = e => {
-        axios.post("logout").then();
+        dispatch(logout());
     };
 
     return (
