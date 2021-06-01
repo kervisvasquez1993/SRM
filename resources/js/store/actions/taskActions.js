@@ -33,13 +33,13 @@ export function createTask(task) {
                 type: "CREATE_TASK_SUCCESS",
                 payload: response.data.data
             });
+
+            dispatch(closeModal());
         } catch (e) {
             dispatch({
                 type: "CREATE_TASK_FAILURE",
                 errors: e.response.data,
             });
         }
-
-        dispatch(closeModal());
     };
 }
