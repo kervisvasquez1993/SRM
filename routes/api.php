@@ -24,12 +24,11 @@ Route::get('/proveedor', 'Api\ProveedorController@index');
 Route::get('/users', 'Api\UserController@index');
 Route::get('/filter', 'Api\FilterProduccionTransitoController@index');
 
-Route::apiResource('tarea', 'Api\Tarea\TareaController');
-
 Route::post('login', 'Api\AuthController@login');
 
 Route::middleware('auth.jwt')->group(function () {
     Route::get('me', 'Api\AuthController@me');
     Route::post('logout', 'Api\AuthController@logout');
     Route::post('refresh', 'Api\AuthController@refresh');
+    Route::apiResource('tarea', 'Api\Tarea\TareaController');
 });

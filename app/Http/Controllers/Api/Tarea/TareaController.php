@@ -13,7 +13,7 @@ class TareaController extends Controller
 {
     public function __construct()
     {
-
+        $this->middleware('comprador');
     }
 
     public function index()
