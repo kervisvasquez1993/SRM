@@ -1,75 +1,39 @@
 import axios from "axios";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { toggleSidebar } from "../../store/actions/sidebarActions";
 
 const Navbar = () => {
+    const dispatch = useDispatch();
+    
     const handleLogout = e => {
         axios.post("logout").then();
     };
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
-            <div className="container-fluid">
-                <button
-                    className="navbar-toggler"
-                    type="button"
-                    data-toggle="collapse"
-                    aria-controls="navigation-index"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <span className="sr-only">Toggle navigation</span>
-                    <span className="navbar-toggler-icon icon-bar"></span>
-                    <span className="navbar-toggler-icon icon-bar"></span>
-                    <span className="navbar-toggler-icon icon-bar"></span>
+        <nav className="navbar-dashboard">
+            <div className="navbar-inicio">
+                <button id="botonSidebar">
+                    <i className="material-icons" onClick={() => dispatch(toggleSidebar())}>
+                        menu
+                    </i>
                 </button>
-
-                <div className="collapse navbar-collapse justify-content-end">
-                    <ul className="navbar-nav">
-                        <li className="nav-item dropdown">
-                            <a
-                                className="nav-link"
-                                href="http://example.com"
-                                id="navbarDropdownMenuLink"
-                                data-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false"
-                            >
-                                <i className="material-icons">notifications</i>
-                                <span className="notification">5</span>
-                                <p className="d-lg-none d-md-block">
-                                    Some Actions
-                                </p>
-                            </a>
-                        </li>
-                        <li className="nav-item dropdown">
-                            <a
-                                className="nav-link"
-                                href="/profile"
-                                id="navbarDropdownProfile"
-                                data-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false"
-                            >
-                                <i className="material-icons">person</i>
-                                <p className="d-lg-none d-md-block">Account</p>
-                                {user.name}
-                            </a>
-                            <div
-                                className="dropdown-menu dropdown-menu-right"
-                                aria-labelledby="navbarDropdownProfile"
-                            >
-                                <a
-                                    className="dropdown-item"
-                                    href="{{ route('logout') }}"
-                                    onClick={handleLogout}
-                                >
-                                    Cerrar Sesion
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
             </div>
+
+            <Link to="/notifications" className="campana">
+                <i className="material-icons">notifications</i>
+                <span className="campana-numero">5</span>
+            </Link>
+
+            <span className="usuario-nombre">{user.name}</span>
+
+            <button
+                className="cerrar-sesion-dashboard btn btn-primary ml-3"
+                onClick={handleLogout}
+            >
+                Cerrar Sesion
+            </button>
         </nav>
     );
 };
