@@ -9,7 +9,7 @@ use App\Http\Resources\TareaResource;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
-class TareaController extends Controller
+class TareaController extends ApiController
 {
     public function __construct()
     {
