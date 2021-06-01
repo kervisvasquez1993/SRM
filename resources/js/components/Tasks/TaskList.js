@@ -3,18 +3,17 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
+import { getTasks } from "../../store/actions/taskActions";
 import TaskCard from "./TaskCard";
 import TaskModal from "./TaskModal";
 
 const TaskList = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.auth.user);
-    const [tasks, setTasks] = useState([]);
+    const tasks = useSelector(state => state.task.tasks);
 
     useEffect(() => {
-        axios.get("api/tarea").then(response => {
-            setTasks([...response.data.data]);
-        });
+        dispatch(getTasks())
     }, []);
 
     const handleCreate = () => {
