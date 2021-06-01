@@ -6,48 +6,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 2000);
 });
 
+circulos = document.querySelectorAll("[data-circulo]");
 
-/* import Filterizr from 'filterizr'
-const options = {
-    animationDuration: 0.5, // in seconds
-    callbacks: { 
-      onFilteringStart: function() { },
-      onFilteringEnd: function() { },
-      onShufflingStart: function() { },
-      onShufflingEnd: function() { },
-      onSortingStart: function() { },
-      onSortingEnd: function() { }
-    },
-    controlsSelector: '', // Selector for custom controls
-    delay: 0, // Transition delay in ms
-    delayMode: 'progressive', // 'progressive' or 'alternate'
-    easing: 'ease-out',
-    filter: 'all', // Initial filter
-    filterOutCss: { // Filtering out animation
-      opacity: 0,
-      transform: 'scale(0.5)'
-    },
-    filterInCss: { // Filtering in animation
-      opacity: 0,
-      transform: 'scale(1)'
-    },
-    gridItemsSelector: '.filtr-container',
-    gutterPixels: 0, // Items spacing in pixels
-    layout: 'sameSize', // See layouts
-    multifilterLogicalOperator: 'or',
-    searchTerm: '',
-    setupControls: true, // Should be false if controlsSelector is set 
-    spinner: { // Configuration for built-in spinner
-      enabled: false,
-      fillColor: '#2184D0',
-      styles: {
-        height: '75px',
-        margin: '0 auto',
-        width: '75px',
-        'z-index': 2,
-      },
-    },
-  } 
+circulos.forEach(circulo => {
+    const fechaCreacion = new Date(circulo.dataset.createdAt);
+    const fechaFin = new Date(circulo.dataset.fechaFin);
 
-const filtro = new Filterizr('.filter-container', options)
-console.log(filtro) */
+    const diferencia = (fechaFin - fechaCreacion) / (fechaFin - new Date());
+    let diferenciaDias = Math.round((fechaFin - new Date()) / (24 * 60 * 60 * 1000));
+
+    if (diferenciaDias <= 2) {
+        circulo.classList.add("bg-danger");
+    } else if (diferenciaDias <= 4) {
+        circulo.classList.add("bg-orange");
+    } else {
+        if (diferencia < 0.333) {
+            circulo.classList.add("bg-danger");
+        } else if (diferencia < 0.666) {
+            circulo.classList.add("bg-warning");
+        } else {
+            circulo.classList.add("bg-success");
+        }
+    }
+});

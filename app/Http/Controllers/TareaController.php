@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\TareaSent;
 use App\Tarea;
 use App\User;
 use Carbon\Carbon;
@@ -19,7 +20,7 @@ class TareaController extends Controller
     
      public function index(Request $request)
     {   
-        $usuarios = User::where('rol', 'comprador')->get();
+        $usuarios = User::where('rol', 'comprador')->Orwhere('rol', 'coordinador')->get();
         $tareas = Tarea::all();
         $date = Carbon::class;
         return view('task.index', compact('tareas', 'usuarios', 'date'));
@@ -51,16 +52,21 @@ class TareaController extends Controller
     {
         $data = request()->validate([
             'nombre'      => 'required',
-            'user_id'     => 'required',
+            'user_id'     => 'required|exists:users,id',
             'descripcion' => 'required ',
             'fecha_fin'  =>  'required | date | after: 0 days'
         ]);
         $tarea = new Tarea();
         $tarea->nombre = $request->nombre;
+        $tarea->sender_id =   auth()->id();
         $tarea->user_id = $request->user_id;
         $tarea->descripcion = $request->descripcion;
         $tarea->fecha_fin = $request->fecha_fin;
         $tarea->save();
+
+        $recipient = User::find($request->user_id);
+
+        $recipient->notify(new TareaSent($tarea));
         return redirect()->action('TareaController@index');
 
 

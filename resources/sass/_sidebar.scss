@@ -1,0 +1,86 @@
+#app {
+    overflow: hidden;
+}
+
+.wrapper {
+    position: relative;
+    left: 0;
+    transition: left 0.5s;
+    width: 100%;
+    padding: 1rem;
+}
+
+.menu {
+    background-color: rgb(33, 37, 41);
+    color: rgb(169, 175, 187);
+    height: 100vh;
+    width: $sidebar-ancho;
+    position: fixed;
+    top: 0;
+    left: 0;
+    left: -$sidebar-ancho;
+    transition: left 0.5s;
+}
+
+.menu-wrapper.mostrar .menu {
+    left: 0;
+}
+
+.menu-wrapper.mostrar .wrapper {
+    left: $sidebar-ancho;
+}
+
+.logo a {
+    padding: 1.5rem 3rem;
+    display: block;
+    color: rgb(255, 255, 255);
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    border-bottom: solid 1px rgb(182, 182, 182);
+}
+
+.menu-link {
+    display: block;
+    color: rgb(182, 182, 182);
+    display: flex;
+    align-items: center;
+    padding: 0.9rem 2.5rem;
+}
+
+.menu-link:hover {
+    background-color: rgb(65, 65, 65);
+    color: white;
+    text-decoration: none;
+}
+
+.menu-link .material-icons {
+    margin-right: 1rem;
+}
+
+.cerrar-sesion {
+    margin-top: 2rem;
+}
+
+@media (min-width: $sidebar-break-point) {
+    .menu {
+        left: 0;
+    }
+
+    .wrapper {
+        left: $sidebar-ancho;
+        width: calc(100% - #{$sidebar-ancho});
+        padding: 3rem;
+    }
+
+    #botonSidebar {
+        display: none;
+    }
+
+    .cerrar-sesion {
+        display: none;
+    }
+
+    .menu-link {
+        padding: 1.2rem 2.5rem;
+    }
+}

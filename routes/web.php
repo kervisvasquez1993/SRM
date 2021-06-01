@@ -26,9 +26,9 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::group(['middleware' => 'auth'], function () {
 
-    // Route::view('/{path?}', 'dashboard')
-    //  ->where('path', '.*')
-    //  ->name('react');
+    Route::view('/{path?}', 'dashboard')
+     ->where('path', '.*')
+     ->name('react');
 
     /* Rutas asociadas a compradores */
 
@@ -127,4 +127,8 @@ Route::group(['middleware' => 'auth'], function () {
     // Create user routes
     Route::get('createUser', 'UserController@showCreateForm')->name('showRegister');
     Route::post('createUser', 'UserController@register')->name('register');
-});
+
+    Route::get('/notification', 'NotificationController@index')->name('notifications.index');
+    Route::patch('/notification/{id}', 'NotificationController@read')->name('notification.read');
+
+  });

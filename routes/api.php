@@ -1,8 +1,9 @@
 <?php
 
+
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\ShowPosts;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +22,16 @@ Route::middleware('api')->get('/user', function (Request $request) {
 
 Route::get('/proveedor', 'Api\ProveedorController@index');
 Route::get('/users', 'Api\UserController@index');
-Route::get('/filter', 'Api\FilterProduccionTransitoController@index'); 
+Route::get('/filter', 'Api\FilterProduccionTransitoController@index');
 
-// Nuevo
 Route::apiResource('tarea', 'Api\Tarea\TareaController');
+
+Route::prefix('auth')->group(function () {
+    Route::post('login', 'Api\AuthController@login');
+
+    Route::middleware('auth.jwt')->group(function () {
+        Route::post('logout', 'Api\AuthController@logout');
+        Route::post('refresh', 'Api\AuthController@refresh');
+        Route::post('me', 'Api\AuthController@me');
+    });
+});
