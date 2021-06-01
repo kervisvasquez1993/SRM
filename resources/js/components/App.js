@@ -18,22 +18,20 @@ const App = () => {
                     <Sidebar />
 
                     <div className="wrapper">
-                        <div className="main-panel">
-                            <Navbar />
+                        <Navbar />
 
-                            <div className="content" id="eventInit">
-                                <Switch>
-                                    <Route path="/home">
-                                        <Example />
-                                    </Route>
-                                    <Route path="/tasks">
-                                        <TaskList />
-                                    </Route>
-                                    <Route path="*">
-                                        <Error />
-                                    </Route>
-                                </Switch>
-                            </div>
+                        <div className="content" id="eventInit">
+                            <Switch>
+                                <Route path="/home">
+                                    <Example />
+                                </Route>
+                                <Route path="/tasks">
+                                    <TaskList />
+                                </Route>
+                                <Route path="*">
+                                    <Error />
+                                </Route>
+                            </Switch>
                         </div>
                     </div>
                 </div>
