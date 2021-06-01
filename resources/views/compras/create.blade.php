@@ -8,7 +8,7 @@
 <form class="p-2" method="POST" action="{{ route('compras.store', ['id_proveedor' => $id_proveedor]) }}">
 
     @csrf
-
+    <input type="hidden" name="id_coordinador" value="{{$id_coordinador}}">
     <div class="row">
         <div class="col col-12 col-sm-12 col-md-6 col-lg-4">
             <input type="hidden" name="proveedor_id" value="{{$id_proveedor}}">

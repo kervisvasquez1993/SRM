@@ -5,7 +5,7 @@
 .wrapper {
     position: relative;
     left: 0;
-    transition: left 0.3s;
+    transition: left 0.5s;
     width: 100%;
     padding: 1rem;
 }
@@ -19,17 +19,15 @@
     top: 0;
     left: 0;
     left: -$sidebar-ancho;
-    transition: left 0.1s;
+    transition: left 0.5s;
 }
 
 .menu-wrapper.mostrar .menu {
     left: 0;
-    transition: left 0.4s;
 }
 
 .menu-wrapper.mostrar .wrapper {
     left: $sidebar-ancho;
-    transition: left 0.4s;
 }
 
 .logo a {
@@ -39,28 +37,24 @@
     text-transform: uppercase;
     font-size: 1.5rem;
     border-bottom: solid 1px rgb(182, 182, 182);
-
-    &:hover, &:focus{
-        color: rgb(255, 255, 255);
-    }
 }
 
-
 .menu-link {
+    display: block;
     color: rgb(182, 182, 182);
     display: flex;
+    align-items: center;
     padding: 0.9rem 2.5rem;
+}
 
-    &:hover, &:focus {
-        background-color: rgb(65, 65, 65);
-        color: white;
-        text-decoration: none;
-    }
-    
-    & .material-icons {
-        margin-right: 1rem;
-    }
+.menu-link:hover {
+    background-color: rgb(65, 65, 65);
+    color: white;
+    text-decoration: none;
+}
 
+.menu-link .material-icons {
+    margin-right: 1rem;
 }
 
 .cerrar-sesion {
