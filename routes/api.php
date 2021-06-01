@@ -32,4 +32,8 @@ Route::middleware('auth.jwt')->group(function () {
     Route::post('refresh', 'Api\AuthController@refresh');
     Route::apiResource('tarea', 'Api\Tarea\TareaController');
     Route::get('me/tareas', 'Api\Tarea\TareaController@tareasUsuario');
+    
+    Route::apiResource('user', 'Api\User\UserController')->except([
+        'store', 'update', 'destroy'
+    ]);
 });
