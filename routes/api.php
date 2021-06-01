@@ -26,12 +26,10 @@ Route::get('/filter', 'Api\FilterProduccionTransitoController@index');
 
 Route::apiResource('tarea', 'Api\Tarea\TareaController');
 
-Route::prefix('auth')->group(function () {
-    Route::post('login', 'Api\AuthController@login');
+Route::post('login', 'Api\AuthController@login');
 
-    Route::middleware('auth.jwt')->group(function () {
-        Route::post('logout', 'Api\AuthController@logout');
-        Route::post('refresh', 'Api\AuthController@refresh');
-        Route::post('me', 'Api\AuthController@me');
-    });
+Route::middleware('auth.jwt')->group(function () {
+    Route::get('me', 'Api\AuthController@me');
+    Route::post('logout', 'Api\AuthController@logout');
+    Route::post('refresh', 'Api\AuthController@refresh');
 });
