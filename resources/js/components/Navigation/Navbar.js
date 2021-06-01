@@ -29,7 +29,7 @@ const Navbar = () => {
             <span className="usuario-nombre">{user.name}</span>
 
             <button
-                className="cerrar-sesion-dashboard btn btn-primary"
+                className="cerrar-sesion-dashboard btn btn-primary ml-3"
                 onClick={handleLogout}
             >
                 Cerrar Sesion

@@ -6,8 +6,7 @@
 }
 
 .cerrar-sesion-dashboard {
-    display: none;
-    margin-left: 2rem;
+    display: none !important;
 }
 
 .usuario-nombre {
@@ -69,7 +68,7 @@
 
 @media (min-width: $sidebar-break-point) {
     .cerrar-sesion-dashboard {
-        display: block;
+        display: inherit !important;
     }
 
     #botonSidebar {
