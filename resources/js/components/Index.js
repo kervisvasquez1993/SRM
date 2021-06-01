@@ -12,6 +12,7 @@ const store = createStore(rootReducer, applyMiddleware(thunk));
 
 const Index = () => {
     return (
+        <React.StrictMode>
         <BrowserRouter>
             <ReduxProvider store={store}>
                 <HelmetProvider>
@@ -19,6 +20,7 @@ const Index = () => {
                 </HelmetProvider>
             </ReduxProvider>
         </BrowserRouter>
+        </React.StrictMode>
     );
 };
 

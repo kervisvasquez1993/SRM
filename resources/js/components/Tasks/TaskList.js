@@ -13,15 +13,17 @@ const TaskList = () => {
     const tasks = useSelector(state => state.task.tasks);
 
     useEffect(() => {
-        dispatch(getTasks())
+        dispatch(getTasks());
     }, []);
 
     const handleCreate = () => {
-        dispatch(openModal({
-            title: "Agregar Tarea",
-            body: <TaskModal/>
-        }));
-    }
+        dispatch(
+            openModal({
+                title: "Agregar Tarea",
+                body: <TaskModal />
+            })
+        );
+    };
 
     return (
         <React.Fragment>
@@ -38,14 +40,12 @@ const TaskList = () => {
                     </button>
                 </div>
             )}
-
-            {
-                tasks.map(task => {
-                    return (
-                        <TaskCard key={task.id} {...task} />
-                    )
-                })
-            }
+            <div className="d-flex flex-column-reverse">
+            {tasks.map(task => {
+                return <TaskCard key={task.id} {...task} />;
+            })}
+            </div>
+            
         </React.Fragment>
     );
 };

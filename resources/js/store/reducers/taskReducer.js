@@ -1,9 +1,10 @@
 const defaultState = {
-    tasks: []
+    tasks: [],
+    errors: {}
 };
 
 const taskReducer = (state = defaultState, action) => {
-    const { type, payload, error } = action;
+    const { type, payload } = action;
 
     switch (type) {
         case "GET_TASKS_REQUEST":
@@ -18,6 +19,20 @@ const taskReducer = (state = defaultState, action) => {
         case "GET_TASKS_FAILURE":
             return {
                 ...state,
+            };
+        case "CREATE_TASK_REQUEST":
+            return {
+                ...state,
+            };
+        case "CREATE_TASK_SUCCESS":
+            return {
+                ...state,
+                tasks: [...state.tasks, payload]
+            };
+        case "CREATE_TASK_FAILURE":
+            return {
+                ...state,
+                errors: action.errors
             };
         default:
             return state;

@@ -3,7 +3,7 @@ import React from "react";
 
 const TaskCard = ({ nombre, descripcion, usuario }) => {
     return (
-        <div className="card">
+        <div className="card task-card">
             <div className="card-header">
                 <div className="card-text">
                     <h5 className="card-title d-flex justify-content-between w-100">
