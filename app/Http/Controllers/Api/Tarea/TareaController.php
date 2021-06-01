@@ -19,9 +19,8 @@ class TareaController extends ApiController
 
     public function index()
     {
-        $tareas = Tarea::all();
-        return $this->showAll($tareas);
-        
+        $tareas = TareaResource::collection(Tarea::all());
+        return $this->showAllResource($tareas);
     }
 
     public function store(Request $request)
@@ -44,15 +43,12 @@ class TareaController extends ApiController
         $tarea->fecha_fin = $request->fecha_fin;
         $tarea->save();
 
-        return new TareaResource($tarea);
+        return $this->showOneResource(new TareaResource($tarea));
     }
 
     public function show(Tarea $tarea)
     {
-        
-        $tareaOne =  new TareaResource($tarea);
-        return $this->showOneResource($tareaOne);
-
+        return $this->showOneResource(new TareaResource($tarea));
     }
 
     public function update(Request $request, Tarea $tarea)
@@ -71,7 +67,8 @@ class TareaController extends ApiController
         $tarea->descripcion = $request->descripcion;
         $tarea->fecha_fin = $request->fecha_fin;
         $tarea->save();
-        return new TareaResource($tarea);
+
+        return $this->showOneResource(new TareaResource($tarea));
     }
 
     public function destroy(Tarea $tarea)
@@ -83,6 +80,6 @@ class TareaController extends ApiController
     {
         $tareas = Tarea::where('user_id', auth()->user()->id)->get();
 
-        return TareaResource::collection($tareas);
+        return $this->showAllResource(TareaResource::collection($tareas));
     }
 }
