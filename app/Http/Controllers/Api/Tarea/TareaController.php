@@ -6,6 +6,7 @@ use App\Tarea;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TareaResource;
+use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -19,8 +20,8 @@ class TareaController extends ApiController
     public function index()
     {
         $tareas = Tarea::all();
-
-        return TareaResource::collection($tareas);
+        return $this->showAll($tareas);
+        
     }
 
     public function store(Request $request)
@@ -48,7 +49,10 @@ class TareaController extends ApiController
 
     public function show(Tarea $tarea)
     {
-        return new TareaResource($tarea);
+        
+        $tareaOne =  new TareaResource($tarea);
+        return $this->showOneResource($tareaOne);
+
     }
 
     public function update(Request $request, Tarea $tarea)
