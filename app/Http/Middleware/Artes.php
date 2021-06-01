@@ -20,6 +20,8 @@ class Artes
         {
             return $next($request);
         }
+
+        
        return back()->with('message', 'Acceso restringido');
     }
 }
