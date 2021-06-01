@@ -16,18 +16,23 @@ class ProveedorController extends ApiController
 
     public function store(Request $request)
     {
+        
+        
         $data = Validator::make($request->all(), [
-            'id_tarea' => 'required',
             'nombre' => 'required',
             'pais'   => 'required',
             'ciudad' =>  'required',
         ]);
-
+        
+        
         $proveedorArr = Proveedor::all();
+        
         $excluidos = array();
+        
         foreach($proveedorArr as $proveedor1):
             array_push($excluidos, $proveedor1->code_unit);
         endforeach;
+        
         $aleatorio = rand(0,10000);
         if(in_array($aleatorio,$excluidos)):
             $aleatorio = rand(0,10000);
@@ -35,13 +40,14 @@ class ProveedorController extends ApiController
             $aleatorio;
             */
         endif;  
-        $proveedorExist = Proveedor::where('pais', strtoupper($data['pais']))->first();
+        
+        $proveedorExist = Proveedor::where('pais', strtoupper($request['pais']))->first();
             if(!$proveedorExist):
-                $id_tarea = $request['id_tarea'];
+                $id_tarea = 1;
                 $proveedor = new Proveedor();
-                $proveedor->nombre = $data['nombre'];
-                $proveedor->pais   = strtoupper($data['pais']);
-                $proveedor->ciudad = $data['ciudad'];
+                $proveedor->nombre = $request['nombre'];
+                $proveedor->pais   = strtoupper($request['pais']);
+                $proveedor->ciudad = $request['ciudad'];
                 $proveedor->distrito = $request['distrito'];
                 $proveedor->code_unit = $aleatorio;
                 $proveedor->address = $request['address'];
@@ -53,10 +59,10 @@ class ProveedorController extends ApiController
                 // informacion asociada a la tabla pivot
                 
             else:
-                $id_tarea = $request['id_tarea'];
+                $id_tarea = 1;
                 $proveedor = new Proveedor();
-                $proveedor->nombre = $data['nombre'];
-                $proveedor->pais   = strtoupper($data['pais']);
+                $proveedor->nombre = $request['nombre'];
+                $proveedor->pais   = strtoupper($request['pais']);
                 $proveedor->ciudad = $data['ciudad'];
                 $proveedor->distrito = $request['distrito'];
                 $proveedor->code_unit = $proveedorExist->code_unit;
@@ -69,6 +75,7 @@ class ProveedorController extends ApiController
                 // informacion asociada a la tabla pivot
                
             endif;
+            
             $this->pivotTareaProveedor($id_tarea, $proveedor->id);
             return $this->showOne($proveedor, 201); 
 
