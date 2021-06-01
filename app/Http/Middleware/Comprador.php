@@ -16,11 +16,13 @@ class Comprador
      */
     public function handle($request, Closure $next)
     {
-        
-        if( $request->user()->rol == 'comprador' || $request->user()->rol == 'coordinador'    )
-        {
+
+        if ($request->user()->rol == 'comprador' || $request->user()->rol == 'coordinador') {
             return $next($request);
         }
-       return back()->with('message', 'Acceso restringido');
+
+        return response()->json([
+            'message' => 'Acceso restringido solo a Compradores y Coordinadores'
+        ]);
     }
 }

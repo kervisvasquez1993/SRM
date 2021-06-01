@@ -20,68 +20,72 @@ use App\Http\Controllers\PerfilController;
 /* Route::get('/', 'InicioController@index'); */
 
 
-   Route::get('/', 'Auth\LoginController@showLoginForm')->name('login');/* cambiamos el login */
-   Route::post('/', 'Auth\LoginController@login');
-   Route::post('logout', 'Auth\LoginController@logout')->name('logout');
-   Route::group(['middleware' => 'auth'], function () {
+Route::get('/', 'Auth\LoginController@showLoginForm')->name('login');/* cambiamos el login */
+Route::post('/', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+
+Route::group(['middleware' => 'auth'], function () {
+
+    Route::view('/{path?}', 'dashboard')
+     ->where('path', '.*')
+     ->name('react');
+
     /* Rutas asociadas a compradores */
- 
 
 
     /* Zona de Middleware para compradores y coordinador */
     Route::resource('/perfil', 'PerfilController')->middleware('comprador');
     //tareas 
-    Route::resource('/tareas', 'TareaController')->middleware(  'comprador', ['only' => ['index', 'show']]  );
+    Route::resource('/tareas', 'TareaController')->middleware('comprador', ['only' => ['index', 'show']]);
 
-    Route::get('/proveedor-negociacion', 'ProveedorController@listaAprobado')->name('proveedor-negociacion'); 
+    Route::get('/proveedor-negociacion', 'ProveedorController@listaAprobado')->name('proveedor-negociacion');
     //perfil view
     Route::put('/negociaciones/{negociar}', 'ProveedorController@Negociar')->name('negociaciones.update');
     Route::resource('/proveedores', 'ProveedorController');
-  
+
 
     /* middleware para los usuarios de Artes */
-    Route::group(['middleware' => 'Artes'], function () 
-    {
+    Route::group(['middleware' => 'Artes'], function () {
         // Bocetos
-         Route::resource('/bocetos', 'BocetoController');
-         
-         // Validacion de Bocetos
-         Route::resource('/validacion-bocetos', 'ValidacionBocetoController');
-         
-         // Fichas
-         Route::resource('/fichas', 'FichaController');
-         
-         // Validacion de Fichas
-         Route::resource('/validacion-fichas', 'ValidacionFichaController');
-         
-         // Confirmacion Proveedor
-         Route::resource('/confirmacion-proveedor', 'ConfirmacionProveedorController');
-         
-         // Arte
-         Route::get('/artes/search', 'ArteController@search')->name('artes.search');
-         Route::resource('/artes', 'ArteController');
-           /* lista de proveedor aprobado */
-      // Route::get('pago-anticipado/{id_pago}/delete', 'PagoAnticipadoController@destroy')->name('PagoAnticipado.destroy');
-         
+        Route::resource('/bocetos', 'BocetoController');
+
+        // Validacion de Bocetos
+        Route::resource('/validacion-bocetos', 'ValidacionBocetoController');
+
+        // Fichas
+        Route::resource('/fichas', 'FichaController');
+
+        // Validacion de Fichas
+        Route::resource('/validacion-fichas', 'ValidacionFichaController');
+
+        // Confirmacion Proveedor
+        Route::resource('/confirmacion-proveedor', 'ConfirmacionProveedorController');
+
+        // Arte
+        Route::get('/artes/search', 'ArteController@search')->name('artes.search');
+        Route::resource('/artes', 'ArteController');
+        /* lista de proveedor aprobado */
+        // Route::get('pago-anticipado/{id_pago}/delete', 'PagoAnticipadoController@destroy')->name('PagoAnticipado.destroy');
+
     });
 
     /* fin de Middleware de Artes */
 
-         
+
     /* aprobar artes  actualizar*/
 
     // Produccion Transito
     Route::resource('/produccion-transito', 'ProduccionTransitoController');
     Route::put('/salida-puerto-origen/{id}', 'ProduccionTransitoController@salidaPuerto')->name('salida-puerto-origen.update');
     Route::put('/produccion-transito/inciar-produccion/{id}', 'ProduccionTransitoController@iniciarProduccion')->name('ProduccionTransito.iniciarProd');
-    
+
 
     // Pago Anticipado
     Route::resource('/pago-anticipado', 'PagoAnticipadoController');
-    
+
     // Pago Balance
     Route::resource('/pago-balance', 'PagoBalanceController');
-    
+
     // Transito Nacionalizacion
     Route::resource('/transito-nacionalizacion', 'TransitoNacionalizacionController');
 
@@ -92,23 +96,23 @@ use App\Http\Controllers\PerfilController;
 
     // Reclamos y devoluciones
     Route::resource('/reclamos-devoluciones', 'RecepcionReclamoDevolucionController');
-    
+
     // Recepcion mercancia
     Route::resource('/recepcion-mercancias', 'RecepcionMercanciaController');
-    
+
     // Inspeccion carga
     Route::resource('/inspeccion-cargas', 'InspeccionCargaController');
 
     // Reclamo Devolucion
     Route::resource('/reclamo-devoluciones', 'ReclamosDevolucioneController');
-  
-    
+
+
     /* fin arte aprobado */
-    
+
     Route::put('/arteAprobados/{arteAprobado}/{proveedor}', 'PivotTareaProveederController@arteAprobado')->name('arteAprobados.update');
-    Route::put('/produccionAprobados/{produccionAprobado}/{proveedor}', 'PivotTareaProveederController@produccionAprobado')->name('produccionAprobados.update');    
+    Route::put('/produccionAprobados/{produccionAprobado}/{proveedor}', 'PivotTareaProveederController@produccionAprobado')->name('produccionAprobados.update');
     Route::put('/arteProduccionAprobados/{arteProduccionAprobado}/{proveedor}', 'PivotTareaProveederController@arteProduccionAprobado')->name('arteProduccionAprobados.update');
-     // Productos
+    // Productos
     Route::resource('productos', 'ProductoController');
     Route::resource('compras', 'CompraController');
     Route::post('/importProduct/{id}', 'ProductoController@import')->name('importProduct');

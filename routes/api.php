@@ -16,19 +16,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 Route::get('/proveedor', 'Api\ProveedorController@index');
 Route::get('/users', 'Api\UserController@index');
-Route::get('/filter', 'Api\FilterProduccionTransitoController@index'); 
+Route::get('/filter', 'Api\FilterProduccionTransitoController@index');
 
-Route::prefix('auth')->group(function () {
-    Route::post('login', 'Api\AuthController@login');
-    Route::middleware('auth.jwt')->group(function () {
-        Route::post('logout', 'Api\AuthController@logout');
-        Route::post('refresh', 'Api\AuthController@refresh');
-        Route::post('me', 'Api\AuthController@me');
-    });
+Route::post('login', 'Api\AuthController@login');
+
+Route::middleware('auth.jwt')->group(function () {
+    Route::get('me', 'Api\AuthController@me');
+    Route::post('logout', 'Api\AuthController@logout');
+    Route::post('refresh', 'Api\AuthController@refresh');
+    Route::apiResource('tarea', 'Api\Tarea\TareaController');
+    Route::get('me/tareas', 'Api\Tarea\TareaController@tareasUsuario');
 });
