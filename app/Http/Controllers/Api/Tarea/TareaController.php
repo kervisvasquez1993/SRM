@@ -72,5 +72,13 @@ class TareaController extends Controller
 
     public function destroy(Tarea $tarea)
     {
+
+    }
+
+    public function tareasUsuario(Request $request)
+    {
+        $tareas = Tarea::where('user_id', auth()->user()->id)->get();
+
+        return TareaResource::collection($tareas);
     }
 }

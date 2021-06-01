@@ -31,4 +31,5 @@ Route::middleware('auth.jwt')->group(function () {
     Route::post('logout', 'Api\AuthController@logout');
     Route::post('refresh', 'Api\AuthController@refresh');
     Route::apiResource('tarea', 'Api\Tarea\TareaController');
+    Route::get('me/tareas', 'Api\Tarea\TareaController@tareasUsuario');
 });
