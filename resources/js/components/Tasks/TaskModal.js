@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createTask } from "../../store/actions/taskActions";
+import { clearTaskErrors, createTask } from "../../store/actions/taskActions";
 
 function extractError(errors, error) {
     if (errors[error]) {
@@ -33,6 +33,10 @@ const TaskModal = () => {
             );
             setUsers(filteredList);
         });
+
+        return () => {
+            dispatch(clearTaskErrors())
+        }
     }, []);
 
     const handleChange = e => {

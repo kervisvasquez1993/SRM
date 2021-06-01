@@ -9,7 +9,7 @@ const taskReducer = (state = defaultState, action) => {
     switch (type) {
         case "GET_TASKS_REQUEST":
             return {
-                ...state,
+                ...state
             };
         case "GET_TASKS_SUCESS":
             return {
@@ -18,21 +18,27 @@ const taskReducer = (state = defaultState, action) => {
             };
         case "GET_TASKS_FAILURE":
             return {
-                ...state,
+                ...state
             };
         case "CREATE_TASK_REQUEST":
             return {
-                ...state,
+                ...state
             };
         case "CREATE_TASK_SUCCESS":
             return {
                 ...state,
-                tasks: [...state.tasks, payload]
+                tasks: [...state.tasks, payload],
+                errors: []
             };
         case "CREATE_TASK_FAILURE":
             return {
                 ...state,
                 errors: action.errors
+            };
+        case "CLEAR_TASK_ERRORS":
+            return {
+                ...state,
+                errors: []
             };
         default:
             return state;

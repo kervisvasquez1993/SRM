@@ -43,3 +43,10 @@ export function createTask(task) {
         }
     };
 }
+
+
+export function clearTaskErrors(user) {
+    return {
+        type: "CLEAR_TASK_ERRORS"
+    }
+}
