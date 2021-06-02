@@ -1,6 +1,7 @@
 const defaultState = {
     tasks: [],
-    errors: {}
+    errors: {},
+    isEditing: false
 };
 
 const taskReducer = (state = defaultState, action) => {
@@ -28,7 +29,7 @@ const taskReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 tasks: [...state.tasks, payload],
-                errors: []
+                errors: {}
             };
         case "CREATE_TASK_FAILURE":
             return {
@@ -38,7 +39,31 @@ const taskReducer = (state = defaultState, action) => {
         case "CLEAR_TASK_ERRORS":
             return {
                 ...state,
-                errors: []
+                errors: {}
+            };
+        case "EDIT_TASK_REQUEST":
+            return {
+                ...state,
+                isEditing: true
+            };
+        case "EDIT_TASK_SUCCESS":
+            const newTasks = state.tasks.map(task => {
+                if (task.id == payload.id) return payload;
+
+                return task;
+            });
+
+            return {
+                ...state,
+                tasks: newTasks,
+                errors: {},
+                isEditing: false
+            };
+        case "EDIT_TASK_FAILURE":
+            return {
+                ...state,
+                errors: action.errors,
+                isEditing: false
             };
         default:
             return state;

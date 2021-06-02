@@ -27,8 +27,6 @@ export function createTask(task) {
         try {
             const response = await axios.post(`api/tarea/`, task);
 
-            console.log(response.data.data)
-
             dispatch({
                 type: "CREATE_TASK_SUCCESS",
                 payload: response.data.data
@@ -44,6 +42,27 @@ export function createTask(task) {
     };
 }
 
+export function editTask(id, task) {
+    return async (dispatch, getState) => {
+        dispatch({ type: "EDIT_TASK_REQUEST" });
+
+        try {
+            const response = await axios.put(`api/tarea/${id}`, task);
+
+            dispatch({
+                type: "EDIT_TASK_SUCCESS",
+                payload: response.data.data
+            });
+
+            dispatch(closeModal());
+        } catch (e) {
+            dispatch({
+                type: "EDIT_TASK_FAILURE",
+                errors: e.response.data,
+            });
+        }
+    };
+}
 
 export function clearTaskErrors(user) {
     return {

@@ -67,7 +67,7 @@ const App = () => {
                                 <Route path="/home">
                                     <Example />
                                 </Route>
-                                <Route path="/tasks">
+                                <Route exact path="/tasks">
                                     <TaskList />
                                 </Route>
                                 <Route path="*">

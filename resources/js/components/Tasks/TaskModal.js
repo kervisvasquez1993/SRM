@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearTaskErrors, createTask } from "../../store/actions/taskActions";
+import { clearTaskErrors, createTask, editTask } from "../../store/actions/taskActions";
 
 function extractError(errors, error) {
     if (errors[error]) {
@@ -9,17 +9,20 @@ function extractError(errors, error) {
     }
 }
 
-const TaskModal = () => {
+export const emptyTask = {
+    nombre: "",
+    user_id: "",
+    fecha_fin: "",
+    descripcion: ""
+};
+
+const TaskModal = ({task, isEditor}) => {
     const dispatch = useDispatch();
     const [users, setUsers] = useState([]);
 
-    const [task, setTask] = useState({
-        nombre: "",
-        user_id: "",
-        fecha_fin: "",
-        descripcion: ""
-    });
+    const [data, setData] = useState({...task});
 
+    const isEditing = useSelector(state => state.task.isEditing);
     const errors = useSelector(state => state.task.errors);
     const nameError = extractError(errors, "nombre");
     const userName = extractError(errors, "user_id");
@@ -42,8 +45,8 @@ const TaskModal = () => {
     const handleChange = e => {
         const id = e.target.id;
 
-        setTask({
-            ...task,
+        setData({
+            ...data,
             [id]: e.target.value
         });
     };
@@ -51,8 +54,16 @@ const TaskModal = () => {
     const handleSubmit = e => {
         e.preventDefault();
 
-        dispatch(createTask(task));
+        if (isEditor) {
+            dispatch(editTask(task.id, data));
+        } else {
+            dispatch(createTask(data));
+        }
     };
+
+    const handleReset = e => {
+        setData({...emptyTask});
+    }
 
     return (
         <form className="form-horizontal" onSubmit={handleSubmit}>
@@ -64,12 +75,12 @@ const TaskModal = () => {
                     <input
                         type="text"
                         className={
-                            "form-control " + (nameError && "is-invalid")
+                            "form-control " + (nameError ? "is-invalid": "")
                         }
                         id="nombre"
                         name="nombre"
                         onChange={handleChange}
-                        value={task.nombre}
+                        value={data.nombre}
                     />
                     {nameError && (
                         <div className="text-danger">
@@ -86,14 +97,14 @@ const TaskModal = () => {
                     </label>
                     <select
                         className={
-                            "custom-select " + (userName && "is-invalid")
+                            "custom-select " + (userName ? "is-invalid" : "")
                         }
                         id="user_id"
                         name="user_id"
                         onChange={handleChange}
-                        value={task.user_id}
+                        value={data.user_id}
                     >
-                        <option disabled value="">
+                        <option value="">
                             Selecciona...
                         </option>
                         {users.map(user => {
@@ -122,11 +133,10 @@ const TaskModal = () => {
                         id="fecha_fin"
                         name="fecha_fin"
                         className={
-                            "form-control " + (endDateError && "is-invalid")
+                            "form-control " + (endDateError ? "is-invalid" : "")
                         }
-                        pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}"
                         onChange={handleChange}
-                        value={task.fecha_fin}
+                        value={data.fecha_fin}
                     />
                     {endDateError && (
                         <div className="text-danger">
@@ -146,7 +156,7 @@ const TaskModal = () => {
                     name="descripcion"
                     rows="5"
                     onChange={handleChange}
-                    value={task.descripcion}
+                    value={data.descripcion}
                 ></textarea>
                 {descriptionError && (
                     <div className="text-danger">
@@ -159,13 +169,14 @@ const TaskModal = () => {
                 <button
                     className="btn btn-sm btn-outline-success btn-round"
                     type="submit"
+                    disabled={isEditing}
                 >
                     Enviar
                 </button>
                 <button
                     className="btn btn-sm btn-outline-warning btn-round"
                     type="reset"
-                    name="reset"
+                    onClick={handleReset}
                 >
                     Limpiar
                 </button>

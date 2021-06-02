@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
 import { getTasks } from "../../store/actions/taskActions";
 import TaskCard from "./TaskCard";
-import TaskModal from "./TaskModal";
+import TaskModal, { emptyTask } from "./TaskModal";
 
 const TaskList = () => {
     const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const TaskList = () => {
         dispatch(
             openModal({
                 title: "Agregar Tarea",
-                body: <TaskModal />
+                body: <TaskModal task={emptyTask} />
             })
         );
     };
@@ -42,7 +42,7 @@ const TaskList = () => {
             )}
             <div className="d-flex flex-column-reverse">
             {tasks.map(task => {
-                return <TaskCard key={task.id} {...task} />;
+                return <TaskCard key={task.id} task={task} />;
             })}
             </div>
             

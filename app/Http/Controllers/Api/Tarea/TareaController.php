@@ -55,6 +55,7 @@ class TareaController extends ApiController
     {
         $validator = Validator::make($request->all(), [
             'nombre'      => 'required',
+            'user_id'     => 'required',
             'descripcion' => 'required ',
             'fecha_fin'  =>  'required | date | after: 0 days'
         ]);
@@ -64,6 +65,7 @@ class TareaController extends ApiController
         }
 
         $tarea->nombre = $request->nombre;
+        $tarea->user_id = $request->user_id;
         $tarea->descripcion = $request->descripcion;
         $tarea->fecha_fin = $request->fecha_fin;
         $tarea->save();
