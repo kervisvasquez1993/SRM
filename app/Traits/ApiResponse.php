@@ -4,6 +4,7 @@ namespace App\Traits;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 trait ApiResponse
 {
@@ -21,6 +22,10 @@ trait ApiResponse
     }
 
     protected function showAll(Collection $collection, $code = 200)
+    {
+        return $this->successResponse(['data' => $collection], $code);
+    }
+    protected function showAllResources(ResourceCollection $collection, $code = 200)
     {
         return $this->successResponse(['data' => $collection], $code);
     }

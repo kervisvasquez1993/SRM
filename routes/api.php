@@ -32,7 +32,9 @@ Route::middleware('auth.jwt')->group(function () {
     Route::post('refresh', 'Api\AuthController@refresh');
     Route::apiResource('tarea', 'Api\Tarea\TareaController');
     Route::get('me/tareas', 'Api\Tarea\TareaController@tareasUsuario');
+
+    Route::apiResource('proveedor', 'Api\Proveedor\ProveedorController')->except('destroy', 'store');
     Route::get('/tarea/{tarea_id}/proveedor', 'Api\Proveedor\ProveedorController@indexTareaProveedor');
     Route::post('/tarea/{tarea_id}/proveedor', 'Api\Proveedor\ProveedorController@store');
-
+    Route::post('/tarea/{tarea_id}/proveedor/{proveedor_id}/negociar', 'Api\Proveedor\ProveedorController@iniciarNegociacion');
 });

@@ -10,6 +10,12 @@ class Tarea extends Model
     {
         return $this->hasMany(PivotTareaProveeder::class);
     }
+
+    public function pivotTareaProveedor()
+    {
+        return $this->hasMany(PivotTareaProveeder::class);
+    }
+
     public function usuarios()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -19,6 +25,12 @@ class Tarea extends Model
     {
         return $this->belongsToMany(Proveedor::class, 'pivot_tarea_proveeders', 'tarea_id', 'proveedor_id' );
     }
+
+    public function proveedores()
+    {
+        return $this->belongsToMany(Proveedor::class, 'pivot_tarea_proveeders', 'tarea_id', 'proveedor_id' );
+    }
+
     public function usuario()
     {
         return  $this->belongsTo(User::class, 'user_id');
