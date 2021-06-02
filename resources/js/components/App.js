@@ -9,6 +9,7 @@ import Error from "./Navigation/Error";
 import LoadingScreen from "./Navigation/LoadingScreen";
 import Navbar from "./Navigation/Navbar";
 import Sidebar from "./Navigation/Sidebar";
+import TaskDetails from "./Tasks/TaskDetails";
 import TaskList from "./Tasks/TaskList";
 
 axios.interceptors.request.use(config => {
@@ -75,6 +76,9 @@ const App = () => {
                                 </Route>
                                 <Route exact path="/tasks">
                                     <TaskList />
+                                </Route>
+                                <Route exact path="/tasks/:id">
+                                    <TaskDetails />
                                 </Route>
                                 <Route path="*">
                                     <Error />
