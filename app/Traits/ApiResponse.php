@@ -26,7 +26,7 @@ trait ApiResponse
         return $this->successResponse(['data' => $collection], $code);
     }
 
-    protected function showAllResource(ResourceCollection $collection, $code = 200)
+    protected function showAllResources(ResourceCollection $collection, $code = 200)
     {
         return $this->successResponse(['data' => $collection], $code);
     }

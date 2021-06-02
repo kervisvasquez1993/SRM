@@ -20,7 +20,7 @@ class TareaController extends ApiController
     public function index()
     {
         $tareas = TareaResource::collection(Tarea::all());
-        return $this->showAllResource($tareas);
+        return $this->showAllResources($tareas);
     }
 
     public function store(Request $request)
@@ -82,6 +82,6 @@ class TareaController extends ApiController
     {
         $tareas = Tarea::where('user_id', auth()->user()->id)->get();
 
-        return $this->showAllResource(TareaResource::collection($tareas));
+        return $this->showAllResources(TareaResource::collection($tareas));
     }
 }
