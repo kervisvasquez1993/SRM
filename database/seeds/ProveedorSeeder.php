@@ -19,7 +19,7 @@ class ProveedorSeeder extends Seeder
             'ciudad' => 'carabobo',
             'descripcion'=> 'esto es una descripcion',
             'archivos_src' => 'imagenurl',
-            'code_unit' => 0
+            
          ]);
 
          DB::table('proveedors')->insert([
@@ -28,7 +28,7 @@ class ProveedorSeeder extends Seeder
             'ciudad' => 'carabobo',
             'descripcion'=> 'esto es una descripcion',
             'archivos_src' => 'imagenurl',
-            'code_unit' => 0
+            
          ]);
     }
 }

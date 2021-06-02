@@ -36,4 +36,6 @@ Route::middleware('auth.jwt')->group(function () {
     Route::apiResource('user', 'Api\User\UserController')->except([
         'store', 'update', 'destroy'
     ]);
+    Route::post('/tarea/{tarea_id}/proveedor', 'Api\Proveedor\ProveedorController@store');
+
 });
