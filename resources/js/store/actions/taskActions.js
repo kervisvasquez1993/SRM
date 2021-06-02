@@ -1,4 +1,5 @@
 import axios from "axios";
+import { apiURL } from "../../components/App";
 import { closeModal } from "./modalActions";
 
 export function getTasks() {
@@ -6,7 +7,7 @@ export function getTasks() {
         dispatch({ type: "GET_TASKS_REQUEST" });
 
         try {
-            const response = await axios.get(`api/tarea`);
+            const response = await axios.get(`${apiURL}/tarea`);
 
             dispatch({
                 type: "GET_TASKS_SUCESS",
@@ -25,7 +26,7 @@ export function createTask(task) {
         dispatch({ type: "CREATE_TASK_REQUEST" });
 
         try {
-            const response = await axios.post(`api/tarea/`, task);
+            const response = await axios.post(`${apiURL}/tarea`, task);
 
             dispatch({
                 type: "CREATE_TASK_SUCCESS",
@@ -47,7 +48,7 @@ export function editTask(id, task) {
         dispatch({ type: "EDIT_TASK_REQUEST" });
 
         try {
-            const response = await axios.put(`api/tarea/${id}`, task);
+            const response = await axios.put(`${apiURL}/tarea/${id}`, task);
 
             dispatch({
                 type: "EDIT_TASK_SUCCESS",

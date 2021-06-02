@@ -1,11 +1,12 @@
 import axios from "axios";
+import { apiURL } from "../../components/App";
 
 export function login(user) {
     return async (dispatch, getState) => {
         dispatch({ type: "LOGIN_REQUEST" });
 
         try {
-            const response = await axios.post(`api/login`, user);
+            const response = await axios.post(`${apiURL}/login`, user);
 
             // Get the token and save it
             const token = response.data.access_token;
@@ -41,7 +42,9 @@ export function getMyUser(user) {
 
         try {
             const token = localStorage.getItem("auth", token);
-            const response = await axios.get(`api/me`, { token });
+            const response = await axios.get(`${apiURL}/me`, { token });
+
+            console.log(response)
 
             dispatch({
                 type: "MY_USER_SUCESS",

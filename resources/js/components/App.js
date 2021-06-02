@@ -12,6 +12,8 @@ import Sidebar from "./Navigation/Sidebar";
 import TaskDetails from "./Tasks/TaskDetails";
 import TaskList from "./Tasks/TaskList";
 
+export const apiURL = process.env.REACT_APP_API_URL || "http://localhost:8000/api";
+
 axios.interceptors.request.use(config => {
     const token = localStorage.getItem("auth");
 
