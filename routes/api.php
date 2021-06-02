@@ -32,6 +32,7 @@ Route::middleware('auth.jwt')->group(function () {
     Route::post('refresh', 'Api\AuthController@refresh');
     Route::apiResource('tarea', 'Api\Tarea\TareaController');
     Route::get('me/tareas', 'Api\Tarea\TareaController@tareasUsuario');
+    Route::get('/tarea/{tarea_id}/proveedor', 'Api\Proveedor\ProveedorController@indexTareaProveedor');
     Route::post('/tarea/{tarea_id}/proveedor', 'Api\Proveedor\ProveedorController@store');
 
 });

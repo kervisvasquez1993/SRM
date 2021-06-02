@@ -6,6 +6,7 @@ use App\Tarea;
 use App\Proveedor;
 use App\PivotTareaProveeder;
 use Illuminate\Http\Request;
+use App\Http\Resources\TareaProveedor;
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,6 +14,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProveedorController extends ApiController
 {
+    
+    public function indexTareaProveedor($tarea_id)
+    {
+        $tarea = Tarea::findOrFail($tarea_id);
+        $proveedores = $tarea->proveedor;
+        /* return $this->showAllResources($proveedores); */
+        return new TareaProveedor($tarea);
+    }
+    
     public function __construct()
     {
        $this->middleware('comprador');
@@ -82,6 +92,11 @@ class ProveedorController extends ApiController
             return $this->successMensaje("Nueva pivot", 201);
 
             endif;
+    }
+
+    public function update(Request $request, Proveedor $proveedor)
+    {
+        
     }
 
 }
