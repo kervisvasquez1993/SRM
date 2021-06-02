@@ -24,16 +24,3 @@
 .bg-orange {
     background-color: #ffa500;
 }
-
-.task-card {
-    animation: fade-in 0.5s;
-}
-
-@keyframes fade-in {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}

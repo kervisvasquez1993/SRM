@@ -1,7 +1,8 @@
 const defaultState = {
     tasks: [],
     errors: {},
-    isEditing: false
+    isEditing: false,
+    editedTask: null
 };
 
 const taskReducer = (state = defaultState, action) => {
@@ -23,18 +24,21 @@ const taskReducer = (state = defaultState, action) => {
             };
         case "CREATE_TASK_REQUEST":
             return {
-                ...state
+                ...state,
+                isEditing: true
             };
         case "CREATE_TASK_SUCCESS":
             return {
                 ...state,
                 tasks: [...state.tasks, payload],
-                errors: {}
+                errors: {},
+                isEditing: false
             };
         case "CREATE_TASK_FAILURE":
             return {
                 ...state,
-                errors: action.errors
+                errors: action.errors,
+                isEditing: false
             };
         case "CLEAR_TASK_ERRORS":
             return {
@@ -57,7 +61,8 @@ const taskReducer = (state = defaultState, action) => {
                 ...state,
                 tasks: newTasks,
                 errors: {},
-                isEditing: false
+                isEditing: false,
+                editedTask: payload
             };
         case "EDIT_TASK_FAILURE":
             return {

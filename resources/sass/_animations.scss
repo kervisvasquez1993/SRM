@@ -1,0 +1,28 @@
+.fade-in {
+    animation: fade-in 0.5s;
+}
+
+.jump {
+    animation: jump 0.3s;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes jump {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-1rem);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}

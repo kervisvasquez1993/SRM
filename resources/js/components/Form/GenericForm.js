@@ -20,7 +20,13 @@ const GenericForm = props => {
                         type="submit"
                         disabled={disableSubmit}
                     >
-                        Enviar
+                        {disableSubmit ? (
+                            <div className="spinner-border spinner-border-sm">
+                                <span className="sr-only">Loading...</span>
+                            </div>
+                        ) : (
+                            "Enviar"
+                        )}
                     </button>
                     <button
                         className="btn btn-sm btn-outline-warning btn-round"

@@ -80,7 +80,7 @@ const TaskModal = ({ task, isEditor }) => {
     return (
         <GenericForm
             handleSubmit={handleSubmit}
-            isEditing={isEditing}
+            disableSubmit={isEditing}
             handleReset={handleReset}
             onChange={handleChange}
         >

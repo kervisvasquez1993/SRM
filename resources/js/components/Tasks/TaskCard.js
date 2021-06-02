@@ -1,5 +1,5 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
@@ -9,7 +9,11 @@ const TaskCard = ({ task }) => {
     const dispatch = useDispatch();
     const { id, nombre, descripcion, usuario } = task;
     const user = useSelector(state => state.auth.user);
-    
+    const editedTask = useSelector(state => state.task.editedTask);
+
+    // Animations
+    const [fadeInFinished, setFadeInFinished] = useState(false);
+
     const handleEdit = e => {
         e.preventDefault();
 
@@ -20,7 +24,7 @@ const TaskCard = ({ task }) => {
             fecha_fin: task.fecha_fin.split(" ")[0],
             descripcion: task.descripcion
         };
-        
+
         dispatch(
             openModal({
                 title: "Agregar Tarea",
@@ -29,10 +33,23 @@ const TaskCard = ({ task }) => {
         );
     };
 
+    const styles = {
+        animation: "fade-in"
+    };
+
+    const handleFadeInEnd = () => {
+        setFadeInFinished(true);
+    };
+
     return (
         <Link to={`tasks/${id}`}>
-            <div className="card task-card">
-                <div className="card-header">
+            <div
+                className={`card task-card ${fadeInFinished ? "" : "fade-in"} ${
+                    editedTask && editedTask.id === id ? "jump" : ""
+                }`}
+                onAnimationEnd={handleFadeInEnd}
+            >
+                <div className="card-header ">
                     <div className="card-text">
                         <h5 className="card-title d-flex justify-content-between w-100">
                             <span className="tarea">{nombre}</span>
