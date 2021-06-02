@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect, useHistory } from "react-router-dom";
 import { getMyUser } from "../store/actions/authActions";
 import Login from "./Auth/Login";
 import Example from "./Example";
@@ -27,14 +27,20 @@ const App = () => {
     const user = useSelector(state => state.auth.user);
     const isLoadingUser = useSelector(state => state.auth.isLoadingUser);
 
+    const history = useHistory();
+
     useEffect(() => {
         dispatch(getMyUser());
+
+        history.listen(location => {
+            dispatch({
+                type: "CHANGE_HISTORY"
+            });
+        });
     }, []);
 
     if (isLoadingUser) {
-        return (
-            <LoadingScreen></LoadingScreen>
-        );
+        return <LoadingScreen></LoadingScreen>;
     }
 
     if (!user) {

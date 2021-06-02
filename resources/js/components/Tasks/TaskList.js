@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
-import { getTasks } from "../../store/actions/taskActions";
+import { closeTasks, getTasks } from "../../store/actions/taskActions";
 import TaskCard from "./TaskCard";
 import TaskModal, { emptyTask } from "./TaskModal";
 

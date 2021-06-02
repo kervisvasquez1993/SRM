@@ -40,7 +40,7 @@ const taskReducer = (state = defaultState, action) => {
                 errors: action.errors,
                 isEditing: false
             };
-        case "CLEAR_TASK_ERRORS":
+        case "CLOSE_MODAL":
             return {
                 ...state,
                 errors: {}
@@ -56,7 +56,6 @@ const taskReducer = (state = defaultState, action) => {
 
                 return task;
             });
-
             return {
                 ...state,
                 tasks: newTasks,
@@ -69,6 +68,11 @@ const taskReducer = (state = defaultState, action) => {
                 ...state,
                 errors: action.errors,
                 isEditing: false
+            };
+        case "CHANGE_HISTORY":
+            return {
+                ...state,
+                editedTask: null
             };
         default:
             return state;

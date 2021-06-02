@@ -1,11 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    clearTaskErrors,
-    createTask,
-    editTask
-} from "../../store/actions/taskActions";
+import { createTask, editTask } from "../../store/actions/taskActions";
 import GenericForm from "../Form/GenericForm";
 import InputSelect from "../Form/InputSelect";
 import InputText from "../Form/InputText";
@@ -43,17 +39,13 @@ const TaskModal = ({ task, isEditor }) => {
             const filteredList = response.data.data.filter(
                 user => user.rol === "coordinador" || user.rol === "comprador"
             );
-            
+
             setUsers(filteredList);
         });
-
-        return () => {
-            dispatch(clearTaskErrors());
-        };
     }, []);
 
     const handleChange = e => {
-        const {id, value} = e.target;
+        const { id, value } = e.target;
 
         setData(data => {
             return {
