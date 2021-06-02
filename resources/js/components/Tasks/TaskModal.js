@@ -1,7 +1,16 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearTaskErrors, createTask, editTask } from "../../store/actions/taskActions";
+import {
+    clearTaskErrors,
+    createTask,
+    editTask
+} from "../../store/actions/taskActions";
+import GenericForm from "../Form/GenericForm";
+import InputSelect from "../Form/InputSelect";
+import InputText from "../Form/InputText";
+import InputDate from "../Form/InputDate";
+import InputTextArea from "../Form/InputTextarea";
 
 function extractError(errors, error) {
     if (errors[error]) {
@@ -16,16 +25,16 @@ export const emptyTask = {
     descripcion: ""
 };
 
-const TaskModal = ({task, isEditor}) => {
+const TaskModal = ({ task, isEditor }) => {
     const dispatch = useDispatch();
-    const [users, setUsers] = useState([]);
 
-    const [data, setData] = useState({...task});
+    const [users, setUsers] = useState([]);
+    const [data, setData] = useState({ ...task });
 
     const isEditing = useSelector(state => state.task.isEditing);
     const errors = useSelector(state => state.task.errors);
     const nameError = extractError(errors, "nombre");
-    const userName = extractError(errors, "user_id");
+    const userError = extractError(errors, "user_id");
     const endDateError = extractError(errors, "fecha_fin");
     const descriptionError = extractError(errors, "descripcion");
 
@@ -34,20 +43,23 @@ const TaskModal = ({task, isEditor}) => {
             const filteredList = response.data.data.filter(
                 user => user.rol === "coordinador" || user.rol === "comprador"
             );
+            
             setUsers(filteredList);
         });
 
         return () => {
-            dispatch(clearTaskErrors())
-        }
+            dispatch(clearTaskErrors());
+        };
     }, []);
 
     const handleChange = e => {
-        const id = e.target.id;
+        const {id, value} = e.target;
 
-        setData({
-            ...data,
-            [id]: e.target.value
+        setData(data => {
+            return {
+                ...data,
+                [id]: value
+            };
         });
     };
 
@@ -62,126 +74,52 @@ const TaskModal = ({task, isEditor}) => {
     };
 
     const handleReset = e => {
-        setData({...emptyTask});
-    }
+        setData({ ...emptyTask });
+    };
 
     return (
-        <form className="form-horizontal" onSubmit={handleSubmit}>
-            <div className="form-row">
-                <div className="col-md-12 mb-3">
-                    <label htmlFor="nombre">
-                        Titulo de la Tarea<span className="red">*</span>
-                    </label>
-                    <input
-                        type="text"
-                        className={
-                            "form-control " + (nameError ? "is-invalid": "")
-                        }
-                        id="nombre"
-                        name="nombre"
-                        onChange={handleChange}
-                        value={data.nombre}
-                    />
-                    {nameError && (
-                        <div className="text-danger">
-                            <strong>{nameError}</strong>
-                        </div>
-                    )}
-                </div>
-            </div>
+        <GenericForm
+            handleSubmit={handleSubmit}
+            isEditing={isEditing}
+            handleReset={handleReset}
+            onChange={handleChange}
+        >
+            <InputText
+                id="nombre"
+                label="Titulo de la Tarea"
+                value={data.nombre}
+                error={nameError}
+            />
 
-            <div className="form-row">
-                <div className="col-md-12 mb-3">
-                    <label htmlFor="user_id">
-                        Comprador:<span className="red">*</span>
-                    </label>
-                    <select
-                        className={
-                            "custom-select " + (userName ? "is-invalid" : "")
-                        }
-                        id="user_id"
-                        name="user_id"
-                        onChange={handleChange}
-                        value={data.user_id}
-                    >
-                        <option value="">
-                            Selecciona...
+            <InputSelect
+                id="user_id"
+                label="Comprador"
+                value={data.user_id}
+                error={userError}
+            >
+                {users.map(user => {
+                    return (
+                        <option key={user.id} value={user.id}>
+                            {user.name}
                         </option>
-                        {users.map(user => {
-                            return (
-                                <option key={user.id} value={user.id}>
-                                    {user.name}
-                                </option>
-                            );
-                        })}
-                    </select>
-                    {userName && (
-                        <div className="text-danger">
-                            <strong>{userName}</strong>
-                        </div>
-                    )}
-                </div>
-            </div>
+                    );
+                })}
+            </InputSelect>
 
-            <div className="form-row">
-                <div className="col-md-12 mb-3">
-                    <label htmlFor="fecha_fin">
-                        Fecha Finalizacion<span className="red">*</span>
-                    </label>
-                    <input
-                        type="date"
-                        id="fecha_fin"
-                        name="fecha_fin"
-                        className={
-                            "form-control " + (endDateError ? "is-invalid" : "")
-                        }
-                        onChange={handleChange}
-                        value={data.fecha_fin}
-                    />
-                    {endDateError && (
-                        <div className="text-danger">
-                            <strong>{endDateError}</strong>
-                        </div>
-                    )}
-                </div>
-            </div>
+            <InputDate
+                id="fecha_fin"
+                label="Fecha Finalizacion"
+                value={data.fecha_fin}
+                error={endDateError}
+            />
 
-            <div className="form-group">
-                <label htmlFor="descripcion">
-                    Mensaje:<span className="red">*</span>
-                </label>
-                <textarea
-                    className="form-control"
-                    id="descripcion"
-                    name="descripcion"
-                    rows="5"
-                    onChange={handleChange}
-                    value={data.descripcion}
-                ></textarea>
-                {descriptionError && (
-                    <div className="text-danger">
-                        <strong>{descriptionError}</strong>
-                    </div>
-                )}
-            </div>
-
-            <div className="form-group mb-10">
-                <button
-                    className="btn btn-sm btn-outline-success btn-round"
-                    type="submit"
-                    disabled={isEditing}
-                >
-                    Enviar
-                </button>
-                <button
-                    className="btn btn-sm btn-outline-warning btn-round"
-                    type="reset"
-                    onClick={handleReset}
-                >
-                    Limpiar
-                </button>
-            </div>
-        </form>
+            <InputTextArea
+                id="descripcion"
+                label="Descripción"
+                value={data.descripcion}
+                error={descriptionError}
+            />
+        </GenericForm>
     );
 };
 
