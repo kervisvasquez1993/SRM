@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
 import { editTask, getTask } from "../../store/actions/taskActions";
-import { dateToString, dayInSeconds } from "../../utils";
+import { dateToString, dayInSeconds, getColorsFromDates } from "../../utils";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import ProviderCard from "../Providers/ProviderCard";
 import TaskModal from "./TaskModal";
@@ -45,6 +45,11 @@ const TaskDetails = () => {
         );
     };
 
+    const { text, background } = getColorsFromDates(
+        new Date(task.created_at),
+        new Date(task.fecha_fin)
+    );
+
     return (
         <div className="container-fluid fade-in">
             <div className="container-fluid d-flex justify-content-between mb-4">
@@ -66,35 +71,55 @@ const TaskDetails = () => {
                 <h1 className="h2">Tarea : {task.nombre}</h1>
             </div>
 
-            <div className="row">
-                <div className="col-lg-6 mb-3">
-                    <strong>Persona a cargo :</strong>
-                    <span className="ml-4 d-inline-flex align-items-center">
-                        <i className="material-icons">person</i>
-                        {task.usuario.name}
-                    </span>
-                </div>
+            <div className={`card task-card ${text} ${background}`}>
+                <div className="card-body">
+                    <div className="row">
+                        <div className="col-lg-6 mb-3">
+                            <strong>Persona a cargo :</strong>
+                            <span className="ml-4 d-inline-flex align-items-center">
+                                <i className="material-icons">person</i>
+                                {task.usuario.name}
+                            </span>
+                        </div>
 
-                <div className="col-lg-6 mb-3">
-                    <strong>Fecha de Finalizacion :</strong>{" "}
-                    {dateToString(new Date(task.fecha_fin))}
-                </div>
-            </div>
+                        <div className="col-lg-6 mb-3">
+                            <strong>Fecha de Finalizacion :</strong>{" "}
+                            {dateToString(new Date(task.fecha_fin))}
+                        </div>
+                    </div>
 
-            <div className="row">
-                <div className="detalle col-lg-6 mb-3">
-                    <strong>Días Totales :</strong>{" "}
-                    {Math.round(
-                        (new Date(task.fecha_fin) - new Date(task.created_at)) /
-                            dayInSeconds
-                    )}
-                </div>
+                    <div className="row">
+                        {background === "bg-dark" ? (
+                            <React.Fragment>
+                                <div className="d-flex justify-content-center w-100 h5 my-2">
+                                    <i className="material-icons mr-1">
+                                        warning
+                                    </i>
+                                    <strong>Esta tarea expiró</strong>
+                                </div>
+                            </React.Fragment>
+                        ) : (
+                            <React.Fragment>
+                                <div className="detalle col-lg-6 mb-3">
+                                    <strong>Días Totales :</strong>{" "}
+                                    {Math.round(
+                                        (new Date(task.fecha_fin) -
+                                            new Date(task.created_at)) /
+                                            dayInSeconds
+                                    )}
+                                </div>
 
-                <div className="detalle col-lg-6 mb-3">
-                    <strong>Días Restantes :</strong>{" "}
-                    {Math.round(
-                        (new Date(task.fecha_fin) - new Date()) / dayInSeconds
-                    )}
+                                <div className="detalle col-lg-6 mb-3">
+                                    <strong>Días Restantes :</strong>{" "}
+                                    {Math.round(
+                                        (new Date(task.fecha_fin) -
+                                            new Date()) /
+                                            dayInSeconds
+                                    )}
+                                </div>
+                            </React.Fragment>
+                        )}
+                    </div>
                 </div>
             </div>
 

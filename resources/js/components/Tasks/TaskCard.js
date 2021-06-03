@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
-import { dateToString } from "../../utils";
+import { dateToString, dayInSeconds, getColorsFromDates } from "../../utils";
 import TaskModal from "./TaskModal";
 
 const TaskCard = ({ task }) => {
@@ -42,12 +42,19 @@ const TaskCard = ({ task }) => {
         setFadeInFinished(true);
     };
 
+    const { text, background } = getColorsFromDates(
+        new Date(task.created_at),
+        new Date(task.fecha_fin)
+    );
+
+    const remainingDays = Math.round((new Date(task.fecha_fin) - new Date(task.created_at)) / dayInSeconds);
+
     return (
         <Link to={`tasks/${id}`}>
             <div
                 className={`card task-card ${fadeInFinished ? "" : "fade-in"} ${
                     editedTask && editedTask.id === id ? "jump" : ""
-                }`}
+                } ${text} ${background}`}
                 onAnimationEnd={handleFadeInEnd}
             >
                 <div className="card-header ">
@@ -64,30 +71,46 @@ const TaskCard = ({ task }) => {
                 </div>
 
                 <div className="card-body">
-                    <div className="card-text keep-line-breaks">{descripcion}</div>
+                    <div className="card-text keep-line-breaks">
+                        {descripcion}
+                    </div>
                 </div>
 
                 <div className="card-footer">
-                    <div className="d-flex justify-content-between w-100 flex-wrap">
-                        <div className="d-flex align-items-center">
-                            <i className="material-icons mr-1">access_time</i>
-                            <strong>Finalización :</strong>
-
-                            {dateToString(new Date(fecha_fin))}
+                    <div className="d-flex justify-content-between w-100 flex-wrap mt-2">
+                        <div className="mb-2">
+                            {background === "bg-dark" ? (
+                                <React.Fragment>
+                                    <i className="material-icons mr-1">
+                                        warning
+                                    </i>
+                                    <strong>Esta tarea expiró</strong>
+                                </React.Fragment>
+                            ) : (
+                                <React.Fragment>
+                                    <i className="material-icons mr-1">
+                                        access_time
+                                    </i>
+                                    <strong>Finalización : </strong>
+                                    {dateToString(new Date(fecha_fin))} ({remainingDays} días
+                                    restantes)
+                                </React.Fragment>
+                            )}
                         </div>
 
                         <div>
                             {user.rol === "coordinador" && (
                                 <button
                                     href="#"
-                                    className="btn btn-sm btn-outline-warning btn-round"
+                                    className="btn btn-sm btn-primary btn-round"
                                     onClick={handleEdit}
                                 >
+                                    <span className="material-icons">edit</span>
                                     Editar
                                 </button>
                             )}
 
-                            <button className="btn btn-sm btn-outline-success btn-round">
+                            <button className="btn btn-sm btn-info btn-round">
                                 Ver Detalle
                             </button>
                         </div>
