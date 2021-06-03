@@ -11,6 +11,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class PivotTareaProveeder extends Model
 {
+     public function productos()
+     {
+         return $this->hasMany(Producto::class);
+     }
     public function tarea()
     {
         return $this->belongsTo(Tarea::class, 'tarea_id');

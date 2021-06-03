@@ -8,7 +8,7 @@ class Producto extends Model
 {
     public function pivot()
     {
-        return $this->belongsTo(PivotTareaProveeder::class, 'pivot_id');
+        return $this->belongsTo(PivotTareaProveeder::class, 'pivot_tarea_proveeder_id');
     }
 
     public function productOverview()

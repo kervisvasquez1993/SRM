@@ -23,6 +23,8 @@ class PivotTareaProveederResource extends JsonResource
             'iniciar_produccion' => $this->iniciar_produccion,
             'proveedor' => $this->proveedor,
             'tarea' => $this->tarea,
+             'productos' => $this->productos, 
+           /*  $this->when($request->tarea_id, $this->pivotTareaProveedor->where('tarea_id', $request->tarea_id)->first()) */
         ];
     }
 }
