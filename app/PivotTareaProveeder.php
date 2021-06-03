@@ -36,7 +36,7 @@ class PivotTareaProveeder extends Model
     }
     
     
-    public function scopeFilterPivot($query, $tarea, $proveedor)
+   /*  public function scopeFilterPivot($query, $tarea, $proveedor)
     {
        return $query
        ->when(count($tarea), function($query) use ($tarea)
@@ -47,8 +47,5 @@ class PivotTareaProveeder extends Model
        {
           $query->where('proveedor_id', $proveedor);
        });
-      
-
-       
-    }
+    } */
 }

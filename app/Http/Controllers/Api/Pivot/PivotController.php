@@ -12,7 +12,6 @@ class PivotController extends Controller
     public function index()
     {
         $pivot = PivotTareaProveederResource::collection(PivotTareaProveeder::where('iniciar_negociacion', 1)->get());
-
         return $pivot;
     }
 }

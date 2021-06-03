@@ -15,7 +15,7 @@ class CreateProductosTable extends Migration
     {
         Schema::create('productos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('proveedor_id')->references('id')->on('proveedors')->onDelete('cascade');
+            $table->foreignId('pivot_id')->references('id')->on('pivot')->onDelete('cascade');
             $table->string('hs_code')->nullable();
             $table->string('product_code')->nullable();
             $table->string('brand')->nullable();
