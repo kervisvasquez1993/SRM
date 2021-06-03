@@ -73,6 +73,9 @@ const App = () => {
                                 <Route exact path="/">
                                     <Redirect to="/home" />
                                 </Route>
+                                <Route path="/login">
+                                    <Redirect to="/home" />
+                                </Route>
                                 <Route path="/home">
                                     <Example />
                                 </Route>
