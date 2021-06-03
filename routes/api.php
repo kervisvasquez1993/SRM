@@ -42,4 +42,10 @@ Route::middleware('auth.jwt')->group(function () {
     Route::get('/tarea/{tarea_id}/proveedor', 'Api\Proveedor\ProveedorController@indexTareaProveedor');
     Route::post('/tarea/{tarea_id}/proveedor', 'Api\Proveedor\ProveedorController@store');
     Route::post('/tarea/{tarea_id}/proveedor/{proveedor_id}/negociar', 'Api\Proveedor\ProveedorController@iniciarNegociacion');
+
+    //Pivot 
+
+    Route::get('/pivot', 'Api\Pivot\PivotController@index');
+
+    
 });
