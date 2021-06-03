@@ -7,6 +7,7 @@ import InputSelect from "../Form/InputSelect";
 import InputText from "../Form/InputText";
 import InputDate from "../Form/InputDate";
 import InputTextArea from "../Form/InputTextarea";
+import { apiURL } from "../App";
 
 function extractError(errors, error) {
     if (errors[error]) {
@@ -35,7 +36,7 @@ const TaskModal = ({ task, isEditor }) => {
     const descriptionError = extractError(errors, "descripcion");
 
     useEffect(() => {
-        axios.get("api/user").then(response => {
+        axios.get(`${apiURL}/user`).then(response => {
             const filteredList = response.data.data.filter(
                 user => user.rol === "coordinador" || user.rol === "comprador"
             );

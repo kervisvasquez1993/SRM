@@ -52,18 +52,28 @@ const taskReducer = (state = defaultState, action) => {
                 isEditing: true
             };
         case "EDIT_TASK_SUCCESS":
-            const newTasks = state.tasks.map(task => {
-                if (task.id == payload.id) return payload;
+            if (state.task) {
+                return {
+                    ...state,
+                    task: payload,
+                    errors: {},
+                    isEditing: false
+                };
+            } else {
+                const newTasks = state.tasks.map(task => {
+                    if (task.id == payload.id) return payload;
 
-                return task;
-            });
-            return {
-                ...state,
-                tasks: newTasks,
-                errors: {},
-                isEditing: false,
-                editedTask: payload
-            };
+                    return task;
+                });
+                return {
+                    ...state,
+                    tasks: newTasks,
+                    errors: {},
+                    isEditing: false,
+                    editedTask: payload
+                };
+            }
+
         case "EDIT_TASK_FAILURE":
             return {
                 ...state,
@@ -78,7 +88,7 @@ const taskReducer = (state = defaultState, action) => {
             };
         case "GET_TASK_REQUEST":
             return {
-                ...state,
+                ...state
             };
         case "GET_TASK_SUCCESS":
             return {
@@ -87,7 +97,7 @@ const taskReducer = (state = defaultState, action) => {
             };
         case "GET_TASK_FAILURE":
             return {
-                ...state,
+                ...state
             };
         default:
             return state;

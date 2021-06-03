@@ -37,7 +37,7 @@ export function createTask(task) {
         } catch (e) {
             dispatch({
                 type: "CREATE_TASK_FAILURE",
-                errors: e.response.data,
+                errors: e.response.data
             });
         }
     };
@@ -59,7 +59,7 @@ export function editTask(id, task) {
         } catch (e) {
             dispatch({
                 type: "EDIT_TASK_FAILURE",
-                errors: e.response.data,
+                errors: e.response.data
             });
         }
     };
