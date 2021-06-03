@@ -3,7 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
 import { editTask, getTask } from "../../store/actions/taskActions";
-import { dateToString, dayInSeconds, getColorsFromDates } from "../../utils";
+import {
+    dateToString,
+    secondsInDay,
+    getColorsFromDates,
+    getDaysToFinishTask,
+    getRemainingDaysToFinishTask
+} from "../../utils";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import ProviderCard from "../Providers/ProviderCard";
 import TaskModal from "./TaskModal";
@@ -53,7 +59,7 @@ const TaskDetails = () => {
     return (
         <div className="container-fluid fade-in">
             <div className="container-fluid d-flex justify-content-between mb-4">
-                <div className="">
+                <div>
                     <Link
                         to="/home"
                         className="btn btn-outline-primary btn-round"
@@ -102,20 +108,12 @@ const TaskDetails = () => {
                             <React.Fragment>
                                 <div className="detalle col-lg-6 mb-3">
                                     <strong>Días Totales :</strong>{" "}
-                                    {Math.round(
-                                        (new Date(task.fecha_fin) -
-                                            new Date(task.created_at)) /
-                                            dayInSeconds
-                                    )}
+                                    {getDaysToFinishTask(task)}
                                 </div>
 
                                 <div className="detalle col-lg-6 mb-3">
                                     <strong>Días Restantes :</strong>{" "}
-                                    {Math.round(
-                                        (new Date(task.fecha_fin) -
-                                            new Date()) /
-                                            dayInSeconds
-                                    )}
+                                    {getRemainingDaysToFinishTask(task)}
                                 </div>
                             </React.Fragment>
                         )}

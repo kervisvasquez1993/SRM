@@ -1,4 +1,4 @@
-export const dayInSeconds = 1000 * 60 * 60 * 24;
+export const secondsInDay = 1000 * 60 * 60 * 24;
 
 const defaultOptions = {
     year: "numeric",
@@ -36,8 +36,8 @@ const blackCard = {
 };
 
 export function getColorsFromDates(startDate, finishDate) {
-    const percentage = (finishDate - startDate) / (finishDate - new Date());
-    let days = Math.round((finishDate - new Date()) / (24 * 60 * 60 * 1000));
+    const percentage = (finishDate - new Date()) / (finishDate - startDate);
+    let days = Math.round((finishDate - new Date()) / secondsInDay);
 
     if (percentage < 0) {
         return blackCard;
@@ -56,4 +56,19 @@ export function getColorsFromDates(startDate, finishDate) {
             return normalCard;
         }
     }
+}
+
+export function getDaysBetweenDates(startDate, finishDate) {
+    return Math.round((finishDate - new Date()) / secondsInDay);
+}
+
+export function getDaysToFinishTask(task) {
+    return getDaysBetweenDates(
+        new Date(task.created_at),
+        new Date(task.fecha_fin)
+    );
+}
+
+export function getRemainingDaysToFinishTask(task) {
+    return Math.round((new Date(task.fecha_fin) - new Date()) / secondsInDay);
 }

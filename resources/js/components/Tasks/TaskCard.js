@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
-import { dateToString, dayInSeconds, getColorsFromDates } from "../../utils";
+import { dateToString, secondsInDay, getColorsFromDates } from "../../utils";
 import TaskModal from "./TaskModal";
 
 const TaskCard = ({ task }) => {
@@ -48,7 +48,7 @@ const TaskCard = ({ task }) => {
     );
 
     const remainingDays = Math.round(
-        (new Date(task.fecha_fin) - new Date(task.created_at)) / dayInSeconds
+        (new Date(task.fecha_fin) - new Date(task.created_at)) / secondsInDay
     );
 
     return (
