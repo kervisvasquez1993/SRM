@@ -10,6 +10,7 @@ const Modal = () => {
     const body = useSelector(store => store.modal.body);
 
     const handleClose = () => {
+        console.log("dsa");
         dispatch(closeModal());
     };
 
@@ -17,15 +18,17 @@ const Modal = () => {
         return null;
     }
 
+    const stopPropagation = e => {
+        e.stopPropagation();
+    };
+
     return (
         <React.Fragment>
-            {
-                isOpen && (
-                    <Helmet>
-                        <body className="modal-open" />
-                    </Helmet>
-                )
-            }
+            {isOpen && (
+                <Helmet>
+                    <body className="modal-open" />
+                </Helmet>
+            )}
             <div
                 className={"modal fade" + (isOpen ? "show" : "")}
                 id="abrirmodal"
@@ -34,10 +37,12 @@ const Modal = () => {
                 aria-labelledby="myModalLabel"
                 style={isOpen ? { display: "block" } : { display: "none" }}
                 aria-hidden="true"
+                onClick={handleClose}
             >
                 <div
                     className="modal-dialog modal-primary modal-lg"
                     role="document"
+                    onClick={stopPropagation}
                 >
                     <div className="modal-content">
                         <div className="modal-header">
@@ -52,16 +57,11 @@ const Modal = () => {
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                        <div className="modal-body">
-                            {body}
-                        </div>
+                        <div className="modal-body">{body}</div>
                     </div>
                 </div>
             </div>
             {isOpen && <div className="modal-backdrop fade show"></div>}
-            {/* <div
-                className={"modal-backdrop fade" + (isOpen ? "show" : "")}
-            ></div> */}
         </React.Fragment>
     );
 };

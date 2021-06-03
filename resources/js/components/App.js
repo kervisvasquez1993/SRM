@@ -9,7 +9,10 @@ import Error from "./Navigation/Error";
 import LoadingScreen from "./Navigation/LoadingScreen";
 import Navbar from "./Navigation/Navbar";
 import Sidebar from "./Navigation/Sidebar";
+import TaskDetails from "./Tasks/TaskDetails";
 import TaskList from "./Tasks/TaskList";
+
+export const apiURL = process.env.REACT_APP_API_URL || "http://localhost:8000/api";
 
 axios.interceptors.request.use(config => {
     const token = localStorage.getItem("auth");
@@ -70,11 +73,17 @@ const App = () => {
                                 <Route exact path="/">
                                     <Redirect to="/home" />
                                 </Route>
+                                <Route path="/login">
+                                    <Redirect to="/home" />
+                                </Route>
                                 <Route path="/home">
                                     <Example />
                                 </Route>
                                 <Route exact path="/tasks">
                                     <TaskList />
+                                </Route>
+                                <Route path="/tasks/:id">
+                                    <TaskDetails />
                                 </Route>
                                 <Route path="*">
                                     <Error />

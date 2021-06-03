@@ -2,7 +2,8 @@ const defaultState = {
     tasks: [],
     errors: {},
     isEditing: false,
-    editedTask: null
+    editedTask: null,
+    task: null
 };
 
 const taskReducer = (state = defaultState, action) => {
@@ -51,18 +52,28 @@ const taskReducer = (state = defaultState, action) => {
                 isEditing: true
             };
         case "EDIT_TASK_SUCCESS":
-            const newTasks = state.tasks.map(task => {
-                if (task.id == payload.id) return payload;
+            if (state.task) {
+                return {
+                    ...state,
+                    task: payload,
+                    errors: {},
+                    isEditing: false
+                };
+            } else {
+                const newTasks = state.tasks.map(task => {
+                    if (task.id == payload.id) return payload;
 
-                return task;
-            });
-            return {
-                ...state,
-                tasks: newTasks,
-                errors: {},
-                isEditing: false,
-                editedTask: payload
-            };
+                    return task;
+                });
+                return {
+                    ...state,
+                    tasks: newTasks,
+                    errors: {},
+                    isEditing: false,
+                    editedTask: payload
+                };
+            }
+
         case "EDIT_TASK_FAILURE":
             return {
                 ...state,
@@ -72,7 +83,21 @@ const taskReducer = (state = defaultState, action) => {
         case "CHANGE_HISTORY":
             return {
                 ...state,
-                editedTask: null
+                editedTask: null,
+                task: null
+            };
+        case "GET_TASK_REQUEST":
+            return {
+                ...state
+            };
+        case "GET_TASK_SUCCESS":
+            return {
+                ...state,
+                task: payload
+            };
+        case "GET_TASK_FAILURE":
+            return {
+                ...state
             };
         default:
             return state;
