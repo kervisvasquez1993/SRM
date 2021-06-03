@@ -17,10 +17,17 @@ class ProveedorResource extends JsonResource
         return [
             'id' => $this->id,
             'nombre' => $this->nombre,
-            'email' => $this->email,
             'pais' => $this->pais,
-            'code_unit' => $this->code_unit
-           
+            'ciudad' => $this->ciudad,
+            'distrito' => $this->distrito,
+            'descripcion' => $this->descripcion,
+            'archivos_src' => $this->archivos_src,
+            'address' => $this->address,
+            'contacto' => $this->contacto,
+            'telefono' => $this->telefono,
+            'email' => $this->email,
+            //'pivot' => $this->pivotTareaProveedor,
+            'pivot' => $this->when($request->tarea_id, $this->pivotTareaProveedor->where('tarea_id', $request->tarea_id)->first())
         ];
     }
 }

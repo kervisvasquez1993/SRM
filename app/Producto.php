@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Producto extends Model
 {
-    public function proveedor()
+    public function pivot()
     {
-        return $this->belongsTo(Proveedor::class, 'proveedor_id');
+        return $this->belongsTo(Proveedor::class, 'pivot_id');
     }
 
     public function productOverview()

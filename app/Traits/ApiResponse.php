@@ -25,12 +25,10 @@ trait ApiResponse
     {
         return $this->successResponse(['data' => $collection], $code);
     }
-
     protected function showAllResources(ResourceCollection $collection, $code = 200)
     {
         return $this->successResponse(['data' => $collection], $code);
     }
-
     protected function showOne(Model $instace, $code = 200)
     {
         return $this->successResponse(['data' => $instace], $code);
