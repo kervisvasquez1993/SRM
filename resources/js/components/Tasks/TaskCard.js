@@ -47,7 +47,9 @@ const TaskCard = ({ task }) => {
         new Date(task.fecha_fin)
     );
 
-    const remainingDays = Math.round((new Date(task.fecha_fin) - new Date(task.created_at)) / dayInSeconds);
+    const remainingDays = Math.round(
+        (new Date(task.fecha_fin) - new Date(task.created_at)) / dayInSeconds
+    );
 
     return (
         <Link to={`tasks/${id}`}>
@@ -72,7 +74,9 @@ const TaskCard = ({ task }) => {
 
                 <div className="card-body">
                     <div className="card-text keep-line-breaks">
-                        {descripcion}
+                        {task.descripcion.length < 300
+                            ? task.descripcion
+                            : `${task.descripcion.slice(0, 300)}...`}
                     </div>
                 </div>
 
@@ -92,8 +96,8 @@ const TaskCard = ({ task }) => {
                                         access_time
                                     </i>
                                     <strong>Finalización : </strong>
-                                    {dateToString(new Date(fecha_fin))} ({remainingDays} días
-                                    restantes)
+                                    {dateToString(new Date(fecha_fin))} (
+                                    {remainingDays} días restantes)
                                 </React.Fragment>
                             )}
                         </div>
