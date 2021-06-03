@@ -14,7 +14,7 @@ class ProductoSeeder extends Seeder
     {
         DB::table('productos')->insert([
             
-            'proveedor_id' => 1,
+            'pivot_id' => 1,
             'hs_code' => '3306101090',
             'product_code' => 'PT-PM-100C',
             'brand' => 'MAXAM',

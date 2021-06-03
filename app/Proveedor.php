@@ -30,10 +30,7 @@ class Proveedor extends Model
         return $this->hasMany(Producto::class);
     }
 
-    public function compra()
-    {
-        return $this->hasMany(Compra::class);
-    }
+  
 
     public function filter()
     {

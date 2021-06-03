@@ -34,8 +34,11 @@ class PivotTareaProveeder extends Model
     {
         return $this->hasMany(FilterProduccionTransito::class);
     }
-    
-    
+    public function compra()
+    {
+        return $this->hasOne(Compra::class);
+    }
+        
     public function scopeFilterPivot($query, $tarea, $proveedor)
     {
        return $query
