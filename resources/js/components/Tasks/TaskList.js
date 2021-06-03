@@ -110,7 +110,19 @@ const TaskList = () => {
 
     return (
         <React.Fragment>
-            <h1 className="text-center mb-3">Tareas</h1>
+            <h1 className="text-center my-5">Tareas</h1>
+
+            {user.rol === "coordinador" && (
+                <div className="container text-center">
+                    <button
+                        className="btn btn-lg btn-outline-primary btn-round"
+                        onClick={handleCreate}
+                    >
+                        <i className="fa fa-plus fa-2x"></i>&nbsp;&nbsp;Agregar
+                        Tarea
+                    </button>
+                </div>
+            )}
 
             <Filter onUpdate={applyFilter}>
                 <div className="px-3 row mb-4">
@@ -149,17 +161,6 @@ const TaskList = () => {
                 </div>
             </Filter>
 
-            {user.rol === "coordinador" && (
-                <div className="container text-center">
-                    <button
-                        className="btn btn-lg btn-outline-primary btn-round"
-                        onClick={handleCreate}
-                    >
-                        <i className="fa fa-plus fa-2x"></i>&nbsp;&nbsp;Agregar
-                        Tarea
-                    </button>
-                </div>
-            )}
             <div className="d-flex flex-column-reverse">
                 {filteredTasks.map(task => {
                     return <TaskCard key={task.id} task={task} />;
