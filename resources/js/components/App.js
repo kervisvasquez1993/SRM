@@ -79,7 +79,7 @@ const App = () => {
                                 <Route exact path="/tasks">
                                     <TaskList />
                                 </Route>
-                                <Route exact path="/tasks/:id">
+                                <Route path="/tasks/:id">
                                     <TaskDetails />
                                 </Route>
                                 <Route path="*">

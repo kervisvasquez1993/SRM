@@ -2,7 +2,8 @@ const defaultState = {
     tasks: [],
     errors: {},
     isEditing: false,
-    editedTask: null
+    editedTask: null,
+    task: null
 };
 
 const taskReducer = (state = defaultState, action) => {
@@ -72,7 +73,21 @@ const taskReducer = (state = defaultState, action) => {
         case "CHANGE_HISTORY":
             return {
                 ...state,
-                editedTask: null
+                editedTask: null,
+                task: null
+            };
+        case "GET_TASK_REQUEST":
+            return {
+                ...state,
+            };
+        case "GET_TASK_SUCCESS":
+            return {
+                ...state,
+                task: payload
+            };
+        case "GET_TASK_FAILURE":
+            return {
+                ...state,
             };
         default:
             return state;

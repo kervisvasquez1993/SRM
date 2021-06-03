@@ -3,11 +3,12 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
+import { dateToString } from "../../utils";
 import TaskModal from "./TaskModal";
 
 const TaskCard = ({ task }) => {
     const dispatch = useDispatch();
-    const { id, nombre, descripcion, usuario } = task;
+    const { id, nombre, descripcion, usuario, fecha_fin } = task;
     const user = useSelector(state => state.auth.user);
     const editedTask = useSelector(state => state.task.editedTask);
 
@@ -62,13 +63,17 @@ const TaskCard = ({ task }) => {
                     <hr />
                 </div>
 
-                <div className="card-body">{descripcion}</div>
+                <div className="card-body">
+                    <div className="card-text keep-line-breaks">{descripcion}</div>
+                </div>
 
                 <div className="card-footer">
                     <div className="d-flex justify-content-between w-100 flex-wrap">
-                        <div className="stats">
-                            <i className="material-icons">access_time</i>{" "}
-                            Finalización : Mañana Días Restantes: 2 Días
+                        <div className="d-flex align-items-center">
+                            <i className="material-icons mr-1">access_time</i>
+                            <strong>Finalización :</strong>
+
+                            {dateToString(new Date(fecha_fin))}
                         </div>
 
                         <div>

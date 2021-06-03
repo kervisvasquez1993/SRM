@@ -64,3 +64,22 @@ export function editTask(id, task) {
         }
     };
 }
+
+export function getTask(id) {
+    return async (dispatch, getState) => {
+        dispatch({ type: "GET_TASK_REQUEST" });
+
+        try {
+            const response = await axios.get(`${apiURL}/tarea/${id}`);
+
+            dispatch({
+                type: "GET_TASK_SUCCESS",
+                payload: response.data.data
+            });
+        } catch (e) {
+            dispatch({
+                type: "GET_TASK_FAILURE"
+            });
+        }
+    };
+}
