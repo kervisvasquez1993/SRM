@@ -12,22 +12,22 @@ export function dateToString(date, options = defaultOptions) {
     return new Intl.DateTimeFormat("default", options).format(date);
 }
 
-const redCard = {
+export const redCard = {
     text: "text-white",
     background: "bg-danger"
 };
 
-const yellowCard = {
+export const yellowCard = {
     text: "text-white",
     background: "bg-warning"
 };
 
-const greenCard = {
+export const greenCard = {
     text: "text-white",
     background: "bg-success"
 };
 
-const normalCard = {
+export const normalCard = {
     text: "",
     background: ""
 };
