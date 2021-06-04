@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
@@ -11,6 +11,14 @@ const ProviderCard = ({ provider }) => {
     const dispatch = useDispatch();
     const user = useUser();
     const { id: taskId } = useParams();
+    const edited = useSelector(state => state.provider.edited);
+    const container = useRef(null);
+
+    useEffect(() => {
+        if (edited && edited.id === provider.id) {
+            container.current.focus();
+        }
+    }, [edited]);
 
     const {
         id,
@@ -54,9 +62,15 @@ const ProviderCard = ({ provider }) => {
     const { text, background } = enNegociacion ? greenCard : normalCard;
 
     return (
-        <div className={`card ${text} ${background}`}>
+        <div
+            className={`card ${text} ${background} ${
+                edited && edited.id === id ? "jump" : ""
+            }`}
+            ref={container}
+            tabIndex={-1}
+        >
             <div className="card-header">
-                <div className="d-flex justify-content-between w-100">
+                <div className="d-flex justify-content-between w-100 flex-wrap">
                     <h3 className="card-title">{nombre}</h3>
 
                     {(user.rol == "coordinador" || user.rol == "comprador") &&
@@ -142,6 +156,15 @@ const ProviderCard = ({ provider }) => {
                             </p>
                         )}
                     </React.Fragment>
+                )}
+
+                {enNegociacion && (
+                    <div className="d-flex justify-content-center align-items-center mt-4">
+                        <span className="material-icons mr-2">done</span>
+                        <strong className="h4">
+                            Ya se ha inciado una negociacion con esta empresa
+                        </strong>
+                    </div>
                 )}
 
                 {/* {(pais || ciudad || distrito) && (

@@ -1,7 +1,8 @@
 const defaultState = {
     providers: [],
     errors: {},
-    isEditing: false
+    isEditing: false,
+    edited: null
 };
 
 const providerReducer = (state = defaultState, action) => {
@@ -37,7 +38,8 @@ const providerReducer = (state = defaultState, action) => {
                 ...state,
                 providers: newProviders,
                 errors: {},
-                isEditing: false
+                isEditing: false,
+                edited: payload
             };
 
         case "EDIT_PROVIDER_FAILURE":
@@ -57,7 +59,8 @@ const providerReducer = (state = defaultState, action) => {
                 ...state,
                 providers: [...state.providers, payload],
                 errors: {},
-                isEditing: false
+                isEditing: false,
+                edited: payload
             };
         case "CREATE_TASK_PROVIDER_FAILURE":
             return {
