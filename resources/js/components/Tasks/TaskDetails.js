@@ -161,9 +161,13 @@ const TaskDetails = () => {
                 </button>
             </div>
 
-            {providers.map(provider => {
-                return <ProviderCard key={provider.id} provider={provider} />;
-            })}
+            <div className="d-flex flex-column-reverse">
+                {providers.map(provider => {
+                    return (
+                        <ProviderCard key={provider.id} provider={provider} />
+                    );
+                })}
+            </div>
         </div>
     );
 };
