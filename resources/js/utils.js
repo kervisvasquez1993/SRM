@@ -88,3 +88,10 @@ export function stringToDateIgnoringTime(string) {
 
     return new Date(string);
 }
+
+
+export function extractError(errors, error) {
+    if (errors[error]) {
+        return errors[error][0];
+    }
+}

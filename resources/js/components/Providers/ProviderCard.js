@@ -1,18 +1,38 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { openModal } from "../../store/actions/modalActions";
 import Accordion from "../UI/Accordion";
+import ProviderModal from "./ProviderModal";
 
-const ProviderCard = ({
-    address,
-    ciudad,
-    contacto,
-    descripcion,
-    distrito,
-    email,
-    id,
-    nombre,
-    pais,
-    telefono
-}) => {
+const ProviderCard = ({ provider }) => {
+    const dispatch = useDispatch();
+
+    const {
+        address,
+        ciudad,
+        contacto,
+        descripcion,
+        distrito,
+        email,
+        id,
+        nombre,
+        pais,
+        telefono
+    } = provider;
+
+    const handleEdit = e => {
+        e.preventDefault();
+
+        const providerToEdit = {...provider};
+
+        dispatch(
+            openModal({
+                title: "Agregar Tarea",
+                body: <ProviderModal provider={providerToEdit} isEditor={true} />
+            })
+        );
+    };
+
     return (
         <div className="card">
             <div className="card-header">
@@ -166,7 +186,10 @@ const ProviderCard = ({
             <div className="card-footer">
                 <div className="d-flex justify-content-end w-100">
                     <div className="d-flex">
-                        <button className="btn btn-sm btn-outline-warning btn-round mr-2">
+                        <button
+                            className="btn btn-sm btn-outline-warning btn-round mr-2"
+                            onClick={handleEdit}
+                        >
                             <span className="material-icons">edit</span>
                             Editar
                         </button>

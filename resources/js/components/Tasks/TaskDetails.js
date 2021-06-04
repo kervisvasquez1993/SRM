@@ -148,14 +148,9 @@ const TaskDetails = () => {
                 </button>
             </div>
 
-            {
-                providers.map(provider => {
-                    console.log(provider)
-                    return (
-                        <ProviderCard key={provider.id} {...provider} />
-                    );
-                })
-            }
+            {providers.map(provider => {
+                return <ProviderCard key={provider.id} provider={provider} />;
+            })}
         </div>
     );
 };
