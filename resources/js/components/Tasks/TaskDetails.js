@@ -67,7 +67,7 @@ const TaskDetails = () => {
         dispatch(
             openModal({
                 title: "Agregar Empresa",
-                body: <ProviderModal provider={emptyProvider} task={task} />
+                body: <ProviderModal provider={emptyProvider} taskId={id} />
             })
         );
     };

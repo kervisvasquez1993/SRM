@@ -61,7 +61,7 @@ const ProviderModal = ({ provider, isEditor = false, taskId = null }) => {
         if (isEditor) {
             dispatch(editProviderFromTask(taskId, data));
         } else {
-            dispatch(createProviderFromTask(data));
+            dispatch(createProviderFromTask(taskId, data));
         }
     };
 
