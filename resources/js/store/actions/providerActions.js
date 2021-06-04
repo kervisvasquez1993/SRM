@@ -23,6 +23,32 @@ export function getProvidersFromTask(taskId) {
     };
 }
 
+export function createProviderFromTask(taskId, provider) {
+    return async (dispatch, getState) => {
+        dispatch({ type: "CREATE_TASK_PROVIDER_REQUEST" });
+
+        try {
+            const response = await axios.post(
+                `${apiURL}/tarea/${taskId}/proveedor`,
+                provider
+            );
+
+            dispatch({
+                type: "CREATE_TASK_PROVIDER_SUCCESS",
+                payload: response.data.data
+            });
+
+            dispatch(closeModal());
+        } catch (e) {
+            dispatch({
+                type: "CREATE_TASK_PROVIDER_FAILURE",
+                error: e.response.data.error || null,
+                errors: e.response.data
+            });
+        }
+    };
+}
+
 export function editProvider(provider) {
     return async (dispatch, getState) => {
         dispatch({ type: "EDIT_PROVIDER_REQUEST" });
@@ -40,17 +66,11 @@ export function editProvider(provider) {
 
             dispatch(closeModal());
         } catch (e) {
-            if ("errors" in e.response.data) {
-                dispatch({
-                    type: "EDIT_PROVIDER_FAILURE",
-                    errors: e.response.data
-                });
-            } else {
-                dispatch({
-                    type: "EDIT_PROVIDER_FAILURE",
-                    error: e.response.data.error
-                });
-            }
+            dispatch({
+                type: "CREATE_TASK_PROVIDER_FAILURE",
+                error: e.response.data.error || null,
+                errors: e.response.data
+            });
         }
     };
 }

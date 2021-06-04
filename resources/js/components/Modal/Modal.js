@@ -10,7 +10,6 @@ const Modal = () => {
     const body = useSelector(store => store.modal.body);
 
     const handleClose = () => {
-        console.log("dsa");
         dispatch(closeModal());
     };
 

@@ -47,6 +47,31 @@ const providerReducer = (state = defaultState, action) => {
                 error: action.error || "",
                 isEditing: false
             };
+        case "CREATE_TASK_PROVIDER_REQUEST":
+            return {
+                ...state,
+                isEditing: true
+            };
+        case "CREATE_TASK_PROVIDER_SUCCESS":
+            return {
+                ...state,
+                providers: [...state.providers, payload],
+                errors: {},
+                isEditing: false
+            };
+        case "CREATE_TASK_PROVIDER_FAILURE":
+            return {
+                ...state,
+                errors: action.errors || {},
+                error: action.error || null,
+                isEditing: false
+            };
+        case "CLOSE_MODAL":
+            return {
+                ...state,
+                errors: {},
+                error: null
+            };
         default:
             return state;
     }

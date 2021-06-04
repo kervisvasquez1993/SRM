@@ -27,7 +27,7 @@ const ProviderCard = ({ provider }) => {
 
         dispatch(
             openModal({
-                title: "Agregar Tarea",
+                title: "Editar Empresa",
                 body: <ProviderModal provider={providerToEdit} isEditor={true} />
             })
         );

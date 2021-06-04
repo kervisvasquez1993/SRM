@@ -12,6 +12,7 @@ import {
 } from "../../utils";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import ProviderCard from "../Providers/ProviderCard";
+import ProviderModal, { emptyProvider } from "../Providers/ProviderModal";
 import TaskModal from "./TaskModal";
 
 const TaskDetails = () => {
@@ -49,6 +50,15 @@ const TaskDetails = () => {
             openModal({
                 title: "Editar Tarea",
                 body: <TaskModal task={taskToEdit} isEditor={true} />
+            })
+        );
+    };
+
+    const handleCreateProvider = () => {
+        dispatch(
+            openModal({
+                title: "Agregar Empresa",
+                body: <ProviderModal provider={emptyProvider} task={task} />
             })
         );
     };
@@ -143,7 +153,10 @@ const TaskDetails = () => {
             <div className="mr-auto text-center">
                 <h2 className="py-4">Empresas Asociadas</h2>
 
-                <button className="btn btn-lg btn-outline-primary btn-round">
+                <button
+                    className="btn btn-lg btn-outline-primary btn-round"
+                    onClick={handleCreateProvider}
+                >
                     Agregar Empresa
                 </button>
             </div>

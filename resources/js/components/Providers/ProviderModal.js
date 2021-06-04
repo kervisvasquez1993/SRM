@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { editProvider } from "../../store/actions/providerActions";
+import { createProviderFromTask, editProvider } from "../../store/actions/providerActions";
 import { extractError } from "../../utils";
 import GenericForm from "../Form/GenericForm";
 import InputText from "../Form/InputText";
@@ -20,7 +20,7 @@ export const emptyProvider = {
     email: null
 };
 
-const ProviderModal = ({ provider, isEditor }) => {
+const ProviderModal = ({ provider, isEditor = false, task = null }) => {
     const dispatch = useDispatch();
 
     const [data, setData] = useState({ ...provider });
@@ -55,12 +55,10 @@ const ProviderModal = ({ provider, isEditor }) => {
     const handleSubmit = e => {
         e.preventDefault();
 
-        console.log(data);
-
         if (isEditor) {
             dispatch(editProvider(data));
         } else {
-            //dispatch(createTask(data));
+            dispatch(createProviderFromTask(task.id, data));
         }
     };
 
