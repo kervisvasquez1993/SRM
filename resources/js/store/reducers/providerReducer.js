@@ -9,6 +9,16 @@ const providerReducer = (state = defaultState, action) => {
     const { type, payload } = action;
 
     switch (type) {
+        case "GET_TASKS_REQUEST":
+            return {
+                ...state,
+                providers: []
+            };
+        case "OPEN_MODAL":
+            return {
+                ...state,
+                edited: null
+            };
         case "GET_TASK_PROVIDERS_REQUEST":
             return {
                 ...state

@@ -63,7 +63,7 @@ const ProviderCard = ({ provider }) => {
 
     return (
         <div
-            className={`card ${text} ${background} ${
+            className={`card fade-in ${text} ${background} ${
                 edited && edited.id === id ? "jump" : ""
             }`}
             ref={container}
@@ -89,7 +89,7 @@ const ProviderCard = ({ provider }) => {
             </div>
 
             <div className="card-body">
-                <p className="card-text">{descripcion}</p>
+                <p className="card-text keep-line-breaks">{descripcion}</p>
 
                 {(pais || ciudad || distrito) && (
                     <React.Fragment>
