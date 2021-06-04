@@ -50,7 +50,7 @@ const TaskCard = ({ task }) => {
     const remainingDays = getRemainingDaysToFinishTask(task);
 
     return (
-        <Link to={`tasks/${id}`}>
+        <Link to={`/tasks/${id}`}>
             <div
                 className={`card task-card ${fadeInFinished ? "" : "fade-in"} ${
                     editedTask && editedTask.id === id ? "jump" : ""
@@ -103,7 +103,6 @@ const TaskCard = ({ task }) => {
                         <div>
                             {user.rol === "coordinador" && (
                                 <button
-                                    href="#"
                                     className="btn btn-sm btn-primary btn-round"
                                     onClick={handleEdit}
                                 >

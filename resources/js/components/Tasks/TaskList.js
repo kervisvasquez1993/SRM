@@ -11,6 +11,7 @@ import TaskModal, { emptyTask } from "./TaskModal";
 import { apiURL } from "../App";
 import SliderFilter from "../Filters/SliderFilter";
 import { getDaysToFinishTask } from "../../utils";
+import { Redirect } from "react-router-dom";
 
 const TaskList = ({ myTasks = false }) => {
     const dispatch = useDispatch();
@@ -22,6 +23,14 @@ const TaskList = ({ myTasks = false }) => {
     const [filterDays, setFilterDays] = useState(0);
     const filter = useRef(null);
 
+    if (
+        (!myTasks &&
+            !(user.rol === "coordinador" || user.rol === "observador")) ||
+        user.rol === "artes"
+    ) {
+        return <Redirect to="/home" />;
+    }
+
     useEffect(() => {
         dispatch(getTasks(myTasks));
     }, []);
@@ -31,7 +40,6 @@ const TaskList = ({ myTasks = false }) => {
             dispatch(clearTaskList());
             dispatch(getTasks(myTasks));
         }
-        
     }, [myTasks]);
 
     useEffect(() => {
@@ -121,7 +129,9 @@ const TaskList = ({ myTasks = false }) => {
 
     return (
         <React.Fragment>
-            <h1 className="text-center my-5">{myTasks ? "Mis Tareas" : "Tareas"}</h1>
+            <h1 className="text-center my-5">
+                {myTasks ? "Mis Tareas" : "Tareas"}
+            </h1>
 
             {user.rol === "coordinador" && (
                 <div className="container text-center">

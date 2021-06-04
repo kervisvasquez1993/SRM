@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { Link, Redirect, useHistory, useParams } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
 import { getProvidersFromTask } from "../../store/actions/providerActions";
 import { editTask, getTask } from "../../store/actions/taskActions";
@@ -22,6 +22,17 @@ const TaskDetails = () => {
     const task = useSelector(state => state.task.task);
     const providers = useSelector(state => state.provider.providers);
     const { id } = useParams();
+
+    if (
+        !(
+            user.rol === "coordinador" ||
+            user.rol === "observador" ||
+            user.rol === "comprador"
+        ) ||
+        user.rol === "artes"
+    ) {
+        return <Redirect to="/home" />;
+    }
 
     const handleGoBack = () => {
         history.goBack();
@@ -134,15 +145,17 @@ const TaskDetails = () => {
                 {task.descripcion}
             </div>
 
-            <div className="mr-auto text-center py-2 mb-5">
-                <button
-                    className="btn btn-outline-warning btn-round ml-1"
-                    onClick={handleEdit}
-                >
-                    <span className="material-icons">edit</span>
-                    Editar
-                </button>
-            </div>
+            {user.rol === "coordinador" && (
+                <div className="mr-auto text-center py-2 mb-5">
+                    <button
+                        className="btn btn-outline-warning btn-round ml-1"
+                        onClick={handleEdit}
+                    >
+                        <span className="material-icons">edit</span>
+                        Editar
+                    </button>
+                </div>
+            )}
 
             {false && (
                 <div className="alert alert-success text-center mb-5">
