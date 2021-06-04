@@ -1,13 +1,24 @@
 const defaultState = {
     providers: [],
     errors: {},
-    isEditing: false
+    isEditing: false,
+    edited: null
 };
 
 const providerReducer = (state = defaultState, action) => {
     const { type, payload } = action;
 
     switch (type) {
+        case "GET_TASKS_REQUEST":
+            return {
+                ...state,
+                providers: []
+            };
+        case "OPEN_MODAL":
+            return {
+                ...state,
+                edited: null
+            };
         case "GET_TASK_PROVIDERS_REQUEST":
             return {
                 ...state
@@ -37,7 +48,8 @@ const providerReducer = (state = defaultState, action) => {
                 ...state,
                 providers: newProviders,
                 errors: {},
-                isEditing: false
+                isEditing: false,
+                edited: payload
             };
 
         case "EDIT_PROVIDER_FAILURE":
@@ -57,7 +69,8 @@ const providerReducer = (state = defaultState, action) => {
                 ...state,
                 providers: [...state.providers, payload],
                 errors: {},
-                isEditing: false
+                isEditing: false,
+                edited: payload
             };
         case "CREATE_TASK_PROVIDER_FAILURE":
             return {
@@ -71,6 +84,19 @@ const providerReducer = (state = defaultState, action) => {
                 ...state,
                 errors: {},
                 error: null
+            };
+        case "START_NEGOTIATION_SUCCESS":
+            const _newProviders = state.providers.map(provider => {
+                if (provider.id === action.providerId) {
+                    provider.pivot.iniciar_negociacion = 1;
+                }
+
+                return provider;
+            });
+
+            return {
+                ...state,
+                providers: _newProviders
             };
         default:
             return state;

@@ -41,6 +41,11 @@ const taskReducer = (state = defaultState, action) => {
                 errors: action.errors,
                 isEditing: false
             };
+        case "OPEN_MODAL":
+            return {
+                ...state,
+                editedTask: null
+            };
         case "CLOSE_MODAL":
             return {
                 ...state,
