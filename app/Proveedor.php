@@ -26,8 +26,6 @@ class Proveedor extends Model
         return $this->hasMany(Producto::class);
     }
 
-  
-
     public function filter()
     {
         return $this->hasMany(FilterProduccionTransito::class);
