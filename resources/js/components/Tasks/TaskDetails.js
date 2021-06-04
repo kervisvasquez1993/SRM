@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { Link, Redirect, useHistory, useParams } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
+import { getProvidersFromTask } from "../../store/actions/providerActions";
 import { editTask, getTask } from "../../store/actions/taskActions";
 import {
     dateToString,
-    secondsInDay,
-    getColorsFromDates,
     getDaysToFinishTask,
-    getRemainingDaysToFinishTask
+    getRemainingDaysToFinishTask,
+    getColorsForTask
 } from "../../utils";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import ProviderCard from "../Providers/ProviderCard";
+import ProviderModal, { emptyProvider } from "../Providers/ProviderModal";
 import TaskModal from "./TaskModal";
 
 const TaskDetails = () => {
@@ -19,7 +20,19 @@ const TaskDetails = () => {
     const history = useHistory();
     const user = useSelector(state => state.auth.user);
     const task = useSelector(state => state.task.task);
+    const providers = useSelector(state => state.provider.providers);
     const { id } = useParams();
+
+    if (
+        !(
+            user.rol === "coordinador" ||
+            user.rol === "observador" ||
+            user.rol === "comprador"
+        ) ||
+        user.rol === "artes"
+    ) {
+        return <Redirect to="/home" />;
+    }
 
     const handleGoBack = () => {
         history.goBack();
@@ -28,6 +41,7 @@ const TaskDetails = () => {
     useEffect(() => {
         document.body.scrollTo(0, 0);
         dispatch(getTask(id));
+        dispatch(getProvidersFromTask(id));
     }, []);
 
     if (!task) {
@@ -51,10 +65,16 @@ const TaskDetails = () => {
         );
     };
 
-    const { text, background } = getColorsFromDates(
-        new Date(task.created_at),
-        new Date(task.fecha_fin)
-    );
+    const handleCreateProvider = () => {
+        dispatch(
+            openModal({
+                title: "Agregar Empresa",
+                body: <ProviderModal provider={emptyProvider} task={task} />
+            })
+        );
+    };
+
+    const { text, background } = getColorsForTask(task);
 
     return (
         <div className="container-fluid fade-in">
@@ -125,15 +145,17 @@ const TaskDetails = () => {
                 {task.descripcion}
             </div>
 
-            <div className="mr-auto text-center py-2 mb-5">
-                <button
-                    className="btn btn-outline-warning btn-round ml-1"
-                    onClick={handleEdit}
-                >
-                    <span className="material-icons">edit</span>
-                    Editar
-                </button>
-            </div>
+            {user.rol === "coordinador" && (
+                <div className="mr-auto text-center py-2 mb-5">
+                    <button
+                        className="btn btn-outline-warning btn-round ml-1"
+                        onClick={handleEdit}
+                    >
+                        <span className="material-icons">edit</span>
+                        Editar
+                    </button>
+                </div>
+            )}
 
             {false && (
                 <div className="alert alert-success text-center mb-5">
@@ -144,16 +166,21 @@ const TaskDetails = () => {
             <div className="mr-auto text-center">
                 <h2 className="py-4">Empresas Asociadas</h2>
 
-                <button className="btn btn-lg btn-outline-primary btn-round">
+                <button
+                    className="btn btn-lg btn-outline-primary btn-round"
+                    onClick={handleCreateProvider}
+                >
                     Agregar Empresa
                 </button>
             </div>
 
-            <ProviderCard />
-            <ProviderCard />
-            <ProviderCard />
-            <ProviderCard />
-            <ProviderCard />
+            <div className="d-flex flex-column-reverse">
+                {providers.map(provider => {
+                    return (
+                        <ProviderCard key={provider.id} provider={provider} />
+                    );
+                })}
+            </div>
         </div>
     );
 };

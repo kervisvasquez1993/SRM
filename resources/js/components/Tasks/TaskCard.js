@@ -3,7 +3,11 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
-import { dateToString, secondsInDay, getColorsFromDates } from "../../utils";
+import {
+    dateToString,
+    getRemainingDaysToFinishTask,
+    getColorsForTask
+} from "../../utils";
 import TaskModal from "./TaskModal";
 
 const TaskCard = ({ task }) => {
@@ -42,17 +46,11 @@ const TaskCard = ({ task }) => {
         setFadeInFinished(true);
     };
 
-    const { text, background } = getColorsFromDates(
-        new Date(task.created_at),
-        new Date(task.fecha_fin)
-    );
-
-    const remainingDays = Math.round(
-        (new Date(task.fecha_fin) - new Date(task.created_at)) / secondsInDay
-    );
+    const { text, background } = getColorsForTask(task);
+    const remainingDays = getRemainingDaysToFinishTask(task);
 
     return (
-        <Link to={`tasks/${id}`}>
+        <Link to={`/tasks/${id}`}>
             <div
                 className={`card task-card ${fadeInFinished ? "" : "fade-in"} ${
                     editedTask && editedTask.id === id ? "jump" : ""
@@ -105,7 +103,6 @@ const TaskCard = ({ task }) => {
                         <div>
                             {user.rol === "coordinador" && (
                                 <button
-                                    href="#"
                                     className="btn btn-sm btn-primary btn-round"
                                     onClick={handleEdit}
                                 >

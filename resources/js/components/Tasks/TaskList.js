@@ -1,9 +1,8 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
-import { closeTasks, getTasks } from "../../store/actions/taskActions";
+import { clearTaskList, getTasks } from "../../store/actions/taskActions";
 import CheckboxFilter from "../Filters/CheckboxFilter";
 import Filter from "../Filters/Filter";
 import FilterGroup from "../Filters/FilterGroup";
@@ -12,20 +11,40 @@ import TaskModal, { emptyTask } from "./TaskModal";
 import { apiURL } from "../App";
 import SliderFilter from "../Filters/SliderFilter";
 import { getDaysToFinishTask } from "../../utils";
+import { Redirect } from "react-router-dom";
 
-const TaskList = () => {
+const TaskList = ({ myTasks = false }) => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.auth.user);
     const tasks = useSelector(state => state.task.tasks);
     const [users, setUsers] = useState([]);
 
     const [filteredTasks, setFilteredTasks] = useState([...tasks]);
-    const [filterState, setFilterState] = useState({});
     const [filterDays, setFilterDays] = useState(0);
+    const filter = useRef(null);
+
+    if (
+        (!myTasks &&
+            !(user.rol === "coordinador" || user.rol === "observador")) ||
+        user.rol === "artes"
+    ) {
+        return <Redirect to="/home" />;
+    }
 
     useEffect(() => {
-        dispatch(getTasks());
+        dispatch(getTasks(myTasks));
     }, []);
+
+    useEffect(() => {
+        if (tasks.length > 0) {
+            dispatch(clearTaskList());
+            dispatch(getTasks(myTasks));
+        }
+    }, [myTasks]);
+
+    useEffect(() => {
+        applyFilter(filter.current);
+    }, [tasks]);
 
     useEffect(() => {
         axios.get(`${apiURL}/user`).then(response => {
@@ -110,7 +129,9 @@ const TaskList = () => {
 
     return (
         <React.Fragment>
-            <h1 className="text-center my-5">Tareas</h1>
+            <h1 className="text-center my-5">
+                {myTasks ? "Mis Tareas" : "Tareas"}
+            </h1>
 
             {user.rol === "coordinador" && (
                 <div className="container text-center">
@@ -124,7 +145,7 @@ const TaskList = () => {
                 </div>
             )}
 
-            <Filter onUpdate={applyFilter}>
+            <Filter onUpdate={applyFilter} useRef={filter}>
                 <div className="px-3 row mb-4">
                     <FilterGroup name="user" text="Usuario:">
                         {users.map((user, index) => {

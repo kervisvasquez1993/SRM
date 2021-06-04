@@ -99,6 +99,13 @@ const taskReducer = (state = defaultState, action) => {
             return {
                 ...state
             };
+        case "CLEAR_TASK_LIST":
+            return {
+                ...state,
+                tasks: [],
+                task: null,
+                isEditing: false
+            };
         default:
             return state;
     }
