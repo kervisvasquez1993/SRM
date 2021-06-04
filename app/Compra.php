@@ -8,7 +8,7 @@ class Compra extends Model
 {
     public function pivot()
     {
-        return $this->belongsTo(PivotTareaProveeder::class, 'pivot_id');
+        return $this->belongsTo(PivotTareaProveeder::class, 'pivot_tarea_proveeders_id');
     }
 
     public function scopeFilterCompra($query, $proveedor)

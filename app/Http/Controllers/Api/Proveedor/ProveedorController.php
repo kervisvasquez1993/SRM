@@ -138,7 +138,6 @@ class ProveedorController extends ApiController
         if ($proveedorExistente && $proveedorExistente != $proveedor) {
             return $this->errorResponse("Ya existe una empresa con este nombre y pais", Response::HTTP_BAD_REQUEST);
         }
-
         // Actualizar los campos del proveedor
         $proveedor->nombre = $request['nombre'];
         $proveedor->pais   = $paisMayusculas;
