@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../store/actions/modalActions";
+import { useUser } from "../../utils";
 import Accordion from "../UI/Accordion";
 import ProviderModal from "./ProviderModal";
 
 const ProviderCard = ({ provider }) => {
     const dispatch = useDispatch();
+    const user = useUser();
 
     const {
         address,
@@ -23,12 +25,14 @@ const ProviderCard = ({ provider }) => {
     const handleEdit = e => {
         e.preventDefault();
 
-        const providerToEdit = {...provider};
+        const providerToEdit = { ...provider };
 
         dispatch(
             openModal({
                 title: "Editar Empresa",
-                body: <ProviderModal provider={providerToEdit} isEditor={true} />
+                body: (
+                    <ProviderModal provider={providerToEdit} isEditor={true} />
+                )
             })
         );
     };
@@ -38,11 +42,14 @@ const ProviderCard = ({ provider }) => {
             <div className="card-header">
                 <div className="d-flex justify-content-between w-100">
                     <h3 className="card-title">{nombre}</h3>
-                    <div className="d-flex">
-                        <button className="btn btn-sm btn-outline-primary btn-round">
-                            Negociar
-                        </button>
-                    </div>
+
+                    {(user.rol == "coordinador" || user.rol == "comprador") && (
+                        <div className="d-flex">
+                            <button className="btn btn-sm btn-outline-primary btn-round">
+                                Negociar
+                            </button>
+                        </div>
+                    )}
                 </div>
                 <hr />
             </div>
@@ -183,20 +190,22 @@ const ProviderCard = ({ provider }) => {
                 )} */}
             </div>
 
-            <div className="card-footer">
-                <div className="d-flex justify-content-end w-100">
-                    <div className="d-flex">
-                        <button
-                            className="btn btn-sm btn-outline-warning btn-round mr-2"
-                            onClick={handleEdit}
-                        >
-                            <span className="material-icons">edit</span>
-                            Editar
-                        </button>
+            {(user.rol == "coordinador" || user.rol == "comprador") && (
+                <div className="card-footer">
+                    <div className="d-flex justify-content-end w-100">
+                        <div className="d-flex">
+                            <button
+                                className="btn btn-sm btn-outline-warning btn-round mr-2"
+                                onClick={handleEdit}
+                            >
+                                <span className="material-icons">edit</span>
+                                Editar
+                            </button>
+                        </div>
                     </div>
+                    <hr />
                 </div>
-                <hr />
-            </div>
+            )}
         </div>
     );
 };

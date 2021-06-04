@@ -8,8 +8,8 @@ const Sidebar = () => {
     const user = useSelector(state => state.auth.user);
 
     const closeMenu = () => {
-        dispatch(closeSidebar())
-    }
+        dispatch(closeSidebar());
+    };
 
     return (
         <div className="menu">
@@ -26,47 +26,75 @@ const Sidebar = () => {
                 </Link>
 
                 {user.rol === "coordinador" && (
-                    <React.Fragment>
-                        <Link className="menu-link" to="/create-user" onClick={closeMenu}>
-                            <i className="material-icons">person</i>
-                            <p>Crear Usuario</p>
-                        </Link>
-                        <Link className="menu-link" to="/tasks" onClick={closeMenu}>
-                            <i className="material-icons">task_alt</i>
-                            <p>Asignacion de Tareas </p>
-                        </Link>
-                    </React.Fragment>
+                    <Link
+                        className="menu-link"
+                        to="/create-user"
+                        onClick={closeMenu}
+                    >
+                        <i className="material-icons">person</i>
+                        <p>Crear Usuario</p>
+                    </Link>
+                )}
+
+                {(user.rol === "coordinador" || user.rol === "observador") && (
+                    <Link className="menu-link" to="/tasks" onClick={closeMenu}>
+                        <i className="material-icons">task_alt</i>
+                        <p>Asignacion de Tareas </p>
+                    </Link>
                 )}
 
                 {(user.rol === "coordinador" || user.rol === "comprador") && (
-                    <React.Fragment>
-                        <Link className="menu-link" to="/me/tasks" onClick={closeMenu}>
-                            <i className="material-icons">task</i>
-                            <p>Mis Tareas</p>
-                        </Link>
-                        <Link className="menu-link" to="/negotiations" onClick={closeMenu}>
-                            <i className="material-icons">business</i>
-                            <p>Negociaciones</p>
-                        </Link>
-                    </React.Fragment>
+                    <Link
+                        className="menu-link"
+                        to="/me/tasks"
+                        onClick={closeMenu}
+                    >
+                        <i className="material-icons">task</i>
+                        <p>Mis Tareas</p>
+                    </Link>
                 )}
 
-                {(user.rol === "artes" || user.rol === "coordinador") && (
+                {(user.rol === "coordinador" ||
+                    user.rol === "comprador" ||
+                    user.rol === "observador") && (
+                    <Link
+                        className="menu-link"
+                        to="/negotiations"
+                        onClick={closeMenu}
+                    >
+                        <i className="material-icons">business</i>
+                        <p>Negociaciones</p>
+                    </Link>
+                )}
+
+                {(user.rol === "artes" ||
+                    user.rol === "coordinador" ||
+                    user.rol === "observador") && (
                     <Link className="menu-link" to="/arts" onClick={closeMenu}>
                         <i className="material-icons">brush</i>
                         <p>Artes</p>
                     </Link>
                 )}
 
-                {(user.rol === "coordinador" || user.rol === "comprador") && (
+                {(user.rol === "coordinador" ||
+                    user.rol === "comprador" ||
+                    user.rol === "observador") && (
                     <React.Fragment>
-                        <Link className="menu-link" to="/production" onClick={closeMenu}>
+                        <Link
+                            className="menu-link"
+                            to="/production"
+                            onClick={closeMenu}
+                        >
                             <i className="material-icons">
                                 precision_manufacturing
                             </i>
                             <p>Produccion y Transito</p>
                         </Link>
-                        <Link className="menu-link" to="/claims" onClick={closeMenu}>
+                        <Link
+                            className="menu-link"
+                            to="/claims"
+                            onClick={closeMenu}
+                        >
                             <i className="material-icons">
                                 production_quantity_limits
                             </i>

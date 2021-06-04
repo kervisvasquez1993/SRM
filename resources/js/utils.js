@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+
 export const secondsInDay = 1000 * 60 * 60 * 24;
 
 const defaultOptions = {
@@ -94,4 +96,10 @@ export function extractError(errors, error) {
     if (errors[error]) {
         return errors[error][0];
     }
+}
+
+export function useUser() {
+    const user = useSelector(state => state.auth.user);
+
+    return user;
 }
