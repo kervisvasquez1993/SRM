@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect, useHistory, useParams } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
-import { getProvidersFromTask } from "../../store/actions/providerActions";
-import { editTask, getTask } from "../../store/actions/taskActions";
+import { getTask } from "../../store/actions/taskActions";
 import {
     dateToString,
     getDaysToFinishTask,
@@ -11,8 +10,8 @@ import {
     getColorsForTask
 } from "../../utils";
 import LoadingScreen from "../Navigation/LoadingScreen";
-import ProviderCard from "../Providers/ProviderCard";
 import ProviderModal, { emptyProvider } from "../Providers/ProviderModal";
+import TaskProviderList from "../Providers/TaskProviderList";
 import TaskModal from "./TaskModal";
 
 const TaskDetails = () => {
@@ -41,7 +40,6 @@ const TaskDetails = () => {
     useEffect(() => {
         document.body.scrollTo(0, 0);
         dispatch(getTask(id));
-        dispatch(getProvidersFromTask(id));
     }, []);
 
     if (!task) {
@@ -174,13 +172,7 @@ const TaskDetails = () => {
                 </button>
             </div>
 
-            <div className="d-flex flex-column-reverse">
-                {providers.map(provider => {
-                    return (
-                        <ProviderCard key={provider.id} provider={provider} />
-                    );
-                })}
-            </div>
+            <TaskProviderList />
         </div>
     );
 };
