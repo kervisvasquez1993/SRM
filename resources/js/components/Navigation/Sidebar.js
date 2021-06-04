@@ -40,9 +40,9 @@ const Sidebar = () => {
 
                 {(user.rol === "coordinador" || user.rol === "comprador") && (
                     <React.Fragment>
-                        <Link className="menu-link" to="/tasks" onClick={closeMenu}>
+                        <Link className="menu-link" to="/me/tasks" onClick={closeMenu}>
                             <i className="material-icons">task</i>
-                            <p>Tareas Asignadas</p>
+                            <p>Mis Tareas</p>
                         </Link>
                         <Link className="menu-link" to="/negotiations" onClick={closeMenu}>
                             <i className="material-icons">business</i>
