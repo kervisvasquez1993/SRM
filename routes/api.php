@@ -47,5 +47,10 @@ Route::middleware('auth.jwt')->group(function () {
 
     Route::get('/pivot', 'Api\Pivot\PivotController@index');
 
+
+    //productos 
+
+    Route::post('/negociacion/{pivot_tarea_proveedor}/productos', 'Api\Producto\ProductoController@store');
+
     
 });
