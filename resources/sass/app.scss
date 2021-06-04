@@ -5,7 +5,7 @@
 @import 'variables';
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+//@import '~bootstrap/scss/bootstrap';
 
 // Sidebar
 @import 'sidebar';
@@ -14,6 +14,8 @@
 @import 'navbar_dashboard';
 
 @import 'animations';
+
+@import 'material_icons';
 
 .keep-line-breaks {
     white-space: pre-line;

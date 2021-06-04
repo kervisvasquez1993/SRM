@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
+import { getProvidersFromTask } from "../../store/actions/providerActions";
 import { editTask, getTask } from "../../store/actions/taskActions";
 import {
     dateToString,
@@ -18,6 +19,7 @@ const TaskDetails = () => {
     const history = useHistory();
     const user = useSelector(state => state.auth.user);
     const task = useSelector(state => state.task.task);
+    const providers = useSelector(state => state.provider.providers);
     const { id } = useParams();
 
     const handleGoBack = () => {
@@ -27,6 +29,7 @@ const TaskDetails = () => {
     useEffect(() => {
         document.body.scrollTo(0, 0);
         dispatch(getTask(id));
+        dispatch(getProvidersFromTask(id));
     }, []);
 
     if (!task) {
@@ -145,11 +148,14 @@ const TaskDetails = () => {
                 </button>
             </div>
 
-            <ProviderCard />
-            <ProviderCard />
-            <ProviderCard />
-            <ProviderCard />
-            <ProviderCard />
+            {
+                providers.map(provider => {
+                    console.log(provider)
+                    return (
+                        <ProviderCard key={provider.id} {...provider} />
+                    );
+                })
+            }
         </div>
     );
 };
