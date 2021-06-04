@@ -36,12 +36,12 @@ const Modal = () => {
                 aria-labelledby="myModalLabel"
                 style={isOpen ? { display: "block" } : { display: "none" }}
                 aria-hidden="true"
-                onClick={handleClose}
+                onPointerDown={handleClose}
             >
                 <div
                     className="modal-dialog modal-primary modal-lg"
                     role="document"
-                    onClick={stopPropagation}
+                    onPointerDown={stopPropagation}
                 >
                     <div className="modal-content">
                         <div className="modal-header">
