@@ -1,9 +1,8 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
-import { closeTasks, getTasks } from "../../store/actions/taskActions";
+import { getTasks } from "../../store/actions/taskActions";
 import CheckboxFilter from "../Filters/CheckboxFilter";
 import Filter from "../Filters/Filter";
 import FilterGroup from "../Filters/FilterGroup";
@@ -20,12 +19,16 @@ const TaskList = () => {
     const [users, setUsers] = useState([]);
 
     const [filteredTasks, setFilteredTasks] = useState([...tasks]);
-    const [filterState, setFilterState] = useState({});
     const [filterDays, setFilterDays] = useState(0);
+    const filter = useRef(null);
 
     useEffect(() => {
         dispatch(getTasks());
     }, []);
+
+    useEffect(() => {
+        applyFilter(filter.current)
+    }, [tasks])
 
     useEffect(() => {
         axios.get(`${apiURL}/user`).then(response => {
@@ -124,7 +127,7 @@ const TaskList = () => {
                 </div>
             )}
 
-            <Filter onUpdate={applyFilter}>
+            <Filter onUpdate={applyFilter} useRef={filter}>
                 <div className="px-3 row mb-4">
                     <FilterGroup name="user" text="Usuario:">
                         {users.map((user, index) => {
