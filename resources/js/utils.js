@@ -35,9 +35,19 @@ const blackCard = {
     background: "bg-dark"
 };
 
+export function getColorsForTask(task) {
+    return getColorsFromDates(
+        new Date(task.created_at),
+        stringToDateIgnoringTime(task.fecha_fin)
+    );
+}
+
 export function getColorsFromDates(startDate, finishDate) {
     const percentage = (finishDate - new Date()) / (finishDate - startDate);
-    let days = Math.round((finishDate - new Date()) / secondsInDay);
+    let days = getDaysBetweenDates(
+        finishDate - new Date(),
+        new Date(finishDate)
+    );
 
     if (percentage < 0) {
         return blackCard;
@@ -59,7 +69,7 @@ export function getColorsFromDates(startDate, finishDate) {
 }
 
 export function getDaysBetweenDates(startDate, finishDate) {
-    return Math.round((finishDate - new Date()) / secondsInDay);
+    return Math.ceil((finishDate - new Date()) / secondsInDay);
 }
 
 export function getDaysToFinishTask(task) {
@@ -70,5 +80,11 @@ export function getDaysToFinishTask(task) {
 }
 
 export function getRemainingDaysToFinishTask(task) {
-    return Math.round((new Date(task.fecha_fin) - new Date()) / secondsInDay);
+    return Math.ceil((stringToDateIgnoringTime(task.fecha_fin) - new Date()) / secondsInDay);
+}
+
+export function stringToDateIgnoringTime(string) {
+    string = string.split(" ")[0];
+
+    return new Date(string);
 }

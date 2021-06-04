@@ -5,10 +5,9 @@ import { openModal } from "../../store/actions/modalActions";
 import { editTask, getTask } from "../../store/actions/taskActions";
 import {
     dateToString,
-    secondsInDay,
-    getColorsFromDates,
     getDaysToFinishTask,
-    getRemainingDaysToFinishTask
+    getRemainingDaysToFinishTask,
+    getColorsForTask
 } from "../../utils";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import ProviderCard from "../Providers/ProviderCard";
@@ -51,10 +50,7 @@ const TaskDetails = () => {
         );
     };
 
-    const { text, background } = getColorsFromDates(
-        new Date(task.created_at),
-        new Date(task.fecha_fin)
-    );
+    const { text, background } = getColorsForTask(task);
 
     return (
         <div className="container-fluid fade-in">
