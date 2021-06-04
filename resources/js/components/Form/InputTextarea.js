@@ -14,9 +14,9 @@ const InputTextArea = ({ id, label, value, error }) => {
                 name={id}
                 rows="5"
                 onChange={onChange}
-                value={value}
+                value={value || ""}
             ></textarea>
-            
+
             {error && (
                 <div className="text-danger">
                     <strong>{error}</strong>

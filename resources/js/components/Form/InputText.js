@@ -15,7 +15,7 @@ const InputText = ({ id, label, value, error }) => {
                     id={id}
                     name={id}
                     onChange={onChange}
-                    value={value}
+                    value={value || ""}
                 />
                 {error && (
                     <div className="text-danger">

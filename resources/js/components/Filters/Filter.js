@@ -6,6 +6,10 @@ const Filter = props => {
     const [state, setState] = useState({});
 
     useEffect(() => {
+        if (props.useRef) {
+            props.useRef.current = state;
+        }
+        
         props.onUpdate(state);
     }, [state]);
 
