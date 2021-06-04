@@ -8,16 +8,13 @@ class Producto extends Model
 {
     public function pivot()
     {
-        return $this->belongsTo(Proveedor::class, 'pivot_id');
+        return $this->belongsTo(PivotTareaProveeder::class, 'pivot_tarea_proveeder_id');
     }
 
     public function productOverview()
     {
         return $this->belongsTo(ProductOverview::class);
-    }
-
-
-    
+    }    
     public function scopeFilterProductos($query, $proveedor)
     {
         return $query->when(count($proveedor), function($query) use ($proveedor){

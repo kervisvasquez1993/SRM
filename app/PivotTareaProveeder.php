@@ -11,6 +11,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class PivotTareaProveeder extends Model
 {
+     public function productos()
+     {
+         return $this->hasMany(Producto::class);
+     }
     public function tarea()
     {
         return $this->belongsTo(Tarea::class, 'tarea_id');
@@ -34,12 +38,9 @@ class PivotTareaProveeder extends Model
     {
         return $this->hasMany(FilterProduccionTransito::class);
     }
-    public function compra()
-    {
-        return $this->hasOne(Compra::class);
-    }
-        
-    public function scopeFilterPivot($query, $tarea, $proveedor)
+    
+    
+   /*  public function scopeFilterPivot($query, $tarea, $proveedor)
     {
        return $query
        ->when(count($tarea), function($query) use ($tarea)
@@ -50,8 +51,5 @@ class PivotTareaProveeder extends Model
        {
           $query->where('proveedor_id', $proveedor);
        });
-      
-
-       
-    }
+    } */
 }

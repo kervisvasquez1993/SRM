@@ -10,11 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class Proveedor extends Model
 {
    
-   
-    public function PrinciaplPivot()
-    {
-        return $this->hasMany(PivotTareaProveeder::class);
-    }
+
 
     public function pivotTareaProveedor()
     {
