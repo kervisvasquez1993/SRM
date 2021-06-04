@@ -2,12 +2,17 @@ import axios from "axios";
 import { apiURL } from "../../components/App";
 import { closeModal } from "./modalActions";
 
-export function getTasks() {
+export function getTasks(myTasks = false) {
     return async (dispatch, getState) => {
         dispatch({ type: "GET_TASKS_REQUEST" });
 
         try {
-            const response = await axios.get(`${apiURL}/tarea`);
+            let response;
+            if (myTasks) {
+                response = await axios.get(`${apiURL}/me/tareas`);
+            } else {
+                response = await axios.get(`${apiURL}/tarea`);
+            }
 
             dispatch({
                 type: "GET_TASKS_SUCESS",
@@ -81,5 +86,11 @@ export function getTask(id) {
                 type: "GET_TASK_FAILURE"
             });
         }
+    };
+}
+
+export function clearTaskList() {
+    return {
+        type: "CLEAR_TASK_LIST"
     };
 }
