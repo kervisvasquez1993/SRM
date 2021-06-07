@@ -6,6 +6,7 @@ use App\Producto;
 use App\PivotTareaProveeder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,12 +18,14 @@ class ProductoController extends ApiController
     {
         $negociacion_id = $request->pivot_tarea_proveedor;
         $productos = Producto::where('pivot_tarea_proveeder_id', $negociacion_id)->get();
-
         return $this->showAll($productos);
     }
 
     public function store(Request $request)
     {
+
+       
+
         
         $pivot_tarea_proveedor_id = $request->pivot_tarea_proveedor;
         $validator = Validator::make($request->all(), [
@@ -54,7 +57,7 @@ class ProductoController extends ApiController
         if ($validator->fails()) {
             return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
         }
-
+        
 
         $producto = new Producto();
         $producto->pivot_tarea_proveeder_id = $pivot_tarea_proveedor_id;
@@ -86,6 +89,13 @@ class ProductoController extends ApiController
 
     public function update(Request $request , Producto $producto)
     {
+        
+        
+        if(!(auth()->user()->rol == 'coordinador') && !(auth()->user()->rol == 'comprador') )
+        {
+            return $this->errorResponse('No Tiene permiso para realizar esta accion', Response::HTTP_UNAUTHORIZED);
+        }
+
         $validator = Validator::make($request->all(), [
             
             'hs_code' => 'required',
@@ -115,34 +125,15 @@ class ProductoController extends ApiController
         if ($validator->fails()) {
             return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
         }
-        $producto->hs_code             = $request->hs_code;
-        $producto->product_code        = $request->product_code;
-        $producto->brand               = $request->brand;
-        $producto->product_name        = $request->product_name;
-        $producto->description         = $request->description;
-        $producto->shelf_life          = $request->shelf_life;
-        $producto->total_pcs           = $request->total_pcs;
-        $producto->pcs_unit            = $request->pcs_unit;
-        $producto->pcs_inner_box       = $request->pcs_inner_box;
-        $producto->pcs_ctn             = $request->pcs_ctn;
-        $producto->ctn_packing_size_l  = $request->ctn_packing_size_l;
-        $producto->ctn_packing_size_w  = $request->ctn_packing_size_w;
-        $producto->ctn_packing_size_h  = $request->ctn_packing_size_h;
-        $producto->cbm                 = $request->cbm;
-        $request->n_w_ctn              = $request->n_w_ctn;
-        $request->g_w_ctn              = $request->g_w_ctn;
-        $request->total_ctn            = $request->total_ctn;
-        $producto->corregido_total_pcs = $request->corregido_total_pcs;
-        $producto->total_cbm           = $request->total_cbm;
-        $producto->total_n_w           = $request->total_n_w; 
-        $producto->update();
-        return $producto;
+        $producto->update($request->all());
+        $producto->save();
+        return $this->showOne($producto);
 
     }
 
     public function delete(Producto $producto)
     {
         $producto->delete();
-        return $producto;
+        return $this->showOne($producto);
     }
 }
