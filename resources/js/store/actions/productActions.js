@@ -22,3 +22,28 @@ export function getProductsFromNegotiation(pivotId) {
         }
     };
 }
+
+export function createProductFromNegotiation(pivotId, data) {
+    return async (dispatch, getState) => {
+        dispatch({ type: "CREATE_PRODUCT_REQUEST" });
+
+        try {
+            const response = await axios.post(
+                `${apiURL}/negociacion/${pivotId}/producto`,
+                data
+            );
+
+            dispatch({
+                type: "CREATE_PRODUCT_SUCCESS",
+                payload: response.data.data
+            });
+
+            dispatch(closeModal())
+        } catch (e) {
+            dispatch({
+                type: "CREATE_PRODUCT_FAILURE",
+                errors: e.response.data
+            });
+        }
+    };
+}

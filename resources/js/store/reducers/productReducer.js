@@ -34,6 +34,21 @@ const productReducer = (state = defaultState, action) => {
             return {
                 ...state
             };
+        case "CREATE_PRODUCT_REQUEST":
+            return {
+                ...state
+            };
+        case "CREATE_PRODUCT_SUCCESS":
+            return {
+                ...state,
+                products: [...state.products, payload],
+                errors: {}
+            };
+        case "CREATE_PRODUCT_FAILURE":
+            return {
+                ...state,
+                errors: action.errors
+            };
         default:
             return state;
     }

@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useParams } from "react-router-dom";
+import { openModal } from "../../store/actions/modalActions";
 import { getProductsFromNegotiation } from "../../store/actions/productActions";
+import ProductModal, { emptyProduct } from "../Producs/ProductModal";
 
 const ProviderPurchase = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const { id } = useParams();
     const products = useSelector(state => state.product.products);
-
-    console.log(products);
 
     useEffect(() => {
         dispatch(getProductsFromNegotiation(id));
@@ -18,6 +18,15 @@ const ProviderPurchase = () => {
     const handleGoBack = () => {
         history.goBack();
     };
+
+    const handleCreate = () => {
+        dispatch(
+            openModal({
+                title: "Agregar Tarea",
+                body: <ProductModal product={emptyProduct} pivotId={id} />
+            })
+        );
+    }
 
     return (
         <div className="container-fluid fade-in">
@@ -44,6 +53,13 @@ const ProviderPurchase = () => {
                 <h1 className="h2">Productos</h1>
             </div>
 
+            <div className="text-right">
+                <button className="btn btn-lg btn-success btn-round mb-4" onClick={handleCreate}>
+                    <span className="material-icons">add</span>
+                    Agregar
+                </button>
+            </div>
+
             <div className="table-responsive">
                 <table className="table table-sm table-hover table-bordered">
                     <thead className="thead-dark">
@@ -56,6 +72,7 @@ const ProviderPurchase = () => {
                             <th scope="col">Vida útil (meses)</th>
                             <th scope="col">Total de piezas</th>
                             <th scope="col">Piezas empaque unitario</th>
+                            <th scope="col">Piezas empaque interno</th>
                             <th scope="col">Piezas carton (cm)</th>
                             <th scope="col">Largo Carton (cm)</th>
                             <th scope="col">Alto Carton (cm)</th>
@@ -74,7 +91,7 @@ const ProviderPurchase = () => {
                     <tbody>
                         {products.map(product => {
                             return (
-                                <tr key={product.id}>
+                                <tr key={product.id} className="fade-in">
                                     <th scope="row">{product.product_name}</th>
                                     <td>{product.brand}</td>
                                     <td>{product.product_code}</td>
@@ -83,6 +100,7 @@ const ProviderPurchase = () => {
                                     <td>{product.shelf_life}</td>
                                     <td>{product.total_pcs}</td>
                                     <td>{product.pcs_unit}</td>
+                                    <td>{product.pcs_inner_box}</td>
                                     <td>{product.pcs_ctn}</td>
                                     <td>{product.ctn_packing_size_l}</td>
                                     <td>{product.ctn_packing_size_h}</td>

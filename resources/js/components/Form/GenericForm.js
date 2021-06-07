@@ -5,12 +5,8 @@ export const FormContext = createContext();
 const GenericForm = props => {
     const { handleSubmit, disableSubmit, handleReset, onChange } = props;
 
-    const [value] = useState({
-        ...props
-    });
-
     return (
-        <FormContext.Provider value={value}>
+        <FormContext.Provider value={{...props}}>
             <form className="form-horizontal" onSubmit={handleSubmit}>
                 {props.children}
 
