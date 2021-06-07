@@ -47,13 +47,20 @@ Route::middleware('auth.jwt')->group(function () {
     //Pivot 
 
     Route::get('/pivot', 'Api\Pivot\PivotController@index');
+    Route::get('/pivot/{pivot_id}', 'Api\Pivot\PivotController@show');
 
 
     //productos 
 
-    Route::get('/negociacion/{pivot_tarea_proveedor}/producto', 'Api\Producto\ProductoController@index');
-    Route::post('/negociacion/{pivot_tarea_proveedor}/producto', 'Api\Producto\ProductoController@store');
+    Route::get('/negociacion/{pivot_tarea_proveedor}/productos', 'Api\Producto\ProductoController@index');
+    Route::post('/negociacion/{pivot_tarea_proveedor}/productos', 'Api\Producto\ProductoController@store');
     Route::put('/productos/{producto}', 'Api\Producto\ProductoController@update');
     Route::delete('/productos/{producto}', 'Api\Producto\ProductoController@delete');
+
+
+     //orden de compra 
+    Route::post('/negociaciones/{negociacion_id}/compras', 'Api\Pivot\PivotCompraController@store'); 
+    Route::get('/negociaciones/{negociacione_id}/compras/', 'Api\Pivot\PivotCompraController@show'); 
+    Route::put('/negociaciones/{negociacione_id}/compras/{compra}', 'Api\Pivot\PivotCompraController@update'); 
     
 });

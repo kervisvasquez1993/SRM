@@ -6,10 +6,11 @@ use App\PivotTareaProveeder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ApiController;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Resources\PivotTareaProveederResource;
 
-class PivotController extends Controller
+class PivotController extends ApiController
 {
     public function index()
     {
@@ -21,10 +22,12 @@ class PivotController extends Controller
             });
         }
         $resultado = PivotTareaProveederResource::collection($pivotPrincipal->get());
-        return $resultado;
+        return $this->showAllResources($resultado);        
+    }
 
-        
-        
-        
+    public function show($pivot_id)
+    {
+        $pivot =  new PivotTareaProveederResource(PivotTareaProveeder::findOrFail($pivot_id));
+        return  $this->showOneResource($pivot);
     }
 }
