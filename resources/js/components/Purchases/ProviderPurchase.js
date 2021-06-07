@@ -1,23 +1,58 @@
-import React, { useEffect } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { Link, Redirect, useHistory, useParams } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
 import {
     deleteProduct,
     getProductsFromNegotiation
 } from "../../store/actions/productActions";
+import { apiURL } from "../App";
+import LoadingScreen from "../Navigation/LoadingScreen";
 import ProductModal, { emptyProduct } from "../Producs/ProductModal";
+
+import Error from "../Navigation/Error";
 
 const ProviderPurchase = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const { id } = useParams();
+    const user = useSelector(state => state.auth.user);
     const products = useSelector(state => state.product.products);
+
+    const [pivot, setPivot] = useState(null);
+    const [pivotError, setPivotError] = useState(false);
+
+    if (!(user.rol === "coordinador" || user.rol === "observador" || user.rol === "comprador")) {
+        return <Redirect to="/home" />;
+    }
 
     useEffect(() => {
         document.body.scrollTo(0, 0);
+
+        axios
+            .get(`${apiURL}/pivot/${id}`)
+            .then(response => {
+                setPivot(response.data.data);
+            })
+            .catch(e => {
+                setPivotError(true);
+            });
+
         dispatch(getProductsFromNegotiation(id));
     }, []);
+
+    if (pivotError) {
+        return <Error />;
+    }
+
+    if (!pivot) {
+        return <LoadingScreen />;
+    }
+
+    if (user.rol === "comprador" && user.id != pivot.usuario.id) {
+        return <Redirect to="/home" />;
+    }
 
     const handleGoBack = () => {
         history.goBack();
@@ -76,17 +111,19 @@ const ProviderPurchase = () => {
                 <h1 className="h2">Productos</h1>
             </div>
 
-            <div className="text-right">
-                <button
-                    className="btn btn-lg btn-success btn-round mb-4"
-                    onClick={handleCreate}
-                >
-                    <span className="material-icons">add</span>
-                    Agregar
-                </button>
-            </div>
+            {user.id == pivot.usuario.id && (
+                <div className="text-right">
+                    <button
+                        className="btn btn-lg btn-success btn-round mb-4"
+                        onClick={handleCreate}
+                    >
+                        <span className="material-icons">add</span>
+                        Agregar
+                    </button>
+                </div>
+            )}
 
-            <div className="table-responsive">
+            <div className="table-responsive text-small">
                 <table className="table table-sm table-hover table-bordered">
                     <thead className="thead-dark">
                         <tr>
