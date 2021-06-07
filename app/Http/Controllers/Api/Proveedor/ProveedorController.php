@@ -134,6 +134,7 @@ class ProveedorController extends ApiController
 
         // Comprobar si ya existe un proveedor con el mismo nombre y pais
         $proveedorExistente = Proveedor::where('nombre', $request->nombre)->where('pais', $paisMayusculas)->first();
+
         if ($proveedorExistente && $proveedorExistente != $proveedor) {
             return $this->errorResponse("Ya existe una empresa con este nombre y pais", Response::HTTP_BAD_REQUEST);
         }
@@ -148,7 +149,14 @@ class ProveedorController extends ApiController
         $proveedor->telefono = $request['telefono'];
         $proveedor->email = $request['email'];
         $proveedor->save();
-        return $proveedor;
+        return $this->showOneResource(new ProveedorResource($proveedor), Response::HTTP_ACCEPTED);
+    }
+
+    public function updateFromTask(Request $request, $tarea_id, $proveedor_id)
+    {
+        $proveedor = Proveedor::findOrFail($proveedor_id);
+
+        return $this->update($request, $proveedor);
     }
 
     public function iniciarNegociacion(Request $request, $tarea_id, $proveedor_id)
@@ -157,11 +165,6 @@ class ProveedorController extends ApiController
         $tarea = Tarea::findOrFail($tarea_id);
         $proveedor = Proveedor::findOrFail($proveedor_id);
         $pivote = PivotTareaProveeder::where('tarea_id', $tarea_id)->where('proveedor_id', $proveedor_id)->first();
-
-        // Comprobar si esta tarea ya inicio negociacion con otra empresa
-        if ($tarea->pivotTareaProveedor->where('iniciar_negociacion', 1)->count() > 0) {
-            return $this->errorResponse("Esta tarea ya se encuentra en negociacion con un proveedor", Response::HTTP_BAD_REQUEST);
-        }
 
         // Iniciar negociacion
         $pivote->iniciar_negociacion = 1;

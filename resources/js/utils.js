@@ -12,22 +12,27 @@ export function dateToString(date, options = defaultOptions) {
     return new Intl.DateTimeFormat("default", options).format(date);
 }
 
-const redCard = {
+export const redCard = {
     text: "text-white",
     background: "bg-danger"
 };
 
-const yellowCard = {
+export const yellowCard = {
     text: "text-white",
     background: "bg-warning"
 };
 
-const greenCard = {
+export const greenCard = {
     text: "text-white",
     background: "bg-success"
 };
 
-const normalCard = {
+export const blueCard = {
+    text: "text-white",
+    background: "bg-blue"
+};
+
+export const normalCard = {
     text: "",
     background: ""
 };
@@ -51,6 +56,7 @@ export function getColorsFromDates(startDate, finishDate) {
         new Date(finishDate)
     );
 
+    /*
     if (percentage < 0) {
         return blackCard;
     }
@@ -66,6 +72,22 @@ export function getColorsFromDates(startDate, finishDate) {
             return yellowCard;
         } else {
             return normalCard;
+        }
+    }
+    */
+    if (percentage < 0) {
+        return redCard;
+    }
+
+    if (days <= 4) {
+        return yellowCard;
+    } else {
+        if (percentage < 0.333) {
+            return redCard;
+        } else if (percentage < 0.666) {
+            return yellowCard;
+        } else {
+            return blueCard;
         }
     }
 }

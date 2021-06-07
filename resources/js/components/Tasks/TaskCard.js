@@ -16,9 +16,6 @@ const TaskCard = ({ task }) => {
     const user = useSelector(state => state.auth.user);
     const editedTask = useSelector(state => state.task.editedTask);
 
-    // Animations
-    const [fadeInFinished, setFadeInFinished] = useState(false);
-
     const handleEdit = e => {
         e.preventDefault();
 
@@ -42,20 +39,15 @@ const TaskCard = ({ task }) => {
         animation: "fade-in"
     };
 
-    const handleFadeInEnd = () => {
-        setFadeInFinished(true);
-    };
-
     const { text, background } = getColorsForTask(task);
     const remainingDays = getRemainingDaysToFinishTask(task);
 
     return (
         <Link to={`/tasks/${id}`}>
             <div
-                className={`card task-card ${fadeInFinished ? "" : "fade-in"} ${
+                className={`card task-card fade-in ${
                     editedTask && editedTask.id === id ? "jump" : ""
                 } ${text} ${background}`}
-                onAnimationEnd={handleFadeInEnd}
             >
                 <div className="card-header ">
                     <div className="card-text">
@@ -81,7 +73,7 @@ const TaskCard = ({ task }) => {
                 <div className="card-footer">
                     <div className="d-flex justify-content-between w-100 flex-wrap mt-2">
                         <div className="mb-2">
-                            {background === "bg-dark" ? (
+                            {background === "bg-danger" ? (
                                 <React.Fragment>
                                     <i className="material-icons mr-1">
                                         warning
