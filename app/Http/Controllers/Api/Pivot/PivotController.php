@@ -30,4 +30,24 @@ class PivotController extends ApiController
         $pivot =  new PivotTareaProveederResource(PivotTareaProveeder::findOrFail($pivot_id));
         return  $this->showOneResource($pivot);
     }
+
+    public function startArte($pivotTareaProveederId)
+    {
+        $pivot = PivotTareaProveeder::findOrFail($pivotTareaProveederId);
+        $pivot->iniciar_arte = 1;
+        $pivot->save();
+        $pivotResource = new PivotTareaProveederResource($pivot);
+        return $this->showOneResource($pivotResource);
+        
+    }
+
+    public function startProduccion($pivotTareaProveederId)
+    {
+        $pivot = PivotTareaProveeder::findOrFail($pivotTareaProveederId);
+        $pivot->iniciar_produccion = 1;
+        $pivot->save();
+        $pivotResource = new PivotTareaProveederResource($pivot);
+        return $this->showOneResource($pivotResource);
+        
+    }
 }
