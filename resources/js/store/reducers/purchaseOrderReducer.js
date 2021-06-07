@@ -7,8 +7,6 @@ const defaultState = {
 const purcharseOrderReducer = (state = defaultState, action) => {
     const { type, payload } = action;
 
-    console.log(action)
-
     switch (type) {
         case "OPEN_MODAL":
             return {
@@ -51,6 +49,24 @@ const purcharseOrderReducer = (state = defaultState, action) => {
                 isEditing: false
             };
         case "CREATE_PURCHASE_ORDER_FAILURE":
+            return {
+                ...state,
+                errors: action.errors,
+                isEditing: false
+            };
+        case "EDIT_PURCHASE_ORDER_REQUEST":
+            return {
+                ...state,
+                isEditing: true
+            };
+        case "EDIT_PURCHASE_ORDER_SUCCESS":
+            return {
+                ...state,
+                order: payload,
+                errors: {},
+                isEditing: false
+            };
+        case "EDIT_PURCHASE_ORDER_FAILURE":
             return {
                 ...state,
                 errors: action.errors,

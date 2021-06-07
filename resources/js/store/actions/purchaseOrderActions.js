@@ -47,3 +47,28 @@ export function createPurchaseOrderFromNegotiation(pivotId, data) {
         }
     };
 }
+
+export function editPurchaseOrder(data) {
+    return async (dispatch, getState) => {
+        dispatch({ type: "EDIT_PURCHASE_ORDER_REQUEST" });
+
+        try {
+            const response = await axios.put(
+                `${apiURL}/compra/${data.id}`,
+                data
+            );
+
+            dispatch({
+                type: "EDIT_PURCHASE_ORDER_SUCCESS",
+                payload: response.data.data
+            });
+
+            dispatch(closeModal());
+        } catch (e) {
+            dispatch({
+                type: "EDIT_PURCHASE_ORDER_FAILURE",
+                errors: e.response.data
+            });
+        }
+    };
+}

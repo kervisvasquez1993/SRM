@@ -20,8 +20,27 @@ const PurchaseOrder = () => {
     const handleCreate = () => {
         dispatch(
             openModal({
-                title: "Agregar Producto",
-                body: <PurchaseOrderModal purchase={emptyPurchase} pivotId={pivotId} />
+                title: "Agregar Orden de Compra",
+                body: (
+                    <PurchaseOrderModal
+                        purchase={emptyPurchase}
+                        pivotId={pivotId}
+                    />
+                )
+            })
+        );
+    };
+
+    const handleEdit = () => {
+        dispatch(
+            openModal({
+                title: "Editar Orden de Compra",
+                body: (
+                    <PurchaseOrderModal
+                        purchase={{ ...purchaseOder }}
+                        isEditor={true}
+                    />
+                )
             })
         );
     };
@@ -39,7 +58,10 @@ const PurchaseOrder = () => {
                     <div className="mr-auto text-center">
                         {purchaseOder ? (
                             <div className="text-right">
-                                <button className="btn btn btn-success btn-round">
+                                <button
+                                    className="btn btn btn-success btn-round"
+                                    onClick={handleEdit}
+                                >
                                     <span className="material-icons">edit</span>
                                     Editar
                                 </button>

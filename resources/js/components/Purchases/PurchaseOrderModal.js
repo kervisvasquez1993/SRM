@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createPurchaseOrderFromNegotiation } from "../../store/actions/purchaseOrderActions";
+import { createPurchaseOrderFromNegotiation, editPurchaseOrder } from "../../store/actions/purchaseOrderActions";
 import { extractError } from "../../utils";
 import GenericForm from "../Form/GenericForm";
 import InputNumber from "../Form/InputNumber";
@@ -45,7 +45,7 @@ const PurchaseOrderModal = ({ purchase, isEditor = false, pivotId = null }) => {
         e.preventDefault();
 
         if (isEditor) {
-            //dispatch(editProduct(data));
+            dispatch(editPurchaseOrder(data));
         } else {
             dispatch(createPurchaseOrderFromNegotiation(pivotId, data));
         }
