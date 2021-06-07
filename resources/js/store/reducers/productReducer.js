@@ -19,7 +19,8 @@ const productReducer = (state = defaultState, action) => {
             };
         case "CHANGE_HISTORY":
             return {
-                ...state
+                ...state,
+                products: []
             };
         case "GET_PRODUCTS_REQUEST":
             return {
