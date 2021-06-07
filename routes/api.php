@@ -65,9 +65,8 @@ Route::middleware('auth.jwt')->group(function () {
     Route::delete('/productos/{producto}', 'Api\Producto\ProductoController@delete');
 
 
-     //orden de compra 
-    Route::post('/negociaciones/{negociacion_id}/compras', 'Api\Pivot\PivotCompraController@store'); 
-    Route::get('/negociaciones/{negociacione_id}/compras/', 'Api\Pivot\PivotCompraController@show'); 
-    Route::put('/negociaciones/{negociacione_id}/compras/{compra}', 'Api\Pivot\PivotCompraController@update'); 
-    
+     //orden de compra
+    Route::post('/negociacion/{negociacion_id}/compra', 'Api\Pivot\PivotCompraController@store'); 
+    Route::get('/negociacion/{negociacion_id}/compra', 'Api\Pivot\PivotCompraController@show');
+    Route::put('compra/{compra_id}', 'Api\Pivot\PivotCompraController@update');
 });
