@@ -8,7 +8,7 @@ export function getProductsFromNegotiation(pivotId) {
 
         try {
             const response = await axios.get(
-                `${apiURL}/negociacion/${pivotId}/producto`
+                `${apiURL}/negociacion/${pivotId}/productos`
             );
 
             dispatch({
@@ -29,7 +29,7 @@ export function createProductFromNegotiation(pivotId, data) {
 
         try {
             const response = await axios.post(
-                `${apiURL}/negociacion/${pivotId}/producto`,
+                `${apiURL}/negociacion/${pivotId}/productos`,
                 data
             );
 
