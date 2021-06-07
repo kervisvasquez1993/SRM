@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
-import { getProductsFromNegotiation } from "../../store/actions/productActions";
+import {
+    deleteProduct,
+    getProductsFromNegotiation
+} from "../../store/actions/productActions";
 import ProductModal, { emptyProduct } from "../Producs/ProductModal";
 
 const ProviderPurchase = () => {
@@ -42,6 +45,10 @@ const ProviderPurchase = () => {
                 )
             })
         );
+    };
+
+    const handleDeleteProduct = product => {
+        dispatch(deleteProduct(product));
     };
 
     return (
@@ -148,6 +155,9 @@ const ProviderPurchase = () => {
                                         <button
                                             className="btn btn-danger"
                                             type="button"
+                                            onClick={() =>
+                                                handleDeleteProduct(product)
+                                            }
                                         >
                                             <span className="material-icons">
                                                 edit

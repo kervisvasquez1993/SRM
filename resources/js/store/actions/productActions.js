@@ -72,3 +72,25 @@ export function editProduct(data) {
         }
     };
 }
+
+export function deleteProduct(data) {
+    return async (dispatch, getState) => {
+        dispatch({ type: "DELETE_PRODUCT_REQUEST" });
+
+        try {
+            const response = await axios.delete(
+                `${apiURL}/productos/${data.id}`,
+                data
+            );
+
+            dispatch({
+                type: "DELETE_PRODUCT_SUCCESS",
+                payload: data
+            });
+        } catch (e) {
+            dispatch({
+                type: "DELETE_PRODUCT_FAILURE"
+            });
+        }
+    };
+}

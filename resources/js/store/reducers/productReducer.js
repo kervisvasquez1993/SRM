@@ -76,6 +76,23 @@ const productReducer = (state = defaultState, action) => {
                 errors: action.errors,
                 isEditing: false
             };
+        case "DELETE_PRODUCT_REQUEST":
+            return {
+                ...state
+            };
+        case "DELETE_PRODUCT_SUCCESS":
+            const _newProducts = state.products.filter(
+                product => product.id != payload.id
+            );
+
+            return {
+                ...state,
+                products: _newProducts
+            };
+        case "DELETE_PRODUCT_FAILURE":
+            return {
+                ...state
+            };
         default:
             return state;
     }
