@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
 import { startNegotiation } from "../../store/actions/providerActions";
 import { greenCard, normalCard, useUser } from "../../utils";
@@ -73,17 +73,23 @@ const ProviderCard = ({ provider }) => {
                 <div className="d-flex justify-content-between w-100 flex-wrap">
                     <h3 className="card-title">{nombre}</h3>
 
-                    {(user.rol == "coordinador" || user.rol == "comprador") &&
-                        !enNegociacion && (
-                            <div className="d-flex">
-                                <button
-                                    className="btn btn-sm btn-outline-primary btn-round"
-                                    onClick={handleNegotiate}
-                                >
-                                    Negociar
-                                </button>
-                            </div>
-                        )}
+                    {enNegociacion ? (
+                        <Link
+                            to={`/negotiation/${pivot.id}`}
+                            className="btn btn-primary btn-round"
+                        >
+                            Ver Compra
+                        </Link>
+                    ) : ((user.rol == "coordinador" || user.rol == "comprador") && (
+                        <div className="d-flex">
+                            <button
+                                className="btn btn-sm btn-outline-primary btn-round"
+                                onClick={handleNegotiate}
+                            >
+                                Negociar
+                            </button>
+                        </div>
+                    ))}
                 </div>
                 <hr />
             </div>

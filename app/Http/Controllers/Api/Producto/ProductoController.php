@@ -34,6 +34,7 @@ class ProductoController extends ApiController
             'product_code' => 'required',
             'description' => 'required',
             'brand' => 'required',
+            'product_name' => 'required',
             'total_pcs' => 'required|numeric',
             'shelf_life' => 'required|numeric',
             'total_pcs' => 'required|numeric',
@@ -64,12 +65,13 @@ class ProductoController extends ApiController
         $producto->hs_code = $request->hs_code;
         $producto->product_code = $request->product_code;
         $producto->brand = $request->brand;
+        $producto->product_name = $request->product_name;
         $producto->description = $request->description;
         $producto->shelf_life = $request->shelf_life;
         $producto->total_pcs = $request->total_pcs;
         $producto->pcs_unit = $request->pcs_unit;
         $producto->pcs_inner_box = $request->pcs_inner_box;
-        $producto->pcs_ctn = $request->alto_carton;
+        $producto->pcs_ctn = $request->pcs_ctn;
         $producto->ctn_packing_size_l = $request->ctn_packing_size_l;
         $producto->ctn_packing_size_w = $request->ctn_packing_size_w;
         $producto->ctn_packing_size_h = $request->ctn_packing_size_h;    
@@ -80,7 +82,7 @@ class ProductoController extends ApiController
         $producto->corregido_total_pcs = $request->corregido_total_pcs;
         $producto->total_cbm = $request->total_cbm;
         $producto->total_n_w = $request->total_n_w;
-        $request->total_g_w = $request->total_g_w;
+        $producto->total_g_w = $request->total_g_w;
         $producto->save();
 
         return $this->showOne($producto);
@@ -102,6 +104,7 @@ class ProductoController extends ApiController
             'product_code' => 'required',
             'description' => 'required',
             'brand' => 'required',
+            'product_name' => 'required',
             'total_pcs' => 'required|numeric',
             'shelf_life' => 'required|numeric',
             'total_pcs' => 'required|numeric',

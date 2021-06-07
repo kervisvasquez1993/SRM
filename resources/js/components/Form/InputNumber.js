@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { FormContext } from "./GenericForm";
 
-const InputText = ({ id, label, value = null, error = null }) => {
+const InputNumber = ({ id, label, value = null, error = null }) => {
     const { onChange, values } = useContext(FormContext);
 
     return (
@@ -10,7 +10,7 @@ const InputText = ({ id, label, value = null, error = null }) => {
                 <label htmlFor={id}>{label}</label>
 
                 <input
-                    type="text"
+                    type="number"
                     className={"form-control " + (error ? "is-invalid" : "")}
                     id={id}
                     name={id}
@@ -27,4 +27,4 @@ const InputText = ({ id, label, value = null, error = null }) => {
     );
 };
 
-export default InputText;
+export default InputNumber;

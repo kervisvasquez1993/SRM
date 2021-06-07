@@ -12,6 +12,7 @@ import { apiURL } from "../App";
 import SliderFilter from "../Filters/SliderFilter";
 import { getDaysToFinishTask } from "../../utils";
 import { Redirect } from "react-router-dom";
+import EmptyList from "../Navigation/EmptyList";
 
 const TaskList = ({ myTasks = false }) => {
     const dispatch = useDispatch();
@@ -182,11 +183,15 @@ const TaskList = ({ myTasks = false }) => {
                 </div>
             </Filter>
 
-            <div className="d-flex flex-column-reverse">
-                {filteredTasks.map(task => {
-                    return <TaskCard key={task.id} task={task} />;
-                })}
-            </div>
+            {filteredTasks.length > 0 ? (
+                <div className="d-flex flex-column-reverse">
+                    {filteredTasks.map(task => {
+                        return <TaskCard key={task.id} task={task} />;
+                    })}
+                </div>
+            ) : (
+                <EmptyList />
+            )}
         </React.Fragment>
     );
 };

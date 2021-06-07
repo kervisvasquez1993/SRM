@@ -46,6 +46,10 @@ const TaskDetails = () => {
         return <LoadingScreen />;
     }
 
+    if (user.rol === "comprador" && task.usuario.id != user.id) {
+        return <Redirect to="/home" />;
+    }
+
     const handleEdit = () => {
         const taskToEdit = {
             id: task.id,
