@@ -12,6 +12,7 @@ import LoadingScreen from "../Navigation/LoadingScreen";
 import ProductModal, { emptyProduct } from "../Producs/ProductModal";
 
 import Error from "../Navigation/Error";
+import EmptyList from "../Navigation/EmptyList";
 
 const ProviderPurchase = () => {
     const history = useHistory();
@@ -107,6 +108,8 @@ const ProviderPurchase = () => {
                 <h1 className="h2">Orden de Compra</h1>
             </div>
 
+            <EmptyList />
+            
             <div className="mr-auto text-center py-4">
                 <h1 className="h2">Productos</h1>
             </div>
@@ -123,91 +126,100 @@ const ProviderPurchase = () => {
                 </div>
             )}
 
-            <div className="table-responsive text-small">
-                <table className="table table-sm table-hover table-bordered">
-                    <thead className="thead-dark">
-                        <tr>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Marca</th>
-                            <th scope="col">Código</th>
-                            <th scope="col">Código HS</th>
-                            <th scope="col">Descripción</th>
-                            <th scope="col">Vida útil (meses)</th>
-                            <th scope="col">Total de piezas</th>
-                            <th scope="col">Piezas empaque unitario</th>
-                            <th scope="col">Piezas empaque interno</th>
-                            <th scope="col">Piezas carton (cm)</th>
-                            <th scope="col">Largo Carton (cm)</th>
-                            <th scope="col">Alto Carton (cm)</th>
-                            <th scope="col">Ancho Carton (cm)</th>
-                            <th scope="col">CBM</th>
-                            <th scope="col">Peso Neto (kg)</th>
-                            <th scope="col">Peso Bruto (kg)</th>
-                            <th scope="col">Total CBM</th>
-                            <th scope="col">Total Peso Neto (kg)</th>
-                            <th scope="col">Total Peso Bruto (kg)</th>
-                            <th scope="col">Total CTN</th>
-                            <th scope="col">Corregido Total PCS</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {products.map(product => {
-                            return (
-                                <tr key={product.id} className="fade-in">
-                                    <th scope="row">{product.product_name}</th>
-                                    <td>{product.brand}</td>
-                                    <td>{product.product_code}</td>
-                                    <td>{product.hs_code}</td>
-                                    <td>{product.description}</td>
-                                    <td>{product.shelf_life}</td>
-                                    <td>{product.total_pcs}</td>
-                                    <td>{product.pcs_unit}</td>
-                                    <td>{product.pcs_inner_box}</td>
-                                    <td>{product.pcs_ctn}</td>
-                                    <td>{product.ctn_packing_size_l}</td>
-                                    <td>{product.ctn_packing_size_h}</td>
-                                    <td>{product.ctn_packing_size_w}</td>
-                                    <td>{product.cbm}</td>
-                                    <td>{product.n_w_ctn}</td>
-                                    <td>{product.g_w_ctn}</td>
-                                    <td>{product.total_cbm}</td>
-                                    <td>{product.total_n_w}</td>
-                                    <td>{product.total_g_w}</td>
-                                    <td>{product.total_ctn}</td>
-                                    <td>{product.corregido_total_pcs}</td>
-                                    <td className="d-flex">
-                                        <button
-                                            className="btn btn-success"
-                                            type="button"
-                                            onClick={() =>
-                                                handleEditProduct(product)
-                                            }
-                                        >
-                                            <span className="material-icons">
-                                                edit
-                                            </span>
-                                            Editar
-                                        </button>
-                                        <button
-                                            className="btn btn-danger"
-                                            type="button"
-                                            onClick={() =>
-                                                handleDeleteProduct(product)
-                                            }
-                                        >
-                                            <span className="material-icons">
-                                                edit
-                                            </span>
-                                            Eliminar
-                                        </button>
-                                    </td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
-            </div>
+            {
+                products.length > 0 ? (
+                    <div className="table-responsive text-small">
+                    <table className="table table-sm table-hover table-bordered">
+                        <thead className="thead-dark">
+                            <tr>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Marca</th>
+                                <th scope="col">Código</th>
+                                <th scope="col">Código HS</th>
+                                <th scope="col">Descripción</th>
+                                <th scope="col">Vida útil (meses)</th>
+                                <th scope="col">Total de piezas</th>
+                                <th scope="col">Piezas empaque unitario</th>
+                                <th scope="col">Piezas empaque interno</th>
+                                <th scope="col">Piezas carton (cm)</th>
+                                <th scope="col">Largo Carton (cm)</th>
+                                <th scope="col">Alto Carton (cm)</th>
+                                <th scope="col">Ancho Carton (cm)</th>
+                                <th scope="col">CBM</th>
+                                <th scope="col">Peso Neto (kg)</th>
+                                <th scope="col">Peso Bruto (kg)</th>
+                                <th scope="col">Total CBM</th>
+                                <th scope="col">Total Peso Neto (kg)</th>
+                                <th scope="col">Total Peso Bruto (kg)</th>
+                                <th scope="col">Total CTN</th>
+                                <th scope="col">Corregido Total PCS</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {products.map(product => {
+                                return (
+                                    <tr key={product.id} className="fade-in">
+                                        <th scope="row">{product.product_name}</th>
+                                        <td>{product.brand}</td>
+                                        <td>{product.product_code}</td>
+                                        <td>{product.hs_code}</td>
+                                        <td>{product.description}</td>
+                                        <td>{product.shelf_life}</td>
+                                        <td>{product.total_pcs}</td>
+                                        <td>{product.pcs_unit}</td>
+                                        <td>{product.pcs_inner_box}</td>
+                                        <td>{product.pcs_ctn}</td>
+                                        <td>{product.ctn_packing_size_l}</td>
+                                        <td>{product.ctn_packing_size_h}</td>
+                                        <td>{product.ctn_packing_size_w}</td>
+                                        <td>{product.cbm}</td>
+                                        <td>{product.n_w_ctn}</td>
+                                        <td>{product.g_w_ctn}</td>
+                                        <td>{product.total_cbm}</td>
+                                        <td>{product.total_n_w}</td>
+                                        <td>{product.total_g_w}</td>
+                                        <td>{product.total_ctn}</td>
+                                        <td>{product.corregido_total_pcs}</td>
+                                        <td className="d-flex">
+                                            <button
+                                                className="btn btn-success"
+                                                type="button"
+                                                onClick={() =>
+                                                    handleEditProduct(product)
+                                                }
+                                            >
+                                                <span className="material-icons">
+                                                    edit
+                                                </span>
+                                                Editar
+                                            </button>
+                                            <button
+                                                className="btn btn-danger"
+                                                type="button"
+                                                onClick={() =>
+                                                    handleDeleteProduct(product)
+                                                }
+                                            >
+                                                <span className="material-icons">
+                                                    edit
+                                                </span>
+                                                Eliminar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+                ) : (
+                    <EmptyList />
+                )
+
+            }
+
+            
         </div>
     );
 };

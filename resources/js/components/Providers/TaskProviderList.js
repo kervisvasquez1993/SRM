@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getProvidersFromTask } from "../../store/actions/providerActions";
+import EmptyList from "../Navigation/EmptyList";
 import ProviderCard from "../Providers/ProviderCard";
 
 const TaskProviderList = () => {
@@ -26,11 +27,22 @@ const TaskProviderList = () => {
     }, [providers]);
 
     return (
-        <div className="d-flex flex-column-reverse">
-            {orderedProviders.map(provider => {
-                return <ProviderCard key={provider.id} provider={provider} />;
-            })}
-        </div>
+        <React.Fragment>
+            {orderedProviders.length > 0 ? (
+                <div className="d-flex flex-column-reverse">
+                    {orderedProviders.map(provider => {
+                        return (
+                            <ProviderCard
+                                key={provider.id}
+                                provider={provider}
+                            />
+                        );
+                    })}
+                </div>
+            ) : (
+                <EmptyList />
+            )}
+        </React.Fragment>
     );
 };
 
