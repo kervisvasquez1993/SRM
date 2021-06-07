@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { openModal } from "../../store/actions/modalActions";
 import { getPurchaseOrderFromNegotiation } from "../../store/actions/purchaseOrderActions";
 import EmptyList from "../Navigation/EmptyList";
+import PurchaseOrderModal, { emptyPurchase } from "./PurchaseOrderModal";
 
 const PurchaseOrder = () => {
     const purchaseOder = useSelector(state => state.purchaseOrder.order);
@@ -14,6 +16,15 @@ const PurchaseOrder = () => {
     useEffect(() => {
         dispatch(getPurchaseOrderFromNegotiation(pivotId));
     }, []);
+
+    const handleCreate = () => {
+        dispatch(
+            openModal({
+                title: "Agregar Producto",
+                body: <PurchaseOrderModal purchase={emptyPurchase} pivotId={pivotId} />
+            })
+        );
+    };
 
     return (
         <React.Fragment>
@@ -40,7 +51,10 @@ const PurchaseOrder = () => {
                                 </button>
                             </div>
                         ) : (
-                            <button className="btn btn-lg btn-success btn-round mb-5">
+                            <button
+                                className="btn btn-lg btn-success btn-round mb-5"
+                                onClick={handleCreate}
+                            >
                                 <span className="material-icons">add</span>
                                 Agregar
                             </button>

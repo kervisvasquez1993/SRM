@@ -9,7 +9,7 @@ import {
 } from "../../store/actions/productActions";
 import { apiURL } from "../App";
 import LoadingScreen from "../Navigation/LoadingScreen";
-import ProductModal, { emptyProduct } from "../Producs/ProductModal";
+import ProductModal, { emptyProduct } from "../Products/ProductModal";
 
 import Error from "../Navigation/Error";
 import EmptyList from "../Navigation/EmptyList";
