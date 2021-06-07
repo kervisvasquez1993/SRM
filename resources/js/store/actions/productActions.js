@@ -38,10 +38,35 @@ export function createProductFromNegotiation(pivotId, data) {
                 payload: response.data.data
             });
 
-            dispatch(closeModal())
+            dispatch(closeModal());
         } catch (e) {
             dispatch({
                 type: "CREATE_PRODUCT_FAILURE",
+                errors: e.response.data
+            });
+        }
+    };
+}
+
+export function editProduct(data) {
+    return async (dispatch, getState) => {
+        dispatch({ type: "EDIT_PRODUCT_REQUEST" });
+
+        try {
+            const response = await axios.put(
+                `${apiURL}/productos/${data.id}`,
+                data
+            );
+
+            dispatch({
+                type: "EDIT_PRODUCT_SUCCESS",
+                payload: response.data.data
+            });
+
+            dispatch(closeModal());
+        } catch (e) {
+            dispatch({
+                type: "EDIT_PRODUCT_FAILURE",
                 errors: e.response.data
             });
         }

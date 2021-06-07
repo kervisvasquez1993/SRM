@@ -12,6 +12,7 @@ const ProviderPurchase = () => {
     const products = useSelector(state => state.product.products);
 
     useEffect(() => {
+        document.body.scrollTo(0, 0);
         dispatch(getProductsFromNegotiation(id));
     }, []);
 
@@ -22,11 +23,26 @@ const ProviderPurchase = () => {
     const handleCreate = () => {
         dispatch(
             openModal({
-                title: "Agregar Tarea",
+                title: "Agregar Producto",
                 body: <ProductModal product={emptyProduct} pivotId={id} />
             })
         );
-    }
+    };
+
+    const handleEditProduct = product => {
+        dispatch(
+            openModal({
+                title: "Editar Producto",
+                body: (
+                    <ProductModal
+                        product={product}
+                        pivotId={id}
+                        isEditor={true}
+                    />
+                )
+            })
+        );
+    };
 
     return (
         <div className="container-fluid fade-in">
@@ -54,7 +70,10 @@ const ProviderPurchase = () => {
             </div>
 
             <div className="text-right">
-                <button className="btn btn-lg btn-success btn-round mb-4" onClick={handleCreate}>
+                <button
+                    className="btn btn-lg btn-success btn-round mb-4"
+                    onClick={handleCreate}
+                >
                     <span className="material-icons">add</span>
                     Agregar
                 </button>
@@ -117,6 +136,9 @@ const ProviderPurchase = () => {
                                         <button
                                             className="btn btn-success"
                                             type="button"
+                                            onClick={() =>
+                                                handleEditProduct(product)
+                                            }
                                         >
                                             <span className="material-icons">
                                                 edit

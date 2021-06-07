@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createProductFromNegotiation } from "../../store/actions/productActions";
+import { createProductFromNegotiation, editProduct } from "../../store/actions/productActions";
 import { extractError } from "../../utils";
 import GenericForm from "../Form/GenericForm";
 import InputNumber from "../Form/InputNumber";
@@ -80,7 +80,7 @@ const ProductModal = ({ product, isEditor = false, pivotId = null }) => {
         e.preventDefault();
 
         if (isEditor) {
-            //dispatch(editProviderFromTask(taskId, data));
+            dispatch(editProduct(data));
         } else {
             dispatch(createProductFromNegotiation(pivotId, data));
         }
@@ -103,19 +103,14 @@ const ProductModal = ({ product, isEditor = false, pivotId = null }) => {
                 label="Nombre"
                 error={product_name_error}
             />
-
             <InputText id="brand" label="Marca" error={brand_error} />
-
             <InputText
                 id="product_code"
                 label="Código"
                 error={product_code_error}
             />
-
             <InputText id="hs_code" label="Código HS" error={hs_code_error} />
-
             <InputText id="description" label="Descripción" error={description_error} />
-
             <InputNumber id="shelf_life" label="Vida útil (meses)" error={shelf_life_error} />
             <InputNumber id="total_pcs" label="Total de piezas" error={total_pcs_error} />
             <InputNumber id="pcs_unit" label="Piezas empaque unitario" error={pcs_unit_error} />

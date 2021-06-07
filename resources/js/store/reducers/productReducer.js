@@ -36,18 +36,45 @@ const productReducer = (state = defaultState, action) => {
             };
         case "CREATE_PRODUCT_REQUEST":
             return {
-                ...state
+                ...state,
+                isEditing: true
             };
         case "CREATE_PRODUCT_SUCCESS":
             return {
                 ...state,
                 products: [...state.products, payload],
-                errors: {}
+                errors: {},
+                isEditing: false
             };
         case "CREATE_PRODUCT_FAILURE":
             return {
                 ...state,
-                errors: action.errors
+                errors: action.errors,
+                isEditing: false
+            };
+        case "EDIT_PRODUCT_REQUEST":
+            return {
+                ...state,
+                isEditing: true
+            };
+        case "EDIT_PRODUCT_SUCCESS":
+            const newProducts = state.products.map(product => {
+                if (product.id == payload.id) return payload;
+
+                return product;
+            });
+
+            return {
+                ...state,
+                products: newProducts,
+                errors: {},
+                isEditing: false
+            };
+        case "EDIT_PRODUCT_FAILURE":
+            return {
+                ...state,
+                errors: action.errors,
+                isEditing: false
             };
         default:
             return state;

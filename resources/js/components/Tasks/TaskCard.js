@@ -20,11 +20,9 @@ const TaskCard = ({ task }) => {
         e.preventDefault();
 
         const taskToEdit = {
-            id: task.id,
-            nombre: task.nombre,
+            ...task,
             user_id: task.usuario.id,
-            fecha_fin: task.fecha_fin.split(" ")[0],
-            descripcion: task.descripcion
+            fecha_fin: task.fecha_fin.split(" ")[0]
         };
 
         dispatch(
