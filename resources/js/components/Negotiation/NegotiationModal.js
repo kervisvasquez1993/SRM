@@ -4,7 +4,7 @@ import EmptyList from "../Navigation/EmptyList";
 
 const NegotiationModal = ({ negotiation }) => {
     const [currentTab, setCurrentTab] = useState("task");
-    const { compra, tarea: task, proveedor, usuario } = negotiation;
+    const { compra, tarea: task, proveedor: provider, usuario } = negotiation;
 
     const handleClickTab = (e, name) => {
         e.preventDefault();
@@ -20,7 +20,7 @@ const NegotiationModal = ({ negotiation }) => {
     return (
         <React.Fragment>
             <ul
-                className="nav nav-pills nav-pills-success nav-pills-icons mb-4"
+                className="nav nav-pills nav-pills-success nav-pills-icons mb-4 justify-content-center"
                 role="tablist"
             >
                 <li className="nav-item">
@@ -34,6 +34,19 @@ const NegotiationModal = ({ negotiation }) => {
                     >
                         <i className="material-icons">task</i>
                         Tarea
+                    </a>
+                </li>
+                <li className="nav-item">
+                    <a
+                        className={`nav-link ${
+                            currentTab === "business" ? "active" : ""
+                        }`}
+                        href="#"
+                        role="tab"
+                        onClick={e => handleClickTab(e, "business")}
+                    >
+                        <i className="material-icons">business</i>
+                        Proveedor
                     </a>
                 </li>
                 <li className="nav-item">
@@ -91,6 +104,91 @@ const NegotiationModal = ({ negotiation }) => {
                         {task.descripcion}
                     </p>
                 </div>
+
+                <div
+                    className={`tab-pane ${
+                        currentTab === "business" ? "active" : ""
+                    }`}
+                >
+                    <p>
+                        <strong>Nombre : </strong>
+                        {provider.nombre}
+                    </p>
+
+                    <p className="card-text keep-line-breaks">
+                        {provider.descripcion}
+                    </p>
+
+                    {(provider.pais ||
+                        provider.ciudad ||
+                        provider.distrito) && (
+                        <React.Fragment>
+                            <h3 className="card-title mb-2">Ubicación</h3>
+
+                            {provider.pais && (
+                                <p className="card-text text-capitalize">
+                                    <strong>País : </strong>
+                                    {provider.pais.toLowerCase()}
+                                </p>
+                            )}
+
+                            {provider.ciudad && (
+                                <p className="card-text">
+                                    <strong>Ciudad : </strong>
+                                    {provider.ciudad}
+                                </p>
+                            )}
+
+                            {provider.distrito && (
+                                <p className="card-text">
+                                    <strong>Distrito : </strong>
+                                    {provider.distrito}
+                                </p>
+                            )}
+                        </React.Fragment>
+                    )}
+
+                    {(provider.address || provider.telefono || provider.contacto || provider.email) && (
+                        <React.Fragment>
+                            <h3 className="card-title mb-2">Contacto</h3>
+
+                            {provider.address && (
+                                <p className="card-text">
+                                    <strong>Direccion : </strong>
+                                    {provider.address}
+                                </p>
+                            )}
+
+                            {provider.telefono && (
+                                <p className="card-text">
+                                    <strong>Teléfono : </strong>
+                                    {provider.telefono}
+                                </p>
+                            )}
+                            {provider.contacto && (
+                                <p className="card-text">
+                                    <strong>Contacto : </strong>
+                                    {provider.contacto}
+                                </p>
+                            )}
+
+                            {provider.email && (
+                                <p className="card-text">
+                                    <strong>Email : </strong>
+                                    {provider.email}
+                                </p>
+                            )}
+
+                            {provider.contacto && (
+                                <p className="card-text">
+                                    <strong>Contacto : </strong>
+                                    {provider.contacto}
+                                </p>
+                            )}
+                        </React.Fragment>
+                    )}
+                </div>
+
                 <div
                     className={`tab-pane ${
                         currentTab === "products" ? "active" : ""
