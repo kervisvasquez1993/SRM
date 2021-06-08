@@ -27,7 +27,13 @@ const NegotiationCard = ({ negotiation }) => {
                 <hr />
             </div>
 
-            <div className="card-footer">Footer</div>
+            <div className="card-footer">
+                <div className="d-flex justify-content-end w-100 mt-2">
+                    <button className="btn btn-sm btn-info btn-round">
+                        Ver Detalles
+                    </button>
+                </div>
+            </div>
         </div>
     );
 };
