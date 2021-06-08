@@ -15,15 +15,16 @@ const NegotiationList = () => {
     return (
         <React.Fragment>
             <h1 className="text-center my-5">Negociaciones</h1>
-
-            {negotiations.map(negotiation => {
-                return (
-                    <NegotiationCard
-                        key={negotiation.id}
-                        negotiation={negotiation}
-                    />
-                );
-            })}
+            <div className="d-flex flex-column-reverse">
+                {negotiations.map(negotiation => {
+                    return (
+                        <NegotiationCard
+                            key={negotiation.id}
+                            negotiation={negotiation}
+                        />
+                    );
+                })}
+            </div>
         </React.Fragment>
     );
 };

@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { dateToString } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
 
 const NegotiationModal = ({ negotiation }) => {
     const [currentTab, setCurrentTab] = useState("task");
 
-    const { compra, tarea, proveedor } = negotiation;
+    const { compra, tarea: task, proveedor, usuario } = negotiation;
+
+    console.log(negotiation);
 
     const handleClickTab = (e, name) => {
         e.preventDefault();
@@ -32,7 +35,7 @@ const NegotiationModal = ({ negotiation }) => {
                         role="tab"
                         onClick={e => handleClickTab(e, "task")}
                     >
-                        <i className="material-icons">list</i>
+                        <i className="material-icons">task</i>
                         Tarea
                     </a>
                 </li>
@@ -58,18 +61,34 @@ const NegotiationModal = ({ negotiation }) => {
                         role="tab"
                         onClick={e => handleClickTab(e, "purchase")}
                     >
-                        <i className="material-icons">fact_check</i>
+                        <i className="material-icons">receipt_long</i>
                         Compra
                     </a>
                 </li>
             </ul>
 
-            <div className="tab-content tab-space">
+            <div className="tab-content tab-space p-2">
                 <div
                     className={`tab-pane ${
                         currentTab === "task" ? "active" : ""
                     }`}
-                ></div>
+                >
+                    <p className="d-flex">
+                        <strong>Persona a cargo : </strong>
+                        <span className="material-icons">person</span>
+                        {usuario.name}
+                    </p>
+
+                    <p>
+                        <strong>Fecha de Finalizacion : </strong>
+                        {dateToString(new Date(task.fecha_fin))}
+                    </p>
+
+                    <p className="keep-line-breaks">
+                        <strong>Descripción : </strong>
+                        {task.descripcion}
+                    </p>
+                </div>
                 <div
                     className={`tab-pane ${
                         currentTab === "products" ? "active" : ""
