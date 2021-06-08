@@ -84,12 +84,11 @@ const App = () => {
                                 <Route exact path="/tasks">
                                     <TaskList />
                                 </Route>
-                                <Route path="/me/tasks">
-                                    <TaskList myTasks key={Date.now()} />
-                                </Route>
-                                
                                 <Route path="/tasks/:id">
                                     <TaskDetails />
+                                </Route>
+                                <Route path="/me/tasks">
+                                    <TaskList myTasks key={history.location.pathname} />
                                 </Route>
                                 <Route path="/negotiation/:id">
                                     <ProviderPurchase />
