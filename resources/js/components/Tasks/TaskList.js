@@ -134,7 +134,7 @@ const TaskList = ({ myTasks = false }) => {
                 {myTasks ? "Mis Tareas" : "Tareas"}
             </h1>
 
-            {user.rol === "coordinador" && (
+            {!myTasks && user.rol === "coordinador" && (
                 <div className="container text-center">
                     <button
                         className="btn btn-lg btn-outline-primary btn-round"
