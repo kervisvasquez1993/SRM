@@ -9,6 +9,7 @@ import Error from "./Navigation/Error";
 import LoadingScreen from "./Navigation/LoadingScreen";
 import Navbar from "./Navigation/Navbar";
 import Sidebar from "./Navigation/Sidebar";
+import NegotiationList from "./Negotiation/NegotiationList";
 import ProviderPurchase from "./Purchases/ProviderPurchase";
 import TaskDetails from "./Tasks/TaskDetails";
 import TaskList from "./Tasks/TaskList";
@@ -92,6 +93,9 @@ const App = () => {
                                 </Route>
                                 <Route path="/negotiation/:id">
                                     <ProviderPurchase />
+                                </Route>
+                                <Route path="/negotiations">
+                                    <NegotiationList />
                                 </Route>
                                 <Route path="*">
                                     <Error />
