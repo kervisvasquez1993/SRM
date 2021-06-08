@@ -79,8 +79,7 @@ export function deleteProduct(data) {
 
         try {
             const response = await axios.delete(
-                `${apiURL}/productos/${data.id}`,
-                data
+                `${apiURL}/productos/${data.id}`
             );
 
             dispatch({

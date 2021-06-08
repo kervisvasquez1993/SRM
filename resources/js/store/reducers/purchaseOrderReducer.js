@@ -72,6 +72,11 @@ const purcharseOrderReducer = (state = defaultState, action) => {
                 errors: action.errors,
                 isEditing: false
             };
+        case "DELETE_PURCHASE_ORDER_SUCCESS":
+            return {
+                ...state,
+                order: null
+            };
         default:
             return state;
     }

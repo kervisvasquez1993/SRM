@@ -72,3 +72,22 @@ export function editPurchaseOrder(data) {
         }
     };
 }
+
+export function deletePurchaseOrder(data) {
+    return async (dispatch, getState) => {
+        dispatch({ type: "DELETE_PURCHASE_ORDER_REQUEST" });
+
+        try {
+            const response = await axios.delete(`${apiURL}/compra/${data.id}`);
+
+            dispatch({
+                type: "DELETE_PURCHASE_ORDER_SUCCESS",
+                payload: response.data.data
+            });
+        } catch (e) {
+            dispatch({
+                type: "DELETE_PURCHASE_ORDER_FAILURE"
+            });
+        }
+    };
+}

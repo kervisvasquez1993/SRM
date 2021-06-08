@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
-import { getPurchaseOrderFromNegotiation } from "../../store/actions/purchaseOrderActions";
+import {
+    deletePurchaseOrder,
+    getPurchaseOrderFromNegotiation
+} from "../../store/actions/purchaseOrderActions";
 import EmptyList from "../Navigation/EmptyList";
 import PurchaseOrderModal, { emptyPurchase } from "./PurchaseOrderModal";
 
@@ -45,6 +48,10 @@ const PurchaseOrder = () => {
         );
     };
 
+    const handleDelete = () => {
+        dispatch(deletePurchaseOrder(purchaseOder));
+    };
+
     return (
         <React.Fragment>
             {products && products.length > 0 && (
@@ -65,7 +72,10 @@ const PurchaseOrder = () => {
                                     <span className="material-icons">edit</span>
                                     Editar
                                 </button>
-                                <button className="btn btn btn-danger btn-round">
+                                <button
+                                    className="btn btn btn-danger btn-round"
+                                    onClick={handleDelete}
+                                >
                                     <span className="material-icons">
                                         clear
                                     </span>

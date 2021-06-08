@@ -76,10 +76,11 @@ class PivotCompraController extends ApiController
         $compra->save();
         return $this->showOne($compra);
     }
-
- 
-    public function destroy(PivotTareaProveeder $pivotTareaProveeder)
+    
+    public function destroy($compra_id)
     {
-        //
+        $compra = Compra::findOrFail($compra_id);
+        $compra->delete();
+        return $this->showOne($compra);
     }
 }
