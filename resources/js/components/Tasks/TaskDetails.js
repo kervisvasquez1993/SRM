@@ -117,13 +117,13 @@ const TaskDetails = () => {
                     </div>
 
                     <div className="row">
-                        {background === "bg-dark" ? (
+                        {background === "bg-danger" ? (
                             <React.Fragment>
                                 <div className="d-flex justify-content-center w-100 h5 my-2">
                                     <i className="material-icons mr-1">
                                         warning
                                     </i>
-                                    <strong>Esta tarea expiró</strong>
+                                    Esta tarea expiró
                                 </div>
                             </React.Fragment>
                         ) : (

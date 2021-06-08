@@ -78,4 +78,9 @@ Route::middleware('auth.jwt')->group(function () {
     Route::post('produccion_transito/{produccion_transito_id}/pago_anticipado', 'Api\ProduccionTransito\ProduccionTransitoPagosBalanceController@store');
     Route::put('/pago_anticipado/{pago_anticipado_id}', 'Api\ProduccionTransito\ProduccionTransitoPagosBalanceController@update');
     Route::delete('/pago_anticipado/{pago_anticipado_id}', 'Api\ProduccionTransito\ProduccionTransitoPagosBalanceController@destroy');
+     //orden de compra
+    Route::post('/negociacion/{negociacion_id}/compra', 'Api\Pivot\PivotCompraController@store'); 
+    Route::get('/negociacion/{negociacion_id}/compra', 'Api\Pivot\PivotCompraController@show');
+    Route::put('compra/{compra_id}', 'Api\Pivot\PivotCompraController@update');
+    Route::delete('compra/{compra_id}', 'Api\Pivot\PivotCompraController@destroy');
 });

@@ -70,7 +70,7 @@ const TaskCard = ({ task }) => {
 
                 <div className="card-footer">
                     <div className="d-flex justify-content-between w-100 flex-wrap mt-2">
-                        <div className="mb-2">
+                        <div className="mb-2 d-flex">
                             {background === "bg-danger" ? (
                                 <React.Fragment>
                                     <i className="material-icons mr-1">

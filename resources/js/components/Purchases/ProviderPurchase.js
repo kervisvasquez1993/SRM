@@ -9,10 +9,11 @@ import {
 } from "../../store/actions/productActions";
 import { apiURL } from "../App";
 import LoadingScreen from "../Navigation/LoadingScreen";
-import ProductModal, { emptyProduct } from "../Producs/ProductModal";
+import ProductModal, { emptyProduct } from "../Products/ProductModal";
 
 import Error from "../Navigation/Error";
 import EmptyList from "../Navigation/EmptyList";
+import PurchaseOrder from "./PurchaseOrder";
 
 const ProviderPurchase = () => {
     const history = useHistory();
@@ -24,7 +25,13 @@ const ProviderPurchase = () => {
     const [pivot, setPivot] = useState(null);
     const [pivotError, setPivotError] = useState(false);
 
-    if (!(user.rol === "coordinador" || user.rol === "observador" || user.rol === "comprador")) {
+    if (
+        !(
+            user.rol === "coordinador" ||
+            user.rol === "observador" ||
+            user.rol === "comprador"
+        )
+    ) {
         return <Redirect to="/home" />;
     }
 
@@ -104,12 +111,8 @@ const ProviderPurchase = () => {
                 </div>
             </div>
 
-            <div className="mr-auto text-center py-4">
-                <h1 className="h2">Orden de Compra</h1>
-            </div>
+            <PurchaseOrder />
 
-            <EmptyList />
-            
             <div className="mr-auto text-center py-4">
                 <h1 className="h2">Productos</h1>
             </div>
@@ -126,10 +129,9 @@ const ProviderPurchase = () => {
                 </div>
             )}
 
-            {
-                products.length > 0 ? (
-                    <div className="table-responsive text-small">
-                    <table className="table table-sm table-hover table-bordered">
+            {products.length > 0 ? (
+                <div className="table-responsive">
+                    <table className="table table-sm table-hover table-bordered fade-in">
                         <thead className="thead-dark">
                             <tr>
                                 <th scope="col">Nombre</th>
@@ -160,7 +162,9 @@ const ProviderPurchase = () => {
                             {products.map(product => {
                                 return (
                                     <tr key={product.id} className="fade-in">
-                                        <th scope="row">{product.product_name}</th>
+                                        <th scope="row">
+                                            {product.product_name}
+                                        </th>
                                         <td>{product.brand}</td>
                                         <td>{product.product_code}</td>
                                         <td>{product.hs_code}</td>
@@ -202,7 +206,7 @@ const ProviderPurchase = () => {
                                                 }
                                             >
                                                 <span className="material-icons">
-                                                    edit
+                                                    clear
                                                 </span>
                                                 Eliminar
                                             </button>
@@ -213,13 +217,9 @@ const ProviderPurchase = () => {
                         </tbody>
                     </table>
                 </div>
-                ) : (
-                    <EmptyList />
-                )
-
-            }
-
-            
+            ) : (
+                <EmptyList />
+            )}
         </div>
     );
 };

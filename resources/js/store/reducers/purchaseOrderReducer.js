@@ -1,10 +1,10 @@
 const defaultState = {
-    products: [],
+    order: null,
     errors: {},
     isEditing: false
 };
 
-const productReducer = (state = defaultState, action) => {
+const purcharseOrderReducer = (state = defaultState, action) => {
     const { type, payload } = action;
 
     switch (type) {
@@ -20,83 +20,66 @@ const productReducer = (state = defaultState, action) => {
         case "CHANGE_HISTORY":
             return {
                 ...state,
-                products: []
+                order: null
             };
-        case "GET_PRODUCTS_REQUEST":
+        case "GET_PURCHASE_ORDER_REQUEST":
             return {
                 ...state
             };
-        case "GET_PRODUCTS_SUCCESS":
+        case "GET_PURCHASE_ORDER_SUCCESS":
             return {
                 ...state,
-                products: payload
+                order: payload
             };
-        case "GET_PRODUCTS_FAILURE":
+        case "GET_PURCHASE_ORDER_FAILURE":
             return {
-                ...state
+                ...state,
+                order: null
             };
-        case "CREATE_PRODUCT_REQUEST":
+        case "CREATE_PURCHASE_ORDER_REQUEST":
             return {
                 ...state,
                 isEditing: true
             };
-        case "CREATE_PRODUCT_SUCCESS":
+        case "CREATE_PURCHASE_ORDER_SUCCESS":
             return {
                 ...state,
-                products: [...state.products, payload],
+                order: payload,
                 errors: {},
                 isEditing: false
             };
-        case "CREATE_PRODUCT_FAILURE":
+        case "CREATE_PURCHASE_ORDER_FAILURE":
             return {
                 ...state,
                 errors: action.errors,
                 isEditing: false
             };
-        case "EDIT_PRODUCT_REQUEST":
+        case "EDIT_PURCHASE_ORDER_REQUEST":
             return {
                 ...state,
                 isEditing: true
             };
-        case "EDIT_PRODUCT_SUCCESS":
-            const newProducts = state.products.map(product => {
-                if (product.id == payload.id) return payload;
-
-                return product;
-            });
-
+        case "EDIT_PURCHASE_ORDER_SUCCESS":
             return {
                 ...state,
-                products: newProducts,
+                order: payload,
                 errors: {},
                 isEditing: false
             };
-        case "EDIT_PRODUCT_FAILURE":
+        case "EDIT_PURCHASE_ORDER_FAILURE":
             return {
                 ...state,
                 errors: action.errors,
                 isEditing: false
             };
-        case "DELETE_PRODUCT_REQUEST":
-            return {
-                ...state
-            };
-        case "DELETE_PRODUCT_SUCCESS":
-            const _newProducts = state.products.filter(
-                product => product.id != payload.id
-            );
-
+        case "DELETE_PURCHASE_ORDER_SUCCESS":
             return {
                 ...state,
-                products: _newProducts
-            };
-        case "DELETE_PRODUCT_FAILURE":
-            return {
-                ...state
+                order: null
             };
         default:
             return state;
     }
 };
 
-export default productReducer;
+export default purcharseOrderReducer;

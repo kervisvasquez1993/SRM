@@ -2,93 +2,91 @@ import axios from "axios";
 import { apiURL } from "../../components/App";
 import { closeModal } from "./modalActions";
 
-export function getProductsFromNegotiation(pivotId) {
+export function getPurchaseOrderFromNegotiation(pivotId) {
     return async (dispatch, getState) => {
-        dispatch({ type: "GET_PRODUCTS_REQUEST" });
+        dispatch({ type: "GET_PURCHASE_ORDER_REQUEST" });
 
         try {
             const response = await axios.get(
-                `${apiURL}/negociacion/${pivotId}/productos`
+                `${apiURL}/negociacion/${pivotId}/compra`
             );
 
             dispatch({
-                type: "GET_PRODUCTS_SUCCESS",
+                type: "GET_PURCHASE_ORDER_SUCCESS",
                 payload: response.data.data
             });
         } catch (e) {
             dispatch({
-                type: "GET_PRODUCTS_FAILURE"
+                type: "GET_PURCHASE_ORDER_FAILURE"
             });
         }
     };
 }
 
-export function createProductFromNegotiation(pivotId, data) {
+export function createPurchaseOrderFromNegotiation(pivotId, data) {
     return async (dispatch, getState) => {
-        dispatch({ type: "CREATE_PRODUCT_REQUEST" });
+        dispatch({ type: "CREATE_PURCHASE_ORDER_REQUEST" });
 
         try {
             const response = await axios.post(
-                `${apiURL}/negociacion/${pivotId}/productos`,
+                `${apiURL}/negociacion/${pivotId}/compra`,
                 data
             );
 
             dispatch({
-                type: "CREATE_PRODUCT_SUCCESS",
+                type: "CREATE_PURCHASE_ORDER_SUCCESS",
                 payload: response.data.data
             });
 
             dispatch(closeModal());
         } catch (e) {
             dispatch({
-                type: "CREATE_PRODUCT_FAILURE",
+                type: "CREATE_PURCHASE_ORDER_FAILURE",
                 errors: e.response.data
             });
         }
     };
 }
 
-export function editProduct(data) {
+export function editPurchaseOrder(data) {
     return async (dispatch, getState) => {
-        dispatch({ type: "EDIT_PRODUCT_REQUEST" });
+        dispatch({ type: "EDIT_PURCHASE_ORDER_REQUEST" });
 
         try {
             const response = await axios.put(
-                `${apiURL}/productos/${data.id}`,
+                `${apiURL}/compra/${data.id}`,
                 data
             );
 
             dispatch({
-                type: "EDIT_PRODUCT_SUCCESS",
+                type: "EDIT_PURCHASE_ORDER_SUCCESS",
                 payload: response.data.data
             });
 
             dispatch(closeModal());
         } catch (e) {
             dispatch({
-                type: "EDIT_PRODUCT_FAILURE",
+                type: "EDIT_PURCHASE_ORDER_FAILURE",
                 errors: e.response.data
             });
         }
     };
 }
 
-export function deleteProduct(data) {
+export function deletePurchaseOrder(data) {
     return async (dispatch, getState) => {
-        dispatch({ type: "DELETE_PRODUCT_REQUEST" });
+        dispatch({ type: "DELETE_PURCHASE_ORDER_REQUEST" });
 
         try {
-            const response = await axios.delete(
-                `${apiURL}/productos/${data.id}`
-            );
+            const response = await axios.delete(`${apiURL}/compra/${data.id}`);
 
             dispatch({
-                type: "DELETE_PRODUCT_SUCCESS",
-                payload: data
+                type: "DELETE_PURCHASE_ORDER_SUCCESS",
+                payload: response.data.data
             });
         } catch (e) {
             dispatch({
-                type: "DELETE_PRODUCT_FAILURE"
+                type: "DELETE_PURCHASE_ORDER_FAILURE"
             });
         }
     };
