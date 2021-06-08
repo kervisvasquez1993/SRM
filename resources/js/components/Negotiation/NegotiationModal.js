@@ -70,6 +70,11 @@ const NegotiationModal = ({ negotiation }) => {
                         currentTab === "task" ? "active" : ""
                     }`}
                 >
+                    <p>
+                        <strong>Nombre : </strong>
+                        {task.nombre}
+                    </p>
+
                     <p className="d-flex">
                         <strong>Persona a cargo : </strong>
                         <span className="material-icons">person</span>
