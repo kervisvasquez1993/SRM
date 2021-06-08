@@ -9,7 +9,7 @@ const FilterGroup = props => {
 
     return (
         <FilterGroupContext.Provider value={value}>
-            <div className="col-lg-4">
+            <div className={props.className || "col"}>
                 <div className="h3">{props.text}</div>
                 <div>{props.children}</div>
             </div>

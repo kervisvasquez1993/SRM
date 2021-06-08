@@ -14,12 +14,13 @@ import { getDaysToFinishTask } from "../../utils";
 import { Redirect } from "react-router-dom";
 import EmptyList from "../Navigation/EmptyList";
 import LoadingScreen from "../Navigation/LoadingScreen";
+import { getUsers } from "../../store/actions/userActions";
 
 const TaskList = ({ myTasks = false }) => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.auth.user);
     const tasks = useSelector(state => state.task.tasks);
-    const [users, setUsers] = useState([]);
+    const users = useSelector(state => state.user.users);
 
     const [filteredTasks, setFilteredTasks] = useState([...tasks]);
     const [filterDays, setFilterDays] = useState(0);
@@ -35,6 +36,7 @@ const TaskList = ({ myTasks = false }) => {
 
     useEffect(() => {
         dispatch(getTasks(myTasks));
+        dispatch(getUsers())
 
         return () => {
             dispatch(clearTaskList());
@@ -44,15 +46,6 @@ const TaskList = ({ myTasks = false }) => {
     useEffect(() => {
         applyFilter(filter.current);
     }, [tasks]);
-
-    useEffect(() => {
-        axios.get(`${apiURL}/user`).then(response => {
-            const filteredList = response.data.data.filter(
-                user => user.rol === "coordinador" || user.rol === "comprador"
-            );
-            setUsers(filteredList);
-        });
-    }, []);
 
     const handleCreate = () => {
         dispatch(
