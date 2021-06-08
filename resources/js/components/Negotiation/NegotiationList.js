@@ -23,7 +23,7 @@ const NegotiationList = () => {
     }, []);
 
     const applyFilter = filter => {
-        const newTasks = negotiations.filter(negotiation => {
+        let newTasks = negotiations.filter(negotiation => {
             let render = true;
 
             if ("user" in filter && !filter.user[negotiation.usuario.id]) {
@@ -33,6 +33,13 @@ const NegotiationList = () => {
             if (
                 "country" in filter &&
                 !filter.country[negotiation.proveedor.pais]
+            ) {
+                render = false;
+            }
+
+            if (
+                "city" in filter &&
+                !filter.city[negotiation.proveedor.ciudad]
             ) {
                 render = false;
             }
@@ -54,7 +61,18 @@ const NegotiationList = () => {
             if (negotiation.proveedor.pais === country) {
                 count++;
             }
-        })
+        });
+
+        return count;
+    };
+
+    const countByCity = city => {
+        let count = 0;
+        negotiations.forEach(negotiation => {
+            if (negotiation.proveedor.ciudad === city) {
+                count++;
+            }
+        });
 
         return count;
     };
@@ -63,6 +81,20 @@ const NegotiationList = () => {
     negotiations.forEach(item => {
         countries.add(item.proveedor.pais);
     });
+
+    const cities = new Set();
+    if (filter.current != null) {
+        negotiations.forEach(item => {
+            if (
+                "country" in filter.current &&
+                !filter.current.country[item.proveedor.pais]
+            ) {
+                return;
+            }
+
+            cities.add(item.proveedor.ciudad);
+        });
+    }
 
     return (
         <React.Fragment>
@@ -92,13 +124,30 @@ const NegotiationList = () => {
                                 </FilterGroup>
                             </div>
                             <div className="px-3 row">
-                                <FilterGroup name="country" text="Pais :">
-                                    {[...countries].map((country, index) => {
+                                <FilterGroup name="country" text="País :">
+                                    {[...countries].map((item, index) => {
                                         return (
                                             <CheckboxFilter
                                                 key={index}
-                                                id={country}
-                                                text={`${country} (${countByCountry(country)})`}
+                                                id={item}
+                                                text={`${item} (${countByCountry(
+                                                    item
+                                                )})`}
+                                            />
+                                        );
+                                    })}
+                                </FilterGroup>
+                            </div>
+                            <div className="px-3 row">
+                                <FilterGroup name="city" text="Ciudad :">
+                                    {[...cities].map((item, index) => {
+                                        return (
+                                            <CheckboxFilter
+                                                key={index}
+                                                id={item}
+                                                text={`${item} (${countByCity(
+                                                    item
+                                                )})`}
                                             />
                                         );
                                     })}
