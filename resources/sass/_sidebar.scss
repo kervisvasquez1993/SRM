@@ -4,6 +4,7 @@
     transition: left 0.5s;
     width: 100%;
     padding: 1rem;
+    height: initial !important;
 }
 
 .menu {
@@ -29,10 +30,14 @@
 .logo a {
     padding: 1.5rem 3rem;
     display: block;
-    color: rgb(255, 255, 255);
+    color: white;
     text-transform: uppercase;
     font-size: 1.5rem;
     border-bottom: solid 1px rgb(182, 182, 182);
+
+    &:hover, &:focus {
+        color: white;
+    }
 }
 
 .menu-link {
@@ -41,16 +46,20 @@
     display: flex;
     align-items: center;
     padding: 0.9rem 2.5rem;
-}
 
-.menu-link:hover {
-    background-color: rgb(65, 65, 65);
-    color: white;
-    text-decoration: none;
-}
+    &:hover {
+        background-color: rgb(65, 65, 65);
+        color: white;
+        text-decoration: none;
+    }
 
-.menu-link .material-icons {
-    margin-right: 1rem;
+    &:focus {
+        color: white;
+    }
+
+    & .material-icons {
+        margin-right: 1rem;
+    }
 }
 
 .cerrar-sesion {
