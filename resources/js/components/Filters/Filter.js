@@ -9,7 +9,7 @@ const Filter = props => {
         if (props.useRef) {
             props.useRef.current = state;
         }
-        
+
         props.onUpdate(state);
     }, [state]);
 

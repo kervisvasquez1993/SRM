@@ -3,6 +3,7 @@ const defaultState = {
     errors: {},
     isEditing: false,
     editedTask: null,
+    createdTask: null,
     task: null
 };
 
@@ -33,7 +34,8 @@ const taskReducer = (state = defaultState, action) => {
                 ...state,
                 tasks: [...state.tasks, payload],
                 errors: {},
-                isEditing: false
+                isEditing: false,
+                createdTask: payload
             };
         case "CREATE_TASK_FAILURE":
             return {
@@ -44,7 +46,8 @@ const taskReducer = (state = defaultState, action) => {
         case "OPEN_MODAL":
             return {
                 ...state,
-                editedTask: null
+                editedTask: null,
+                createdTask: null
             };
         case "CLOSE_MODAL":
             return {

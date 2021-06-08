@@ -126,6 +126,8 @@ const TaskList = ({ myTasks = false }) => {
         return Math.max(Math.min(...dias, 0), 1);
     };
 
+    const maxDays = getMaxDays();
+
     return (
         <React.Fragment>
             <h1 className="text-center my-5">
@@ -149,16 +151,17 @@ const TaskList = ({ myTasks = false }) => {
                     {!myTasks && (
                         <FilterGroup name="user" text="Usuario:">
                             {users.map((user, index) => {
-                                if (countByUserId(user.id) === 0) {
+                                const count = countByUserId(user.id);
+
+                                if (count === 0) {
                                     return;
                                 }
+
                                 return (
                                     <CheckboxFilter
                                         key={index}
                                         id={user.id}
-                                        text={`${user.name} (${countByUserId(
-                                            user.id
-                                        )})`}
+                                        text={`${user.name} (${count})`}
                                     />
                                 );
                             })}
@@ -175,10 +178,11 @@ const TaskList = ({ myTasks = false }) => {
                         <FilterGroup name="time" text="Tiempo de expiración:">
                             <SliderFilter
                                 id="days"
+                                key={maxDays}
                                 text={`${filterDays} días`}
                                 min={getMinDays()}
-                                max={getMaxDays()}
-                                defaultValue={getMaxDays()}
+                                max={maxDays}
+                                defaultValue={maxDays}
                                 step="1"
                                 reversed
                             />
