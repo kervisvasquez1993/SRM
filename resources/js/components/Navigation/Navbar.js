@@ -8,7 +8,7 @@ import { toggleSidebar } from "../../store/actions/sidebarActions";
 const Navbar = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.auth.user);
-    
+
     const handleLogout = e => {
         dispatch(logout());
     };
@@ -16,10 +16,11 @@ const Navbar = () => {
     return (
         <nav className="navbar-dashboard">
             <div className="navbar-inicio">
-                <button id="botonSidebar">
-                    <i className="material-icons" onClick={() => dispatch(toggleSidebar())}>
-                        menu
-                    </i>
+                <button
+                    id="botonSidebar"
+                    onClick={() => dispatch(toggleSidebar())}
+                >
+                    <i className="material-icons">menu</i>
                 </button>
             </div>
 
