@@ -48,6 +48,17 @@ const NegotiationList = () => {
             .length;
     };
 
+    const countByCountry = country => {
+        let count = 0;
+        negotiations.forEach(negotiation => {
+            if (negotiation.proveedor.pais === country) {
+                count++;
+            }
+        })
+
+        return count;
+    };
+
     const countries = new Set();
     negotiations.forEach(item => {
         countries.add(item.proveedor.pais);
@@ -87,7 +98,7 @@ const NegotiationList = () => {
                                             <CheckboxFilter
                                                 key={index}
                                                 id={country}
-                                                text={country}
+                                                text={`${country} (${countByCountry(country)})`}
                                             />
                                         );
                                     })}
