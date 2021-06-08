@@ -4,10 +4,7 @@ import EmptyList from "../Navigation/EmptyList";
 
 const NegotiationModal = ({ negotiation }) => {
     const [currentTab, setCurrentTab] = useState("task");
-
     const { compra, tarea: task, proveedor, usuario } = negotiation;
-
-    console.log(negotiation);
 
     const handleClickTab = (e, name) => {
         e.preventDefault();

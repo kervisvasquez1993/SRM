@@ -6,11 +6,6 @@ const negotiationReducer = (state = defaultState, action) => {
     const { type, payload } = action;
 
     switch (type) {
-        case "CHANGE_HISTORY":
-            return {
-                ...state,
-                negotiations: []
-            };
         case "GET_NEGOTIATIONS_REQUEST":
             return {
                 ...state
