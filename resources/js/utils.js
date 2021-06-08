@@ -104,7 +104,9 @@ export function getDaysToFinishTask(task) {
 }
 
 export function getRemainingDaysToFinishTask(task) {
-    return Math.ceil((stringToDateIgnoringTime(task.fecha_fin) - new Date()) / secondsInDay);
+    return Math.ceil(
+        (stringToDateIgnoringTime(task.fecha_fin) - new Date()) / secondsInDay
+    );
 }
 
 export function stringToDateIgnoringTime(string) {
@@ -112,7 +114,6 @@ export function stringToDateIgnoringTime(string) {
 
     return new Date(string);
 }
-
 
 export function extractError(errors, error) {
     if (errors[error]) {
@@ -124,4 +125,13 @@ export function useUser() {
     const user = useSelector(state => state.auth.user);
 
     return user;
+}
+
+export function hasNoProducts(negotiation) {
+    return (
+        negotiation.total_cbm == 0 &&
+        negotiation.total_n_w == 0 &&
+        negotiation.total_g_w == 0 &&
+        negotiation.total_ctn == 0
+    );
 }

@@ -1,6 +1,7 @@
 import {combineReducers} from "redux";
 import authReducer from "./authReducer";
 import modalReducer from "./modalReducer";
+import negotiationReducer from "./negotiationReducer";
 import productReducer from "./productReducer";
 import providerReducer from "./providerReducer";
 import purchaseOrderReducer from "./purchaseOrderReducer";
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     task: taskReducer,
     provider: providerReducer,
     product: productReducer,
-    purchaseOrder: purchaseOrderReducer
+    purchaseOrder: purchaseOrderReducer,
+    negotiation: negotiationReducer
 });
 
 export default rootReducer;

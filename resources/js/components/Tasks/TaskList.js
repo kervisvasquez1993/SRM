@@ -115,7 +115,7 @@ const TaskList = ({ myTasks = false }) => {
             return getDaysToFinishTask(task);
         });
 
-        return Math.max(...dias, 1);
+        return Math.max(...dias, 0);
     };
 
     const getMinDays = () => {
@@ -134,7 +134,7 @@ const TaskList = ({ myTasks = false }) => {
                 {myTasks ? "Mis Tareas" : "Tareas"}
             </h1>
 
-            {user.rol === "coordinador" && (
+            {!myTasks && user.rol === "coordinador" && (
                 <div className="container text-center">
                     <button
                         className="btn btn-lg btn-outline-primary btn-round"
@@ -174,7 +174,7 @@ const TaskList = ({ myTasks = false }) => {
                             text={`Expirados (${countExpired()})`}
                         />
                     </FilterGroup>
-                    {tasks.length > 0 && (
+                    {tasks.length > 0 && maxDays > 1 && (
                         <FilterGroup name="time" text="Tiempo de expiración:">
                             <SliderFilter
                                 id="days"

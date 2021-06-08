@@ -14,9 +14,9 @@ const Sidebar = () => {
     return (
         <div className="menu">
             <div className="logo">
-                <a href="" className="simple-text logo-normal">
+                <Link to="/home" className="simple-text logo-normal">
                     SRM Dynamics
-                </a>
+                </Link>
             </div>
 
             <nav>
