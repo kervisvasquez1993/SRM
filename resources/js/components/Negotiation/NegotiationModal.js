@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { dateToString } from "../../utils";
+import { dateToString, hasNoProducts } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
 
 const NegotiationModal = ({ negotiation }) => {
@@ -94,7 +94,7 @@ const NegotiationModal = ({ negotiation }) => {
                         currentTab === "products" ? "active" : ""
                     }`}
                 >
-                    {isProductListEmpty ? (
+                    {hasNoProducts(negotiation) ? (
                         <EmptyList message="No hay productos registrados" />
                     ) : (
                         <React.Fragment>

@@ -1,13 +1,17 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../store/actions/modalActions";
-import { getColorsForTask, getRemainingDaysToFinishTask } from "../../utils";
+import {
+    getColorsForTask,
+    getRemainingDaysToFinishTask,
+    hasNoProducts
+} from "../../utils";
 import Accordion from "../UI/Accordion";
 import NegotiationModal from "./NegotiationModal";
 
 const NegotiationCard = ({ negotiation }) => {
     const dispatch = useDispatch();
-    const { tarea: task, proveedor } = negotiation;
+    const { tarea: task, proveedor, compra: purchase } = negotiation;
 
     const handleOpen = () => {
         dispatch(
@@ -26,19 +30,51 @@ const NegotiationCard = ({ negotiation }) => {
         <div
             className={`card my-2 fade-in py-2 ${text} ${background}`}
             onClick={handleOpen}
-            style={{"cursor": "pointer"}}
+            style={{ cursor: "pointer" }}
         >
             <div className="card-header ">
                 <div className="row">
                     <div className="col-sm h4 d-flex mb-3">
                         <span className="material-icons mr-2">business</span>
-                        <span>Proveedor : <strong>{proveedor.nombre}</strong></span>
+                        <span>
+                            Proveedor : <strong>{proveedor.nombre}</strong>
+                        </span>
                     </div>
                     <div className="col-sm h4 d-flex">
                         <span className="material-icons mr-2">task</span>
-                        <span>Tarea : <strong>{task.nombre}</strong></span>
+                        <span>
+                            Tarea : <strong>{task.nombre}</strong>
+                        </span>
                     </div>
                 </div>
+            </div>
+
+            <div className="card-body py-0 my-0 ml-2">
+                {(hasNoProducts(negotiation) && !purchase && (
+                    <p className="card-text d-flex align-items-center">
+                        <span className="material-icons mr-2 text-danger">
+                            warning
+                        </span>
+                        Esta negociación no tiene productos ni una orden de
+                        compra
+                    </p>
+                )) ||
+                    (hasNoProducts(negotiation) && (
+                        <p className="card-text d-flex align-items-center">
+                            <span className="material-icons mr-2 text-danger">
+                                warning
+                            </span>
+                            Esta negociación no tiene productos
+                        </p>
+                    )) ||
+                    (!purchase && (
+                        <p className="card-text d-flex align-items-center">
+                            <span className="material-icons mr-2 text-danger">
+                                warning
+                            </span>
+                            Esta negociación no tiene una orden de compra
+                        </p>
+                    ))}
             </div>
 
             <div className="card-footer">
