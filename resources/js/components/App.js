@@ -84,7 +84,7 @@ const App = () => {
                                     <TaskList />
                                 </Route>
                                 <Route path="/me/tasks">
-                                    <TaskList myTasks />
+                                    <TaskList myTasks key={Date.now()} />
                                 </Route>
                                 
                                 <Route path="/tasks/:id">

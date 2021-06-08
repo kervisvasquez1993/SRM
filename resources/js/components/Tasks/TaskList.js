@@ -13,6 +13,7 @@ import SliderFilter from "../Filters/SliderFilter";
 import { getDaysToFinishTask } from "../../utils";
 import { Redirect } from "react-router-dom";
 import EmptyList from "../Navigation/EmptyList";
+import LoadingScreen from "../Navigation/LoadingScreen";
 
 const TaskList = ({ myTasks = false }) => {
     const dispatch = useDispatch();
@@ -34,14 +35,11 @@ const TaskList = ({ myTasks = false }) => {
 
     useEffect(() => {
         dispatch(getTasks(myTasks));
-    }, []);
 
-    useEffect(() => {
-        if (tasks.length > 0) {
-            dispatch(clearTaskList());
-            dispatch(getTasks(myTasks));
+        return () => {
+            dispatch(clearTaskList())
         }
-    }, [myTasks]);
+    }, []);
 
     useEffect(() => {
         applyFilter(filter.current);
