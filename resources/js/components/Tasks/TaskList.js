@@ -37,8 +37,8 @@ const TaskList = ({ myTasks = false }) => {
         dispatch(getTasks(myTasks));
 
         return () => {
-            dispatch(clearTaskList())
-        }
+            dispatch(clearTaskList());
+        };
     }, []);
 
     useEffect(() => {
@@ -149,6 +149,9 @@ const TaskList = ({ myTasks = false }) => {
                     {!myTasks && (
                         <FilterGroup name="user" text="Usuario:">
                             {users.map((user, index) => {
+                                if (countByUserId(user.id) === 0) {
+                                    return;
+                                }
                                 return (
                                     <CheckboxFilter
                                         key={index}

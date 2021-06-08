@@ -1,10 +1,12 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FilterContext } from "./Filter";
 import { FilterGroupContext } from "./FilterGroup";
 
-const CheckboxFilter = ({ id, text, defaultValue }) => {
+const CheckboxFilter = ({ id, text, defaultValue = true }) => {
     const { state, setState } = useContext(FilterContext);
     const { name } = useContext(FilterGroupContext);
+
+    const [value, setValue] = useState(defaultValue);
 
     useEffect(() => {
         setState(state => {
@@ -14,21 +16,11 @@ const CheckboxFilter = ({ id, text, defaultValue }) => {
                 newState[name] = {};
             }
 
-            newState[name][id] = true;
-
+            newState[name][id] = value;
             return newState;
         });
-    }, []);
 
-    const handleChange = e => {
-        const target = e.target;
-
-        setState(state => {
-            const newState = { ...state };
-            newState[name][target.id] = target.checked;
-            return newState;
-        });
-    };
+    }, [value])
 
     return (
         <div className="form-check form-check-inline p-1">
@@ -38,8 +30,8 @@ const CheckboxFilter = ({ id, text, defaultValue }) => {
                     type="checkbox"
                     name={id}
                     id={id}
-                    checked={name in state ? state[name][id] : false}
-                    onChange={handleChange}
+                    checked={value}
+                    onChange={() => setValue(!value)}
                 />
 
                 {text}
