@@ -148,19 +148,22 @@ const TaskList = ({ myTasks = false }) => {
 
             <Filter onUpdate={applyFilter} useRef={filter}>
                 <div className="px-3 row mb-4">
-                    <FilterGroup name="user" text="Usuario:">
-                        {users.map((user, index) => {
-                            return (
-                                <CheckboxFilter
-                                    key={index}
-                                    id={user.id}
-                                    text={`${user.name} (${countByUserId(
-                                        user.id
-                                    )})`}
-                                />
-                            );
-                        })}
-                    </FilterGroup>
+                    {!myTasks && (
+                        <FilterGroup name="user" text="Usuario:">
+                            {users.map((user, index) => {
+                                return (
+                                    <CheckboxFilter
+                                        key={index}
+                                        id={user.id}
+                                        text={`${user.name} (${countByUserId(
+                                            user.id
+                                        )})`}
+                                    />
+                                );
+                            })}
+                        </FilterGroup>
+                    )}
+
                     <FilterGroup name="state" text="Estado:">
                         <CheckboxFilter
                             id="expired"
