@@ -3,6 +3,7 @@ import authReducer from "./authReducer";
 import modalReducer from "./modalReducer";
 import productReducer from "./productReducer";
 import providerReducer from "./providerReducer";
+import purchaseOrderReducer from "./purchaseOrderReducer";
 import sidebarReducer from "./sidebarReducer";
 import taskReducer from "./taskReducer";
 
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
     auth: authReducer,
     task: taskReducer,
     provider: providerReducer,
-    product: productReducer
+    product: productReducer,
+    purchaseOrder: purchaseOrderReducer
 });
 
 export default rootReducer;

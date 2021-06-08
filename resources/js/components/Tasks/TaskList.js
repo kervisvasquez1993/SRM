@@ -13,6 +13,7 @@ import SliderFilter from "../Filters/SliderFilter";
 import { getDaysToFinishTask } from "../../utils";
 import { Redirect } from "react-router-dom";
 import EmptyList from "../Navigation/EmptyList";
+import LoadingScreen from "../Navigation/LoadingScreen";
 
 const TaskList = ({ myTasks = false }) => {
     const dispatch = useDispatch();
@@ -34,14 +35,11 @@ const TaskList = ({ myTasks = false }) => {
 
     useEffect(() => {
         dispatch(getTasks(myTasks));
-    }, []);
 
-    useEffect(() => {
-        if (tasks.length > 0) {
+        return () => {
             dispatch(clearTaskList());
-            dispatch(getTasks(myTasks));
-        }
-    }, [myTasks]);
+        };
+    }, []);
 
     useEffect(() => {
         applyFilter(filter.current);
@@ -128,6 +126,8 @@ const TaskList = ({ myTasks = false }) => {
         return Math.max(Math.min(...dias, 0), 1);
     };
 
+    const maxDays = getMaxDays();
+
     return (
         <React.Fragment>
             <h1 className="text-center my-5">
@@ -148,19 +148,26 @@ const TaskList = ({ myTasks = false }) => {
 
             <Filter onUpdate={applyFilter} useRef={filter}>
                 <div className="px-3 row mb-4">
-                    <FilterGroup name="user" text="Usuario:">
-                        {users.map((user, index) => {
-                            return (
-                                <CheckboxFilter
-                                    key={index}
-                                    id={user.id}
-                                    text={`${user.name} (${countByUserId(
-                                        user.id
-                                    )})`}
-                                />
-                            );
-                        })}
-                    </FilterGroup>
+                    {!myTasks && (
+                        <FilterGroup name="user" text="Usuario:">
+                            {users.map((user, index) => {
+                                const count = countByUserId(user.id);
+
+                                if (count === 0) {
+                                    return;
+                                }
+
+                                return (
+                                    <CheckboxFilter
+                                        key={index}
+                                        id={user.id}
+                                        text={`${user.name} (${count})`}
+                                    />
+                                );
+                            })}
+                        </FilterGroup>
+                    )}
+
                     <FilterGroup name="state" text="Estado:">
                         <CheckboxFilter
                             id="expired"
@@ -171,10 +178,11 @@ const TaskList = ({ myTasks = false }) => {
                         <FilterGroup name="time" text="Tiempo de expiración:">
                             <SliderFilter
                                 id="days"
+                                key={maxDays}
                                 text={`${filterDays} días`}
                                 min={getMinDays()}
-                                max={getMaxDays()}
-                                defaultValue={getMaxDays()}
+                                max={maxDays}
+                                defaultValue={maxDays}
                                 step="1"
                                 reversed
                             />

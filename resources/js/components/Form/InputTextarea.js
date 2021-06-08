@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { FormContext } from "./GenericForm";
 
-const InputTextArea = ({ id, label, value, error }) => {
-    const { onChange } = useContext(FormContext);
+const InputTextArea = ({ id, label, value = null, error = null }) => {
+    const { onChange, values } = useContext(FormContext);
 
     return (
         <div className="form-group">
@@ -14,7 +14,7 @@ const InputTextArea = ({ id, label, value, error }) => {
                 name={id}
                 rows="5"
                 onChange={onChange}
-                value={value || ""}
+                value={(values && values[id]) || value || ""}
             ></textarea>
 
             {error && (

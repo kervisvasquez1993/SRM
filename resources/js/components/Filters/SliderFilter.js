@@ -1,10 +1,12 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FilterContext } from "./Filter";
 import { FilterGroupContext } from "./FilterGroup";
 
-const SliderFilter = ({ id, text, defaultValue, min, max, step, reversed }) => {
+const SliderFilter = ({ id, text, defaultValue = 0, min = 0, max = 1, step = 0.01, reversed = false }) => {
     const { state, setState } = useContext(FilterContext);
     const { name } = useContext(FilterGroupContext);
+
+    const [value, setValue] = useState(defaultValue);
 
     useEffect(() => {
         setState(state => {
@@ -14,21 +16,10 @@ const SliderFilter = ({ id, text, defaultValue, min, max, step, reversed }) => {
                 newState[name] = {};
             }
 
-            newState[name][id] = defaultValue;
-
+            newState[name][id] = value;
             return newState;
         });
-    }, []);
-
-    const handleChange = e => {
-        const target = e.target;
-
-        setState(state => {
-            const newState = { ...state };
-            newState[name][target.id] = target.value;
-            return newState;
-        });
-    };
+    }, [value])
 
     return (
         <div className="form-check form-check-inline p-1 d-flex align-items-center">
@@ -37,11 +28,11 @@ const SliderFilter = ({ id, text, defaultValue, min, max, step, reversed }) => {
                 className="form-range w-50"
                 id={id}
                 name={id}
-                value={name in state ? state[name][id] : defaultValue}
-                onChange={handleChange}
-                min={min || 0}
-                max={max || 1}
-                step={step || 0.01}
+                value={value}
+                onChange={e => setValue(e.target.value)}
+                min={min}
+                max={max}
+                step={step}
                 style={
                     reversed
                         ? {

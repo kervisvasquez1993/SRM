@@ -12,11 +12,8 @@ use Illuminate\Support\Facades\Validator;
 
 class PivotCompraController extends ApiController
 {
-   
-    
     public function store(Request $request)
     {
-        
         $validator = Validator::make($request->all(), [
             
             'orden_compra' => 'required',
@@ -24,14 +21,14 @@ class PivotCompraController extends ApiController
             'descripcion' => 'required',
             'registro_salud' => 'required',
             'cantidad_pcs' => 'required|numeric',
-            'total' => 'required|numeric', 
-            'comprador' => 'required',           
+            'total' => 'required|numeric'   
         ]);
 
         if ($validator->fails())
         {
             return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
         }
+
         $compra = new Compra();
         $compra->orden_compra = $request->orden_compra;
         $compra->pivot_tarea_proveeder_id = $request->negociacion_id;
@@ -42,28 +39,48 @@ class PivotCompraController extends ApiController
         $compra->total = $request->total;
         $compra->comprador = auth()->user()->email;
         $compra->save();
-        return $compra;
-    }
-
- 
-    public function show($negociacione_id)
-    {
-        $pivot =  PivotTareaProveeder::findOrFail($negociacione_id);
-        return $this->showOne($pivot->compra);
-    }
-
-  
-    public function update(Request $request, $compra)
-    {
-        $compra = Compra::findOrFail($compra);
-        $compra->update($request->all());
-        $compra->save();
         return $this->showOne($compra);
     }
 
  
-    public function destroy(PivotTareaProveeder $pivotTareaProveeder)
+    public function show($negociacion_id)
     {
-        //
+        $pivot =  PivotTareaProveeder::findOrFail($negociacion_id);
+        if ($pivot->compra) {
+            return $this->showOne($pivot->compra);
+        }
+
+        return $this->errorResponse("No existe la orden de compra", Response::HTTP_NOT_FOUND);
+    }
+
+  
+    public function update(Request $request, $compra_id)
+    {
+        $validator = Validator::make($request->all(), [
+            
+            'orden_compra' => 'required',
+            'item' => 'required',
+            'descripcion' => 'required',
+            'registro_salud' => 'required',
+            'cantidad_pcs' => 'required|numeric',
+            'total' => 'required|numeric'   
+        ]);
+
+        if ($validator->fails())
+        {
+            return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
+        }
+        
+        $compra = Compra::findOrFail($compra_id);
+        $compra->update($request->all());
+        $compra->save();
+        return $this->showOne($compra);
+    }
+    
+    public function destroy($compra_id)
+    {
+        $compra = Compra::findOrFail($compra_id);
+        $compra->delete();
+        return $this->showOne($compra);
     }
 }
