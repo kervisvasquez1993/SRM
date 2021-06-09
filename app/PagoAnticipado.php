@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class PagoAnticipado extends Model
 {
+    protected $fillable =
+    [
+        'titulo', 'monto_total', 'porcentaje', 'file_pago', 'fecha_pago', 'descripcion'
+    ];
+    
     public function pagoBalance()
     {
         return $this->hasOne(PagoBalance::class);

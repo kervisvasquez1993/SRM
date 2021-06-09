@@ -12,21 +12,21 @@ class ProduccionTransito extends Model
         return $this->belongsTo(PivotTareaProveeder::class, 'pivot_tarea_proveeder_id');
         
     }
+    public function pagosBalance()
+    {
+        return $this->hasOne(PagoBalance::class);
+    }
 
     public function pagosAnticipados()
     {
         return $this->hasMany(PagoAnticipado::class);
     }
-
+    
     public function inicioProduccion()
     {
         return $this->hasMany(InicioProduccion::class);
     }
-    public function pagosBalance()
-    {
-        return $this->hasMany(PagoBalance::class);
-    }
-
+   
     public function transitosNacionalizacion()
     {
         return $this->hasMany(TransitoNacionalizacion::class);
