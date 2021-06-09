@@ -85,8 +85,8 @@ const NegotiationCard = ({ negotiation }) => {
             </div>
 
             <div className="card-footer">
-                <div className="d-flex justify-content-between w-100 flex-wrap mt-2">
-                    <div className="mb-2 d-flex">
+                <div className="d-flex justify-content-between align-items-center w-100 flex-wrap">
+                    <div className="d-flex">
                         {background === "bg-danger" ? (
                             <React.Fragment>
                                 <i className="material-icons mr-1">warning</i>

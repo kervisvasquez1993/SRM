@@ -69,8 +69,8 @@ const TaskCard = ({ task }) => {
                 </div>
 
                 <div className="card-footer">
-                    <div className="d-flex justify-content-between w-100 flex-wrap mt-2">
-                        <div className="mb-2 d-flex">
+                    <div className="d-flex justify-content-between align-items-center w-100 flex-wrap">
+                        <div>
                             {background === "bg-danger" ? (
                                 <React.Fragment>
                                     <i className="material-icons mr-1">
@@ -83,9 +83,11 @@ const TaskCard = ({ task }) => {
                                     <i className="material-icons mr-1">
                                         access_time
                                     </i>
-                                    <strong>Finalización : </strong>
-                                    {dateToString(new Date(fecha_fin))} (
-                                    {remainingDays} días restantes)
+                                    <span>
+                                        <strong>Finalización : </strong>
+                                        {dateToString(new Date(fecha_fin))} (
+                                        {remainingDays} días restantes)
+                                    </span>
                                 </React.Fragment>
                             )}
                         </div>
