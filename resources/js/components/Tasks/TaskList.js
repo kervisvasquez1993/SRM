@@ -36,7 +36,7 @@ const TaskList = ({ myTasks = false }) => {
 
     useEffect(() => {
         dispatch(getTasks(myTasks));
-        dispatch(getUsers())
+        dispatch(getUsers());
 
         return () => {
             dispatch(clearTaskList());
