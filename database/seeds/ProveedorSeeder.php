@@ -15,7 +15,7 @@ class ProveedorSeeder extends Seeder
     {
         $user = Proveedor::create([
             'nombre' => 'empresa1',
-            'pais' => 'venezuela',
+            'pais' => 'VENEZUELA',
             'ciudad' => 'carabobo',
             'descripcion'=> 'esto es una descripcion',
             'archivos_src' => 'imagenurl',
@@ -24,7 +24,7 @@ class ProveedorSeeder extends Seeder
 
          DB::table('proveedors')->insert([
             'nombre' => 'empresa2',
-            'pais' => 'venezuela',
+            'pais' => 'VENEZUELA',
             'ciudad' => 'carabobo',
             'descripcion'=> 'esto es una descripcion',
             'archivos_src' => 'imagenurl',
