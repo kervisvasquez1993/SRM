@@ -80,14 +80,16 @@ Route::middleware('auth.jwt')->group(function () {
 
     //produccion y transito 
 
-   
+   Route::get('/produccion_transito', 'Api\ProduccionTransito\ProduccionTransitoController@index');
 
-    Route::get('/produccion_transito', 'Api\ProduccionTransito\ProduccionTransitoController@index');
+    //pago anticipado
     Route::get('produccion_transito/{produccion_transito_id}/pago_anticipado', 'Api\ProduccionTransito\ProduccionTransitoPagoAnticipadoController@index');
     Route::post('produccion_transito/{produccion_transito_id}/pago_anticipado', 'Api\ProduccionTransito\ProduccionTransitoPagoAnticipadoController@store');
     Route::put('/pago_anticipado/{pago_anticipado_id}', 'Api\ProduccionTransito\ProduccionTransitoPagoAnticipadoController@update');
     Route::delete('/pago_anticipado/{pago_anticipado_id}', 'Api\ProduccionTransito\ProduccionTransitoPagoAnticipadoController@destroy');
-    
+    //fin de pago de anticipado 
+
+    //inicio de produccion 
     Route::get('/negociacion/{negociacion_id}/inicioProduccion', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@index');
     Route::post('/negociacion/{negociacion_id}/inicioProduccion', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@store');
     Route::put('/inicioProduccion/{inicioProduccion_id}', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@update');
