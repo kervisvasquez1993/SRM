@@ -274,24 +274,20 @@ const NegotiationModal = ({ negotiation }) => {
 
             {purchase ? (
                 <div className="modal-footer">
-                    <button type="button" className="btn btn-primary">
+                    <button type="button" className="btn btn-primary flex-grow-1">
                         <span className="material-icons mr-2">brush</span>
                         Iniciar Arte
                     </button>
-                    <button type="button" className="btn btn-info">
+                    <button type="button" className="btn btn-info flex-grow-1">
                         <span className="material-icons mr-2">
                             precision_manufacturing
                         </span>
                         Iniciar Producción
                     </button>
-                    <div className="flex-grow-1 d-flex justify-content-end">
-                        <button type="button" className="btn btn-success">
-                            <span className="material-icons mr-2">
-                                task_alt
-                            </span>
-                            Iniciar Arte y Producción
-                        </button>
-                    </div>
+                    <button type="button" className="btn btn-success flex-grow-1">
+                        <span className="material-icons mr-2">task_alt</span>
+                        Iniciar Arte y Producción
+                    </button>
                 </div>
             ) : (
                 <div className="modal-footer bg-danger">
