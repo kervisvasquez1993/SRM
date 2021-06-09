@@ -56,7 +56,7 @@ const Modal = () => {
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                        <div className="modal-body">{body}</div>
+                        {body}
                     </div>
                 </div>
             </div>
