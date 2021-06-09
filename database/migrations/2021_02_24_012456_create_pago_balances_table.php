@@ -16,6 +16,7 @@ class CreatePagoBalancesTable extends Migration
         Schema::create('pago_balances', function (Blueprint $table) {
             $table->id();
             $table->foreignId('produccion_transito_id')->references('id')->on('produccion_transitos');
+            $table->foreignId('pago_anticipado_id')->references('id')->on('pago_anticipados');
             $table->foreignId('user_id')->references('id')->on('users');
             $table->string('titulo');
             $table->string('monto_total');

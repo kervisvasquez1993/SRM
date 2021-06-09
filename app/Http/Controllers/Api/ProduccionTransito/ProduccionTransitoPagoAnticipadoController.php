@@ -9,7 +9,7 @@ use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
 
-class ProduccionTransitoPagosBalanceController extends ApiController
+class ProduccionTransitoPagoAnticipadoController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -20,7 +20,7 @@ class ProduccionTransitoPagosBalanceController extends ApiController
     {
         
         $produccionTransito = ProduccionTransito::findOrFail($request->produccion_transito_id);
-        return $produccionTransito->pagosBalance;
+        return $this->showOne($produccionTransito->pagosAnticipados);
     }
 
     /**

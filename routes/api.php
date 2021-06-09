@@ -63,31 +63,38 @@ Route::middleware('auth.jwt')->group(function () {
     Route::post('/negociacion/{pivot_tarea_proveedor}/productos', 'Api\Producto\ProductoController@store');
     Route::put('/productos/{producto}', 'Api\Producto\ProductoController@update');
     Route::delete('/productos/{producto}', 'Api\Producto\ProductoController@delete');
-
+        //fin de productos
 
      //orden de compra 
     Route::post('/negociaciones/{negociacion_id}/compras', 'Api\Pivot\PivotCompraController@store'); 
     Route::get('/negociaciones/{negociacione_id}/compras/', 'Api\Pivot\PivotCompraController@show'); 
     Route::put('/negociaciones/{negociacione_id}/compras/{compra}', 'Api\Pivot\PivotCompraController@update'); 
     
+     //orden de compra
+     Route::post('/negociacion/{negociacion_id}/compra', 'Api\Pivot\PivotCompraController@store'); 
+     Route::get('/negociacion/{negociacion_id}/compra', 'Api\Pivot\PivotCompraController@show');
+     Route::put('compra/{compra_id}', 'Api\Pivot\PivotCompraController@update');
+     Route::delete('compra/{compra_id}', 'Api\Pivot\PivotCompraController@destroy');
+
+     //fin de orden de compra
 
     //produccion y transito 
 
+   
+
     Route::get('/produccion_transito', 'Api\ProduccionTransito\ProduccionTransitoController@index');
-    Route::get('produccion_transito/{produccion_transito_id}/pago_anticipado', 'Api\ProduccionTransito\ProduccionTransitoPagosBalanceController@index');
-    Route::post('produccion_transito/{produccion_transito_id}/pago_anticipado', 'Api\ProduccionTransito\ProduccionTransitoPagosBalanceController@store');
-    Route::put('/pago_anticipado/{pago_anticipado_id}', 'Api\ProduccionTransito\ProduccionTransitoPagosBalanceController@update');
-    Route::delete('/pago_anticipado/{pago_anticipado_id}', 'Api\ProduccionTransito\ProduccionTransitoPagosBalanceController@destroy');
-     //orden de compra
-    Route::post('/negociacion/{negociacion_id}/compra', 'Api\Pivot\PivotCompraController@store'); 
-    Route::get('/negociacion/{negociacion_id}/compra', 'Api\Pivot\PivotCompraController@show');
-    Route::put('compra/{compra_id}', 'Api\Pivot\PivotCompraController@update');
-    Route::delete('compra/{compra_id}', 'Api\Pivot\PivotCompraController@destroy');
+    Route::get('produccion_transito/{produccion_transito_id}/pago_anticipado', 'Api\ProduccionTransito\ProduccionTransitoPagoAnticipadoController@index');
+    Route::post('produccion_transito/{produccion_transito_id}/pago_anticipado', 'Api\ProduccionTransito\ProduccionTransitoPagoAnticipadoController@store');
+    Route::put('/pago_anticipado/{pago_anticipado_id}', 'Api\ProduccionTransito\ProduccionTransitoPagoAnticipadoController@update');
+    Route::delete('/pago_anticipado/{pago_anticipado_id}', 'Api\ProduccionTransito\ProduccionTransitoPagoAnticipadoController@destroy');
     
     Route::get('/negociacion/{negociacion_id}/inicioProduccion', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@index');
     Route::post('/negociacion/{negociacion_id}/inicioProduccion', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@store');
     Route::put('/inicioProduccion/{inicioProduccion_id}', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@update');
     Route::delete('/inicioProduccion/{inicioProduccion_id}', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@destroy');
+
+
+    Route::get('/pagoAnticipado/{pago_anticipado_id}/pagoBalance', 'Api\ProduccionTransito\ProduccionTransitoPagoBalanceController@index');
 
 
 });
