@@ -27,6 +27,10 @@ const NegotiationList = () => {
         dispatch(getUsers());
     }, []);
 
+    useEffect(() => {
+        applyFilter(filter.current);
+    }, [negotiations]);
+
     const applyFilter = filter => {
         let list = [...negotiations];
 
@@ -148,13 +152,25 @@ const NegotiationList = () => {
         return count;
     };
 
+    const finishedCount = countByStatusFinished();
+
+    const finishedNegotiations = filtered.filter(
+        item => item.iniciar_produccion === 1
+    );
+
+    const negotiationsWithoutPurchase = filtered.filter(item => !item.compra);
+
+    const negotiationsInProgress = filtered.filter(
+        item => item.iniciar_produccion === 0 && item.compra
+    );
+
     return (
         <React.Fragment>
             <h1 className="text-center my-5">Negociaciones</h1>
 
             {negotiations.length > 0 ? (
                 <React.Fragment>
-                    <div className="mb-3">
+                    <div className="mb-5">
                         <Filter onUpdate={applyFilter} useRef={filter}>
                             {
                                 <div className="px-3 row">
@@ -162,13 +178,12 @@ const NegotiationList = () => {
                                         <CheckboxFilter
                                             key={1}
                                             id="processing"
-                                            text={`En proceso de negociación (${countByStatusProcessing()})`}
+                                            text={`En proceso (${countByStatusProcessing()})`}
                                         />
                                         <CheckboxFilter
                                             key={2}
                                             id="finished"
-                                            text={`Negociación finalizada (${countByStatusFinished()})`}
-                                            defaultValue={false}
+                                            text={`Finalizadas (${countByStatusFinished()})`}
                                         />
                                     </FilterGroup>
                                 </div>
@@ -265,7 +280,7 @@ const NegotiationList = () => {
                         </Filter>
                     </div>
 
-                    <div className="d-flex flex-column-reverse">
+                    {/* <div className="d-flex flex-column-reverse">
                         {filtered.map(negotiation => {
                             return (
                                 <NegotiationCard
@@ -274,7 +289,66 @@ const NegotiationList = () => {
                                 />
                             );
                         })}
-                    </div>
+                    </div> */}
+
+                    {negotiationsInProgress.length > 0 && (
+                        <React.Fragment>
+                            <h2 className="mt-4 h3">
+                                Negociaciones en progreso:
+                            </h2>
+                            <hr className="mb-4" />
+                            <div className="d-flex flex-column-reverse">
+                                {negotiationsInProgress.map(negotiation => {
+                                    return (
+                                        <NegotiationCard
+                                            key={negotiation.id}
+                                            negotiation={negotiation}
+                                        />
+                                    );
+                                })}
+                            </div>
+                        </React.Fragment>
+                    )}
+
+                    {negotiationsWithoutPurchase.length > 0 && (
+                        <React.Fragment>
+                            <h2 className="mt-4 h3">
+                                Negociaciones sin orden de compra :
+                            </h2>
+                            <hr className="mb-4" />
+                            <div className="d-flex flex-column-reverse">
+                                {negotiationsWithoutPurchase.map(
+                                    negotiation => {
+                                        return (
+                                            <NegotiationCard
+                                                key={negotiation.id}
+                                                negotiation={negotiation}
+                                            />
+                                        );
+                                    }
+                                )}
+                            </div>
+                        </React.Fragment>
+                    )}
+
+                    {finishedNegotiations.length > 0 && (
+                        <React.Fragment>
+                            <h2 className="mt-4 h3">
+                                Negociaciones finalizadas :
+                            </h2>
+                            <hr className="mb-4" />
+                            <div className="d-flex flex-column-reverse">
+                                {finishedNegotiations.map(negotiation => {
+                                    return (
+                                        <NegotiationCard
+                                            key={negotiation.id}
+                                            negotiation={negotiation}
+                                        />
+                                    );
+                                })}
+                            </div>
+                        </React.Fragment>
+                    )}
                 </React.Fragment>
             ) : (
                 <EmptyList />

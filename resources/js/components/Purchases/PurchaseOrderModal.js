@@ -1,7 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createPurchaseOrderFromNegotiation, editPurchaseOrder } from "../../store/actions/purchaseOrderActions";
+import {
+    createPurchaseOrderFromNegotiation,
+    editPurchaseOrder
+} from "../../store/actions/purchaseOrderActions";
 import { extractError } from "../../utils";
 import GenericForm from "../Form/GenericForm";
 import InputNumber from "../Form/InputNumber";
@@ -56,41 +59,43 @@ const PurchaseOrderModal = ({ purchase, isEditor = false, pivotId = null }) => {
     };
 
     return (
-        <GenericForm
-            handleSubmit={handleSubmit}
-            disableSubmit={isEditing}
-            handleReset={handleReset}
-            onChange={handleChange}
-            values={data}
-        >
-            <InputText
-                id="orden_compra"
-                label="Orden de Compra"
-                error={orden_compra_error}
-            />
+        <div className="modal-body">
+            <GenericForm
+                handleSubmit={handleSubmit}
+                disableSubmit={isEditing}
+                handleReset={handleReset}
+                onChange={handleChange}
+                values={data}
+            >
+                <InputText
+                    id="orden_compra"
+                    label="Orden de Compra"
+                    error={orden_compra_error}
+                />
 
-            <InputText id="item" label="Item" error={item_error} />
+                <InputText id="item" label="Item" error={item_error} />
 
-            <InputText
-                id="registro_salud"
-                label="Registro Salud"
-                error={registro_salud_error}
-            />
+                <InputText
+                    id="registro_salud"
+                    label="Registro Salud"
+                    error={registro_salud_error}
+                />
 
-            <InputNumber
-                id="cantidad_pcs"
-                label="Cantidad PCS"
-                error={cantidad_pcs_error}
-            />
+                <InputNumber
+                    id="cantidad_pcs"
+                    label="Cantidad PCS"
+                    error={cantidad_pcs_error}
+                />
 
-            <InputTextarea
-                id="descripcion"
-                label="Descripción"
-                error={descripcion_error}
-            />
+                <InputTextarea
+                    id="descripcion"
+                    label="Descripción"
+                    error={descripcion_error}
+                />
 
-            <InputNumber id="total" label="Total" error={total_error} />
-        </GenericForm>
+                <InputNumber id="total" label="Total" error={total_error} />
+            </GenericForm>
+        </div>
     );
 };
 

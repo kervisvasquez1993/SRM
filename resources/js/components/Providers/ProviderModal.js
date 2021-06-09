@@ -70,81 +70,83 @@ const ProviderModal = ({ provider, isEditor = false, taskId = null }) => {
     };
 
     return (
-        <GenericForm
-            handleSubmit={handleSubmit}
-            disableSubmit={isEditing}
-            handleReset={handleReset}
-            onChange={handleChange}
-        >
-            <InputText
-                id="nombre"
-                label="Nombre"
-                value={data.nombre}
-                error={nameError}
-            />
+        <div className="modal-body">
+            <GenericForm
+                handleSubmit={handleSubmit}
+                disableSubmit={isEditing}
+                handleReset={handleReset}
+                onChange={handleChange}
+            >
+                <InputText
+                    id="nombre"
+                    label="Nombre"
+                    value={data.nombre}
+                    error={nameError}
+                />
 
-            <InputText
-                id="pais"
-                label="País"
-                value={data.pais}
-                error={countryError}
-            />
+                <InputText
+                    id="pais"
+                    label="País"
+                    value={data.pais}
+                    error={countryError}
+                />
 
-            <InputText
-                id="ciudad"
-                label="Ciudad"
-                value={data.ciudad}
-                error={cityError}
-            />
+                <InputText
+                    id="ciudad"
+                    label="Ciudad"
+                    value={data.ciudad}
+                    error={cityError}
+                />
 
-            <InputText
-                id="distrito"
-                label="Distrito"
-                value={data.distrito}
-                error={distritError}
-            />
+                <InputText
+                    id="distrito"
+                    label="Distrito"
+                    value={data.distrito}
+                    error={distritError}
+                />
 
-            <InputTextArea
-                id="descripcion"
-                label="Descripcion"
-                value={data.descripcion}
-                error={descriptionError}
-            />
+                <InputTextArea
+                    id="descripcion"
+                    label="Descripcion"
+                    value={data.descripcion}
+                    error={descriptionError}
+                />
 
-            <InputText
-                id="address"
-                label="Dirección"
-                value={data.address}
-                error={addressError}
-            />
+                <InputText
+                    id="address"
+                    label="Dirección"
+                    value={data.address}
+                    error={addressError}
+                />
 
-            <InputText
-                id="contacto"
-                label="Contacto"
-                value={data.contacto}
-                error={contactError}
-            />
+                <InputText
+                    id="contacto"
+                    label="Contacto"
+                    value={data.contacto}
+                    error={contactError}
+                />
 
-            <InputText
-                id="telefono"
-                label="Teléfono"
-                value={data.telefono}
-                error={phoneError}
-            />
+                <InputText
+                    id="telefono"
+                    label="Teléfono"
+                    value={data.telefono}
+                    error={phoneError}
+                />
 
-            <InputText
-                id="email"
-                label="Email"
-                value={data.email}
-                error={emailError}
-            />
+                <InputText
+                    id="email"
+                    label="Email"
+                    value={data.email}
+                    error={emailError}
+                />
 
-            {error && (
-                <div className="text-danger">
-                    <strong>{error}</strong>
-                </div>
-            )}
-        </GenericForm>
+                {error && (
+                    <div className="text-danger">
+                        <strong>{error}</strong>
+                    </div>
+                )}
+            </GenericForm>
+        </div>
     );
 };
 

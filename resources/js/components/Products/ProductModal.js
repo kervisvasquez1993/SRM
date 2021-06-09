@@ -1,7 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createProductFromNegotiation, editProduct } from "../../store/actions/productActions";
+import {
+    createProductFromNegotiation,
+    editProduct
+} from "../../store/actions/productActions";
 import { extractError } from "../../utils";
 import GenericForm from "../Form/GenericForm";
 import InputNumber from "../Form/InputNumber";
@@ -67,7 +70,7 @@ const ProductModal = ({ product, isEditor = false, pivotId = null }) => {
 
     const handleChange = e => {
         const { id, value } = e.target;
-        
+
         setData(data => {
             return {
                 ...data,
@@ -91,43 +94,113 @@ const ProductModal = ({ product, isEditor = false, pivotId = null }) => {
     };
 
     return (
-        <GenericForm
-            handleSubmit={handleSubmit}
-            disableSubmit={isEditing}
-            handleReset={handleReset}
-            onChange={handleChange}
-            values={data}
-        >
-            <InputText
-                id="product_name"
-                label="Nombre"
-                error={product_name_error}
-            />
-            <InputText id="brand" label="Marca" error={brand_error} />
-            <InputText
-                id="product_code"
-                label="Código"
-                error={product_code_error}
-            />
-            <InputText id="hs_code" label="Código HS" error={hs_code_error} />
-            <InputText id="description" label="Descripción" error={description_error} />
-            <InputNumber id="shelf_life" label="Vida útil (meses)" error={shelf_life_error} />
-            <InputNumber id="total_pcs" label="Total de piezas" error={total_pcs_error} />
-            <InputNumber id="pcs_unit" label="Piezas empaque unitario" error={pcs_unit_error} />
-            <InputNumber id="pcs_inner_box" label="Piezas empaque interno" error={pcs_inner_box_error} />
-            <InputNumber id="pcs_ctn" label="Piezas carton (cm)" error={pcs_ctn_error} />
-            <InputNumber id="ctn_packing_size_l" label="Largo Carton (cm)" error={ctn_packing_size_l_error} />
-            <InputNumber id="ctn_packing_size_h" label="Alto Carton (cm)" error={ctn_packing_size_h_error} />
-            <InputNumber id="ctn_packing_size_w" label="Ancho Carton (cm)" error={ctn_packing_size_w_error} />
-            <InputNumber id="cbm" label="CBM" error={cbm_error} />
-            <InputNumber id="n_w_ctn" label="Peso Neto (kg)" error={n_w_ctn_error} />
-            <InputNumber id="g_w_ctn" label="Peso Bruto (kg)" error={g_w_ctn_error} />
-            <InputNumber id="total_cbm" label="Total CBM" error={total_cbm_error} />
-            <InputNumber id="total_n_w" label="Total Peso Neto (kg)" error={total_n_w_error} />
-            <InputNumber id="total_g_w" label="Total Peso Bruto (kg)" error={total_g_w_error} />
-            <InputNumber id="total_ctn" label="Total CTN" error={total_ctn_error} />
-            <InputNumber id="corregido_total_pcs" label="Corregido Total PCS" error={corregido_total_pcs_error} />
-        </GenericForm>
+        <div className="modal-body">
+            <GenericForm
+                handleSubmit={handleSubmit}
+                disableSubmit={isEditing}
+                handleReset={handleReset}
+                onChange={handleChange}
+                values={data}
+            >
+                <InputText
+                    id="product_name"
+                    label="Nombre"
+                    error={product_name_error}
+                />
+                <InputText id="brand" label="Marca" error={brand_error} />
+                <InputText
+                    id="product_code"
+                    label="Código"
+                    error={product_code_error}
+                />
+                <InputText
+                    id="hs_code"
+                    label="Código HS"
+                    error={hs_code_error}
+                />
+                <InputText
+                    id="description"
+                    label="Descripción"
+                    error={description_error}
+                />
+                <InputNumber
+                    id="shelf_life"
+                    label="Vida útil (meses)"
+                    error={shelf_life_error}
+                />
+                <InputNumber
+                    id="total_pcs"
+                    label="Total de piezas"
+                    error={total_pcs_error}
+                />
+                <InputNumber
+                    id="pcs_unit"
+                    label="Piezas empaque unitario"
+                    error={pcs_unit_error}
+                />
+                <InputNumber
+                    id="pcs_inner_box"
+                    label="Piezas empaque interno"
+                    error={pcs_inner_box_error}
+                />
+                <InputNumber
+                    id="pcs_ctn"
+                    label="Piezas carton (cm)"
+                    error={pcs_ctn_error}
+                />
+                <InputNumber
+                    id="ctn_packing_size_l"
+                    label="Largo Carton (cm)"
+                    error={ctn_packing_size_l_error}
+                />
+                <InputNumber
+                    id="ctn_packing_size_h"
+                    label="Alto Carton (cm)"
+                    error={ctn_packing_size_h_error}
+                />
+                <InputNumber
+                    id="ctn_packing_size_w"
+                    label="Ancho Carton (cm)"
+                    error={ctn_packing_size_w_error}
+                />
+                <InputNumber id="cbm" label="CBM" error={cbm_error} />
+                <InputNumber
+                    id="n_w_ctn"
+                    label="Peso Neto (kg)"
+                    error={n_w_ctn_error}
+                />
+                <InputNumber
+                    id="g_w_ctn"
+                    label="Peso Bruto (kg)"
+                    error={g_w_ctn_error}
+                />
+                <InputNumber
+                    id="total_cbm"
+                    label="Total CBM"
+                    error={total_cbm_error}
+                />
+                <InputNumber
+                    id="total_n_w"
+                    label="Total Peso Neto (kg)"
+                    error={total_n_w_error}
+                />
+                <InputNumber
+                    id="total_g_w"
+                    label="Total Peso Bruto (kg)"
+                    error={total_g_w_error}
+                />
+                <InputNumber
+                    id="total_ctn"
+                    label="Total CTN"
+                    error={total_ctn_error}
+                />
+                <InputNumber
+                    id="corregido_total_pcs"
+                    label="Corregido Total PCS"
+                    error={corregido_total_pcs_error}
+                />
+            </GenericForm>
+        </div>
     );
 };
 

@@ -4,6 +4,7 @@ import { openModal } from "../../store/actions/modalActions";
 import {
     getColorsForTask,
     getRemainingDaysToFinishTask,
+    greenCard,
     hasNoProducts
 } from "../../utils";
 import Accordion from "../UI/Accordion";
@@ -11,7 +12,13 @@ import NegotiationModal from "./NegotiationModal";
 
 const NegotiationCard = ({ negotiation }) => {
     const dispatch = useDispatch();
-    const { tarea: task, proveedor, compra: purchase } = negotiation;
+    const {
+        iniciar_produccion,
+        iniciar_arte,
+        tarea: task,
+        proveedor,
+        compra: purchase
+    } = negotiation;
 
     const handleOpen = () => {
         dispatch(
@@ -22,7 +29,7 @@ const NegotiationCard = ({ negotiation }) => {
         );
     };
 
-    const { text, background } = getColorsForTask(task);
+    const { text, background } = (iniciar_arte && iniciar_produccion) ? greenCard : getColorsForTask(task);
 
     const remainingDays = getRemainingDaysToFinishTask(task);
 
@@ -78,8 +85,8 @@ const NegotiationCard = ({ negotiation }) => {
             </div>
 
             <div className="card-footer">
-                <div className="d-flex justify-content-between w-100 flex-wrap mt-2">
-                    <div className="mb-2 d-flex">
+                <div className="d-flex justify-content-between align-items-center w-100 flex-wrap">
+                    <div className="d-flex">
                         {background === "bg-danger" ? (
                             <React.Fragment>
                                 <i className="material-icons mr-1">warning</i>

@@ -71,48 +71,50 @@ const TaskModal = ({ task, isEditor }) => {
     };
 
     return (
-        <GenericForm
-            handleSubmit={handleSubmit}
-            disableSubmit={isEditing}
-            handleReset={handleReset}
-            onChange={handleChange}
-        >
-            <InputText
-                id="nombre"
-                label="Titulo de la Tarea"
-                value={data.nombre}
-                error={nameError}
-            />
-
-            <InputSelect
-                id="user_id"
-                label="Comprador"
-                value={data.user_id}
-                error={userError}
+        <div className="modal-body">
+            <GenericForm
+                handleSubmit={handleSubmit}
+                disableSubmit={isEditing}
+                handleReset={handleReset}
+                onChange={handleChange}
             >
-                {users.map(user => {
-                    return (
-                        <option key={user.id} value={user.id}>
-                            {user.name}
-                        </option>
-                    );
-                })}
-            </InputSelect>
+                <InputText
+                    id="nombre"
+                    label="Titulo de la Tarea"
+                    value={data.nombre}
+                    error={nameError}
+                />
 
-            <InputDate
-                id="fecha_fin"
-                label="Fecha Finalizacion"
-                value={data.fecha_fin}
-                error={endDateError}
-            />
+                <InputSelect
+                    id="user_id"
+                    label="Comprador"
+                    value={data.user_id}
+                    error={userError}
+                >
+                    {users.map(user => {
+                        return (
+                            <option key={user.id} value={user.id}>
+                                {user.name}
+                            </option>
+                        );
+                    })}
+                </InputSelect>
 
-            <InputTextArea
-                id="descripcion"
-                label="Descripción"
-                value={data.descripcion}
-                error={descriptionError}
-            />
-        </GenericForm>
+                <InputDate
+                    id="fecha_fin"
+                    label="Fecha Finalizacion"
+                    value={data.fecha_fin}
+                    error={endDateError}
+                />
+
+                <InputTextArea
+                    id="descripcion"
+                    label="Descripción"
+                    value={data.descripcion}
+                    error={descriptionError}
+                />
+            </GenericForm>
+        </div>
     );
 };
 
