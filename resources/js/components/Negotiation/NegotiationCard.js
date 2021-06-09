@@ -4,6 +4,7 @@ import { openModal } from "../../store/actions/modalActions";
 import {
     getColorsForTask,
     getRemainingDaysToFinishTask,
+    greenCard,
     hasNoProducts
 } from "../../utils";
 import Accordion from "../UI/Accordion";
@@ -11,7 +12,13 @@ import NegotiationModal from "./NegotiationModal";
 
 const NegotiationCard = ({ negotiation }) => {
     const dispatch = useDispatch();
-    const { tarea: task, proveedor, compra: purchase } = negotiation;
+    const {
+        iniciar_produccion,
+        iniciar_arte,
+        tarea: task,
+        proveedor,
+        compra: purchase
+    } = negotiation;
 
     const handleOpen = () => {
         dispatch(
@@ -22,7 +29,7 @@ const NegotiationCard = ({ negotiation }) => {
         );
     };
 
-    const { text, background } = getColorsForTask(task);
+    const { text, background } = (iniciar_arte && iniciar_produccion) ? greenCard : getColorsForTask(task);
 
     const remainingDays = getRemainingDaysToFinishTask(task);
 

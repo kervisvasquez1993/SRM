@@ -27,6 +27,10 @@ const NegotiationList = () => {
         dispatch(getUsers());
     }, []);
 
+    useEffect(() => {
+        applyFilter(filter.current);
+    }, [negotiations])
+
     const applyFilter = filter => {
         let list = [...negotiations];
 
@@ -168,7 +172,6 @@ const NegotiationList = () => {
                                             key={2}
                                             id="finished"
                                             text={`Negociación finalizada (${countByStatusFinished()})`}
-                                            defaultValue={false}
                                         />
                                     </FilterGroup>
                                 </div>
