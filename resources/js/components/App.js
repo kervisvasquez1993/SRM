@@ -89,47 +89,44 @@ const App = () => {
 
     return (
         <React.Fragment>
-            <div id="app">
-                <div className={"menu-wrapper " + (isSidebarOpen && "mostrar")}>
-                    <Sidebar />
-
-                    <div className="wrapper">
-                        <Navbar />
-
-                        <div className="content" id="eventInit">
-                            <Switch>
-                                <Route exact path="/">
-                                    <Redirect to="/home" />
-                                </Route>
-                                <Route path="/login">
-                                    <Redirect to="/home" />
-                                </Route>
-                                <Route path="/home">
-                                    <Example />
-                                </Route>
-                                <Route exact path="/tasks">
-                                    <TaskList />
-                                </Route>
-                                <Route path="/tasks/:id">
-                                    <TaskDetails />
-                                </Route>
-                                <Route path="/me/tasks">
-                                    <TaskList
-                                        myTasks
-                                        key={history.location.pathname}
-                                    />
-                                </Route>
-                                <Route path="/negotiation/:id">
-                                    <ProviderPurchase />
-                                </Route>
-                                <Route path="/negotiations">
-                                    <NegotiationList />
-                                </Route>
-                                <Route path="*">
-                                    <Error />
-                                </Route>
-                            </Switch>
-                        </div>
+            <div className={"menu-wrapper " + (isSidebarOpen && "mostrar")}>
+                <Sidebar />
+                <Navbar />
+                
+                <div className="page-wrapper" id="wrapper">
+                    <div className="content" id="eventInit">
+                        <Switch>
+                            <Route exact path="/">
+                                <Redirect to="/home" />
+                            </Route>
+                            <Route path="/login">
+                                <Redirect to="/home" />
+                            </Route>
+                            <Route path="/home">
+                                <Example />
+                            </Route>
+                            <Route exact path="/tasks">
+                                <TaskList />
+                            </Route>
+                            <Route path="/tasks/:id">
+                                <TaskDetails />
+                            </Route>
+                            <Route path="/me/tasks">
+                                <TaskList
+                                    myTasks
+                                    key={history.location.pathname}
+                                />
+                            </Route>
+                            <Route path="/negotiation/:id">
+                                <ProviderPurchase />
+                            </Route>
+                            <Route path="/negotiations">
+                                <NegotiationList />
+                            </Route>
+                            <Route path="*">
+                                <Error />
+                            </Route>
+                        </Switch>
                     </div>
                 </div>
             </div>

@@ -9,10 +9,6 @@ const Navbar = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.auth.user);
 
-    const handleLogout = e => {
-        dispatch(logout());
-    };
-
     return (
         <nav className="navbar-dashboard">
             <div className="navbar-inicio">
@@ -33,9 +29,9 @@ const Navbar = () => {
 
             <button
                 className="cerrar-sesion-dashboard btn btn-primary ml-3"
-                onClick={handleLogout}
+                onClick={() => dispatch(logout())}
             >
-                Cerrar Sesion
+                Cerrar Sesión
             </button>
         </nav>
     );

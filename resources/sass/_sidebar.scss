@@ -1,8 +1,18 @@
-.wrapper {
-    position: relative;
+.page-wrapper {
+    position: fixed;
+    overflow: auto;
     left: 0;
+    height: calc(100% - #{$navbar-height});
+    width: 100vw;
     transition: left 0.5s;
-    padding: 1rem;
+    margin: 0;
+    top: $navbar-height;
+}
+
+.content {
+    padding: 2rem 1rem;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 .menu {
@@ -15,14 +25,18 @@
     left: 0;
     left: -$sidebar-ancho;
     transition: left 0.5s;
+    overflow-y: auto;
 }
 
-.menu-wrapper.mostrar .menu {
-    left: 0;
-}
+.menu-wrapper.mostrar {
+    & .menu {
+        left: 0;
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+    }
 
-.menu-wrapper.mostrar .wrapper {
-    left: $sidebar-ancho;
+    & .page-wrapper {
+        left: $sidebar-ancho;
+    }
 }
 
 .logo a {
@@ -33,7 +47,8 @@
     font-size: 1.5rem;
     border-bottom: solid 1px rgb(182, 182, 182);
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
         color: white;
     }
 }
@@ -67,12 +82,16 @@
 @media (min-width: $sidebar-break-point) {
     .menu {
         left: 0;
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
     }
 
-    .wrapper {
+    .page-wrapper {
         left: $sidebar-ancho;
-        width: calc(100% - #{$sidebar-ancho});
-        padding: 3rem;
+        width: calc(100vw - #{$sidebar-ancho});
+    }
+
+    .content {
+        padding: 2rem 3rem;
     }
 
     #botonSidebar {
