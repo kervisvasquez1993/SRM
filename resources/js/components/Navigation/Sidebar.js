@@ -14,7 +14,11 @@ const Sidebar = () => {
     return (
         <div className="menu">
             <div className="logo">
-                <Link to="/home" className="simple-text logo-normal">
+                <Link
+                    to="/home"
+                    className="simple-text logo-normal"
+                    onClick={closeMenu}
+                >
                     SRM Dynamics
                 </Link>
             </div>
