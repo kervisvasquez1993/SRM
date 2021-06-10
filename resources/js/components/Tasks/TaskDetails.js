@@ -38,7 +38,7 @@ const TaskDetails = () => {
     };
 
     useEffect(() => {
-        document.body.scrollTo(0, 0);
+        document.querySelector("#wrapper").scrollTo(0, 0);
         dispatch(getTask(id));
     }, []);
 

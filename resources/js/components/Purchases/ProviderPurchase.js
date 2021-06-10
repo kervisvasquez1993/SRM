@@ -36,7 +36,7 @@ const ProviderPurchase = () => {
     }
 
     useEffect(() => {
-        document.body.scrollTo(0, 0);
+        document.querySelector("#wrapper").scrollTo(0, 0);
 
         axios
             .get(`${apiURL}/pivot/${id}`)

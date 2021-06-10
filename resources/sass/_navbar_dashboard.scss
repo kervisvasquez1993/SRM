@@ -1,8 +1,27 @@
 .navbar-dashboard {
+    position: fixed;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin-bottom: 2rem;
+    z-index: 140;
+    background: white;
+    width: 100vw;
+    height: $navbar-height;
+    padding-right: 1rem;
+    left: 0;
+    transition: left 0.5s;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+}
+
+@media (min-width: $sidebar-break-point) {
+    .navbar-dashboard {
+        left: $sidebar-ancho;
+        width: calc(100% - #{$sidebar-ancho});
+    }
+}
+
+.menu-wrapper.mostrar .navbar-dashboard {
+    left: $sidebar-ancho;
 }
 
 .cerrar-sesion-dashboard {
@@ -11,20 +30,6 @@
 
 .usuario-nombre {
     padding-left: 2rem;
-}
-
-.campana {
-    position: relative;
-    color: rgb(33, 37, 41);
-    font-size: 1.1rem;
-}
-
-.campana:hover {
-    color: rgb(105, 105, 105);
-}
-
-.campana .material-icons {
-    font-size: 1.5rem;
 }
 
 .campana-numero {
@@ -42,8 +47,22 @@
     transition: top 0.2s;
 }
 
-.campana:hover .campana-numero {
-    top: -0.7em;
+.campana {
+    position: relative;
+    color: rgb(33, 37, 41);
+    font-size: 1.1rem;
+
+    &:hover {
+        color: rgb(105, 105, 105);
+
+        & .campana-numero {
+            top: -0.7em;
+        }
+    }
+
+    & .material-icons {
+        font-size: 1.5rem;
+    }
 }
 
 .navbar-inicio {
@@ -56,15 +75,15 @@
     outline: none;
     font-size: 2rem;
     padding: 1rem;
-}
 
-#botonSidebar svg {
-    width: 40px;
-    height: 40px;
-}
+    & svg {
+        width: 40px;
+        height: 40px;
+    }
 
-#botonSidebar svg:hover {
-    transform: scale(1.1);
+    & svg:hover {
+        transform: scale(1.1);
+    }
 }
 
 @media (min-width: $sidebar-break-point) {
