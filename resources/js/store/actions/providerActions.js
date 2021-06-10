@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 import { apiURL } from "../../components/App";
 import { closeModal } from "./modalActions";
 
@@ -39,6 +40,8 @@ export function createProviderFromTask(taskId, provider) {
             });
 
             dispatch(closeModal());
+
+            toast.success("✔️ Empresa creada");
         } catch (e) {
             dispatch({
                 type: "CREATE_TASK_PROVIDER_FAILURE",
@@ -65,6 +68,8 @@ export function editProviderFromTask(taskId, provider) {
             });
 
             dispatch(closeModal());
+
+            toast.success("✔️ Empresa editada");
         } catch (e) {
             dispatch({
                 type: "CREATE_TASK_PROVIDER_FAILURE",
@@ -89,6 +94,8 @@ export function startNegotiation(taskId, providerId) {
                 taskId,
                 providerId
             });
+
+            toast.success("✔️ Negociación iniciada");
         } catch (e) {
             dispatch({
                 type: "START_NEGOTIATION_FAILURE"
