@@ -1,21 +1,21 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url("https://fonts.googleapis.com/css?family=Nunito");
 
 // Variables
-@import 'variables';
+@import "variables";
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
 
 // Sidebar
-@import 'sidebar';
+@import "sidebar";
 
 // Navbar del dashboard
-@import 'navbar_dashboard';
+@import "navbar_dashboard";
 
-@import 'animations';
+@import "animations";
 
-@import 'material_icons';
+@import "material_icons";
 
 .keep-line-breaks {
     white-space: pre-line;
@@ -23,4 +23,23 @@
 
 .bg-blue {
     background-color: $blue !important;
+}
+
+.btn-circle.btn-xl {
+    width: 70px !important;
+    height: 70px !important;
+    padding: 10px 16px !important;
+    border-radius: 35px !important;
+    font-size: 24px !important;
+    line-height: 1.33 !important;
+}
+
+.btn-circle {
+    width: 50px !important;
+    height: 50px !important;
+    padding: 6px 0px !important;
+    border-radius: 25px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
 }

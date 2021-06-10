@@ -35,20 +35,18 @@ const PurchaseOrder = ({ purchaseOrder }) => {
             <td>{purchaseOrder.total}</td>
             <td className="d-flex">
                 <button
-                    className="btn btn-success"
+                    className="btn btn-success btn-circle"
                     type="button"
                     onClick={handleEdit}
                 >
                     <span className="material-icons">edit</span>
-                    Editar
                 </button>
                 <button
-                    className="btn btn-danger"
+                    className="btn btn-danger btn-circle"
                     type="button"
                     onClick={handleDelete}
                 >
                     <span className="material-icons">clear</span>
-                    Eliminar
                 </button>
             </td>
         </tr>

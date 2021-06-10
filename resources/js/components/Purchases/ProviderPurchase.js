@@ -187,7 +187,7 @@ const ProviderPurchase = () => {
                                         <td>{product.corregido_total_pcs}</td>
                                         <td className="d-flex">
                                             <button
-                                                className="btn btn-success"
+                                                className="btn btn-success btn-circle"
                                                 type="button"
                                                 onClick={() =>
                                                     handleEditProduct(product)
@@ -196,10 +196,9 @@ const ProviderPurchase = () => {
                                                 <span className="material-icons">
                                                     edit
                                                 </span>
-                                                Editar
                                             </button>
                                             <button
-                                                className="btn btn-danger"
+                                                className="btn btn-danger btn-circle"
                                                 type="button"
                                                 onClick={() =>
                                                     handleDeleteProduct(product)
@@ -208,7 +207,6 @@ const ProviderPurchase = () => {
                                                 <span className="material-icons">
                                                     clear
                                                 </span>
-                                                Eliminar
                                             </button>
                                         </td>
                                     </tr>
