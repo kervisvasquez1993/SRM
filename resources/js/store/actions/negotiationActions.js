@@ -1,5 +1,6 @@
 import axios from "axios";
 import React from "react";
+import { toast } from "react-toastify";
 import { apiURL } from "../../components/App";
 import NegotiationModal from "../../components/Negotiation/NegotiationModal";
 import { closeModal, openModal } from "./modalActions";
@@ -45,6 +46,8 @@ export function startProductionWithNegotiation(negotiationIndex) {
                     body: <NegotiationModal negotiation={negotiation} />
                 })
             );
+
+            toast.success("✔️ Producción iniciada");
         } catch (e) {
             console.log(e);
             dispatch({
@@ -76,6 +79,8 @@ export function startArtWithNegotiation(negotiationIndex) {
                     body: <NegotiationModal negotiation={negotiation} />
                 })
             );
+
+            toast.success("✔️ Arte iniciada");
 
         } catch (e) {
             dispatch({
