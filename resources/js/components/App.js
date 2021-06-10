@@ -1,7 +1,8 @@
+import axios from "axios";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch, Redirect, useHistory } from "react-router-dom";
-import { getMyUser } from "../store/actions/authActions";
+import { getMyUser, logout } from "../store/actions/authActions";
 import Login from "./Auth/Login";
 import Example from "./Example";
 import Modal from "./Modal/Modal";
@@ -13,8 +14,33 @@ import NegotiationList from "./Negotiation/NegotiationList";
 import ProviderPurchase from "./Purchases/ProviderPurchase";
 import TaskDetails from "./Tasks/TaskDetails";
 import TaskList from "./Tasks/TaskList";
+import jwt_decode from "jwt-decode";
+import { store } from "./Index";
 
-export const apiURL = process.env.REACT_APP_API_URL || "http://localhost:8000/api";
+axios.interceptors.response.use(
+    response => {
+        return response;
+    },
+    error => {
+        if (error.response.status === 401) {
+            const token = localStorage.getItem("auth");
+            if (token) {
+                // Get the expiration date of the token
+                const tokenData = jwt_decode(token);
+                const expirationDate = new Date(tokenData.exp * 1000);
+
+                if (new Date() > expirationDate) {
+                    store.dispatch(logout());
+                }
+            }
+        }
+
+        return Promise.reject(error);
+    }
+);
+
+export const apiURL =
+    process.env.REACT_APP_API_URL || "http://localhost:8000/api";
 
 axios.interceptors.request.use(config => {
     const token = localStorage.getItem("auth");
@@ -88,7 +114,10 @@ const App = () => {
                                     <TaskDetails />
                                 </Route>
                                 <Route path="/me/tasks">
-                                    <TaskList myTasks key={history.location.pathname} />
+                                    <TaskList
+                                        myTasks
+                                        key={history.location.pathname}
+                                    />
                                 </Route>
                                 <Route path="/negotiation/:id">
                                     <ProviderPurchase />

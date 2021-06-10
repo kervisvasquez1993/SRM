@@ -24,14 +24,12 @@ class AuthController extends Controller
         }
         if (!$token = JWTAuth::attempt([
             'email' => $request->email,
-            'password' => $request->password]))
-        {
+            'password' => $request->password
+        ])) {
             return response()->json(['error' => 'Los Datos Suministrado son incorrectos,'], 401);
         }
         return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => JWTAuth::factory()->getTTL() * 120
+            'access_token' => $token
         ]);
     }
 

@@ -8,7 +8,7 @@ import thunk from "redux-thunk";
 import rootReducer from "../store/reducers/rootReducer";
 import App from "./App";
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+export const store = createStore(rootReducer, applyMiddleware(thunk));
 
 const Index = () => {
     return (
