@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { logout } from "../../store/actions/authActions";
 import { closeSidebar } from "../../store/actions/sidebarActions";
 
 const Sidebar = () => {
@@ -9,6 +10,12 @@ const Sidebar = () => {
 
     const closeMenu = () => {
         dispatch(closeSidebar());
+    };
+
+    const handleLogout = e => {
+        e.preventDefault();
+
+        dispatch(logout());
     };
 
     return (
@@ -106,6 +113,11 @@ const Sidebar = () => {
                         </Link>
                     </React.Fragment>
                 )}
+
+                <a className="menu-link mt-4 cerrar-sesion" onClick={handleLogout} href="#">
+                    <i className="material-icons">logout</i>
+                    <p>Cerrar Sesión</p>
+                </a>
             </nav>
         </div>
     );
