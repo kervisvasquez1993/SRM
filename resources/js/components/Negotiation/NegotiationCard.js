@@ -29,7 +29,8 @@ const NegotiationCard = ({ negotiation }) => {
         );
     };
 
-    const { text, background } = (iniciar_arte && iniciar_produccion) ? greenCard : getColorsForTask(task);
+    const { text, background } =
+        iniciar_arte && iniciar_produccion ? greenCard : getColorsForTask(task);
 
     const remainingDays = getRemainingDaysToFinishTask(task);
 
@@ -57,31 +58,22 @@ const NegotiationCard = ({ negotiation }) => {
             </div>
 
             <div className="card-body py-0 my-0 ml-2">
-                {(hasNoProducts(negotiation) && !purchase && (
+                {hasNoProducts(negotiation) && (
                     <p className="card-text d-flex align-items-center">
                         <span className="material-icons mr-2 text-danger">
                             warning
                         </span>
-                        Esta negociación no tiene productos ni una orden de
-                        compra
+                        No tiene productos
                     </p>
-                )) ||
-                    (hasNoProducts(negotiation) && (
-                        <p className="card-text d-flex align-items-center">
-                            <span className="material-icons mr-2 text-danger">
-                                warning
-                            </span>
-                            Esta negociación no tiene productos
-                        </p>
-                    )) ||
-                    (!purchase && (
-                        <p className="card-text d-flex align-items-center">
-                            <span className="material-icons mr-2 text-danger">
-                                warning
-                            </span>
-                            Esta negociación no tiene una orden de compra
-                        </p>
-                    ))}
+                )}
+                {!purchase && (
+                    <p className="card-text d-flex align-items-center">
+                        <span className="material-icons mr-2 text-danger">
+                            warning
+                        </span>
+                        No tiene una orden de compra
+                    </p>
+                )}
             </div>
 
             <div className="card-footer">
