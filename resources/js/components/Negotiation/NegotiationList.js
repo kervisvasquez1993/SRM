@@ -155,13 +155,13 @@ const NegotiationList = () => {
     const finishedCount = countByStatusFinished();
 
     const finishedNegotiations = filtered.filter(
-        item => item.iniciar_produccion === 1
+        item => (item.iniciar_produccion === 1 && item.iniciar_arte === 1)
     );
 
     const negotiationsWithoutPurchase = filtered.filter(item => !item.compra);
 
     const negotiationsInProgress = filtered.filter(
-        item => item.iniciar_produccion === 0 && item.compra
+        item => !(item.iniciar_produccion === 1 && item.iniciar_arte === 1) && item.compra
     );
 
     return (
