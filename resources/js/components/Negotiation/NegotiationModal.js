@@ -9,6 +9,7 @@ import EmptyList from "../Navigation/EmptyList";
 
 const NegotiationModal = ({ negotiation }) => {
     const dispatch = useDispatch();
+    const user = useSelector(state => state.auth.user);
 
     const isStarting = useSelector(state => state.negotiation.isStarting);
 
@@ -319,6 +320,7 @@ const NegotiationModal = ({ negotiation }) => {
             )}
 
             {purchase ? (
+                user.rol === "coordinador" &&
                 (iniciar_arte === 0 || iniciar_produccion === 0) && (
                     <div className="modal-footer">
                         {iniciar_arte === 0 && (
