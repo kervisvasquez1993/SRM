@@ -16,6 +16,8 @@ import TaskDetails from "./Tasks/TaskDetails";
 import TaskList from "./Tasks/TaskList";
 import jwt_decode from "jwt-decode";
 import { store } from "./Index";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 axios.interceptors.response.use(
     response => {
@@ -92,7 +94,7 @@ const App = () => {
             <div className={"menu-wrapper " + (isSidebarOpen && "mostrar")}>
                 <Sidebar />
                 <Navbar />
-                
+
                 <div className="page-wrapper" id="wrapper">
                     <div className="content" id="eventInit">
                         <Switch>
@@ -131,6 +133,17 @@ const App = () => {
                 </div>
             </div>
             <Modal />
+            <ToastContainer
+                position="bottom-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </React.Fragment>
     );
 };
