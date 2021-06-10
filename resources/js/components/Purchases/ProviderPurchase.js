@@ -13,7 +13,7 @@ import ProductModal, { emptyProduct } from "../Products/ProductModal";
 
 import Error from "../Navigation/Error";
 import EmptyList from "../Navigation/EmptyList";
-import PurchaseOrder from "./PurchaseOrder";
+import PurchaseOrderList from "./PurchaseOrderList";
 
 const ProviderPurchase = () => {
     const history = useHistory();
@@ -111,14 +111,14 @@ const ProviderPurchase = () => {
                 </div>
             </div>
 
-            <PurchaseOrder />
+            <PurchaseOrderList />
 
             <div className="mr-auto text-center py-4">
                 <h1 className="h2">Productos</h1>
             </div>
 
             {user.id == pivot.usuario.id && (
-                <div className="text-right">
+                <div className="text-center">
                     <button
                         className="btn btn-lg btn-success btn-round mb-4"
                         onClick={handleCreate}

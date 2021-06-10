@@ -135,3 +135,8 @@ export function hasNoProducts(negotiation) {
         negotiation.total_ctn == 0
     );
 }
+
+export function getSum(array, column) {
+    let values = array.map(item => item[column]);
+    return values.reduce((a, b) => a + b);
+}
