@@ -137,6 +137,7 @@ export function hasNoProducts(negotiation) {
 }
 
 export function getSum(array, column) {
-    let values = array.map(item => item[column]);
+    let values = array.map(item => Number(item[column]));
+    const result = values.reduce((a, b) => a + b);
     return values.reduce((a, b) => a + b);
 }

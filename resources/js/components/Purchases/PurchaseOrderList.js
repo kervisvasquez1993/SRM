@@ -65,7 +65,6 @@ const PurchaseOrderList = () => {
                                             <th scope="col">Cantidad PCS</th>
                                             <th scope="col">Descripción</th>
                                             <th scope="col">Total</th>
-                                            <th scope="col"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -87,7 +86,6 @@ const PurchaseOrderList = () => {
                                                     "total"
                                                 )}
                                             </td>
-                                            <td></td>
                                         </tr>
                                     </tbody>
                                 </table>

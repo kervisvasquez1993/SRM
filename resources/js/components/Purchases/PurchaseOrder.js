@@ -32,22 +32,24 @@ const PurchaseOrder = ({ purchaseOrder }) => {
             <td>{purchaseOrder.registro_salud}</td>
             <td>{purchaseOrder.cantidad_pcs}</td>
             <td>{purchaseOrder.descripcion}</td>
-            <td>{purchaseOrder.total}</td>
-            <td className="d-flex">
-                <button
-                    className="btn btn-success btn-circle"
-                    type="button"
-                    onClick={handleEdit}
-                >
-                    <span className="material-icons">edit</span>
-                </button>
-                <button
-                    className="btn btn-danger btn-circle"
-                    type="button"
-                    onClick={handleDelete}
-                >
-                    <span className="material-icons">clear</span>
-                </button>
+            <td className="text-right">
+                <div className="d-inline-flex align-items-center">
+                    {purchaseOrder.total}
+                    <button
+                        className="btn btn-success btn-circle ml-3"
+                        type="button"
+                        onClick={handleEdit}
+                    >
+                        <span className="material-icons">edit</span>
+                    </button>
+                    <button
+                        className="btn btn-danger btn-circle"
+                        type="button"
+                        onClick={handleDelete}
+                    >
+                        <span className="material-icons">clear</span>
+                    </button>
+                </div>
             </td>
         </tr>
     );

@@ -75,7 +75,7 @@ const ProviderPurchase = () => {
         );
     };
 
-    const handleEditProduct = product => {
+    const handleEdit = product => {
         dispatch(
             openModal({
                 title: "Editar Producto",
@@ -90,7 +90,7 @@ const ProviderPurchase = () => {
         );
     };
 
-    const handleDeleteProduct = product => {
+    const handleDelete = product => {
         dispatch(deleteProduct(product));
     };
 
@@ -155,7 +155,6 @@ const ProviderPurchase = () => {
                                 <th scope="col">Total Peso Bruto (kg)</th>
                                 <th scope="col">Total CTN</th>
                                 <th scope="col">Corregido Total PCS</th>
-                                <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -184,30 +183,36 @@ const ProviderPurchase = () => {
                                         <td>{product.total_n_w}</td>
                                         <td>{product.total_g_w}</td>
                                         <td>{product.total_ctn}</td>
-                                        <td>{product.corregido_total_pcs}</td>
-                                        <td className="d-flex">
-                                            <button
-                                                className="btn btn-success btn-circle"
-                                                type="button"
-                                                onClick={() =>
-                                                    handleEditProduct(product)
-                                                }
-                                            >
-                                                <span className="material-icons">
-                                                    edit
-                                                </span>
-                                            </button>
-                                            <button
-                                                className="btn btn-danger btn-circle"
-                                                type="button"
-                                                onClick={() =>
-                                                    handleDeleteProduct(product)
-                                                }
-                                            >
-                                                <span className="material-icons">
-                                                    clear
-                                                </span>
-                                            </button>
+                                        <td className="text-right">
+                                            <div className="d-inline-flex align-items-center">
+                                                {product.corregido_total_pcs}
+                                                <div className="d-inline-flex justify-content-end flex-grow-1">
+                                                    <button
+                                                        className="btn btn-success btn-circle ml-3"
+                                                        type="button"
+                                                        onClick={() =>
+                                                            handleEdit(product)
+                                                        }
+                                                    >
+                                                        <span className="material-icons">
+                                                            edit
+                                                        </span>
+                                                    </button>
+                                                    <button
+                                                        className="btn btn-danger btn-circle"
+                                                        type="button"
+                                                        onClick={() =>
+                                                            handleDelete(
+                                                                product
+                                                            )
+                                                        }
+                                                    >
+                                                        <span className="material-icons">
+                                                            clear
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 );
