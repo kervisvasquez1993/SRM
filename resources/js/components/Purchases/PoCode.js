@@ -23,20 +23,21 @@ const PoCode = ({ pivot }) => {
             {purchaseOrders.length > 0 && (
                 <React.Fragment>
                     <div className="mr-auto text-center py-4">
-                        <h2 className="h2">Código PO</h2>
-                    </div>
-
-                    {negotiation.compra_po ? (
-                        <h3 className="mr-auto text-center py-2">
-                            {negotiation.compra_po}
-                        </h3>
-                    ) : (
-                        <EmptyList message="No se ha agregado un codigo PO" />
-                    )}
-
-                    <div className="text-center">
+                        <p className="d-flex justify-content-center align-items-center flex-wrap">
+                            <span className="h2 my-0">Código PO : </span>
+                            {negotiation.compra_po ? (
+                                <span className="h2 mx-4 font-weight-bold">
+                                    {negotiation.compra_po}
+                                </span>
+                            ) : (
+                                <EmptyList
+                                    message="No se ha agregado un codigo PO"
+                                    className="h4 no-result d-flex justify-content-center align-items-center my-0 mx-3"
+                                />
+                            )}
+                        </p>
                         <button
-                            className="btn btn-lg btn-success btn-round mb-5"
+                            className="btn btn-lg btn-info btn-round"
                             onClick={handleCreate}
                         >
                             <span className="material-icons">

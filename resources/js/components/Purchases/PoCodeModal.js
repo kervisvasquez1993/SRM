@@ -36,7 +36,6 @@ const PoCodeModal = ({ pivot }) => {
             <GenericForm
                 handleSubmit={handleSubmit}
                 disableSubmit={isEditing}
-                handleReset={handleReset}
                 onChange={handleChange}
                 values={data}
             >
