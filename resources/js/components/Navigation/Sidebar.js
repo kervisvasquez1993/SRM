@@ -65,9 +65,7 @@ const Sidebar = () => {
                     </Link>
                 )}
 
-                {(user.rol === "coordinador" ||
-                    user.rol === "comprador" ||
-                    user.rol === "observador") && (
+                {(user.rol === "coordinador" || user.rol === "observador") && (
                     <Link
                         className="menu-link"
                         to="/negotiations"
@@ -114,7 +112,11 @@ const Sidebar = () => {
                     </React.Fragment>
                 )}
 
-                <a className="menu-link mt-4 cerrar-sesion" onClick={handleLogout} href="#">
+                <a
+                    className="menu-link mt-4 cerrar-sesion"
+                    onClick={handleLogout}
+                    href="#"
+                >
                     <i className="material-icons">logout</i>
                     <p>Cerrar Sesión</p>
                 </a>

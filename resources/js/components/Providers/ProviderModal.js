@@ -66,7 +66,7 @@ const ProviderModal = ({ provider, isEditor = false, taskId = null }) => {
     };
 
     const handleReset = e => {
-        setData({ ...emptyProvider });
+        setData({ ...provider, ...emptyProvider });
     };
 
     return (

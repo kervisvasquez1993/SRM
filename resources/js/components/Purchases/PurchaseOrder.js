@@ -1,11 +1,13 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../store/actions/modalActions";
 import { deletePurchaseOrder } from "../../store/actions/purchaseOrderActions";
 import PurchaseOrderModal from "./PurchaseOrderModal";
 
 const PurchaseOrder = ({ purchaseOrder }) => {
     const dispatch = useDispatch();
+    const negotiation = useSelector(state => state.negotiation.negotiation);
+    const user = useSelector(state => state.auth.user);
 
     const handleEdit = () => {
         dispatch(
@@ -21,6 +23,8 @@ const PurchaseOrder = ({ purchaseOrder }) => {
         );
     };
 
+    const isMine = user.id == negotiation.usuario.id;
+
     const handleDelete = () => {
         dispatch(deletePurchaseOrder(purchaseOrder));
     };
@@ -35,20 +39,24 @@ const PurchaseOrder = ({ purchaseOrder }) => {
             <td className="text-right">
                 <div className="d-inline-flex align-items-center">
                     {purchaseOrder.total}
-                    <button
-                        className="btn btn-success btn-circle ml-3"
-                        type="button"
-                        onClick={handleEdit}
-                    >
-                        <span className="material-icons">edit</span>
-                    </button>
-                    <button
-                        className="btn btn-danger btn-circle"
-                        type="button"
-                        onClick={handleDelete}
-                    >
-                        <span className="material-icons">clear</span>
-                    </button>
+                    {isMine && (
+                        <React.Fragment>
+                            <button
+                                className="btn btn-success btn-circle ml-3"
+                                type="button"
+                                onClick={handleEdit}
+                            >
+                                <span className="material-icons">edit</span>
+                            </button>
+                            <button
+                                className="btn btn-danger btn-circle"
+                                type="button"
+                                onClick={handleDelete}
+                            >
+                                <span className="material-icons">clear</span>
+                            </button>
+                        </React.Fragment>
+                    )}
                 </div>
             </td>
         </tr>

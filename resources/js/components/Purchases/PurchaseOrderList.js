@@ -12,12 +12,16 @@ const PurchaseOrderList = () => {
     const purchaseOrders = useSelector(state => state.purchaseOrder.orders);
     const user = useSelector(state => state.auth.user);
     const products = useSelector(state => state.product.products);
+    const negotiation = useSelector(state => state.negotiation.negotiation);
+    
     const dispatch = useDispatch();
     const { id: pivotId } = useParams();
 
     useEffect(() => {
         dispatch(getPurchaseOrdersFromNegotiation(pivotId));
     }, []);
+
+    const isMine = user.id == negotiation.usuario.id;
 
     const handleCreate = () => {
         dispatch(
@@ -43,15 +47,17 @@ const PurchaseOrderList = () => {
 
                     {purchaseOrders.length == 0 && <EmptyList />}
 
-                    <div className="text-center">
-                        <button
-                            className="btn btn-lg btn-success btn-round mb-5"
-                            onClick={handleCreate}
-                        >
-                            <span className="material-icons">add</span>
-                            Agregar
-                        </button>
-                    </div>
+                    {isMine && (
+                        <div className="text-center">
+                            <button
+                                className="btn btn-lg btn-success btn-round mb-5"
+                                onClick={handleCreate}
+                            >
+                                <span className="material-icons">add</span>
+                                Agregar
+                            </button>
+                        </div>
+                    )}
 
                     {purchaseOrders.length > 0 && (
                         <div className="row mb-4">
@@ -72,6 +78,7 @@ const PurchaseOrderList = () => {
                                             return (
                                                 <PurchaseOrder
                                                     purchaseOrder={order}
+                                                    negotiation={negotiation}
                                                     key={order.id}
                                                 />
                                             );

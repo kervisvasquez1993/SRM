@@ -77,6 +77,7 @@ const TaskDetails = () => {
     };
 
     const { text, background } = getColorsForTask(task);
+    const isMine = user.id == task.usuario.id;
 
     return (
         <div className="container-fluid fade-in">
@@ -167,13 +168,14 @@ const TaskDetails = () => {
 
             <div className="mr-auto text-center">
                 <h2 className="py-4">Empresas Asociadas</h2>
-
-                <button
-                    className="btn btn-lg btn-outline-primary btn-round"
-                    onClick={handleCreateProvider}
-                >
-                    Agregar Empresa
-                </button>
+                {isMine && (
+                    <button
+                        className="btn btn-lg btn-outline-primary btn-round"
+                        onClick={handleCreateProvider}
+                    >
+                        Agregar Empresa
+                    </button>
+                )}
             </div>
 
             <TaskProviderList />

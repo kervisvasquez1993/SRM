@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
 import { getNegotiations } from "../../store/actions/negotiationActions";
 import { getUsers } from "../../store/actions/userActions";
+import { isNegotiationCompleted } from "../../utils";
 import CheckboxFilter from "../Filters/CheckboxFilter";
 import Filter from "../Filters/Filter";
 import FilterGroup from "../Filters/FilterGroup";
@@ -21,6 +23,10 @@ const NegotiationList = () => {
     const [filterAfterUser, setFilterAfterUser] = useState([]);
     const [filterAfterCountry, setFilterAfterCountry] = useState([]);
     const [filterAfterCity, setFilterAfterCity] = useState([]);
+
+    if (!(user.rol == "coordinador" || user.rol == "observador")) {
+        return <Redirect to="/home" />;
+    }
 
     useEffect(() => {
         dispatch(getNegotiations());
@@ -87,8 +93,9 @@ const NegotiationList = () => {
     const tasks = new Set();
     filterAfterStatus.forEach(item => tasks.add(item.tarea.nombre));
 
-    const filteredUsers = new Set();
+    let filteredUsers = new Set();
     filterAfterTask.forEach(item => filteredUsers.add(item.usuario.name));
+    filteredUsers = [...filteredUsers].sort();
 
     const countries = new Set();
     filterAfterUser.forEach(item => countries.add(item.proveedor.pais));
@@ -154,133 +161,131 @@ const NegotiationList = () => {
 
     const finishedCount = countByStatusFinished();
 
-    const finishedNegotiations = filtered.filter(
-        item => (item.iniciar_produccion === 1 && item.iniciar_arte === 1)
+    const completedNegotiations = filtered.filter(item =>
+        isNegotiationCompleted(item)
     );
 
-    const negotiationsWithoutPurchase = filtered.filter(item => !item.compra_po);
+    const negotiationsWithoutPurchase = filtered.filter(
+        item => !item.compra_po
+    );
 
     const negotiationsInProgress = filtered.filter(
-        item => !(item.iniciar_produccion === 1 && item.iniciar_arte === 1) && item.compra_po
+        item =>
+            !(item.iniciar_produccion === 1 && item.iniciar_arte === 1) &&
+            item.compra_po
     );
 
     return (
         <React.Fragment>
             <h1 className="text-center my-5">Negociaciones</h1>
-
-            {negotiations.length > 0 ? (
-                <React.Fragment>
-                    <div className="mb-5">
-                        <Filter onUpdate={applyFilter} useRef={filter}>
-                            {
-                                <div className="px-3 row">
-                                    <FilterGroup name="status" text="Estado :">
+            <div className="mb-5">
+                <Filter onUpdate={applyFilter} useRef={filter}>
+                    {
+                        <div className="px-3 row">
+                            <FilterGroup name="status" text="Estado :">
+                                <CheckboxFilter
+                                    key={1}
+                                    id="processing"
+                                    text={`En proceso (${countByStatusProcessing()})`}
+                                />
+                                <CheckboxFilter
+                                    key={2}
+                                    id="finished"
+                                    text={`Completadas (${countByStatusFinished()})`}
+                                />
+                            </FilterGroup>
+                        </div>
+                    }
+                    {tasks.size > 0 && (
+                        <div className="px-3 row">
+                            <FilterGroup name="task" text="Tarea :">
+                                {[...tasks].map(task => {
+                                    return (
                                         <CheckboxFilter
-                                            key={1}
-                                            id="processing"
-                                            text={`En proceso (${countByStatusProcessing()})`}
+                                            key={task}
+                                            id={task}
+                                            text={`${task} (${countByTask(
+                                                task
+                                            )})`}
                                         />
+                                    );
+                                })}
+                            </FilterGroup>
+                        </div>
+                    )}
+                    {filteredUsers.length > 0 && (
+                        <div className="px-3 row">
+                            <FilterGroup name="user" text="Usuario :">
+                                {filteredUsers.map(user => {
+                                    const count = countByUserId(user);
+
+                                    return (
                                         <CheckboxFilter
-                                            key={2}
-                                            id="finished"
-                                            text={`Finalizadas (${countByStatusFinished()})`}
+                                            key={user}
+                                            id={user}
+                                            text={`${user} (${count})`}
                                         />
-                                    </FilterGroup>
-                                </div>
-                            }
-                            {tasks.size > 0 && (
-                                <div className="px-3 row">
-                                    <FilterGroup name="task" text="Tarea :">
-                                        {[...tasks].map(task => {
-                                            return (
-                                                <CheckboxFilter
-                                                    key={task}
-                                                    id={task}
-                                                    text={`${task} (${countByTask(
-                                                        task
-                                                    )})`}
-                                                />
-                                            );
-                                        })}
-                                    </FilterGroup>
-                                </div>
-                            )}
-                            {filteredUsers.size > 0 && (
-                                <div className="px-3 row">
-                                    <FilterGroup name="user" text="Usuario :">
-                                        {[...filteredUsers].map(user => {
-                                            const count = countByUserId(user);
+                                    );
+                                })}
+                            </FilterGroup>
+                        </div>
+                    )}
+                    {countries.size > 0 && (
+                        <div className="px-3 row">
+                            <FilterGroup name="country" text="País :">
+                                {[...countries].map(item => {
+                                    return (
+                                        <CheckboxFilter
+                                            key={item}
+                                            id={item}
+                                            text={`${item} (${countByCountry(
+                                                item
+                                            )})`}
+                                        />
+                                    );
+                                })}
+                            </FilterGroup>
+                        </div>
+                    )}
+                    {cities.size > 0 && (
+                        <div className="px-3 row">
+                            <FilterGroup name="city" text="Ciudad :">
+                                {[...cities].map(item => {
+                                    return (
+                                        <CheckboxFilter
+                                            key={item}
+                                            id={item}
+                                            text={`${item} (${countByCity(
+                                                item
+                                            )})`}
+                                        />
+                                    );
+                                })}
+                            </FilterGroup>
+                        </div>
+                    )}
 
-                                            return (
-                                                <CheckboxFilter
-                                                    key={user}
-                                                    id={user}
-                                                    text={`${user} (${count})`}
-                                                />
-                                            );
-                                        })}
-                                    </FilterGroup>
-                                </div>
-                            )}
-                            {countries.size > 0 && (
-                                <div className="px-3 row">
-                                    <FilterGroup name="country" text="País :">
-                                        {[...countries].map(item => {
-                                            return (
-                                                <CheckboxFilter
-                                                    key={item}
-                                                    id={item}
-                                                    text={`${item} (${countByCountry(
-                                                        item
-                                                    )})`}
-                                                />
-                                            );
-                                        })}
-                                    </FilterGroup>
-                                </div>
-                            )}
-                            {cities.size > 0 && (
-                                <div className="px-3 row">
-                                    <FilterGroup name="city" text="Ciudad :">
-                                        {[...cities].map(item => {
-                                            return (
-                                                <CheckboxFilter
-                                                    key={item}
-                                                    id={item}
-                                                    text={`${item} (${countByCity(
-                                                        item
-                                                    )})`}
-                                                />
-                                            );
-                                        })}
-                                    </FilterGroup>
-                                </div>
-                            )}
+                    {districts.size > 0 && (
+                        <div className="px-3 row">
+                            <FilterGroup name="district" text="Distrito :">
+                                {[...districts].map(item => {
+                                    return (
+                                        <CheckboxFilter
+                                            key={item}
+                                            id={item}
+                                            text={`${item} (${countByDistrict(
+                                                item
+                                            )})`}
+                                        />
+                                    );
+                                })}
+                            </FilterGroup>
+                        </div>
+                    )}
+                </Filter>
+            </div>
 
-                            {districts.size > 0 && (
-                                <div className="px-3 row">
-                                    <FilterGroup
-                                        name="district"
-                                        text="Distrito :"
-                                    >
-                                        {[...districts].map(item => {
-                                            return (
-                                                <CheckboxFilter
-                                                    key={item}
-                                                    id={item}
-                                                    text={`${item} (${countByDistrict(
-                                                        item
-                                                    )})`}
-                                                />
-                                            );
-                                        })}
-                                    </FilterGroup>
-                                </div>
-                            )}
-                        </Filter>
-                    </div>
-
-                    {/* <div className="d-flex flex-column-reverse">
+            {/* <div className="d-flex flex-column-reverse">
                         {filtered.map(negotiation => {
                             return (
                                 <NegotiationCard
@@ -291,6 +296,8 @@ const NegotiationList = () => {
                         })}
                     </div> */}
 
+            {filtered.length > 0 ? (
+                <React.Fragment>
                     {negotiationsInProgress.length > 0 && (
                         <React.Fragment>
                             <h2 className="mt-4 h3">
@@ -331,14 +338,14 @@ const NegotiationList = () => {
                         </React.Fragment>
                     )}
 
-                    {finishedNegotiations.length > 0 && (
+                    {completedNegotiations.length > 0 && (
                         <React.Fragment>
                             <h2 className="mt-4 h3">
                                 Negociaciones finalizadas :
                             </h2>
                             <hr className="mb-4" />
                             <div className="d-flex flex-column-reverse">
-                                {finishedNegotiations.map(negotiation => {
+                                {completedNegotiations.map(negotiation => {
                                     return (
                                         <NegotiationCard
                                             key={negotiation.id}
