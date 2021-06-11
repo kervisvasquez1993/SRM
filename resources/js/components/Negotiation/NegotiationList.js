@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
 import { getNegotiations } from "../../store/actions/negotiationActions";
 import { getUsers } from "../../store/actions/userActions";
 import { isNegotiationCompleted } from "../../utils";
@@ -22,6 +23,10 @@ const NegotiationList = () => {
     const [filterAfterUser, setFilterAfterUser] = useState([]);
     const [filterAfterCountry, setFilterAfterCountry] = useState([]);
     const [filterAfterCity, setFilterAfterCity] = useState([]);
+
+    if (!(user.rol == "coordinador" || user.rol == "observador")) {
+        return <Redirect to="/home" />;
+    }
 
     useEffect(() => {
         dispatch(getNegotiations());
