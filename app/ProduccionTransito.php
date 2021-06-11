@@ -7,6 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProduccionTransito extends Model
 {
+    protected $fillable =
+    [
+        'pagos_anticipados',
+        'inicio_produccion',
+        'fin_produccion',
+        'pago_balance',
+        'transito_nacionalizacion',
+        'fin_produccion_transito',
+        'salida_puero_origen',
+
+
+    ];
+   
     public function pivotTable()
     {   
         return $this->belongsTo(PivotTareaProveeder::class, 'pivot_tarea_proveeder_id');
