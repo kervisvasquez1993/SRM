@@ -167,13 +167,14 @@ const TaskDetails = () => {
 
             <div className="mr-auto text-center">
                 <h2 className="py-4">Empresas Asociadas</h2>
-
-                <button
-                    className="btn btn-lg btn-outline-primary btn-round"
-                    onClick={handleCreateProvider}
-                >
-                    Agregar Empresa
-                </button>
+                {user.id == task.usuario.id && (
+                    <button
+                        className="btn btn-lg btn-outline-primary btn-round"
+                        onClick={handleCreateProvider}
+                    >
+                        Agregar Empresa
+                    </button>
+                )}
             </div>
 
             <TaskProviderList />
