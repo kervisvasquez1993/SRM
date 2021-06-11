@@ -23,7 +23,7 @@ const PoCode = ({ pivot }) => {
             {purchaseOrders.length > 0 && (
                 <React.Fragment>
                     <div className="mr-auto text-center py-4">
-                        <p className="d-flex justify-content-center align-items-center flex-wrap">
+                        <div className="d-flex justify-content-center align-items-center flex-wrap">
                             <span className="h2 my-0">Código PO : </span>
                             {negotiation.compra_po ? (
                                 <span className="h2 mx-4 font-weight-bold">
@@ -35,7 +35,7 @@ const PoCode = ({ pivot }) => {
                                     className="h4 no-result d-flex justify-content-center align-items-center my-0 mx-3"
                                 />
                             )}
-                        </p>
+                        </div>
                         <button
                             className="btn btn-lg btn-info btn-round"
                             onClick={handleCreate}
