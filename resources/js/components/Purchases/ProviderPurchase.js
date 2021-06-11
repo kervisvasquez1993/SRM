@@ -14,6 +14,7 @@ import ProductModal, { emptyProduct } from "../Products/ProductModal";
 import Error from "../Navigation/Error";
 import EmptyList from "../Navigation/EmptyList";
 import PurchaseOrderList from "./PurchaseOrderList";
+import { getSum } from "../../utils";
 
 const ProviderPurchase = () => {
     const history = useHistory();
@@ -217,6 +218,16 @@ const ProviderPurchase = () => {
                                     </tr>
                                 );
                             })}
+                            <tr>
+                                <th scope="row" colSpan="16">
+                                    Total
+                                </th>
+                                <td>{getSum(products, "total_cbm")}</td>
+                                <td>{getSum(products, "total_n_w")}</td>
+                                <td>{getSum(products, "total_g_w")}</td>
+                                <td>{getSum(products, "total_ctn")}</td>
+                                <td>{getSum(products, "total_pcs")}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
