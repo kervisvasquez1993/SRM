@@ -3,17 +3,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
 import { startNegotiation } from "../../store/actions/providerActions";
-import { greenCard, normalCard, useUser } from "../../utils";
+import { blueCard, greenCard, normalCard, redCard, useUser } from "../../utils";
 import Accordion from "../UI/Accordion";
 import ProviderModal from "./ProviderModal";
 
-const ProviderCard = ({ provider }) => {
+const ProviderCard = ({ provider, selectedProvider }) => {
     const dispatch = useDispatch();
     const user = useUser();
     const { id: taskId } = useParams();
 
     const edited = useSelector(state => state.provider.edited);
     const task = useSelector(state => state.task.task);
+    const isSelected = selectedProvider === provider;
 
     const container = useRef(null);
 
@@ -64,7 +65,13 @@ const ProviderCard = ({ provider }) => {
         dispatch(startNegotiation(taskId, id));
     };
 
-    const { text, background } = enNegociacion ? greenCard : normalCard;
+    const { text, background } = isSelected
+        ? greenCard
+        : selectedProvider
+        ? redCard
+        : enNegociacion
+        ? blueCard
+        : normalCard;
 
     return (
         <div
@@ -86,6 +93,7 @@ const ProviderCard = ({ provider }) => {
                             Ver Compra
                         </Link>
                     ) : (
+                        !selectedProvider &&
                         (user.rol == "coordinador" || isMine) && (
                             <div className="d-flex">
                                 <button
@@ -171,13 +179,25 @@ const ProviderCard = ({ provider }) => {
                     </React.Fragment>
                 )}
 
-                {enNegociacion && (
+                {isSelected ? (
                     <div className="d-flex justify-content-center align-items-center mt-4">
+                        <span className="material-icons">done</span>
                         <span className="material-icons mr-2">done</span>
                         <strong className="h4">
-                            Ya se ha inciado una negociacion con esta empresa
+                            Ya se inicio producción y arte con esta empresa
                         </strong>
                     </div>
+                ) : (
+                    enNegociacion &&
+                    !selectedProvider && (
+                        <div className="d-flex justify-content-center align-items-center mt-4">
+                            <span className="material-icons mr-2">done</span>
+                            <strong className="h4">
+                                Ya se ha inciado una negociacion con esta
+                                empresa
+                            </strong>
+                        </div>
+                    )
                 )}
 
                 {/* {(pais || ciudad || distrito) && (
