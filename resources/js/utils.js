@@ -82,9 +82,7 @@ export function getColorsFromDates(startDate, finishDate) {
     if (days <= 4) {
         return yellowCard;
     } else {
-        if (percentage < 0.333) {
-            return redCard;
-        } else if (percentage < 0.666) {
+        if (percentage < 0.5) {
             return yellowCard;
         } else {
             return blueCard;

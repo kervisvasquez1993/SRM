@@ -47,7 +47,7 @@ const TaskCard = ({ task }) => {
     return (
         <Link to={`/tasks/${id}`}>
             <div
-                className={`card task-card fade-in ${
+                className={`card my-2 task-card fade-in ${
                     editedTask && editedTask.id === id ? "jump" : ""
                 } ${text} ${background}`}
             >
