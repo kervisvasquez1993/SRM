@@ -12,17 +12,24 @@ use Illuminate\Support\Facades\Validator;
 
 class PivotCompraController extends ApiController
 {
+    private $validator_array = [
+        'orden_compra' => 'required',
+        'item' => 'required',
+        'descripcion' => 'required',
+        'registro_salud' => 'required',
+        'cantidad_pcs' => 'required|numeric',
+        'total' => 'required|numeric'   
+    ];
+
+    public function index($negociacion_id)
+    {
+        $pivot = PivotTareaProveeder::findOrFail($negociacion_id);
+        return $this->showAll($pivot->compras);
+    }
+
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            
-            'orden_compra' => 'required',
-            'item' => 'required',
-            'descripcion' => 'required',
-            'registro_salud' => 'required',
-            'cantidad_pcs' => 'required|numeric',
-            'total' => 'required|numeric'   
-        ]);
+        $validator = Validator::make($request->all(), $this->validator_array);
 
         if ($validator->fails())
         {
@@ -39,32 +46,20 @@ class PivotCompraController extends ApiController
         $compra->total = $request->total;
         $compra->comprador = auth()->user()->email;
         $compra->save();
+
         return $this->showOne($compra);
     }
-
  
-    public function show($negociacion_id)
+    public function show($compra_id)
     {
-        $pivot =  PivotTareaProveeder::findOrFail($negociacion_id);
-        if ($pivot->compra) {
-            return $this->showOne($pivot->compra);
-        }
-
-        return $this->errorResponse("No existe la orden de compra", Response::HTTP_NOT_FOUND);
+        $compra =  PivotTareaProveeder::findOrFail($compra_id);
+        return $this->showOne($compra);
     }
 
   
     public function update(Request $request, $compra_id)
     {
-        $validator = Validator::make($request->all(), [
-            
-            'orden_compra' => 'required',
-            'item' => 'required',
-            'descripcion' => 'required',
-            'registro_salud' => 'required',
-            'cantidad_pcs' => 'required|numeric',
-            'total' => 'required|numeric'   
-        ]);
+        $validator = Validator::make($request->all(), $this->validator_array);
 
         if ($validator->fails())
         {
@@ -74,6 +69,7 @@ class PivotCompraController extends ApiController
         $compra = Compra::findOrFail($compra_id);
         $compra->update($request->all());
         $compra->save();
+
         return $this->showOne($compra);
     }
     
@@ -81,6 +77,7 @@ class PivotCompraController extends ApiController
     {
         $compra = Compra::findOrFail($compra_id);
         $compra->delete();
+        
         return $this->showOne($compra);
     }
 }
