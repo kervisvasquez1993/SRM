@@ -15,6 +15,8 @@ import Error from "../Navigation/Error";
 import EmptyList from "../Navigation/EmptyList";
 import PurchaseOrderList from "./PurchaseOrderList";
 import { getSum } from "../../utils";
+import PoCode from "./PoCode";
+import { getNegotiation } from "../../store/actions/negotiationActions";
 
 const ProviderPurchase = () => {
     const history = useHistory();
@@ -22,9 +24,10 @@ const ProviderPurchase = () => {
     const { id } = useParams();
     const user = useSelector(state => state.auth.user);
     const products = useSelector(state => state.product.products);
-
-    const [pivot, setPivot] = useState(null);
-    const [pivotError, setPivotError] = useState(false);
+    const negotiation = useSelector(state => state.negotiation.negotiation);
+    const negotiationError = useSelector(
+        state => state.negotiation.negotiationError
+    );
 
     if (
         !(
@@ -39,27 +42,19 @@ const ProviderPurchase = () => {
     useEffect(() => {
         document.querySelector("#wrapper").scrollTo(0, 0);
 
-        axios
-            .get(`${apiURL}/pivot/${id}`)
-            .then(response => {
-                setPivot(response.data.data);
-            })
-            .catch(e => {
-                setPivotError(true);
-            });
-
+        dispatch(getNegotiation(id));
         dispatch(getProductsFromNegotiation(id));
     }, []);
 
-    if (pivotError) {
+    if (negotiationError) {
         return <Error />;
     }
 
-    if (!pivot) {
+    if (!negotiation) {
         return <LoadingScreen />;
     }
 
-    if (user.rol === "comprador" && user.id != pivot.usuario.id) {
+    if (user.rol === "comprador" && user.id != negotiation.usuario.id) {
         return <Redirect to="/home" />;
     }
 
@@ -112,13 +107,16 @@ const ProviderPurchase = () => {
                 </div>
             </div>
 
+            <PoCode pivot={negotiation} />
+
             <PurchaseOrderList />
+            
 
             <div className="mr-auto text-center py-4">
                 <h1 className="h2">Productos</h1>
             </div>
 
-            {user.id == pivot.usuario.id && (
+            {user.id == negotiation.usuario.id && (
                 <div className="text-center">
                     <button
                         className="btn btn-lg btn-success btn-round mb-4"

@@ -24,6 +24,25 @@ export function getNegotiations() {
     };
 }
 
+export function getNegotiation(id) {
+    return async (dispatch, getState) => {
+        dispatch({ type: "GET_NEGOTIATION_REQUEST" });
+
+        try {
+            const response = await axios.get(`${apiURL}/pivot/${id}`);
+
+            dispatch({
+                type: "GET_NEGOTIATION_SUCCESS",
+                payload: response.data.data
+            });
+        } catch (e) {
+            dispatch({
+                type: "GET_NEGOTIATION_FAILURE"
+            });
+        }
+    };
+}
+
 export function startProductionWithNegotiation(negotiationIndex) {
     return async (dispatch, getState) => {
         dispatch({ type: "START_PRODUCTION_REQUEST" });
@@ -85,6 +104,33 @@ export function startArtWithNegotiation(negotiationIndex) {
         } catch (e) {
             dispatch({
                 type: "START_ART_FAILURE"
+            });
+        }
+    };
+}
+
+export function editPoCode(data) {
+    return async (dispatch, getState) => {
+        dispatch({ type: "EDIT_PO_CODE_REQUEST" });
+
+        try {
+            const response = await axios.put(
+                `${apiURL}/pivot/${data.id}`,
+                data
+            );
+
+            dispatch({
+                type: "EDIT_PO_CODE_SUCCESS",
+                payload: response.data.data
+            });
+
+            dispatch(closeModal());
+
+            toast.success("✔️ Código PO editado");
+        } catch (e) {
+            dispatch({
+                type: "EDIT_PO_CODE_FAILURE",
+                errors: e.response.data
             });
         }
     };
