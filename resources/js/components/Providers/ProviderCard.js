@@ -11,7 +11,10 @@ const ProviderCard = ({ provider }) => {
     const dispatch = useDispatch();
     const user = useUser();
     const { id: taskId } = useParams();
+
     const edited = useSelector(state => state.provider.edited);
+    const task = useSelector(state => state.task.task);
+
     const container = useRef(null);
 
     useEffect(() => {
@@ -33,6 +36,8 @@ const ProviderCard = ({ provider }) => {
         telefono,
         pivot
     } = provider;
+
+    const isMine = user.id == task.usuario.id;
 
     const handleEdit = e => {
         e.preventDefault();
@@ -80,16 +85,18 @@ const ProviderCard = ({ provider }) => {
                         >
                             Ver Compra
                         </Link>
-                    ) : ((user.rol == "coordinador" || user.rol == "comprador") && (
-                        <div className="d-flex">
-                            <button
-                                className="btn btn-sm btn-outline-primary btn-round"
-                                onClick={handleNegotiate}
-                            >
-                                Negociar
-                            </button>
-                        </div>
-                    ))}
+                    ) : (
+                        (user.rol == "coordinador" || isMine) && (
+                            <div className="d-flex">
+                                <button
+                                    className="btn btn-sm btn-outline-primary btn-round"
+                                    onClick={handleNegotiate}
+                                >
+                                    Negociar
+                                </button>
+                            </div>
+                        )
+                    )}
                 </div>
                 <hr />
             </div>
@@ -239,7 +246,7 @@ const ProviderCard = ({ provider }) => {
                 )} */}
             </div>
 
-            {(user.rol == "coordinador" || user.rol == "comprador") && (
+            {isMine && (
                 <div className="card-footer">
                     <div className="d-flex justify-content-end w-100">
                         <div className="d-flex">

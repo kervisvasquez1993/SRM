@@ -58,6 +58,8 @@ const ProviderPurchase = () => {
         return <Redirect to="/home" />;
     }
 
+    const isMine = user.id == negotiation.usuario.id;
+
     const handleGoBack = () => {
         history.goBack();
     };
@@ -109,14 +111,13 @@ const ProviderPurchase = () => {
 
             <PoCode pivot={negotiation} />
 
-            <PurchaseOrderList />
-            
+            <PurchaseOrderList negotiation={negotiation} />
 
             <div className="mr-auto text-center py-4">
                 <h1 className="h2">Productos</h1>
             </div>
 
-            {user.id == negotiation.usuario.id && (
+            {isMine && (
                 <div className="text-center">
                     <button
                         className="btn btn-lg btn-success btn-round mb-4"
@@ -185,32 +186,36 @@ const ProviderPurchase = () => {
                                         <td className="text-right">
                                             <div className="d-inline-flex align-items-center">
                                                 {product.corregido_total_pcs}
-                                                <div className="d-inline-flex justify-content-end flex-grow-1">
-                                                    <button
-                                                        className="btn btn-success btn-circle ml-3"
-                                                        type="button"
-                                                        onClick={() =>
-                                                            handleEdit(product)
-                                                        }
-                                                    >
-                                                        <span className="material-icons">
-                                                            edit
-                                                        </span>
-                                                    </button>
-                                                    <button
-                                                        className="btn btn-danger btn-circle"
-                                                        type="button"
-                                                        onClick={() =>
-                                                            handleDelete(
-                                                                product
-                                                            )
-                                                        }
-                                                    >
-                                                        <span className="material-icons">
-                                                            clear
-                                                        </span>
-                                                    </button>
-                                                </div>
+                                                {isMine && (
+                                                    <div className="d-inline-flex justify-content-end flex-grow-1">
+                                                        <button
+                                                            className="btn btn-success btn-circle ml-3"
+                                                            type="button"
+                                                            onClick={() =>
+                                                                handleEdit(
+                                                                    product
+                                                                )
+                                                            }
+                                                        >
+                                                            <span className="material-icons">
+                                                                edit
+                                                            </span>
+                                                        </button>
+                                                        <button
+                                                            className="btn btn-danger btn-circle"
+                                                            type="button"
+                                                            onClick={() =>
+                                                                handleDelete(
+                                                                    product
+                                                                )
+                                                            }
+                                                        >
+                                                            <span className="material-icons">
+                                                                clear
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                )}
                                             </div>
                                         </td>
                                     </tr>

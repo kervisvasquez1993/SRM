@@ -8,6 +8,8 @@ const PoCode = ({ pivot }) => {
     const dispatch = useDispatch();
     const negotiation = useSelector(state => state.negotiation.negotiation);
     const purchaseOrders = useSelector(state => state.purchaseOrder.orders);
+    const user = useSelector(state => state.auth.user);
+    const isMine = user.id == negotiation.usuario.id;
 
     const handleCreate = () => {
         dispatch(
@@ -36,15 +38,17 @@ const PoCode = ({ pivot }) => {
                                 />
                             )}
                         </div>
-                        <button
-                            className="btn btn-lg btn-info btn-round"
-                            onClick={handleCreate}
-                        >
-                            <span className="material-icons">
-                                {negotiation.compra_po ? "edit" : "add"}
-                            </span>
-                            {negotiation.compra_po ? "Editar" : "Agregar"}
-                        </button>
+                        {isMine && (
+                            <button
+                                className="btn btn-lg btn-info btn-round"
+                                onClick={handleCreate}
+                            >
+                                <span className="material-icons">
+                                    {negotiation.compra_po ? "edit" : "add"}
+                                </span>
+                                {negotiation.compra_po ? "Editar" : "Agregar"}
+                            </button>
+                        )}
                     </div>
                 </React.Fragment>
             )}
