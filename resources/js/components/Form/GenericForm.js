@@ -3,10 +3,10 @@ import React, { createContext, useState } from "react";
 export const FormContext = createContext();
 
 const GenericForm = props => {
-    const { handleSubmit, disableSubmit, handleReset, onChange } = props;
+    const { handleSubmit, disableSubmit, handleReset = null, onChange } = props;
 
     return (
-        <FormContext.Provider value={{...props}}>
+        <FormContext.Provider value={{ ...props }}>
             <form className="form-horizontal" onSubmit={handleSubmit}>
                 {props.children}
 
@@ -24,13 +24,15 @@ const GenericForm = props => {
                             "Enviar"
                         )}
                     </button>
-                    <button
-                        className="btn btn-sm btn-outline-warning btn-round"
-                        type="reset"
-                        onClick={handleReset}
-                    >
-                        Limpiar
-                    </button>
+                    {handleReset && (
+                        <button
+                            className="btn btn-sm btn-outline-warning btn-round"
+                            type="reset"
+                            onClick={handleReset}
+                        >
+                            Limpiar
+                        </button>
+                    )}
                 </div>
             </form>
         </FormContext.Provider>

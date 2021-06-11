@@ -18,7 +18,8 @@ const NegotiationModal = ({ negotiation }) => {
         id,
         iniciar_produccion,
         iniciar_arte,
-        compra: purchase,
+        compras_total: totalPurchase,
+        compra_po: poCode,
         tarea: task,
         proveedor: provider,
         usuario
@@ -105,7 +106,7 @@ const NegotiationModal = ({ negotiation }) => {
                                 onClick={e => handleClickTab(e, "purchase")}
                             >
                                 <i className="material-icons">receipt_long</i>
-                                Compra
+                                Compras
                             </a>
                         </li>
                     </ul>
@@ -263,31 +264,22 @@ const NegotiationModal = ({ negotiation }) => {
                                 currentTab === "purchase" ? "active" : ""
                             }`}
                         >
-                            {purchase ? (
+                            {totalPurchase > 0 ? (
                                 <React.Fragment>
                                     <p>
-                                        <strong>Orden de Compra : </strong>
-                                        {purchase.orden_compra}
+                                        <strong>Total de Compra : </strong>
+                                        {totalPurchase}
                                     </p>
-                                    <p>
-                                        <strong>Item : </strong>
-                                        {purchase.item}
-                                    </p>
-                                    <p>
-                                        <strong>Registro Salud : </strong>
-                                        {purchase.registro_salud}
-                                    </p>
-                                    <p>
-                                        <strong>Cantidad PCS : </strong>
-                                        {purchase.cantidad_pcs}
-                                    </p>
-                                    <p>
-                                        <strong>Descripción : </strong>
-                                        {purchase.descripcion}
-                                    </p>
-                                    <p>
-                                        <strong>Total: </strong>
-                                        {purchase.total}
+                                    <p className="d-flex">
+                                        <strong>Código PO : </strong>
+                                        {poCode || (
+                                            <span className="d-inline-flex ml-3">
+                                                <span className="material-icons mr-2">
+                                                    search_off
+                                                </span>
+                                                No se ha agregado
+                                            </span>
+                                        )}
                                     </p>
                                 </React.Fragment>
                             ) : (
@@ -319,7 +311,7 @@ const NegotiationModal = ({ negotiation }) => {
                 </div>
             )}
 
-            {purchase ? (
+            {poCode ? (
                 user.rol === "coordinador" &&
                 (iniciar_arte === 0 || iniciar_produccion === 0) && (
                     <div className="modal-footer">
@@ -369,8 +361,8 @@ const NegotiationModal = ({ negotiation }) => {
                 <div className="modal-footer bg-danger">
                     <p className="d-flex text-white align-items-center h6">
                         <span className="material-icons mr-2">warning</span>
-                        Esta negociación no puede iniciar arte o producción
-                        hasta que se le añada una orden de compra
+                        Esta negociación no puede iniciar arte o producción sin
+                        ordenes de compra y un codigo PO
                     </p>
                 </div>
             )}

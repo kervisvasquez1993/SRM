@@ -48,7 +48,7 @@ Route::middleware('auth.jwt')->group(function () {
 
     Route::get('/pivot', 'Api\Pivot\PivotController@index');
     Route::get('/pivot/{pivot_id}', 'Api\Pivot\PivotController@show');
-    Route::patch('/pivot/{pivot_id}', 'Api\Pivot\PivotController@update');
+    Route::put('/pivot/{pivot_id}', 'Api\Pivot\PivotController@update');
 
     //INICIA ARTE y negociacion 
 

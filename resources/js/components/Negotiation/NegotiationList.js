@@ -158,10 +158,10 @@ const NegotiationList = () => {
         item => (item.iniciar_produccion === 1 && item.iniciar_arte === 1)
     );
 
-    const negotiationsWithoutPurchase = filtered.filter(item => !item.compra);
+    const negotiationsWithoutPurchase = filtered.filter(item => !item.compra_po);
 
     const negotiationsInProgress = filtered.filter(
-        item => !(item.iniciar_produccion === 1 && item.iniciar_arte === 1) && item.compra
+        item => !(item.iniciar_produccion === 1 && item.iniciar_arte === 1) && item.compra_po
     );
 
     return (
@@ -313,7 +313,7 @@ const NegotiationList = () => {
                     {negotiationsWithoutPurchase.length > 0 && (
                         <React.Fragment>
                             <h2 className="mt-4 h3">
-                                Negociaciones sin orden de compra :
+                                Negociaciones sin orden de compra o productos:
                             </h2>
                             <hr className="mb-4" />
                             <div className="d-flex flex-column-reverse">

@@ -67,7 +67,8 @@ class PivotController extends ApiController
         $pivot = PivotTareaProveeder::findOrFail($pivotTareaProveederId);
         $pivot->iniciar_arte = 1;
         $pivot->save();
-        $this->artesCreate($pivot->id, $pivot->compra->item);
+        // TODO: Cambiar la forma en que se inicializa el nombre
+        $this->artesCreate($pivot->id, $pivot->compra_po);
         $pivotResource = new PivotTareaProveederResource($pivot);
 
         return $this->showOneResource($pivotResource);
