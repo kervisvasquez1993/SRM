@@ -17,7 +17,8 @@ const NegotiationCard = ({ negotiation }) => {
         iniciar_arte,
         tarea: task,
         proveedor,
-        compra: purchase
+        compras_total: totalPurchase,
+        compra_po: poCode
     } = negotiation;
 
     const handleOpen = () => {
@@ -58,22 +59,30 @@ const NegotiationCard = ({ negotiation }) => {
             </div>
 
             <div className="card-body py-0 my-0 ml-2">
-                {hasNoProducts(negotiation) && (
+                {(hasNoProducts(negotiation) && (
                     <p className="card-text d-flex align-items-center">
                         <span className="material-icons mr-2 text-danger">
                             warning
                         </span>
                         No tiene productos
                     </p>
-                )}
-                {!purchase && (
-                    <p className="card-text d-flex align-items-center">
-                        <span className="material-icons mr-2 text-danger">
-                            warning
-                        </span>
-                        No tiene una orden de compra
-                    </p>
-                )}
+                )) ||
+                    (totalPurchase == 0 && (
+                        <p className="card-text d-flex align-items-center">
+                            <span className="material-icons mr-2 text-danger">
+                                warning
+                            </span>
+                            No tiene una orden de compra
+                        </p>
+                    )) ||
+                        (!poCode && (
+                            <p className="card-text d-flex align-items-center">
+                                <span className="material-icons mr-2 text-danger">
+                                    warning
+                                </span>
+                                No tiene un código PO
+                            </p>
+                        ))}
             </div>
 
             <div className="card-footer">
