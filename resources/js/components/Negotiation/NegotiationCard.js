@@ -75,34 +75,37 @@ const NegotiationCard = ({ negotiation }) => {
                             No tiene una orden de compra
                         </p>
                     )) ||
-                        (!poCode && (
-                            <p className="card-text d-flex align-items-center">
-                                <span className="material-icons mr-2 text-danger">
-                                    warning
-                                </span>
-                                No tiene un código PO
-                            </p>
-                        ))}
+                    (!poCode && (
+                        <p className="card-text d-flex align-items-center">
+                            <span className="material-icons mr-2 text-danger">
+                                warning
+                            </span>
+                            No tiene un código PO
+                        </p>
+                    ))}
             </div>
 
             <div className="card-footer">
                 <div className="d-flex justify-content-between align-items-center w-100 flex-wrap">
                     <div className="d-flex">
-                        {background === "bg-danger" ? (
-                            <React.Fragment>
-                                <i className="material-icons mr-1">warning</i>
-                                <strong>Esta tarea expiró</strong>
-                            </React.Fragment>
-                        ) : (
-                            <React.Fragment>
-                                <i className="material-icons mr-1">
-                                    access_time
-                                </i>
-                                <strong>
-                                    Finaliza en {remainingDays} días
-                                </strong>
-                            </React.Fragment>
-                        )}
+                        {background != "bg-success" &&
+                            (background === "bg-danger" ? (
+                                <React.Fragment>
+                                    <i className="material-icons mr-1">
+                                        warning
+                                    </i>
+                                    <strong>Esta tarea expiró</strong>
+                                </React.Fragment>
+                            ) : (
+                                <React.Fragment>
+                                    <i className="material-icons mr-1">
+                                        access_time
+                                    </i>
+                                    <strong>
+                                        Finaliza en {remainingDays} días
+                                    </strong>
+                                </React.Fragment>
+                            ))}
                     </div>
 
                     <button className="btn btn-sm btn-info btn-round">
