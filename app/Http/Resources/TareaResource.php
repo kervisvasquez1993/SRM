@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TareaResource extends JsonResource
@@ -15,6 +16,7 @@ class TareaResource extends JsonResource
             'descripcion' => $this->descripcion,
             'fecha_fin' => $this->fecha_fin,
             'created_at' => $this->created_at,
+            'completada' => !$this->pivotTareaProveedor->where('iniciar_produccion', 1)->where('iniciar_arte', 1)->isEmpty()
         ];
 
         return parent::toArray($request);
