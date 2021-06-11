@@ -139,3 +139,24 @@ export function getSum(array, column) {
     const result = values.reduce((a, b) => a + b);
     return values.reduce((a, b) => a + b);
 }
+
+export function isNegotiationCompleted(negotiation) {
+    return (
+        negotiation.iniciar_produccion === 1 && negotiation.iniciar_arte === 1
+    );
+}
+
+// If a negotiation has started production and arts, then the rest of the providers of the same task
+// must not been shown
+export function filterNegotiations(negotiations) {
+    negotiations.forEach(i => {
+        if (isNegotiationCompleted(i)) {
+            negotiations = negotiations.filter(j => {
+                if (j.tarea.id === i.tarea.id && i != j) return false;
+                return true;
+            });
+        }
+    });
+
+    return negotiations;
+}

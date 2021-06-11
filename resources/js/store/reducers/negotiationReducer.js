@@ -1,3 +1,5 @@
+import { filterNegotiations, isNegotiationCompleted } from "../../utils";
+
 const defaultState = {
     negotiations: [],
     isStarting: false,
@@ -16,7 +18,7 @@ const negotiationReducer = (state = defaultState, action) => {
         case "GET_NEGOTIATIONS_SUCCESS":
             return {
                 ...state,
-                negotiations: payload
+                negotiations: filterNegotiations(payload)
             };
         case "GET_NEGOTIATIONS_FAILURE":
             return {
@@ -56,7 +58,7 @@ const negotiationReducer = (state = defaultState, action) => {
 
             return {
                 ...state,
-                negotiations: newList,
+                negotiations: filterNegotiations(newList),
                 isStarting: false
             };
         case "START_PRODUCTION_FAILURE":
@@ -76,7 +78,7 @@ const negotiationReducer = (state = defaultState, action) => {
 
             return {
                 ...state,
-                negotiations: _newList,
+                negotiations: filterNegotiations(_newList),
                 isStarting: false
             };
         case "START_ART_FAILURE":
@@ -84,22 +86,22 @@ const negotiationReducer = (state = defaultState, action) => {
                 ...state,
                 isStarting: false
             };
-            case "EDIT_PO_CODE_REQUEST":
-                return {
-                    ...state,
-                    isEditing: true
-                };
-            case "EDIT_PO_CODE_SUCCESS":
-                return {
-                    ...state,
-                    isEditing: false,
-                    negotiation: payload,
-                };
-            case "EDIT_PO_CODE_FAILURE":
-                return {
-                    ...state,
-                    isEditing: false
-                };
+        case "EDIT_PO_CODE_REQUEST":
+            return {
+                ...state,
+                isEditing: true
+            };
+        case "EDIT_PO_CODE_SUCCESS":
+            return {
+                ...state,
+                isEditing: false,
+                negotiation: payload
+            };
+        case "EDIT_PO_CODE_FAILURE":
+            return {
+                ...state,
+                isEditing: false
+            };
         default:
             return state;
     }

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getNegotiations } from "../../store/actions/negotiationActions";
 import { getUsers } from "../../store/actions/userActions";
+import { isNegotiationCompleted } from "../../utils";
 import CheckboxFilter from "../Filters/CheckboxFilter";
 import Filter from "../Filters/Filter";
 import FilterGroup from "../Filters/FilterGroup";
@@ -155,8 +156,8 @@ const NegotiationList = () => {
 
     const finishedCount = countByStatusFinished();
 
-    const finishedNegotiations = filtered.filter(
-        item => item.iniciar_produccion === 1 && item.iniciar_arte === 1
+    const completedNegotiations = filtered.filter(item =>
+        isNegotiationCompleted(item)
     );
 
     const negotiationsWithoutPurchase = filtered.filter(
@@ -185,7 +186,7 @@ const NegotiationList = () => {
                                 <CheckboxFilter
                                     key={2}
                                     id="finished"
-                                    text={`Finalizadas (${countByStatusFinished()})`}
+                                    text={`Completadas (${countByStatusFinished()})`}
                                 />
                             </FilterGroup>
                         </div>
@@ -332,14 +333,14 @@ const NegotiationList = () => {
                         </React.Fragment>
                     )}
 
-                    {finishedNegotiations.length > 0 && (
+                    {completedNegotiations.length > 0 && (
                         <React.Fragment>
                             <h2 className="mt-4 h3">
                                 Negociaciones finalizadas :
                             </h2>
                             <hr className="mb-4" />
                             <div className="d-flex flex-column-reverse">
-                                {finishedNegotiations.map(negotiation => {
+                                {completedNegotiations.map(negotiation => {
                                     return (
                                         <NegotiationCard
                                             key={negotiation.id}
