@@ -6,13 +6,14 @@ import { openModal } from "../../store/actions/modalActions";
 import {
     dateToString,
     getRemainingDaysToFinishTask,
-    getColorsForTask
+    getColorsForTask,
+    greenCard
 } from "../../utils";
 import TaskModal from "./TaskModal";
 
 const TaskCard = ({ task }) => {
     const dispatch = useDispatch();
-    const { id, nombre, descripcion, usuario, fecha_fin } = task;
+    const { id, nombre, descripcion, usuario, fecha_fin, completada } = task;
     const user = useSelector(state => state.auth.user);
     const editedTask = useSelector(state => state.task.editedTask);
 
@@ -37,7 +38,10 @@ const TaskCard = ({ task }) => {
         animation: "fade-in"
     };
 
-    const { text, background } = getColorsForTask(task);
+    const { text, background } = completada
+        ? greenCard
+        : getColorsForTask(task);
+
     const remainingDays = getRemainingDaysToFinishTask(task);
 
     return (
@@ -71,25 +75,28 @@ const TaskCard = ({ task }) => {
                 <div className="card-footer">
                     <div className="d-flex justify-content-between align-items-center w-100 flex-wrap">
                         <div>
-                            {background === "bg-danger" ? (
-                                <React.Fragment>
-                                    <i className="material-icons mr-1">
-                                        warning
-                                    </i>
-                                    <strong>Esta tarea expiró</strong>
-                                </React.Fragment>
-                            ) : (
-                                <React.Fragment>
-                                    <i className="material-icons mr-1">
-                                        access_time
-                                    </i>
-                                    <span>
-                                        <strong>Finalización : </strong>
-                                        {dateToString(new Date(fecha_fin))} (
-                                        {remainingDays} días restantes)
-                                    </span>
-                                </React.Fragment>
-                            )}
+                            {background != "bg-success" &&
+                                (background === "bg-danger" ? (
+                                    <React.Fragment>
+                                        <i className="material-icons mr-1">
+                                            warning
+                                        </i>
+                                        <strong>Esta tarea expiró</strong>
+                                    </React.Fragment>
+                                ) : (
+                                    <React.Fragment>
+                                        <i className="material-icons mr-1">
+                                            access_time
+                                        </i>
+                                        <span>
+                                            <strong>Finalización : </strong>
+                                            {dateToString(
+                                                new Date(fecha_fin)
+                                            )}{" "}
+                                            ({remainingDays} días restantes)
+                                        </span>
+                                    </React.Fragment>
+                                ))}
                         </div>
 
                         <div>
