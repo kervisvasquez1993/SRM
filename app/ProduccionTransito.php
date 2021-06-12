@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Pago;
 use App\PivotTareaProveeder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,14 +27,9 @@ class ProduccionTransito extends Model
         
     }
     
-    public function pagosBalance()
+    public function pagos()
     {
-        return $this->hasOne(PagoBalance::class);
-    }
-
-    public function pagosAnticipados()
-    {
-        return $this->hasOne(PagoAnticipado::class);
+        return $this->hasMany(Pago::class);
     }
     
     public function inicioProduccion()

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Api\ProduccionTransito;
 
+use App\PagoBalance;
 use App\PagoAnticipado;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ApiController;
+use App\ProduccionTransito;
 
 class ProduccionTransitoPagoBalanceController extends ApiController
 {
@@ -30,7 +33,7 @@ class ProduccionTransitoPagoBalanceController extends ApiController
 
     public function store(Request $request)
     {
-        
+       
     }
 
     /**

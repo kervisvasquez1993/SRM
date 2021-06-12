@@ -99,10 +99,12 @@ Route::middleware('auth.jwt')->group(function () {
 
 
 
-    //PAGO DE BALANCE 
-    Route::get('/pagoAnticipado/{pago_anticipado_id}/pagoBalance', 'Api\ProduccionTransito\ProduccionTransitoPagoBalanceController@index');
+    //PAGOS
+    Route::get('produccion_transito/{produccion_transito_id}/pago','Api\ProduccionTransito\ProduccionTransitoPagoController@index');
+    Route::post('produccion_transito/{produccion_transito_id}/pago', 'Api\ProduccionTransito\ProduccionTransitoPagoController@store');
+    Route::get('pago/{pago}', 'Api\ProduccionTransito\ProduccionTransitoPagoController@show');
+    Route::put('pago/{pago}', 'Api\ProduccionTransito\ProduccionTransitoPagoController@update');
+    Route::delete('pago/{pago}', 'Api\ProduccionTransito\ProduccionTransitoPagoController@destroy');
 
-
-    
 
 });
