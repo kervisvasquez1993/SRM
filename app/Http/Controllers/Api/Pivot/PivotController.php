@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\Pivot;
 
 use App\Arte;
+use App\Tarea;
+use App\Proveedor;
 use Carbon\Carbon;
 use App\ProduccionTransito;
 use App\PivotTareaProveeder;
@@ -14,6 +16,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\PivotTareaProveederResource;
+
+use function PHPUnit\Framework\isEmpty;
 
 class PivotController extends ApiController
 {
@@ -27,6 +31,40 @@ class PivotController extends ApiController
         }
         $resultado = PivotTareaProveederResource::collection($pivotPrincipal->get());
         return $this->showAllResources($resultado);
+    }
+
+    public function store(Request $request) {
+        // Crear el validador
+        $validator = Validator::make($request->all(), [
+            'tarea_id' => 'required|numeric',
+            'proveedor_id'   => 'required|numeric'
+        ]);
+
+        // Comprobar la validacion
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
+        }
+
+        // Obtener la tarea
+        $tarea = Tarea::findOrFail($request->tarea_id);
+
+        // Obtener el proveedor
+        $proveedor = Proveedor::findOrFail($request->proveedor_id);
+
+        // Comprobar si el proveedor ya está agregado a esta tarea
+        if (!$tarea->proveedores->where('id', $proveedor->id)->isEmpty()) {
+            return $this->errorResponse("Este proveedor ya está agregado a esta tarea", Response::HTTP_BAD_REQUEST);
+        }
+
+        $pivot = new PivotTareaProveeder();
+        $pivot->tarea_id = $tarea->id;
+        $pivot->proveedor_id = $proveedor->id;
+        $pivot->iniciar_negociacion = false;
+        $pivot->iniciar_arte = false;
+        $pivot->iniciar_produccion = false;
+        $pivot->save();
+
+        return $this->showOneResource(new PivotTareaProveederResource($pivot));
     }
 
     public function show($pivot_id)
