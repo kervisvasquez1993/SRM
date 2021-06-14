@@ -15,8 +15,8 @@ class ProduccionTransitoResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'pivot' => new PivotTareaProveederResource($this->pivotTable),
-            /* 'tarea' => $this->pivotTable->tarea->nombre, */
             'pagos' => $this->pagos,
             'inicio_produccion' => $this->inicio_produccion,
             'fin_produccion' => $this->fin_produccion,
