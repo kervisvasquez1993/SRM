@@ -114,6 +114,11 @@ Route::middleware('auth.jwt')->group(function () {
     Route::put('incidencias_transito/{incidencias_transito_id}', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@update');
     Route::delete('incidencias_transito/{incidencias_transito_id}', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@destroy');
     
+    // incidencia fin de produccion 
 
-
+    Route::get('produccion_transito/{produccion_transito_id}/fin_produccion', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@index');
+    Route::post('produccion_transito/{produccion_transito_id}/fin_produccion', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@store');
+    Route::get('fin_produccion/{fin_produccion_id}', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@show');
+    Route::put('fin_produccion/{fin_produccion_id}', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@update');
+    Route::delete('fin_produccion/{fin_produccion_id}', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@destroy');
 });
