@@ -120,7 +120,10 @@ Route::middleware('auth.jwt')->group(function () {
    
     // fin de incidencia de fin de produccion
         
-
+    //Arte Api
+    Route::get('artes', 'Api\Arte\ArteController@index');
+   
+    //fin d earte
      //orden de compra
     Route::get('/negociacion/{negociacion_id}/compra', 'Api\Pivot\PivotCompraController@index');
     Route::post('/negociacion/{negociacion_id}/compra', 'Api\Pivot\PivotCompraController@store');
@@ -130,5 +133,7 @@ Route::middleware('auth.jwt')->group(function () {
 
     
     Route::post('createUser', 'Api\UserController@register')->name('register');
+
+   
 
 });
