@@ -6,6 +6,7 @@ use App\ProduccionTransito;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
+use App\Http\Resources\ProduccionTransitoResource;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProduccionTransitoController extends ApiController
@@ -18,8 +19,8 @@ class ProduccionTransitoController extends ApiController
     public function index()
     {
         $producionTransito = ProduccionTransito::all();
-
-        return $this->showAll($producionTransito);
+        $produccionTransitoResource = ProduccionTransitoResource::collection($producionTransito);
+        return $this->showAllResources($produccionTransitoResource);
     }
 
 
