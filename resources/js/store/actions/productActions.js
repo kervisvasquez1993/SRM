@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 import { apiURL } from "../../components/App";
 import { closeModal } from "./modalActions";
 
@@ -39,6 +40,8 @@ export function createProductFromNegotiation(pivotId, data) {
             });
 
             dispatch(closeModal());
+
+            toast.success("✔️ Producto creado");
         } catch (e) {
             dispatch({
                 type: "CREATE_PRODUCT_FAILURE",
@@ -64,6 +67,8 @@ export function editProduct(data) {
             });
 
             dispatch(closeModal());
+
+            toast.success("✔️ Producto editado");
         } catch (e) {
             dispatch({
                 type: "EDIT_PRODUCT_FAILURE",
@@ -86,6 +91,8 @@ export function deleteProduct(data) {
                 type: "DELETE_PRODUCT_SUCCESS",
                 payload: data
             });
+
+            toast.success("✔️ Producto eliminado");
         } catch (e) {
             dispatch({
                 type: "DELETE_PRODUCT_FAILURE"

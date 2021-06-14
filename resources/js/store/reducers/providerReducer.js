@@ -2,7 +2,8 @@ const defaultState = {
     providers: [],
     errors: {},
     isEditing: false,
-    edited: null
+    edited: null,
+    allProviders: []
 };
 
 const providerReducer = (state = defaultState, action) => {
@@ -19,6 +20,19 @@ const providerReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 edited: null
+            };
+        case "GET_PROVIDERS_REQUEST":
+            return {
+                ...state
+            };
+        case "GET_PROVIDERS_SUCCESS":
+            return {
+                ...state,
+                allProviders: payload
+            };
+        case "GET_PROVIDERS_FAILURE":
+            return {
+                ...state
             };
         case "GET_TASK_PROVIDERS_REQUEST":
             return {
@@ -99,6 +113,22 @@ const providerReducer = (state = defaultState, action) => {
                 ...state,
                 providers: _newProviders
             };
+
+            case "CREATE_NEGOTIATION_REQUEST":
+                return {
+                    ...state
+                };
+            case "CREATE_NEGOTIATION_SUCCESS":
+    
+                return {
+                    ...state,
+                    providers: [...state.providers, payload],
+                    edited: payload
+                };
+            case "CREATE_NEGOTIATION_FAILURE":
+                return {
+                    ...state
+                };
         default:
             return state;
     }

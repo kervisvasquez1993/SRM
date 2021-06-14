@@ -1,7 +1,8 @@
+import axios from "axios";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch, Redirect, useHistory } from "react-router-dom";
-import { getMyUser } from "../store/actions/authActions";
+import { getMyUser, logout } from "../store/actions/authActions";
 import Login from "./Auth/Login";
 import Example from "./Example";
 import Modal from "./Modal/Modal";
@@ -13,8 +14,35 @@ import NegotiationList from "./Negotiation/NegotiationList";
 import ProviderPurchase from "./Purchases/ProviderPurchase";
 import TaskDetails from "./Tasks/TaskDetails";
 import TaskList from "./Tasks/TaskList";
+import jwt_decode from "jwt-decode";
+import { store } from "./Index";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
-export const apiURL = process.env.REACT_APP_API_URL || "http://localhost:8000/api";
+axios.interceptors.response.use(
+    response => {
+        return response;
+    },
+    error => {
+        if (error.response.status === 401) {
+            const token = localStorage.getItem("auth");
+            if (token) {
+                // Get the expiration date of the token
+                const tokenData = jwt_decode(token);
+                const expirationDate = new Date(tokenData.exp * 1000);
+
+                if (new Date() > expirationDate) {
+                    store.dispatch(logout());
+                }
+            }
+        }
+
+        return Promise.reject(error);
+    }
+);
+
+export const apiURL =
+    process.env.REACT_APP_API_URL || "http://localhost:8000/api";
 
 axios.interceptors.request.use(config => {
     const token = localStorage.getItem("auth");
@@ -63,48 +91,59 @@ const App = () => {
 
     return (
         <React.Fragment>
-            <div id="app">
-                <div className={"menu-wrapper " + (isSidebarOpen && "mostrar")}>
-                    <Sidebar />
+            <div className={"menu-wrapper " + (isSidebarOpen && "mostrar")}>
+                <Sidebar />
+                <Navbar />
 
-                    <div className="wrapper">
-                        <Navbar />
-
-                        <div className="content" id="eventInit">
-                            <Switch>
-                                <Route exact path="/">
-                                    <Redirect to="/home" />
-                                </Route>
-                                <Route path="/login">
-                                    <Redirect to="/home" />
-                                </Route>
-                                <Route path="/home">
-                                    <Example />
-                                </Route>
-                                <Route exact path="/tasks">
-                                    <TaskList />
-                                </Route>
-                                <Route path="/tasks/:id">
-                                    <TaskDetails />
-                                </Route>
-                                <Route path="/me/tasks">
-                                    <TaskList myTasks key={history.location.pathname} />
-                                </Route>
-                                <Route path="/negotiation/:id">
-                                    <ProviderPurchase />
-                                </Route>
-                                <Route path="/negotiations">
-                                    <NegotiationList />
-                                </Route>
-                                <Route path="*">
-                                    <Error />
-                                </Route>
-                            </Switch>
-                        </div>
+                <div className="page-wrapper" id="wrapper">
+                    <div className="content" id="eventInit">
+                        <Switch>
+                            <Route exact path="/">
+                                <Redirect to="/home" />
+                            </Route>
+                            <Route path="/login">
+                                <Redirect to="/home" />
+                            </Route>
+                            <Route path="/home">
+                                <Example />
+                            </Route>
+                            <Route exact path="/tasks">
+                                <TaskList />
+                            </Route>
+                            <Route path="/tasks/:id">
+                                <TaskDetails />
+                            </Route>
+                            <Route path="/me/tasks">
+                                <TaskList
+                                    myTasks
+                                    key={history.location.pathname}
+                                />
+                            </Route>
+                            <Route path="/negotiation/:id">
+                                <ProviderPurchase />
+                            </Route>
+                            <Route path="/negotiations">
+                                <NegotiationList />
+                            </Route>
+                            <Route path="*">
+                                <Error />
+                            </Route>
+                        </Switch>
                     </div>
                 </div>
             </div>
             <Modal />
+            <ToastContainer
+                position="bottom-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </React.Fragment>
     );
 };

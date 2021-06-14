@@ -14,16 +14,19 @@ import { getDaysToFinishTask } from "../../utils";
 import { Redirect } from "react-router-dom";
 import EmptyList from "../Navigation/EmptyList";
 import LoadingScreen from "../Navigation/LoadingScreen";
+import { getUsers } from "../../store/actions/userActions";
 
 const TaskList = ({ myTasks = false }) => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.auth.user);
     const tasks = useSelector(state => state.task.tasks);
-    const [users, setUsers] = useState([]);
 
-    const [filteredTasks, setFilteredTasks] = useState([...tasks]);
+    const [filtered, setFilteredTasks] = useState([...tasks]);
     const [filterDays, setFilterDays] = useState(0);
     const filter = useRef(null);
+
+    const [filteredAfterStatus, setfilteredAfterStatus] = useState([]);
+    const [filteredAfterUsers, setfilteredAfterUsers] = useState([]);
 
     if (
         (!myTasks &&
@@ -45,15 +48,6 @@ const TaskList = ({ myTasks = false }) => {
         applyFilter(filter.current);
     }, [tasks]);
 
-    useEffect(() => {
-        axios.get(`${apiURL}/user`).then(response => {
-            const filteredList = response.data.data.filter(
-                user => user.rol === "coordinador" || user.rol === "comprador"
-            );
-            setUsers(filteredList);
-        });
-    }, []);
-
     const handleCreate = () => {
         dispatch(
             openModal({
@@ -63,55 +57,38 @@ const TaskList = ({ myTasks = false }) => {
         );
     };
 
-    const applyFilter = filter => {
-        const newTasks = tasks.filter(task => {
-            let render = true;
+    const isTaskExpired = task => {
+        const timeToFinish = new Date(task.fecha_fin) - new Date();
+        return timeToFinish < 0 && !task.completada;
+    };
 
-            // Si la tarea le pertenece a un usuario seleccionado
-            if ("user" in filter && !filter.user[task.usuario.id]) {
-                render = false;
-            }
+    const isTaskCompleted = task => {
+        return task.completada;
+    };
 
-            //Verificar si la tarea esta expirada
-            const timeToFinish = new Date(task.fecha_fin) - new Date();
-            if (
-                "state" in filter &&
-                !filter.state.expired &&
-                timeToFinish < 0
-            ) {
-                render = false;
-            }
+    const isTaskInProgress = task => {
+        return !isTaskCompleted(task) && !isTaskExpired(task);
+    };
 
-            if ("time" in filter) {
-                setFilterDays(filter.time.days);
-            }
+    const countCompleted = () => {
+        return tasks.filter(task => isTaskCompleted(task)).length;
+    };
 
-            if (
-                "time" in filter &&
-                getDaysToFinishTask(task) > filter.time.days
-            ) {
-                render = false;
-            }
-
-            return render;
-        });
-
-        setFilteredTasks(newTasks);
+    const countInProgress = () => {
+        return tasks.filter(task => isTaskInProgress(task)).length;
     };
 
     const countExpired = () => {
-        return tasks.filter(task => {
-            const timeToFinish = new Date(task.fecha_fin) - new Date();
-            return timeToFinish < 0;
-        }).length;
+        return tasks.filter(task => isTaskExpired(task)).length;
     };
 
-    const countByUserId = id => {
-        return tasks.filter(task => task.usuario.id === id).length;
+    const countByUserName = name => {
+        return filteredAfterStatus.filter(task => task.usuario.name === name)
+            .length;
     };
 
     const getMaxDays = () => {
-        const dias = tasks.map(task => {
+        const dias = filteredAfterUsers.map(task => {
             return getDaysToFinishTask(task);
         });
 
@@ -119,14 +96,60 @@ const TaskList = ({ myTasks = false }) => {
     };
 
     const getMinDays = () => {
-        const dias = tasks.map(task => {
-            return getDaysToFinishTask(task);
-        });
+        const dias = filteredAfterUsers.map(task =>
+            (isTaskExpired(task) || isTaskCompleted(task)) ? Infinity : getDaysToFinishTask(task)
+        );
 
-        return Math.max(Math.min(...dias, 0), 1);
+        return Math.max(Math.min(...dias));
+    };
+
+    const applyFilter = filter => {
+        let list = [...tasks];
+
+        // Filter by status
+        list = list.filter(task => {
+            if ("state" in filter) {
+                if (!filter.state.expired && isTaskExpired(task)) return false;
+
+                if (!filter.state.completed && isTaskCompleted(task))
+                    return false;
+
+                if (!filter.state.progress && isTaskInProgress(task))
+                    return false;
+            }
+
+            return true;
+        });
+        setfilteredAfterStatus(list);
+
+        // Filter by user
+        list = list.filter(
+            task => !("user" in filter && !filter.user[task.usuario.name])
+        );
+        setfilteredAfterUsers(list);
+
+        // Filter by expiration days
+        list = list.filter(
+            task => "time" in filter && getDaysToFinishTask(task) <= filter.time.days
+        );
+
+        // Set the max days
+        if ("time" in filter) {
+            setFilterDays(filter.time.days);
+        }
+
+        setFilteredTasks(list);
     };
 
     const maxDays = getMaxDays();
+
+    const inProgressTasks = filtered.filter(item => isTaskInProgress(item));
+    const completedTasks = filtered.filter(item => isTaskCompleted(item));
+    const expiredTasks = filtered.filter(item => isTaskExpired(item));
+
+    let filteredUsers = new Set();
+    filteredAfterStatus.forEach(item => filteredUsers.add(item.usuario.name));
+    filteredUsers = [...filteredUsers].sort();
 
     return (
         <React.Fragment>
@@ -148,10 +171,27 @@ const TaskList = ({ myTasks = false }) => {
 
             <Filter onUpdate={applyFilter} useRef={filter}>
                 <div className="px-3 row mb-4">
-                    {!myTasks && (
+                    <FilterGroup name="state" text="Estado:">
+                        <CheckboxFilter
+                            id="progress"
+                            text={`En progreso (${countInProgress()})`}
+                        />
+                        <CheckboxFilter
+                            id="expired"
+                            text={`Vencidas (${countExpired()})`}
+                            defaultValue={false}
+                        />
+                        <CheckboxFilter
+                            id="completed"
+                            text={`Completadas (${countCompleted()})`}
+                            defaultValue={false}
+                        />
+                    </FilterGroup>
+
+                    {!myTasks && filteredUsers.length > 0 && (
                         <FilterGroup name="user" text="Usuario:">
-                            {users.map((user, index) => {
-                                const count = countByUserId(user.id);
+                            {filteredUsers.map((user, index) => {
+                                const count = countByUserName(user);
 
                                 if (count === 0) {
                                     return;
@@ -159,23 +199,23 @@ const TaskList = ({ myTasks = false }) => {
 
                                 return (
                                     <CheckboxFilter
-                                        key={index}
-                                        id={user.id}
-                                        text={`${user.name} (${count})`}
+                                        key={user}
+                                        id={user}
+                                        text={`${user} (${count})`}
                                     />
                                 );
                             })}
                         </FilterGroup>
                     )}
+                </div>
 
-                    <FilterGroup name="state" text="Estado:">
-                        <CheckboxFilter
-                            id="expired"
-                            text={`Expirados (${countExpired()})`}
-                        />
-                    </FilterGroup>
+                <div className="px-3 row mb-4">
                     {tasks.length > 0 && maxDays > 1 && (
-                        <FilterGroup name="time" text="Tiempo de expiración:">
+                        <FilterGroup
+                            name="time"
+                            text="Tiempo de expiración:"
+                            className="col-sm-6"
+                        >
                             <SliderFilter
                                 id="days"
                                 key={maxDays}
@@ -191,12 +231,56 @@ const TaskList = ({ myTasks = false }) => {
                 </div>
             </Filter>
 
-            {filteredTasks.length > 0 ? (
-                <div className="d-flex flex-column-reverse">
-                    {filteredTasks.map(task => {
-                        return <TaskCard key={task.id} task={task} />;
-                    })}
-                </div>
+            {filtered.length > 0 ? (
+                <React.Fragment>
+                    {inProgressTasks.length > 0 && (
+                        <React.Fragment>
+                            <h2 className="mt-4 h3">Tareas en progreso:</h2>
+                            <hr className="mb-4" />
+                            <div className="d-flex flex-column-reverse">
+                                {inProgressTasks.map(item => {
+                                    return (
+                                        <TaskCard key={item.id} task={item} />
+                                    );
+                                })}
+                            </div>
+                        </React.Fragment>
+                    )}
+
+                    {expiredTasks.length > 0 && (
+                        <React.Fragment>
+                            <h2 className="mt-4 h3">Tareas Vencidas:</h2>
+                            <hr className="mb-4" />
+                            <div className="d-flex flex-column-reverse">
+                                {expiredTasks.map(item => {
+                                    return (
+                                        <TaskCard key={item.id} task={item} />
+                                    );
+                                })}
+                            </div>
+                        </React.Fragment>
+                    )}
+
+                    {completedTasks.length > 0 && (
+                        <React.Fragment>
+                            <h2 className="mt-4 h3">Tareas Completadas:</h2>
+                            <hr className="mb-4" />
+                            <div className="d-flex flex-column-reverse">
+                                {completedTasks.map(item => {
+                                    return (
+                                        <TaskCard key={item.id} task={item} />
+                                    );
+                                })}
+                            </div>
+                        </React.Fragment>
+                    )}
+
+                    {/* <div className="d-flex flex-column-reverse">
+                        {filtered.map(task => {
+                            return <TaskCard key={task.id} task={task} />;
+                        })}
+                    </div> */}
+                </React.Fragment>
             ) : (
                 <EmptyList />
             )}

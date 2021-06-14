@@ -1,150 +1,112 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { IoMdAddCircle } from "react-icons/io";
+import { openModal } from "../../store/actions/modalActions";
+import ProviderFormModal, { emptyProvider } from "./ProviderFormModal";
 import { useParams } from "react-router-dom";
-import {
-    createProviderFromTask,
-    editProviderFromTask
-} from "../../store/actions/providerActions";
-import { extractError } from "../../utils";
-import GenericForm from "../Form/GenericForm";
-import InputText from "../Form/InputText";
-import InputTextArea from "../Form/InputTextarea";
+import { getProviders } from "../../store/actions/providerActions";
+import { createNegotiation } from "../../store/actions/negotiationActions";
 
-export const emptyProvider = {
-    nombre: null,
-    pais: null,
-    ciudad: null,
-    distrito: null,
-    descripcion: null,
-    archivos_src: null,
-    address: null,
-    contacto: null,
-    telefono: null,
-    email: null
-};
-
-const ProviderModal = ({ provider, isEditor = false, taskId = null }) => {
+const ProviderModal = () => {
     const dispatch = useDispatch();
-    const [data, setData] = useState({ ...provider });
+    const taskId = useSelector(state => state.task.task).id;
+    const taskProviders = useSelector(state => state.provider.providers);
+    const allProviders = useSelector(state => state.provider.allProviders);
+    const [proveedorId, setProveedorId] = useState("");
+    const [shownProviders, setShownProviders] = useState(allProviders);
 
-    // @ts-ignore
-    const isEditing = useSelector(state => state.provider.isEditing);
-    // @ts-ignore
-    const errors = useSelector(state => state.provider.errors);
-    const nameError = extractError(errors, "nombre");
-    const countryError = extractError(errors, "pais");
-    const cityError = extractError(errors, "ciudad");
-    const distritError = extractError(errors, "distrito");
-    const descriptionError = extractError(errors, "descripcion");
-    const addressError = extractError(errors, "address");
-    const contactError = extractError(errors, "contacto");
-    const phoneError = extractError(errors, "telefono");
-    const emailError = extractError(errors, "email");
-    // @ts-ignore
-    const error = useSelector(state => state.provider.error);
-
-    const handleChange = e => {
-        const { id, value } = e.target;
-
-        setData(data => {
-            return {
-                ...data,
-                [id]: value
-            };
-        });
+    const handleCreateNewProvider = () => {
+        dispatch(
+            openModal({
+                title: "Agregar Empresa",
+                body: (
+                    <ProviderFormModal
+                        provider={emptyProvider}
+                        taskId={taskId}
+                    />
+                )
+            })
+        );
     };
 
-    const handleSubmit = e => {
+    useEffect(() => {
+        dispatch(getProviders());
+    }, []);
+
+    useEffect(() => {
+        // Filter the provider list to remove the providers added to the same task
+        const newProviders = allProviders.filter(
+            i => !taskProviders.find(j => j.id === i.id)
+        );
+        
+        // Set the new list for the form
+        setShownProviders(newProviders);
+    }, [allProviders]);
+
+    const handleAddProvider = e => {
         e.preventDefault();
 
-        if (isEditor) {
-            dispatch(editProviderFromTask(taskId, data));
-        } else {
-            dispatch(createProviderFromTask(taskId, data));
-        }
-    };
+        const data = {
+            tarea_id: taskId,
+            proveedor_id: proveedorId
+        };
 
-    const handleReset = e => {
-        setData({ ...emptyProvider });
+        dispatch(createNegotiation(data));
     };
 
     return (
-        <GenericForm
-            handleSubmit={handleSubmit}
-            disableSubmit={isEditing}
-            handleReset={handleReset}
-            onChange={handleChange}
-        >
-            <InputText
-                id="nombre"
-                label="Nombre"
-                value={data.nombre}
-                error={nameError}
-            />
-
-            <InputText
-                id="pais"
-                label="País"
-                value={data.pais}
-                error={countryError}
-            />
-
-            <InputText
-                id="ciudad"
-                label="Ciudad"
-                value={data.ciudad}
-                error={cityError}
-            />
-
-            <InputText
-                id="distrito"
-                label="Distrito"
-                value={data.distrito}
-                error={distritError}
-            />
-
-            <InputTextArea
-                id="descripcion"
-                label="Descripcion"
-                value={data.descripcion}
-                error={descriptionError}
-            />
-
-            <InputText
-                id="address"
-                label="Dirección"
-                value={data.address}
-                error={addressError}
-            />
-
-            <InputText
-                id="contacto"
-                label="Contacto"
-                value={data.contacto}
-                error={contactError}
-            />
-
-            <InputText
-                id="telefono"
-                label="Teléfono"
-                value={data.telefono}
-                error={phoneError}
-            />
-
-            <InputText
-                id="email"
-                label="Email"
-                value={data.email}
-                error={emailError}
-            />
-
-            {error && (
-                <div className="text-danger">
-                    <strong>{error}</strong>
+        <div className="modal-body">
+            <h3 className="text-center">Agregar Empresa Existente</h3>
+            <p>Selecciona una empresa de la siguiente lista:</p>
+            <form className="form-horizontal">
+                <div className="form-row">
+                    <div className="col-md-12 mb-3">
+                        <select
+                            className={"custom-select"}
+                            id="proveedor_id"
+                            name="proveedor_id"
+                            value={proveedorId}
+                            onChange={e => setProveedorId(e.target.value)}
+                        >
+                            <option value="">Selecciona...</option>
+                            {shownProviders.map(provider => {
+                                return (
+                                    <option
+                                        key={provider.id}
+                                        value={provider.id}
+                                    >
+                                        {`${provider.nombre} - País: ${provider.pais} - Ciudad: ${provider.ciudad}`}
+                                    </option>
+                                );
+                            })}
+                        </select>
+                    </div>
                 </div>
-            )}
-        </GenericForm>
+                <div className="form-row justify-content-center">
+                    <button
+                        className="btn btn-success btn-round"
+                        type="submit"
+                        onClick={handleAddProvider}
+                    >
+                        <IoMdAddCircle className="mr-2" />
+                        Agregar
+                    </button>
+                </div>
+            </form>
+            <hr className="my-5" />
+            <h3 className="text-center">Agregar Empresa Nueva</h3>
+            <p>O cree una empresa totalmente desde cero:</p>
+            <div className="form-row justify-content-center">
+                <button
+                    className="btn btn-success btn-round"
+                    type="submit"
+                    onClick={handleCreateNewProvider}
+                >
+                    <IoMdAddCircle className="mr-2" />
+                    Agregar Empresa Nueva
+                </button>
+            </div>
+        </div>
     );
 };
 

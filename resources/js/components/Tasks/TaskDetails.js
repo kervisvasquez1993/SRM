@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect, useHistory, useParams } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
@@ -10,7 +10,6 @@ import {
     getColorsForTask
 } from "../../utils";
 import LoadingScreen from "../Navigation/LoadingScreen";
-import ProviderModal, { emptyProvider } from "../Providers/ProviderModal";
 import TaskProviderList from "../Providers/TaskProviderList";
 import TaskModal from "./TaskModal";
 
@@ -38,7 +37,7 @@ const TaskDetails = () => {
     };
 
     useEffect(() => {
-        document.body.scrollTo(0, 0);
+        document.querySelector("#wrapper").scrollTo(0, 0);
         dispatch(getTask(id));
     }, []);
 
@@ -63,15 +62,6 @@ const TaskDetails = () => {
             openModal({
                 title: "Editar Tarea",
                 body: <TaskModal task={taskToEdit} isEditor={true} />
-            })
-        );
-    };
-
-    const handleCreateProvider = () => {
-        dispatch(
-            openModal({
-                title: "Agregar Empresa",
-                body: <ProviderModal provider={emptyProvider} taskId={id} />
             })
         );
     };
@@ -164,17 +154,6 @@ const TaskDetails = () => {
                     Esta empresa actualmente mantiene una negociación
                 </div>
             )}
-
-            <div className="mr-auto text-center">
-                <h2 className="py-4">Empresas Asociadas</h2>
-
-                <button
-                    className="btn btn-lg btn-outline-primary btn-round"
-                    onClick={handleCreateProvider}
-                >
-                    Agregar Empresa
-                </button>
-            </div>
 
             <TaskProviderList />
         </div>

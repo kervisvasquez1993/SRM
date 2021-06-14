@@ -4,6 +4,7 @@ import { openModal } from "../../store/actions/modalActions";
 import {
     getColorsForTask,
     getRemainingDaysToFinishTask,
+    greenCard,
     hasNoProducts
 } from "../../utils";
 import Accordion from "../UI/Accordion";
@@ -11,7 +12,14 @@ import NegotiationModal from "./NegotiationModal";
 
 const NegotiationCard = ({ negotiation }) => {
     const dispatch = useDispatch();
-    const { tarea: task, proveedor, compra: purchase } = negotiation;
+    const {
+        iniciar_produccion,
+        iniciar_arte,
+        tarea: task,
+        proveedor,
+        compras_total: totalPurchase,
+        compra_po: poCode
+    } = negotiation;
 
     const handleOpen = () => {
         dispatch(
@@ -22,7 +30,8 @@ const NegotiationCard = ({ negotiation }) => {
         );
     };
 
-    const { text, background } = getColorsForTask(task);
+    const { text, background } =
+        iniciar_arte && iniciar_produccion ? greenCard : getColorsForTask(task);
 
     const remainingDays = getRemainingDaysToFinishTask(task);
 
@@ -50,51 +59,53 @@ const NegotiationCard = ({ negotiation }) => {
             </div>
 
             <div className="card-body py-0 my-0 ml-2">
-                {(hasNoProducts(negotiation) && !purchase && (
+                {(hasNoProducts(negotiation) && (
                     <p className="card-text d-flex align-items-center">
                         <span className="material-icons mr-2 text-danger">
                             warning
                         </span>
-                        Esta negociación no tiene productos ni una orden de
-                        compra
+                        No tiene productos
                     </p>
                 )) ||
-                    (hasNoProducts(negotiation) && (
+                    (totalPurchase == 0 && (
                         <p className="card-text d-flex align-items-center">
                             <span className="material-icons mr-2 text-danger">
                                 warning
                             </span>
-                            Esta negociación no tiene productos
+                            No tiene una orden de compra
                         </p>
                     )) ||
-                    (!purchase && (
+                    (!poCode && (
                         <p className="card-text d-flex align-items-center">
                             <span className="material-icons mr-2 text-danger">
                                 warning
                             </span>
-                            Esta negociación no tiene una orden de compra
+                            No tiene un código PO
                         </p>
                     ))}
             </div>
 
             <div className="card-footer">
-                <div className="d-flex justify-content-between w-100 flex-wrap mt-2">
-                    <div className="mb-2 d-flex">
-                        {background === "bg-danger" ? (
-                            <React.Fragment>
-                                <i className="material-icons mr-1">warning</i>
-                                <strong>Esta tarea expiró</strong>
-                            </React.Fragment>
-                        ) : (
-                            <React.Fragment>
-                                <i className="material-icons mr-1">
-                                    access_time
-                                </i>
-                                <strong>
-                                    Finaliza en {remainingDays} días
-                                </strong>
-                            </React.Fragment>
-                        )}
+                <div className="d-flex justify-content-between align-items-center w-100 flex-wrap">
+                    <div className="d-flex">
+                        {background != "bg-success" &&
+                            (background === "bg-danger" ? (
+                                <React.Fragment>
+                                    <i className="material-icons mr-1">
+                                        warning
+                                    </i>
+                                    <strong>Esta tarea expiró</strong>
+                                </React.Fragment>
+                            ) : (
+                                <React.Fragment>
+                                    <i className="material-icons mr-1">
+                                        access_time
+                                    </i>
+                                    <strong>
+                                        Finaliza en {remainingDays} días
+                                    </strong>
+                                </React.Fragment>
+                            ))}
                     </div>
 
                     <button className="btn btn-sm btn-info btn-round">

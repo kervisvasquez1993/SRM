@@ -57,6 +57,7 @@ class ProveedorController extends ApiController
             'nombre' => 'required',
             'pais'   => 'required',
             'ciudad' =>  'required',
+            'distrito' =>  'required',
         ]);
 
         // Comprobar la validacion
@@ -123,6 +124,7 @@ class ProveedorController extends ApiController
             'nombre' => 'required',
             'pais'   => 'required',
             'ciudad' =>  'required',
+            'distrito' =>  'required',
         ]);
 
         // Comprobar la validacion

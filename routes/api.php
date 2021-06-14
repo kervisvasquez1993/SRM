@@ -45,9 +45,10 @@ Route::middleware('auth.jwt')->group(function () {
     Route::post('/tarea/{tarea_id}/proveedor/{proveedor_id}/negociar', 'Api\Proveedor\ProveedorController@iniciarNegociacion');
 
     //Pivot 
-
     Route::get('/pivot', 'Api\Pivot\PivotController@index');
+    Route::post('/pivot', 'Api\Pivot\PivotController@store');
     Route::get('/pivot/{pivot_id}', 'Api\Pivot\PivotController@show');
+    Route::put('/pivot/{pivot_id}', 'Api\Pivot\PivotController@update');
 
     //INICIA ARTE y negociacion 
 
@@ -83,12 +84,7 @@ Route::middleware('auth.jwt')->group(function () {
    Route::get('/produccion_transito', 'Api\ProduccionTransito\ProduccionTransitoController@index');
    Route::put('/produccion_transito/{produccionTransito}', 'Api\ProduccionTransito\ProduccionTransitoController@update');
 
- /*    //pago anticipado
-    Route::get('produccion_transito/{produccion_transito_id}/pago_anticipado', 'Api\ProduccionTransito\ProduccionTransitoPagoAnticipadoController@index');
-    Route::post('produccion_transito/{produccion_transito_id}/pago_anticipado', 'Api\ProduccionTransito\ProduccionTransitoPagoAnticipadoController@store');
-    Route::put('/pago_anticipado/{pago_anticipado_id}', 'Api\ProduccionTransito\ProduccionTransitoPagoAnticipadoController@update');
-    Route::delete('/pago_anticipado/{pago_anticipado_id}', 'Api\ProduccionTransito\ProduccionTransitoPagoAnticipadoController@destroy');
-    //fin de pago de anticipado  */
+
 
     //inicio de produccion 
 
@@ -121,4 +117,14 @@ Route::middleware('auth.jwt')->group(function () {
     Route::get('fin_produccion/{fin_produccion_id}', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@show');
     Route::put('fin_produccion/{fin_produccion_id}', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@update');
     Route::delete('fin_produccion/{fin_produccion_id}', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@destroy');
+   
+    // fin de incidencia de fin de produccion
+        
+
+     //orden de compra
+    Route::get('/negociacion/{negociacion_id}/compra', 'Api\Pivot\PivotCompraController@index');
+    Route::post('/negociacion/{negociacion_id}/compra', 'Api\Pivot\PivotCompraController@store');
+    Route::get('/compra/{compra_id}', 'Api\Pivot\PivotCompraController@show');
+    Route::put('compra/{compra_id}', 'Api\Pivot\PivotCompraController@update');
+    Route::delete('compra/{compra_id}', 'Api\Pivot\PivotCompraController@destroy');
 });

@@ -20,6 +20,7 @@ class CreatePivotTareaProveedersTable extends Migration
             $table->boolean('iniciar_negociacion')->default(false);
             $table->boolean('iniciar_arte')->default(false);
             $table->boolean('iniciar_produccion')->default(false);
+            $table->string('compra_po')->nullable()->default(null);
             $table->timestamps();
         });
     }

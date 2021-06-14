@@ -1,5 +1,5 @@
 const defaultState = {
-    order: null,
+    orders: [],
     errors: {},
     isEditing: false
 };
@@ -20,21 +20,21 @@ const purcharseOrderReducer = (state = defaultState, action) => {
         case "CHANGE_HISTORY":
             return {
                 ...state,
-                order: null
+                orders: []
             };
-        case "GET_PURCHASE_ORDER_REQUEST":
+        case "GET_PURCHASE_ORDERS_REQUEST":
             return {
                 ...state
             };
-        case "GET_PURCHASE_ORDER_SUCCESS":
+        case "GET_PURCHASE_ORDERS_SUCCESS":
             return {
                 ...state,
-                order: payload
+                orders: payload
             };
-        case "GET_PURCHASE_ORDER_FAILURE":
+        case "GET_PURCHASE_ORDERS_FAILURE":
             return {
                 ...state,
-                order: null
+                orders: []
             };
         case "CREATE_PURCHASE_ORDER_REQUEST":
             return {
@@ -44,7 +44,7 @@ const purcharseOrderReducer = (state = defaultState, action) => {
         case "CREATE_PURCHASE_ORDER_SUCCESS":
             return {
                 ...state,
-                order: payload,
+                orders: [...state.orders, payload],
                 errors: {},
                 isEditing: false
             };
@@ -62,7 +62,7 @@ const purcharseOrderReducer = (state = defaultState, action) => {
         case "EDIT_PURCHASE_ORDER_SUCCESS":
             return {
                 ...state,
-                order: payload,
+                orders: state.orders.map(item => item.id === payload.id ? payload : item),
                 errors: {},
                 isEditing: false
             };
@@ -75,7 +75,7 @@ const purcharseOrderReducer = (state = defaultState, action) => {
         case "DELETE_PURCHASE_ORDER_SUCCESS":
             return {
                 ...state,
-                order: null
+                orders: state.orders.filter(item => item.id != payload.id)
             };
         default:
             return state;

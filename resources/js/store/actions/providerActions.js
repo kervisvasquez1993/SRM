@@ -1,6 +1,26 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 import { apiURL } from "../../components/App";
 import { closeModal } from "./modalActions";
+
+export function getProviders() {
+    return async (dispatch, getState) => {
+        dispatch({ type: "GET_PROVIDERS_REQUEST" });
+
+        try {
+            const response = await axios.get(`${apiURL}/proveedor`);
+
+            dispatch({
+                type: "GET_PROVIDERS_SUCCESS",
+                payload: response.data.data
+            });
+        } catch (e) {
+            dispatch({
+                type: "GET_PROVIDERS_FAILURE"
+            });
+        }
+    };
+}
 
 export function getProvidersFromTask(taskId) {
     return async (dispatch, getState) => {
@@ -39,6 +59,8 @@ export function createProviderFromTask(taskId, provider) {
             });
 
             dispatch(closeModal());
+
+            toast.success("✔️ Empresa creada");
         } catch (e) {
             dispatch({
                 type: "CREATE_TASK_PROVIDER_FAILURE",
@@ -65,6 +87,8 @@ export function editProviderFromTask(taskId, provider) {
             });
 
             dispatch(closeModal());
+
+            toast.success("✔️ Empresa editada");
         } catch (e) {
             dispatch({
                 type: "CREATE_TASK_PROVIDER_FAILURE",
@@ -89,6 +113,8 @@ export function startNegotiation(taskId, providerId) {
                 taskId,
                 providerId
             });
+
+            toast.success("✔️ Negociación iniciada");
         } catch (e) {
             dispatch({
                 type: "START_NEGOTIATION_FAILURE"

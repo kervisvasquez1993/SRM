@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 import { apiURL } from "../../components/App";
 import { closeModal } from "./modalActions";
 
@@ -39,6 +40,9 @@ export function createTask(task) {
             });
 
             dispatch(closeModal());
+
+            toast.success("✔️ Tarea creada");
+
         } catch (e) {
             dispatch({
                 type: "CREATE_TASK_FAILURE",
@@ -61,6 +65,8 @@ export function editTask(id, task) {
             });
 
             dispatch(closeModal());
+
+            toast.success("✔️ Tarea editada");
         } catch (e) {
             dispatch({
                 type: "EDIT_TASK_FAILURE",

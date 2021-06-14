@@ -1,23 +1,26 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 import { apiURL } from "../../components/App";
 import { closeModal } from "./modalActions";
 
-export function getPurchaseOrderFromNegotiation(pivotId) {
+export function getPurchaseOrdersFromNegotiation(pivotId) {
     return async (dispatch, getState) => {
-        dispatch({ type: "GET_PURCHASE_ORDER_REQUEST" });
+        dispatch({ type: "GET_PURCHASE_ORDERS_REQUEST" });
 
         try {
             const response = await axios.get(
                 `${apiURL}/negociacion/${pivotId}/compra`
             );
 
+            console.log(response)
+
             dispatch({
-                type: "GET_PURCHASE_ORDER_SUCCESS",
+                type: "GET_PURCHASE_ORDERS_SUCCESS",
                 payload: response.data.data
             });
         } catch (e) {
             dispatch({
-                type: "GET_PURCHASE_ORDER_FAILURE"
+                type: "GET_PURCHASE_ORDERS_FAILURE"
             });
         }
     };
@@ -39,6 +42,8 @@ export function createPurchaseOrderFromNegotiation(pivotId, data) {
             });
 
             dispatch(closeModal());
+
+            toast.success("✔️ Orden de compra creada");
         } catch (e) {
             dispatch({
                 type: "CREATE_PURCHASE_ORDER_FAILURE",
@@ -64,6 +69,8 @@ export function editPurchaseOrder(data) {
             });
 
             dispatch(closeModal());
+
+            toast.success("✔️ Orden de compra editada");
         } catch (e) {
             dispatch({
                 type: "EDIT_PURCHASE_ORDER_FAILURE",
@@ -84,6 +91,8 @@ export function deletePurchaseOrder(data) {
                 type: "DELETE_PURCHASE_ORDER_SUCCESS",
                 payload: response.data.data
             });
+
+            toast.success("✔️ Orden de compra eliminada");
         } catch (e) {
             dispatch({
                 type: "DELETE_PURCHASE_ORDER_FAILURE"

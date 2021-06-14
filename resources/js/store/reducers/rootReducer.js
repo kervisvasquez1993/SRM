@@ -7,6 +7,7 @@ import providerReducer from "./providerReducer";
 import purchaseOrderReducer from "./purchaseOrderReducer";
 import sidebarReducer from "./sidebarReducer";
 import taskReducer from "./taskReducer";
+import userReducer from "./userReducer";
 
 const rootReducer = combineReducers({
     modal: modalReducer,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
     provider: providerReducer,
     product: productReducer,
     purchaseOrder: purchaseOrderReducer,
-    negotiation: negotiationReducer
+    negotiation: negotiationReducer,
+    user: userReducer
 });
 
 export default rootReducer;
