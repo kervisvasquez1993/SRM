@@ -127,4 +127,8 @@ Route::middleware('auth.jwt')->group(function () {
     Route::get('/compra/{compra_id}', 'Api\Pivot\PivotCompraController@show');
     Route::put('compra/{compra_id}', 'Api\Pivot\PivotCompraController@update');
     Route::delete('compra/{compra_id}', 'Api\Pivot\PivotCompraController@destroy');
+
+    
+    Route::post('createUser', 'Api\UserController@register')->name('register');
+
 });

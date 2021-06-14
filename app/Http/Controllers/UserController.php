@@ -17,7 +17,8 @@ class UserController extends Controller
     }
 
 
-    public function register(Request $request) {
+    public function register(Request $request) 
+    {
 
      
 
