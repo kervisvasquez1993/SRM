@@ -3,6 +3,25 @@ import { toast } from "react-toastify";
 import { apiURL } from "../../components/App";
 import { closeModal } from "./modalActions";
 
+export function getProviders() {
+    return async (dispatch, getState) => {
+        dispatch({ type: "GET_PROVIDERS_REQUEST" });
+
+        try {
+            const response = await axios.get(`${apiURL}/proveedor`);
+
+            dispatch({
+                type: "GET_PROVIDERS_SUCCESS",
+                payload: response.data.data
+            });
+        } catch (e) {
+            dispatch({
+                type: "GET_PROVIDERS_FAILURE"
+            });
+        }
+    };
+}
+
 export function getProvidersFromTask(taskId) {
     return async (dispatch, getState) => {
         dispatch({ type: "GET_TASK_PROVIDERS_REQUEST" });

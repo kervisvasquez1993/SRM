@@ -1,4 +1,5 @@
 import axios from "axios";
+import { data } from "jquery";
 import React from "react";
 import { toast } from "react-toastify";
 import { apiURL } from "../../components/App";
@@ -100,7 +101,6 @@ export function startArtWithNegotiation(negotiationIndex) {
             );
 
             toast.success("✔️ Arte iniciada");
-
         } catch (e) {
             dispatch({
                 type: "START_ART_FAILURE"
@@ -131,6 +131,36 @@ export function editPoCode(data) {
             dispatch({
                 type: "EDIT_PO_CODE_FAILURE",
                 errors: e.response.data
+            });
+        }
+    };
+}
+
+export function createNegotiation(data) {
+    return async (dispatch, getState) => {
+        dispatch({ type: "CREATE_NEGOTIATION_REQUEST" });
+
+        try {
+            // Create the pivot
+            const response = await axios.post(`${apiURL}/pivot`, data);
+
+            // Get the provider resource
+            const providerResponse = await axios.get(
+                `${apiURL}/proveedor/${data.proveedor_id}/?tarea_id=${data.tarea_id}`
+            );
+
+            dispatch({
+                type: "CREATE_NEGOTIATION_SUCCESS",
+                payload: providerResponse.data.data
+            });
+
+            dispatch(closeModal());
+
+            toast.success("✔️ Empresa agregada");
+        } catch (e) {
+            console.log(e.response);
+            dispatch({
+                type: "CREATE_NEGOTIATION_FAILURE"
             });
         }
     };

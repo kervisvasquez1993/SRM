@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { IoMdAddCircle } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
@@ -6,7 +7,7 @@ import { getProvidersFromTask } from "../../store/actions/providerActions";
 import { isNegotiationCompleted } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
 import ProviderCard from "../Providers/ProviderCard";
-import ProviderModal, { emptyProvider } from "./ProviderModal";
+import NewProviderModal from "./ProviderModal";
 
 const TaskProviderList = () => {
     const dispatch = useDispatch();
@@ -18,7 +19,9 @@ const TaskProviderList = () => {
     const [orderedProviders, setOrderedProviders] = useState([]);
     const { id } = useParams();
 
-    const selectedProvider = providers.find(provider => isNegotiationCompleted(provider.pivot));
+    const selectedProvider = providers.find(provider =>
+        isNegotiationCompleted(provider.pivot)
+    );
 
     useEffect(() => {
         dispatch(getProvidersFromTask(id));
@@ -45,7 +48,7 @@ const TaskProviderList = () => {
         dispatch(
             openModal({
                 title: "Agregar Empresa",
-                body: <ProviderModal provider={emptyProvider} taskId={id} />
+                body: <NewProviderModal />
             })
         );
     };
@@ -58,9 +61,10 @@ const TaskProviderList = () => {
                 <h2 className="py-4">Empresas Asociadas</h2>
                 {isMine && !selectedProvider && (
                     <button
-                        className="btn btn-lg btn-outline-primary btn-round"
+                        className="btn btn-lg btn-success btn-round"
                         onClick={handleCreateProvider}
                     >
+                        <IoMdAddCircle className="mr-2" />
                         Agregar Empresa
                     </button>
                 )}

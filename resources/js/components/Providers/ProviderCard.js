@@ -5,7 +5,7 @@ import { openModal } from "../../store/actions/modalActions";
 import { startNegotiation } from "../../store/actions/providerActions";
 import { blueCard, greenCard, normalCard, redCard, useUser } from "../../utils";
 import Accordion from "../UI/Accordion";
-import ProviderModal from "./ProviderModal";
+import ProviderFormModal from "./ProviderFormModal";
 
 const ProviderCard = ({ provider, selectedProvider }) => {
     const dispatch = useDispatch();
@@ -49,7 +49,7 @@ const ProviderCard = ({ provider, selectedProvider }) => {
             openModal({
                 title: "Editar Empresa",
                 body: (
-                    <ProviderModal
+                    <ProviderFormModal
                         provider={providerToEdit}
                         isEditor={true}
                         taskId={taskId}
