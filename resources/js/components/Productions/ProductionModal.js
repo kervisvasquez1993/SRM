@@ -4,6 +4,9 @@ import ProductsTab from "../Products/ProductsTab";
 import ProviderTab from "../Providers/ProviderTab";
 import PurchaseTab from "../Purchases/PurchaseTab";
 import TaskTab from "../Tasks/TaskTab";
+import TabButton from "../UI/TabButton";
+import TabContent from "../UI/TabContent";
+import Tabs from "../UI/Tabs";
 
 const ProductionModal = ({ production }) => {
     const [currentTab, setCurrentTab] = useState("task");
@@ -29,97 +32,47 @@ const ProductionModal = ({ production }) => {
         <React.Fragment>
             <div className="modal-body">
                 <React.Fragment>
-                    <ul
-                        className="nav nav-pills nav-pills-success nav-pills-icons mb-4 justify-content-center"
-                        role="tablist"
-                    >
-                        <li className="nav-item">
-                            <a
-                                className={`nav-link ${
-                                    currentTab === "task" ? "active" : ""
-                                }`}
-                                href="#"
-                                role="tab"
-                                onClick={e => handleClickTab(e, "task")}
-                            >
+                    <Tabs defaultTab="task">
+                        <ul
+                            className="nav nav-pills nav-pills-success nav-pills-icons mb-4 justify-content-center"
+                            role="tablist"
+                        >
+                            <TabButton name="task">
                                 <i className="material-icons">task</i>
                                 Tarea
-                            </a>
-                        </li>
-                        <li className="nav-item">
-                            <a
-                                className={`nav-link ${
-                                    currentTab === "business" ? "active" : ""
-                                }`}
-                                href="#"
-                                role="tab"
-                                onClick={e => handleClickTab(e, "business")}
-                            >
+                            </TabButton>
+
+                            <TabButton name="business">
                                 <i className="material-icons">business</i>
                                 Proveedor
-                            </a>
-                        </li>
-                        <li className="nav-item">
-                            <a
-                                className={`nav-link ${
-                                    currentTab === "products" ? "active" : ""
-                                }`}
-                                href="#"
-                                role="tab"
-                                onClick={e => handleClickTab(e, "products")}
-                            >
+                            </TabButton>
+
+                            <TabButton name="products">
                                 <i className="material-icons">inventory_2</i>
                                 Productos
-                            </a>
-                        </li>
-                        <li className="nav-item">
-                            <a
-                                className={`nav-link ${
-                                    currentTab === "purchase" ? "active" : ""
-                                }`}
-                                href="#"
-                                role="tab"
-                                onClick={e => handleClickTab(e, "purchase")}
-                            >
+                            </TabButton>
+
+                            <TabButton name="purchase">
                                 <i className="material-icons">receipt_long</i>
                                 Compras
-                            </a>
-                        </li>
-                    </ul>
+                            </TabButton>
+                        </ul>
 
-                    <div className="tab-content tab-space p-2">
-                        <div
-                            className={`tab-pane ${
-                                currentTab === "task" ? "active" : ""
-                            }`}
-                        >
-                            <TaskTab task={task} user={usuario} />
+                        <div className="tab-content tab-space p-2">
+                            <TabContent name="task">
+                                <TaskTab task={task} user={usuario} />
+                            </TabContent>
+                            <TabContent name="business">
+                                <ProviderTab provider={provider} />
+                            </TabContent>
+                            <TabContent name="products">
+                                <ProductsTab negotiation={negotiation} />
+                            </TabContent>
+                            <TabContent name="purchase">
+                                <PurchaseTab negotiation={negotiation} />
+                            </TabContent>
                         </div>
-
-                        <div
-                            className={`tab-pane ${
-                                currentTab === "business" ? "active" : ""
-                            }`}
-                        >
-                            <ProviderTab provider={provider} />
-                        </div>
-
-                        <div
-                            className={`tab-pane ${
-                                currentTab === "products" ? "active" : ""
-                            }`}
-                        >
-                            <ProductsTab negotiation={negotiation} />
-                        </div>
-
-                        <div
-                            className={`tab-pane ${
-                                currentTab === "purchase" ? "active" : ""
-                            }`}
-                        >
-                            <PurchaseTab negotiation={negotiation} />
-                        </div>
-                    </div>
+                    </Tabs>
                 </React.Fragment>
             </div>
         </React.Fragment>
