@@ -6,25 +6,32 @@ use App\InicioProduccion;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
+use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProduccionTransitoInicioProduccion extends ApiController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    private $validator_array = [
+        'titulo' => 'required',
+        'descripcion' => 'required'
+    ];
+
     public function index(Request $request)
     {
-        $inicioProduccion = InicioProduccion::where('produccion_transito_id', $request->negociacion_id)->get();
+        $inicioProduccion = InicioProduccion::where('produccion_transito_id', $request->produccion_transito_id)->get();
         return $this->showAll($inicioProduccion);
     }
 
-   
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), $this->validator_array);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
+        }
+
         $inicioProduccion = new InicioProduccion();
-        $inicioProduccion->produccion_transito_id = $request->negociacion_id;
+        $inicioProduccion->produccion_transito_id = $request->produccion_transito_id;
         $inicioProduccion->user_id = auth()->user()->id;
         $inicioProduccion->titulo = $request->titulo;
         $inicioProduccion->descripcion = $request->descripcion;
@@ -32,35 +39,26 @@ class ProduccionTransitoInicioProduccion extends ApiController
         return $this->showOne($inicioProduccion);
     }
 
- 
+
     public function show($inicioProduccion_id)
     {
-        /* $inicioProduccion = InicioProduccion::findOrFail($inicioProduccion_id);
 
-        $inicioProduccion->update */
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $inicioProduccion_id)
     {
+        $validator = Validator::make($request->all(), $this->validator_array);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
+        }
+
         $inicioProduccion = InicioProduccion::findOrFail($inicioProduccion_id);
         $inicioProduccion->update($request->all());
         $inicioProduccion->save();
         return $this->showOne($inicioProduccion);
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function destroy($inicioProduccion_id)
     {
         $inicioProduccion = InicioProduccion::findOrFail($inicioProduccion_id);
