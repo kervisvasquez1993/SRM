@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ApiController;
+use Illuminate\Support\Facades\Storage;
 
 class ProduccionTransitoPagoController extends ApiController
 {
@@ -42,7 +43,7 @@ class ProduccionTransitoPagoController extends ApiController
         $pago->user_id = Auth::user()->id;
         $pago->titulo = $request->titulo;
         $pago->monto = $request->monto;
-        $pago->url_archivo_factura = $request->url_archivo_factura;
+        $pago->url_archivo_factura = $request->url_archivo_factura->store('factura-pago');
         $pago->tipo = $tipo;
         $pago->fecha = Carbon::now();
         $pago->save();
@@ -64,6 +65,8 @@ class ProduccionTransitoPagoController extends ApiController
     public function destroy(Pago $pago)
     {
         
+
+        Storage::delete($pago->url_archivo_factura);
         $pago->delete();
         return $this->showOne($pago);
     }

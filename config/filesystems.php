@@ -13,11 +13,11 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DRIVER', 'local'),
+    'default' => env('FILESYSTEM_DRIVER', 'image'),
 
     /*
     |--------------------------------------------------------------------------
-    | Default Cloud Filesystem Disk
+    | Default Cloud Filesystem Disk 
     |--------------------------------------------------------------------------
     |
     | Many applications store files both locally and in the cloud. For this
@@ -55,6 +55,12 @@ return [
             'visibility' => 'public',
         ],
 
+        'image' => [
+            'driver' => 'local',
+            'root' => public_path('img'),
+            'visibility' => 'public',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
@@ -62,7 +68,7 @@ return [
             'region' => env('AWS_DEFAULT_REGION'),
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
-            'endpoint' => env('AWS_ENDPOINT'),
+            'endpoint' => env('AWS_ENDPOINT'), 
         ],
 
     ],
