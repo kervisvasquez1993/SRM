@@ -122,6 +122,7 @@ Route::middleware('auth.jwt')->group(function () {
         
     //Arte Api
     Route::get('artes', 'Api\Arte\ArteController@index');
+    Route::put('artes/{arte}', 'Api\Arte\ArteController@update');
    
     //fin d earte
      //orden de compra

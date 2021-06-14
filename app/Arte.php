@@ -7,6 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class Arte extends Model
 {
     
+    protected $fillable = [
+        'nombre',
+        'creacion_fichas',
+        'validacion_fichas',
+        'creacion_boceto',
+        'validacion_boceto',
+        'confirmacion_proveedor',
+        'fecha_fin'
+    ];
+
+
     public function pivotTable()
     {   
         return $this->belongsTo(PivotTareaProveeder::class, 'pivot_tarea_proveeder_id');

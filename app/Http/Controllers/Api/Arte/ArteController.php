@@ -22,26 +22,12 @@ class ArteController extends ApiController
         return $this->showAllResources($arteResource);
     }
 
-   
-    public function store(Request $request)
-    {
-        //
-    }
-
-   
-    public function show(Arte $arte)
-    {
-        //
-    }
-
     public function update(Request $request, Arte $arte)
     {
-        //
+        $arte->update($request->all());
+        $arte->save();
+        return $this->showOne($arte);
     }
 
-   
-    public function destroy(Arte $arte)
-    {
-        //
-    }
+
 }
