@@ -1,0 +1,42 @@
+import axios from "axios";
+import { apiURL } from "../../components/App";
+
+export function getProductions() {
+    return async (dispatch, _getState) => {
+        dispatch({ type: "GET_PRODUCTIONS_REQUEST" });
+
+        try {
+            const response = await axios.get(`${apiURL}/produccion_transito`);
+
+            dispatch({
+                type: "GET_PRODUCTIONS_SUCCESS",
+                payload: response.data.data
+            });
+        } catch (e) {
+            dispatch({
+                type: "GET_PRODUCTIONS_FAILURE"
+            });
+        }
+    };
+}
+
+export function updateProduction(data) {
+    return async (dispatch, _getState) => {
+        dispatch({ type: "UPDATE_PRODUCTION_REQUEST" });
+
+        try {
+            const response = await axios.put(`${apiURL}/produccion_transito/${data.id}`, data);
+            console.log(response.data.data)
+            dispatch({
+                type: "UPDATE_PRODUCTION_SUCCESS",
+                payload: response.data.data
+            });
+        } catch (e) {
+            console.log(e)
+            console.log(e.response)
+            dispatch({
+                type: "UPDATE_PRODUCTION_FAILURE"
+            });
+        }
+    };
+}

@@ -20,7 +20,7 @@ class ProduccionTransitoPagoController extends ApiController
     public function index(Request $request)
     {
         $produccionTransito = ProduccionTransito::findOrFail($request->produccion_transito_id);
-        return  $this->showAll($produccionTransito->pagos);
+        return  $this->showAll($produccionTransito->pago);
         
     }
 
@@ -28,7 +28,7 @@ class ProduccionTransitoPagoController extends ApiController
     {
         $produccionTransitoId = ProduccionTransito::findOrFail($request->produccion_transito_id);
         
-        if($produccionTransitoId->pagos)
+        if($produccionTransitoId->pago)
         {
             $tipo = "Pago Restante";    
 
@@ -44,7 +44,7 @@ class ProduccionTransitoPagoController extends ApiController
         $pago->monto = $request->monto;
         $pago->url_archivo_factura = $request->url_archivo_factura;
         $pago->tipo = $tipo;
-        $pago->fecha = Carbon::now();
+        $pago->fecha = $request->fecha;
         $pago->save();
         return $this->showOne($pago);
     }

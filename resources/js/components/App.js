@@ -18,6 +18,7 @@ import jwt_decode from "jwt-decode";
 import { store } from "./Index";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
+import ProductionList from "./Productions/ProductionList";
 
 axios.interceptors.response.use(
     response => {
@@ -124,6 +125,9 @@ const App = () => {
                             </Route>
                             <Route path="/negotiations">
                                 <NegotiationList />
+                            </Route>
+                            <Route path="/production">
+                                <ProductionList />
                             </Route>
                             <Route path="*">
                                 <Error />
