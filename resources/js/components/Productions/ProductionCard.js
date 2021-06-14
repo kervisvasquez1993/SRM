@@ -4,16 +4,29 @@ import { useDispatch } from "react-redux";
 import { openModal } from "../../store/actions/modalActions";
 import { updateProduction } from "../../store/actions/productionActions";
 import { getSum } from "../../utils";
-import ProductionModal from "./ProductionModal";
+import ProductionInfoModal from "./ProductionInfoModal";
+import ProductionManagementModal from "./ProductionManagementModal";
 
 const ProductionCard = ({ production }) => {
     const dispatch = useDispatch();
 
-    const handleOpen = () => {
+    const handleOpenInfo = e => {
+        e.preventDefault();
+        e.stopPropagation();
+
         dispatch(
             openModal({
                 title: proveedor.nombre,
-                body: <ProductionModal production={production} />
+                body: <ProductionInfoModal production={production} />
+            })
+        );
+    };
+
+    const handleOpenManagement = () => {
+        dispatch(
+            openModal({
+                title: proveedor.nombre,
+                body: <ProductionManagementModal production={production} />
             })
         );
     };
@@ -62,7 +75,7 @@ const ProductionCard = ({ production }) => {
     return (
         <div
             className={`card my-2 fade-in py-2`}
-            onClick={handleOpen}
+            onClick={handleOpenManagement}
             style={{ cursor: "pointer" }}
         >
             <div className="card-header ">
@@ -111,9 +124,9 @@ const ProductionCard = ({ production }) => {
                             onChange={handleCheck}
                             disabled
                         />
-                        Pago Anticipado{" "}
+                        Pago Anticipado
                         {prepaymentPercentage > 0
-                            ? `(${prepaymentPercentage}%)`
+                            ? ` (${prepaymentPercentage}%)`
                             : ""}
                         <span className="form-check-sign">
                             <span className="check"></span>
@@ -133,8 +146,8 @@ const ProductionCard = ({ production }) => {
                             onChange={handleCheck}
                             disabled
                         />
-                        Pago Balance{" "}
-                        {paidPercentage > 0 ? `(${paidPercentage}%)` : ""}
+                        Pago Balance
+                        {paidPercentage > 0 ? ` (${paidPercentage}%)` : ""}
                         <span className="form-check-sign">
                             <span className="check"></span>
                         </span>
@@ -203,11 +216,15 @@ const ProductionCard = ({ production }) => {
             </div>
 
             <div className="card-footer">
-                <div className="d-flex justify-content-between align-items-center w-100 flex-wrap">
-                    <div className="d-flex"></div>
-
-                    <button className="btn btn-sm btn-info btn-round">
-                        Ver Detalles
+                <div className="d-flex justify-content-end align-items-center w-100 flex-wrap">
+                    <button className="btn btn-success btn-round">
+                        Administrar
+                    </button>
+                    <button
+                        className="btn btn-info btn-round"
+                        onClick={handleOpenInfo}
+                    >
+                        Ver Información
                     </button>
                 </div>
             </div>

@@ -7,8 +7,9 @@ import TaskTab from "../Tasks/TaskTab";
 import TabButton from "../UI/TabButton";
 import TabContent from "../UI/TabContent";
 import Tabs from "../UI/Tabs";
+import PaymentsTab from "./PaymentsTab";
 
-const ProductionModal = ({ production }) => {
+const ProductionManagementModal = ({ production }) => {
     const [currentTab, setCurrentTab] = useState("task");
 
     const {
@@ -32,44 +33,44 @@ const ProductionModal = ({ production }) => {
         <React.Fragment>
             <div className="modal-body">
                 <React.Fragment>
-                    <Tabs defaultTab="task">
+                    <Tabs defaultTab="payments">
                         <ul
-                            className="nav nav-pills nav-pills-success nav-pills-icons mb-4 justify-content-center"
+                            className="nav nav-pills nav-pills-success nav-pills-icons justify-content-center flex-column"
                             role="tablist"
                         >
-                            <TabButton name="task">
-                                <i className="material-icons">task</i>
-                                Tarea
-                            </TabButton>
-
-                            <TabButton name="business">
-                                <i className="material-icons">business</i>
-                                Proveedor
-                            </TabButton>
-
-                            <TabButton name="products">
-                                <i className="material-icons">inventory_2</i>
-                                Productos
-                            </TabButton>
-
-                            <TabButton name="purchase">
+                            <TabButton name="payments">
                                 <i className="material-icons">receipt_long</i>
-                                Compras
+                                Pagos
+                            </TabButton>
+
+                            <TabButton name="inicio_produccion">
+                                <i className="material-icons">receipt_long</i>
+                                Inicio de Producción
+                            </TabButton>
+
+                            <TabButton name="fin_produccion">
+                                <i className="material-icons">receipt_long</i>
+                                Fin de Producción
+                            </TabButton>
+
+                            <TabButton name="transito_nacionalizacion">
+                                <i className="material-icons">receipt_long</i>
+                                Transito Nacionalización
                             </TabButton>
                         </ul>
 
                         <div className="tab-content tab-space p-2">
-                            <TabContent name="task">
-                                <TaskTab task={task} user={usuario} />
+                            <TabContent name="payments">
+                                <PaymentsTab />
                             </TabContent>
-                            <TabContent name="business">
-                                <ProviderTab provider={provider} />
+                            <TabContent name="inicio_produccion">
+                                Contenido
                             </TabContent>
-                            <TabContent name="products">
-                                <ProductsTab negotiation={negotiation} />
+                            <TabContent name="fin_produccion">
+                                Contenido
                             </TabContent>
-                            <TabContent name="purchase">
-                                <PurchaseTab negotiation={negotiation} />
+                            <TabContent name="transito_nacionalizacion">
+                                Contenido
                             </TabContent>
                         </div>
                     </Tabs>
@@ -79,4 +80,4 @@ const ProductionModal = ({ production }) => {
     );
 };
 
-export default ProductionModal;
+export default ProductionManagementModal;
