@@ -83,12 +83,12 @@ Route::middleware('auth.jwt')->group(function () {
    Route::get('/produccion_transito', 'Api\ProduccionTransito\ProduccionTransitoController@index');
    Route::put('/produccion_transito/{produccionTransito}', 'Api\ProduccionTransito\ProduccionTransitoController@update');
 
-    //pago anticipado
+ /*    //pago anticipado
     Route::get('produccion_transito/{produccion_transito_id}/pago_anticipado', 'Api\ProduccionTransito\ProduccionTransitoPagoAnticipadoController@index');
     Route::post('produccion_transito/{produccion_transito_id}/pago_anticipado', 'Api\ProduccionTransito\ProduccionTransitoPagoAnticipadoController@store');
     Route::put('/pago_anticipado/{pago_anticipado_id}', 'Api\ProduccionTransito\ProduccionTransitoPagoAnticipadoController@update');
     Route::delete('/pago_anticipado/{pago_anticipado_id}', 'Api\ProduccionTransito\ProduccionTransitoPagoAnticipadoController@destroy');
-    //fin de pago de anticipado 
+    //fin de pago de anticipado  */
 
     //inicio de produccion 
 
@@ -105,6 +105,15 @@ Route::middleware('auth.jwt')->group(function () {
     Route::get('pago/{pago}', 'Api\ProduccionTransito\ProduccionTransitoPagoController@show');
     Route::put('pago/{pago}', 'Api\ProduccionTransito\ProduccionTransitoPagoController@update');
     Route::delete('pago/{pago}', 'Api\ProduccionTransito\ProduccionTransitoPagoController@destroy');
+
+
+    // incidencia transitosNacionalizacion
+    Route::get('produccion_transito/{produccion_transito_id}/incidencias_transito', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@index');
+    Route::post('produccion_transito/{produccion_transito_id}/incidencias_transito', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@store');
+    Route::get('incidencias_transito/{incidencias_transito_id}', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@show');
+    Route::put('incidencias_transito/{incidencias_transito_id}', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@update');
+    Route::delete('incidencias_transito/{incidencias_transito_id}', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@destroy');
+    
 
 
 });
