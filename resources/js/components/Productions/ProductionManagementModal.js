@@ -3,13 +3,14 @@ import TabButton from "../UI/TabButton";
 import TabContent from "../UI/TabContent";
 import Tabs from "../UI/Tabs";
 import PaymentsTab from "./Payments/PaymentsTab";
+import ProductionStartTab from "./ProductionStart/ProductionStartTab";
 
-const ProductionManagementModal = ({ production }) => {
+const ProductionManagementModal = ({ production, defaultTab = "payments" }) => {
     return (
         <React.Fragment>
             <div className="modal-body">
                 <React.Fragment>
-                    <Tabs defaultTab="payments">
+                    <Tabs defaultTab={defaultTab}>
                         <ul
                             className="nav nav-pills nav-pills-success nav-pills-icons justify-content-center flex-column"
                             role="tablist"
@@ -40,7 +41,7 @@ const ProductionManagementModal = ({ production }) => {
                                 <PaymentsTab production={production} />
                             </TabContent>
                             <TabContent name="inicio_produccion">
-                                Contenido
+                                <ProductionStartTab production={production} />
                             </TabContent>
                             <TabContent name="fin_produccion">
                                 Contenido

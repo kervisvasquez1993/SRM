@@ -6,9 +6,11 @@ const TabContent = props => {
     const { currentTab } = useContext(TabContext);
 
     return (
-        <div className={`tab-pane ${currentTab === name ? "active" : ""}`}>
-            {props.children}
-        </div>
+        <React.Fragment>
+            {currentTab === name && (
+                <div className="tab-pane active">{props.children}</div>
+            )}
+        </React.Fragment>
     );
 };
 

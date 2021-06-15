@@ -80,16 +80,8 @@ export function createPayment(production, data) {
                 payload: response.data.data
             });
 
-            dispatch(closeModal());
-
             dispatch(getProductions());
-
-            dispatch(
-                openModal({
-                    title: production.pivot.proveedor.nombre,
-                    body: <ProductionManagementModal production={production} />
-                })
-            );
+            dispatch(reopenProductionModal(production));
         } catch (e) {
             dispatch({
                 type: "CREATE_PAYMENT_FAILURE",
@@ -104,26 +96,15 @@ export function editPayment(production, data) {
         dispatch({ type: "CREATE_PAYMENT_REQUEST" });
 
         try {
-            const response = await axios.put(
-                `${apiURL}/pago/${data.id}`,
-                data
-            );
+            const response = await axios.put(`${apiURL}/pago/${data.id}`, data);
 
             dispatch({
                 type: "CREATE_PAYMENT_SUCCESS",
                 payload: response.data.data
             });
 
-            dispatch(closeModal());
-
             dispatch(getProductions());
-
-            dispatch(
-                openModal({
-                    title: production.pivot.proveedor.nombre,
-                    body: <ProductionManagementModal production={production} />
-                })
-            );
+            dispatch(reopenProductionModal(production));
         } catch (e) {
             dispatch({
                 type: "CREATE_PAYMENT_FAILURE",
@@ -138,19 +119,121 @@ export function deletePayment(paymentId) {
         dispatch({ type: "DELETE_PAYMENT_REQUEST" });
 
         try {
-            const response = await axios.delete(
-                `${apiURL}/pago/${paymentId}`
-            );
+            const response = await axios.delete(`${apiURL}/pago/${paymentId}`);
 
             dispatch({
                 type: "DELETE_PAYMENT_SUCCESS",
                 payload: paymentId
             });
+
+            dispatch(getProductions());
         } catch (e) {
             dispatch({
                 type: "DELETE_PAYMENT_FAILURE",
                 errors: e.response.data
             });
         }
+    };
+}
+
+function reopenProductionModal(production, defaultTab = "payments") {
+    return async (dispatch, _getState) => {
+        dispatch(closeModal());
+
+        dispatch(
+            openModal({
+                title: production.pivot.proveedor.nombre,
+                body: (
+                    <ProductionManagementModal
+                        production={production}
+                        defaultTab={defaultTab}
+                    />
+                )
+            })
+        );
+    };
+}
+
+export function getProductionIncidents(url, productionId) {
+    return async (dispatch, _getState) => {
+        dispatch({ type: "GET_INCIDENTS_REQUEST" });
+
+        try {
+            const response = await axios.get(
+                `${apiURL}/produccion_transito/${productionId}/${url}`
+            );
+
+            dispatch({
+                type: "GET_INCIDENTS_SUCCESS",
+                payload: response.data.data
+            });
+        } catch (e) {
+            dispatch({
+                type: "GET_INCIDENTS_FAILURE"
+            });
+        }
+    };
+}
+
+export function createProductionIncident(url, production, data) {
+    return async (dispatch, _getState) => {
+        dispatch({ type: "FORM_SUBMIT_REQUEST" });
+
+        try {
+            const response = await axios.post(
+                `${apiURL}/produccion_transito/${production.id}/${url}`,
+                data
+            );
+
+            dispatch({
+                type: "FORM_SUBMIT_SUCCESS",
+                payload: response.data.data
+            });
+
+            dispatch(reopenProductionModal(production, url));
+        } catch (e) {
+            dispatch({
+                type: "FORM_SUBMIT_FAILURE",
+                errors: e.response.data
+            });
+        }
+    };
+}
+
+export function editProductionIncident(url, production, data) {
+    return async (dispatch, _getState) => {
+        dispatch({ type: "FORM_SUBMIT_REQUEST" });
+
+        try {
+            const response = await axios.put(
+                `${apiURL}/inicio_produccion/${data.id}`,
+                data
+            );
+
+            dispatch({
+                type: "FORM_SUBMIT_SUCCESS",
+                payload: response.data.data
+            });
+
+            dispatch(reopenProductionModal(production, url));
+        } catch (e) {
+            dispatch({
+                type: "FORM_SUBMIT_FAILURE",
+                errors: e.response.data
+            });
+        }
+    };
+}
+
+export function deleteProductionIncident(url, id) {
+    return async (dispatch, _getState) => {
+        try {
+            const response = await axios.delete(`${apiURL}/${url}/${id}`);
+
+            dispatch({
+                type: "DELETE_INCIDENT_SUCCESS",
+                payload: id
+            });
+        } catch (e) {}
     };
 }

@@ -8,8 +8,6 @@ import LoadingScreen from "../../Navigation/LoadingScreen";
 import PaymentModal, { emptyPayment } from "./PaymentModal";
 import PaymentRow from "./PaymentRow";
 
-const titleStyle = { width: "16.666%" };
-
 const PaymentsTab = ({ production }) => {
     const dispatch = useDispatch();
     const payments = useSelector(state => state.production.payments);
@@ -27,9 +25,9 @@ const PaymentsTab = ({ production }) => {
                 title: "Agregar Pago",
                 body: (
                     <PaymentModal
-                        payment={emptyPayment}
-                        production={production}
+                        formData={emptyPayment}
                         isEditor={false}
+                        production={production}
                     />
                 )
             })
@@ -63,22 +61,22 @@ const PaymentsTab = ({ production }) => {
                             <table className="table table-sm table-hover table-bordered fade-in">
                                 <thead className="thead-dark">
                                     <tr>
-                                        <th scope="col" style={titleStyle}>
+                                        <th scope="col">
                                             Titulo
                                         </th>
-                                        <th scope="col" style={titleStyle}>
+                                        <th scope="col">
                                             Tipo
                                         </th>
-                                        <th scope="col" style={titleStyle}>
+                                        <th scope="col">
                                             Usuario
                                         </th>
-                                        <th scope="col" style={titleStyle}>
+                                        <th scope="col">
                                             Fecha
                                         </th>
-                                        <th scope="col" style={titleStyle}>
+                                        <th scope="col">
                                             Monto
                                         </th>
-                                        <th scope="col" style={titleStyle}></th>
+                                        <th scope="col"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -92,7 +90,7 @@ const PaymentsTab = ({ production }) => {
                                         );
                                     })}
                                     <tr>
-                                        <th scope="row" colSpan="4">
+                                        <th scope="row" colSpan={4}>
                                             Total
                                         </th>
                                         <td>{getSum(payments, "monto")}</td>

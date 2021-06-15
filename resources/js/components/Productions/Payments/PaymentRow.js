@@ -11,7 +11,7 @@ const PaymentRow = ({ payment, production }) => {
     const dispatch = useDispatch();
 
     const handleEdit = product => {
-        console.log(payment);
+        /*
         dispatch(
             openModal({
                 title: "Editar Pago",
@@ -20,6 +20,19 @@ const PaymentRow = ({ payment, production }) => {
                         payment={payment}
                         production={production}
                         isEditor={true}
+                    />
+                )
+            })
+        );
+        */
+        dispatch(
+            openModal({
+                title: "Agregar Pago",
+                body: (
+                    <PaymentModal
+                        formData={payment}
+                        isEditor={true}
+                        production={production}
                     />
                 )
             })
