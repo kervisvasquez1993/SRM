@@ -5,13 +5,15 @@ export const secondsInDay = 1000 * 60 * 60 * 24;
 const defaultOptions = {
     year: "numeric",
     month: "long",
-    day: "numeric"
+    day: "numeric",
+    timeZone: "UTC"
 };
 
 const defaultShortOptions = {
     year: "numeric",
     month: "numeric",
-    day: "numeric"
+    day: "numeric",
+    timeZone: "UTC"
 };
 
 export function dateToString(date, options = defaultOptions) {

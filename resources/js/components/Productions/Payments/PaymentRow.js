@@ -1,25 +1,28 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { dateToShortString } from "../../../utils";
+import { openModal } from "../../../store/actions/modalActions";
+import { dateToShortString, stringToDateIgnoringTime } from "../../../utils";
+import PaymentModal from "./PaymentModal";
 
 const titleStyle = { width: "16.666%" };
 
-const PaymentRow = ({ payment }) => {
+const PaymentRow = ({ payment, production }) => {
     const dispatch = useDispatch();
 
     const handleEdit = product => {
-        // dispatch(
-        //     openModal({
-        //         title: "Editar Producto",
-        //         body: (
-        //             <ProductModal
-        //                 product={product}
-        //                 pivotId={id}
-        //                 isEditor={true}
-        //             />
-        //         )
-        //     })
-        // );
+        console.log(payment);
+        dispatch(
+            openModal({
+                title: "Editar Pago",
+                body: (
+                    <PaymentModal
+                        payment={payment}
+                        production={production}
+                        isEditor={true}
+                    />
+                )
+            })
+        );
     };
 
     const handleDelete = product => {
@@ -30,7 +33,7 @@ const PaymentRow = ({ payment }) => {
         <tr
             key={payment.id}
             className={`fade-in ${
-                payment.tipo === "Pago Anticipado" ? "bg-info" : ""
+                payment.tipo == "Pago Anticipado" ? "bg-info" : ""
             }`}
             style={titleStyle}
         >

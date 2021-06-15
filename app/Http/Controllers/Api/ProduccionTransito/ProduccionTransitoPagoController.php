@@ -39,7 +39,7 @@ class ProduccionTransitoPagoController extends ApiController
         
         $produccionTransitoId = ProduccionTransito::findOrFail($request->produccion_transito_id);
         
-        if($produccionTransitoId->pago)
+        if(!$produccionTransitoId->pagos->isEmpty())
         {
             $tipo = "Pago Restante";
         }

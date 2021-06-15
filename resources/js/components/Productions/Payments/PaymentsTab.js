@@ -24,7 +24,7 @@ const PaymentsTab = ({ production }) => {
     const handleCreate = () => {
         dispatch(
             openModal({
-                title: "Agregar Producto",
+                title: "Agregar Pago",
                 body: (
                     <PaymentModal
                         payment={emptyPayment}
@@ -106,6 +106,7 @@ const PaymentsTab = ({ production }) => {
                                             <PaymentRow
                                                 key={index}
                                                 payment={payment}
+                                                production={production}
                                             />
                                         );
                                     })}

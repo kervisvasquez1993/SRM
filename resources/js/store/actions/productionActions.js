@@ -98,3 +98,37 @@ export function createPayment(production, data) {
         }
     };
 }
+
+export function editPayment(production, data) {
+    return async (dispatch, _getState) => {
+        dispatch({ type: "CREATE_PAYMENT_REQUEST" });
+
+        try {
+            const response = await axios.put(
+                `${apiURL}/pago/${data.id}`,
+                data
+            );
+
+            dispatch({
+                type: "CREATE_PAYMENT_SUCCESS",
+                payload: response.data.data
+            });
+
+            dispatch(closeModal());
+
+            dispatch(getProductions());
+
+            dispatch(
+                openModal({
+                    title: production.pivot.proveedor.nombre,
+                    body: <ProductionManagementModal production={production} />
+                })
+            );
+        } catch (e) {
+            dispatch({
+                type: "CREATE_PAYMENT_FAILURE",
+                errors: e.response.data
+            });
+        }
+    };
+}

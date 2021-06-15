@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createPayment } from "../../../store/actions/productionActions";
+import {
+    createPayment,
+    editPayment
+} from "../../../store/actions/productionActions";
 import GenericForm from "../../Form/GenericForm";
 import InputDate from "../../Form/InputDate";
 import InputNumber from "../../Form/InputNumber";
@@ -35,7 +38,7 @@ const PaymentModal = ({ payment, production, isEditor }) => {
         e.preventDefault();
 
         if (isEditor) {
-            //dispatch(editTask(task.id, data));
+            dispatch(editPayment(production, data));
         } else {
             dispatch(createPayment(production, data));
         }
