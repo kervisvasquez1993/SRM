@@ -170,4 +170,13 @@ Route::middleware('auth.jwt')->group(function () {
      Route::delete('validacion_boceto/{validacion_boceto_id}', 'Api\Arte\ArteValidacionBocetoController@destroy');
      //fin de boceto
 
+     //confirmacion de proveedor
+       Route::get('arte/{arte_id}/confirmacion_proveedor', 'Api\Arte\ArteConfirmacionProveedorController@index');
+       Route::post('arte/{arte_id}/confirmacion_proveedor', 'Api\Arte\ArteConfirmacionProveedorController@store');
+       Route::get('confirmacion_proveedor/{confirmacion_proveedor_id}', 'Api\Arte\ArteConfirmacionProveedorController@show');
+       Route::put('confirmacion_proveedor/{confirmacion_proveedor_id}', 'Api\Arte\ArteConfirmacionProveedorController@update');
+       Route::delete('confirmacion_proveedor/{confirmacion_proveedor_id}', 'Api\Arte\ArteConfirmacionProveedorController@destroy');
+
+     //fin de produccion
+
 });
