@@ -8,7 +8,18 @@ const defaultOptions = {
     day: "numeric"
 };
 
+
+const defaultShortOptions = {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric"
+};
+
 export function dateToString(date, options = defaultOptions) {
+    return new Intl.DateTimeFormat("default", options).format(date);
+}
+
+export function dateToShortString(date, options = defaultShortOptions) {
     return new Intl.DateTimeFormat("default", options).format(date);
 }
 

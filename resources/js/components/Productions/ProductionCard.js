@@ -10,7 +10,7 @@ import ProductionManagementModal from "./ProductionManagementModal";
 const ProductionCard = ({ production }) => {
     const dispatch = useDispatch();
 
-    const handleOpenInfo = e => {
+    const handleOpenInfo = (e) => {
         e.preventDefault();
         e.stopPropagation();
 
@@ -220,10 +220,7 @@ const ProductionCard = ({ production }) => {
                     <button className="btn btn-success btn-round">
                         Administrar
                     </button>
-                    <button
-                        className="btn btn-info btn-round"
-                        onClick={handleOpenInfo}
-                    >
+                    <button className="btn btn-info btn-round" onClick={handleOpenInfo}>
                         Ver Información
                     </button>
                 </div>

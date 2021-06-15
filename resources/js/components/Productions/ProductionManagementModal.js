@@ -10,25 +10,6 @@ import Tabs from "../UI/Tabs";
 import PaymentsTab from "./PaymentsTab";
 
 const ProductionManagementModal = ({ production }) => {
-    const [currentTab, setCurrentTab] = useState("task");
-
-    const {
-        pivot: {
-            tarea: task,
-            proveedor: provider,
-            compras_total: totalPurchase,
-            compra_po: poCode,
-            usuario
-        }
-    } = production;
-
-    const { pivot: negotiation } = production;
-
-    const handleClickTab = (e, name) => {
-        e.preventDefault();
-        setCurrentTab(name);
-    };
-
     return (
         <React.Fragment>
             <div className="modal-body">
@@ -61,7 +42,7 @@ const ProductionManagementModal = ({ production }) => {
 
                         <div className="tab-content tab-space p-2">
                             <TabContent name="payments">
-                                <PaymentsTab />
+                                <PaymentsTab production={production} />
                             </TabContent>
                             <TabContent name="inicio_produccion">
                                 Contenido

@@ -40,3 +40,22 @@ export function updateProduction(data) {
         }
     };
 }
+
+export function getPayments(productionId) {
+    return async (dispatch, _getState) => {
+        dispatch({ type: "GET_PAYMENTS_REQUEST" });
+
+        try {
+            const response = await axios.get(`${apiURL}/produccion_transito/${productionId}/pago`);
+           
+            dispatch({
+                type: "GET_PAYMENTS_SUCCESS",
+                payload: response.data.data
+            });
+        } catch (e) {
+            dispatch({
+                type: "GET_PAYMENTS_FAILURE"
+            });
+        }
+    };
+}

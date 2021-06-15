@@ -20,7 +20,7 @@ class ProduccionTransitoPagoController extends ApiController
     public function index(Request $request)
     {
         $produccionTransito = ProduccionTransito::findOrFail($request->produccion_transito_id);
-        return  $this->showAll($produccionTransito->pago);
+        return  $this->showAll($produccionTransito->pagos);
         
     }
 
