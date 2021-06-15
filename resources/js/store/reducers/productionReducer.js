@@ -3,13 +3,21 @@ const defaultState = {
 
     payments: [],
     isEditing: false,
-    errors: {}
+    errors: {},
+    arePaymentsLoading: false
 };
 
 const negotiationReducer = (state = defaultState, action) => {
     const { type, payload } = action;
 
     switch (type) {
+        case "CLOSE_MODAL":
+            return {
+                ...state,
+                errors: {},
+                payments: [],
+                arePaymentsLoading: false
+            };
         case "GET_PRODUCTIONS_REQUEST":
             return {
                 ...state
@@ -41,16 +49,19 @@ const negotiationReducer = (state = defaultState, action) => {
 
         case "GET_PAYMENTS_REQUEST":
             return {
-                ...state
+                ...state,
+                arePaymentsLoading: true
             };
         case "GET_PAYMENTS_SUCCESS":
             return {
                 ...state,
-                payments: payload
+                payments: payload,
+                arePaymentsLoading: false
             };
         case "GET_PAYMENTS_FAILURE":
             return {
-                ...state
+                ...state,
+                arePaymentsLoading: false
             };
 
         case "CREATE_PAYMENT_REQUEST":

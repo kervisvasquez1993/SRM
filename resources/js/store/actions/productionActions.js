@@ -1,5 +1,8 @@
 import axios from "axios";
+import React from "react";
 import { apiURL } from "../../components/App";
+import ProductionManagementModal from "../../components/Productions/ProductionManagementModal";
+import { closeModal, openModal } from "./modalActions";
 
 export function getProductions() {
     return async (dispatch, _getState) => {
@@ -25,15 +28,15 @@ export function updateProduction(data) {
         dispatch({ type: "UPDATE_PRODUCTION_REQUEST" });
 
         try {
-            const response = await axios.put(`${apiURL}/produccion_transito/${data.id}`, data);
-            console.log(response.data.data)
+            const response = await axios.put(
+                `${apiURL}/produccion_transito/${data.id}`,
+                data
+            );
             dispatch({
                 type: "UPDATE_PRODUCTION_SUCCESS",
                 payload: response.data.data
             });
         } catch (e) {
-            console.log(e)
-            console.log(e.response)
             dispatch({
                 type: "UPDATE_PRODUCTION_FAILURE"
             });
@@ -46,8 +49,10 @@ export function getPayments(productionId) {
         dispatch({ type: "GET_PAYMENTS_REQUEST" });
 
         try {
-            const response = await axios.get(`${apiURL}/produccion_transito/${productionId}/pago`);
-           
+            const response = await axios.get(
+                `${apiURL}/produccion_transito/${productionId}/pago`
+            );
+
             dispatch({
                 type: "GET_PAYMENTS_SUCCESS",
                 payload: response.data.data
@@ -60,20 +65,32 @@ export function getPayments(productionId) {
     };
 }
 
-export function createPayment(productionId, data) {
+export function createPayment(production, data) {
     return async (dispatch, _getState) => {
         dispatch({ type: "CREATE_PAYMENT_REQUEST" });
 
         try {
-            const response = await axios.post(`${apiURL}/produccion_transito/${productionId}/pago`, data);
-           
+            const response = await axios.post(
+                `${apiURL}/produccion_transito/${production.id}/pago`,
+                data
+            );
+
             dispatch({
                 type: "CREATE_PAYMENT_SUCCESS",
                 payload: response.data.data
             });
+
+            dispatch(closeModal());
+
+            dispatch(getProductions());
+
+            dispatch(
+                openModal({
+                    title: production.pivot.proveedor.nombre,
+                    body: <ProductionManagementModal production={production} />
+                })
+            );
         } catch (e) {
-            console.log(e)
-            console.log(e.response)
             dispatch({
                 type: "CREATE_PAYMENT_FAILURE",
                 errors: e.response.data

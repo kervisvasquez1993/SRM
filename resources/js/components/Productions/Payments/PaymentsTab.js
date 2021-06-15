@@ -4,6 +4,7 @@ import { openModal } from "../../../store/actions/modalActions";
 import { getPayments } from "../../../store/actions/productionActions";
 import { getSum } from "../../../utils";
 import EmptyList from "../../Navigation/EmptyList";
+import LoadingScreen from "../../Navigation/LoadingScreen";
 import PaymentModal, { emptyPayment } from "./PaymentModal";
 import PaymentRow from "./PaymentRow";
 
@@ -12,6 +13,9 @@ const titleStyle = { width: "16.666%" };
 const PaymentsTab = ({ production }) => {
     const dispatch = useDispatch();
     const payments = useSelector(state => state.production.payments);
+    const arePaymentsLoading = useSelector(
+        state => state.production.arePaymentsLoading
+    );
 
     useEffect(() => {
         dispatch(getPayments(production.id));
@@ -21,7 +25,13 @@ const PaymentsTab = ({ production }) => {
         dispatch(
             openModal({
                 title: "Agregar Producto",
-                body: <PaymentModal payment={emptyPayment} productionId={production.id} isEditor={false} />
+                body: (
+                    <PaymentModal
+                        payment={emptyPayment}
+                        production={production}
+                        isEditor={false}
+                    />
+                )
             })
         );
     };
@@ -51,8 +61,6 @@ const PaymentsTab = ({ production }) => {
                 <h3 className="h2">Pagos</h3>
             </div>
 
-            {payments.length === 0 && <EmptyList />}
-
             <div className="text-center">
                 <button
                     className="btn btn-lg btn-success btn-round mb-4"
@@ -63,43 +71,56 @@ const PaymentsTab = ({ production }) => {
                 </button>
             </div>
 
-            {payments.length > 0 && (
-                <div className="table-responsive">
-                    <table className="table table-sm table-hover table-bordered fade-in">
-                        <thead className="thead-dark">
-                            <tr>
-                                <th scope="col" style={titleStyle}>
-                                    Titulo
-                                </th>
-                                <th scope="col" style={titleStyle}>
-                                    Tipo
-                                </th>
-                                <th scope="col" style={titleStyle}>
-                                    Usuario
-                                </th>
-                                <th scope="col" style={titleStyle}>
-                                    Fecha
-                                </th>
-                                <th scope="col" style={titleStyle}>
-                                    Monto
-                                </th>
-                                <th scope="col" style={titleStyle}></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {payments.map((payment, index) => {
-                                return <PaymentRow key={index} payment={payment} />
-                            })}
-                            <tr>
-                                <th scope="row" colSpan="4">
-                                    Total
-                                </th>
-                                <td>{getSum(payments, "monto")}</td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            {arePaymentsLoading ? (
+                <LoadingScreen />
+            ) : (
+                <React.Fragment>
+                    {payments.length === 0 && <EmptyList />}
+
+                    {payments.length > 0 && (
+                        <div className="table-responsive">
+                            <table className="table table-sm table-hover table-bordered fade-in">
+                                <thead className="thead-dark">
+                                    <tr>
+                                        <th scope="col" style={titleStyle}>
+                                            Titulo
+                                        </th>
+                                        <th scope="col" style={titleStyle}>
+                                            Tipo
+                                        </th>
+                                        <th scope="col" style={titleStyle}>
+                                            Usuario
+                                        </th>
+                                        <th scope="col" style={titleStyle}>
+                                            Fecha
+                                        </th>
+                                        <th scope="col" style={titleStyle}>
+                                            Monto
+                                        </th>
+                                        <th scope="col" style={titleStyle}></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {payments.map((payment, index) => {
+                                        return (
+                                            <PaymentRow
+                                                key={index}
+                                                payment={payment}
+                                            />
+                                        );
+                                    })}
+                                    <tr>
+                                        <th scope="row" colSpan="4">
+                                            Total
+                                        </th>
+                                        <td>{getSum(payments, "monto")}</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+                </React.Fragment>
             )}
         </React.Fragment>
     );

@@ -10,10 +10,10 @@ export const emptyPayment = {
     titulo: "",
     fecha: "",
     monto: "",
-    url_archivo_factura: ""
+    url_archivo_factura: "#"
 };
 
-const PaymentModal = ({ payment, productionId, isEditor }) => {
+const PaymentModal = ({ payment, production, isEditor }) => {
     const dispatch = useDispatch();
     const [data, setData] = useState({ ...payment });
 
@@ -37,11 +37,9 @@ const PaymentModal = ({ payment, productionId, isEditor }) => {
         if (isEditor) {
             //dispatch(editTask(task.id, data));
         } else {
-            dispatch(createPayment(productionId, data));
+            dispatch(createPayment(production, data));
         }
     };
-
-    const handleReset = e => {};
 
     return (
         <div className="modal-body">
