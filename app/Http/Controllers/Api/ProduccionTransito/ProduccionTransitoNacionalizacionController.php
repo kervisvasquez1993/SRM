@@ -47,7 +47,7 @@ class ProduccionTransitoNacionalizacionController extends ApiController
     public function update(Request $request, $incidencias_transito_id)
     {
         $incidencias_transito = TransitoNacionalizacion::findOrFail($incidencias_transito_id);
-        $incidencias_transito->upodate($request->all());
+        $incidencias_transito->update($request->all());
         $incidencias_transito->save();
         return  $this->showOne($incidencias_transito);
     }

@@ -8,6 +8,7 @@ import Tabs from "../UI/Tabs";
 import PaymentsTab from "./Payments/PaymentsTab";
 import ProductionEndTab from "./ProductionEnd/ProductionEndTab";
 import ProductionStartTab from "./ProductionStart/ProductionStartTab";
+import TransitTab from "./Transit/TransitTab";
 
 const ProductionManagementModal = ({
     productionId,
@@ -48,7 +49,7 @@ const ProductionManagementModal = ({
                                 Fin de Producción
                             </TabButton>
 
-                            <TabButton name="transito_nacionalizacion">
+                            <TabButton name="incidencias_transito">
                                 <i className="material-icons">receipt_long</i>
                                 Transito Nacionalización
                             </TabButton>
@@ -64,8 +65,8 @@ const ProductionManagementModal = ({
                             <TabContent name="fin_produccion">
                                 <ProductionEndTab production={production} />
                             </TabContent>
-                            <TabContent name="transito_nacionalizacion">
-                                Contenido
+                            <TabContent name="incidencias_transito">
+                                <TransitTab production={production} />
                             </TabContent>
                         </div>
                     </Tabs>

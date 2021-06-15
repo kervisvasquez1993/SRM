@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class TransitoNacionalizacion extends Model
 {
+    protected $fillable = [
+        'titulo',
+        'descripcion'
+    ];
+    
     public function recepcion()
     {
         return $this->hasOne(RecepcionReclamoDevolucion::class);
