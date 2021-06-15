@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { dateToString } from "../../utils";
+import React from "react";
 import ProductsTab from "../Products/ProductsTab";
 import ProviderTab from "../Providers/ProviderTab";
 import PurchaseTab from "../Purchases/PurchaseTab";
@@ -9,24 +8,11 @@ import TabContent from "../UI/TabContent";
 import Tabs from "../UI/Tabs";
 
 const ProductionModal = ({ production }) => {
-    const [currentTab, setCurrentTab] = useState("task");
-
     const {
-        pivot: {
-            tarea: task,
-            proveedor: provider,
-            compras_total: totalPurchase,
-            compra_po: poCode,
-            usuario
-        }
+        pivot: { tarea: task, proveedor: provider, usuario }
     } = production;
 
     const { pivot: negotiation } = production;
-
-    const handleClickTab = (e, name) => {
-        e.preventDefault();
-        setCurrentTab(name);
-    };
 
     return (
         <React.Fragment>

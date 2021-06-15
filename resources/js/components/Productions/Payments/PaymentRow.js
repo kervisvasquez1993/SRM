@@ -1,14 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { dateToShortString } from "../../../utils";
-import EditableInput from "../../Form/EditableInput";
 
 const titleStyle = { width: "16.666%" };
 
 const PaymentRow = ({ payment }) => {
     const dispatch = useDispatch();
-
-    const [paymentData, setPaymentData] = useState(payment);
 
     const handleCreate = () => {
         // dispatch(

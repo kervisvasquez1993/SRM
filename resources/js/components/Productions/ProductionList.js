@@ -20,10 +20,7 @@ const ProductionList = () => {
                 <div className="d-flex flex-column-reverse">
                     {productions.map(item => {
                         return (
-                            <ProductionCard
-                                key={item.id}
-                                production={item}
-                            />
+                            <ProductionCard key={item.id} production={item} />
                         );
                     })}
                 </div>

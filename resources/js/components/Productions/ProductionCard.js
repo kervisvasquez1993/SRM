@@ -1,5 +1,4 @@
-import { sum } from "lodash";
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../store/actions/modalActions";
 import { updateProduction } from "../../store/actions/productionActions";
@@ -10,7 +9,7 @@ import ProductionManagementModal from "./ProductionManagementModal";
 const ProductionCard = ({ production }) => {
     const dispatch = useDispatch();
 
-    const handleOpenInfo = (e) => {
+    const handleOpenInfo = e => {
         e.preventDefault();
         e.stopPropagation();
 
@@ -220,7 +219,10 @@ const ProductionCard = ({ production }) => {
                     <button className="btn btn-success btn-round">
                         Administrar
                     </button>
-                    <button className="btn btn-info btn-round" onClick={handleOpenInfo}>
+                    <button
+                        className="btn btn-info btn-round"
+                        onClick={handleOpenInfo}
+                    >
                         Ver Información
                     </button>
                 </div>
