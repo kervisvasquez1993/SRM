@@ -132,3 +132,25 @@ export function editPayment(production, data) {
         }
     };
 }
+
+export function deletePayment(paymentId) {
+    return async (dispatch, _getState) => {
+        dispatch({ type: "DELETE_PAYMENT_REQUEST" });
+
+        try {
+            const response = await axios.delete(
+                `${apiURL}/pago/${paymentId}`
+            );
+
+            dispatch({
+                type: "DELETE_PAYMENT_SUCCESS",
+                payload: paymentId
+            });
+        } catch (e) {
+            dispatch({
+                type: "DELETE_PAYMENT_FAILURE",
+                errors: e.response.data
+            });
+        }
+    };
+}

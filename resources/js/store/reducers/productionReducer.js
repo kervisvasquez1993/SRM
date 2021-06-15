@@ -81,6 +81,11 @@ const negotiationReducer = (state = defaultState, action) => {
                 errors: action.errors,
                 isEditing: false
             };
+        case "DELETE_PAYMENT_SUCCESS":
+            return {
+                ...state,
+                payments: state.payments.filter(item => item.id != payload)
+            };
         default:
             return state;
     }

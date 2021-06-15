@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../../store/actions/modalActions";
+import { deletePayment } from "../../../store/actions/productionActions";
 import { dateToShortString, stringToDateIgnoringTime } from "../../../utils";
 import PaymentModal from "./PaymentModal";
 
@@ -26,14 +27,14 @@ const PaymentRow = ({ payment, production }) => {
     };
 
     const handleDelete = product => {
-        // dispatch(deleteProduct(product));
+        dispatch(deletePayment(payment.id));
     };
 
     return (
         <tr
             key={payment.id}
             className={`fade-in ${
-                payment.tipo == "Pago Anticipado" ? "bg-info" : ""
+                payment.tipo === "Pago Anticipado" ? "bg-info" : ""
             }`}
             style={titleStyle}
         >
@@ -57,7 +58,7 @@ const PaymentRow = ({ payment, production }) => {
             </td>
             <td style={titleStyle}>{payment.monto}</td>
             <td style={titleStyle}>
-                <div className="d-flex justify-content-end">
+                <div className="d-flex justify-content-start">
                     <button
                         className="btn btn-success btn-circle ml-3"
                         type="button"
@@ -65,13 +66,15 @@ const PaymentRow = ({ payment, production }) => {
                     >
                         <span className="material-icons">edit</span>
                     </button>
-                    <button
-                        className="btn btn-danger btn-circle"
-                        type="button"
-                        onClick={() => handleDelete(payment)}
-                    >
-                        <span className="material-icons">clear</span>
-                    </button>
+                    {payment.tipo != "Pago Anticipado" && (
+                        <button
+                            className="btn btn-danger btn-circle"
+                            type="button"
+                            onClick={() => handleDelete(payment)}
+                        >
+                            <span className="material-icons">clear</span>
+                        </button>
+                    )}
                 </div>
             </td>
         </tr>
