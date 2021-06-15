@@ -19,7 +19,6 @@ class CreateValidacionFichasTable extends Migration
             $table->foreignId('user_id')->references('id')->on('users');
             $table->string('titulo');
             $table->text('descripcion');
-            $table->boolean('enabled')->default(true);
             $table->timestamps();
         });
     }

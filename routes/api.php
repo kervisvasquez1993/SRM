@@ -145,7 +145,13 @@ Route::middleware('auth.jwt')->group(function () {
      Route::get('ficha/{fichaId}', 'Api\Arte\ArteFichaController@show');
      Route::put('ficha/{fichaId}', 'Api\Arte\ArteFichaController@update');
      Route::delete('ficha/{fichaId}', 'Api\Arte\ArteFichaController@destroy');
-
-   
+     //fin de ficha
+     // arte validacion Ficha 
+     Route::get('arte/{arte_id}/validacion_ficha', 'Api\Arte\ArteValidacionFichaController@index');
+     Route::post('arte/{arte_id}/validacion_ficha', 'Api\Arte\ArteValidacionFichaController@store');
+     Route::get('validacion_ficha/{validacion_ficha_id}', 'Api\Arte\ArteValidacionFichaController@show');
+     Route::put('validacion_ficha/{validacion_ficha_id}', 'Api\Arte\ArteValidacionFichaController@update');
+     Route::delete('validacion_ficha/{validacion_ficha_id}', 'Api\Arte\ArteValidacionFichaController@destroy');
+     // fin arte validacion Ficha
 
 });
