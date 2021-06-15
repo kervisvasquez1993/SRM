@@ -154,4 +154,12 @@ Route::middleware('auth.jwt')->group(function () {
      Route::delete('validacion_ficha/{validacion_ficha_id}', 'Api\Arte\ArteValidacionFichaController@destroy');
      // fin arte validacion Ficha
 
+     //boceto 
+     Route::get('arte/{arte_id}/boceto', 'Api\Arte\ArteBocetoController@index');
+     Route::post('arte/{arte_id}/boceto', 'Api\Arte\ArteBocetoController@store');
+     Route::get('boceto/{boceto_id}', 'Api\Arte\ArteBocetoController@show');
+     Route::put('boceto/{boceto_id}', 'Api\Arte\ArteBocetoController@update');
+     Route::delete('boceto/{boceto_id}', 'Api\Arte\ArteBocetoController@destroy');
+     //fin de boceto
+
 });
