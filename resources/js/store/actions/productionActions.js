@@ -23,6 +23,25 @@ export function getProductions() {
     };
 }
 
+export function getProduction(id) {
+    return async (dispatch, _getState) => {
+        dispatch({ type: "GET_PRODUCTION_REQUEST" });
+
+        try {
+            const response = await axios.get(`${apiURL}/produccion_transito/${id}`);
+
+            dispatch({
+                type: "GET_PRODUCTION_SUCCESS",
+                payload: response.data.data
+            });
+        } catch (e) {
+            dispatch({
+                type: "GET_PRODUCTION_FAILURE"
+            });
+        }
+    };
+}
+
 export function updateProduction(data) {
     return async (dispatch, _getState) => {
         dispatch({ type: "UPDATE_PRODUCTION_REQUEST" });
@@ -137,15 +156,17 @@ export function deletePayment(paymentId) {
 }
 
 function reopenProductionModal(production, defaultTab = "payments") {
-    return async (dispatch, _getState) => {
+    return async (dispatch, getState) => {
         dispatch(closeModal());
+
+        console.log(getState());
 
         dispatch(
             openModal({
                 title: production.pivot.proveedor.nombre,
                 body: (
                     <ProductionManagementModal
-                        production={production}
+                        productionId={production.id}
                         defaultTab={defaultTab}
                     />
                 )

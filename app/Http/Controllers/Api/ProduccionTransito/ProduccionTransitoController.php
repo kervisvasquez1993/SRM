@@ -35,9 +35,10 @@ class ProduccionTransitoController extends ApiController
      * @param  \App\ProduccionTransito  $produccionTransito
      * @return \Illuminate\Http\Response
      */
-    public function show(ProduccionTransito $produccionTransito)
+    public function show(Request $request)
     {
-        //
+        $produccionTransitoResource = new ProduccionTransitoResource(ProduccionTransito::findOrFail($request->produccion_transito_id));
+        return $this->showOneResource($produccionTransitoResource);
     }
 
     public function update(Request $request, ProduccionTransito $produccionTransito)

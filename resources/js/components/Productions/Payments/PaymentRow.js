@@ -2,12 +2,10 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../../store/actions/modalActions";
 import { deletePayment } from "../../../store/actions/productionActions";
-import { dateToShortString, stringToDateIgnoringTime } from "../../../utils";
+import { dateToShortString } from "../../../utils";
 import PaymentModal from "./PaymentModal";
 
-const titleStyle = { width: "16.666%" };
-
-const PaymentRow = ({ payment, production }) => {
+const PaymentRow = ({ index, payment, production }) => {
     const dispatch = useDispatch();
 
     const handleEdit = product => {
@@ -44,13 +42,7 @@ const PaymentRow = ({ payment, production }) => {
     };
 
     return (
-        <tr
-            key={payment.id}
-            className={`fade-in ${
-                payment.tipo === "Pago Anticipado" ? "bg-info" : ""
-            }`}
-            style={titleStyle}
-        >
+        <tr key={payment.id} className="fade-in">
             {/* <EditableInput
                 isTableCell={true}
                 id="titulo"
@@ -63,14 +55,13 @@ const PaymentRow = ({ payment, production }) => {
                 data={paymentData}
                 setData={setPaymentData}
             /> */}
-            <td style={titleStyle}>{payment.titulo}</td>
-            <td style={titleStyle}>{payment.tipo}</td>
-            <td style={titleStyle}>{payment.user_id}</td>
-            <td style={titleStyle}>
-                {dateToShortString(new Date(payment.fecha))}
-            </td>
-            <td style={titleStyle}>{payment.monto}</td>
-            <td style={titleStyle}>
+            <th scope="row">{index}</th>
+            <td>{payment.titulo}</td>
+            <td>{payment.tipo}</td>
+            <td>{payment.user_id}</td>
+            <td>{dateToShortString(new Date(payment.fecha))}</td>
+            <td>{payment.monto}</td>
+            <td className="text-right">
                 <div className="d-flex justify-content-start">
                     <button
                         className="btn btn-success btn-circle ml-3"

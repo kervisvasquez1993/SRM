@@ -176,3 +176,32 @@ export function filterNegotiations(negotiations) {
 
     return negotiations;
 }
+
+export function getPaymentsInfoFromProduction(production) {
+    const {
+        pivot: { compras_total: totalToPay },
+        pagos: payments
+    } = production;
+
+    const totalPaid = getSum(payments, "monto");
+    const paidPercentage = (totalPaid / totalToPay) * 100;
+    const prepayment = totalPaid > 0 ? payments[0].monto : 0;
+    const prepaymentPercentage = (prepayment / totalToPay) * 100;
+
+    const isPrepaymentDone = payments.length > 0;
+    const isCompletelyPaid = paidPercentage >= 100;
+
+    return {
+        totalToPay,
+        totalPaid,
+        paidPercentage: roundMoneyAmount(paidPercentage),
+        prepayment,
+        prepaymentPercentage: roundMoneyAmount(prepaymentPercentage),
+        isPrepaymentDone,
+        isCompletelyPaid
+    };
+}
+
+export function roundMoneyAmount(amount) {
+    return Math.round((amount + Number.EPSILON) * 100) / 100;
+}

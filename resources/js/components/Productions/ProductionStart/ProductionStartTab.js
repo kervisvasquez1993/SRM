@@ -41,21 +41,21 @@ const ProductionStartTab = ({ production }) => {
                 <h3 className="h2">Incidentes de Inicio de Producción</h3>
             </div>
 
-            <div className="text-center">
-                <button
-                    className="btn btn-lg btn-success btn-round mb-4"
-                    onClick={handleCreate}
-                >
-                    <span className="material-icons">add</span>
-                    Agregar
-                </button>
-            </div>
-
             {areIncidentsLoading ? (
                 <LoadingScreen />
             ) : (
                 <React.Fragment>
                     {incidents.length === 0 && <EmptyList />}
+
+                    <div className="text-center">
+                        <button
+                            className="btn btn-lg btn-success btn-round mb-4"
+                            onClick={handleCreate}
+                        >
+                            <span className="material-icons">add</span>
+                            Agregar
+                        </button>
+                    </div>
 
                     {incidents.length > 0 &&
                         incidents.map((item, index) => {

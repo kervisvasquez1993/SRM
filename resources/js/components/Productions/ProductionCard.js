@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../store/actions/modalActions";
 import { updateProduction } from "../../store/actions/productionActions";
-import { getSum } from "../../utils";
+import { getPaymentsInfoFromProduction, getSum } from "../../utils";
 import ProductionInfoModal from "./ProductionInfoModal";
 import ProductionManagementModal from "./ProductionManagementModal";
 
@@ -25,19 +25,17 @@ const ProductionCard = ({ production }) => {
         dispatch(
             openModal({
                 title: proveedor.nombre,
-                body: <ProductionManagementModal production={production} />
+                body: <ProductionManagementModal productionId={production.id} />
             })
         );
     };
 
     const {
-        pivot: { tarea, proveedor, compras_total: totalAmount },
-        id,
+        pivot: { tarea, proveedor },
         inicio_produccion,
         fin_produccion,
         transito_nacionalizacion,
-        salida_puero_origen,
-        pagos: payments
+        salida_puero_origen
     } = production;
 
     const handleCheck = e => {
@@ -53,13 +51,12 @@ const ProductionCard = ({ production }) => {
         e.stopPropagation();
     };
 
-    const payedAmount = getSum(payments, "monto");
-    const paidPercentage = (payedAmount / totalAmount) * 100;
-    const prepaymentPercentage =
-        payedAmount > 0 ? (payments[0].monto / totalAmount) * 100 : 0;
-
-    const isPrepaymentDone = payments.length > 0;
-    const isCompletelyPaid = paidPercentage >= 100;
+    const {
+        paidPercentage,
+        prepaymentPercentage,
+        isPrepaymentDone,
+        isCompletelyPaid
+    } = getPaymentsInfoFromProduction(production);
 
     const disableProductionStarted = fin_produccion;
     const disableProductionFinished = !inicio_produccion || salida_puero_origen;

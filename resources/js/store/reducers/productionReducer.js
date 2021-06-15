@@ -1,5 +1,6 @@
 const defaultState = {
     list: [],
+    current: null,
 
     payments: [],
     isEditing: false,
@@ -34,6 +35,13 @@ const negotiationReducer = (state = defaultState, action) => {
             return {
                 ...state
             };
+
+        case "GET_PRODUCTION_SUCCESS":
+            return {
+                ...state,
+                current: payload
+            };
+
         case "UPDATE_PRODUCTION_REQUEST":
             return {
                 ...state

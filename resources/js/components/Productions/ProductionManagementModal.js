@@ -1,11 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getProduction } from "../../store/actions/productionActions";
+import LoadingScreen from "../Navigation/LoadingScreen";
 import TabButton from "../UI/TabButton";
 import TabContent from "../UI/TabContent";
 import Tabs from "../UI/Tabs";
 import PaymentsTab from "./Payments/PaymentsTab";
 import ProductionStartTab from "./ProductionStart/ProductionStartTab";
 
-const ProductionManagementModal = ({ production, defaultTab = "payments" }) => {
+const ProductionManagementModal = ({
+    productionId,
+    defaultTab = "payments"
+}) => {
+    const dispatch = useDispatch();
+    const production = useSelector(state => state.production.current);
+
+    useEffect(() => {
+        dispatch(getProduction(productionId));
+    }, []);
+
+    if (!production) {
+        return <LoadingScreen />;
+    }
+
     return (
         <React.Fragment>
             <div className="modal-body">
