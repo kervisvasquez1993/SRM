@@ -6,6 +6,7 @@ import TabButton from "../UI/TabButton";
 import TabContent from "../UI/TabContent";
 import Tabs from "../UI/Tabs";
 import PaymentsTab from "./Payments/PaymentsTab";
+import ProductionEndTab from "./ProductionEnd/ProductionEndTab";
 import ProductionStartTab from "./ProductionStart/ProductionStartTab";
 
 const ProductionManagementModal = ({
@@ -61,7 +62,7 @@ const ProductionManagementModal = ({
                                 <ProductionStartTab production={production} />
                             </TabContent>
                             <TabContent name="fin_produccion">
-                                Contenido
+                                <ProductionEndTab production={production} />
                             </TabContent>
                             <TabContent name="transito_nacionalizacion">
                                 Contenido

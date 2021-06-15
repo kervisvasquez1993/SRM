@@ -227,7 +227,7 @@ export function editProductionIncident(url, production, data) {
 
         try {
             const response = await axios.put(
-                `${apiURL}/inicio_produccion/${data.id}`,
+                `${apiURL}/${url}/${data.id}`,
                 data
             );
 
