@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Boceto extends Model
 {
+
+    protected $fillable = [
+        'titulo',
+        'descripcion'
+    ];
     public function arte()
     {
         return $this->belongsTo(Arte::class, 'arte_id');
