@@ -7,7 +7,6 @@ import TaskTab from "../Tasks/TaskTab";
 import TabButton from "../UI/TabButton";
 import TabContent from "../UI/TabContent";
 import Tabs from "../UI/Tabs";
-import PaymentsTab from "./PaymentsTab";
 
 const ProductionModal = ({ production }) => {
     const [currentTab, setCurrentTab] = useState("task");

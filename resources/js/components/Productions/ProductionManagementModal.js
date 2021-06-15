@@ -1,13 +1,8 @@
 import React, { useState } from "react";
-import { dateToString } from "../../utils";
-import ProductsTab from "../Products/ProductsTab";
-import ProviderTab from "../Providers/ProviderTab";
-import PurchaseTab from "../Purchases/PurchaseTab";
-import TaskTab from "../Tasks/TaskTab";
 import TabButton from "../UI/TabButton";
 import TabContent from "../UI/TabContent";
 import Tabs from "../UI/Tabs";
-import PaymentsTab from "./PaymentsTab";
+import PaymentsTab from "./Payments/PaymentsTab";
 
 const ProductionManagementModal = ({ production }) => {
     return (

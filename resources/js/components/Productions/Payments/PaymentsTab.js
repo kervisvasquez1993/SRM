@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getPayments } from "../../store/actions/productionActions";
-import { getSum } from "../../utils";
-import EmptyList from "../Navigation/EmptyList";
+import { getPayments } from "../../../store/actions/productionActions";
+import { getSum } from "../../../utils";
+import EmptyList from "../../Navigation/EmptyList";
 import PaymentRow from "./PaymentRow";
 
 const titleStyle = { width: "16.666%" };

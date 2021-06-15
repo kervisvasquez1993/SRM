@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { dateToShortString } from "../../utils";
-import EditableInput from "../Form/EditableInput";
+import { dateToShortString } from "../../../utils";
+import EditableInput from "../../Form/EditableInput";
 
 const titleStyle = { width: "16.666%" };
 
-const PaymentsTab = ({ payment }) => {
+const PaymentRow = ({ payment }) => {
     const dispatch = useDispatch();
 
     const [paymentData, setPaymentData] = useState(payment);
@@ -87,4 +87,4 @@ const PaymentsTab = ({ payment }) => {
     );
 };
 
-export default PaymentsTab;
+export default PaymentRow;
