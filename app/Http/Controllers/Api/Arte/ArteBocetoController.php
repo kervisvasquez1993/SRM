@@ -11,9 +11,9 @@ use App\Http\Controllers\ApiController;
 class ArteBocetoController extends ApiController
 {
     
-    public function index($boceto_id)
+    public function index($arte_id)
     {
-        $arte = Arte::findOrFail($boceto_id);
+        $arte = Arte::findOrFail($arte_id);
         return $this->showAll($arte->boceto);
     }
 
