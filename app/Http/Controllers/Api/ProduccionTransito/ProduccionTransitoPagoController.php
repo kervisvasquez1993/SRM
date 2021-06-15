@@ -9,14 +9,18 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ApiController;
+use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProduccionTransitoPagoController extends ApiController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    private $validator_array = [
+        'titulo' => 'required',
+        'url_archivo_factura' => 'required',
+        'monto' => 'required|numeric',
+        'fecha' => 'required|date',
+    ];
+
     public function index(Request $request)
     {
         $produccionTransito = ProduccionTransito::findOrFail($request->produccion_transito_id);
@@ -26,12 +30,18 @@ class ProduccionTransitoPagoController extends ApiController
 
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), $this->validator_array);
+
+        if ($validator->fails())
+        {
+            return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
+        }
+        
         $produccionTransitoId = ProduccionTransito::findOrFail($request->produccion_transito_id);
         
         if($produccionTransitoId->pago)
         {
-            $tipo = "Pago Restante";    
-
+            $tipo = "Pago Restante";
         }
         else
         {

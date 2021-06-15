@@ -1,8 +1,11 @@
 import React, { useContext } from "react";
+import { extractError } from "../../utils";
 import { FormContext } from "./GenericForm";
 
-const InputTextArea = ({ id, label, value = null, error = null }) => {
-    const { onChange, values } = useContext(FormContext);
+const InputTextArea = ({ id, label, value = "" }) => {
+    const { onChange, values, errors } = useContext(FormContext);
+
+    const error = extractError(errors, id);
 
     return (
         <div className="form-group">

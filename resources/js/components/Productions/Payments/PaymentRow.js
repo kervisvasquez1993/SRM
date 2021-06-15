@@ -7,15 +7,6 @@ const titleStyle = { width: "16.666%" };
 const PaymentRow = ({ payment }) => {
     const dispatch = useDispatch();
 
-    const handleCreate = () => {
-        // dispatch(
-        //     openModal({
-        //         title: "Agregar Producto",
-        //         body: <ProductModal product={emptyProduct} pivotId={id} />
-        //     })
-        // );
-    };
-
     const handleEdit = product => {
         // dispatch(
         //     openModal({
@@ -59,7 +50,7 @@ const PaymentRow = ({ payment }) => {
             <td style={titleStyle}>{payment.tipo}</td>
             <td style={titleStyle}>{payment.user_id}</td>
             <td style={titleStyle}>
-                {dateToShortString(new Date(payment.created_at))}
+                {dateToShortString(new Date(payment.fecha))}
             </td>
             <td style={titleStyle}>{payment.monto}</td>
             <td style={titleStyle}>

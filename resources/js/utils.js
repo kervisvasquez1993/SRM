@@ -8,7 +8,6 @@ const defaultOptions = {
     day: "numeric"
 };
 
-
 const defaultShortOptions = {
     year: "numeric",
     month: "numeric",
@@ -125,7 +124,7 @@ export function stringToDateIgnoringTime(string) {
 }
 
 export function extractError(errors, error) {
-    if (errors[error]) {
+    if (errors && errors[error]) {
         return errors[error][0];
     }
 }

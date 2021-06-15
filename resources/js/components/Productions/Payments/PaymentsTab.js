@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { openModal } from "../../../store/actions/modalActions";
 import { getPayments } from "../../../store/actions/productionActions";
 import { getSum } from "../../../utils";
 import EmptyList from "../../Navigation/EmptyList";
+import PaymentModal, { emptyPayment } from "./PaymentModal";
 import PaymentRow from "./PaymentRow";
 
 const titleStyle = { width: "16.666%" };
@@ -16,12 +18,12 @@ const PaymentsTab = ({ production }) => {
     }, []);
 
     const handleCreate = () => {
-        // dispatch(
-        //     openModal({
-        //         title: "Agregar Producto",
-        //         body: <ProductModal product={emptyProduct} pivotId={id} />
-        //     })
-        // );
+        dispatch(
+            openModal({
+                title: "Agregar Producto",
+                body: <PaymentModal payment={emptyPayment} productionId={production.id} isEditor={false} />
+            })
+        );
     };
 
     const handleEdit = product => {

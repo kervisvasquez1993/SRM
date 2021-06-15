@@ -1,6 +1,9 @@
 const defaultState = {
     list: [],
-    payments: []
+
+    payments: [],
+    isEditing: false,
+    errors: {}
 };
 
 const negotiationReducer = (state = defaultState, action) => {
@@ -35,6 +38,7 @@ const negotiationReducer = (state = defaultState, action) => {
             return {
                 ...state
             };
+
         case "GET_PAYMENTS_REQUEST":
             return {
                 ...state
@@ -47,6 +51,24 @@ const negotiationReducer = (state = defaultState, action) => {
         case "GET_PAYMENTS_FAILURE":
             return {
                 ...state
+            };
+
+        case "CREATE_PAYMENT_REQUEST":
+            return {
+                ...state,
+                isEditing: true
+            };
+        case "CREATE_PAYMENT_SUCCESS":
+            return {
+                ...state,
+                errors: {},
+                isEditing: false
+            };
+        case "CREATE_PAYMENT_FAILURE":
+            return {
+                ...state,
+                errors: action.errors,
+                isEditing: false
             };
         default:
             return state;

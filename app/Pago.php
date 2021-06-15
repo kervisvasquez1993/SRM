@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pago extends Model
 {
-    
-    protected $fillable = 
+    protected $fillable =
     [
         'titulo',
         'url_archivo_factura',
-        'tipo',
-        'monto'
+        'monto',
+        'fecha'
     ];
+
     public function produccionTransito()
     {
         return $this->hasOne(ProduccionTransito::class, 'produccion_transito_id');

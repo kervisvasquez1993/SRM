@@ -59,3 +59,25 @@ export function getPayments(productionId) {
         }
     };
 }
+
+export function createPayment(productionId, data) {
+    return async (dispatch, _getState) => {
+        dispatch({ type: "CREATE_PAYMENT_REQUEST" });
+
+        try {
+            const response = await axios.post(`${apiURL}/produccion_transito/${productionId}/pago`, data);
+           
+            dispatch({
+                type: "CREATE_PAYMENT_SUCCESS",
+                payload: response.data.data
+            });
+        } catch (e) {
+            console.log(e)
+            console.log(e.response)
+            dispatch({
+                type: "CREATE_PAYMENT_FAILURE",
+                errors: e.response.data
+            });
+        }
+    };
+}
