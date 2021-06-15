@@ -120,9 +120,6 @@ Route::middleware('auth.jwt')->group(function () {
    
     // fin de incidencia de fin de produccion
         
-    //Arte Api
-    Route::get('artes', 'Api\Arte\ArteController@index');
-    Route::put('artes/{arte}', 'Api\Arte\ArteController@update');
    
     //fin d earte
      //orden de compra
@@ -134,6 +131,20 @@ Route::middleware('auth.jwt')->group(function () {
 
     
     Route::post('createUser', 'Api\UserController@register')->name('register');
+
+
+    
+     //Arte Api
+     Route::get('artes', 'Api\Arte\ArteController@index');
+     Route::put('artes/{arte}', 'Api\Arte\ArteController@update');
+
+     //arte fichas ', '
+
+     Route::get('arte/{arte_id}/ficha', 'Api\Arte\ArteFichaController@index');
+     Route::post('arte/{arte_id}/ficha', 'Api\Arte\ArteFichaController@store');
+     Route::get('ficha/{fichaId}', 'Api\Arte\ArteFichaController@show');
+     Route::put('ficha/{fichaId}', 'Api\Arte\ArteFichaController@update');
+     Route::delete('ficha/{fichaId}', 'Api\Arte\ArteFichaController@destroy');
 
    
 
