@@ -1,8 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPayments } from "../../store/actions/productionActions";
-import { dateToShortString, getSum } from "../../utils";
+import { getSum } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
+import PaymentRow from "./PaymentRow";
+
+const titleStyle = { width: "16.666%" };
 
 const PaymentsTab = ({ production }) => {
     const dispatch = useDispatch();
@@ -63,55 +66,27 @@ const PaymentsTab = ({ production }) => {
                     <table className="table table-sm table-hover table-bordered fade-in">
                         <thead className="thead-dark">
                             <tr>
-                                <th scope="col">Titulo</th>
-                                <th scope="col">Tipo</th>
-                                <th scope="col">Usuario</th>
-                                <th scope="col">Fecha</th>
-                                <th scope="col">Monto</th>
-                                <th scope="col"></th>
+                                <th scope="col" style={titleStyle}>
+                                    Titulo
+                                </th>
+                                <th scope="col" style={titleStyle}>
+                                    Tipo
+                                </th>
+                                <th scope="col" style={titleStyle}>
+                                    Usuario
+                                </th>
+                                <th scope="col" style={titleStyle}>
+                                    Fecha
+                                </th>
+                                <th scope="col" style={titleStyle}>
+                                    Monto
+                                </th>
+                                <th scope="col" style={titleStyle}></th>
                             </tr>
                         </thead>
                         <tbody>
                             {payments.map((payment, index) => {
-                                return (
-                                    <tr key={payment.id} className={`fade-in ${index === 0 ? "bg-info" : ""}`}>
-                                        <th scope="row">{payment.titulo}</th>
-                                        <td>{payment.tipo}</td>
-                                        <td>{payment.user_id}</td>
-                                        <td>
-                                            {dateToShortString(
-                                                new Date(payment.created_at)
-                                            )}
-                                        </td>
-                                        <td>{payment.monto}</td>
-                                        <td>
-                                            <div className="d-flex justify-content-end">
-                                                <button
-                                                    className="btn btn-success btn-circle ml-3"
-                                                    type="button"
-                                                    onClick={() =>
-                                                        handleEdit(payment)
-                                                    }
-                                                >
-                                                    <span className="material-icons">
-                                                        edit
-                                                    </span>
-                                                </button>
-                                                <button
-                                                    className="btn btn-danger btn-circle"
-                                                    type="button"
-                                                    onClick={() =>
-                                                        handleDelete(payment)
-                                                    }
-                                                >
-                                                    <span className="material-icons">
-                                                        clear
-                                                    </span>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                );
+                                return <PaymentRow key={index} payment={payment} />
                             })}
                             <tr>
                                 <th scope="row" colSpan="4">
