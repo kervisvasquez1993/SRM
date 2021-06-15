@@ -52,7 +52,8 @@ class ProduccionTransitoPagoController extends ApiController
         $pago->user_id = Auth::user()->id;
         $pago->titulo = $request->titulo;
         $pago->monto = $request->monto;
-        $pago->url_archivo_factura = $request->url_archivo_factura->store('factura-pago');
+        //$pago->url_archivo_factura = $request->url_archivo_factura->store('factura-pago');
+        $pago->url_archivo_factura = $request->url_archivo_factura;
         $pago->tipo = $tipo;
         $pago->fecha = $request->fecha;
         $pago->save();
@@ -73,9 +74,7 @@ class ProduccionTransitoPagoController extends ApiController
 
     public function destroy(Pago $pago)
     {
-        
-
-        Storage::delete($pago->url_archivo_factura);
+        // Storage::delete($pago->url_archivo_factura);
         $pago->delete();
         return $this->showOne($pago);
     }
