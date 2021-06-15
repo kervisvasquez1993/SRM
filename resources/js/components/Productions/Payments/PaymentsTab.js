@@ -36,25 +36,6 @@ const PaymentsTab = ({ production }) => {
         );
     };
 
-    const handleEdit = product => {
-        // dispatch(
-        //     openModal({
-        //         title: "Editar Producto",
-        //         body: (
-        //             <ProductModal
-        //                 product={product}
-        //                 pivotId={id}
-        //                 isEditor={true}
-        //             />
-        //         )
-        //     })
-        // );
-    };
-
-    const handleDelete = product => {
-        // dispatch(deleteProduct(product));
-    };
-
     return (
         <React.Fragment>
             <div className="mr-auto text-center py-2">
