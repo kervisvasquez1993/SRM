@@ -187,6 +187,8 @@ export function getPaymentsInfoFromProduction(production) {
     const paidPercentage = (totalPaid / totalToPay) * 100;
     const prepayment = totalPaid > 0 ? payments[0].monto : 0;
     const prepaymentPercentage = (prepayment / totalToPay) * 100;
+    const remainingPayment = totalToPay - totalPaid;
+    const remainingPercentage = (remainingPayment / totalToPay) * 100;
 
     const isPrepaymentDone = payments.length > 0;
     const isCompletelyPaid = paidPercentage >= 100;
@@ -197,6 +199,8 @@ export function getPaymentsInfoFromProduction(production) {
         paidPercentage: roundMoneyAmount(paidPercentage),
         prepayment,
         prepaymentPercentage: roundMoneyAmount(prepaymentPercentage),
+        remainingPayment,
+        remainingPercentage,
         isPrepaymentDone,
         isCompletelyPaid
     };

@@ -20,7 +20,8 @@ const negotiationReducer = (state = defaultState, action) => {
                 ...state,
                 errors: {},
                 payments: [],
-                arePaymentsLoading: false
+                arePaymentsLoading: false,
+                current: null,
             };
         case "GET_PRODUCTIONS_REQUEST":
             return {

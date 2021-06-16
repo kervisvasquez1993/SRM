@@ -20,7 +20,9 @@ const PaymentsTab = ({ production }) => {
         totalPaid,
         paidPercentage,
         prepayment,
-        prepaymentPercentage
+        prepaymentPercentage,
+        remainingPayment,
+        remainingPercentage
     } = getPaymentsInfoFromProduction(production);
 
     useEffect(() => {
@@ -53,48 +55,72 @@ const PaymentsTab = ({ production }) => {
             ) : (
                 <React.Fragment>
                     <div className="card p-4">
-                        <div className="card-body d-lg-flex flex-wrap justify-content-around">
-                            <div className="d-flex mb-3">
-                                <div className="card-icon bg-success text-white mr-2">
-                                    <span className="material-icons">
-                                        account_balance_wallet
-                                    </span>
+                        <div className="card-body">
+                            <div className="row">
+                                <div className="d-flex mb-3 col-sm-6">
+                                    <div className="card-icon bg-success text-white mr-2">
+                                        <span className="material-icons">
+                                            account_balance_wallet
+                                        </span>
+                                    </div>
+                                    <div className="mb">
+                                        <p className="card-text font-weight-bold m-0 h5">
+                                            {totalToPay}
+                                        </p>
+                                        <p className="card-title">
+                                            Total a Pagar
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className="mb">
-                                    <p className="card-text font-weight-bold m-0 h5">
-                                        {totalToPay}
-                                    </p>
-                                    <p className="card-title">Total a Pagar</p>
-                                </div>
-                            </div>
 
-                            <div className="d-flex mb-3">
-                                <div className="card-icon bg-primary text-white mr-2">
-                                    <span className="material-icons">
-                                        attach_money
-                                    </span>
+                                <div className="d-flex mb-3 col-sm-6">
+                                    <div className="card-icon bg-info text-white mr-2">
+                                        <span className="material-icons">
+                                            savings
+                                        </span>
+                                    </div>
+                                    <div className="mb">
+                                        <p className="card-text m-0 font-weight-bold h5">
+                                            {prepayment} ({prepaymentPercentage}
+                                            %)
+                                        </p>
+                                        <p className="card-title ">
+                                            Pago Anticipado
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className="mb">
-                                    <p className="card-text m-0 font-weight-bold h5">
-                                        {totalPaid} ({paidPercentage}%)
-                                    </p>
-                                    <p className="card-title">Total Pagado</p>
-                                </div>
-                            </div>
 
-                            <div className="d-flex mb-3">
-                                <div className="card-icon bg-info text-white mr-2">
-                                    <span className="material-icons">
-                                        savings
-                                    </span>
+                                <div className="d-flex mb-3 col-sm-6">
+                                    <div className="card-icon bg-primary text-white mr-2">
+                                        <span className="material-icons">
+                                            attach_money
+                                        </span>
+                                    </div>
+                                    <div className="mb">
+                                        <p className="card-text m-0 font-weight-bold h5">
+                                            {totalPaid} ({paidPercentage}%)
+                                        </p>
+                                        <p className="card-title">
+                                            Total Pagado
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className="mb">
-                                    <p className="card-text m-0 font-weight-bold h5">
-                                        {prepayment} ({prepaymentPercentage}%)
-                                    </p>
-                                    <p className="card-title ">
-                                        Pago Anticipado
-                                    </p>
+
+                                <div className="d-flex mb-3 col-sm-6">
+                                    <div className="card-icon bg-danger text-white mr-2">
+                                        <span className="material-icons">
+                                            production_quantity_limits
+                                        </span>
+                                    </div>
+                                    <div className="mb">
+                                        <p className="card-text m-0 font-weight-bold h5">
+                                            {remainingPayment} (
+                                            {remainingPercentage}%)
+                                        </p>
+                                        <p className="card-title ">
+                                            Pago Restante
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>

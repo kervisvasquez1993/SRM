@@ -38,7 +38,7 @@ const TransitTab = ({ production }) => {
     return (
         <React.Fragment>
             <div className="mr-auto text-center py-2">
-                <h3 className="h2">Incidentes de Inicio de Producción</h3>
+                <h3 className="h2">Incidencias de Transito Nacionalización</h3>
             </div>
 
             {areIncidentsLoading ? (
