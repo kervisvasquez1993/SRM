@@ -57,7 +57,7 @@ const blackCard = {
 export function getColorsForTask(task) {
     return getColorsFromDates(
         new Date(task.created_at),
-        stringToDateIgnoringTime(task.fecha_fin)
+        new Date(task.fecha_fin)
     );
 }
 
@@ -115,14 +115,8 @@ export function getDaysToFinishTask(task) {
 
 export function getRemainingDaysToFinishTask(task) {
     return Math.ceil(
-        (stringToDateIgnoringTime(task.fecha_fin) - new Date()) / secondsInDay
+        (new Date(task.fecha_fin) - new Date()) / secondsInDay
     );
-}
-
-export function stringToDateIgnoringTime(string) {
-    string = string.split(" ")[0];
-
-    return new Date(string);
 }
 
 export function extractError(errors, error) {

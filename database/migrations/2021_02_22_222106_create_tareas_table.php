@@ -19,7 +19,7 @@ class CreateTareasTable extends Migration
             $table->foreignId('user_id')->references('id')->on('users');
             $table->string('nombre');
             $table->text('descripcion');
-            $table->timestamp('fecha_fin');
+            $table->date('fecha_fin');
             $table->timestamps();
         });
     }
