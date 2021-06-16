@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import EmptyList from "../Navigation/EmptyList";
+import Accordion from "../UI/Accordion";
 import CheckboxFilter from "./CheckboxFilter";
 import Filter from "./Filter";
 import FilterGroup from "./FilterGroup";
@@ -68,7 +69,12 @@ const GenericFilter = ({
             <div className="mb-5">
                 <Filter onUpdate={applyFilter} useRef={filter}>
                     {config.map((filterConf, index) => {
-                        const { name, label, values } = filterConf;
+                        const {
+                            name,
+                            label,
+                            values,
+                            useAccordion
+                        } = filterConf;
 
                         let innerContent;
 
@@ -133,9 +139,19 @@ const GenericFilter = ({
                         }
 
                         return (
-                            <FilterGroup key={name} name={name} text={label}>
-                                {innerContent}
-                            </FilterGroup>
+                            <React.Fragment key={name}>
+                                {useAccordion ? (
+                                    <Accordion title={label}>
+                                        <FilterGroup name={name}>
+                                            {innerContent}
+                                        </FilterGroup>
+                                    </Accordion>
+                                ) : (
+                                    <FilterGroup name={name} text={label}>
+                                        {innerContent}
+                                    </FilterGroup>
+                                )}
+                            </React.Fragment>
                         );
                     })}
                 </Filter>

@@ -459,7 +459,7 @@ const NegotiationList = () => {
         {
             name: "status",
             type: "checkbox",
-            label: "Estado :",
+            label: "Estado",
             values: [
                 {
                     id: "processing",
@@ -487,7 +487,8 @@ const NegotiationList = () => {
         {
             name: "task",
             type: "checkbox",
-            label: "Tarea :",
+            label: "Tarea",
+            useAccordion: true,
             values: item => item.tarea.nombre,
             filter: (item, filters) => filters.task[item.tarea.nombre],
             counterFilter: (item, id) => item.tarea.nombre === id
@@ -495,7 +496,8 @@ const NegotiationList = () => {
         {
             name: "user",
             type: "checkbox",
-            label: "Usuario :",
+            label: "Usuario",
+            useAccordion: true,
             values: item => item.usuario.name,
             filter: (item, filters) => filters.user[item.usuario.name],
             counterFilter: (item, id) => item.usuario.name === id
@@ -503,7 +505,8 @@ const NegotiationList = () => {
         {
             name: "country",
             type: "checkbox",
-            label: "País :",
+            label: "País",
+            useAccordion: true,
             values: item => item.proveedor.pais,
             filter: (item, filters) => filters.country[item.proveedor.pais],
             counterFilter: (item, id) => item.proveedor.pais === id
@@ -511,7 +514,8 @@ const NegotiationList = () => {
         {
             name: "city",
             type: "checkbox",
-            label: "Ciudad :",
+            label: "Ciudad",
+            useAccordion: true,
             values: item => item.proveedor.ciudad,
             filter: (item, filters) => filters.city[item.proveedor.ciudad],
             counterFilter: (item, id) => item.proveedor.ciudad === id
@@ -519,7 +523,8 @@ const NegotiationList = () => {
         {
             name: "district",
             type: "checkbox",
-            label: "Distrito :",
+            label: "Distrito",
+            useAccordion: true,
             values: item => item.proveedor.distrito,
             filter: (item, filters) =>
                 filters.district[item.proveedor.distrito],

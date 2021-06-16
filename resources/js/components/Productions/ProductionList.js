@@ -17,7 +17,7 @@ const ProductionList = () => {
         {
             name: "status",
             type: "checkbox",
-            label: "Estado :",
+            label: "Estado",
             values: [
                 {
                     id: "processing",
@@ -45,7 +45,8 @@ const ProductionList = () => {
         {
             name: "user",
             type: "checkbox",
-            label: "Usuario :",
+            label: "Usuario",
+            useAccordion: true,
             values: item => item.pivot.usuario.name,
             filter: (item, filters) => filters.user[item.pivot.usuario.name],
             counterFilter: (item, id) => item.pivot.usuario.name === id
@@ -53,7 +54,8 @@ const ProductionList = () => {
         {
             name: "country",
             type: "checkbox",
-            label: "País :",
+            label: "País",
+            useAccordion: true,
             values: item => item.pivot.proveedor.pais,
             filter: (item, filters) =>
                 filters.country[item.pivot.proveedor.pais],
@@ -62,7 +64,8 @@ const ProductionList = () => {
         {
             name: "city",
             type: "checkbox",
-            label: "Ciudad :",
+            label: "Ciudad",
+            useAccordion: true,
             values: item => item.pivot.proveedor.ciudad,
             filter: (item, filters) => filters.city[item.pivot.proveedor.ciudad],
             counterFilter: (item, id) => item.pivot.proveedor.ciudad === id
@@ -70,7 +73,8 @@ const ProductionList = () => {
         {
             name: "district",
             type: "checkbox",
-            label: "Distrito :",
+            label: "Distrito",
+            useAccordion: true,
             values: item => item.pivot.proveedor.distrito,
             filter: (item, filters) =>
                 filters.district[item.pivot.proveedor.distrito],

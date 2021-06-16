@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
-const Accordion = ({ children, title, defaultState }) => {
+const Accordion = ({ children, title, defaultState = "closed" }) => {
     const [isOpen, setIsOpen] = useState(defaultState === "open" && true);
 
     return (
         <div className="card my-2">
-            <div className="card-header">
+            <div className="card-header p-0">
                 <button
-                    className="btn btn-link"
+                    className="btn btn-link py-1"
                     onClick={() => setIsOpen(!isOpen)}
                 >
                     <h3 className="mb-0 card-title h4">
