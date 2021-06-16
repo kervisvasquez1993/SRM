@@ -27,10 +27,15 @@ Route::get('/filter', 'Api\FilterProduccionTransitoController@index');
 Route::post('login', 'Api\AuthController@login');
 
 Route::middleware('auth.jwt')->group(function () {
+    
+    
     Route::get('me', 'Api\AuthController@me');
     Route::post('logout', 'Api\AuthController@logout');
     Route::post('refresh', 'Api\AuthController@refresh');
+    //tareas
     Route::apiResource('tarea', 'Api\Tarea\TareaController');
+    //fin de tarea
+    
     Route::get('me/tareas', 'Api\Tarea\TareaController@tareasUsuario');
     
     Route::apiResource('user', 'Api\User\UserController')->except([
@@ -119,6 +124,7 @@ Route::middleware('auth.jwt')->group(function () {
     Route::delete('fin_produccion/{fin_produccion_id}', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@destroy');
    
     // fin de incidencia de fin de produccion
+    
         
    
     //fin d earte
@@ -178,5 +184,10 @@ Route::middleware('auth.jwt')->group(function () {
        Route::delete('confirmacion_proveedor/{confirmacion_proveedor_id}', 'Api\Arte\ArteConfirmacionProveedorController@destroy');
 
      //fin de produccion
+
+     //notificacion
+    
+     Route::get('notificacion', 'Api\Notification\NotificationController@index' );
+     Route::patch('/notificacion/{id}', 'Api\Notification\NotificationController@read');
 
 });

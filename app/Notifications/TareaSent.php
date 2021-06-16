@@ -11,6 +11,7 @@ use Illuminate\Notifications\Notification;
 class TareaSent extends Notification
 {
     protected $tarea;
+    protected $url;
     use Queueable;
 
     /**
@@ -18,9 +19,10 @@ class TareaSent extends Notification
      *
      * @return void
      */
-    public function __construct($tarea)
+    public function __construct($tarea, $url)
     {
         $this->tarea = $tarea;
+        $this->url  =  $url;
     }
 
     /**
@@ -57,7 +59,7 @@ class TareaSent extends Notification
     public function toArray($notifiable)
     {
         return [
-            'link' => route('tareas.show', $this->tarea->id),
+            'link' => "$this->url",
             'text' => "Tarea Nueva asignada por: ". User::find($this->tarea->sender_id)->name
         ];
     }
