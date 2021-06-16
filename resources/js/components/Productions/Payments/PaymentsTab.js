@@ -74,6 +74,23 @@ const PaymentsTab = ({ production }) => {
                                 </div>
 
                                 <div className="d-flex mb-3 col-sm-6">
+                                    <div className="card-icon bg-danger text-white mr-2">
+                                        <span className="material-icons">
+                                            production_quantity_limits
+                                        </span>
+                                    </div>
+                                    <div className="mb">
+                                        <p className="card-text m-0 font-weight-bold h5">
+                                            {remainingPayment} (
+                                            {remainingPercentage}%)
+                                        </p>
+                                        <p className="card-title ">
+                                            Pago Restante
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="d-flex mb-3 col-sm-6">
                                     <div className="card-icon bg-info text-white mr-2">
                                         <span className="material-icons">
                                             savings
@@ -81,8 +98,9 @@ const PaymentsTab = ({ production }) => {
                                     </div>
                                     <div className="mb">
                                         <p className="card-text m-0 font-weight-bold h5">
-                                            {prepayment} ({prepaymentPercentage}
-                                            %)
+                                            {prepayment > 0
+                                                ? `${prepayment} (${prepaymentPercentage} %)`
+                                                : 0}
                                         </p>
                                         <p className="card-title ">
                                             Pago Anticipado
@@ -98,27 +116,12 @@ const PaymentsTab = ({ production }) => {
                                     </div>
                                     <div className="mb">
                                         <p className="card-text m-0 font-weight-bold h5">
-                                            {totalPaid} ({paidPercentage}%)
+                                            {totalPaid > 0
+                                                ? `${totalPaid} (${paidPercentage}%)`
+                                                : 0}
                                         </p>
                                         <p className="card-title">
                                             Total Pagado
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div className="d-flex mb-3 col-sm-6">
-                                    <div className="card-icon bg-danger text-white mr-2">
-                                        <span className="material-icons">
-                                            production_quantity_limits
-                                        </span>
-                                    </div>
-                                    <div className="mb">
-                                        <p className="card-text m-0 font-weight-bold h5">
-                                            {remainingPayment} (
-                                            {remainingPercentage}%)
-                                        </p>
-                                        <p className="card-title ">
-                                            Pago Restante
                                         </p>
                                     </div>
                                 </div>
