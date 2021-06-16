@@ -58,7 +58,7 @@ const PaymentRow = ({ index, payment, production }) => {
             <th scope="row">{index}</th>
             <td>{payment.titulo}</td>
             <td>{payment.tipo}</td>
-            <td>{payment.user_id}</td>
+            <td>{payment.user.name}</td>
             <td>{dateToShortString(new Date(payment.fecha))}</td>
             <td>{payment.monto}</td>
             <td className="text-right">

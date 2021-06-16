@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\ProduccionTransito;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PagoResource;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Validator;
@@ -24,8 +25,7 @@ class ProduccionTransitoPagoController extends ApiController
     public function index(Request $request)
     {
         $produccionTransito = ProduccionTransito::findOrFail($request->produccion_transito_id);
-        return  $this->showAll($produccionTransito->pagos);
-        
+        return  $this->showAllResources(PagoResource::collection($produccionTransito->pagos));
     }
 
     public function store(Request $request)
@@ -57,25 +57,25 @@ class ProduccionTransitoPagoController extends ApiController
         $pago->tipo = $tipo;
         $pago->fecha = $request->fecha;
         $pago->save();
-        return $this->showOne($pago);
+        return $this->showOneResource(new PagoResource($pago));
     }
 
     public function show(Pago $pago)
     {
-        return $this->showOne($pago);
+        return $this->showOneResource(new PagoResource($pago));
     }
 
     public function update(Request $request, Pago $pago)
     {
         $pago->update($request->all());
         $pago->save();
-        return $this->showOne($pago);
+        return $this->showOneResource(new PagoResource($pago));
     }
 
     public function destroy(Pago $pago)
     {
         // Storage::delete($pago->url_archivo_factura);
         $pago->delete();
-        return $this->showOne($pago);
+        return $this->showOneResource(new PagoResource($pago));
     }
 }
