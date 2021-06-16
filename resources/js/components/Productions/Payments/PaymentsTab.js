@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../../store/actions/modalActions";
 import { getPayments } from "../../../store/actions/productionActions";
-import { getPaymentsInfoFromProduction, getSum } from "../../../utils";
+import { getPaymentsInfoFromProduction, getSum, roundMoneyAmount } from "../../../utils";
 import EmptyList from "../../Navigation/EmptyList";
 import LoadingScreen from "../../Navigation/LoadingScreen";
 import PaymentModal, { emptyPayment } from "./PaymentModal";
@@ -185,7 +185,7 @@ const PaymentsTab = ({ production }) => {
                                                     Total
                                                 </th>
                                                 <td>
-                                                    {getSum(payments, "monto")}
+                                                    {roundMoneyAmount(getSum(payments, "monto"))}
                                                 </td>
                                                 <td></td>
                                             </tr>

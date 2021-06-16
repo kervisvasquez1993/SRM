@@ -188,13 +188,13 @@ export function getPaymentsInfoFromProduction(production) {
     const isCompletelyPaid = paidPercentage >= 100;
 
     return {
-        totalToPay,
-        totalPaid,
+        totalToPay: roundMoneyAmount(totalToPay),
+        totalPaid: roundMoneyAmount(totalPaid),
         paidPercentage: roundMoneyAmount(paidPercentage),
-        prepayment,
+        prepayment: roundMoneyAmount(prepayment),
         prepaymentPercentage: roundMoneyAmount(prepaymentPercentage),
-        remainingPayment,
-        remainingPercentage,
+        remainingPayment: roundMoneyAmount(remainingPayment),
+        remainingPercentage: roundMoneyAmount(remainingPercentage),
         isPrepaymentDone,
         isCompletelyPaid
     };

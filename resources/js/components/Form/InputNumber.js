@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { extractError } from "../../utils";
 import { FormContext } from "./GenericForm";
 
-const InputNumber = ({ id, label, value = "" }) => {
+const InputNumber = ({ id, label, value = "", step="0.01" }) => {
     const { onChange, values, errors } = useContext(FormContext);
 
     const error = extractError(errors, id);
@@ -19,6 +19,7 @@ const InputNumber = ({ id, label, value = "" }) => {
                     name={id}
                     onChange={onChange}
                     value={(values && values[id]) || value || ""}
+                    step={step}
                 />
                 {error && (
                     <div className="text-danger">
