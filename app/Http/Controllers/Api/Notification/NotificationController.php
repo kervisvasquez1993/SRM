@@ -15,7 +15,6 @@ class NotificationController extends ApiController
     {
         $user = auth()->user();
         $notificaciones = $user->notifications;
-        return $notificaciones;
         $notificaciones = NotificationResource::collection($notificaciones);
         return $this->showAllResources($notificaciones);
 

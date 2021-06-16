@@ -44,11 +44,13 @@ Route::middleware('auth.jwt')->group(function () {
     Route::post('/tarea/{tarea_id}/proveedor', 'Api\Proveedor\ProveedorController@store');
 
     Route::apiResource('proveedor', 'Api\Proveedor\ProveedorController')->except('destroy', 'store');
+
+    //proveedores
     Route::put('/tarea/{tarea_id}/proveedor/{proveedor_id}', 'Api\Proveedor\ProveedorController@updateFromTask');
     Route::get('/tarea/{tarea_id}/proveedor', 'Api\Proveedor\ProveedorController@indexTareaProveedor');
     Route::post('/tarea/{tarea_id}/proveedor', 'Api\Proveedor\ProveedorController@store');
     Route::post('/tarea/{tarea_id}/proveedor/{proveedor_id}/negociar', 'Api\Proveedor\ProveedorController@iniciarNegociacion');
-
+    // fin de proveedores
     //Pivot 
     Route::get('/pivot', 'Api\Pivot\PivotController@index');
     Route::post('/pivot', 'Api\Pivot\PivotController@store');
@@ -186,7 +188,7 @@ Route::middleware('auth.jwt')->group(function () {
      //fin de produccion
 
      //notificacion
-    
+
      Route::get('notificacion', 'Api\Notification\NotificationController@index' );
      Route::patch('/notificacion/{id}', 'Api\Notification\NotificationController@read');
 

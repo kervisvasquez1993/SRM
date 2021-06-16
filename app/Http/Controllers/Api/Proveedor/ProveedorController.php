@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Proveedor;
 
+use App\User;
 use App\Tarea;
 use App\Proveedor;
 use App\PivotTareaProveeder;
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\TareaProveedor;
 use App\Http\Controllers\ApiController;
 use App\Http\Resources\ProveedorResource;
+use App\Notifications\NegociacionEmpresa;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -167,10 +169,14 @@ class ProveedorController extends ApiController
         $tarea = Tarea::findOrFail($tarea_id);
         $proveedor = Proveedor::findOrFail($proveedor_id);
         $pivote = PivotTareaProveeder::where('tarea_id', $tarea_id)->where('proveedor_id', $proveedor_id)->first();
-
         // Iniciar negociacion
         $pivote->iniciar_negociacion = 1;
         $pivote->save();
+        $url = url("api/pivot/?=$pivote->id");
+        $recipient =  User::find($tarea->sender_id);
+        
+        $body = "Se inicio negociación con la empresa:$proveedor->nombre. en la tarea: $tarea->nombre";
+        $recipient->notify(new NegociacionEmpresa($body, $url));
         return $this->successMensaje("La negociacion se inicio exitosamente", Response::HTTP_ACCEPTED);
     }
 }
