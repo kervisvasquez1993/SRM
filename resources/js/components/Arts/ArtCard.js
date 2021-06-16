@@ -1,10 +1,30 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateArt } from "../../store/actions/artActions";
 import { openModal } from "../../store/actions/modalActions";
+import LoadingSpinner from "../Navigation/LoadingSpinner";
 import ArtModal from "./ArtModal";
+
+const options = [
+    {
+        value: "sin_inicializar",
+        label: "Sin Inicializar"
+    },
+    {
+        value: "en_proceso",
+        label: "En Proceso"
+    },
+    {
+        value: "finalizado",
+        label: "Finalizado"
+    }
+];
 
 const ArtCard = ({ art }) => {
     const dispatch = useDispatch();
+    const isEditingDropdowns = useSelector(
+        state => state.art.isEditingDropdowns
+    );
 
     const handleOpenManagement = () => {
         dispatch(
@@ -14,6 +34,35 @@ const ArtCard = ({ art }) => {
             })
         );
     };
+
+    const handleInputClick = e => {
+        e.stopPropagation();
+    };
+
+    const handleChange = e => {
+        const data = {
+            ...art,
+            [e.target.id]: e.target.value
+        };
+
+        dispatch(updateArt(data));
+    };
+
+    const {
+        creacion_fichas,
+        validacion_fichas,
+        creacion_boceto,
+        validacion_boceto,
+        confirmacion_proveedor
+    } = art;
+
+    const selectOptions = options.map(item => {
+        return (
+            <option key={item.value} value={item.value}>
+                {item.label}
+            </option>
+        );
+    });
 
     return (
         <div
@@ -40,7 +89,78 @@ const ArtCard = ({ art }) => {
                 </div>
             </div>
 
-            <div className="card-body py-0 my-0 ml-2"></div>
+            <div className="card-body py-0 my-0 ml-2">
+                <div className="form-group" onClick={handleInputClick}>
+                    <label htmlFor="creacion_fichas">Creación de Fichas</label>
+                    <select
+                        className="form-control"
+                        id="creacion_fichas"
+                        value={creacion_fichas}
+                        onChange={handleChange}
+                        disabled={isEditingDropdowns}
+                    >
+                        {selectOptions}
+                    </select>
+                </div>
+
+                <div className="form-group" onClick={handleInputClick}>
+                    <label htmlFor="validacion_fichas">
+                        Validación de Fichas
+                    </label>
+                    <select
+                        className="form-control"
+                        id="validacion_fichas"
+                        value={validacion_fichas}
+                        onChange={handleChange}
+                        disabled={isEditingDropdowns}
+                    >
+                        {selectOptions}
+                    </select>
+                </div>
+
+                <div className="form-group" onClick={handleInputClick}>
+                    <label htmlFor="creacion_boceto">Bocetos</label>
+                    <select
+                        className="form-control"
+                        id="creacion_boceto"
+                        value={creacion_boceto}
+                        onChange={handleChange}
+                        disabled={isEditingDropdowns}
+                    >
+                        {selectOptions}
+                    </select>
+                </div>
+
+                <div className="form-group" onClick={handleInputClick}>
+                    <label htmlFor="validacion_boceto">
+                        Validación de Bocetos
+                    </label>
+                    <select
+                        className="form-control"
+                        id="validacion_boceto"
+                        value={validacion_boceto}
+                        onChange={handleChange}
+                        disabled={isEditingDropdowns}
+                    >
+                        {selectOptions}
+                    </select>
+                </div>
+
+                <div className="form-group" onClick={handleInputClick}>
+                    <label htmlFor="confirmacion_proveedor">
+                        Confirmación de Proveedor
+                    </label>
+                    <select
+                        className="form-control"
+                        id="confirmacion_proveedor"
+                        value={confirmacion_proveedor}
+                        onChange={handleChange}
+                        disabled={isEditingDropdowns}
+                    >
+                        {selectOptions}
+                    </select>
+                </div>
+            </div>
 
             <div className="card-footer">
                 <div className="d-flex justify-content-end align-items-center w-100 flex-wrap">

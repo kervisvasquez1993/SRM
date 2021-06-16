@@ -1,6 +1,8 @@
 const defaultState = {
     list: [],
-    current: null
+    current: null,
+
+    isEditingDropdowns: false
 };
 
 const artReducer = (state = defaultState, action) => {
@@ -16,7 +18,6 @@ const artReducer = (state = defaultState, action) => {
                 ...state
             };
         case "GET_ARTS_SUCCESS":
-            console.log(payload)
             return {
                 ...state,
                 list: payload
@@ -24,6 +25,25 @@ const artReducer = (state = defaultState, action) => {
         case "GET_ARTS_FAILURE":
             return {
                 ...state
+            };
+
+        case "EDIT_ARTS_REQUEST":
+            return {
+                ...state,
+                isEditingDropdowns: true
+            };
+        case "EDIT_ARTS_SUCCESS":
+            return {
+                ...state,
+                isEditingDropdowns: false,
+                list: state.list.map(item =>
+                    item.id === payload.id ? payload : item
+                )
+            };
+        case "EDIT_ARTS_FAILURE":
+            return {
+                ...state,
+                isEditingDropdowns: false
             };
 
         default:
