@@ -19,6 +19,7 @@ import { store } from "./Index";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import ProductionList from "./Productions/ProductionList";
+import ArtList from "./Arts/ArtList";
 
 axios.interceptors.response.use(
     response => {
@@ -128,6 +129,9 @@ const App = () => {
                             </Route>
                             <Route path="/production">
                                 <ProductionList />
+                            </Route>
+                            <Route path="/arts">
+                                <ArtList />
                             </Route>
                             <Route path="*">
                                 <Error />
