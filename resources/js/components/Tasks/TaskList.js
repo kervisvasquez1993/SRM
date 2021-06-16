@@ -179,7 +179,7 @@ const TaskList = ({ myTasks = false }) => {
                         <CheckboxFilter
                             id="expired"
                             text={`Vencidas (${countExpired()})`}
-                            defaultValue={false}
+                            defaultValue={true}
                         />
                         <CheckboxFilter
                             id="completed"
