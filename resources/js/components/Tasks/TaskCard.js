@@ -22,9 +22,10 @@ const TaskCard = ({ task }) => {
 
         const taskToEdit = {
             ...task,
-            user_id: task.usuario.id,
-            fecha_fin: task.fecha_fin.split(" ")[0]
+            user_id: task.usuario.id
         };
+
+        console.log(taskToEdit)
 
         dispatch(
             openModal({

@@ -6,6 +6,10 @@ import {
 } from "../../store/actions/negotiationActions";
 import { dateToString, hasNoProducts } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
+import ProductsTab from "../Products/ProductsTab";
+import ProviderTab from "../Providers/ProviderTab";
+import PurchaseTab from "../Purchases/PurchaseTab";
+import TaskTab from "../Tasks/TaskTab";
 
 const NegotiationModal = ({ negotiation }) => {
     const dispatch = useDispatch();
@@ -117,26 +121,7 @@ const NegotiationModal = ({ negotiation }) => {
                                 currentTab === "task" ? "active" : ""
                             }`}
                         >
-                            <p>
-                                <strong>Nombre : </strong>
-                                {task.nombre}
-                            </p>
-
-                            <p className="d-flex">
-                                <strong>Persona a cargo : </strong>
-                                <span className="material-icons">person</span>
-                                {usuario.name}
-                            </p>
-
-                            <p>
-                                <strong>Fecha de Finalizacion : </strong>
-                                {dateToString(new Date(task.fecha_fin))}
-                            </p>
-
-                            <p className="keep-line-breaks">
-                                <strong>Descripción : </strong>
-                                {task.descripcion}
-                            </p>
+                             <TaskTab task={task} user={usuario} />
                         </div>
 
                         <div
@@ -144,90 +129,7 @@ const NegotiationModal = ({ negotiation }) => {
                                 currentTab === "business" ? "active" : ""
                             }`}
                         >
-                            <p>
-                                <strong>Nombre : </strong>
-                                {provider.nombre}
-                            </p>
-
-                            <p className="card-text keep-line-breaks">
-                                {provider.descripcion}
-                            </p>
-
-                            {(provider.pais ||
-                                provider.ciudad ||
-                                provider.distrito) && (
-                                <React.Fragment>
-                                    <h3 className="card-title mb-2">
-                                        Ubicación
-                                    </h3>
-
-                                    {provider.pais && (
-                                        <p className="card-text text-capitalize">
-                                            <strong>País : </strong>
-                                            {provider.pais.toLowerCase()}
-                                        </p>
-                                    )}
-
-                                    {provider.ciudad && (
-                                        <p className="card-text">
-                                            <strong>Ciudad : </strong>
-                                            {provider.ciudad}
-                                        </p>
-                                    )}
-
-                                    {provider.distrito && (
-                                        <p className="card-text">
-                                            <strong>Distrito : </strong>
-                                            {provider.distrito}
-                                        </p>
-                                    )}
-                                </React.Fragment>
-                            )}
-
-                            {(provider.address ||
-                                provider.telefono ||
-                                provider.contacto ||
-                                provider.email) && (
-                                <React.Fragment>
-                                    <h3 className="card-title mb-2">
-                                        Contacto
-                                    </h3>
-
-                                    {provider.address && (
-                                        <p className="card-text">
-                                            <strong>Direccion : </strong>
-                                            {provider.address}
-                                        </p>
-                                    )}
-
-                                    {provider.telefono && (
-                                        <p className="card-text">
-                                            <strong>Teléfono : </strong>
-                                            {provider.telefono}
-                                        </p>
-                                    )}
-                                    {provider.contacto && (
-                                        <p className="card-text">
-                                            <strong>Contacto : </strong>
-                                            {provider.contacto}
-                                        </p>
-                                    )}
-
-                                    {provider.email && (
-                                        <p className="card-text">
-                                            <strong>Email : </strong>
-                                            {provider.email}
-                                        </p>
-                                    )}
-
-                                    {provider.contacto && (
-                                        <p className="card-text">
-                                            <strong>Contacto : </strong>
-                                            {provider.contacto}
-                                        </p>
-                                    )}
-                                </React.Fragment>
-                            )}
+                            <ProviderTab provider={provider} />
                         </div>
 
                         <div
@@ -235,28 +137,7 @@ const NegotiationModal = ({ negotiation }) => {
                                 currentTab === "products" ? "active" : ""
                             }`}
                         >
-                            {hasNoProducts(negotiation) ? (
-                                <EmptyList message="No hay productos registrados" />
-                            ) : (
-                                <React.Fragment>
-                                    <p>
-                                        <strong>Total CBM : </strong>
-                                        {negotiation.total_cbm}
-                                    </p>
-                                    <p>
-                                        <strong>Total Peso Neto (kg) : </strong>
-                                        {negotiation.total_n_w}
-                                    </p>
-                                    <p>
-                                        <strong>Total Peso Bruto (kg): </strong>
-                                        {negotiation.total_g_w}
-                                    </p>
-                                    <p>
-                                        <strong>Total CTN : </strong>
-                                        {negotiation.total_ctn}
-                                    </p>
-                                </React.Fragment>
-                            )}
+                            <ProductsTab negotiation={negotiation} />
                         </div>
 
                         <div
@@ -264,27 +145,7 @@ const NegotiationModal = ({ negotiation }) => {
                                 currentTab === "purchase" ? "active" : ""
                             }`}
                         >
-                            {totalPurchase > 0 ? (
-                                <React.Fragment>
-                                    <p>
-                                        <strong>Total de Compra : </strong>
-                                        {totalPurchase}
-                                    </p>
-                                    <p className="d-flex">
-                                        <strong>Código PO : </strong>
-                                        {poCode || (
-                                            <span className="d-inline-flex ml-3">
-                                                <span className="material-icons mr-2">
-                                                    search_off
-                                                </span>
-                                                No se ha agregado
-                                            </span>
-                                        )}
-                                    </p>
-                                </React.Fragment>
-                            ) : (
-                                <EmptyList message="No se ha añadido una orden de compra" />
-                            )}
+                            <PurchaseTab negotiation={negotiation} />
                         </div>
                     </div>
                 </React.Fragment>

@@ -1,8 +1,11 @@
 import React, { useContext } from "react";
+import { extractError } from "../../utils";
 import { FormContext } from "./GenericForm";
 
-const InputDate = ({ id, label, value, error }) => {
-    const { onChange } = useContext(FormContext);
+const InputDate = ({ id, label, value = "" }) => {
+    const { onChange, values, errors } = useContext(FormContext);
+
+    const error = extractError(errors, id);
 
     return (
         <div className="form-row">
@@ -11,11 +14,11 @@ const InputDate = ({ id, label, value, error }) => {
 
                 <input
                     type="date"
+                    className={"form-control " + (error ? "is-invalid" : "")}
                     id={id}
                     name={id}
-                    className={"form-control " + (error ? "is-invalid" : "")}
                     onChange={onChange}
-                    value={value}
+                    value={(values && values[id]) || value || ""}
                 />
 
                 {error && (

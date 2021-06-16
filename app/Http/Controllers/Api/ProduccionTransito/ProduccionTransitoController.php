@@ -35,45 +35,36 @@ class ProduccionTransitoController extends ApiController
      * @param  \App\ProduccionTransito  $produccionTransito
      * @return \Illuminate\Http\Response
      */
-    public function show(ProduccionTransito $produccionTransito)
+    public function show(Request $request)
     {
-        //
+        $produccionTransitoResource = new ProduccionTransitoResource(ProduccionTransito::findOrFail($request->produccion_transito_id));
+        return $this->showOneResource($produccionTransitoResource);
     }
 
     public function update(Request $request, ProduccionTransito $produccionTransito)
     {
-        
-         if($request->fin_produccion == 1 && $produccionTransito->inicio_produccion === 0)
-         {
-               return $this->errorResponse('No Puede Finalizar la Proudccion si aun no la inicia', Response::HTTP_BAD_REQUEST);                                                   
-         }
 
-        if($request->inicio_produccion == 0 && $produccionTransito->fin_produccion == 1)
-        {
-            return $this->errorResponse('ya finalizo la produccion no puede desmarcar inicio de produccion', Response::HTTP_BAD_REQUEST);        
-        }   
-        if($request->pago_balance == 1  && $produccionTransito->pagos_anticipados == 0 )
-        {
-            return $this->errorResponse('Debe agregar antes un pago anticipado  pago de balance', Response::HTTP_BAD_REQUEST);        
-        }   
-        
-        if( $request->salida_puero_origen == 1
-            && $produccionTransito->pagos_anticipados == 0 
-            && $produccionTransito->inicio_produccion == 0 
-            && $produccionTransito->fin_produccion == 0
-            && $produccionTransito->pago_balance == 0
-            && $produccionTransito->transito_nacionalizacion == 0)
-            {
-                return $this->errorResponse('Debe tener todos los servicios finalizado', Response::HTTP_BAD_REQUEST);    
-            }
-        
-      
+        if ($request->fin_produccion && !$produccionTransito->inicio_produccion) {
+            return $this->errorResponse('No Puede Finalizar la Proudccion si aun no la inicia', Response::HTTP_BAD_REQUEST);
+        }
 
+        if (!$request->inicio_produccion && $produccionTransito->fin_produccion) {
+            return $this->errorResponse('ya finalizo la produccion no puede desmarcar inicio de produccion', Response::HTTP_BAD_REQUEST);
+        }
 
+        if (
+            $request->salida_puero_origen && ($produccionTransito->pagos->isEmpty()
+                || !$produccionTransito->inicio_produccion
+                || !$produccionTransito->fin_produccion
+                || $produccionTransito->pagos->sum('monto') < $produccionTransito->pivotTable->compras->sum('total')
+                || !$produccionTransito->transito_nacionalizacion)
+        ) {
+            return $this->errorResponse('Debe tener todos los servicios finalizado', Response::HTTP_BAD_REQUEST);
+        }
 
         $produccionTransito->update($request->all());
         $produccionTransito->save();
-        return $produccionTransito;
+        return $this->showOneResource(new ProduccionTransitoResource($produccionTransito));
     }
 
     /**

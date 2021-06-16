@@ -51,12 +51,11 @@ const TaskDetails = () => {
 
     const handleEdit = () => {
         const taskToEdit = {
-            id: task.id,
-            nombre: task.nombre,
-            user_id: task.usuario.id,
-            fecha_fin: task.fecha_fin.split(" ")[0],
-            descripcion: task.descripcion
+            ...task,
+            user_id: task.usuario.id
         };
+
+        console.log(taskToEdit);
 
         dispatch(
             openModal({

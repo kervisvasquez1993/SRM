@@ -3,7 +3,7 @@ import React, { createContext, useState } from "react";
 export const FormContext = createContext();
 
 const GenericForm = props => {
-    const { handleSubmit, disableSubmit, handleReset = null, onChange } = props;
+    const { handleSubmit, disableSubmit, handleReset = null } = props;
 
     return (
         <FormContext.Provider value={{ ...props }}>

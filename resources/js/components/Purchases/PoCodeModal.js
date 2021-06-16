@@ -10,7 +10,6 @@ const PoCodeModal = ({ pivot }) => {
     const [data, setData] = useState({ ...pivot });
 
     const isEditing = useSelector(state => state.negotiation.isEditing);
-    const errors = useSelector(state => state.negotiation.errors);
 
     const handleChange = e => {
         const { id, value } = e.target;
@@ -28,8 +27,6 @@ const PoCodeModal = ({ pivot }) => {
 
         dispatch(editPoCode(data));
     };
-
-    const handleReset = e => {};
 
     return (
         <div className="modal-body">

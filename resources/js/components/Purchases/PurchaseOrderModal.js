@@ -26,12 +26,6 @@ const PurchaseOrderModal = ({ purchase, isEditor = false, pivotId = null }) => {
 
     const isEditing = useSelector(state => state.purchaseOrder.isEditing);
     const errors = useSelector(state => state.purchaseOrder.errors);
-    const orden_compra_error = extractError(errors, "orden_compra");
-    const item_error = extractError(errors, "item");
-    const registro_salud_error = extractError(errors, "registro_salud");
-    const cantidad_pcs_error = extractError(errors, "cantidad_pcs");
-    const descripcion_error = extractError(errors, "descripcion");
-    const total_error = extractError(errors, "total");
 
     const handleChange = e => {
         const { id, value } = e.target;
@@ -66,34 +60,19 @@ const PurchaseOrderModal = ({ purchase, isEditor = false, pivotId = null }) => {
                 handleReset={handleReset}
                 onChange={handleChange}
                 values={data}
+                errors={errors}
             >
-                <InputText
-                    id="orden_compra"
-                    label="Orden de Compra"
-                    error={orden_compra_error}
-                />
+                <InputText id="orden_compra" label="Orden de Compra" />
 
-                <InputText id="item" label="Item" error={item_error} />
+                <InputText id="item" label="Item" />
 
-                <InputText
-                    id="registro_salud"
-                    label="Registro Salud"
-                    error={registro_salud_error}
-                />
+                <InputText id="registro_salud" label="Registro Salud" />
 
-                <InputNumber
-                    id="cantidad_pcs"
-                    label="Cantidad PCS"
-                    error={cantidad_pcs_error}
-                />
+                <InputNumber id="cantidad_pcs" label="Cantidad PCS" />
 
-                <InputTextarea
-                    id="descripcion"
-                    label="Descripción"
-                    error={descripcion_error}
-                />
+                <InputTextarea id="descripcion" label="Descripción" />
 
-                <InputNumber id="total" label="Total" error={total_error} />
+                <InputNumber id="total" label="Total" />
             </GenericForm>
         </div>
     );
