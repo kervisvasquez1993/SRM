@@ -174,8 +174,8 @@ class ProveedorController extends ApiController
         $pivote->save();
         $url = url("api/pivot/?=$pivote->id");
         $recipient =  User::find($tarea->sender_id);
-        
-        $body = "Se inicio negociación con la empresa:$proveedor->nombre. en la tarea: $tarea->nombre";
+        $user_login = auth()->user()->name; 
+        $body = "El Usuario $user_login inicio negociación con la empresa:$proveedor->nombre en la tarea: $tarea->nombre";
         $recipient->notify(new NegociacionEmpresa($body, $url));
         return $this->successMensaje("La negociacion se inicio exitosamente", Response::HTTP_ACCEPTED);
     }

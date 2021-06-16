@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Pivot;
 
 use App\Arte;
+use App\User;
 use App\Tarea;
 use App\Proveedor;
 use Carbon\Carbon;
@@ -12,12 +13,15 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ApiController;
+use function PHPUnit\Framework\isEmpty;
+use App\Notifications\NegociacionEmpresa;
 use Illuminate\Database\Eloquent\Builder;
+
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\ProduccionNotificacion;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\PivotTareaProveederResource;
-
-use function PHPUnit\Framework\isEmpty;
 
 class PivotController extends ApiController
 {
@@ -155,6 +159,17 @@ class PivotController extends ApiController
         }
         $produccionAprobar = new ProduccionTransito();
         $produccionAprobar->pivot_tarea_proveeder_id = $id;
-        $produccionAprobar->save();
+        /* $produccionAprobar->save(); */
+        $nombreEmpresa = $produccionAprobar->pivotTable->proveedor->nombre;
+        $nombreTarea = $produccionAprobar->pivotTable->tarea->nombre;
+        $userLogin = Auth::user()->name; 
+        $userAll = User::where('rol', 'logistica')->orWhere('rol','coordinador')->get();
+        $comprador_asignado =  $produccionAprobar->pivotTable->tarea->usuarios; 
+        $userAll->push($comprador_asignado); 
+        $userFormat =  $userAll->unique('id');
+        $body = "El usuario $userLogin inicio Produccion con la empresa $nombreEmpresa asociada a la tarea $nombreTarea.";
+        $link = url('#');
+        Notification::send($userFormat, new ProduccionNotificacion($body,$link));
+          
     }
 }

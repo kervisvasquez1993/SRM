@@ -61,7 +61,7 @@ Route::middleware('auth.jwt')->group(function () {
 
     Route::put('/negociacion/{pivotTareaProveederId}/iniciar-arte', 'Api\Pivot\PivotController@startArte');
     Route::put('/negociacion/{pivotTareaProveederId}/iniciar-produccion', 'Api\Pivot\PivotController@startProduccion');
-    
+     /* Route::post('/testProduccion/{id}', 'Api\Pivot\PivotController@produccionTransitoCreate'); */
 
 
 
