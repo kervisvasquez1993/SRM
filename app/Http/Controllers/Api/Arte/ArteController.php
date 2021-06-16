@@ -32,7 +32,7 @@ class ArteController extends ApiController
                
         $arte->update($request->all());
         $arte->save();
-        return $this->showOne($arte);
+        return $this->showOneResource(new ArteResource($arte));
     }
 
 
