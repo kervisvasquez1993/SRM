@@ -10,7 +10,6 @@ import LoadingScreen from "../../Navigation/LoadingScreen";
 
 import IncidentModal from "./IncidentModal";
 import IncidentCard from "./IncidentCard";
-import { openArtModal } from "../../../store/actions/artActions";
 import LargeCreateButton from "../../UI/LargeCreateButton";
 
 const IncidentsTab = ({ stateName, url1, url2, title }) => {
@@ -18,6 +17,8 @@ const IncidentsTab = ({ stateName, url1, url2, title }) => {
 
     const parent = useSelector(state => state[stateName].current);
     const incidents = useSelector(state => state.incident.incidents);
+    const modal = useSelector(store => store.modal);
+
     const areIncidentsLoading = useSelector(
         state => state.incident.areIncidentsLoading
     );
@@ -39,7 +40,9 @@ const IncidentsTab = ({ stateName, url1, url2, title }) => {
                         isEditor={false}
                     />
                 ),
-                onClose: () => dispatch(openArtModal(parent.id, url2))
+                defaultTab: url2,
+                onClose: () =>
+                    dispatch(openModal({ ...modal, defaultTab: url2 }))
             })
         );
     };
@@ -66,7 +69,6 @@ const IncidentsTab = ({ stateName, url1, url2, title }) => {
                                         stateName={stateName}
                                         url1={url1}
                                         url2={url2}
-                                        parentId={parent.id}
                                         incident={item}
                                     />
                                 );

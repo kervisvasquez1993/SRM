@@ -8,9 +8,10 @@ import TabContent from "../UI/TabContent";
 import Tabs from "../UI/Tabs";
 import FichaTab from "./Ficha/FichaTab";
 
-const ArtModal = ({ id, defaultTab = "ficha" }) => {
+const ArtModal = ({ id }) => {
     const dispatch = useDispatch();
     const art = useSelector(state => state.art.current);
+    const defaultTab = useSelector(state => state.modal.defaultTab) || "ficha";
 
     useEffect(() => {
         dispatch(getArt(id));

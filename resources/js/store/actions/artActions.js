@@ -66,11 +66,11 @@ export function updateArt(data) {
 
 export function openArtModal(id, defaultTab = "ficha") {
     return async (dispatch, _getState) => {
-        console.log(defaultTab)
         dispatch(
             openModal({
                 title: "Hola",
-                body: <ArtModal id={id} defaultTab={defaultTab} />
+                body: <ArtModal id={id} defaultTab={defaultTab} />,
+                defaultTab: defaultTab
             })
         );
     };

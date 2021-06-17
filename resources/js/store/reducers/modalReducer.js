@@ -18,7 +18,8 @@ const modalReducer = (state = defaultState, action) => {
         case "CLOSE_MODAL":
             return {
                 ...state,
-                isOpen: false
+                isOpen: false,
+                defaultTab: null
             };
         case "REMOVE_MODAL_CLOSE_CALLBACK":
             return {

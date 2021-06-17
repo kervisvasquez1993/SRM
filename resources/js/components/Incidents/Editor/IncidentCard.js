@@ -1,14 +1,15 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { openArtModal } from "../../../store/actions/artActions";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteIncident } from "../../../store/actions/incidentActions";
 import { openModal } from "../../../store/actions/modalActions";
 import { dateToShortString } from "../../../utils";
 import SeeMoreText from "../../UI/SeeMoreText";
 import IncidentModal from "./IncidentModal";
 
-const IncidentCard = ({ stateName, url1, url2, parentId, incident }) => {
+const IncidentCard = ({ stateName, url1, url2, incident }) => {
     const dispatch = useDispatch();
+
+    const modal = useSelector(store => store.modal);
 
     const handleEdit = () => {
         dispatch(
@@ -23,7 +24,8 @@ const IncidentCard = ({ stateName, url1, url2, parentId, incident }) => {
                         isEditor={true}
                     />
                 ),
-                onClose: () => dispatch(openArtModal(parentId, url2))
+                onClose: () =>
+                    dispatch(openModal({ ...modal, defaultTab: url2 }))
             })
         );
     };
