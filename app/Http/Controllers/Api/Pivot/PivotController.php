@@ -77,10 +77,6 @@ class PivotController extends ApiController
     {
         $usuario = Auth::user();
 
-        if ($usuario->rol != 'coordinador') {
-            return $this->errorResponse("Acceso no permitido", Response::HTTP_FORBIDDEN);
-        }
-
         $pivot = PivotTareaProveeder::findOrFail($pivot_id);
 
         // El PO no puede editarse si ya se inicio produccion
