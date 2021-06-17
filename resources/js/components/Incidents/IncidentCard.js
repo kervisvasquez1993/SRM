@@ -1,18 +1,49 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteIncident } from "../../store/actions/incidentActions";
+import { openModal } from "../../store/actions/modalActions";
 import { dateToShortString } from "../../utils";
 import SeeMoreText from "../UI/SeeMoreText";
+import IncidentModal from "./IncidentModal";
 
-const titleStyle = { width: "16.666%" };
+const IncidentCard = ({ stateName, url1, url2, incident }) => {
+    const dispatch = useDispatch();
 
-const IncidentCard = ({ data, handleEdit, handleDelete }) => {
+    const modal = useSelector(store => store.modal);
+
+    const handleEdit = () => {
+        dispatch(
+            openModal({
+                title: "Editar Incidencia",
+                body: (
+                    <IncidentModal
+                        stateName={stateName}
+                        url1={url1}
+                        url2={url2}
+                        formData={incident}
+                        isEditor={true}
+                    />
+                ),
+                onClose: () =>
+                    dispatch(openModal({ ...modal, defaultTab: url2 }))
+            })
+        );
+    };
+
+    const handleDelete = () => {
+        dispatch(deleteIncident(url2, incident.id));
+    };
+
     return (
         <div className={`card shadow-lg my-4 fade-in`}>
             <div className="card-body pb-0">
-                <h5 className="card-title font-weight-bold">{data.titulo}</h5>
+                <h5 className="card-title font-weight-bold">
+                    {incident.titulo}
+                </h5>
                 <hr />
                 <p className="card-text keep-line-breaks">
                     <SeeMoreText maxLength={200}>
-                        {data.descripcion}
+                        {incident.descripcion}
                     </SeeMoreText>
                 </p>
             </div>
@@ -23,7 +54,7 @@ const IncidentCard = ({ data, handleEdit, handleDelete }) => {
                         <i className="material-icons mr-1">access_time</i>
                         Fecha :{" "}
                         <strong>
-                            {dateToShortString(new Date(data.created_at))}
+                            {dateToShortString(new Date(incident.created_at))}
                         </strong>
                     </div>
 

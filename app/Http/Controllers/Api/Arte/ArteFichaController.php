@@ -11,23 +11,22 @@ use App\Http\Requests\IncidenciaValidacion;
 
 class ArteFichaController extends ApiController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    private $validator_array = [
+        'titulo' => 'required',
+        'descripcion' => 'required'
+    ];
+
     public function index($arte_id)
     {
         $arte = Arte::findOrFail($arte_id);
         return $this->showAll($arte->ficha);
-        
     }
 
     
     public function store(IncidenciaValidacion $request, $arte_id)
     {
 
-        $validated = $request->validated();
+        $request->validated();
         $arte = Arte::findOrFail($arte_id);
         $arte_ficha = new Ficha();
         $arte_ficha->arte_id = $arte->id;
@@ -38,7 +37,7 @@ class ArteFichaController extends ApiController
         return $this->showOne($arte_ficha);
     }
 
-    
+
     public function show($fichaId)
     {
         $ficha = Ficha::findOrFail($fichaId);
@@ -47,14 +46,14 @@ class ArteFichaController extends ApiController
 
     public function update(IncidenciaValidacion $request, $fichaId)
     {
-        $validated = $request->validated();
+        $request->validated();
         $ficha = Ficha::findOrFail($fichaId);
         $ficha->update($request->all());
         $ficha->save();
         return $this->showOne($ficha);
     }
 
-   
+
     public function destroy($fichaId)
     {
         $ficha = Ficha::findOrFail($fichaId);

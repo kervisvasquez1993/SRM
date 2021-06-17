@@ -1,10 +1,9 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useDispatch } from "react-redux";
 import {
     createPayment,
     editPayment
 } from "../../../store/actions/productionActions";
-import GenericForm from "../../Form/GenericForm";
 import InputDate from "../../Form/InputDate";
 import InputNumber from "../../Form/InputNumber";
 import InputText from "../../Form/InputText";
@@ -72,7 +71,7 @@ const PaymentModal = ({ production, formData, isEditor }) => {
             dispatch(createPayment(production, data));
         }
     };
-    
+
     return (
         <GenericFormModal
             formData={formData}

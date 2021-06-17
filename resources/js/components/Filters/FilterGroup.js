@@ -10,7 +10,7 @@ const FilterGroup = props => {
     return (
         <FilterGroupContext.Provider value={value}>
             <div className={props.className || "col"}>
-                {props.text && (<div className="h3">{props.text}</div>)}
+                {props.text && (<div className={props.headerClassName || "h3"}>{props.text}</div>)}
                 <div>{props.children}</div>
             </div>
         </FilterGroupContext.Provider>

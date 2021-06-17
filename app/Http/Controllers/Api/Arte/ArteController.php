@@ -23,6 +23,11 @@ class ArteController extends ApiController
         return $this->showAllResources($arteResource);
     }
 
+    public function show(Arte $arte)
+    {
+        return $this->showOneResource(new ArteResource($arte));
+    }
+
     public function update(Request $request, Arte $arte)
     {
         if((auth()->user()->rol != 'coordinador') && ($request->fecha_fin))
@@ -32,7 +37,7 @@ class ArteController extends ApiController
                
         $arte->update($request->all());
         $arte->save();
-        return $this->showOne($arte);
+        return $this->showOneResource(new ArteResource($arte));
     }
 
 

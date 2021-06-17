@@ -90,7 +90,7 @@ Route::middleware('auth.jwt')->group(function () {
     //produccion y transito 
 
    Route::get('/produccion_transito', 'Api\ProduccionTransito\ProduccionTransitoController@index');
-   Route::get('/produccion_transito/{produccion_transito_id}', 'Api\ProduccionTransito\ProduccionTransitoController@show');
+   Route::get('/produccion_transito/{produccionTransito}', 'Api\ProduccionTransito\ProduccionTransitoController@show');
    Route::put('/produccion_transito/{produccionTransito}', 'Api\ProduccionTransito\ProduccionTransitoController@update');
 
 
@@ -145,6 +145,7 @@ Route::middleware('auth.jwt')->group(function () {
     
      //Arte Api
      Route::get('artes', 'Api\Arte\ArteController@index');
+     Route::get('artes/{arte}', 'Api\Arte\ArteController@show');
      Route::put('artes/{arte}', 'Api\Arte\ArteController@update');
 
      //arte fichas ', '
