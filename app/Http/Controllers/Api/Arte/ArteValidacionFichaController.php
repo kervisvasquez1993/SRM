@@ -7,6 +7,7 @@ use App\ValidacionFicha;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\IncidenciaValidacion;
 
 class ArteValidacionFichaController extends ApiController
 {
@@ -22,8 +23,9 @@ class ArteValidacionFichaController extends ApiController
     }
 
    
-    public function store(Request $request, $arte_id)
+    public function store(IncidenciaValidacion $request, $arte_id)
     {
+        $validated = $request->validated();
         $arte = Arte::findOrFail($arte_id);
         $arte_ficha_validacion = new ValidacionFicha();
         $arte_ficha_validacion->arte_id = $arte->id;
@@ -42,8 +44,9 @@ class ArteValidacionFichaController extends ApiController
     }
 
    
-    public function update(Request $request, $validacion_ficha_id)
+    public function update(IncidenciaValidacion $request, $validacion_ficha_id)
     {
+        $validated = $request->validated();
         $ficha_validacion = ValidacionFicha::findOrFail($validacion_ficha_id);
         $ficha_validacion->update($request->all());
         $ficha_validacion->save();
