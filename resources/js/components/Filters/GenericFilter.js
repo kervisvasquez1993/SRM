@@ -24,17 +24,28 @@ const GenericFilter = ({
         let afterResult = { ...afterFilters };
 
         config.forEach(filterConf => {
-            if (typeof filterConf.values === "function") {
-                if (filterConf.name in filter) {
+            if (filterConf.name in filter) {
+                if (typeof filterConf.values === "function") {
                     list = list.filter(item => filterConf.filter(item, filter));
-                }
-            } else {
-                if (filterConf.name in filter) {
-                    filterConf.values.forEach(subConfig => {
-                        list = list.filter(item =>
-                            subConfig.filter(item, filter)
-                        );
-                    });
+                } else {
+                    let isAllDisabled = Object.values(
+                        filter[filterConf.name]
+                    ).every(i => !i);
+
+                    /*
+                    for (let key in filter[filterConf.name]) {
+                        if (!filter[filterConf.name][key]) {
+                            isAllDisabled = false;
+                            break;
+                        }
+                    }*/
+                    if (!isAllDisabled) {
+                        filterConf.values.forEach(subConfig => {
+                            list = list.filter(item =>
+                                subConfig.filter(item, filter)
+                            );
+                        });
+                    }
                 }
             }
 
@@ -119,22 +130,34 @@ const GenericFilter = ({
                             innerContent = values.map(value => {
                                 let count = 0;
 
-                                previouslyFiltered.forEach(listItem => {
-                                    if (value.filterPopulator(listItem))
-                                        count++;
-                                });
+                                if (previouslyFiltered) {
+                                    previouslyFiltered.forEach(listItem => {
+                                        if (value.filterPopulator(listItem))
+                                            count++;
+                                    });
+                                }
 
                                 return (
                                     <CheckboxFilter
                                         key={value.id}
                                         id={value.id}
                                         text={`${value.label} (${count})`}
+                                        defaultValue={
+                                            value.defaultValue != undefined
+                                                ? value.defaultValue
+                                                : true
+                                        }
                                     />
                                 );
                             });
                         }
 
-                        if (!innerContent || innerContent.length === 0) {
+                        if (
+                            !innerContent ||
+                            innerContent.length === 0 ||
+                            (previouslyFiltered &&
+                                previouslyFiltered.length == 0)
+                        ) {
                             return;
                         }
 

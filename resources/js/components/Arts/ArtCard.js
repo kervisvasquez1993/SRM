@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { openArtModal, updateArt } from "../../store/actions/artActions";
 
-const options = [
+export const options = [
     {
         value: "sin_inicializar",
         label: "Sin Inicializar"
@@ -14,6 +14,29 @@ const options = [
     {
         value: "finalizado",
         label: "Finalizado"
+    }
+];
+
+export const categories = [
+    {
+        value: "creacion_fichas",
+        label: "Creación de Fichas"
+    },
+    {
+        value: "validacion_fichas",
+        label: "Validación de Fichas"
+    },
+    {
+        value: "creacion_boceto",
+        label: "Creación de Bocetos"
+    },
+    {
+        value: "validacion_boceto",
+        label: "Validación de Bocetos"
+    },
+    {
+        value: "confirmacion_proveedor",
+        label: "Confirmación de Proveedor"
     }
 ];
 
@@ -39,14 +62,6 @@ const ArtCard = ({ art }) => {
 
         dispatch(updateArt(data));
     };
-
-    const {
-        creacion_fichas,
-        validacion_fichas,
-        creacion_boceto,
-        validacion_boceto,
-        confirmacion_proveedor
-    } = art;
 
     const selectOptions = options.map(item => {
         return (
@@ -82,76 +97,26 @@ const ArtCard = ({ art }) => {
             </div>
 
             <div className="card-body py-0 my-0 ml-2">
-                <div className="form-group" onClick={handleInputClick}>
-                    <label htmlFor="creacion_fichas">Creación de Fichas</label>
-                    <select
-                        className="form-control"
-                        id="creacion_fichas"
-                        value={creacion_fichas}
-                        onChange={handleChange}
-                        disabled={isEditingDropdowns}
-                    >
-                        {selectOptions}
-                    </select>
-                </div>
-
-                <div className="form-group" onClick={handleInputClick}>
-                    <label htmlFor="validacion_fichas">
-                        Validación de Fichas
-                    </label>
-                    <select
-                        className="form-control"
-                        id="validacion_fichas"
-                        value={validacion_fichas}
-                        onChange={handleChange}
-                        disabled={isEditingDropdowns}
-                    >
-                        {selectOptions}
-                    </select>
-                </div>
-
-                <div className="form-group" onClick={handleInputClick}>
-                    <label htmlFor="creacion_boceto">Bocetos</label>
-                    <select
-                        className="form-control"
-                        id="creacion_boceto"
-                        value={creacion_boceto}
-                        onChange={handleChange}
-                        disabled={isEditingDropdowns}
-                    >
-                        {selectOptions}
-                    </select>
-                </div>
-
-                <div className="form-group" onClick={handleInputClick}>
-                    <label htmlFor="validacion_boceto">
-                        Validación de Bocetos
-                    </label>
-                    <select
-                        className="form-control"
-                        id="validacion_boceto"
-                        value={validacion_boceto}
-                        onChange={handleChange}
-                        disabled={isEditingDropdowns}
-                    >
-                        {selectOptions}
-                    </select>
-                </div>
-
-                <div className="form-group" onClick={handleInputClick}>
-                    <label htmlFor="confirmacion_proveedor">
-                        Confirmación de Proveedor
-                    </label>
-                    <select
-                        className="form-control"
-                        id="confirmacion_proveedor"
-                        value={confirmacion_proveedor}
-                        onChange={handleChange}
-                        disabled={isEditingDropdowns}
-                    >
-                        {selectOptions}
-                    </select>
-                </div>
+                {categories.map(({ value, label }) => {
+                    return (
+                        <div
+                            className="form-group"
+                            onClick={handleInputClick}
+                            key={value}
+                        >
+                            <label htmlFor={value}>{label}</label>
+                            <select
+                                className="form-control"
+                                id={value}
+                                value={art[value]}
+                                onChange={handleChange}
+                                disabled={isEditingDropdowns}
+                            >
+                                {selectOptions}
+                            </select>
+                        </div>
+                    );
+                })}
             </div>
 
             <div className="card-footer">
