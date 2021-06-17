@@ -1,9 +1,18 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { openModal } from "../../store/actions/modalActions";
 import { getUsers } from "../../store/actions/userActions";
 import EmptyList from "../Navigation/EmptyList";
 import LargeCreateButton from "../UI/LargeCreateButton";
 import UserCard from "./UserCard";
+import UserModal from "./UserModal";
+
+const emptyUser = {
+    name: "",
+    rol: "",
+    email: "",
+    password: ""
+};
 
 const UserList = () => {
     const dispatch = useDispatch();
@@ -14,7 +23,12 @@ const UserList = () => {
     }, []);
 
     const handleCreate = () => {
-        console.log("Crear usuario");
+        dispatch(
+            openModal({
+                title: "Crear Usuario",
+                body: <UserModal formData={emptyUser} />
+            })
+        );
     };
 
     return (

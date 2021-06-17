@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { extractError } from "../../utils";
 import { FormContext } from "./GenericForm";
 
-const InputText = ({ id, label, value = "" }) => {
+const InputText = ({ id, label, value = "", type = "text" }) => {
     const { onChange, values, errors } = useContext(FormContext);
 
     const error = extractError(errors, id);
@@ -13,7 +13,7 @@ const InputText = ({ id, label, value = "" }) => {
                 <label htmlFor={id}>{label}</label>
 
                 <input
-                    type="text"
+                    type={type}
                     className={"form-control " + (error ? "is-invalid" : "")}
                     id={id}
                     name={id}
