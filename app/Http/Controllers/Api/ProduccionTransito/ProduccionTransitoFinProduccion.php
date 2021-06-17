@@ -8,30 +8,32 @@ use App\ProduccionTransito;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
+use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProduccionTransitoFinProduccion extends ApiController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    private $validator_array = [
+        'titulo' => 'required',
+        'descripcion' => 'required'
+    ];
+
     public function index($produccion_transito_id)
     {
         $produccion_transito = ProduccionTransito::findOrFail($produccion_transito_id);
 
         return $this->showAll($produccion_transito->finProduccion);
-        
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request, $produccion_transito_id)
     {
+        $validator = Validator::make($request->all(), $this->validator_array);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
+        }
+
+
         $fin_produccion = new FinProduccion();
         $produccion_transito = ProduccionTransito::findOrFail($produccion_transito_id);
         $fin_produccion->produccion_transito_id = $produccion_transito->id;
@@ -40,15 +42,8 @@ class ProduccionTransitoFinProduccion extends ApiController
         $fin_produccion->descripcion = $request->descripcion;
         $fin_produccion->save();
         return $this->showOne($fin_produccion);
-        
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($fin_produccion_id)
     {
         $fin_produccion_show = FinProduccion::findOrFail($fin_produccion_id);
@@ -56,12 +51,17 @@ class ProduccionTransitoFinProduccion extends ApiController
         return $this->showOne($fin_produccion_show);
     }
 
-    
+
     public function update(Request $request, $fin_produccion_id)
     {
-        
-        $fin_produccion_show = FinProduccion::findOrFail($fin_produccion_id);   
-        
+        $validator = Validator::make($request->all(), $this->validator_array);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
+        }
+
+        $fin_produccion_show = FinProduccion::findOrFail($fin_produccion_id);
+
         $fin_produccion_show->update($request->all());
         $fin_produccion_show->save();
         return $this->showOne($fin_produccion_show);

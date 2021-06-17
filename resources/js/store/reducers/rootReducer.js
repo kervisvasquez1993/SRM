@@ -2,6 +2,7 @@ import {combineReducers} from "redux";
 import authReducer from "./authReducer";
 import modalReducer from "./modalReducer";
 import negotiationReducer from "./negotiationReducer";
+import productionReducer from "./productionReducer";
 import productReducer from "./productReducer";
 import providerReducer from "./providerReducer";
 import purchaseOrderReducer from "./purchaseOrderReducer";
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
     product: productReducer,
     purchaseOrder: purchaseOrderReducer,
     negotiation: negotiationReducer,
-    user: userReducer
+    user: userReducer,
+    production: productionReducer
 });
 
 export default rootReducer;

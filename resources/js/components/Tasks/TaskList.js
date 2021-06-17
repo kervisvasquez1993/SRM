@@ -66,16 +66,40 @@ const TaskList = ({ myTasks = false }) => {
         return task.completada;
     };
 
-    const isTaskInProgress = task => {
-        return !isTaskCompleted(task) && !isTaskExpired(task);
+    // const isTaskInProgress = task => {
+    //     return !isTaskCompleted(task) && !isTaskExpired(task);
+    // };
+
+    const isTaskNotInNegotiation = task => {
+        return (
+            !isTaskCompleted(task) &&
+            !isTaskExpired(task) &&
+            !task.tiene_negociacion
+        );
+    };
+
+    const isTaskInNegotiation = task => {
+        return (
+            !isTaskCompleted(task) &&
+            !isTaskExpired(task) &&
+            task.tiene_negociacion
+        );
     };
 
     const countCompleted = () => {
         return tasks.filter(task => isTaskCompleted(task)).length;
     };
 
-    const countInProgress = () => {
-        return tasks.filter(task => isTaskInProgress(task)).length;
+    // const countInProgress = () => {
+    //     return tasks.filter(task => isTaskInProgress(task)).length;
+    // };
+
+    const countNotInNegotiation = () => {
+        return tasks.filter(task => isTaskNotInNegotiation(task)).length;
+    };
+
+    const countInNegotiation = () => {
+        return tasks.filter(task => isTaskInNegotiation(task)).length;
     };
 
     const countExpired = () => {
@@ -97,7 +121,9 @@ const TaskList = ({ myTasks = false }) => {
 
     const getMinDays = () => {
         const dias = filteredAfterUsers.map(task =>
-            (isTaskExpired(task) || isTaskCompleted(task)) ? Infinity : getDaysToFinishTask(task)
+            isTaskExpired(task) || isTaskCompleted(task)
+                ? Infinity
+                : getDaysToFinishTask(task)
         );
 
         return Math.max(Math.min(...dias));
@@ -114,7 +140,15 @@ const TaskList = ({ myTasks = false }) => {
                 if (!filter.state.completed && isTaskCompleted(task))
                     return false;
 
-                if (!filter.state.progress && isTaskInProgress(task))
+                // if (!filter.state.progress && isTaskInProgress(task))
+                //     return false;
+                if (
+                    !filter.state.notInNegotiation &&
+                    isTaskNotInNegotiation(task)
+                )
+                    return false;
+
+                if (!filter.state.inNegotiation && isTaskInNegotiation(task))
                     return false;
             }
 
@@ -130,7 +164,9 @@ const TaskList = ({ myTasks = false }) => {
 
         // Filter by expiration days
         list = list.filter(
-            task => "time" in filter && getDaysToFinishTask(task) <= filter.time.days
+            task =>
+                "time" in filter &&
+                getDaysToFinishTask(task) <= filter.time.days
         );
 
         // Set the max days
@@ -143,7 +179,13 @@ const TaskList = ({ myTasks = false }) => {
 
     const maxDays = getMaxDays();
 
-    const inProgressTasks = filtered.filter(item => isTaskInProgress(item));
+    //const inProgressTasks = filtered.filter(item => isTaskInProgress(item));
+    const tasksNotInNegotiation = filtered.filter(item =>
+        isTaskNotInNegotiation(item)
+    );
+    const tasksInNegotiation = filtered.filter(item =>
+        isTaskInNegotiation(item)
+    );
     const completedTasks = filtered.filter(item => isTaskCompleted(item));
     const expiredTasks = filtered.filter(item => isTaskExpired(item));
 
@@ -173,13 +215,17 @@ const TaskList = ({ myTasks = false }) => {
                 <div className="px-3 row mb-4">
                     <FilterGroup name="state" text="Estado:">
                         <CheckboxFilter
-                            id="progress"
-                            text={`En progreso (${countInProgress()})`}
+                            id="notInNegotiation"
+                            text={`Sin negociaciones (${countNotInNegotiation()})`}
+                        />
+                        <CheckboxFilter
+                            id="inNegotiation"
+                            text={`En negociación (${countInNegotiation()})`}
                         />
                         <CheckboxFilter
                             id="expired"
                             text={`Vencidas (${countExpired()})`}
-                            defaultValue={false}
+                            defaultValue={true}
                         />
                         <CheckboxFilter
                             id="completed"
@@ -233,12 +279,42 @@ const TaskList = ({ myTasks = false }) => {
 
             {filtered.length > 0 ? (
                 <React.Fragment>
-                    {inProgressTasks.length > 0 && (
+                    {/* {inProgressTasks.length > 0 && (
                         <React.Fragment>
                             <h2 className="mt-4 h3">Tareas en progreso:</h2>
                             <hr className="mb-4" />
                             <div className="d-flex flex-column-reverse">
                                 {inProgressTasks.map(item => {
+                                    return (
+                                        <TaskCard key={item.id} task={item} />
+                                    );
+                                })}
+                            </div>
+                        </React.Fragment>
+                    )} */}
+
+                    {tasksNotInNegotiation.length > 0 && (
+                        <React.Fragment>
+                            <h2 className="mt-4 h3">
+                                Tareas sin negociaciones:
+                            </h2>
+                            <hr className="mb-4" />
+                            <div className="d-flex flex-column-reverse">
+                                {tasksNotInNegotiation.map(item => {
+                                    return (
+                                        <TaskCard key={item.id} task={item} />
+                                    );
+                                })}
+                            </div>
+                        </React.Fragment>
+                    )}
+
+                    {tasksInNegotiation.length > 0 && (
+                        <React.Fragment>
+                            <h2 className="mt-4 h3">Tareas en negociación:</h2>
+                            <hr className="mb-4" />
+                            <div className="d-flex flex-column-reverse">
+                                {tasksInNegotiation.map(item => {
                                     return (
                                         <TaskCard key={item.id} task={item} />
                                     );

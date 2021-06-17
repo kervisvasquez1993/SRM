@@ -20,7 +20,7 @@ class CreatePagosTable extends Migration
             $table->string('titulo');
             $table->double('monto');
             $table->string('url_archivo_factura');
-            $table->timestamp('fecha');
+            $table->date('fecha');
             $table->string('tipo');
             $table->timestamps();
         });

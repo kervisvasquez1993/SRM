@@ -29,11 +29,6 @@ class ProduccionTransitoController extends ApiController
 
     public function update(Request $request, ProduccionTransito $produccionTransito)
     {
-        
-         if($request->fin_produccion == 1 && $produccionTransito->inicio_produccion === 0)
-         {
-               return $this->errorResponse('No Puede Finalizar la Proudccion si aun no la inicia', Response::HTTP_BAD_REQUEST);                                                   
-         }
 
         if($request->inicio_produccion == 0 && $produccionTransito->fin_produccion == 1)
         {

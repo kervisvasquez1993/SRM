@@ -30,10 +30,6 @@ const TaskModal = ({ task, isEditor }) => {
 
     const isEditing = useSelector(state => state.task.isEditing);
     const errors = useSelector(state => state.task.errors);
-    const nameError = extractError(errors, "nombre");
-    const userError = extractError(errors, "user_id");
-    const endDateError = extractError(errors, "fecha_fin");
-    const descriptionError = extractError(errors, "descripcion");
 
     useEffect(() => {
         axios.get(`${apiURL}/user`).then(response => {
@@ -77,20 +73,12 @@ const TaskModal = ({ task, isEditor }) => {
                 disableSubmit={isEditing}
                 handleReset={handleReset}
                 onChange={handleChange}
+                values={data}
+                errors={errors}
             >
-                <InputText
-                    id="nombre"
-                    label="Titulo de la Tarea"
-                    value={data.nombre}
-                    error={nameError}
-                />
+                <InputText id="nombre" label="Titulo de la Tarea" />
 
-                <InputSelect
-                    id="user_id"
-                    label="Comprador"
-                    value={data.user_id}
-                    error={userError}
-                >
+                <InputSelect id="user_id" label="Comprador">
                     {users.map(user => {
                         return (
                             <option key={user.id} value={user.id}>
@@ -100,19 +88,9 @@ const TaskModal = ({ task, isEditor }) => {
                     })}
                 </InputSelect>
 
-                <InputDate
-                    id="fecha_fin"
-                    label="Fecha Finalizacion"
-                    value={data.fecha_fin}
-                    error={endDateError}
-                />
+                <InputDate id="fecha_fin" label="Fecha Finalizacion" />
 
-                <InputTextArea
-                    id="descripcion"
-                    label="Descripción"
-                    value={data.descripcion}
-                    error={descriptionError}
-                />
+                <InputTextArea id="descripcion" label="Descripción" />
             </GenericForm>
         </div>
     );
