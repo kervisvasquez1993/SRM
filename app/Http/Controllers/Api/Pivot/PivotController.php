@@ -177,7 +177,6 @@ class PivotController extends ApiController
         $userFormat =  $userAll->unique('id');
         $body = "El usuario $userLogin inicio Produccion con la empresa $nombreEmpresa asociada a la tarea $nombreTarea.";
         $link = url('#');
-        Notification::send($userFormat, new ProduccionNotificacion($body,$link));
-          
+        Notification::send($userFormat, new ProduccionNotificacion($body,$link));          
     }
 }

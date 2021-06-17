@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Api\ProduccionTransito;
 
+use App\User;
 use App\ProduccionTransito;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
-use App\Http\Resources\ProduccionTransitoResource;
+use App\Notifications\GeneralNotification;
+use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Resources\ProduccionTransitoResource;
 
 class ProduccionTransitoController extends ApiController
 {
@@ -23,22 +26,6 @@ class ProduccionTransitoController extends ApiController
         return $this->showAllResources($produccionTransitoResource);
     }
 
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\ProduccionTransito  $produccionTransito
-     * @return \Illuminate\Http\Response
-     */
-    public function show(ProduccionTransito $produccionTransito)
-    {
-        //
-    }
 
     public function update(Request $request, ProduccionTransito $produccionTransito)
     {
@@ -67,21 +54,22 @@ class ProduccionTransitoController extends ApiController
                 return $this->errorResponse('Debe tener todos los servicios finalizado', Response::HTTP_BAD_REQUEST);    
             }
         
-      
-
-
-
         $produccionTransito->update($request->all());
         $produccionTransito->save();
+        $userAll = User::where('rol','coordinador')->get();
+        $nombreEmpresa = $produccionTransito->pivotTable->proveedor->nombre;
+        $nombreTarea   = $produccionTransito->pivotTable->tarea->nombre;
+        
+        if($produccionTransito->salida_puero_origen == 1)
+        {   
+            $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea salio del puerto de origen.";
+            $link = "";
+            $tipoNotify = "salida_puerto_origen";
+            Notification::send($userAll, new GeneralNotification($body,$link, $tipoNotify)); 
+        }
+
         return $produccionTransito;
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\ProduccionTransito  $produccionTransito
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(ProduccionTransito $produccionTransito)
     {
         //
