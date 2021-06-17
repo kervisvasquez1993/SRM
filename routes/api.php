@@ -27,10 +27,15 @@ Route::get('/filter', 'Api\FilterProduccionTransitoController@index');
 Route::post('login', 'Api\AuthController@login');
 
 Route::middleware('auth.jwt')->group(function () {
+    
+    
     Route::get('me', 'Api\AuthController@me');
     Route::post('logout', 'Api\AuthController@logout');
     Route::post('refresh', 'Api\AuthController@refresh');
+    //tareas
     Route::apiResource('tarea', 'Api\Tarea\TareaController');
+    //fin de tarea
+    
     Route::get('me/tareas', 'Api\Tarea\TareaController@tareasUsuario');
     
     Route::apiResource('user', 'Api\User\UserController')->except([
@@ -39,11 +44,13 @@ Route::middleware('auth.jwt')->group(function () {
     Route::post('/tarea/{tarea_id}/proveedor', 'Api\Proveedor\ProveedorController@store');
 
     Route::apiResource('proveedor', 'Api\Proveedor\ProveedorController')->except('destroy', 'store');
+
+    //proveedores
     Route::put('/tarea/{tarea_id}/proveedor/{proveedor_id}', 'Api\Proveedor\ProveedorController@updateFromTask');
     Route::get('/tarea/{tarea_id}/proveedor', 'Api\Proveedor\ProveedorController@indexTareaProveedor');
     Route::post('/tarea/{tarea_id}/proveedor', 'Api\Proveedor\ProveedorController@store');
     Route::post('/tarea/{tarea_id}/proveedor/{proveedor_id}/negociar', 'Api\Proveedor\ProveedorController@iniciarNegociacion');
-
+    // fin de proveedores
     //Pivot 
     Route::get('/pivot', 'Api\Pivot\PivotController@index');
     Route::post('/pivot', 'Api\Pivot\PivotController@store');
@@ -54,30 +61,28 @@ Route::middleware('auth.jwt')->group(function () {
 
     Route::put('/negociacion/{pivotTareaProveederId}/iniciar-arte', 'Api\Pivot\PivotController@startArte');
     Route::put('/negociacion/{pivotTareaProveederId}/iniciar-produccion', 'Api\Pivot\PivotController@startProduccion');
-    
+    /* Route::post('/testProduccion/{id}', 'Api\Pivot\PivotController@artesCreate');  */
 
 
 
-    //productos 
-
+    //productos
     Route::get('/negociacion/{pivot_tarea_proveedor}/productos', 'Api\Producto\ProductoController@index');
     Route::post('/negociacion/{pivot_tarea_proveedor}/productos', 'Api\Producto\ProductoController@store');
     Route::put('/productos/{producto}', 'Api\Producto\ProductoController@update');
     Route::delete('/productos/{producto}', 'Api\Producto\ProductoController@delete');
-        //fin de productos
+    //fin de productos
 
-     //orden de compra 
+    //orden de compra 
     Route::post('/negociaciones/{negociacion_id}/compras', 'Api\Pivot\PivotCompraController@store'); 
     Route::get('/negociaciones/{negociacione_id}/compras/', 'Api\Pivot\PivotCompraController@show'); 
     Route::put('/negociaciones/{negociacione_id}/compras/{compra}', 'Api\Pivot\PivotCompraController@update'); 
+    //orden de compra
     
-     //orden de compra
-     Route::post('/negociacion/{negociacion_id}/compra', 'Api\Pivot\PivotCompraController@store'); 
-     Route::get('/negociacion/{negociacion_id}/compra', 'Api\Pivot\PivotCompraController@show');
-     Route::put('compra/{compra_id}', 'Api\Pivot\PivotCompraController@update');
-     Route::delete('compra/{compra_id}', 'Api\Pivot\PivotCompraController@destroy');
-
-     //fin de orden de compra
+    Route::post('/negociacion/{negociacion_id}/compra', 'Api\Pivot\PivotCompraController@store'); 
+    Route::get('/negociacion/{negociacion_id}/compra', 'Api\Pivot\PivotCompraController@show');
+    Route::put('compra/{compra_id}', 'Api\Pivot\PivotCompraController@update');
+    Route::delete('compra/{compra_id}', 'Api\Pivot\PivotCompraController@destroy');
+    //fin de orden de compra
 
     //produccion y transito 
 
@@ -120,17 +125,17 @@ Route::middleware('auth.jwt')->group(function () {
     Route::delete('fin_produccion/{fin_produccion_id}', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@destroy');
    
     // fin de incidencia de fin de produccion
+    
         
    
     //fin d earte
-     //orden de compra
+    
+    //orden de compra
     Route::get('/negociacion/{negociacion_id}/compra', 'Api\Pivot\PivotCompraController@index');
     Route::post('/negociacion/{negociacion_id}/compra', 'Api\Pivot\PivotCompraController@store');
     Route::get('/compra/{compra_id}', 'Api\Pivot\PivotCompraController@show');
     Route::put('compra/{compra_id}', 'Api\Pivot\PivotCompraController@update');
     Route::delete('compra/{compra_id}', 'Api\Pivot\PivotCompraController@destroy');
-
-    
     Route::post('createUser', 'Api\UserController@register')->name('register');
 
 
@@ -173,12 +178,16 @@ Route::middleware('auth.jwt')->group(function () {
      //fin de boceto
 
      //confirmacion de proveedor
-       Route::get('arte/{arte_id}/confirmacion_proveedor', 'Api\Arte\ArteConfirmacionProveedorController@index');
-       Route::post('arte/{arte_id}/confirmacion_proveedor', 'Api\Arte\ArteConfirmacionProveedorController@store');
-       Route::get('confirmacion_proveedor/{confirmacion_proveedor_id}', 'Api\Arte\ArteConfirmacionProveedorController@show');
-       Route::put('confirmacion_proveedor/{confirmacion_proveedor_id}', 'Api\Arte\ArteConfirmacionProveedorController@update');
-       Route::delete('confirmacion_proveedor/{confirmacion_proveedor_id}', 'Api\Arte\ArteConfirmacionProveedorController@destroy');
-
+     Route::get('arte/{arte_id}/confirmacion_proveedor', 'Api\Arte\ArteConfirmacionProveedorController@index');
+     Route::post('arte/{arte_id}/confirmacion_proveedor', 'Api\Arte\ArteConfirmacionProveedorController@store');
+     Route::get('confirmacion_proveedor/{confirmacion_proveedor_id}', 'Api\Arte\ArteConfirmacionProveedorController@show');
+     Route::put('confirmacion_proveedor/{confirmacion_proveedor_id}', 'Api\Arte\ArteConfirmacionProveedorController@update');
+     Route::delete('confirmacion_proveedor/{confirmacion_proveedor_id}', 'Api\Arte\ArteConfirmacionProveedorController@destroy');
      //fin de produccion
+
+     //notificacion
+
+     Route::get('notificacion', 'Api\Notification\NotificationController@index' );
+     Route::patch('/notificacion/{id}', 'Api\Notification\NotificationController@read');
 
 });

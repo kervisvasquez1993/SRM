@@ -29,7 +29,8 @@ class ProduccionTransitoFinProduccion extends ApiController
     {
         $validator = Validator::make($request->all(), $this->validator_array);
 
-        if ($validator->fails()) {
+        if ($validator->fails())
+        {
             return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
         }
 

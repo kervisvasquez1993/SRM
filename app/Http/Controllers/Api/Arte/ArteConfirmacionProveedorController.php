@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\ConfirmacionProveedor;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\IncidenciaValidacion;
 
 class ArteConfirmacionProveedorController extends ApiController
 {
@@ -17,8 +18,9 @@ class ArteConfirmacionProveedorController extends ApiController
         return $this->showAll($arte->confirmacionProveedor);
     }
 
-    public function store(Request $request, $arte_id)
+    public function store(IncidenciaValidacion $request, $arte_id)
     {
+        $validated = $request->validated();
         $arte = Arte::findOrFail($arte_id);
         $confirmacion_proveedor = new  ConfirmacionProveedor();
         $confirmacion_proveedor->arte_id = $arte->id;
@@ -36,8 +38,9 @@ class ArteConfirmacionProveedorController extends ApiController
     }
 
     
-    public function update(Request $request, ConfirmacionProveedor $confirmacion_proveedor_id)
+    public function update(IncidenciaValidacion $request, ConfirmacionProveedor $confirmacion_proveedor_id)
     {
+        $validated = $request->validated();
         $confirmacion_proveedor_id->update($request->all());
         $confirmacion_proveedor_id->save();
         return $this->showOne($confirmacion_proveedor_id);

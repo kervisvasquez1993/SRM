@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Api\ProduccionTransito;
 
+use App\User;
 use App\ProduccionTransito;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
-use App\Http\Resources\ProduccionTransitoResource;
+use App\Notifications\GeneralNotification;
+use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Resources\ProduccionTransitoResource;
 
 class ProduccionTransitoController extends ApiController
 {
@@ -24,55 +27,44 @@ class ProduccionTransitoController extends ApiController
     }
 
 
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\ProduccionTransito  $produccionTransito
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Request $request)
-    {
-        $produccionTransitoResource = new ProduccionTransitoResource(ProduccionTransito::findOrFail($request->produccion_transito_id));
-        return $this->showOneResource($produccionTransitoResource);
-    }
-
     public function update(Request $request, ProduccionTransito $produccionTransito)
     {
 
-        if ($request->fin_produccion && !$produccionTransito->inicio_produccion) {
-            return $this->errorResponse('No Puede Finalizar la Proudccion si aun no la inicia', Response::HTTP_BAD_REQUEST);
-        }
-
-        if (!$request->inicio_produccion && $produccionTransito->fin_produccion) {
-            return $this->errorResponse('ya finalizo la produccion no puede desmarcar inicio de produccion', Response::HTTP_BAD_REQUEST);
-        }
-
-        if (
-            $request->salida_puero_origen && ($produccionTransito->pagos->isEmpty()
-                || !$produccionTransito->inicio_produccion
-                || !$produccionTransito->fin_produccion
-                || $produccionTransito->pagos->sum('monto') < $produccionTransito->pivotTable->compras->sum('total')
-                || !$produccionTransito->transito_nacionalizacion)
-        ) {
-            return $this->errorResponse('Debe tener todos los servicios finalizado', Response::HTTP_BAD_REQUEST);
-        }
-
+        if($request->inicio_produccion == 0 && $produccionTransito->fin_produccion == 1)
+        {
+            return $this->errorResponse('ya finalizo la produccion no puede desmarcar inicio de produccion', Response::HTTP_BAD_REQUEST);        
+        }   
+        if($request->pago_balance == 1  && $produccionTransito->pagos_anticipados == 0 )
+        {
+            return $this->errorResponse('Debe agregar antes un pago anticipado  pago de balance', Response::HTTP_BAD_REQUEST);        
+        }   
+        
+        if( $request->salida_puero_origen == 1
+            && $produccionTransito->pagos_anticipados == 0 
+            && $produccionTransito->inicio_produccion == 0 
+            && $produccionTransito->fin_produccion == 0
+            && $produccionTransito->pago_balance == 0
+            && $produccionTransito->transito_nacionalizacion == 0)
+            {
+                return $this->errorResponse('Debe tener todos los servicios finalizado', Response::HTTP_BAD_REQUEST);    
+            }
+        
         $produccionTransito->update($request->all());
         $produccionTransito->save();
-        return $this->showOneResource(new ProduccionTransitoResource($produccionTransito));
-    }
+        $userAll = User::where('rol','coordinador')->get();
+        $nombreEmpresa = $produccionTransito->pivotTable->proveedor->nombre;
+        $nombreTarea   = $produccionTransito->pivotTable->tarea->nombre;
+        
+        if($produccionTransito->salida_puero_origen == 1)
+        {   
+            $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea salio del puerto de origen.";
+            $link = "";
+            $tipoNotify = "salida_puerto_origen";
+            Notification::send($userAll, new GeneralNotification($body,$link, $tipoNotify)); 
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\ProduccionTransito  $produccionTransito
-     * @return \Illuminate\Http\Response
-     */
+        return $produccionTransito;
+    }
     public function destroy(ProduccionTransito $produccionTransito)
     {
         //

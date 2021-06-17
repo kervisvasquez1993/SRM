@@ -7,8 +7,7 @@ use App\Ficha;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
-use Illuminate\Support\Facades\Validator;
-use Symfony\Component\HttpFoundation\Response;
+use App\Http\Requests\IncidenciaValidacion;
 
 class ArteFichaController extends ApiController
 {
@@ -23,15 +22,11 @@ class ArteFichaController extends ApiController
         return $this->showAll($arte->ficha);
     }
 
-
-    public function store(Request $request, $arte_id)
+    
+    public function store(IncidenciaValidacion $request, $arte_id)
     {
-        $validator = Validator::make($request->all(), $this->validator_array);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
-        }
-
+        $validated = $request->validated();
         $arte = Arte::findOrFail($arte_id);
         $arte_ficha = new Ficha();
         $arte_ficha->arte_id = $arte->id;
@@ -49,14 +44,9 @@ class ArteFichaController extends ApiController
         return $this->showOne($ficha);
     }
 
-    public function update(Request $request, $fichaId)
+    public function update(IncidenciaValidacion $request, $fichaId)
     {
-        $validator = Validator::make($request->all(), $this->validator_array);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
-        }
-
+        $validated = $request->validated();
         $ficha = Ficha::findOrFail($fichaId);
         $ficha->update($request->all());
         $ficha->save();

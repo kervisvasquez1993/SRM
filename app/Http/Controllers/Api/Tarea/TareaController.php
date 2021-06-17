@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api\Tarea;
 
+use App\User;
 use App\Tarea;
 use Illuminate\Http\Request;
+use App\Notifications\TareaSent;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TareaResource;
 use App\Http\Controllers\ApiController;
@@ -39,9 +41,13 @@ class TareaController extends ApiController
         $tarea = new Tarea();
         $tarea->nombre = $request->nombre;
         $tarea->user_id = $request->user_id;
+        $tarea->sender_id =  auth()->id();
         $tarea->descripcion = $request->descripcion;
         $tarea->fecha_fin = $request->fecha_fin;
         $tarea->save();
+        $recipient = User::find($request->user_id);
+        $url = route('tarea.show', $tarea->id);
+        $recipient->notify(new TareaSent($tarea, $url));
 
         return $this->showOneResource(new TareaResource($tarea));
     }

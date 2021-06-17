@@ -67,6 +67,7 @@ class ProduccionTransitoPagoController extends ApiController
 
     public function update(Request $request, Pago $pago)
     {
+        
         $pago->update($request->all());
         $pago->save();
         return $this->showOneResource(new PagoResource($pago));

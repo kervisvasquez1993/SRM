@@ -2,15 +2,14 @@
 
 namespace App\Notifications;
 
-use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class TareaSent extends Notification
+class NegociacionEmpresa extends Notification
 {
-    protected $tarea;
+    protected $body;
     protected $url;
     use Queueable;
 
@@ -19,10 +18,10 @@ class TareaSent extends Notification
      *
      * @return void
      */
-    public function __construct($tarea, $url)
+    public function __construct($body, $url)
     {
-        $this->tarea = $tarea;
-        $this->url  =  $url;
+        $this->body = $body;
+        $this->url = $url;
     }
 
     /**
@@ -59,8 +58,8 @@ class TareaSent extends Notification
     public function toArray($notifiable)
     {
         return [
-            'link' => "$this->url",
-            'text' => "Tarea Nueva asignada por: ". User::find($this->tarea->sender_id)->name
+           'link' => $this->url,
+           'body' => $this->body, 
         ];
     }
 }

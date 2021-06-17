@@ -66,7 +66,7 @@ class TareaController extends Controller
 
         $recipient = User::find($request->user_id);
 
-        $recipient->notify(new TareaSent($tarea));
+        $recipient->notify(new TareaSent($tarea, ''));
         return redirect()->action('TareaController@index');
 
 

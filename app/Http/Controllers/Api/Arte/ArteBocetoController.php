@@ -7,6 +7,7 @@ use App\Boceto;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\IncidenciaValidacion;
 
 class ArteBocetoController extends ApiController
 {
@@ -18,8 +19,9 @@ class ArteBocetoController extends ApiController
     }
 
     
-    public function store(Request $request, $arte_id)
+    public function store(IncidenciaValidacion $request, $arte_id)
     {
+        $validated = $request->validated();
         $arte = Arte::findOrFail($arte_id);
         $boceto = new Boceto();
         $boceto->arte_id = $arte->id;
@@ -38,8 +40,9 @@ class ArteBocetoController extends ApiController
     }
 
    
-    public function update(Request $request, Boceto $boceto_id)
+    public function update(IncidenciaValidacion $request, Boceto $boceto_id)
     {
+        $validated = $request->validated();
         $boceto_id->update($request->all());
         $boceto_id->save();
         return $this->showOne($boceto_id);
