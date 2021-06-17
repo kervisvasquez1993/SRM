@@ -1,8 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateArt } from "../../store/actions/artActions";
+import { openArtModal, updateArt } from "../../store/actions/artActions";
 import { openModal } from "../../store/actions/modalActions";
-import LoadingSpinner from "../Navigation/LoadingSpinner";
 import ArtModal from "./ArtModal";
 
 const options = [
@@ -27,12 +26,7 @@ const ArtCard = ({ art }) => {
     );
 
     const handleOpenManagement = () => {
-        dispatch(
-            openModal({
-                title: art.proveedor,
-                body: <ArtModal artId={art.id} />
-            })
-        );
+        dispatch(openArtModal(art.id));
     };
 
     const handleInputClick = e => {

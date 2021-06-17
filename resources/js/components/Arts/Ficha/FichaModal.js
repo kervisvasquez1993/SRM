@@ -1,28 +1,34 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
-    createProductionIncident,
-    editProductionIncident
-} from "../../../store/actions/productionActions";
+    createIncident,
+    editIncident
+} from "../../../store/actions/incidentActions";
 import InputText from "../../Form/InputText";
 import InputTextArea from "../../Form/InputTextarea";
 import GenericFormModal from "../../Table/GenericFormModal";
 
-const TransitModal = ({ production, formData, isEditor }) => {
+const url1 = "arte";
+const url2 = "ficha";
+
+const FichaModal = ({ formData, isEditor }) => {
     const dispatch = useDispatch();
+    const art = useSelector(state => state.art.current);
 
     const onSubmit = data => {
         if (isEditor) {
-            dispatch(editProductionIncident("incidencias_transito", production, data));
+            dispatch(editIncident(url2, data));
         } else {
-            dispatch(createProductionIncident("incidencias_transito", production, data));
+            dispatch(
+                createIncident(url1, art.id, url2, data)
+            );
         }
     };
 
     return (
         <GenericFormModal
             formData={formData}
-            storeName="production"
+            storeName="incident"
             isEditor={isEditor}
             onSubmit={onSubmit}
         >
@@ -32,4 +38,4 @@ const TransitModal = ({ production, formData, isEditor }) => {
     );
 };
 
-export default TransitModal;
+export default FichaModal;

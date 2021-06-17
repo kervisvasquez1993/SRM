@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getArt } from "../../store/actions/artActions";
+import LoadingScreen from "../Navigation/LoadingScreen";
 import TabButton from "../UI/TabButton";
 import TabContent from "../UI/TabContent";
 import Tabs from "../UI/Tabs";
+import FichaTab from "./Ficha/FichaTab";
 
-const ArtModal = ({ artId, defaultTab = "ficha" }) => {
+const ArtModal = ({ id, defaultTab = "ficha" }) => {
+    const dispatch = useDispatch();
+    const art = useSelector(state => state.art.current);
+
+    useEffect(() => {
+        dispatch(getArt(id));
+    }, [])
+
+    if (!art) {
+        return <LoadingScreen />;
+    }
+
     return (
         <React.Fragment>
             <div className="modal-body">
@@ -15,29 +30,29 @@ const ArtModal = ({ artId, defaultTab = "ficha" }) => {
                         >
                             <TabButton name="ficha">
                                 <i className="material-icons">receipt_long</i>
-                                Creación de Fichas
+                                Incidencias con Creación de Fichas
                             </TabButton>
                             <TabButton name="validacion_ficha">
                                 <i className="material-icons">receipt_long</i>
-                                Validación de Fichas
+                                Incidencias con Validación de Fichas
                             </TabButton>
                             <TabButton name="boceto">
                                 <i className="material-icons">receipt_long</i>
-                                Bocetos
+                                Incidencias con Bocetos
                             </TabButton>
                             <TabButton name="validacion_boceto">
                                 <i className="material-icons">receipt_long</i>
-                                Validación de Bocetos
+                                Incidencias con Validación de Bocetos
                             </TabButton>
                             <TabButton name="confirmacion_proveedor">
                                 <i className="material-icons">receipt_long</i>
-                                Confirmación de Proveedor
+                                Incidencias con Confirmación de Proveedor
                             </TabButton>
                         </ul>
 
                         <div className="tab-content tab-space p-2">
                             <TabContent name="ficha">
-                                Hello World 1
+                                <FichaTab />
                             </TabContent>
                             <TabContent name="validacion_ficha">
                                 Hello World 2

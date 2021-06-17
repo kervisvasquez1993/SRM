@@ -159,8 +159,6 @@ function reopenProductionModal(production, defaultTab = "payments") {
     return async (dispatch, getState) => {
         dispatch(closeModal());
 
-        console.log(getState());
-
         dispatch(
             openModal({
                 title: production.pivot.proveedor.nombre,

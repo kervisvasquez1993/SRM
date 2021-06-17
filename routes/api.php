@@ -137,6 +137,7 @@ Route::middleware('auth.jwt')->group(function () {
     
      //Arte Api
      Route::get('artes', 'Api\Arte\ArteController@index');
+     Route::get('artes/{arte}', 'Api\Arte\ArteController@show');
      Route::put('artes/{arte}', 'Api\Arte\ArteController@update');
 
      //arte fichas ', '

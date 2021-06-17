@@ -7,9 +7,15 @@ export const openModal = (options) => {
     }
 }
 
-export const closeModal = (options) => {
+export const closeModal = () => {
     return {
         type: "CLOSE_MODAL"
+    }
+}
+
+export const removeModalCloseCallback = () => {
+    return {
+        type: "REMOVE_MODAL_CLOSE_CALLBACK"
     }
 }
 

@@ -11,7 +11,8 @@ const artReducer = (state = defaultState, action) => {
     switch (type) {
         case "CLOSE_MODAL":
             return {
-                ...state
+                ...state,
+                current: null
             };
         case "GET_ARTS_REQUEST":
             return {
@@ -23,6 +24,20 @@ const artReducer = (state = defaultState, action) => {
                 list: payload
             };
         case "GET_ARTS_FAILURE":
+            return {
+                ...state
+            };
+
+        case "GET_ART_REQUEST":
+            return {
+                ...state
+            };
+        case "GET_ART_SUCCESS":
+            return {
+                ...state,
+                current: payload
+            };
+        case "GET_ART_FAILURE":
             return {
                 ...state
             };

@@ -11,8 +11,7 @@ import GenericFormModal from "../../Table/GenericFormModal";
 export const emptyIncident = {
     titulo: "",
     fecha: "",
-    monto: "",
-    url_archivo_factura: "#"
+    monto: ""
 };
 
 const ProductionStartIncidentModal = ({ production, formData, isEditor }) => {

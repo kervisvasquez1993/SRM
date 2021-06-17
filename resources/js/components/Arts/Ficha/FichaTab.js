@@ -1,23 +1,26 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { emptyIncident, getIncidents } from "../../../store/actions/incidentActions";
 import { openModal } from "../../../store/actions/modalActions";
-import { getProductionIncidents } from "../../../store/actions/productionActions";
 import EmptyList from "../../Navigation/EmptyList";
 import LoadingScreen from "../../Navigation/LoadingScreen";
-import { emptyIncident } from "../../Productions/ProductionStart/ProductionStartIncidentModal";
 
-import TransitCard from "./TransitCard";
-import TransitModal from "./TransitModal";
+import FichaModal from "./FichaModal";
+import FichaCard from "./FichaCard";
+import { openArtModal } from "../../../store/actions/artActions";
+import LargeCreateButton from "../../UI/LargeCreateButton";
 
-const TransitTab = ({ production }) => {
+const FichaTab = () => {
     const dispatch = useDispatch();
-    const incidents = useSelector(state => state.production.incidents);
+
+    const art = useSelector(state => state.art.current);
+    const incidents = useSelector(state => state.incident.incidents);
     const areIncidentsLoading = useSelector(
-        state => state.production.areIncidentsLoading
+        state => state.incident.areIncidentsLoading
     );
 
     useEffect(() => {
-        dispatch(getProductionIncidents("incidencias_transito", production.id));
+        dispatch(getIncidents("arte", "ficha", art.id));
     }, []);
 
     const handleCreate = () => {
@@ -25,12 +28,12 @@ const TransitTab = ({ production }) => {
             openModal({
                 title: "Agregar Incidencia",
                 body: (
-                    <TransitModal
+                    <FichaModal
                         formData={emptyIncident}
                         isEditor={false}
-                        production={production}
                     />
-                )
+                ),
+                onClose: () => dispatch(openArtModal(art.id))
             })
         );
     };
@@ -38,7 +41,7 @@ const TransitTab = ({ production }) => {
     return (
         <React.Fragment>
             <div className="mr-auto text-center py-2">
-                <h3 className="h2">Incidencias de Transito Nacionalización</h3>
+                <h3 className="h2">Incidencias con Creación de Fichas</h3>
             </div>
 
             {areIncidentsLoading ? (
@@ -47,23 +50,14 @@ const TransitTab = ({ production }) => {
                 <React.Fragment>
                     {incidents.length === 0 && <EmptyList />}
 
-                    <div className="text-center">
-                        <button
-                            className="btn btn-lg btn-success btn-round mb-4"
-                            onClick={handleCreate}
-                        >
-                            <span className="material-icons">add</span>
-                            Agregar
-                        </button>
-                    </div>
+                    <LargeCreateButton onClick={handleCreate} />
 
                     {incidents.length > 0 &&
                         incidents.map((item, index) => {
                             return (
-                                <TransitCard
+                                <FichaCard
                                     key={index}
-                                    data={item}
-                                    production={production}
+                                    incident={item}
                                 />
                             );
                         })}
@@ -73,4 +67,4 @@ const TransitTab = ({ production }) => {
     );
 };
 
-export default TransitTab;
+export default FichaTab;
