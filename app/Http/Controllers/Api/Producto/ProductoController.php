@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api\Producto;
 use App\Producto;
 use App\PivotTareaProveeder;
 use Illuminate\Http\Request;
+use App\Imports\ProductosImport;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
@@ -138,5 +140,15 @@ class ProductoController extends ApiController
     {
         $producto->delete();
         return $this->showOne($producto);
+    }
+
+    public function importProduct( Request $request, PivotTareaProveeder $pivot_tarea_proveeder_id)
+    {
+        $archivo = $request->file('import');
+        $id_pivot =  $pivot_tarea_proveeder_id->id;
+        Excel::import(new ProductosImport($pivot_tarea_proveeder_id->id), $archivo);
+        
+        return response()->json('cargado');
+        
     }
 }

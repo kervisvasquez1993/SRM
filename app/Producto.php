@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Producto extends Model
 {
 
-    protected $fillable = [
+    protected $fillable = 
+    [
+        'pivot_tarea_proveeder_id',
         'hs_code',
         'product_code',
         'description',
