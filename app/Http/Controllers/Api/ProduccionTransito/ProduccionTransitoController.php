@@ -26,6 +26,11 @@ class ProduccionTransitoController extends ApiController
         return $this->showAllResources($produccionTransitoResource);
     }
 
+    public function show(ProduccionTransito $produccionTransito)
+    {
+        return $this->showOneResource(new ProduccionTransitoResource($produccionTransito));
+    }
+
 
     public function update(Request $request, ProduccionTransito $produccionTransito)
     {

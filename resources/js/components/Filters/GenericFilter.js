@@ -24,17 +24,28 @@ const GenericFilter = ({
         let afterResult = { ...afterFilters };
 
         config.forEach(filterConf => {
-            if (typeof filterConf.values === "function") {
-                if (filterConf.name in filter) {
+            if (filterConf.name in filter) {
+                if (typeof filterConf.values === "function") {
                     list = list.filter(item => filterConf.filter(item, filter));
-                }
-            } else {
-                if (filterConf.name in filter) {
-                    filterConf.values.forEach(subConfig => {
-                        list = list.filter(item =>
-                            subConfig.filter(item, filter)
-                        );
-                    });
+                } else {
+                    let isAllDisabled = Object.values(
+                        filter[filterConf.name]
+                    ).every(i => !i);
+
+                    /*
+                    for (let key in filter[filterConf.name]) {
+                        if (!filter[filterConf.name][key]) {
+                            isAllDisabled = false;
+                            break;
+                        }
+                    }*/
+                    if (!filterConf.unfilterWhenAllDisabled || !isAllDisabled) {
+                        filterConf.values.forEach(subConfig => {
+                            list = list.filter(item =>
+                                subConfig.filter(item, filter)
+                            );
+                        });
+                    }
                 }
             }
 
@@ -66,96 +77,135 @@ const GenericFilter = ({
 
     return (
         <React.Fragment>
-            <div className="mb-5">
-                <Filter onUpdate={applyFilter} useRef={filter}>
-                    {config.map((filterConf, index) => {
-                        const {
-                            name,
-                            label,
-                            values,
-                            useAccordion
-                        } = filterConf;
+            <Accordion
+                title="Filtrar"
+                className="card mb-5"
+                headerClassName="card-header"
+            >
+                <div className="mb-5">
+                    <Filter onUpdate={applyFilter} useRef={filter}>
+                        {config.map((filterConf, index) => {
+                            const { name, values, useAccordion } = filterConf;
 
-                        let innerContent;
+                            let innerContent;
 
-                        const previouslyFiltered = getPreviousFilteredList(
-                            index
-                        );
+                            let label = filterConf.label;
 
-                        if (typeof values === "function") {
-                            if (name in filteredGroups) {
-                                innerContent = filteredGroups[name].map(
-                                    item => {
-                                        let count = 0;
-                                        if (filterConf.counterFilter) {
-                                            previouslyFiltered.forEach(
-                                                listItem => {
-                                                    if (
-                                                        filterConf.counterFilter(
-                                                            listItem,
-                                                            item
+                            const previouslyFiltered = getPreviousFilteredList(
+                                index
+                            );
+
+                            if (typeof values === "function") {
+                                if (name in filteredGroups) {
+                                    innerContent = filteredGroups[name].map(
+                                        item => {
+                                            let count = 0;
+                                            if (filterConf.counterFilter) {
+                                                previouslyFiltered.forEach(
+                                                    listItem => {
+                                                        if (
+                                                            filterConf.counterFilter(
+                                                                listItem,
+                                                                item
+                                                            )
                                                         )
-                                                    )
-                                                        count++;
-                                                }
+                                                            count++;
+                                                    }
+                                                );
+                                            }
+
+                                            return (
+                                                <CheckboxFilter
+                                                    key={item}
+                                                    id={item}
+                                                    text={`${item} ${
+                                                        filterConf.counterFilter
+                                                            ? `(${count})`
+                                                            : ""
+                                                    } `}
+                                                />
                                             );
                                         }
+                                    );
+                                }
+                            } else {
+                                innerContent = values.map(value => {
+                                    let count = 0;
 
-                                        return (
-                                            <CheckboxFilter
-                                                key={item}
-                                                id={item}
-                                                text={`${item} ${
-                                                    filterConf.counterFilter
-                                                        ? `(${count})`
-                                                        : ""
-                                                } `}
-                                            />
-                                        );
+                                    if (previouslyFiltered) {
+                                        previouslyFiltered.forEach(listItem => {
+                                            if (value.filterPopulator(listItem))
+                                                count++;
+                                        });
                                     }
-                                );
-                            }
-                        } else {
-                            innerContent = values.map(value => {
-                                let count = 0;
 
-                                previouslyFiltered.forEach(listItem => {
-                                    if (value.filterPopulator(listItem))
-                                        count++;
+                                    if (count == 0) {
+                                        return;
+                                    }
+
+                                    return (
+                                        <CheckboxFilter
+                                            key={value.id}
+                                            id={value.id}
+                                            text={`${value.label} (${count})`}
+                                            defaultValue={
+                                                value.defaultValue != undefined
+                                                    ? value.defaultValue
+                                                    : true
+                                            }
+                                        />
+                                    );
                                 });
+                            }
 
-                                return (
-                                    <CheckboxFilter
-                                        key={value.id}
-                                        id={value.id}
-                                        text={`${value.label} (${count})`}
-                                    />
-                                );
-                            });
-                        }
+                            if (
+                                !innerContent ||
+                                innerContent.length === 0 ||
+                                (previouslyFiltered &&
+                                    previouslyFiltered.length == 0)
+                            ) {
+                                return;
+                            }
 
-                        if (!innerContent || innerContent.length === 0) {
-                            return;
-                        }
+                            if (
+                                filter.current &&
+                                filterConf.unfilterWhenAllDisabled &&
+                                filterConf.name in filter.current
+                            ) {
+                                let isAllDisabled = Object.values(
+                                    filter.current[filterConf.name]
+                                ).every(i => !i);
 
-                        return (
-                            <React.Fragment key={name}>
-                                {useAccordion ? (
-                                    <Accordion title={label}>
-                                        <FilterGroup name={name}>
+                                if (
+                                    filterConf.unfilterWhenAllDisabled &&
+                                    isAllDisabled
+                                ) {
+                                    label += " (todos)";
+                                }
+                            }
+
+                            return (
+                                <React.Fragment key={name}>
+                                    {useAccordion ? (
+                                        <Accordion
+                                            title={label}
+                                            className="mx-0 p-0"
+                                        >
+                                            <FilterGroup name={name}>
+                                                {innerContent}
+                                            </FilterGroup>
+                                        </Accordion>
+                                    ) : (
+                                        <FilterGroup name={name} text={label} className="mb-4" headerClassName="h4">
                                             {innerContent}
                                         </FilterGroup>
-                                    </Accordion>
-                                ) : (
-                                    <FilterGroup name={name} text={label}>
-                                        {innerContent}
-                                    </FilterGroup>
-                                )}
-                            </React.Fragment>
-                        );
-                    })}
-                </Filter>
-            </div>
+                                    )}
+                                </React.Fragment>
+                            );
+                        })}
+                    </Filter>
+                </div>
+            </Accordion>
 
             {filtered.length > 0 ? (
                 <React.Fragment>
@@ -189,7 +239,9 @@ const GenericFilter = ({
 
                         return (
                             <React.Fragment key={conf.header}>
-                                <h2 className="mt-4 h3">{conf.header}</h2>
+                                <h2 className="mt-4 h3">
+                                    {conf.header} ({innerContent.length})
+                                </h2>
                                 <hr className="mb-4" />
                                 <div className="d-flex flex-column-reverse">
                                     {innerContent}

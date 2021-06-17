@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\IncidenciaValidacion;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProduccionTransitoFinProduccion extends ApiController
@@ -25,15 +26,9 @@ class ProduccionTransitoFinProduccion extends ApiController
         return $this->showAll($produccion_transito->finProduccion);
     }
 
-    public function store(Request $request, $produccion_transito_id)
+    public function store(IncidenciaValidacion $request, $produccion_transito_id)
     {
-        $validator = Validator::make($request->all(), $this->validator_array);
-
-        if ($validator->fails())
-        {
-            return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
-        }
-
+        $request->validated();
 
         $fin_produccion = new FinProduccion();
         $produccion_transito = ProduccionTransito::findOrFail($produccion_transito_id);
@@ -53,13 +48,9 @@ class ProduccionTransitoFinProduccion extends ApiController
     }
 
 
-    public function update(Request $request, $fin_produccion_id)
+    public function update(IncidenciaValidacion $request, $fin_produccion_id)
     {
-        $validator = Validator::make($request->all(), $this->validator_array);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
-        }
+        $request->validated();
 
         $fin_produccion_show = FinProduccion::findOrFail($fin_produccion_id);
 

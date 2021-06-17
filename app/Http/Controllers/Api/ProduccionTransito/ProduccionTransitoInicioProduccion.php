@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\IncidenciaValidacion;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProduccionTransitoInicioProduccion extends ApiController
@@ -22,13 +23,9 @@ class ProduccionTransitoInicioProduccion extends ApiController
         return $this->showAll($inicioProduccion);
     }
 
-    public function store(Request $request)
+    public function store(IncidenciaValidacion $request)
     {
-        $validator = Validator::make($request->all(), $this->validator_array);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
-        }
+        $request->validated();
 
         $inicioProduccion = new InicioProduccion();
         $inicioProduccion->produccion_transito_id = $request->produccion_transito_id;
@@ -42,23 +39,18 @@ class ProduccionTransitoInicioProduccion extends ApiController
 
     public function show($inicioProduccion_id)
     {
-
     }
 
-    public function update(Request $request, $inicioProduccion_id)
+    public function update(IncidenciaValidacion $request, $inicioProduccion_id)
     {
-        $validator = Validator::make($request->all(), $this->validator_array);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
-        }
+        $request->validated();
 
         $inicioProduccion = InicioProduccion::findOrFail($inicioProduccion_id);
         $inicioProduccion->update($request->all());
         $inicioProduccion->save();
         return $this->showOne($inicioProduccion);
     }
-    
+
     public function destroy($inicioProduccion_id)
     {
         $inicioProduccion = InicioProduccion::findOrFail($inicioProduccion_id);

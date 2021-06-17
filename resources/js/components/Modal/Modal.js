@@ -1,17 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useDispatch, useSelector } from "react-redux";
-import { closeModal } from "../../store/actions/modalActions";
+import { closeModal, removeModalCloseCallback } from "../../store/actions/modalActions";
 
 const Modal = () => {
     const dispatch = useDispatch();
     const isOpen = useSelector(store => store.modal.isOpen);
     const title = useSelector(store => store.modal.title);
     const body = useSelector(store => store.modal.body);
+    const onClose = useSelector(store => store.modal.onClose);
 
     const handleClose = () => {
         dispatch(closeModal());
     };
+
+    useEffect(() => {
+        if (!isOpen) {
+            if (onClose) {
+                onClose();
+                dispatch(removeModalCloseCallback());
+            }
+        }
+    }, [isOpen]);
 
     if (!isOpen) {
         return null;
