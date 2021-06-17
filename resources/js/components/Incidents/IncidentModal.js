@@ -1,19 +1,13 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    createIncident,
-    editIncident
-} from "../../../store/actions/incidentActions";
-import InputText from "../../Form/InputText";
-import InputTextArea from "../../Form/InputTextarea";
-import GenericFormModal from "../../Table/GenericFormModal";
+import { createIncident, editIncident } from "../../store/actions/incidentActions";
+import InputText from "../Form/InputText";
+import InputTextArea from "../Form/InputTextarea";
+import GenericFormModal from "../Table/GenericFormModal";
 
-const url1 = "arte";
-const url2 = "ficha";
-
-const FichaModal = ({ formData, isEditor }) => {
+const IncidentModal = ({ stateName, url1, url2, formData, isEditor }) => {
     const dispatch = useDispatch();
-    const art = useSelector(state => state.art.current);
+    const art = useSelector(state => state[stateName].current);
 
     const onSubmit = data => {
         if (isEditor) {
@@ -38,4 +32,4 @@ const FichaModal = ({ formData, isEditor }) => {
     );
 };
 
-export default FichaModal;
+export default IncidentModal;

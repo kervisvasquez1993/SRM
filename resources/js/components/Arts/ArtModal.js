@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getArt } from "../../store/actions/artActions";
-import IncidentsTab from "../Incidents/Editor/IncidentsTab";
+import IncidentsTab from "../Incidents/IncidentsTab";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import TabButton from "../UI/TabButton";
 import TabContent from "../UI/TabContent";
 import Tabs from "../UI/Tabs";
-import FichaTab from "./Ficha/FichaTab";
 
 const ArtModal = ({ id }) => {
     const dispatch = useDispatch();

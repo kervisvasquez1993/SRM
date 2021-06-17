@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getArts } from "../../store/actions/artActions";
-import { getProductions } from "../../store/actions/productionActions";
-import GenericFilter from "../Filters/GenericFilter";
 import EmptyList from "../Navigation/EmptyList";
 import ArtCard from "./ArtCard";
 

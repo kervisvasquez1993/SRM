@@ -1,8 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { openArtModal, updateArt } from "../../store/actions/artActions";
-import { openModal } from "../../store/actions/modalActions";
-import ArtModal from "./ArtModal";
 
 const options = [
     {

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProduction } from "../../store/actions/productionActions";
-import IncidentsTab from "../Incidents/Editor/IncidentsTab";
+import IncidentsTab from "../Incidents/IncidentsTab";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import TabButton from "../UI/TabButton";
 import TabContent from "../UI/TabContent";
