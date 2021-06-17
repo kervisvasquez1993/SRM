@@ -66,6 +66,7 @@ export function updateArt(data) {
 
 export function openArtModal(id, defaultTab = "ficha") {
     return async (dispatch, _getState) => {
+        console.log(defaultTab)
         dispatch(
             openModal({
                 title: "Hola",

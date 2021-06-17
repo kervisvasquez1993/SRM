@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getArt } from "../../store/actions/artActions";
+import IncidentsTab from "../Incidents/Editor/IncidentsTab";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import TabButton from "../UI/TabButton";
 import TabContent from "../UI/TabContent";
@@ -13,7 +14,7 @@ const ArtModal = ({ id, defaultTab = "ficha" }) => {
 
     useEffect(() => {
         dispatch(getArt(id));
-    }, [])
+    }, []);
 
     if (!art) {
         return <LoadingScreen />;
@@ -52,19 +53,45 @@ const ArtModal = ({ id, defaultTab = "ficha" }) => {
 
                         <div className="tab-content tab-space p-2">
                             <TabContent name="ficha">
-                                <FichaTab />
+                                {/* <FichaTab /> */}
+                                <IncidentsTab
+                                    stateName="art"
+                                    url1="arte"
+                                    url2="ficha"
+                                    title="Incidencias con Creación de Fichas"
+                                />
                             </TabContent>
                             <TabContent name="validacion_ficha">
-                                Hello World 2
+                                <IncidentsTab
+                                    stateName="art"
+                                    url1="arte"
+                                    url2="validacion_ficha"
+                                    title="Incidencias con Validación de Fichas"
+                                />
                             </TabContent>
                             <TabContent name="boceto">
-                                Hello World 3
+                                <IncidentsTab
+                                    stateName="art"
+                                    url1="arte"
+                                    url2="boceto"
+                                    title="Incidencias con Bocetos"
+                                />
                             </TabContent>
                             <TabContent name="validacion_boceto">
-                                Hello World 4
+                                <IncidentsTab
+                                    stateName="art"
+                                    url1="arte"
+                                    url2="validacion_boceto"
+                                    title="Incidencias con Validación de Bocetos"
+                                />
                             </TabContent>
                             <TabContent name="confirmacion_proveedor">
-                                Hello World 5
+                                <IncidentsTab
+                                    stateName="art"
+                                    url1="arte"
+                                    url2="confirmacion_proveedor"
+                                    title="Incidencias con Confirmación de Proveedor"
+                                />
                             </TabContent>
                         </div>
                     </Tabs>
