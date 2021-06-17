@@ -87,7 +87,7 @@ Route::middleware('auth.jwt')->group(function () {
     //produccion y transito 
 
    Route::get('/produccion_transito', 'Api\ProduccionTransito\ProduccionTransitoController@index');
-   Route::get('/produccion_transito/{produccion_transito_id}', 'Api\ProduccionTransito\ProduccionTransitoController@show');
+   Route::get('/produccion_transito/{produccionTransito}', 'Api\ProduccionTransito\ProduccionTransitoController@show');
    Route::put('/produccion_transito/{produccionTransito}', 'Api\ProduccionTransito\ProduccionTransitoController@update');
 
 

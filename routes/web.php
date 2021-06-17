@@ -17,6 +17,10 @@ use App\Http\Controllers\PerfilController;
 |
 */
 
+Route::view('/{path?}', 'dashboard')
+    ->where('path', '.*')
+    ->name('react');
+
 /* Route::get('/', 'InicioController@index'); */
 
 

@@ -8,6 +8,7 @@ use App\TransitoNacionalizacion;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\IncidenciaValidacion;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProduccionTransitoNacionalizacionController extends ApiController
@@ -24,13 +25,9 @@ class ProduccionTransitoNacionalizacionController extends ApiController
     }
 
 
-    public function store(Request $request, $produccion_transito_id)
+    public function store(IncidenciaValidacion $request, $produccion_transito_id)
     {
-        $validator = Validator::make($request->all(), $this->validator_array);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
-        }
+        $request->validated();
 
         $produccionTransito = ProduccionTransito::findOrFail($produccion_transito_id);
 
@@ -51,13 +48,9 @@ class ProduccionTransitoNacionalizacionController extends ApiController
     }
 
 
-    public function update(Request $request, $incidencias_transito_id)
+    public function update(IncidenciaValidacion $request, $incidencias_transito_id)
     {
-        $validator = Validator::make($request->all(), $this->validator_array);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
-        }
+        $request->validated();
 
         $incidencias_transito = TransitoNacionalizacion::findOrFail($incidencias_transito_id);
         $incidencias_transito->update($request->all());

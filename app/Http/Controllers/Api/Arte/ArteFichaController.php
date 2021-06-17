@@ -26,7 +26,7 @@ class ArteFichaController extends ApiController
     public function store(IncidenciaValidacion $request, $arte_id)
     {
 
-        $validated = $request->validated();
+        $request->validated();
         $arte = Arte::findOrFail($arte_id);
         $arte_ficha = new Ficha();
         $arte_ficha->arte_id = $arte->id;
@@ -46,7 +46,7 @@ class ArteFichaController extends ApiController
 
     public function update(IncidenciaValidacion $request, $fichaId)
     {
-        $validated = $request->validated();
+        $request->validated();
         $ficha = Ficha::findOrFail($fichaId);
         $ficha->update($request->all());
         $ficha->save();
