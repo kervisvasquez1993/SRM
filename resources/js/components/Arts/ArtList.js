@@ -18,6 +18,7 @@ const ArtList = () => {
                 name: categoryValue,
                 type: "checkbox",
                 label: categoryLabel,
+                unfilterWhenAllDisabled: true,
                 values: options.map(
                     ({ value: optionValue, label: optionLabel }) => {
                         const id = categoryValue + optionValue;

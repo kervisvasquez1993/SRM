@@ -39,7 +39,7 @@ const GenericFilter = ({
                             break;
                         }
                     }*/
-                    if (!isAllDisabled) {
+                    if (!filterConf.unfilterWhenAllDisabled || !isAllDisabled) {
                         filterConf.values.forEach(subConfig => {
                             list = list.filter(item =>
                                 subConfig.filter(item, filter)
@@ -135,6 +135,10 @@ const GenericFilter = ({
                                         if (value.filterPopulator(listItem))
                                             count++;
                                     });
+                                }
+
+                                if (count == 0) {
+                                    return;
                                 }
 
                                 return (
