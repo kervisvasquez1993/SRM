@@ -54,7 +54,7 @@ const incidentReducer = (state = defaultState, action) => {
                 ...state,
                 errors: {},
                 isEditing: false
-            }
+            };
 
         default:
             return state;

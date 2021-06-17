@@ -5,10 +5,7 @@ const defaultState = {
     payments: [],
     isEditing: false,
     errors: {},
-    arePaymentsLoading: false,
-
-    incidents: [],
-    areIncidentsLoading: false
+    arePaymentsLoading: false
 };
 
 const negotiationReducer = (state = defaultState, action) => {
@@ -21,7 +18,7 @@ const negotiationReducer = (state = defaultState, action) => {
                 errors: {},
                 payments: [],
                 arePaymentsLoading: false,
-                current: null,
+                current: null
             };
         case "GET_PRODUCTIONS_REQUEST":
             return {
@@ -98,28 +95,6 @@ const negotiationReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 payments: state.payments.filter(item => item.id != payload)
-            };
-
-        case "GET_INCIDENTS_REQUEST":
-            return {
-                ...state,
-                areIncidentsLoading: true
-            };
-        case "GET_INCIDENTS_SUCCESS":
-            return {
-                ...state,
-                incidents: payload,
-                areIncidentsLoading: false
-            };
-        case "GET_INCIDENTS_FAILURE":
-            return {
-                ...state,
-                areIncidentsLoading: false
-            };
-        case "DELETE_INCIDENT_SUCCESS":
-            return {
-                ...state,
-                incidents: state.incidents.filter(item => item.id != payload)
             };
 
         case "FORM_SUBMIT_REQUEST":
