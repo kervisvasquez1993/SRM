@@ -29,10 +29,10 @@ const ArtList = () => {
                             filter: (item, filters) =>
                                 !(
                                     filters[categoryValue][id] === false &&
-                                    item.creacion_fichas === optionValue
+                                    item[categoryValue] === optionValue
                                 ),
                             filterPopulator: item =>
-                                item.creacion_fichas === optionValue
+                                item[categoryValue] === optionValue
                         };
                     }
                 )
