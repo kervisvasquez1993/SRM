@@ -39,11 +39,11 @@ const Sidebar = () => {
                 {user.rol === "coordinador" && (
                     <Link
                         className="menu-link"
-                        to="/create-user"
+                        to="/users"
                         onClick={closeMenu}
                     >
                         <i className="material-icons">person</i>
-                        <p>Crear Usuario</p>
+                        <p>Usuarios</p>
                     </Link>
                 )}
 

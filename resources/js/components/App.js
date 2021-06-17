@@ -20,6 +20,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import ProductionList from "./Productions/ProductionList";
 import ArtList from "./Arts/ArtList";
+import UserList from "./Users/UserList";
 
 axios.interceptors.response.use(
     response => {
@@ -108,6 +109,9 @@ const App = () => {
                             </Route>
                             <Route path="/home">
                                 <Example />
+                            </Route>
+                            <Route path="/users">
+                                <UserList />
                             </Route>
                             <Route exact path="/tasks">
                                 <TaskList />
