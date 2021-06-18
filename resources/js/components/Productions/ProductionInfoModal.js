@@ -3,9 +3,9 @@ import ProductsTab from "../Products/ProductsTab";
 import ProviderTab from "../Providers/ProviderTab";
 import PurchaseTab from "../Purchases/PurchaseTab";
 import TaskTab from "../Tasks/TaskTab";
-import TabButton from "../UI/TabButton";
-import TabContent from "../UI/TabContent";
-import Tabs from "../UI/Tabs";
+import TabButton from "../Widgets/TabButton";
+import TabContent from "../Widgets/TabContent";
+import Tabs from "../Widgets/Tabs";
 
 const ProductionModal = ({ production }) => {
     const {

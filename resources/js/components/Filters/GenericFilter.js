@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import EmptyList from "../Navigation/EmptyList";
-import Accordion from "../UI/Accordion";
+import Accordion from "../Widgets/Accordion";
 import CheckboxFilter from "./CheckboxFilter";
 import Filter from "./Filter";
 import FilterGroup from "./FilterGroup";
@@ -8,7 +8,10 @@ import FilterGroup from "./FilterGroup";
 const GenericFilter = ({
     config = [],
     unfilteredData = [],
-    populatorConfig = []
+    populatorConfig = [],
+    children = null,
+    onChange = null,
+    setFilteredList = null
 }) => {
     const filter = useRef(null);
     const [filtered, setFiltered] = useState([...unfilteredData]);
@@ -18,6 +21,12 @@ const GenericFilter = ({
     useEffect(() => {
         applyFilter(filter.current);
     }, [unfilteredData]);
+
+    useEffect(() => {
+        if (onChange) {
+            onChange(filtered);
+        }
+    }, [filtered]);
 
     const applyFilter = filter => {
         let list = [...unfilteredData];
@@ -54,6 +63,10 @@ const GenericFilter = ({
 
         setAfterFilters(afterResult);
         setFiltered(list);
+
+        if (setFilteredList) {
+            setFilteredList(list);
+        }
     };
 
     const getPreviousFilteredList = index => {
@@ -196,7 +209,12 @@ const GenericFilter = ({
                                             </FilterGroup>
                                         </Accordion>
                                     ) : (
-                                        <FilterGroup name={name} text={label} className="mb-4" headerClassName="h4">
+                                        <FilterGroup
+                                            name={name}
+                                            text={label}
+                                            className="mb-4"
+                                            headerClassName="h4"
+                                        >
                                             {innerContent}
                                         </FilterGroup>
                                     )}
@@ -206,6 +224,8 @@ const GenericFilter = ({
                     </Filter>
                 </div>
             </Accordion>
+
+            {children}
 
             {filtered.length > 0 ? (
                 <React.Fragment>

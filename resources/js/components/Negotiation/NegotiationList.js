@@ -433,7 +433,7 @@
 
 // export default NegotiationList;
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { getNegotiations } from "../../store/actions/negotiationActions";
@@ -441,10 +441,13 @@ import { getUsers } from "../../store/actions/userActions";
 import GenericFilter from "../Filters/GenericFilter";
 import NegotiationCard from "./NegotiationCard";
 
+import NegotiationResume from "../Widgets/NegotiationResume";
+
 const NegotiationList = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.auth.user);
     const negotiations = useSelector(state => state.negotiation.negotiations);
+    const [filteredNegotiations, setFilteredNegotiations] = useState([]);
 
     if (!(user.rol == "coordinador" || user.rol == "observador")) {
         return <Redirect to="/home" />;
@@ -557,7 +560,10 @@ const NegotiationList = () => {
                 config={filterConfig}
                 unfilteredData={negotiations}
                 populatorConfig={populatorConfig}
-            />
+                setFilteredList={setFilteredNegotiations}
+            >
+                <NegotiationResume negotiations={filteredNegotiations} />
+            </GenericFilter>
         </React.Fragment>
     );
 };

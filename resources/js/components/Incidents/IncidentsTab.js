@@ -6,7 +6,7 @@ import { emptyIncident, getIncidents } from "../../store/actions/incidentActions
 import { openModal } from "../../store/actions/modalActions";
 import EmptyList from "../Navigation/EmptyList";
 import LoadingScreen from "../Navigation/LoadingScreen";
-import LargeCreateButton from "../UI/LargeCreateButton";
+import LargeCreateButton from "../Widgets/LargeCreateButton";
 
 const IncidentsTab = ({ stateName, url1, url2, title }) => {
     const dispatch = useDispatch();

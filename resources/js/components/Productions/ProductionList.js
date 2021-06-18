@@ -1,12 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductions } from "../../store/actions/productionActions";
 import GenericFilter from "../Filters/GenericFilter";
+import NegotiationResume from "../Widgets/NegotiationResume";
 import ProductionCard from "./ProductionCard";
 
 const ProductionList = () => {
     const dispatch = useDispatch();
     const productions = useSelector(state => state.production.list);
+    const [filteredNegotiations, setFilteredNegotiations] = useState([]);
+
+    const onChange = filteredList => {
+        setFilteredNegotiations(filteredList.map(item => item.pivot));
+    };
 
     useEffect(() => {
         dispatch(getProductions());
@@ -66,7 +72,8 @@ const ProductionList = () => {
             label: "Ciudad",
             useAccordion: true,
             values: item => item.pivot.proveedor.ciudad,
-            filter: (item, filters) => filters.city[item.pivot.proveedor.ciudad],
+            filter: (item, filters) =>
+                filters.city[item.pivot.proveedor.ciudad],
             counterFilter: (item, id) => item.pivot.proveedor.ciudad === id
         },
         {
@@ -106,19 +113,10 @@ const ProductionList = () => {
                 config={filterConfig}
                 unfilteredData={productions}
                 populatorConfig={populatorConfig}
-            />
-
-            {/* {productions.length > 0 ? (
-                <div className="d-flex flex-column-reverse">
-                    {productions.map(item => {
-                        return (
-                            <ProductionCard key={item.id} production={item} />
-                        );
-                    })}
-                </div>
-            ) : (
-                <EmptyList />
-            )} */}
+                onChange={onChange}
+            >
+                <NegotiationResume negotiations={filteredNegotiations} />
+            </GenericFilter>
         </React.Fragment>
     );
 };
