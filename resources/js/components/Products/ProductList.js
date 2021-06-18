@@ -5,7 +5,7 @@ import { deleteProduct } from "../../store/actions/productActions";
 import ProductFormModal from "../Products/ProductFormModal";
 
 import EmptyList from "../Navigation/EmptyList";
-import { getSum } from "../../utils";
+import { getSum, roundMoneyAmount } from "../../utils";
 import { useParams } from "react-router-dom";
 import LargeCreateButton from "../Widgets/LargeCreateButton";
 import CreateProductModal from "./CreateProductModal";
@@ -109,10 +109,10 @@ const ProductsList = () => {
                                         <td>{product.cbm}</td>
                                         <td>{product.n_w_ctn}</td>
                                         <td>{product.g_w_ctn}</td>
-                                        <td>{product.total_cbm}</td>
-                                        <td>{product.total_n_w}</td>
-                                        <td>{product.total_g_w}</td>
-                                        <td>{product.total_ctn}</td>
+                                        <td>{roundMoneyAmount(product.total_cbm)}</td>
+                                        <td>{roundMoneyAmount(product.total_n_w)}</td>
+                                        <td>{roundMoneyAmount(product.total_g_w)}</td>
+                                        <td>{roundMoneyAmount(product.total_ctn)}</td>
                                         <td className="text-right">
                                             <div className="d-inline-flex align-items-center">
                                                 {product.corregido_total_pcs}
@@ -155,11 +155,11 @@ const ProductsList = () => {
                                 <th scope="row" colSpan="17">
                                     Total
                                 </th>
-                                <td>{getSum(products, "total_cbm")}</td>
-                                <td>{getSum(products, "total_n_w")}</td>
-                                <td>{getSum(products, "total_g_w")}</td>
-                                <td>{getSum(products, "total_ctn")}</td>
-                                <td>{getSum(products, "corregido_total_pcs")}</td>
+                                <td>{roundMoneyAmount(getSum(products, "total_cbm"))}</td>
+                                <td>{roundMoneyAmount(getSum(products, "total_n_w"))}</td>
+                                <td>{roundMoneyAmount(getSum(products, "total_g_w"))}</td>
+                                <td>{roundMoneyAmount(getSum(products, "total_ctn"))}</td>
+                                <td>{roundMoneyAmount(getSum(products, "corregido_total_pcs"))}</td>
                             </tr>
                         </tbody>
                     </table>
