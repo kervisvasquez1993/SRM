@@ -71,3 +71,36 @@ export function deleteProduct(data) {
         }
     };
 }
+
+export function uploadProductForNegotiation(pivotId, file) {
+    return async dispatch => {
+        dispatch({
+            type: "UPLOADING_PRODUCT_REQUEST"
+        });
+
+        try {
+            let formData = new FormData();
+            formData.append("import", file);
+
+            await axios.post(
+                `${apiURL}/negociacion/${pivotId}}/importar-producto/`,
+                formData
+            );
+
+            dispatch({
+                type: "UPLOADING_PRODUCT_SUCCESS"
+            });
+
+            dispatch(closeModal());
+            dispatch(getProductsFromNegotiation(pivotId));
+            
+            document
+                .querySelector("#wrapper")
+                .scrollTo(0, 10000000000000000000);
+
+            toast.success("✔️ Productos importados");
+        } catch (e) {
+            console.log(e);
+        }
+    };
+}

@@ -1,5 +1,6 @@
 const defaultState = {
-    products: []
+    products: [],
+    isUploadingFile: false
 };
 
 const productReducer = (state = defaultState, action) => {
@@ -11,7 +12,13 @@ const productReducer = (state = defaultState, action) => {
                 ...state,
                 products: []
             };
-        
+
+        case "MODAL_CLOSE":
+            return {
+                ...state,
+                isUploadingFile: true
+            };
+
         case "GET_PRODUCTS_REQUEST":
             return {
                 ...state
@@ -48,7 +55,6 @@ const productReducer = (state = defaultState, action) => {
                 isEditing: false
             };
 
-        
         case "DELETE_PRODUCT_SUCCESS":
             const _newProducts = state.products.filter(
                 product => product.id != payload.id
@@ -58,7 +64,18 @@ const productReducer = (state = defaultState, action) => {
                 ...state,
                 products: _newProducts
             };
-        
+
+        case "UPLOADING_PRODUCT_REQUEST":
+            return {
+                ...state,
+                isUploadingFile: true
+            };
+        case "UPLOADING_PRODUCT_SUCCESS":
+            return {
+                ...state,
+                isUploadingFile: false
+            };
+
         default:
             return state;
     }

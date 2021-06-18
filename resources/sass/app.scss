@@ -83,3 +83,20 @@
 table, .table-text, .table thead tr th {
     font-size: 0.9rem !important;
 }
+
+
+.dropzone {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    border-width: 2px;
+    border-radius: 2px;
+    border-color: #8c8c8c;
+    border-style: dashed;
+    background-color: #fafafa;
+    color: #707070;
+    outline: none;
+    transition: border .24s ease-in-out;
+}

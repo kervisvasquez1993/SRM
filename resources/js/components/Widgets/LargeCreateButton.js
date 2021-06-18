@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const LargeCreateButton = ({ onClick }) => {
+const LargeCreateButton = ({ onClick, label = "Agregar" }) => {
     return (
         <div className="text-center">
             <button
@@ -8,7 +8,7 @@ const LargeCreateButton = ({ onClick }) => {
                 onClick={onClick}
             >
                 <span className="material-icons mr-1">add</span>
-                Agregar
+                {label}
             </button>
         </div>
     );
