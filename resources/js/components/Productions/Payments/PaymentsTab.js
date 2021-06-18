@@ -2,13 +2,20 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../../store/actions/modalActions";
 import { getPayments } from "../../../store/actions/productionActions";
-import { getPaymentsInfoFromProduction, getSum, roundMoneyAmount } from "../../../utils";
+import {
+    getPaymentsInfoFromProduction,
+    getSum,
+    roundMoneyAmount,
+    useUser
+} from "../../../utils";
 import EmptyList from "../../Navigation/EmptyList";
 import LoadingScreen from "../../Navigation/LoadingScreen";
+import LargeCreateButton from "../../UI/LargeCreateButton";
 import PaymentModal, { emptyPayment } from "./PaymentModal";
 import PaymentRow from "./PaymentRow";
 
 const PaymentsTab = ({ production }) => {
+    const user = useUser();
     const dispatch = useDispatch();
     const payments = useSelector(state => state.production.payments);
     const arePaymentsLoading = useSelector(
@@ -132,15 +139,9 @@ const PaymentsTab = ({ production }) => {
                     <div className="card py-5 px-3">
                         {payments.length === 0 && <EmptyList />}
 
-                        <div className="text-center">
-                            <button
-                                className="btn btn-lg btn-success btn-round mb-4"
-                                onClick={handleCreate}
-                            >
-                                <span className="material-icons">add</span>
-                                Agregar
-                            </button>
-                        </div>
+                        {user.rol === "coordinador" && (
+                            <LargeCreateButton onClick={handleCreate} />
+                        )}
 
                         {payments.length > 0 && (
                             <React.Fragment>
@@ -164,9 +165,11 @@ const PaymentsTab = ({ production }) => {
                                                 <th scope="col text-center">
                                                     Monto
                                                 </th>
-                                                <th scope="col text-center">
-                                                    Acciones
-                                                </th>
+                                                {user.rol === "coordinador" && (
+                                                    <th scope="col text-center">
+                                                        Acciones
+                                                    </th>
+                                                )}
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -185,7 +188,12 @@ const PaymentsTab = ({ production }) => {
                                                     Total
                                                 </th>
                                                 <td>
-                                                    {roundMoneyAmount(getSum(payments, "monto"))}
+                                                    {roundMoneyAmount(
+                                                        getSum(
+                                                            payments,
+                                                            "monto"
+                                                        )
+                                                    )}
                                                 </td>
                                                 <td></td>
                                             </tr>
