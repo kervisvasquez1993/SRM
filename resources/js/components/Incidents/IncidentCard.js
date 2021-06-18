@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteIncident } from "../../store/actions/incidentActions";
 import { openModal } from "../../store/actions/modalActions";
 import { dateToShortString } from "../../utils";
-import SeeMoreText from "../UI/SeeMoreText";
+import SeeMoreText from "../Widgets/SeeMoreText";
 import IncidentModal from "./IncidentModal";
 
 const IncidentCard = ({ stateName, url1, url2, incident }) => {

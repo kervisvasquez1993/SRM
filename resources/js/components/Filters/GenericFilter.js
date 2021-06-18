@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import EmptyList from "../Navigation/EmptyList";
-import Accordion from "../UI/Accordion";
+import Accordion from "../Widgets/Accordion";
 import CheckboxFilter from "./CheckboxFilter";
 import Filter from "./Filter";
 import FilterGroup from "./FilterGroup";

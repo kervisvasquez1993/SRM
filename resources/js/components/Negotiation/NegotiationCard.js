@@ -7,7 +7,7 @@ import {
     greenCard,
     hasNoProducts
 } from "../../utils";
-import Accordion from "../UI/Accordion";
+import Accordion from "../Widgets/Accordion";
 import NegotiationModal from "./NegotiationModal";
 
 const NegotiationCard = ({ negotiation }) => {

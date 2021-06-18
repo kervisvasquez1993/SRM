@@ -440,8 +440,8 @@ import { getNegotiations } from "../../store/actions/negotiationActions";
 import { getUsers } from "../../store/actions/userActions";
 import { filterNegotiations, getSum } from "../../utils";
 import GenericFilter from "../Filters/GenericFilter";
-import Accordion from "../UI/Accordion";
-import SmallCard from "../UI/SmallCard";
+import Accordion from "../Widgets/Accordion";
+import SmallCard from "../Widgets/SmallCard";
 import NegotiationCard from "./NegotiationCard";
 
 import { BiCubeAlt } from "react-icons/bi";

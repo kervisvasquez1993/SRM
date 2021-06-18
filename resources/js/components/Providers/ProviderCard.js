@@ -4,7 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
 import { startNegotiation } from "../../store/actions/providerActions";
 import { blueCard, greenCard, normalCard, redCard, useUser } from "../../utils";
-import Accordion from "../UI/Accordion";
+import Accordion from "../Widgets/Accordion";
 import ProviderFormModal from "./ProviderFormModal";
 
 const ProviderCard = ({ provider, selectedProvider }) => {
