@@ -2,10 +2,11 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../../store/actions/modalActions";
 import { deletePayment } from "../../../store/actions/productionActions";
-import { dateToShortString } from "../../../utils";
+import { dateToShortString, useUser } from "../../../utils";
 import PaymentModal from "./PaymentModal";
 
 const PaymentRow = ({ index, payment, production }) => {
+    const user = useUser();
     const dispatch = useDispatch();
 
     const handleEdit = product => {
@@ -61,26 +62,28 @@ const PaymentRow = ({ index, payment, production }) => {
             <td>{payment.user.name}</td>
             <td>{dateToShortString(new Date(payment.fecha))}</td>
             <td>{payment.monto}</td>
-            <td className="text-right">
-                <div className="d-flex justify-content-start">
-                    <button
-                        className="btn btn-success btn-circle ml-3"
-                        type="button"
-                        onClick={() => handleEdit(payment)}
-                    >
-                        <span className="material-icons">edit</span>
-                    </button>
-                    {payment.tipo != "Pago Anticipado" && (
+            {user.rol === "coordinador" && (
+                <td className="text-right">
+                    <div className="d-flex justify-content-start">
                         <button
-                            className="btn btn-danger btn-circle"
+                            className="btn btn-success btn-circle ml-3"
                             type="button"
-                            onClick={() => handleDelete(payment)}
+                            onClick={() => handleEdit(payment)}
                         >
-                            <span className="material-icons">clear</span>
+                            <span className="material-icons">edit</span>
                         </button>
-                    )}
-                </div>
-            </td>
+                        {payment.tipo != "Pago Anticipado" && (
+                            <button
+                                className="btn btn-danger btn-circle"
+                                type="button"
+                                onClick={() => handleDelete(payment)}
+                            >
+                                <span className="material-icons">clear</span>
+                            </button>
+                        )}
+                    </div>
+                </td>
+            )}
         </tr>
     );
 };
