@@ -74,9 +74,7 @@ class ProductosImport implements ToModel, WithStartRow,WithCalculatedFormulas
             'total_g_w' => 'required',            
         ]);
 
-        if ($validator->fails())   {
-            return null;
-        }
+       
 
         return new Producto($product);
     }

@@ -148,7 +148,7 @@ class ProductoController extends ApiController
     {
         $archivo = $request->file('import');
         $id_pivot =  $pivot_tarea_proveeder_id->id;
-        Excel::import(new ProductosImport($pivot_tarea_proveeder_id->id), $archivo);
+        Excel::import(new ProductosImport($id_pivot), $archivo);
         
         return response()->json('cargado');
         

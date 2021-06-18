@@ -15,12 +15,12 @@ class CreateComprasTable extends Migration
     {
         Schema::create('compras', function (Blueprint $table) {
             $table->id();
-            $table->string('orden_compra');
             $table->foreignId('pivot_tarea_proveeder_id')->references('id')->on('pivot_tarea_proveeders');
             $table->string('item');
             $table->text('descripcion');
             $table->string('registro_salud');
-            $table->double('cantidad_pcs');
+            $table->double('cantidad_ctns');
+            $table->double('price');
             $table->double('total');
             $table->unsignedBigInteger('comprador');
             $table->timestamps();
