@@ -3,7 +3,7 @@ import React, { createContext, useState } from "react";
 export const TabContext = createContext(null);
 
 const Tabs = props => {
-    const {defaultTab} = props;
+    const { defaultTab } = props;
 
     const [currentTab, setCurrentTab] = useState(defaultTab);
 

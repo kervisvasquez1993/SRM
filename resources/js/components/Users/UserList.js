@@ -5,7 +5,7 @@ import { openModal } from "../../store/actions/modalActions";
 import { getUsers } from "../../store/actions/userActions";
 import { useUser } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
-import LargeCreateButton from "../UI/LargeCreateButton";
+import LargeCreateButton from "../Widgets/LargeCreateButton";
 import UserCard from "./UserCard";
 import UserModal from "./UserModal";
 

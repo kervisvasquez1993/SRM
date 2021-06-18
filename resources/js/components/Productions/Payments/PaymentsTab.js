@@ -10,7 +10,7 @@ import {
 } from "../../../utils";
 import EmptyList from "../../Navigation/EmptyList";
 import LoadingScreen from "../../Navigation/LoadingScreen";
-import LargeCreateButton from "../../UI/LargeCreateButton";
+import LargeCreateButton from "../../Widgets/LargeCreateButton";
 import PaymentModal, { emptyPayment } from "./PaymentModal";
 import PaymentRow from "./PaymentRow";
 

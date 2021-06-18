@@ -5,7 +5,8 @@ const Accordion = ({
     title,
     defaultState = "closed",
     className = "card my-2",
-    headerClassName = "card-header p-0"
+    headerClassName = "card-header p-0",
+    bodyClassName = "card-body"
 }) => {
     const [isOpen, setIsOpen] = useState(defaultState === "open" && true);
 
@@ -32,7 +33,7 @@ const Accordion = ({
             </div>
 
             <div className={`collapse ${isOpen ? "show" : ""}`}>
-                <div className="card-body">{children}</div>
+                <div className={bodyClassName}>{children}</div>
             </div>
         </div>
     );
