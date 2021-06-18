@@ -22,8 +22,6 @@ const IncidentModal = ({ stateName, url1, url2, formData, isEditor }) => {
     return (
         <GenericFormModal
             formData={formData}
-            storeName="incident"
-            isEditor={isEditor}
             onSubmit={onSubmit}
         >
             <InputText id="titulo" label="Titulo" />

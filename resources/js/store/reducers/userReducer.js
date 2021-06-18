@@ -19,6 +19,12 @@ const userReducer = (state = defaultState, action) => {
             return {
                 ...state
             };
+
+        case "CREATE_USER_SUCCESS":
+            return {
+                ...state,
+                users: [...state.users, payload]
+            }
         default:
             return state;
     }

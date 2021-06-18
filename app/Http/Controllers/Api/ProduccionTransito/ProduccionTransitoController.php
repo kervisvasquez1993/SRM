@@ -35,40 +35,38 @@ class ProduccionTransitoController extends ApiController
     public function update(Request $request, ProduccionTransito $produccionTransito)
     {
 
-        if($request->inicio_produccion == 0 && $produccionTransito->fin_produccion == 1)
-        {
-            return $this->errorResponse('ya finalizo la produccion no puede desmarcar inicio de produccion', Response::HTTP_BAD_REQUEST);        
-        }   
-        if($request->pago_balance == 1  && $produccionTransito->pagos_anticipados == 0 )
-        {
-            return $this->errorResponse('Debe agregar antes un pago anticipado  pago de balance', Response::HTTP_BAD_REQUEST);        
-        }   
-        
-        if( $request->salida_puero_origen == 1
-            && $produccionTransito->pagos_anticipados == 0 
-            && $produccionTransito->inicio_produccion == 0 
+        if ($request->inicio_produccion == 0 && $produccionTransito->fin_produccion == 1) {
+            return $this->errorResponse('ya finalizo la produccion no puede desmarcar inicio de produccion', Response::HTTP_BAD_REQUEST);
+        }
+        if ($request->pago_balance == 1  && $produccionTransito->pagos_anticipados == 0) {
+            return $this->errorResponse('Debe agregar antes un pago anticipado  pago de balance', Response::HTTP_BAD_REQUEST);
+        }
+
+        if (
+            $request->salida_puero_origen == 1
+            && $produccionTransito->pagos_anticipados == 0
+            && $produccionTransito->inicio_produccion == 0
             && $produccionTransito->fin_produccion == 0
             && $produccionTransito->pago_balance == 0
-            && $produccionTransito->transito_nacionalizacion == 0)
-            {
-                return $this->errorResponse('Debe tener todos los servicios finalizado', Response::HTTP_BAD_REQUEST);    
-            }
-        
+            && $produccionTransito->transito_nacionalizacion == 0
+        ) {
+            return $this->errorResponse('Debe tener todos los servicios finalizado', Response::HTTP_BAD_REQUEST);
+        }
+
         $produccionTransito->update($request->all());
         $produccionTransito->save();
-        $userAll = User::where('rol','coordinador')->get();
+        $userAll = User::where('rol', 'coordinador')->get();
         $nombreEmpresa = $produccionTransito->pivotTable->proveedor->nombre;
         $nombreTarea   = $produccionTransito->pivotTable->tarea->nombre;
-        
-        if($produccionTransito->salida_puero_origen == 1)
-        {   
+
+        if ($produccionTransito->salida_puero_origen == 1) {
             $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea salio del puerto de origen.";
             $link = "";
             $tipoNotify = "salida_puerto_origen";
-            Notification::send($userAll, new GeneralNotification($body,$link, $tipoNotify)); 
+            Notification::send($userAll, new GeneralNotification($body, $link, $tipoNotify));
         }
 
-        return $produccionTransito;
+        return $this->showOneResource(new ProduccionTransitoResource($produccionTransito));
     }
     public function destroy(ProduccionTransito $produccionTransito)
     {

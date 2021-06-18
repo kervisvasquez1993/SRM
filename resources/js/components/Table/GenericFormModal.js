@@ -6,11 +6,11 @@ import InputNumber from "../Form/InputNumber";
 import InputText from "../Form/InputText";
 
 const GenericFormModal = props => {
-    const { formData, storeName, onSubmit } = props;
+    const { formData, onSubmit } = props;
     const [data, setData] = useState({ ...formData });
 
-    const isEditing = useSelector(state => state[storeName].isEditing);
-    const errors = useSelector(state => state[storeName].errors);
+    const isEditing = useSelector(state => state.genericForm.isEditing);
+    const errors = useSelector(state => state.genericForm.errors);
 
     const handleChange = e => {
         const { id, value } = e.target;
