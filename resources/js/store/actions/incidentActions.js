@@ -46,7 +46,6 @@ export function createIncident(url1, parentId, url2, data) {
 
             dispatch(closeModal());
         } catch (e) {
-            console.log(e.response)
             dispatch({
                 type: "FORM_SUBMIT_FAILURE",
                 errors: e.response.data.error
@@ -58,7 +57,7 @@ export function createIncident(url1, parentId, url2, data) {
 export function editIncident(url, data) {
     return async (dispatch, _getState) => {
         dispatch({ type: "FORM_SUBMIT_REQUEST" });
-        
+
         try {
             const response = await axios.put(
                 `${apiURL}/${url}/${data.id}`,

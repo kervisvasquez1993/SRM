@@ -22,7 +22,7 @@ class UserController extends ApiController
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'rol' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
             'password' => 'required',
         ]);
 

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { apiURL } from "../../components/App";
+import { genericFormSubmit } from "./genericFormActions";
 import { closeModal } from "./modalActions";
 
 export function getUsers() {
@@ -22,6 +23,7 @@ export function getUsers() {
 }
 
 export function createUser(data) {
+    /*
     return async (dispatch, getState) => {
         dispatch({ type: "FORM_SUBMIT_REQUEST" });
 
@@ -45,5 +47,16 @@ export function createUser(data) {
                 errors: e.response.data
             });
         }
+    };
+    */
+    return dispatch => {
+        return genericFormSubmit(dispatch, () =>
+            axios.post(`${apiURL}/user`, data)
+        ).then(response => {
+            dispatch({
+                type: "CREATE_USER_SUCCESS",
+                payload: response
+            });
+        });
     };
 }

@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
 import { getUsers } from "../../store/actions/userActions";
+import { useUser } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
 import LargeCreateButton from "../UI/LargeCreateButton";
 import UserCard from "./UserCard";
@@ -16,7 +18,12 @@ const emptyUser = {
 
 const UserList = () => {
     const dispatch = useDispatch();
+    const user = useUser();
     const users = useSelector(state => state.user.users);
+
+    if (user.rol !== "coordinador") {
+        return <Redirect to="/home" />;
+    }
 
     useEffect(() => {
         dispatch(getUsers());

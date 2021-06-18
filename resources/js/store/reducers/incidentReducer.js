@@ -31,24 +31,6 @@ const incidentReducer = (state = defaultState, action) => {
                 incidents: state.incidents.filter(item => item.id != payload)
             };
 
-        case "FORM_SUBMIT_REQUEST":
-            return {
-                ...state,
-                isEditing: true
-            };
-        case "FORM_SUBMIT_SUCCESS":
-            return {
-                ...state,
-                errors: {},
-                isEditing: false
-            };
-        case "FORM_SUBMIT_FAILURE":
-            return {
-                ...state,
-                errors: action.errors,
-                isEditing: false
-            };
-
         case "CLOSE_MODAL":
             return {
                 ...state,
