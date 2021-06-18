@@ -62,6 +62,9 @@ Route::middleware('auth.jwt')->group(function () {
 
     //productos
     Route::get('/negociacion/{pivot_tarea_proveedor}/productos', 'Api\Producto\ProductoController@index');
+    /* ruta para importar productos */
+    Route::post('/negociacion/{pivot_tarea_proveeder_id}/importar-producto/', 'Api\Producto\ProductoController@importProduct');
+    /* fin importan producto */
     Route::post('/negociacion/{pivot_tarea_proveedor}/productos', 'Api\Producto\ProductoController@store');
     Route::put('/productos/{producto}', 'Api\Producto\ProductoController@update');
     Route::delete('/productos/{producto}', 'Api\Producto\ProductoController@delete');
