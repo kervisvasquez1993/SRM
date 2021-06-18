@@ -10,7 +10,8 @@ const GenericFilter = ({
     unfilteredData = [],
     populatorConfig = [],
     children = null,
-    onChange = null
+    onChange = null,
+    setFilteredList = null
 }) => {
     const filter = useRef(null);
     const [filtered, setFiltered] = useState([...unfilteredData]);
@@ -62,6 +63,10 @@ const GenericFilter = ({
 
         setAfterFilters(afterResult);
         setFiltered(list);
+
+        if (setFilteredList) {
+            setFilteredList(list);
+        }
     };
 
     const getPreviousFilteredList = index => {
