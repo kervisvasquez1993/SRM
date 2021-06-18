@@ -35,6 +35,7 @@ class ProductoController extends ApiController
             'hs_code' => 'required',
             'product_code' => 'required',
             'description' => 'required',
+            'product_name_origin' => 'required',
             'brand' => 'required',
             'product_name' => 'required',
             'total_pcs' => 'required|numeric',
@@ -68,6 +69,7 @@ class ProductoController extends ApiController
         $producto->product_code = $request->product_code;
         $producto->brand = $request->brand;
         $producto->product_name = $request->product_name;
+        $producto->product_name_origin = $request->product_name_origin;
         $producto->description = $request->description;
         $producto->shelf_life = $request->shelf_life;
         $producto->total_pcs = $request->total_pcs;
