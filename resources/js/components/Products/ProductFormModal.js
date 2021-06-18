@@ -1,17 +1,16 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useDispatch } from "react-redux";
 import {
     createProductFromNegotiation,
     editProduct
 } from "../../store/actions/productActions";
-import { extractError } from "../../utils";
-import GenericForm from "../Form/GenericForm";
 import InputNumber from "../Form/InputNumber";
 import InputText from "../Form/InputText";
-import InputTextArea from "../Form/InputTextarea";
+import GenericFormModal from "../Table/GenericFormModal";
 
 export const emptyProduct = {
+    id: "",
     hs_code: "",
     product_code: "",
     description: "",
@@ -37,48 +36,21 @@ export const emptyProduct = {
 
 const ProductFormModal = ({ product, isEditor = false, pivotId = null }) => {
     const dispatch = useDispatch();
-    const [data, setData] = useState({ ...product });
 
-    // @ts-ignore
-    const isEditing = useSelector(state => state.product.isEditing);
-    // @ts-ignore
-    const errors = useSelector(state => state.product.errors);
-
-    const handleChange = e => {
-        const { id, value } = e.target;
-
-        setData(data => {
-            return {
-                ...data,
-                [id]: value
-            };
-        });
-    };
-
-    const handleSubmit = e => {
-        e.preventDefault();
-
+    const onSubmit = data => {
         if (isEditor) {
+            console.log(data);
             dispatch(editProduct(data));
         } else {
+            console.log(data);
             dispatch(createProductFromNegotiation(pivotId, data));
         }
     };
 
-    const handleReset = e => {
-        setData({ ...emptyProduct });
-    };
-
     return (
         <div className="modal-body">
-            <GenericForm
-                handleSubmit={handleSubmit}
-                disableSubmit={isEditing}
-                handleReset={handleReset}
-                onChange={handleChange}
-                values={data}
-                errors={errors}
-            >
+            <GenericFormModal formData={product} onSubmit={onSubmit}>
+                <InputText id="original_product_name" label="Nombre original" />
                 <InputText id="product_name" label="Nombre" />
                 <InputText id="brand" label="Marca" />
                 <InputText id="product_code" label="Código" />
@@ -112,7 +84,7 @@ const ProductFormModal = ({ product, isEditor = false, pivotId = null }) => {
                     id="corregido_total_pcs"
                     label="Corregido Total PCS"
                 />
-            </GenericForm>
+            </GenericFormModal>
         </div>
     );
 };

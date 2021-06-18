@@ -5,7 +5,7 @@ import { openModal } from "../../store/actions/modalActions";
 import { getPurchaseOrdersFromNegotiation } from "../../store/actions/purchaseOrderActions";
 import { getSum } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
-import LargeCreateButton from "../UI/LargeCreateButton";
+import LargeCreateButton from "../Widgets/LargeCreateButton";
 import PurchaseOrder from "./PurchaseOrder";
 import PurchaseOrderModal, { emptyPurchase } from "./PurchaseOrderModal";
 

@@ -2,12 +2,13 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../store/actions/modalActions";
 import { deleteProduct } from "../../store/actions/productActions";
-import ProductFormModal, { emptyProduct } from "../Products/ProductFormModal";
+import ProductFormModal from "../Products/ProductFormModal";
 
 import EmptyList from "../Navigation/EmptyList";
 import { getSum } from "../../utils";
-import LargeCreateButton from "../UI/LargeCreateButton";
 import { useParams } from "react-router-dom";
+import LargeCreateButton from "../Widgets/LargeCreateButton";
+import CreateProductModal from "./CreateProductModal";
 
 const ProductsList = () => {
     const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const ProductsList = () => {
         dispatch(
             openModal({
                 title: "Agregar Producto",
-                body: <ProductFormModal product={emptyProduct} pivotId={id} />
+                body: <CreateProductModal pivotId={id} />
             })
         );
     };
@@ -61,6 +62,7 @@ const ProductsList = () => {
                     <table className="table table-sm table-hover table-bordered fade-in">
                         <thead className="thead-dark">
                             <tr>
+                                <th scope="col">Nombre Original</th>
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Marca</th>
                                 <th scope="col">Código</th>
@@ -89,8 +91,9 @@ const ProductsList = () => {
                                 return (
                                     <tr key={product.id} className="fade-in">
                                         <th scope="row">
-                                            {product.product_name}
+                                            {product.original_product_name}
                                         </th>
+                                        <td>{product.product_name}</td>
                                         <td>{product.brand}</td>
                                         <td>{product.product_code}</td>
                                         <td>{product.hs_code}</td>
@@ -149,7 +152,7 @@ const ProductsList = () => {
                                 );
                             })}
                             <tr>
-                                <th scope="row" colSpan="16">
+                                <th scope="row" colSpan="17">
                                     Total
                                 </th>
                                 <td>{getSum(products, "total_cbm")}</td>

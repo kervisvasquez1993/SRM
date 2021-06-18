@@ -12,7 +12,7 @@ class Producto extends Model
         'pivot_tarea_proveeder_id',
         'hs_code',
         'product_code',
-        'product_name_origin',
+        'original_product_name',
         'description',
         'brand',
         'product_name',
