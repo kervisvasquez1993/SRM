@@ -433,18 +433,27 @@
 
 // export default NegotiationList;
 
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { getNegotiations } from "../../store/actions/negotiationActions";
 import { getUsers } from "../../store/actions/userActions";
+import { filterNegotiations, getSum } from "../../utils";
 import GenericFilter from "../Filters/GenericFilter";
+import Accordion from "../UI/Accordion";
+import SmallCard from "../UI/SmallCard";
 import NegotiationCard from "./NegotiationCard";
+
+import { BiCubeAlt } from "react-icons/bi";
+import { FaWeightHanging } from "react-icons/fa";
+import { GiCardboardBox, GiMoneyStack, GiWeight } from "react-icons/gi";
+import { MdAttachMoney } from "react-icons/md";
 
 const NegotiationList = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.auth.user);
     const negotiations = useSelector(state => state.negotiation.negotiations);
+    const [filteredNegotiations, setFilteredNegotiations] = useState([]);
 
     if (!(user.rol == "coordinador" || user.rol == "observador")) {
         return <Redirect to="/home" />;
@@ -454,6 +463,10 @@ const NegotiationList = () => {
         dispatch(getNegotiations());
         dispatch(getUsers());
     }, []);
+
+    const onChange = filteredList => {
+        setFilteredNegotiations(filteredList);
+    };
 
     const filterConfig = [
         {
@@ -549,6 +562,12 @@ const NegotiationList = () => {
         }
     ];
 
+    const total_cbm = getSum(filteredNegotiations, "total_cbm");
+    const total_n_w = getSum(filteredNegotiations, "total_n_w");
+    const total_g_w = getSum(filteredNegotiations, "total_g_w");
+    const total_ctn = getSum(filteredNegotiations, "total_ctn");
+    const compras_total = getSum(filteredNegotiations, "compras_total");
+
     return (
         <React.Fragment>
             <h1 className="text-center my-5">Negociaciones</h1>
@@ -557,7 +576,60 @@ const NegotiationList = () => {
                 config={filterConfig}
                 unfilteredData={negotiations}
                 populatorConfig={populatorConfig}
-            />
+                onChange={onChange}
+            >
+                {filteredNegotiations.length > 0 && (
+                    <div className="card py-4 px-2 px-md-5">
+                        <div className="card-body">
+                            <div className="row">
+                                <SmallCard
+                                    label="Total CBM"
+                                    icon={<BiCubeAlt className="icon-normal" />}
+                                    backgroundClass="bg-info"
+                                >
+                                    {total_cbm}
+                                </SmallCard>
+
+                                <SmallCard
+                                    label="Total Peso Neto (kg)"
+                                    icon={
+                                        <FaWeightHanging className="icon-normal" />
+                                    }
+                                    backgroundClass="bg-secondary"
+                                >
+                                    {total_n_w}
+                                </SmallCard>
+
+                                <SmallCard
+                                    label="Total Peso Bruto (kg)"
+                                    icon={<GiWeight className="icon-normal" />}
+                                    backgroundClass="bg-secondary"
+                                >
+                                    {total_g_w}
+                                </SmallCard>
+
+                                <SmallCard
+                                    label="Total CTN"
+                                    icon={
+                                        <GiCardboardBox className="icon-normal" />
+                                    }
+                                    backgroundClass="bg-primary"
+                                >
+                                    {total_ctn}
+                                </SmallCard>
+                                <SmallCard
+                                    label="Total a Pagar"
+                                    icon={
+                                        <MdAttachMoney className="icon-normal" />
+                                    }
+                                >
+                                    {compras_total}
+                                </SmallCard>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </GenericFilter>
         </React.Fragment>
     );
 };

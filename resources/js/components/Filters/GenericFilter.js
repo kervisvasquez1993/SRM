@@ -8,7 +8,9 @@ import FilterGroup from "./FilterGroup";
 const GenericFilter = ({
     config = [],
     unfilteredData = [],
-    populatorConfig = []
+    populatorConfig = [],
+    children = null,
+    onChange = null
 }) => {
     const filter = useRef(null);
     const [filtered, setFiltered] = useState([...unfilteredData]);
@@ -18,6 +20,12 @@ const GenericFilter = ({
     useEffect(() => {
         applyFilter(filter.current);
     }, [unfilteredData]);
+
+    useEffect(() => {
+        if (onChange) {
+            onChange(filtered);
+        }
+    }, [filtered]);
 
     const applyFilter = filter => {
         let list = [...unfilteredData];
@@ -196,7 +204,12 @@ const GenericFilter = ({
                                             </FilterGroup>
                                         </Accordion>
                                     ) : (
-                                        <FilterGroup name={name} text={label} className="mb-4" headerClassName="h4">
+                                        <FilterGroup
+                                            name={name}
+                                            text={label}
+                                            className="mb-4"
+                                            headerClassName="h4"
+                                        >
                                             {innerContent}
                                         </FilterGroup>
                                     )}
@@ -206,6 +219,8 @@ const GenericFilter = ({
                     </Filter>
                 </div>
             </Accordion>
+
+            {children}
 
             {filtered.length > 0 ? (
                 <React.Fragment>
