@@ -65,7 +65,7 @@ const ProductionCard = ({ production }) => {
         !fin_produccion ||
         !transito_nacionalizacion ||
         !isPrepaymentDone ||
-        !isCompletelyPaid;
+        !isCompletelyPaid || salida_puero_origen;
     const disableTransit = salida_puero_origen;
 
     return (
