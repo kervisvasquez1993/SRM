@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Compra extends Model
 {
     protected $fillable = [
-      'orden_compra',
+      'pivot_tarea_proveeder_id',
       'item',
       'descripcion',
       'registro_salud',
-      'cantidad_pcs',
+      'cantidad_ctns',
+      'price',
       'total',
       'comprador'
     ];

@@ -18,7 +18,7 @@ class CreateProductosTable extends Migration
             $table->foreignId('pivot_tarea_proveeder_id')->references('id')->on('pivot_tarea_proveeders')->onDelete('cascade');
             $table->string('hs_code')->nullable();
             $table->string('product_code')->nullable();
-            $table->string('product_name_origin')->nullable();
+            $table->string('original_product_name')->nullable();
             $table->string('brand')->nullable();
             $table->string('product_name')->nullable();
             $table->string ('description')->nullable();
