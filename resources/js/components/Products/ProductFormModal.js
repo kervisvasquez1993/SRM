@@ -39,10 +39,8 @@ const ProductFormModal = ({ product, isEditor = false, pivotId = null }) => {
 
     const onSubmit = data => {
         if (isEditor) {
-            console.log(data);
             dispatch(editProduct(data));
         } else {
-            console.log(data);
             dispatch(createProductFromNegotiation(pivotId, data));
         }
     };

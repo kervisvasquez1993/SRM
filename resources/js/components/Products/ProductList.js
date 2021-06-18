@@ -58,7 +58,7 @@ const ProductsList = () => {
             {isMine && <LargeCreateButton onClick={handleCreate} />}
 
             {products.length > 0 && (
-                <div className="table-responsive">
+                <div className="table-responsive table-text">
                     <table className="table table-sm table-hover table-bordered fade-in">
                         <thead className="thead-dark">
                             <tr>
@@ -159,7 +159,7 @@ const ProductsList = () => {
                                 <td>{getSum(products, "total_n_w")}</td>
                                 <td>{getSum(products, "total_g_w")}</td>
                                 <td>{getSum(products, "total_ctn")}</td>
-                                <td>{getSum(products, "total_pcs")}</td>
+                                <td>{getSum(products, "corregido_total_pcs")}</td>
                             </tr>
                         </tbody>
                     </table>

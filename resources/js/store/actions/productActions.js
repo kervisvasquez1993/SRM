@@ -53,41 +53,12 @@ export function editProduct(data) {
             toast.success("✔️ Producto editado");
         });
     };
-
-    return async (dispatch, getState) => {
-        dispatch({ type: "EDIT_PRODUCT_REQUEST" });
-
-        try {
-            const response = await axios.put(
-                `${apiURL}/productos/${data.id}`,
-                data
-            );
-
-            dispatch({
-                type: "EDIT_PRODUCT_SUCCESS",
-                payload: response.data.data
-            });
-
-            dispatch(closeModal());
-
-            toast.success("✔️ Producto editado");
-        } catch (e) {
-            dispatch({
-                type: "EDIT_PRODUCT_FAILURE",
-                errors: e.response.data
-            });
-        }
-    };
 }
 
 export function deleteProduct(data) {
     return async (dispatch, getState) => {
-        dispatch({ type: "DELETE_PRODUCT_REQUEST" });
-
         try {
-            const response = await axios.delete(
-                `${apiURL}/productos/${data.id}`
-            );
+            await axios.delete(`${apiURL}/productos/${data.id}`);
 
             dispatch({
                 type: "DELETE_PRODUCT_SUCCESS",
@@ -96,9 +67,7 @@ export function deleteProduct(data) {
 
             toast.success("✔️ Producto eliminado");
         } catch (e) {
-            dispatch({
-                type: "DELETE_PRODUCT_FAILURE"
-            });
+            console.log(e);
         }
     };
 }

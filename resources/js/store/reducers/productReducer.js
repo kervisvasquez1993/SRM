@@ -1,27 +1,17 @@
 const defaultState = {
-    products: [],
-    errors: {},
-    isEditing: false
+    products: []
 };
 
 const productReducer = (state = defaultState, action) => {
     const { type, payload } = action;
 
     switch (type) {
-        case "OPEN_MODAL":
-            return {
-                ...state
-            };
-        case "CLOSE_MODAL":
-            return {
-                ...state,
-                errors: {}
-            };
         case "CHANGE_HISTORY":
             return {
                 ...state,
                 products: []
             };
+        
         case "GET_PRODUCTS_REQUEST":
             return {
                 ...state
@@ -35,11 +25,7 @@ const productReducer = (state = defaultState, action) => {
             return {
                 ...state
             };
-        case "CREATE_PRODUCT_REQUEST":
-            return {
-                ...state,
-                isEditing: true
-            };
+
         case "CREATE_PRODUCT_SUCCESS":
             return {
                 ...state,
@@ -47,17 +33,7 @@ const productReducer = (state = defaultState, action) => {
                 errors: {},
                 isEditing: false
             };
-        case "CREATE_PRODUCT_FAILURE":
-            return {
-                ...state,
-                errors: action.errors,
-                isEditing: false
-            };
-        case "EDIT_PRODUCT_REQUEST":
-            return {
-                ...state,
-                isEditing: true
-            };
+
         case "EDIT_PRODUCT_SUCCESS":
             const newProducts = state.products.map(product => {
                 if (product.id == payload.id) return payload;
@@ -71,16 +47,8 @@ const productReducer = (state = defaultState, action) => {
                 errors: {},
                 isEditing: false
             };
-        case "EDIT_PRODUCT_FAILURE":
-            return {
-                ...state,
-                errors: action.errors,
-                isEditing: false
-            };
-        case "DELETE_PRODUCT_REQUEST":
-            return {
-                ...state
-            };
+
+        
         case "DELETE_PRODUCT_SUCCESS":
             const _newProducts = state.products.filter(
                 product => product.id != payload.id
@@ -90,10 +58,7 @@ const productReducer = (state = defaultState, action) => {
                 ...state,
                 products: _newProducts
             };
-        case "DELETE_PRODUCT_FAILURE":
-            return {
-                ...state
-            };
+        
         default:
             return state;
     }
