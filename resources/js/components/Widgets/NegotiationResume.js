@@ -37,7 +37,7 @@ const NegotiationResume = ({negotiations}) => {
                     <SmallCard
                         label="Total Peso Bruto (kg)"
                         icon={<GiWeight className="icon-normal" />}
-                        backgroundClass="bg-secondary"
+                        backgroundClass="bg-danger"
                     >
                         {total_g_w}
                     </SmallCard>
