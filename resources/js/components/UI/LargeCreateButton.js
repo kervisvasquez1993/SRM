@@ -7,7 +7,7 @@ const LargeCreateButton = ({ onClick }) => {
                 className="btn btn-lg btn-success btn-round mb-4"
                 onClick={onClick}
             >
-                <span className="material-icons">add</span>
+                <span className="material-icons mr-1">add</span>
                 Agregar
             </button>
         </div>

@@ -1,0 +1,169 @@
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { openModal } from "../../store/actions/modalActions";
+import { deleteProduct } from "../../store/actions/productActions";
+import ProductFormModal, { emptyProduct } from "../Products/ProductFormModal";
+
+import EmptyList from "../Navigation/EmptyList";
+import { getSum } from "../../utils";
+import LargeCreateButton from "../UI/LargeCreateButton";
+import { useParams } from "react-router-dom";
+
+const ProductsList = () => {
+    const dispatch = useDispatch();
+    const { id } = useParams();
+    const user = useSelector(state => state.auth.user);
+    const products = useSelector(state => state.product.products);
+    const negotiation = useSelector(state => state.negotiation.negotiation);
+
+    const isMine = user.id == negotiation.usuario.id;
+
+    const handleCreate = () => {
+        dispatch(
+            openModal({
+                title: "Agregar Producto",
+                body: <ProductFormModal product={emptyProduct} pivotId={id} />
+            })
+        );
+    };
+
+    const handleEdit = product => {
+        dispatch(
+            openModal({
+                title: "Editar Producto",
+                body: (
+                    <ProductFormModal
+                        product={product}
+                        pivotId={id}
+                        isEditor={true}
+                    />
+                )
+            })
+        );
+    };
+
+    const handleDelete = product => {
+        dispatch(deleteProduct(product));
+    };
+
+    return (
+        <React.Fragment>
+            <div className="mr-auto text-center py-4">
+                <h1 className="h2">Productos</h1>
+            </div>
+
+            {products.length === 0 && <EmptyList />}
+
+            {isMine && <LargeCreateButton onClick={handleCreate} />}
+
+            {products.length > 0 && (
+                <div className="table-responsive">
+                    <table className="table table-sm table-hover table-bordered fade-in">
+                        <thead className="thead-dark">
+                            <tr>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Marca</th>
+                                <th scope="col">Código</th>
+                                <th scope="col">Código HS</th>
+                                <th scope="col">Descripción</th>
+                                <th scope="col">Vida útil (meses)</th>
+                                <th scope="col">Total de piezas</th>
+                                <th scope="col">Piezas empaque unitario</th>
+                                <th scope="col">Piezas empaque interno</th>
+                                <th scope="col">Piezas carton (cm)</th>
+                                <th scope="col">Largo Carton (cm)</th>
+                                <th scope="col">Alto Carton (cm)</th>
+                                <th scope="col">Ancho Carton (cm)</th>
+                                <th scope="col">CBM</th>
+                                <th scope="col">Peso Neto (kg)</th>
+                                <th scope="col">Peso Bruto (kg)</th>
+                                <th scope="col">Total CBM</th>
+                                <th scope="col">Total Peso Neto (kg)</th>
+                                <th scope="col">Total Peso Bruto (kg)</th>
+                                <th scope="col">Total CTN</th>
+                                <th scope="col">Corregido Total PCS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {products.map(product => {
+                                return (
+                                    <tr key={product.id} className="fade-in">
+                                        <th scope="row">
+                                            {product.product_name}
+                                        </th>
+                                        <td>{product.brand}</td>
+                                        <td>{product.product_code}</td>
+                                        <td>{product.hs_code}</td>
+                                        <td>{product.description}</td>
+                                        <td>{product.shelf_life}</td>
+                                        <td>{product.total_pcs}</td>
+                                        <td>{product.pcs_unit}</td>
+                                        <td>{product.pcs_inner_box}</td>
+                                        <td>{product.pcs_ctn}</td>
+                                        <td>{product.ctn_packing_size_l}</td>
+                                        <td>{product.ctn_packing_size_h}</td>
+                                        <td>{product.ctn_packing_size_w}</td>
+                                        <td>{product.cbm}</td>
+                                        <td>{product.n_w_ctn}</td>
+                                        <td>{product.g_w_ctn}</td>
+                                        <td>{product.total_cbm}</td>
+                                        <td>{product.total_n_w}</td>
+                                        <td>{product.total_g_w}</td>
+                                        <td>{product.total_ctn}</td>
+                                        <td className="text-right">
+                                            <div className="d-inline-flex align-items-center">
+                                                {product.corregido_total_pcs}
+                                                {isMine && (
+                                                    <div className="d-inline-flex justify-content-end flex-grow-1">
+                                                        <button
+                                                            className="btn btn-success btn-circle ml-3"
+                                                            type="button"
+                                                            onClick={() =>
+                                                                handleEdit(
+                                                                    product
+                                                                )
+                                                            }
+                                                        >
+                                                            <span className="material-icons">
+                                                                edit
+                                                            </span>
+                                                        </button>
+                                                        <button
+                                                            className="btn btn-danger btn-circle"
+                                                            type="button"
+                                                            onClick={() =>
+                                                                handleDelete(
+                                                                    product
+                                                                )
+                                                            }
+                                                        >
+                                                            <span className="material-icons">
+                                                                clear
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                            <tr>
+                                <th scope="row" colSpan="16">
+                                    Total
+                                </th>
+                                <td>{getSum(products, "total_cbm")}</td>
+                                <td>{getSum(products, "total_n_w")}</td>
+                                <td>{getSum(products, "total_g_w")}</td>
+                                <td>{getSum(products, "total_ctn")}</td>
+                                <td>{getSum(products, "total_pcs")}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            )}
+        </React.Fragment>
+    );
+};
+
+export default ProductsList;

@@ -35,7 +35,7 @@ export const emptyProduct = {
     total_g_w: ""
 };
 
-const ProductModal = ({ product, isEditor = false, pivotId = null }) => {
+const ProductFormModal = ({ product, isEditor = false, pivotId = null }) => {
     const dispatch = useDispatch();
     const [data, setData] = useState({ ...product });
 
@@ -117,4 +117,4 @@ const ProductModal = ({ product, isEditor = false, pivotId = null }) => {
     );
 };
 
-export default ProductModal;
+export default ProductFormModal;

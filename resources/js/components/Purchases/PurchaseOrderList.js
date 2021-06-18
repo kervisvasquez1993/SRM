@@ -5,6 +5,7 @@ import { openModal } from "../../store/actions/modalActions";
 import { getPurchaseOrdersFromNegotiation } from "../../store/actions/purchaseOrderActions";
 import { getSum } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
+import LargeCreateButton from "../UI/LargeCreateButton";
 import PurchaseOrder from "./PurchaseOrder";
 import PurchaseOrderModal, { emptyPurchase } from "./PurchaseOrderModal";
 
@@ -13,7 +14,7 @@ const PurchaseOrderList = () => {
     const user = useSelector(state => state.auth.user);
     const products = useSelector(state => state.product.products);
     const negotiation = useSelector(state => state.negotiation.negotiation);
-    
+
     const dispatch = useDispatch();
     const { id: pivotId } = useParams();
 
@@ -39,7 +40,7 @@ const PurchaseOrderList = () => {
 
     return (
         <React.Fragment>
-            {products && products.length > 0 && (
+            {products.length > 0 && (
                 <React.Fragment>
                     <div className="mr-auto text-center py-4">
                         <h1 className="h2">Ordenes de Compra</h1>
@@ -47,17 +48,7 @@ const PurchaseOrderList = () => {
 
                     {purchaseOrders.length == 0 && <EmptyList />}
 
-                    {isMine && (
-                        <div className="text-center">
-                            <button
-                                className="btn btn-lg btn-success btn-round mb-5"
-                                onClick={handleCreate}
-                            >
-                                <span className="material-icons">add</span>
-                                Agregar
-                            </button>
-                        </div>
-                    )}
+                    {isMine && <LargeCreateButton onClick={handleCreate} />}
 
                     {purchaseOrders.length > 0 && (
                         <div className="row mb-4">

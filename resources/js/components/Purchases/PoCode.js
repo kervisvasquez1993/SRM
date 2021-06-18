@@ -8,6 +8,7 @@ const PoCode = ({ pivot }) => {
     const dispatch = useDispatch();
     const negotiation = useSelector(state => state.negotiation.negotiation);
     const purchaseOrders = useSelector(state => state.purchaseOrder.orders);
+    const products = useSelector(state => state.product.products);
     const user = useSelector(state => state.auth.user);
     const isMine = user.id == negotiation.usuario.id;
 
@@ -22,7 +23,7 @@ const PoCode = ({ pivot }) => {
 
     return (
         <React.Fragment>
-            {purchaseOrders.length > 0 && (
+            {purchaseOrders.length > 0 && products.length > 0 && (
                 <React.Fragment>
                     <div className="mr-auto text-center py-4">
                         <div className="d-flex justify-content-center align-items-center flex-wrap">
