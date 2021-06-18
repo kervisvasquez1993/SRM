@@ -2,8 +2,8 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../store/actions/modalActions";
 import { updateProduction } from "../../store/actions/productionActions";
-import { getPaymentsInfoFromProduction, getSum } from "../../utils";
-import ProductionInfoModal from "./ProductionInfoModal";
+import { getPaymentsInfoFromProduction } from "../../utils";
+import NegotiationTabs from "../Negotiation/NegotiationTabs";
 import ProductionManagementModal from "./ProductionManagementModal";
 
 const ProductionCard = ({ production }) => {
@@ -16,7 +16,7 @@ const ProductionCard = ({ production }) => {
         dispatch(
             openModal({
                 title: proveedor.nombre,
-                body: <ProductionInfoModal production={production} />
+                body: <NegotiationTabs negotiation={production.pivot} />
             })
         );
     };

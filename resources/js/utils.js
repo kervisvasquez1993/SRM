@@ -114,9 +114,7 @@ export function getDaysToFinishTask(task) {
 }
 
 export function getRemainingDaysToFinishTask(task) {
-    return Math.ceil(
-        (new Date(task.fecha_fin) - new Date()) / secondsInDay
-    );
+    return Math.ceil((new Date(task.fecha_fin) - new Date()) / secondsInDay);
 }
 
 export function extractError(errors, error) {
@@ -203,3 +201,7 @@ export function getPaymentsInfoFromProduction(production) {
 export function roundMoneyAmount(amount) {
     return Math.round((amount + Number.EPSILON) * 100) / 100;
 }
+
+export const preventDefault = e => {
+    e.preventDefault();
+};

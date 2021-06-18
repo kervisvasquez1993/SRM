@@ -26,6 +26,13 @@ const modalReducer = (state = defaultState, action) => {
                 ...state,
                 onClose: null
             };
+
+        case "CHANGE_HISTORY":
+            return {
+                ...state,
+                isOpen: false,
+                defaultTab: null
+            };
         default:
             return state;
     }

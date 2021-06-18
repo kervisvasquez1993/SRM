@@ -1,7 +1,8 @@
 import React from "react";
-import { BiCubeAlt } from "react-icons/bi";
+import { BiCubeAlt, BiLink } from "react-icons/bi";
 import { FaWeightHanging } from "react-icons/fa";
 import { GiCardboardBox, GiWeight } from "react-icons/gi";
+import { Link } from "react-router-dom";
 import { hasNoProducts } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
 import SmallCard from "../Widgets/SmallCard";
@@ -14,7 +15,7 @@ const ProductsTab = ({ negotiation }) => {
             {hasNoProducts(negotiation) ? (
                 <EmptyList message="No hay productos registrados" />
             ) : (
-                <div className="row px-2">
+                <div className="row px-2 mb-3">
                     <SmallCard
                         label="Total CBM"
                         icon={<BiCubeAlt className="icon-normal" />}
@@ -48,6 +49,15 @@ const ProductsTab = ({ negotiation }) => {
                     </SmallCard>
                 </div>
             )}
+            <div className="text-center">
+                <Link
+                    to={`/negotiation/${negotiation.id}`}
+                    className="btn btn-info btn-round"
+                >
+                    Ver Detalles
+                    <BiLink className="icon-normal ml-2" />
+                </Link>
+            </div>
         </React.Fragment>
     );
 };
