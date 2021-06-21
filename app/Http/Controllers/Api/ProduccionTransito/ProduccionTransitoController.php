@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api\ProduccionTransito;
 
 use App\User;
 use App\ProduccionTransito;
+use App\ReclamosDevolucione;
 use Illuminate\Http\Request;
+use App\RecepcionReclamoDevolucion;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
 use App\Notifications\GeneralNotification;
@@ -35,6 +37,7 @@ class ProduccionTransitoController extends ApiController
     public function update(Request $request, ProduccionTransito $produccionTransito)
     {
 
+        
         if ($request->inicio_produccion == 0 && $produccionTransito->fin_produccion == 1) {
             return $this->errorResponse('ya finalizo la produccion no puede desmarcar inicio de produccion', Response::HTTP_BAD_REQUEST);
         }
@@ -49,7 +52,8 @@ class ProduccionTransitoController extends ApiController
             && $produccionTransito->fin_produccion == 0
             && $produccionTransito->pago_balance == 0
             && $produccionTransito->transito_nacionalizacion == 0
-        ) {
+        ) 
+        {
             return $this->errorResponse('Debe tener todos los servicios finalizado', Response::HTTP_BAD_REQUEST);
         }
 
@@ -64,10 +68,35 @@ class ProduccionTransitoController extends ApiController
             $link = "";
             $tipoNotify = "salida_puerto_origen";
             Notification::send($userAll, new GeneralNotification($body, $link, $tipoNotify));
+            /* crear Nuevo Reclamos y devoluciones */
+            $this->reclamosDevolucion($produccionTransito->id);
+                     
+
         }
 
         return $this->showOneResource(new ProduccionTransitoResource($produccionTransito));
     }
+
+    public function reclamosDevolucion($id)
+    {
+        $produccionTransito_id = ProduccionTransito::findOrFail($id)->id;
+        
+        $reclamnos_devolucion = RecepcionReclamoDevolucion::where('produccion_transito_id',$produccionTransito_id)->first();
+        if(!$reclamnos_devolucion)
+        {
+            
+            $reclamnosDevolucion = new RecepcionReclamoDevolucion();
+            $reclamnosDevolucion->produccion_transito_id = $id;
+            $reclamnosDevolucion->save();    
+            return;
+        }
+        return $this->errorResponse('Ya Existe', Response::HTTP_BAD_REQUEST);
+    
+    }
+
+    
+
+    
     public function destroy(ProduccionTransito $produccionTransito)
     {
         //
