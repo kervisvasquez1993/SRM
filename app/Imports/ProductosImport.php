@@ -75,6 +75,11 @@ class ProductosImport implements ToModel, WithStartRow,WithCalculatedFormulas
         ]);
 
        
+        if ($validator->fails())
+        {
+            return null;
+        }
+        
 
         return new Producto($product);
     }
