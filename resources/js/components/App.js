@@ -21,6 +21,7 @@ import "react-toastify/dist/ReactToastify.min.css";
 import ProductionList from "./Productions/ProductionList";
 import ArtList from "./Arts/ArtList";
 import UserList from "./Users/UserList";
+import ClaimsList from "./Claims/ClaimList";
 
 axios.interceptors.response.use(
     response => {
@@ -136,6 +137,9 @@ const App = () => {
                             </Route>
                             <Route path="/arts">
                                 <ArtList />
+                            </Route>
+                            <Route path="/claims">
+                                <ClaimsList />
                             </Route>
                             <Route path="*">
                                 <Error />
