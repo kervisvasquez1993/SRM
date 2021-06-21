@@ -1,6 +1,8 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { updateClaim } from "../../store/actions/claimActions";
+import { openModal } from "../../store/actions/modalActions";
+import NegotiationTabs from "../Negotiation/NegotiationTabs";
 
 const ClaimCard = ({ claim }) => {
     const dispatch = useDispatch();
@@ -16,14 +18,12 @@ const ClaimCard = ({ claim }) => {
         e.preventDefault();
         e.stopPropagation();
 
-        /*
         dispatch(
             openModal({
                 title: proveedor.nombre,
-                body: <NegotiationTabs negotiation={production.pivot} />
+                body: <NegotiationTabs negotiation={claim.pivot} />
             })
         );
-        */
     };
 
     const handleOpenManagement = () => {
