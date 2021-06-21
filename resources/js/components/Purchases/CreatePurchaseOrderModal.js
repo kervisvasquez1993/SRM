@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import LargeCreateButton from "../Widgets/LargeCreateButton";
 import { openModal } from "../../store/actions/modalActions";
 import { useDropzone } from "react-dropzone";
-import { BsUpload } from "react-icons/bs";
+import { BsCloudDownload, BsUpload } from "react-icons/bs";
 import LoadingSpinner from "../Navigation/LoadingSpinner";
 import PurchaseOrderModal, { emptyPurchase } from "./PurchaseOrderModal";
 import { uploadPurchaseOrders } from "../../store/actions/purchaseOrderActions";
@@ -21,7 +21,9 @@ const CreatePurchaseOrderModal = ({ pivotId }) => {
         accept: ".xlsx"
     });
 
-    const isUploading = useSelector(state => state.purchaseOrder.isUploadingFile);
+    const isUploading = useSelector(
+        state => state.purchaseOrder.isUploadingFile
+    );
 
     const handleCreate = () => {
         dispatch(
@@ -45,7 +47,23 @@ const CreatePurchaseOrderModal = ({ pivotId }) => {
     return (
         <div className="modal-body">
             <h3 className="text-center">Agregar Excel</h3>
-            <p>Puede usar esta opción para subir un archivo excel:</p>
+
+            <p>Puede descargar la plantilla desde aquí: </p>
+
+            <div className="text-center mb-4">
+                <a
+                    className="btn btn-info"
+                    href="http://localhost:8000/templates/ordenes_compra.xlsx"
+                >
+                    Descargar Plantilla
+                    <BsCloudDownload className="ml-2 icon-normal" />
+                </a>
+            </div>
+
+            <p>
+                Si ya tiene un documento Excel, puede agregarlo usando la
+                siguiente caja:
+            </p>
 
             <div
                 {...getRootProps({

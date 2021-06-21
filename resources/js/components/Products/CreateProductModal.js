@@ -4,7 +4,7 @@ import LargeCreateButton from "../Widgets/LargeCreateButton";
 import { openModal } from "../../store/actions/modalActions";
 import ProductFormModal, { emptyProduct } from "./ProductFormModal";
 import { useDropzone } from "react-dropzone";
-import { BsUpload } from "react-icons/bs";
+import { BsCloudDownload, BsUpload } from "react-icons/bs";
 import { uploadProductForNegotiation } from "../../store/actions/productActions";
 import LoadingSpinner from "../Navigation/LoadingSpinner";
 
@@ -45,7 +45,23 @@ const CreateProductModal = ({ pivotId }) => {
     return (
         <div className="modal-body">
             <h3 className="text-center">Agregar Excel</h3>
-            <p>Puede usar esta opción para subir un archivo excel:</p>
+
+            <p>Puede descargar la plantilla desde aquí: </p>
+
+            <div className="text-center mb-4">
+                <a
+                    className="btn btn-info"
+                    href="http://localhost:8000/templates/productos.xlsx"
+                >
+                    Descargar Plantilla
+                    <BsCloudDownload className="ml-2 icon-normal" />
+                </a>
+            </div>
+
+            <p>
+                Si ya tiene un documento Excel, puede agregarlo usando la
+                siguiente caja:
+            </p>
 
             <div
                 {...getRootProps({
