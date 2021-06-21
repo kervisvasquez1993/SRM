@@ -16,7 +16,7 @@ const productReducer = (state = defaultState, action) => {
         case "MODAL_CLOSE":
             return {
                 ...state,
-                isUploadingFile: true
+                isUploadingFile: false
             };
 
         case "GET_PRODUCTS_REQUEST":

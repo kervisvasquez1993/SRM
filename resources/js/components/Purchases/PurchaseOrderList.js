@@ -6,8 +6,8 @@ import { getPurchaseOrdersFromNegotiation } from "../../store/actions/purchaseOr
 import { getSum } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
 import LargeCreateButton from "../Widgets/LargeCreateButton";
+import CreatePurchaseOrderModal from "./CreatePurchaseOrderModal";
 import PurchaseOrder from "./PurchaseOrder";
-import PurchaseOrderModal, { emptyPurchase } from "./PurchaseOrderModal";
 
 const PurchaseOrderList = () => {
     const purchaseOrders = useSelector(state => state.purchaseOrder.orders);
@@ -28,12 +28,7 @@ const PurchaseOrderList = () => {
         dispatch(
             openModal({
                 title: "Agregar Orden de Compra",
-                body: (
-                    <PurchaseOrderModal
-                        purchase={emptyPurchase}
-                        pivotId={pivotId}
-                    />
-                )
+                body: <CreatePurchaseOrderModal pivotId={pivotId} />
             })
         );
     };

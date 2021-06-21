@@ -12,8 +12,6 @@ export function getPurchaseOrdersFromNegotiation(pivotId) {
                 `${apiURL}/negociacion/${pivotId}/compra`
             );
 
-            console.log(response)
-
             dispatch({
                 type: "GET_PURCHASE_ORDERS_SUCCESS",
                 payload: response.data.data
@@ -97,6 +95,35 @@ export function deletePurchaseOrder(data) {
             dispatch({
                 type: "DELETE_PURCHASE_ORDER_FAILURE"
             });
+        }
+    };
+}
+
+export function uploadPurchaseOrders(pivotId, file) {
+    return async dispatch => {
+        dispatch({
+            type: "UPLOAD_PURCHASE_ORDERS_REQUEST"
+        });
+
+        try {
+            let formData = new FormData();
+            formData.append("import", file);
+
+            await axios.post(
+                `${apiURL}/negociacion/${pivotId}}/importar-producto/`,
+                formData
+            );
+
+            dispatch({
+                type: "UPLOAD_PURCHASE_ORDERS_SUCCESS"
+            });
+
+            dispatch(closeModal());
+            dispatch(getPurchaseOrdersFromNegotiation(pivotId));
+
+            toast.success("✔️ Ordenes importadas");
+        } catch (e) {
+            console.log(e);
         }
     };
 }

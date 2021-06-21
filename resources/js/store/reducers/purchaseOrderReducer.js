@@ -1,7 +1,8 @@
 const defaultState = {
     orders: [],
     errors: {},
-    isEditing: false
+    isEditing: false,
+    isUploadingFile: false
 };
 
 const purcharseOrderReducer = (state = defaultState, action) => {
@@ -15,7 +16,8 @@ const purcharseOrderReducer = (state = defaultState, action) => {
         case "CLOSE_MODAL":
             return {
                 ...state,
-                errors: {}
+                errors: {},
+                isUploadingFile: false
             };
         case "CHANGE_HISTORY":
             return {
@@ -62,7 +64,9 @@ const purcharseOrderReducer = (state = defaultState, action) => {
         case "EDIT_PURCHASE_ORDER_SUCCESS":
             return {
                 ...state,
-                orders: state.orders.map(item => item.id === payload.id ? payload : item),
+                orders: state.orders.map(item =>
+                    item.id === payload.id ? payload : item
+                ),
                 errors: {},
                 isEditing: false
             };
@@ -76,6 +80,17 @@ const purcharseOrderReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 orders: state.orders.filter(item => item.id != payload.id)
+            };
+
+        case "UPLOAD_PURCHASE_ORDERS_REQUEST":
+            return {
+                ...state,
+                isUploadingFile: true
+            };
+        case "UPLOAD_PURCHASE_ORDERS_SUCCESS":
+            return {
+                ...state,
+                isUploadingFile: false
             };
         default:
             return state;
