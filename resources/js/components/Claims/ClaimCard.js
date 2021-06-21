@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { updateClaim } from "../../store/actions/claimActions";
 import { openModal } from "../../store/actions/modalActions";
 import NegotiationTabs from "../Negotiation/NegotiationTabs";
+import ClaimManagementModal from "./ClaimManagementModal";
 
 const ClaimCard = ({ claim }) => {
     const dispatch = useDispatch();
@@ -27,14 +28,12 @@ const ClaimCard = ({ claim }) => {
     };
 
     const handleOpenManagement = () => {
-        /*
         dispatch(
             openModal({
                 title: proveedor.nombre,
-                body: <ProductionManagementModal productionId={production.id} />
+                body: <ClaimManagementModal claimId={claim.id} />
             })
         );
-        */
     };
 
     const handleCheck = e => {

@@ -18,7 +18,7 @@ use App\Http\Controllers\PerfilController;
 */
 
 Route::view('/{path?}', 'dashboard')
-    ->where('path', '.*')
+    ->where('path', '^(?!api).*$')
     ->name('react');
 
 /* Route::get('/', 'InicioController@index'); */

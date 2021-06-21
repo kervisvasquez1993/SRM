@@ -1,5 +1,6 @@
 const defaultState = {
-    list: []
+    list: [],
+    current: null
 };
 
 const claimReducer = (state = defaultState, action) => {
@@ -24,6 +25,18 @@ const claimReducer = (state = defaultState, action) => {
                 list: state.list.map(item =>
                     item.id === payload.id ? payload : item
                 )
+            };
+
+        case "GET_CLAIM_SUCCESS":
+            return {
+                ...state,
+                current: payload
+            };
+
+        case "CLOSE_MODAL":
+            return {
+                ...state,
+                current: null
             };
 
         default:
