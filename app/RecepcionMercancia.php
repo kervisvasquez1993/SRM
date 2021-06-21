@@ -8,7 +8,7 @@ class RecepcionMercancia extends Model
 {
     protected $fillable = 
     [
-        'recepcion_reclamo_devolucions_id',
+        'recepcion_reclamo_devolucion_id',
         'user_id',
         'titulo',
         'descripcion'
@@ -16,7 +16,7 @@ class RecepcionMercancia extends Model
 
     public function recepcionReclamoDevolucion()
     {
-        return $this->hasOne(RecepcionReclamoDevolucion::class, 'recepcion_reclamo_devolucions_id');
+        return $this->hasOne(RecepcionReclamoDevolucion::class, 'recepcion_reclamo_devolucion_id');
     }
 
     public function user()

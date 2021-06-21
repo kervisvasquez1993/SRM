@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class InspeccionCarga extends Model
 {
    
-   private $fillable =  [
+   protected $fillable =  [
         'recepcion_reclamo_devolucion_id',
         'user_id',
         'titulo',

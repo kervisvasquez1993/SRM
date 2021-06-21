@@ -25,7 +25,7 @@ class IncidenciaInspeccionController extends ApiController
     {
         $reclamos_devolucione_id = $reclamos_devolucione->id;
          $request->merge([
-            'recepcion_reclamo_devolucions_id' => $reclamos_devolucione_id,
+            'recepcion_reclamo_devolucion_id' => $reclamos_devolucione_id,
             'user_id' => auth()->user()->id
         ]);
         $test = $request->all();
@@ -35,25 +35,25 @@ class IncidenciaInspeccionController extends ApiController
     }
 
    
-    public function show(InspeccionCarga $iinspeccion_carga)
+    public function show(InspeccionCarga $inspeccion_carga_id)
     {
-       
-        return $this->showOne($iinspeccion_carga);
+        
+        return $this->showOne($inspeccion_carga_id);
     }
 
    
-    public function update(IncidenciaValidacion $request, InspeccionCarga $iinspeccion_carga)
+    public function update(IncidenciaValidacion $request, InspeccionCarga $inspeccion_carga_id)
     {
-         $iinspeccion_carga->update($request->only('titulo', 'descripcion'));
-         $iinspeccion_carga->save();
-         return $this->showOne($iinspeccion_carga);
+         $inspeccion_carga_id->update($request->only('titulo', 'descripcion'));
+         $inspeccion_carga_id->save();
+         return $this->showOne($inspeccion_carga_id);
     }
 
   
-    public function destroy( InspeccionCarga $iinspeccion_carga)
+    public function destroy( InspeccionCarga $inspeccion_carga_id)
     {  
-        $iinspeccion_carga->delete();
-        return $this->showOne($iinspeccion_carga);
+        $inspeccion_carga_id->delete();
+        return $this->showOne($inspeccion_carga_id);
 
     }
 }
