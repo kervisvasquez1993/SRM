@@ -80,10 +80,11 @@
     background-color: #9c27b0 !important;
 }
 
-table, .table-text, .table thead tr th {
+table,
+.table-text,
+.table thead tr th {
     font-size: 0.9rem !important;
 }
-
 
 .dropzone {
     flex: 1;
@@ -98,5 +99,14 @@ table, .table-text, .table thead tr th {
     background-color: #fafafa;
     color: #707070;
     outline: none;
-    transition: border .24s ease-in-out;
+    transition: border 0.24s ease-in-out;
+
+    &:hover {
+        box-shadow: 0 0 10px rgba(0, 188, 212, 0.4);
+    }
+}
+
+.drag-active {
+    border-color: rgb(0, 188, 212);
+    box-shadow: 0 0 10px rgba(0, 188, 212, 0.4);
 }

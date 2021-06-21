@@ -11,7 +11,12 @@ import LoadingSpinner from "../Navigation/LoadingSpinner";
 const CreateProductModal = ({ pivotId }) => {
     const dispatch = useDispatch();
 
-    const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+    const {
+        acceptedFiles,
+        getRootProps,
+        getInputProps,
+        isDragActive
+    } = useDropzone({
         maxFiles: 1,
         accept: ".xlsx"
     });
@@ -42,7 +47,13 @@ const CreateProductModal = ({ pivotId }) => {
             <h3 className="text-center">Agregar Excel</h3>
             <p>Puede usar esta opción para subir un archivo excel:</p>
 
-            <div {...getRootProps({ className: "dropzone rounded mx-5 mb-2" })}>
+            <div
+                {...getRootProps({
+                    className: `dropzone rounded mx-5 mb-2 ${
+                        isDragActive ? "drag-active" : ""
+                    }`
+                })}
+            >
                 <input name="import" {...getInputProps()} />
                 {acceptedFiles.length > 0 ? (
                     <div>
