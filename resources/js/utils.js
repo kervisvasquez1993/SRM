@@ -209,3 +209,11 @@ export const preventDefault = e => {
 export const className = (condition, value) => {
     return condition ? value : "";
 };
+
+export const isClaimCompleted = claim => {
+    return (
+        claim.recepcion_mercancia == 1 &&
+        claim.inspeccion_carga == 1 &&
+        claim.reclamos_devoluciones == 1
+    );
+};

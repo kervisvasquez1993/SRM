@@ -110,3 +110,7 @@ table,
     border-color: rgb(0, 188, 212);
     box-shadow: 0 0 10px rgba(0, 188, 212, 0.4);
 }
+
+.text-white .form-check label {
+    color: white !important;
+}
