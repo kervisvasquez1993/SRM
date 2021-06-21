@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useDispatch, useSelector } from "react-redux";
-import { closeModal, removeModalCloseCallback } from "../../store/actions/modalActions";
+import {
+    closeModal,
+    removeModalCloseCallback
+} from "../../store/actions/modalActions";
 
 const Modal = () => {
     const dispatch = useDispatch();
@@ -22,6 +25,20 @@ const Modal = () => {
             }
         }
     }, [isOpen]);
+
+    useEffect(() => {
+        const handleKeyDown = e => {
+            if (e.keyCode === 27) {
+                handleClose();
+            }
+        };
+
+        document.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+        };
+    }, []);
 
     if (!isOpen) {
         return null;
