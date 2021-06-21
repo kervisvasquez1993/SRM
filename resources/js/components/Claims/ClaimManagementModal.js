@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getClaim } from "../../store/actions/claimActions";
-import { getProduction } from "../../store/actions/productionActions";
 import IncidentsTab from "../Incidents/IncidentsTab";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import TabButton from "../Widgets/TabButton";
@@ -11,7 +10,7 @@ import Tabs from "../Widgets/Tabs";
 const ClaimManagementModal = ({ claimId }) => {
     const dispatch = useDispatch();
     const claim = useSelector(state => state.claim.current);
-    const tabToUse = useSelector(state => state.modal.defaultTab) || "recepcion_mercancia";
+    const tabToUse = useSelector(state => state.modal.defaultTab) || "incidencia_recepcion";
 
     useEffect(() => {
         dispatch(getClaim(claimId));
@@ -30,7 +29,7 @@ const ClaimManagementModal = ({ claimId }) => {
                             className="nav nav-pills nav-pills-success nav-pills-icons justify-content-center flex-column"
                             role="tablist"
                         >
-                            <TabButton name="recepcion_mercancia">
+                            <TabButton name="incidencia_recepcion">
                                 <i className="material-icons">receipt_long</i>
                                 Incidencias con Recepción de Mercancía
                             </TabButton>
@@ -47,17 +46,17 @@ const ClaimManagementModal = ({ claimId }) => {
                         </ul>
 
                         <div className="tab-content tab-space p-2">
-                            <TabContent name="recepcion_mercancia">
+                            <TabContent name="incidencia_recepcion">
                                 <IncidentsTab
                                     stateName="claim"
                                     url1="reclamos_devoluciones"
-                                    url2="recepcion_mercancia"
+                                    url2="incidencia_recepcion"
                                     title="Incidencias con Recepción de Mercancía"
                                 ></IncidentsTab>
                             </TabContent>
                             <TabContent name="inspeccion_carga">
                                 <IncidentsTab
-                                    stateName="production"
+                                    stateName="claim"
                                     url1="reclamos_devoluciones"
                                     url2="inspeccion_carga"
                                     title="Incidencias con Inspección de Carga"
@@ -65,9 +64,9 @@ const ClaimManagementModal = ({ claimId }) => {
                             </TabContent>
                             <TabContent name="reclamos_devoluciones">
                                 <IncidentsTab
-                                    stateName="production"
+                                    stateName="claim"
                                     url1="reclamos_devoluciones"
-                                    url2="reclamos_devoluciones"
+                                    url2="reclamos_devolucion"
                                     title="Incidencias con Reclamos y Devoluciones"
                                 ></IncidentsTab>
                             </TabContent>
