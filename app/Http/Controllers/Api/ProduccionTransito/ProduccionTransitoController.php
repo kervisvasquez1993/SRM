@@ -49,7 +49,8 @@ class ProduccionTransitoController extends ApiController
             && $produccionTransito->fin_produccion == 0
             && $produccionTransito->pago_balance == 0
             && $produccionTransito->transito_nacionalizacion == 0
-        ) {
+        ) 
+        {
             return $this->errorResponse('Debe tener todos los servicios finalizado', Response::HTTP_BAD_REQUEST);
         }
 
@@ -64,10 +65,13 @@ class ProduccionTransitoController extends ApiController
             $link = "";
             $tipoNotify = "salida_puerto_origen";
             Notification::send($userAll, new GeneralNotification($body, $link, $tipoNotify));
+            
+
         }
 
         return $this->showOneResource(new ProduccionTransitoResource($produccionTransito));
     }
+    
     public function destroy(ProduccionTransito $produccionTransito)
     {
         //
