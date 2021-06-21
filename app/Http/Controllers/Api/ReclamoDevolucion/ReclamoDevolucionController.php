@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api\ReclamoDevolucion;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\RecepcionReclamoDevolucion;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 
-class ReclamoDevolucionController extends Controller
+class ReclamoDevolucionController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -14,41 +16,19 @@ class ReclamoDevolucionController extends Controller
      */
     public function index()
     {
-        //
+        $reclamos = RecepcionReclamoDevolucion::all();
+        return $this->showAll($reclamos);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    
+    public function show( RecepcionReclamoDevolucion $reclamos_devolucione)
     {
-        //
+        return $this->showOne($reclamos_devolucione);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function update(Request $request, RecepcionReclamoDevolucion $reclamos_devolucione)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        return $this->showOne($reclamos_devolucione);
     }
 
     /**

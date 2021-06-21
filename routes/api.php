@@ -90,6 +90,14 @@ Route::middleware('auth.jwt')->group(function () {
     Route::get('/produccion_transito', 'Api\ProduccionTransito\ProduccionTransitoController@index');
     Route::get('/produccion_transito/{produccionTransito}', 'Api\ProduccionTransito\ProduccionTransitoController@show');
     Route::put('/produccion_transito/{produccionTransito}', 'Api\ProduccionTransito\ProduccionTransitoController@update');
+    /* Route::post('/reclamos/{id}', 'Api\ProduccionTransito\ProduccionTransitoController@reclamosDevolucion'); */
+
+    /* Recepcion reclamos y devoluciones */
+    Route::get('/reclamos_devoluciones/', 'Api\ReclamoDevolucion\ReclamoDevolucionController@index'); 
+    Route::get('/reclamos_devoluciones/{reclamos_devolucione}', 'Api\ReclamoDevolucion\ReclamoDevolucionController@show');
+    Route::put('/reclamos_devoluciones/{reclamos_devolucione}', 'Api\ReclamoDevolucion\ReclamoDevolucionController@update');  
+
+    /* fin de reclamos y devoluciones */
 
 
 
