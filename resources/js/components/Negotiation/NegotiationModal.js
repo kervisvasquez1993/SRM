@@ -42,9 +42,9 @@ const NegotiationModal = ({ negotiation }) => {
         <React.Fragment>
             <NegotiationTabs negotiation={negotiation} />
 
-            {(iniciar_arte || iniciar_produccion) && (
+            {(iniciar_arte === 1 || iniciar_produccion === 1) && (
                 <div className="modal-footer bg-success flex-column align-items-start pl-4">
-                    {iniciar_produccion && (
+                    {iniciar_produccion === 1 && (
                         <p className="d-flex text-white align-items-center h6 pl-4">
                             <span className="material-icons mr-2">
                                 check_circle
@@ -52,7 +52,7 @@ const NegotiationModal = ({ negotiation }) => {
                             Producción iniciada
                         </p>
                     )}
-                    {iniciar_arte && (
+                    {iniciar_arte === 1 && (
                         <p className="d-flex text-white align-items-center h6 pl-4">
                             <span className="material-icons mr-2">
                                 check_circle

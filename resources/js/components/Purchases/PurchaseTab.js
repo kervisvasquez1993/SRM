@@ -5,6 +5,7 @@ import EmptyList from "../Navigation/EmptyList";
 import SmallCard from "../Widgets/SmallCard";
 import { Link } from "react-router-dom";
 import { BiLink } from "react-icons/bi";
+import { roundMoneyAmount } from "../../utils";
 
 const PurchaseTab = ({ negotiation }) => {
     const { compras_total: totalPurchase, compra_po: poCode } = negotiation;
@@ -19,7 +20,7 @@ const PurchaseTab = ({ negotiation }) => {
                             icon={<MdAttachMoney className="icon-normal" />}
                             backgroundClass="bg-success"
                         >
-                            {totalPurchase}
+                            {roundMoneyAmount(totalPurchase)}
                         </SmallCard>
 
                         <SmallCard

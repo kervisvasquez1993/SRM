@@ -88,12 +88,17 @@ const GenericFilter = ({
         }
     });
 
+    const hide = {
+        display: "none"
+    }
+
     return (
         <React.Fragment>
             <Accordion
                 title="Filtrar"
                 className="card mb-5"
                 headerClassName="card-header"
+                style={unfilteredData.length === 0 ? hide : {}}
             >
                 <div className="mb-5">
                     <Filter onUpdate={applyFilter} useRef={filter}>

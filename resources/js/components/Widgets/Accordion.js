@@ -6,12 +6,13 @@ const Accordion = ({
     defaultState = "closed",
     className = "card my-2",
     headerClassName = "card-header p-0",
-    bodyClassName = "card-body"
+    bodyClassName = "card-body",
+    style={}
 }) => {
     const [isOpen, setIsOpen] = useState(defaultState === "open" && true);
 
     return (
-        <div className={className}>
+        <div className={className} style={style}>
             <div className={headerClassName}>
                 <button
                     className="btn btn-link py-1"

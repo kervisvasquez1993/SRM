@@ -5,7 +5,7 @@ import { BiCubeAlt } from "react-icons/bi";
 import { FaWeightHanging } from "react-icons/fa";
 import { GiCardboardBox, GiWeight } from "react-icons/gi";
 import { MdAttachMoney } from "react-icons/md";
-import { getSum } from "../../utils";
+import { getSum, roundMoneyAmount } from "../../utils";
 
 const NegotiationResume = ({ negotiations }) => {
     const total_cbm = getSum(negotiations, "total_cbm");
@@ -25,7 +25,7 @@ const NegotiationResume = ({ negotiations }) => {
                                 icon={<BiCubeAlt className="icon-normal" />}
                                 backgroundClass="bg-info"
                             >
-                                {total_cbm}
+                                {roundMoneyAmount(total_cbm)}
                             </SmallCard>
 
                             <SmallCard
@@ -35,7 +35,7 @@ const NegotiationResume = ({ negotiations }) => {
                                 }
                                 backgroundClass="bg-secondary"
                             >
-                                {total_n_w}
+                                {roundMoneyAmount(total_n_w)}
                             </SmallCard>
 
                             <SmallCard
@@ -43,7 +43,7 @@ const NegotiationResume = ({ negotiations }) => {
                                 icon={<GiWeight className="icon-normal" />}
                                 backgroundClass="bg-danger"
                             >
-                                {total_g_w}
+                                {roundMoneyAmount(total_g_w)}
                             </SmallCard>
 
                             <SmallCard
@@ -53,13 +53,13 @@ const NegotiationResume = ({ negotiations }) => {
                                 }
                                 backgroundClass="bg-primary"
                             >
-                                {total_ctn}
+                                {roundMoneyAmount(total_ctn)}
                             </SmallCard>
                             <SmallCard
                                 label="Total a Pagar"
                                 icon={<MdAttachMoney className="icon-normal" />}
                             >
-                                {compras_total}
+                                {roundMoneyAmount(compras_total)}
                             </SmallCard>
                         </div>
                     </div>

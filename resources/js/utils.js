@@ -205,3 +205,7 @@ export function roundMoneyAmount(amount) {
 export const preventDefault = e => {
     e.preventDefault();
 };
+
+export const className = (condition, value) => {
+    return condition ? value : "";
+};
