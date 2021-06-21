@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 import { apiURL } from "../../components/App";
 import { closeModal } from "./modalActions";
 
@@ -45,6 +46,8 @@ export function createIncident(url1, parentId, url2, data) {
             });
 
             dispatch(closeModal());
+
+            toast.success("✔️ Incidencia iniciada");
         } catch (e) {
             dispatch({
                 type: "FORM_SUBMIT_FAILURE",
@@ -70,6 +73,8 @@ export function editIncident(url, data) {
             });
 
             dispatch(closeModal());
+
+            toast.success("✔️ Incidencia editada");
         } catch (e) {
             dispatch({
                 type: "FORM_SUBMIT_FAILURE",
@@ -88,6 +93,8 @@ export function deleteIncident(url, id) {
                 type: "DELETE_INCIDENT_SUCCESS",
                 payload: id
             });
+
+            toast.success("✔️ Incidencia eliminada");
         } catch (e) {}
     };
 }
