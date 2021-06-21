@@ -205,4 +205,13 @@ Route::middleware('auth.jwt')->group(function () {
      Route::delete('/incidencia_recepcion/{incidencia_recepcion_id}', 'Api\ReclamoDevolucion\IncidenciaRecepcion@destroy');
      /* FIN incidencias de Recepción  */
 
+
+     /* incidencias de inspeccion */
+     Route::get('/reclamos_devoluciones/{reclamos_devolucione}/inspeccion_carga', 'Api\ReclamoDevolucion\IncidenciaInspeccionController@index');
+     Route::post('/reclamos_devoluciones/{reclamos_devolucione}/inspeccion_carga', 'Api\ReclamoDevolucion\IncidenciaInspeccionController@store');
+     Route::get('/inspeccion_carga/{inspeccion_carga_id}', 'Api\ReclamoDevolucion\IncidenciaInspeccionController@show');
+     Route::put('/inspeccion_carga/{inspeccion_carga_id}', 'Api\ReclamoDevolucion\IncidenciaInspeccionController@update');
+     Route::delete('/inspeccion_carga/{inspeccion_carga_id}', 'Api\ReclamoDevolucion\IncidenciaInspeccionController@destroy');
+     /* FIN incidencias de Inspeccion  */
+
 });
