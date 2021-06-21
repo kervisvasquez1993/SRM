@@ -6,6 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class RecepcionMercancia extends Model
 {
+    protected $fillable = 
+    [
+        'recepcion_reclamo_devolucions_id',
+        'user_id',
+        'titulo',
+        'descripcion'
+    ];
+
     public function recepcionReclamoDevolucion()
     {
         return $this->hasOne(RecepcionReclamoDevolucion::class, 'recepcion_reclamo_devolucions_id');

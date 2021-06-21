@@ -10,11 +10,7 @@ use App\Http\Resources\ReclamoDevolucionResource;
 
 class ReclamoDevolucionController extends ApiController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
     public function index()
     {
         return $this->showAllResources(ReclamoDevolucionResource::collection(RecepcionReclamoDevolucion::all()));
@@ -33,12 +29,6 @@ class ReclamoDevolucionController extends ApiController
         return $this->showOneResource(new ReclamoDevolucionResource($reclamos_devolucione));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //
