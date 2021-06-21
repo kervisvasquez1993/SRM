@@ -3,7 +3,7 @@ import { BiCubeAlt, BiLink } from "react-icons/bi";
 import { FaWeightHanging } from "react-icons/fa";
 import { GiCardboardBox, GiWeight } from "react-icons/gi";
 import { Link } from "react-router-dom";
-import { hasNoProducts } from "../../utils";
+import { hasNoProducts, roundMoneyAmount } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
 import SmallCard from "../Widgets/SmallCard";
 
@@ -21,7 +21,7 @@ const ProductsTab = ({ negotiation }) => {
                         icon={<BiCubeAlt className="icon-normal" />}
                         backgroundClass="bg-info"
                     >
-                        {total_cbm}
+                        {roundMoneyAmount(total_cbm)}
                     </SmallCard>
 
                     <SmallCard
@@ -29,7 +29,7 @@ const ProductsTab = ({ negotiation }) => {
                         icon={<FaWeightHanging className="icon-normal" />}
                         backgroundClass="bg-secondary"
                     >
-                        {total_n_w}
+                        {roundMoneyAmount(total_n_w)}
                     </SmallCard>
 
                     <SmallCard
@@ -37,7 +37,7 @@ const ProductsTab = ({ negotiation }) => {
                         icon={<GiWeight className="icon-normal" />}
                         backgroundClass="bg-danger"
                     >
-                        {total_g_w}
+                        {roundMoneyAmount(total_g_w)}
                     </SmallCard>
 
                     <SmallCard
@@ -45,7 +45,7 @@ const ProductsTab = ({ negotiation }) => {
                         icon={<GiCardboardBox className="icon-normal" />}
                         backgroundClass="bg-primary"
                     >
-                        {total_ctn}
+                        {roundMoneyAmount(total_ctn)}
                     </SmallCard>
                 </div>
             )}

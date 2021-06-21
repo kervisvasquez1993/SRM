@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import { apiURL } from "../../components/App";
+import { genericFormSubmit } from "./genericFormActions";
 import { closeModal } from "./modalActions";
 
 export function getProductsFromNegotiation(pivotId) {
@@ -25,67 +26,39 @@ export function getProductsFromNegotiation(pivotId) {
 }
 
 export function createProductFromNegotiation(pivotId, data) {
-    return async (dispatch, getState) => {
-        dispatch({ type: "CREATE_PRODUCT_REQUEST" });
-
-        try {
-            const response = await axios.post(
-                `${apiURL}/negociacion/${pivotId}/productos`,
-                data
-            );
-
+    return dispatch => {
+        return genericFormSubmit(dispatch, () =>
+            axios.post(`${apiURL}/negociacion/${pivotId}/productos`, data)
+        ).then(response => {
             dispatch({
                 type: "CREATE_PRODUCT_SUCCESS",
-                payload: response.data.data
+                payload: response
             });
-
-            dispatch(closeModal());
 
             toast.success("✔️ Producto creado");
-        } catch (e) {
-            dispatch({
-                type: "CREATE_PRODUCT_FAILURE",
-                errors: e.response.data
-            });
-        }
+        });
     };
 }
 
 export function editProduct(data) {
-    return async (dispatch, getState) => {
-        dispatch({ type: "EDIT_PRODUCT_REQUEST" });
-
-        try {
-            const response = await axios.put(
-                `${apiURL}/productos/${data.id}`,
-                data
-            );
-
+    return dispatch => {
+        return genericFormSubmit(dispatch, () =>
+            axios.put(`${apiURL}/productos/${data.id}`, data)
+        ).then(response => {
             dispatch({
                 type: "EDIT_PRODUCT_SUCCESS",
-                payload: response.data.data
+                payload: response
             });
-
-            dispatch(closeModal());
 
             toast.success("✔️ Producto editado");
-        } catch (e) {
-            dispatch({
-                type: "EDIT_PRODUCT_FAILURE",
-                errors: e.response.data
-            });
-        }
+        });
     };
 }
 
 export function deleteProduct(data) {
     return async (dispatch, getState) => {
-        dispatch({ type: "DELETE_PRODUCT_REQUEST" });
-
         try {
-            const response = await axios.delete(
-                `${apiURL}/productos/${data.id}`
-            );
+            await axios.delete(`${apiURL}/productos/${data.id}`);
 
             dispatch({
                 type: "DELETE_PRODUCT_SUCCESS",
@@ -94,9 +67,40 @@ export function deleteProduct(data) {
 
             toast.success("✔️ Producto eliminado");
         } catch (e) {
+            console.log(e);
+        }
+    };
+}
+
+export function uploadProductForNegotiation(pivotId, file) {
+    return async dispatch => {
+        dispatch({
+            type: "UPLOADING_PRODUCT_REQUEST"
+        });
+
+        try {
+            let formData = new FormData();
+            formData.append("import", file);
+
+            await axios.post(
+                `${apiURL}/negociacion/${pivotId}}/importar-producto/`,
+                formData
+            );
+
             dispatch({
-                type: "DELETE_PRODUCT_FAILURE"
+                type: "UPLOADING_PRODUCT_SUCCESS"
             });
+
+            dispatch(closeModal());
+            dispatch(getProductsFromNegotiation(pivotId));
+            
+            document
+                .querySelector("#wrapper")
+                .scrollTo(0, 10000000000000000000);
+
+            toast.success("✔️ Productos importados");
+        } catch (e) {
+            console.log(e);
         }
     };
 }

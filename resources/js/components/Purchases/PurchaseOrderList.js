@@ -3,17 +3,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
 import { getPurchaseOrdersFromNegotiation } from "../../store/actions/purchaseOrderActions";
-import { getSum } from "../../utils";
+import { getSum, roundMoneyAmount } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
+import LargeCreateButton from "../Widgets/LargeCreateButton";
+import CreatePurchaseOrderModal from "./CreatePurchaseOrderModal";
 import PurchaseOrder from "./PurchaseOrder";
-import PurchaseOrderModal, { emptyPurchase } from "./PurchaseOrderModal";
 
 const PurchaseOrderList = () => {
     const purchaseOrders = useSelector(state => state.purchaseOrder.orders);
     const user = useSelector(state => state.auth.user);
     const products = useSelector(state => state.product.products);
     const negotiation = useSelector(state => state.negotiation.negotiation);
-    
+
     const dispatch = useDispatch();
     const { id: pivotId } = useParams();
 
@@ -27,19 +28,14 @@ const PurchaseOrderList = () => {
         dispatch(
             openModal({
                 title: "Agregar Orden de Compra",
-                body: (
-                    <PurchaseOrderModal
-                        purchase={emptyPurchase}
-                        pivotId={pivotId}
-                    />
-                )
+                body: <CreatePurchaseOrderModal pivotId={pivotId} />
             })
         );
     };
 
     return (
         <React.Fragment>
-            {products && products.length > 0 && (
+            {products.length > 0 && (
                 <React.Fragment>
                     <div className="mr-auto text-center py-4">
                         <h1 className="h2">Ordenes de Compra</h1>
@@ -47,17 +43,7 @@ const PurchaseOrderList = () => {
 
                     {purchaseOrders.length == 0 && <EmptyList />}
 
-                    {isMine && (
-                        <div className="text-center">
-                            <button
-                                className="btn btn-lg btn-success btn-round mb-5"
-                                onClick={handleCreate}
-                            >
-                                <span className="material-icons">add</span>
-                                Agregar
-                            </button>
-                        </div>
-                    )}
+                    {isMine && <LargeCreateButton onClick={handleCreate} />}
 
                     {purchaseOrders.length > 0 && (
                         <div className="row mb-4">
@@ -65,11 +51,11 @@ const PurchaseOrderList = () => {
                                 <table className="table table-sm table-hover table-bordered fade-in">
                                     <thead className="thead-dark">
                                         <tr>
-                                            <th scope="col">Orden de Compra</th>
                                             <th scope="col">Item</th>
-                                            <th scope="col">Registro Salud</th>
-                                            <th scope="col">Cantidad PCS</th>
                                             <th scope="col">Descripción</th>
+                                            <th scope="col">Registro Salud</th>
+                                            <th scope="col">Cantidad (CTNS)</th>
+                                            <th scope="col">Precio</th>
                                             <th scope="col">Total</th>
                                         </tr>
                                     </thead>
@@ -78,7 +64,6 @@ const PurchaseOrderList = () => {
                                             return (
                                                 <PurchaseOrder
                                                     purchaseOrder={order}
-                                                    negotiation={negotiation}
                                                     key={order.id}
                                                 />
                                             );
@@ -88,9 +73,11 @@ const PurchaseOrderList = () => {
                                                 Total
                                             </th>
                                             <td>
-                                                {getSum(
-                                                    purchaseOrders,
-                                                    "total"
+                                                {roundMoneyAmount(
+                                                    getSum(
+                                                        purchaseOrders,
+                                                        "total"
+                                                    )
                                                 )}
                                             </td>
                                         </tr>
