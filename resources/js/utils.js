@@ -1,5 +1,7 @@
 import { useSelector } from "react-redux";
 
+export const milisecondsInMinute = 1000 * 60;
+export const milisecondsInHour = 1000 * 60 * 60;
 export const secondsInDay = 1000 * 60 * 60 * 24;
 
 const defaultOptions = {
@@ -22,6 +24,23 @@ export function dateToString(date, options = defaultOptions) {
 
 export function dateToShortString(date, options = defaultShortOptions) {
     return new Intl.DateTimeFormat("default", options).format(date);
+}
+
+export function getElapsedTimeString(date) {
+    const days = Math.floor((new Date() - date) / secondsInDay);
+    if (days > 0) {
+        return days + "d";
+    }
+    const hours = Math.floor((new Date() - date) / milisecondsInHour);
+    if (hours > 0) {
+        return hours + "h";
+    }
+    const minutes = Math.floor((new Date() - date) / milisecondsInMinute);
+    if (minutes > 0) {
+        return minutes + "m";
+    }
+    
+    return "ahora";
 }
 
 export const redCard = {

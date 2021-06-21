@@ -110,3 +110,25 @@ table,
     border-color: rgb(0, 188, 212);
     box-shadow: 0 0 10px rgba(0, 188, 212, 0.4);
 }
+
+.card.notification {
+    max-width: 800px;
+    &:first-child {
+        border-radius: 10px 10px 0 0 !important;
+    }
+
+    &:last-child {
+        border-radius: 0 0 10px 10px !important;
+    }
+
+    &.unread {
+        background: rgba(112, 181, 249, 0.2);
+    }
+
+    & a {
+        color: inherit;
+    }
+    & a:hover {
+        color: inherit;
+    }
+}
