@@ -90,7 +90,7 @@ const ProviderCard = ({ provider, selectedProvider }) => {
                             to={`/negotiation/${pivot.id}`}
                             className="btn btn-primary btn-round"
                         >
-                            Ver Compra
+                            Administrar Compra
                         </Link>
                     ) : (
                         !selectedProvider &&

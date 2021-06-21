@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { updateClaim } from "../../store/actions/claimActions";
 import { openModal } from "../../store/actions/modalActions";
+import { isClaimCompleted } from "../../utils";
 import NegotiationTabs from "../Negotiation/NegotiationTabs";
 import ClaimManagementModal from "./ClaimManagementModal";
 
@@ -51,7 +52,9 @@ const ClaimCard = ({ claim }) => {
 
     return (
         <div
-            className={`card my-2 fade-in py-2`}
+            className={`card my-2 fade-in py-2 ${
+                isClaimCompleted(claim) ? "bg-success text-white" : ""
+            }`}
             onClick={handleOpenManagement}
             style={{ cursor: "pointer" }}
         >

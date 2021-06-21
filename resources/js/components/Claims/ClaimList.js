@@ -2,18 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { getClaims } from "../../store/actions/claimActions";
-import { useUser } from "../../utils";
+import { isClaimCompleted, useUser } from "../../utils";
 import GenericFilter from "../Filters/GenericFilter";
 import NegotiationResume from "../Widgets/NegotiationResume";
 import ClaimCard from "./ClaimCard";
-
-const isClaimCompleted = claim => {
-    return (
-        claim.recepcion_mercancia == 1 &&
-        claim.inspeccion_carga == 1 &&
-        claim.reclamos_devoluciones == 1
-    );
-};
 
 const ClaimsList = () => {
     const dispatch = useDispatch();
