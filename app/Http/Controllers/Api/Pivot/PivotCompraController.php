@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Api\Pivot;
 use App\Compra;
 use App\PivotTareaProveeder;
 use Illuminate\Http\Request;
+use App\Exports\ComprasExport;
+use App\Imports\ComprasImport;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\ApiController;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpFoundation\Response;
 
 class PivotCompraController extends ApiController
 {
@@ -48,6 +51,23 @@ class PivotCompraController extends ApiController
         $compra->save();
 
         return $this->showOne($compra);
+    }
+
+    public function importCompra(Request $request, PivotTareaProveeder $negociacion)
+    {
+        
+        $archivo = $request->file('import_compra');
+        $id_pivot =  $negociacion->id;
+        Excel::import(new ComprasImport($id_pivot), $archivo);
+        return $this->successMensaje('Archivo de Ordenes de Compra Importado Correctamente', 201);
+    }
+
+    public function exportCompra(PivotTareaProveeder $negociacion)
+    {
+        
+        
+        return Excel::download(new ComprasExport($negociacion->id), 'ordenDeCompra.xlsx');
+        
     }
  
     public function show($compra_id)

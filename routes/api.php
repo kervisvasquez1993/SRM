@@ -21,6 +21,7 @@ Route::get('/filter', 'Api\FilterProduccionTransitoController@index');
 
 Route::post('login', 'Api\AuthController@login');
 
+
 Route::middleware('auth.jwt')->group(function () {
 
 
@@ -72,6 +73,8 @@ Route::middleware('auth.jwt')->group(function () {
 
     //orden de compra 
     Route::post('/negociaciones/{negociacion_id}/compras', 'Api\Pivot\PivotCompraController@store');
+    Route::post('/negociaciones/{negociacion}/importCompra', 'Api\Pivot\PivotCompraController@importCompra');
+    Route::get('/negociaciones/{negociacion}/importCompra', 'Api\Pivot\PivotCompraController@exportCompra'); 
     Route::get('/negociaciones/{negociacione_id}/compras/', 'Api\Pivot\PivotCompraController@show');
     Route::put('/negociaciones/{negociacione_id}/compras/{compra}', 'Api\Pivot\PivotCompraController@update');
     //orden de compra
