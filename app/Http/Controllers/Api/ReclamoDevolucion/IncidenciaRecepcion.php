@@ -28,7 +28,7 @@ class IncidenciaRecepcion extends ApiController
     {
         $reclamos_devolucione_id = $reclamos_devolucione->id;
          $request->merge([
-            'recepcion_reclamo_devolucions_id' => $reclamos_devolucione_id,
+            'recepcion_reclamo_devolucion_id' => $reclamos_devolucione_id,
             'user_id' => auth()->user()->id
         ]);
         $test = $request->all();
