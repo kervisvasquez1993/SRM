@@ -39,7 +39,7 @@ const ClaimManagementModal = ({ claimId }) => {
                                 Incidencias con Inspección de Carga
                             </TabButton>
 
-                            <TabButton name="reclamos_devoluciones">
+                            <TabButton name="reclamos_devolucion">
                                 <i className="material-icons">receipt_long</i>
                                 Incidencias con Reclamos y Devoluciones
                             </TabButton>
@@ -62,7 +62,7 @@ const ClaimManagementModal = ({ claimId }) => {
                                     title="Incidencias con Inspección de Carga"
                                 ></IncidentsTab>
                             </TabContent>
-                            <TabContent name="reclamos_devoluciones">
+                            <TabContent name="reclamos_devolucion">
                                 <IncidentsTab
                                     stateName="claim"
                                     url1="reclamos_devoluciones"
