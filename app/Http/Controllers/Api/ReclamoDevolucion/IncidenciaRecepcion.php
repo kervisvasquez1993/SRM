@@ -19,8 +19,8 @@ class IncidenciaRecepcion extends ApiController
     public function index(RecepcionReclamoDevolucion $reclamos_devolucione)
     {
         
-        $incidencia_recepcion = $reclamos_devolucione->recepcionMercancia;
-        return $this->showAll($incidencia_recepcion);
+        $reclamos_devolucione = $reclamos_devolucione->recepcionMercancia;
+        return $this->showAll($reclamos_devolucione);
     }
 
    
