@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
 import { getPurchaseOrdersFromNegotiation } from "../../store/actions/purchaseOrderActions";
-import { getSum } from "../../utils";
+import { getSum, roundMoneyAmount } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
 import LargeCreateButton from "../Widgets/LargeCreateButton";
 import CreatePurchaseOrderModal from "./CreatePurchaseOrderModal";
@@ -51,11 +51,11 @@ const PurchaseOrderList = () => {
                                 <table className="table table-sm table-hover table-bordered fade-in">
                                     <thead className="thead-dark">
                                         <tr>
-                                            <th scope="col">Orden de Compra</th>
                                             <th scope="col">Item</th>
-                                            <th scope="col">Registro Salud</th>
-                                            <th scope="col">Cantidad PCS</th>
                                             <th scope="col">Descripción</th>
+                                            <th scope="col">Registro Salud</th>
+                                            <th scope="col">Cantidad (CTNS)</th>
+                                            <th scope="col">Precio</th>
                                             <th scope="col">Total</th>
                                         </tr>
                                     </thead>
@@ -64,7 +64,6 @@ const PurchaseOrderList = () => {
                                             return (
                                                 <PurchaseOrder
                                                     purchaseOrder={order}
-                                                    negotiation={negotiation}
                                                     key={order.id}
                                                 />
                                             );
@@ -74,9 +73,11 @@ const PurchaseOrderList = () => {
                                                 Total
                                             </th>
                                             <td>
-                                                {getSum(
-                                                    purchaseOrders,
-                                                    "total"
+                                                {roundMoneyAmount(
+                                                    getSum(
+                                                        purchaseOrders,
+                                                        "total"
+                                                    )
                                                 )}
                                             </td>
                                         </tr>

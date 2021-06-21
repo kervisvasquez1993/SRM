@@ -107,10 +107,10 @@ export function uploadPurchaseOrders(pivotId, file) {
 
         try {
             let formData = new FormData();
-            formData.append("import", file);
+            formData.append("import_compra", file);
 
             await axios.post(
-                `${apiURL}/negociacion/${pivotId}}/importar-producto/`,
+                `${apiURL}/negociaciones/${pivotId}/importCompra/`,
                 formData
             );
 

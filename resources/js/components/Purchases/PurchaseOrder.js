@@ -31,11 +31,11 @@ const PurchaseOrder = ({ purchaseOrder }) => {
 
     return (
         <tr>
-            <td>{purchaseOrder.orden_compra}</td>
             <td>{purchaseOrder.item}</td>
-            <td>{purchaseOrder.registro_salud}</td>
-            <td>{purchaseOrder.cantidad_pcs}</td>
             <td>{purchaseOrder.descripcion}</td>
+            <td>{purchaseOrder.registro_salud}</td>
+            <td>{purchaseOrder.cantidad_ctns}</td>
+            <td>{purchaseOrder.price}</td>
             <td className="text-right">
                 <div className="d-inline-flex align-items-center">
                     {purchaseOrder.total}
