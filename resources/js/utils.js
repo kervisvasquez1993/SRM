@@ -228,3 +228,22 @@ export const preventDefault = e => {
 export const className = (condition, value) => {
     return condition ? value : "";
 };
+
+export const isClaimCompleted = claim => {
+    return (
+        claim.recepcion_mercancia == 1 &&
+        claim.inspeccion_carga == 1 &&
+        claim.reclamos_devoluciones == 1
+    );
+};
+
+export const isArtCompleted = art => {
+    return art.creacion_fichas === "finalizado"
+    && art.validacion_fichas === "finalizado"
+    && art.creacion_boceto === "finalizado"
+    && art.validacion_boceto === "finalizado"
+    && art.confirmacion_proveedor === "finalizado";
+}
+export const getNegotiationModalName = negotiation => {
+    return `${negotiation.proveedor.nombre} - ${negotiation.proveedor.pais} - ${negotiation.proveedor.ciudad}`;
+};

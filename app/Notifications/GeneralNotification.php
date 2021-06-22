@@ -11,7 +11,7 @@ class GeneralNotification extends Notification
 {
     protected $body;
     protected $link;
-    protected $tipoNotify;
+    protected $type;
     use Queueable;
 
     /**
@@ -19,11 +19,11 @@ class GeneralNotification extends Notification
      *
      * @return void
      */
-    public function __construct($body, $link, $tipoNotify)
+    public function __construct($body, $link, $type)
     {
         $this->body = $body;
         $this->link = $link;
-        $this->tipoNotify = $tipoNotify;
+        $this->type = $type;
     }
 
     /**
@@ -62,7 +62,7 @@ class GeneralNotification extends Notification
         return [
             'body' => $this->body,
             'link' => $this->link,
-            'tipoNotify' => $this->tipoNotify
+            'type' => $this->type
         ];
     }
 }

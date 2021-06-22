@@ -1,5 +1,6 @@
 const defaultState = {
     list: [],
+    isLoadingList: false,
     current: null,
 
     isEditingDropdowns: false
@@ -16,16 +17,25 @@ const artReducer = (state = defaultState, action) => {
             };
         case "GET_ARTS_REQUEST":
             return {
-                ...state
+                ...state,
+                isLoadingList: true
             };
         case "GET_ARTS_SUCCESS":
             return {
                 ...state,
-                list: payload
+                list: payload,
+                isLoadingList: false
             };
         case "GET_ARTS_FAILURE":
             return {
-                ...state
+                ...state,
+                isLoadingList: false
+            };
+
+        case "CHANGE_HISTORY":
+            return {
+                ...state,
+                isLoadingList: true
             };
 
         case "GET_ART_REQUEST":

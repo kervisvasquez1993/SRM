@@ -21,13 +21,9 @@ const Sidebar = () => {
     return (
         <div className="menu">
             <div className="logo">
-                <Link
-                    to="/home"
-                    className="simple-text logo-normal"
-                    onClick={closeMenu}
-                >
+                <button className="simple-text logo-normal" onClick={closeMenu}>
                     SRM Dynamics
-                </Link>
+                </button>
             </div>
 
             <nav>
@@ -37,11 +33,7 @@ const Sidebar = () => {
                 </Link>
 
                 {user.rol === "coordinador" && (
-                    <Link
-                        className="menu-link"
-                        to="/users"
-                        onClick={closeMenu}
-                    >
+                    <Link className="menu-link" to="/users" onClick={closeMenu}>
                         <i className="material-icons">person</i>
                         <p>Usuarios</p>
                     </Link>
@@ -91,7 +83,7 @@ const Sidebar = () => {
                     <React.Fragment>
                         <Link
                             className="menu-link"
-                            to="/production"
+                            to="/productions"
                             onClick={closeMenu}
                         >
                             <i className="material-icons">

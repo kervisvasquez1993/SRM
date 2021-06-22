@@ -90,8 +90,7 @@ Route::middleware('auth.jwt')->group(function () {
     Route::get('/produccion_transito', 'Api\ProduccionTransito\ProduccionTransitoController@index');
     Route::get('/produccion_transito/{produccionTransito}', 'Api\ProduccionTransito\ProduccionTransitoController@show');
     Route::put('/produccion_transito/{produccionTransito}', 'Api\ProduccionTransito\ProduccionTransitoController@update');
-
-
+    /* Route::post('/reclamos/{id}', 'Api\ProduccionTransito\ProduccionTransitoController@reclamosDevolucion'); */
 
     //inicio de produccion 
 
@@ -185,10 +184,43 @@ Route::middleware('auth.jwt')->group(function () {
     Route::put('confirmacion_proveedor/{confirmacion_proveedor_id}', 'Api\Arte\ArteConfirmacionProveedorController@update');
     Route::delete('confirmacion_proveedor/{confirmacion_proveedor_id}', 'Api\Arte\ArteConfirmacionProveedorController@destroy');
     //fin de produccion
-
     //notificacion
-
     Route::get('notificacion', 'Api\Notification\NotificationController@index');
     Route::get('notificacion/count', 'Api\Notification\NotificationController@count');
     Route::patch('/notificacion/{id}', 'Api\Notification\NotificationController@read');
+
+
+     /* Recepcion reclamos y devoluciones */
+     Route::get('/reclamos_devoluciones/', 'Api\ReclamoDevolucion\ReclamoDevolucionController@index'); 
+     Route::get('/reclamos_devoluciones/{reclamos_devolucione}', 'Api\ReclamoDevolucion\ReclamoDevolucionController@show');
+     Route::put('/reclamos_devoluciones/{reclamos_devolucione}', 'Api\ReclamoDevolucion\ReclamoDevolucionController@update');  
+ 
+     /* fin de reclamos y devoluciones */
+
+
+     /* incidencias de Recepción */
+     Route::get('/reclamos_devoluciones/{reclamos_devolucione}/incidencia_recepcion', 'Api\ReclamoDevolucion\IncidenciaRecepcion@index');
+     Route::post('/reclamos_devoluciones/{reclamos_devolucione}/incidencia_recepcion', 'Api\ReclamoDevolucion\IncidenciaRecepcion@store');
+     Route::get('/incidencia_recepcion/{incidencia_recepcion_id}', 'Api\ReclamoDevolucion\IncidenciaRecepcion@show');
+     Route::put('/incidencia_recepcion/{incidencia_recepcion_id}', 'Api\ReclamoDevolucion\IncidenciaRecepcion@update');
+     Route::delete('/incidencia_recepcion/{incidencia_recepcion_id}', 'Api\ReclamoDevolucion\IncidenciaRecepcion@destroy');
+     /* FIN incidencias de Recepción  */
+
+
+     /* incidencias de inspeccion */
+     Route::get('/reclamos_devoluciones/{reclamos_devolucione}/inspeccion_carga', 'Api\ReclamoDevolucion\IncidenciaInspeccionController@index');
+     Route::post('/reclamos_devoluciones/{reclamos_devolucione}/inspeccion_carga', 'Api\ReclamoDevolucion\IncidenciaInspeccionController@store');
+     Route::get('/inspeccion_carga/{inspeccion_carga_id}', 'Api\ReclamoDevolucion\IncidenciaInspeccionController@show');
+     Route::put('/inspeccion_carga/{inspeccion_carga_id}', 'Api\ReclamoDevolucion\IncidenciaInspeccionController@update');
+     Route::delete('/inspeccion_carga/{inspeccion_carga_id}', 'Api\ReclamoDevolucion\IncidenciaInspeccionController@destroy');
+     /* FIN incidencias de Inspeccion  */
+
+       /* incidencias de  */
+       Route::get('/reclamos_devoluciones/{reclamos_devolucione}/reclamos_devolucion', 'Api\ReclamoDevolucion\ReclamoDevolucionesController@index');
+       Route::post('/reclamos_devoluciones/{reclamos_devolucione}/reclamos_devolucion', 'Api\ReclamoDevolucion\ReclamoDevolucionesController@store');
+       Route::get('/reclamos_devolucion/{reclamos_devolucion_id}', 'Api\ReclamoDevolucion\ReclamoDevolucionesController@show');
+       Route::put('/reclamos_devolucion/{reclamos_devolucion_id}', 'Api\ReclamoDevolucion\ReclamoDevolucionesController@update');
+       Route::delete('/reclamos_devolucion/{reclamos_devolucion_id}', 'Api\ReclamoDevolucion\ReclamoDevolucionesController@destroy');
+       /* FIN incidencias de Inspeccion  */
+
 });

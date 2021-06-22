@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { AiFillCheckCircle } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../../store/actions/modalActions";
 import { getPayments } from "../../../store/actions/productionActions";
@@ -11,6 +12,7 @@ import {
 import EmptyList from "../../Navigation/EmptyList";
 import LoadingScreen from "../../Navigation/LoadingScreen";
 import LargeCreateButton from "../../Widgets/LargeCreateButton";
+import SmallCard from "../../Widgets/SmallCard";
 import PaymentModal, { emptyPayment } from "./PaymentModal";
 import PaymentRow from "./PaymentRow";
 
@@ -62,78 +64,51 @@ const PaymentsTab = ({ production }) => {
             ) : (
                 <React.Fragment>
                     <div className="card p-4">
-                        <div className="card-body">
-                            <div className="row">
-                                <div className="d-flex mb-3 col-sm-6">
-                                    <div className="card-icon bg-success text-white mr-2">
-                                        <span className="material-icons">
-                                            account_balance_wallet
-                                        </span>
-                                    </div>
-                                    <div className="mb">
-                                        <p className="card-text font-weight-bold m-0 h5">
-                                            {totalToPay}
-                                        </p>
-                                        <p className="card-title">
-                                            Total a Pagar
-                                        </p>
-                                    </div>
-                                </div>
+                        <div className="resume-card-body resume-card-body-4">
+                            <SmallCard
+                                label="Total a Pagar"
+                                materialIcon="account_balance_wallet"
+                                backgroundClass="bg-success"
+                            >
+                                {totalToPay}
+                            </SmallCard>
 
-                                <div className="d-flex mb-3 col-sm-6">
-                                    <div className="card-icon bg-danger text-white mr-2">
-                                        <span className="material-icons">
-                                            production_quantity_limits
-                                        </span>
-                                    </div>
-                                    <div className="mb">
-                                        <p className="card-text m-0 font-weight-bold h5">
-                                            {remainingPayment} (
-                                            {remainingPercentage}%)
-                                        </p>
-                                        <p className="card-title ">
-                                            Pago Restante
-                                        </p>
-                                    </div>
-                                </div>
+                            <SmallCard
+                                label="Pago Restante"
+                                materialIcon="production_quantity_limits"
+                                backgroundClass="bg-danger"
+                            >
+                                {remainingPayment} ({remainingPercentage}%)
+                            </SmallCard>
 
-                                <div className="d-flex mb-3 col-sm-6">
-                                    <div className="card-icon bg-info text-white mr-2">
-                                        <span className="material-icons">
-                                            savings
-                                        </span>
-                                    </div>
-                                    <div className="mb">
-                                        <p className="card-text m-0 font-weight-bold h5">
-                                            {prepayment > 0
-                                                ? `${prepayment} (${prepaymentPercentage} %)`
-                                                : 0}
-                                        </p>
-                                        <p className="card-title ">
-                                            Pago Anticipado
-                                        </p>
-                                    </div>
-                                </div>
+                            <SmallCard
+                                label="Pago Anticipado"
+                                materialIcon="savings"
+                                backgroundClass="bg-info"
+                            >
+                                {prepayment > 0
+                                    ? `${prepayment} (${prepaymentPercentage} %)`
+                                    : 0}
+                            </SmallCard>
 
-                                <div className="d-flex mb-3 col-sm-6">
-                                    <div className="card-icon bg-primary text-white mr-2">
-                                        <span className="material-icons">
-                                            attach_money
-                                        </span>
-                                    </div>
-                                    <div className="mb">
-                                        <p className="card-text m-0 font-weight-bold h5">
-                                            {totalPaid > 0
-                                                ? `${totalPaid} (${paidPercentage}%)`
-                                                : 0}
-                                        </p>
-                                        <p className="card-title">
-                                            Total Pagado
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                            <SmallCard
+                                label="Total Pagado"
+                                materialIcon="attach_money"
+                                backgroundClass="bg-primary"
+                            >
+                                {totalPaid > 0
+                                    ? `${totalPaid} (${paidPercentage}%)`
+                                    : 0}
+                            </SmallCard>
                         </div>
+                        {paidPercentage >= 100 && (
+                            <div className="text-success d-flex align-items-center flex-column mt-4 mb-2">
+                                <AiFillCheckCircle className="icon-large mb-2" />
+                                <p className="h4 text-center">
+                                    La compra se ha pagado en su totalidad
+                                </p>
+                            </div>
+                        )}
                     </div>
 
                     <div className="card py-5 px-3">
