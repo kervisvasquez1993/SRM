@@ -29,13 +29,6 @@
     overflow-x: hidden;
 }
 
-.sidebar-touch-border {
-    position: absolute;
-    top: 0;
-    width: 10%;
-    height: 100%;
-}
-
 .menu-wrapper.mostrar {
     & .menu {
         left: 0;
@@ -44,10 +37,6 @@
 
     & .page-wrapper {
         left: $sidebar-ancho;
-    }
-
-    & .sidebar-touch-border {
-        width: 100%;
     }
 }
 
