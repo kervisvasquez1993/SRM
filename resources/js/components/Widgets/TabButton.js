@@ -4,7 +4,9 @@ import { TabContext } from "./Tabs";
 const TabButton = props => {
     const { name } = props;
 
-    const { currentTab, setCurrentTab } = useContext(TabContext);
+    const { currentTab, setCurrentTab, className = "" } = useContext(
+        TabContext
+    );
 
     const handleClick = e => {
         e.preventDefault();
@@ -12,7 +14,7 @@ const TabButton = props => {
     };
 
     return (
-        <li className="nav-item">
+        <li className={`nav-item ${className} mr-lg-1`}>
             <a
                 className={`nav-link ${currentTab === name ? "active" : ""}`}
                 href="#"

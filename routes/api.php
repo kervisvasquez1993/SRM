@@ -188,6 +188,7 @@ Route::middleware('auth.jwt')->group(function () {
     //fin de produccion
     //notificacion
     Route::get('notificacion', 'Api\Notification\NotificationController@index');
+    Route::get('notificacion/count', 'Api\Notification\NotificationController@count');
     Route::patch('/notificacion/{id}', 'Api\Notification\NotificationController@read');
 
 

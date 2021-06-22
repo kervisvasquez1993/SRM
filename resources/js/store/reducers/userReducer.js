@@ -1,5 +1,6 @@
 const defaultState = {
-    users: []
+    users: [],
+    isLoadingList: false
 };
 
 const userReducer = (state = defaultState, action) => {
@@ -8,23 +9,32 @@ const userReducer = (state = defaultState, action) => {
     switch (type) {
         case "GET_USERS_REQUEST":
             return {
-                ...state
+                ...state,
+                isLoadingList: true
             };
         case "GET_USERS_SUCCESS":
             return {
                 ...state,
-                users: payload
+                users: payload,
+                isLoadingList: false
             };
         case "GET_USERS_FAILURE":
             return {
-                ...state
+                ...state,
+                isLoadingList: false
+            };
+
+        case "CHANGE_HISTORY":
+            return {
+                ...state,
+                isLoadingList: true
             };
 
         case "CREATE_USER_SUCCESS":
             return {
                 ...state,
                 users: [...state.users, payload]
-            }
+            };
         default:
             return state;
     }

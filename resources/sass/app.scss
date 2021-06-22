@@ -62,6 +62,36 @@
     align-items: center;
 }
 
+.resume-card-body {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+    align-items: start;
+    grid-gap: 1rem 1rem;
+    justify-content: center;
+    align-content: center;
+
+    &.resume-card-body-1 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (min-width: 540px) {
+    .resume-card-body:not(.resume-card-body-2):not(.resume-card-body-1) {
+        grid-template-columns: repeat(4, 1fr);
+
+        &.single {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+@media (min-width: 1200px) {
+    .resume-card-body:not(.resume-card-body-4):not(.resume-card-body-2):not(.resume-card-body-1) {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
 .nav-pills {
     & .nav-link {
         color: white;
@@ -109,4 +139,37 @@ table,
 .drag-active {
     border-color: rgb(0, 188, 212);
     box-shadow: 0 0 10px rgba(0, 188, 212, 0.4);
+}
+
+.card.notification {
+    max-width: 800px;
+    &:first-child {
+        border-radius: 10px 10px 0 0 !important;
+    }
+
+    &:last-child {
+        border-radius: 0 0 10px 10px !important;
+    }
+
+    &.unread {
+        background: rgba(112, 181, 249, 0.2);
+    }
+
+    & a {
+        color: inherit;
+    }
+    & a:hover {
+        color: inherit;
+    }
+}
+
+.text-white {
+    & .form-check label,
+    & label {
+        color: white !important;
+    }
+
+    & .form-control {
+        color: white !important;
+    }
 }

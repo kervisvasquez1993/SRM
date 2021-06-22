@@ -16,12 +16,12 @@ use Symfony\Component\HttpFoundation\Response;
 class PivotCompraController extends ApiController
 {
     private $validator_array = [
-        'orden_compra' => 'required',
         'item' => 'required',
         'descripcion' => 'required',
         'registro_salud' => 'required',
-        'cantidad_pcs' => 'required|numeric',
-        'total' => 'required|numeric'   
+        'cantidad_ctns' => 'required|numeric',
+        'price' => 'required|numeric',
+        'total' => 'required|numeric'
     ];
 
     public function index($negociacion_id)
@@ -34,18 +34,17 @@ class PivotCompraController extends ApiController
     {
         $validator = Validator::make($request->all(), $this->validator_array);
 
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
         }
 
         $compra = new Compra();
-        $compra->orden_compra = $request->orden_compra;
         $compra->pivot_tarea_proveeder_id = $request->negociacion_id;
         $compra->item = $request->item;
         $compra->descripcion = $request->descripcion;
         $compra->registro_salud = $request->registro_salud;
-        $compra->cantidad_pcs = $request->cantidad_pcs;
+        $compra->cantidad_ctns = $request->cantidad_ctns;
+        $compra->price = $request->price;
         $compra->total = $request->total;
         $compra->comprador = auth()->user()->email;
         $compra->save();
@@ -55,7 +54,7 @@ class PivotCompraController extends ApiController
 
     public function importCompra(Request $request, PivotTareaProveeder $negociacion)
     {
-        
+
         $archivo = $request->file('import_compra');
         $id_pivot =  $negociacion->id;
         Excel::import(new ComprasImport($id_pivot), $archivo);
@@ -64,40 +63,38 @@ class PivotCompraController extends ApiController
 
     public function exportCompra(PivotTareaProveeder $negociacion)
     {
-        
-        
+
+
         return Excel::download(new ComprasExport($negociacion->id), 'ordenDeCompra.xlsx');
-        
     }
- 
+
     public function show($compra_id)
     {
         $compra =  PivotTareaProveeder::findOrFail($compra_id);
         return $this->showOne($compra);
     }
 
-  
+
     public function update(Request $request, $compra_id)
     {
         $validator = Validator::make($request->all(), $this->validator_array);
 
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
         }
-        
+
         $compra = Compra::findOrFail($compra_id);
         $compra->update($request->all());
         $compra->save();
 
         return $this->showOne($compra);
     }
-    
+
     public function destroy($compra_id)
     {
         $compra = Compra::findOrFail($compra_id);
         $compra->delete();
-        
+
         return $this->showOne($compra);
     }
 }

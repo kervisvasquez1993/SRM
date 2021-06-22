@@ -1,10 +1,12 @@
 import {combineReducers} from "redux";
 import artReducer from "./artReducer";
 import authReducer from "./authReducer";
+import claimReducer from "./claimReducer";
 import genericFormReducer from "./genericFormReducer";
 import incidentReducer from "./incidentReducer";
 import modalReducer from "./modalReducer";
 import negotiationReducer from "./negotiationReducer";
+import notificationReducer from "./notificationReducer";
 import productionReducer from "./productionReducer";
 import productReducer from "./productReducer";
 import providerReducer from "./providerReducer";
@@ -26,7 +28,9 @@ const rootReducer = combineReducers({
     production: productionReducer,
     art: artReducer,
     incident: incidentReducer,
-    genericForm: genericFormReducer
+    genericForm: genericFormReducer,
+    notification: notificationReducer,
+    claim: claimReducer
 });
 
 export default rootReducer;

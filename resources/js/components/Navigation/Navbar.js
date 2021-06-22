@@ -1,13 +1,28 @@
-import axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../../store/actions/authActions";
+import { getUnreadNotificationsCount } from "../../store/actions/notificationActions";
 import { toggleSidebar } from "../../store/actions/sidebarActions";
 
 const Navbar = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.auth.user);
+    const unreadNotificationsCount = useSelector(
+        state => state.notification.unreadCount
+    );
+
+    useEffect(() => {
+        dispatch(getUnreadNotificationsCount());
+
+        const interval = setInterval(() => {
+            dispatch(getUnreadNotificationsCount());
+        }, 5000);
+
+        return () => {
+            clearInterval(interval);
+        };
+    }, []);
 
     return (
         <nav className="navbar-dashboard">
@@ -22,7 +37,11 @@ const Navbar = () => {
 
             <Link to="/notifications" className="campana">
                 <i className="material-icons">notifications</i>
-                <span className="campana-numero">5</span>
+                {unreadNotificationsCount > 0 && (
+                    <span className="campana-numero">
+                        {unreadNotificationsCount}
+                    </span>
+                )}
             </Link>
 
             <span className="usuario-nombre">{user.name}</span>

@@ -1,23 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProductions } from "../../store/actions/productionActions";
+import { Redirect } from "react-router-dom";
+import { getClaims } from "../../store/actions/claimActions";
+import { isClaimCompleted, useUser } from "../../utils";
 import GenericFilter from "../Filters/GenericFilter";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import NegotiationResume from "../Widgets/NegotiationResume";
-import ProductionCard from "./ProductionCard";
+import ClaimCard from "./ClaimCard";
 
-const ProductionList = () => {
+const ClaimsList = () => {
     const dispatch = useDispatch();
-    const productions = useSelector(state => state.production.list);
+    const user = useUser();
+    const claims = useSelector(state => state.claim.list);
+    const isLoadingList = useSelector(state => state.claim.isLoadingList);
     const [filteredNegotiations, setFilteredNegotiations] = useState([]);
-    const isLoadingList = useSelector(state => state.production.isLoadingList);
+
+    if (!(user.rol === "coordinador" || user.rol === "comprador")) {
+        return <Redirect to="/home" />;
+    }
 
     const onChange = filteredList => {
         setFilteredNegotiations(filteredList.map(item => item.pivot));
     };
 
     useEffect(() => {
-        dispatch(getProductions());
+        dispatch(getClaims());
     }, []);
 
     const filterConfig = [
@@ -32,9 +39,9 @@ const ProductionList = () => {
                     filter: (item, filters) =>
                         !(
                             filters["status"]["processing"] === false &&
-                            !item.salida_puero_origen
+                            !isClaimCompleted(item)
                         ),
-                    filterPopulator: item => !item.salida_puero_origen
+                    filterPopulator: item => !isClaimCompleted(item)
                 },
                 {
                     id: "completed",
@@ -44,20 +51,11 @@ const ProductionList = () => {
                     filter: (item, filters) =>
                         !(
                             filters["status"]["completed"] === false &&
-                            item.salida_puero_origen
+                            isClaimCompleted(item)
                         ),
-                    filterPopulator: item => item.salida_puero_origen
+                    filterPopulator: item => isClaimCompleted(item)
                 }
             ]
-        },
-        {
-            name: "user",
-            type: "checkbox",
-            label: "Usuario",
-            useAccordion: true,
-            values: item => item.pivot.usuario.name,
-            filter: (item, filters) => filters.user[item.pivot.usuario.name],
-            counterFilter: (item, id) => item.pivot.usuario.name === id
         },
         {
             name: "country",
@@ -94,16 +92,16 @@ const ProductionList = () => {
     const populatorConfig = [
         {
             header: "En proceso",
-            filterPopulator: item => !item.salida_puero_origen,
+            filterPopulator: item => !isClaimCompleted(item),
             populator: item => {
-                return <ProductionCard key={item.id} production={item} />;
+                return <ClaimCard key={item.id} claim={item} />;
             }
         },
         {
             header: "Completadas",
-            filterPopulator: item => item.salida_puero_origen,
+            filterPopulator: item => isClaimCompleted(item),
             populator: item => {
-                return <ProductionCard key={item.id} production={item} />;
+                return <ClaimCard key={item.id} claim={item} />;
             }
         }
     ];
@@ -114,11 +112,11 @@ const ProductionList = () => {
 
     return (
         <React.Fragment>
-            <h1 className="text-center my-5">Producción y Transito</h1>
+            <h1 className="text-center my-5">Reclamos y Devoluciones</h1>
 
             <GenericFilter
                 config={filterConfig}
-                unfilteredData={productions}
+                unfilteredData={claims}
                 populatorConfig={populatorConfig}
                 onChange={onChange}
             >
@@ -128,4 +126,4 @@ const ProductionList = () => {
     );
 };
 
-export default ProductionList;
+export default ClaimsList;

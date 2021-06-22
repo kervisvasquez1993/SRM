@@ -25,7 +25,7 @@ const TaskCard = ({ task }) => {
             user_id: task.usuario.id
         };
 
-        console.log(taskToEdit)
+        console.log(taskToEdit);
 
         dispatch(
             openModal({
@@ -52,7 +52,7 @@ const TaskCard = ({ task }) => {
                     editedTask && editedTask.id === id ? "jump" : ""
                 } ${text} ${background}`}
             >
-                <div className="card-header ">
+                <div className="card-header mb-1">
                     <div className="card-text">
                         <h5 className="card-title d-flex justify-content-between w-100">
                             <span className="tarea">{nombre}</span>
@@ -62,7 +62,13 @@ const TaskCard = ({ task }) => {
                             </span>
                         </h5>
                     </div>
-                    <hr />
+                    <hr className="mb-1" />
+
+                    <p className="card-text text-right">
+                        {task.cantidad_proveedores > 0
+                            ? `${task.cantidad_proveedores} ${task.cantidad_proveedores === 1 ? "empresa" : "empresas"}`
+                            : `Sin empresas`}
+                    </p>
                 </div>
 
                 <div className="card-body">

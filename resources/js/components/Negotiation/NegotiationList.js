@@ -442,11 +442,13 @@ import GenericFilter from "../Filters/GenericFilter";
 import NegotiationCard from "./NegotiationCard";
 
 import NegotiationResume from "../Widgets/NegotiationResume";
+import LoadingScreen from "../Navigation/LoadingScreen";
 
 const NegotiationList = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.auth.user);
     const negotiations = useSelector(state => state.negotiation.negotiations);
+    const isLoadingList = useSelector(state => state.negotiation.isLoadingList);
     const [filteredNegotiations, setFilteredNegotiations] = useState([]);
 
     if (!(user.rol == "coordinador" || user.rol == "observador")) {
@@ -477,6 +479,7 @@ const NegotiationList = () => {
                 {
                     id: "completed",
                     label: "Completadas",
+                    defaultValue: false,
 
                     filter: (item, filters) =>
                         !(
@@ -551,6 +554,10 @@ const NegotiationList = () => {
             }
         }
     ];
+
+    if (isLoadingList) {
+        return <LoadingScreen />;
+    }
 
     return (
         <React.Fragment>

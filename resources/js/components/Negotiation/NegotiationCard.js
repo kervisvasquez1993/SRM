@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { openModal } from "../../store/actions/modalActions";
 import {
     getColorsForTask,
+    getNegotiationModalName,
     getRemainingDaysToFinishTask,
     greenCard,
     hasNoProducts
@@ -24,7 +25,7 @@ const NegotiationCard = ({ negotiation }) => {
     const handleOpen = () => {
         dispatch(
             openModal({
-                title: proveedor.nombre,
+                title: getNegotiationModalName(negotiation),
                 body: <NegotiationModal negotiation={negotiation} />
             })
         );
