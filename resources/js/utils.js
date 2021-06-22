@@ -218,6 +218,13 @@ export const isClaimCompleted = claim => {
     );
 };
 
+export const isArtCompleted = art => {
+    return art.creacion_fichas === "finalizado"
+    && art.validacion_fichas === "finalizado"
+    && art.creacion_boceto === "finalizado"
+    && art.validacion_boceto === "finalizado"
+    && art.confirmacion_proveedor === "finalizado";
+}
 export const getNegotiationModalName = negotiation => {
     return `${negotiation.proveedor.nombre} - ${negotiation.proveedor.pais} - ${negotiation.proveedor.ciudad}`;
 };

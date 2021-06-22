@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { openArtModal, updateArt } from "../../store/actions/artActions";
+import { isArtCompleted } from "../../utils";
 
 export const options = [
     {
@@ -20,23 +21,23 @@ export const options = [
 export const categories = [
     {
         value: "creacion_fichas",
-        label: "Creación de Fichas"
+        label: "Creación de Fichas :"
     },
     {
         value: "validacion_fichas",
-        label: "Validación de Fichas"
+        label: "Validación de Fichas :"
     },
     {
         value: "creacion_boceto",
-        label: "Creación de Bocetos"
+        label: "Creación de Bocetos :"
     },
     {
         value: "validacion_boceto",
-        label: "Validación de Bocetos"
+        label: "Validación de Bocetos :"
     },
     {
         value: "confirmacion_proveedor",
-        label: "Confirmación de Proveedor"
+        label: "Confirmación de Proveedor :"
     }
 ];
 
@@ -73,7 +74,7 @@ const ArtCard = ({ art }) => {
 
     return (
         <div
-            className={`card my-2 fade-in py-2`}
+            className={`card my-2 fade-in py-2 ${isArtCompleted(art) ? "bg-success text-white" : ""}`}
             onClick={handleOpenManagement}
             style={{ cursor: "pointer" }}
         >
