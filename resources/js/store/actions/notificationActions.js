@@ -52,6 +52,7 @@ export function markAsRead(id) {
             });
 
             dispatch(getNotifications());
+            dispatch(getUnreadNotificationsCount());
         } catch (e) {
             dispatch({
                 type: "MARK_AS_READ_FAILURE"
