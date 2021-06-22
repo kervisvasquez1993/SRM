@@ -225,3 +225,6 @@ export const isArtCompleted = art => {
     && art.validacion_boceto === "finalizado"
     && art.confirmacion_proveedor === "finalizado";
 }
+export const getNegotiationModalName = negotiation => {
+    return `${negotiation.proveedor.nombre} - ${negotiation.proveedor.pais} - ${negotiation.proveedor.ciudad}`;
+};

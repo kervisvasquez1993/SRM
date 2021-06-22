@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { updateClaim } from "../../store/actions/claimActions";
 import { openModal } from "../../store/actions/modalActions";
-import { isClaimCompleted } from "../../utils";
+import { getNegotiationModalName, isClaimCompleted } from "../../utils";
 import NegotiationTabs from "../Negotiation/NegotiationTabs";
 import ClaimManagementModal from "./ClaimManagementModal";
 
@@ -11,6 +11,7 @@ const ClaimCard = ({ claim }) => {
 
     const {
         pivot: { tarea, proveedor },
+        pivot,
         recepcion_mercancia,
         inspeccion_carga,
         reclamos_devoluciones
@@ -22,8 +23,8 @@ const ClaimCard = ({ claim }) => {
 
         dispatch(
             openModal({
-                title: proveedor.nombre,
-                body: <NegotiationTabs negotiation={claim.pivot} />
+                title: getNegotiationModalName(pivot),
+                body: <NegotiationTabs negotiation={pivot} />
             })
         );
     };
@@ -31,7 +32,7 @@ const ClaimCard = ({ claim }) => {
     const handleOpenManagement = () => {
         dispatch(
             openModal({
-                title: proveedor.nombre,
+                title: getNegotiationModalName(pivot),
                 body: <ClaimManagementModal claimId={claim.id} />
             })
         );

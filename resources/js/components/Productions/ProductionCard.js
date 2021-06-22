@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../store/actions/modalActions";
 import { updateProduction } from "../../store/actions/productionActions";
-import { getPaymentsInfoFromProduction } from "../../utils";
+import { getNegotiationModalName, getPaymentsInfoFromProduction } from "../../utils";
 import NegotiationTabs from "../Negotiation/NegotiationTabs";
 import ProductionManagementModal from "./ProductionManagementModal";
 
@@ -15,7 +15,7 @@ const ProductionCard = ({ production }) => {
 
         dispatch(
             openModal({
-                title: proveedor.nombre,
+                title: getNegotiationModalName(production.pivot),
                 body: <NegotiationTabs negotiation={production.pivot} />
             })
         );
@@ -24,7 +24,7 @@ const ProductionCard = ({ production }) => {
     const handleOpenManagement = () => {
         dispatch(
             openModal({
-                title: proveedor.nombre,
+                title: getNegotiationModalName(production.pivot),
                 body: <ProductionManagementModal productionId={production.id} />
             })
         );
