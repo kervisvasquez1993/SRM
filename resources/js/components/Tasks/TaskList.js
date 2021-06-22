@@ -49,10 +49,6 @@ const TaskList = ({ myTasks = false }) => {
         applyFilter(filter.current);
     }, [tasks]);
 
-    if (isLoadingList) {
-        return <LoadingScreen />;
-    }
-
     const handleCreate = () => {
         dispatch(
             openModal({
@@ -197,6 +193,10 @@ const TaskList = ({ myTasks = false }) => {
     let filteredUsers = new Set();
     filteredAfterStatus.forEach(item => filteredUsers.add(item.usuario.name));
     filteredUsers = [...filteredUsers].sort();
+
+    if (isLoadingList) {
+        return <LoadingScreen />;
+    }
 
     return (
         <React.Fragment>
