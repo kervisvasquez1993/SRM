@@ -76,8 +76,6 @@ class PivotCompraController extends ApiController
 
     public function exportCompra(PivotTareaProveeder $negociacion)
     {
-
-
         return Excel::download(new ComprasExport($negociacion->id), 'ordenDeCompra.xlsx');
     }
 

@@ -156,13 +156,15 @@ class PivotController extends ApiController
         $arte->confirmacion_proveedor = 'sin_inicializar';
         $arte->fecha_fin = Carbon::now(); /* //TODO cambiar el metodo de carbon por fecha de finalizacion recibida de request */
         $arte->save();
-        $nombreEmpresa = $arte->pivotTable->proveedor->nombre;     
+        $nombreEmpresa = $arte->pivotTable->proveedor->nombre; 
+        $nombreComprador = $arte->pivotTable->tarea->usuarios;    
         $userLogin = Auth::user()->name;  
-        $userAll = User::where('rol', 'arte')->orWhere('rol','coordinador')->get();
-        $userUni =  $userAll->unique('id');
+        $userAll = User::where('rol', 'artes')->orWhere('rol','coordinador')->get();
+        $userUni =  $userAll->push($nombreComprador)->unique('id');
         $body = "El usuario $userLogin inicio Arte con la empresa $nombreEmpresa";
-        $link = url('#');
-        Notification::send($userUni, new ArteNotification($body,$link));
+        $link = "/arts?id=$arte->id";
+        $type = "iniciar_arte";
+        Notification::send($userUni, new GeneralNotification($body,$link, $type));
     }
 
     public function produccionTransitoCreate($id)
