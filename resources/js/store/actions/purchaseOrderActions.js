@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import { apiURL } from "../../components/App";
+import { genericFormSubmit } from "./genericFormActions";
 import { closeModal } from "./modalActions";
 
 export function getPurchaseOrdersFromNegotiation(pivotId) {
@@ -25,56 +26,36 @@ export function getPurchaseOrdersFromNegotiation(pivotId) {
 }
 
 export function createPurchaseOrderFromNegotiation(pivotId, data) {
-    return async (dispatch, getState) => {
-        dispatch({ type: "CREATE_PURCHASE_ORDER_REQUEST" });
-
-        try {
-            const response = await axios.post(
-                `${apiURL}/negociacion/${pivotId}/compra`,
-                data
-            );
-
+    return dispatch => {
+        return genericFormSubmit(dispatch, () =>
+            axios.post(`${apiURL}/negociacion/${pivotId}/compra`, data)
+        ).then(response => {
             dispatch({
                 type: "CREATE_PURCHASE_ORDER_SUCCESS",
-                payload: response.data.data
+                payload: response
             });
 
             dispatch(closeModal());
 
             toast.success("✔️ Orden de compra creada");
-        } catch (e) {
-            dispatch({
-                type: "CREATE_PURCHASE_ORDER_FAILURE",
-                errors: e.response.data
-            });
-        }
+        });
     };
 }
 
 export function editPurchaseOrder(data) {
-    return async (dispatch, getState) => {
-        dispatch({ type: "EDIT_PURCHASE_ORDER_REQUEST" });
-
-        try {
-            const response = await axios.put(
-                `${apiURL}/compra/${data.id}`,
-                data
-            );
-
+    return dispatch => {
+        return genericFormSubmit(dispatch, () =>
+            axios.put(`${apiURL}/compra/${data.id}`, data)
+        ).then(response => {
             dispatch({
                 type: "EDIT_PURCHASE_ORDER_SUCCESS",
-                payload: response.data.data
+                payload: response
             });
 
             dispatch(closeModal());
 
             toast.success("✔️ Orden de compra editada");
-        } catch (e) {
-            dispatch({
-                type: "EDIT_PURCHASE_ORDER_FAILURE",
-                errors: e.response.data
-            });
-        }
+        });
     };
 }
 
