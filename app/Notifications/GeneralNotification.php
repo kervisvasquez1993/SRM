@@ -9,9 +9,9 @@ use Illuminate\Notifications\Notification;
 
 class GeneralNotification extends Notification
 {
-    protected $body;
+    protected $text;
     protected $link;
-    protected $tipoNotify;
+    protected $type;
     use Queueable;
 
     /**
@@ -19,19 +19,14 @@ class GeneralNotification extends Notification
      *
      * @return void
      */
-    public function __construct($body, $link, $tipoNotify)
+    public function __construct($text, $link, $type)
     {
-        $this->body = $body;
+        $this->text = $text;
         $this->link = $link;
-        $this->tipoNotify = $tipoNotify;
+        $this->type = $type;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
+   
     public function via($notifiable)
     {
         return ['database'];
@@ -51,18 +46,13 @@ class GeneralNotification extends Notification
                     ->line('Thank you for using our application!');
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
+   
     public function toArray($notifiable)
     {
         return [
-            'body' => $this->body,
+            'text' => $this->text,
             'link' => $this->link,
-            'tipoNotify' => $this->tipoNotify
+            'type' => $this->type
         ];
     }
 }

@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\TareaResource;
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\GeneralNotification;
+use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpFoundation\Response;
 
 class TareaController extends ApiController
@@ -45,10 +47,15 @@ class TareaController extends ApiController
         $tarea->descripcion = $request->descripcion;
         $tarea->fecha_fin = $request->fecha_fin;
         $tarea->save();
-        $recipient = User::find($request->user_id);
-        $url = route('tarea.show', $tarea->id);
-        $recipient->notify(new TareaSent($tarea, $url));
-
+        /* seccion para las notificaciones */
+        $comprador = User::find($tarea->user_id);
+        $coordinador = User::find($tarea->sender_id);
+        $coordinadores = User::where('rol', 'coordinador')->get();
+        $userAll = $coordinadores->push($comprador);
+        $text = "El coordinador $coordinador->name asigno la tarea: $tarea->nombre, al comprador $comprador->name" ;
+        $link = "tasks?id=$tarea->id";
+        $type = "tarea_asignada";
+        Notification::send($userAll, new GeneralNotification($text, $link, $type));
         return $this->showOneResource(new TareaResource($tarea));
     }
 
