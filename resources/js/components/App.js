@@ -137,9 +137,7 @@ const App = () => {
                     Pan: {
                         events: {
                             panleft: handleGesture,
-                            panright: handleGesture,
-                            panup: handleGesture,
-                            pandown: handleGesture
+                            panright: handleGesture
                         }
                     }
                 }}
