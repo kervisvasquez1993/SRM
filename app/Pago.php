@@ -14,6 +14,10 @@ class Pago extends Model
         'fecha'
     ];
 
+    protected $casts = [
+        'monto' => 'double'
+    ];
+
     public function produccionTransito()
     {
         return $this->hasOne(ProduccionTransito::class, 'produccion_transito_id');

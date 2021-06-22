@@ -122,7 +122,7 @@ export function getColorsFromDates(startDate, finishDate) {
 }
 
 export function getDaysBetweenDates(startDate, finishDate) {
-    return Math.ceil((finishDate - new Date()) / secondsInDay);
+    return Math.ceil((finishDate - startDate) / secondsInDay);
 }
 
 export function getDaysToFinishTask(task) {
@@ -169,7 +169,7 @@ export function getSum(array, column) {
 
 export function isNegotiationCompleted(negotiation) {
     return (
-        negotiation.iniciar_produccion === 1 && negotiation.iniciar_arte === 1
+        negotiation.iniciar_produccion && negotiation.iniciar_arte
     );
 }
 
@@ -231,9 +231,9 @@ export const className = (condition, value) => {
 
 export const isClaimCompleted = claim => {
     return (
-        claim.recepcion_mercancia == 1 &&
-        claim.inspeccion_carga == 1 &&
-        claim.reclamos_devoluciones == 1
+        claim.recepcion_mercancia &&
+        claim.inspeccion_carga &&
+        claim.reclamos_devoluciones
     );
 };
 

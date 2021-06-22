@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Producto extends Model
 {
 
-    protected $fillable = 
+    protected $fillable =
     [
         'pivot_tarea_proveeder_id',
         'hs_code',
@@ -33,6 +33,26 @@ class Producto extends Model
         'total_cbm',
         'total_n_w',
         'total_g_w',
+    ];
+
+    protected $casts = [
+        'shelf_life' => 'double',
+        'total_pcs' => 'double',
+        'luno' => 'double',
+        'pcs_unit' => 'double',
+        'pcs_inner_box' => 'double',
+        'pcs_ctn' => 'double',
+        'ctn_packing_size_l' => 'double',
+        'ctn_packing_size_w' => 'double',
+        'ctn_packing_size_h' => 'double',
+        'cbm' => 'double',
+        'n_w_ctn' => 'double',
+        'g_w_ctn' => 'double',
+        'total_ctn' => 'double',
+        'corregido_total_pcs' => 'double',
+        'total_cbm' => 'double',
+        'total_n_w' => 'double',
+        'total_g_w' => 'double'
     ];
 
     public function pivot()

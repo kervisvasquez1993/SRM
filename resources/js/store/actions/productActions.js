@@ -83,7 +83,7 @@ export function uploadProductForNegotiation(pivotId, file) {
             formData.append("import", file);
 
             await axios.post(
-                `${apiURL}/negociacion/${pivotId}}/importar-producto/`,
+                `${apiURL}/negociacion/${pivotId}/importar-producto/`,
                 formData
             );
 

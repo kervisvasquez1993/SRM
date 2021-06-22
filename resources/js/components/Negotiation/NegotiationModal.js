@@ -42,9 +42,9 @@ const NegotiationModal = ({ negotiation }) => {
         <React.Fragment>
             <NegotiationTabs negotiation={negotiation} />
 
-            {(iniciar_arte === 1 || iniciar_produccion === 1) && (
+            {(iniciar_arte || iniciar_produccion) && (
                 <div className="modal-footer bg-success flex-column align-items-start pl-4">
-                    {iniciar_produccion === 1 && (
+                    {iniciar_produccion && (
                         <p className="d-flex text-white align-items-center h6 pl-4">
                             <span className="material-icons mr-2">
                                 check_circle
@@ -52,7 +52,7 @@ const NegotiationModal = ({ negotiation }) => {
                             Producción iniciada
                         </p>
                     )}
-                    {iniciar_arte === 1 && (
+                    {iniciar_arte && (
                         <p className="d-flex text-white align-items-center h6 pl-4">
                             <span className="material-icons mr-2">
                                 check_circle
@@ -65,14 +65,14 @@ const NegotiationModal = ({ negotiation }) => {
 
             {poCode ? (
                 user.rol === "coordinador" &&
-                (iniciar_arte === 0 || iniciar_produccion === 0) && (
+                (!iniciar_arte || !iniciar_produccion) && (
                     <div className="modal-footer">
-                        {iniciar_arte === 0 && (
+                        {!iniciar_arte && (
                             <button
                                 type="button"
                                 className="btn btn-primary flex-grow-1"
                                 onClick={handleStartArt}
-                                disabled={isStarting || iniciar_arte === 1}
+                                disabled={isStarting || iniciar_arte}
                             >
                                 <span className="material-icons mr-2">
                                     brush
@@ -81,7 +81,7 @@ const NegotiationModal = ({ negotiation }) => {
                             </button>
                         )}
 
-                        {iniciar_produccion === 0 && (
+                        {!iniciar_produccion && (
                             <button
                                 type="button"
                                 className="btn btn-info flex-grow-1"
@@ -94,7 +94,7 @@ const NegotiationModal = ({ negotiation }) => {
                                 Iniciar Producción
                             </button>
                         )}
-                        {!(iniciar_arte === 1 || iniciar_produccion === 1) && (
+                        {!(iniciar_arte || iniciar_produccion) && (
                             <button
                                 type="button"
                                 className="btn btn-success flex-grow-1"

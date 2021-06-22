@@ -52,14 +52,13 @@ const ProviderCard = ({ provider, selectedProvider }) => {
                     <ProviderFormModal
                         provider={providerToEdit}
                         isEditor={true}
-                        taskId={taskId}
                     />
                 )
             })
         );
     };
 
-    const enNegociacion = pivot.iniciar_negociacion === 1;
+    const enNegociacion = pivot.iniciar_negociacion;
 
     const handleNegotiate = () => {
         dispatch(startNegotiation(taskId, id));

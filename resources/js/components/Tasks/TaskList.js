@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../store/actions/modalActions";
@@ -8,13 +7,11 @@ import Filter from "../Filters/Filter";
 import FilterGroup from "../Filters/FilterGroup";
 import TaskCard from "./TaskCard";
 import TaskModal, { emptyTask } from "./TaskModal";
-import { apiURL } from "../App";
 import SliderFilter from "../Filters/SliderFilter";
 import { getDaysToFinishTask } from "../../utils";
 import { Redirect } from "react-router-dom";
 import EmptyList from "../Navigation/EmptyList";
 import LoadingScreen from "../Navigation/LoadingScreen";
-import { getUsers } from "../../store/actions/userActions";
 
 const TaskList = ({ myTasks = false }) => {
     const dispatch = useDispatch();
@@ -134,31 +131,37 @@ const TaskList = ({ myTasks = false }) => {
         if (filter === null) {
             return;
         }
-        
+
         let list = [...tasks];
 
         // Filter by status
         list = list.filter(task => {
             if ("state" in filter) {
-                if (!filter.state.expired && isTaskExpired(task)) return false;
-
-                if (!filter.state.completed && isTaskCompleted(task))
+                if (!filter.state.expired && isTaskExpired(task)) {
                     return false;
+                }
+
+                if (!filter.state.completed && isTaskCompleted(task)) {
+                    return false;
+                }
 
                 // if (!filter.state.progress && isTaskInProgress(task))
                 //     return false;
                 if (
                     !filter.state.notInNegotiation &&
                     isTaskNotInNegotiation(task)
-                )
+                ) {
                     return false;
+                }
 
-                if (!filter.state.inNegotiation && isTaskInNegotiation(task))
+                if (!filter.state.inNegotiation && isTaskInNegotiation(task)) {
                     return false;
+                }
             }
 
             return true;
         });
+
         setfilteredAfterStatus(list);
 
         // Filter by user
@@ -166,6 +169,8 @@ const TaskList = ({ myTasks = false }) => {
             task => !("user" in filter && !filter.user[task.usuario.name])
         );
         setfilteredAfterUsers(list);
+
+        list.forEach(item => getDaysToFinishTask(item));
 
         // Filter by expiration days
         list = list.filter(
