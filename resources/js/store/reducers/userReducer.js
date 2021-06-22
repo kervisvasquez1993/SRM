@@ -20,7 +20,8 @@ const userReducer = (state = defaultState, action) => {
             };
         case "GET_USERS_FAILURE":
             return {
-                ...state
+                ...state,
+                isLoadingList: false
             };
 
         case "CREATE_USER_SUCCESS":
