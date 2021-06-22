@@ -27,7 +27,7 @@ const ProductionManagementModal = ({ productionId }) => {
                 <React.Fragment>
                     <Tabs defaultTab={tabToUse}>
                         <ul
-                            className="nav nav-pills nav-pills-success nav-pills-icons justify-content-center flex-column"
+                            className="nav nav-pills d-flex flex-column mb-4"
                             role="tablist"
                         >
                             <TabButton name="payments">

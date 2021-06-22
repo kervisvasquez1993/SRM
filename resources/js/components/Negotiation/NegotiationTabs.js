@@ -14,7 +14,7 @@ const NegotiationTabs = ({ negotiation }) => {
         <div className="modal-body">
             <Tabs defaultTab="task">
                 <ul
-                    className="nav nav-pills nav-pills-success nav-pills-icons justify-content-center mb-4"
+                    className="nav nav-pills d-flex flex-column flex-lg-row justify-content-center mb-4"
                     role="tablist"
                 >
                     <TabButton name="task">

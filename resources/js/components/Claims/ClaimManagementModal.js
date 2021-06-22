@@ -10,7 +10,8 @@ import Tabs from "../Widgets/Tabs";
 const ClaimManagementModal = ({ claimId }) => {
     const dispatch = useDispatch();
     const claim = useSelector(state => state.claim.current);
-    const tabToUse = useSelector(state => state.modal.defaultTab) || "incidencia_recepcion";
+    const tabToUse =
+        useSelector(state => state.modal.defaultTab) || "incidencia_recepcion";
 
     useEffect(() => {
         dispatch(getClaim(claimId));
@@ -26,7 +27,7 @@ const ClaimManagementModal = ({ claimId }) => {
                 <React.Fragment>
                     <Tabs defaultTab={tabToUse}>
                         <ul
-                            className="nav nav-pills nav-pills-success nav-pills-icons justify-content-center flex-column"
+                            className="nav nav-pills d-flex flex-column mb-4"
                             role="tablist"
                         >
                             <TabButton name="incidencia_recepcion">
