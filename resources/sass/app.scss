@@ -111,6 +111,12 @@ table,
     box-shadow: 0 0 10px rgba(0, 188, 212, 0.4);
 }
 
-.text-white .form-check label {
-    color: white !important;
+.text-white {
+    & .form-check label, & label {
+        color: white !important;
+    }
+
+    & .form-control {
+        color: white !important;
+    }
 }

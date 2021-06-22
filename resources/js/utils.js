@@ -217,3 +217,11 @@ export const isClaimCompleted = claim => {
         claim.reclamos_devoluciones == 1
     );
 };
+
+export const isArtCompleted = art => {
+    return art.creacion_fichas === "finalizado"
+    && art.validacion_fichas === "finalizado"
+    && art.creacion_boceto === "finalizado"
+    && art.validacion_boceto === "finalizado"
+    && art.confirmacion_proveedor === "finalizado";
+}
