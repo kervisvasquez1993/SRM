@@ -20,6 +20,7 @@ const TaskList = ({ myTasks = false }) => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.auth.user);
     const tasks = useSelector(state => state.task.tasks);
+    const isLoadingList = useSelector(state => state.task.isLoadingList);
 
     const [filtered, setFilteredTasks] = useState([...tasks]);
     const [filterDays, setFilterDays] = useState(0);
@@ -47,6 +48,10 @@ const TaskList = ({ myTasks = false }) => {
     useEffect(() => {
         applyFilter(filter.current);
     }, [tasks]);
+
+    if (isLoadingList) {
+        return <LoadingScreen />;
+    }
 
     const handleCreate = () => {
         dispatch(

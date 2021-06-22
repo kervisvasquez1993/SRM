@@ -1,5 +1,6 @@
 const defaultState = {
     tasks: [],
+    isLoadingList: false,
     errors: {},
     isEditing: false,
     editedTask: null,
@@ -13,16 +14,19 @@ const taskReducer = (state = defaultState, action) => {
     switch (type) {
         case "GET_TASKS_REQUEST":
             return {
-                ...state
+                ...state,
+                isLoadingList: true
             };
         case "GET_TASKS_SUCESS":
             return {
                 ...state,
-                tasks: payload
+                tasks: payload,
+                isLoadingList: false
             };
         case "GET_TASKS_FAILURE":
             return {
-                ...state
+                ...state,
+                isLoadingList: false
             };
         case "CREATE_TASK_REQUEST":
             return {
