@@ -17,7 +17,7 @@ const ProductsResume = ({ products }) => {
         <React.Fragment>
             {products.length > 0 && (
                 <div className="card py-4 px-3 px-md-5">
-                    <div className="resume-card-body">
+                    <div className="resume-card-body resume-card-body-4">
                         <SmallCard
                             label="Total CBM"
                             icon={<BiCubeAlt className="icon-normal" />}
