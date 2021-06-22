@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductions } from "../../store/actions/productionActions";
 import GenericFilter from "../Filters/GenericFilter";
+import LoadingScreen from "../Navigation/LoadingScreen";
 import NegotiationResume from "../Widgets/NegotiationResume";
 import ProductionCard from "./ProductionCard";
 
@@ -9,6 +10,7 @@ const ProductionList = () => {
     const dispatch = useDispatch();
     const productions = useSelector(state => state.production.list);
     const [filteredNegotiations, setFilteredNegotiations] = useState([]);
+    const isLoadingList = useSelector(state => state.production.isLoadingList);
 
     const onChange = filteredList => {
         setFilteredNegotiations(filteredList.map(item => item.pivot));
@@ -105,6 +107,10 @@ const ProductionList = () => {
             }
         }
     ];
+
+    if (isLoadingList) {
+        return <LoadingScreen />;
+    }
 
     return (
         <React.Fragment>

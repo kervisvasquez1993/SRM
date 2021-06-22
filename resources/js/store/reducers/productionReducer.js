@@ -1,5 +1,6 @@
 const defaultState = {
     list: [],
+    isLoadingList: true,
     current: null,
 
     payments: [],
@@ -22,16 +23,24 @@ const negotiationReducer = (state = defaultState, action) => {
             };
         case "GET_PRODUCTIONS_REQUEST":
             return {
-                ...state
+                ...state,
             };
         case "GET_PRODUCTIONS_SUCCESS":
             return {
                 ...state,
-                list: payload
+                list: payload,
+                isLoadingList: false
             };
         case "GET_PRODUCTIONS_FAILURE":
             return {
-                ...state
+                ...state,
+                isLoadingList: false
+            };
+
+        case "CHANGE_HISTORY":
+            return {
+                ...state,
+                isLoadingList: true
             };
 
         case "GET_PRODUCTION_SUCCESS":
