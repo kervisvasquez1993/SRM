@@ -53,7 +53,7 @@ class TareaController extends ApiController
         $coordinadores = User::where('rol', 'coordinador')->get();
         $userAll = $coordinadores->push($comprador);
         $text = "El coordinador $coordinador->name asigno la tarea: $tarea->nombre, al comprador $comprador->name" ;
-        $link = "tasks?id=$tarea->id";
+        $link = "tasks/$tarea->id";
         $type = "tarea_asignada";
         Notification::send($userAll, new GeneralNotification($text, $link, $type));
         return $this->showOneResource(new TareaResource($tarea));

@@ -19,6 +19,7 @@ use App\Notifications\NegociacionEmpresa;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\GeneralNotification;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\ProduccionNotificacion;
 use Symfony\Component\HttpFoundation\Response;
@@ -60,7 +61,7 @@ class PivotController extends ApiController
         if (!$tarea->proveedores->where('id', $proveedor->id)->isEmpty()) {
             return $this->errorResponse("Este proveedor ya está agregado a esta tarea", Response::HTTP_BAD_REQUEST);
         }
-
+            
         $pivot = new PivotTareaProveeder();
         $pivot->tarea_id = $tarea->id;
         $pivot->proveedor_id = $proveedor->id;
@@ -68,7 +69,16 @@ class PivotController extends ApiController
         $pivot->iniciar_arte = false;
         $pivot->iniciar_produccion = false;
         $pivot->save();
-
+        //notification para 
+        $login_user       = Auth::user()->name;
+        $coordinador      = $tarea->sender_id;
+        $tarea_nombre     = $tarea->nombre;
+        $empresa_agregada = $proveedor->nombre;
+        $userAll = User::find($coordinador);
+        $text = "El usuario '$login_user' añadió la empresa '$empresa_agregada' a la tarea '$tarea_nombre'";
+        $link = "";
+        $type = "empresa_agregada";
+        Notification::send($userAll, new GeneralNotification($text, $link, $type));  
         return $this->showOneResource(new PivotTareaProveederResource($pivot));
     }
 
