@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getNotifications } from "../../store/actions/notificationActions";
+import EmptyList from "../Navigation/EmptyList";
 import NotificationCard from "./NotificationCard";
 
 const ProductionList = () => {
@@ -14,11 +15,15 @@ const ProductionList = () => {
     return (
         <React.Fragment>
             <h1 className="text-center my-5">Notificaciones</h1>
-            <div className="d-flex flex-column align-items-center">
-                {notifications.map(item => {
-                    return <NotificationCard key={item.id} {...item} />;
-                })}
-            </div>
+            {notifications.length > 0 ? (
+                <div className="d-flex flex-column align-items-center">
+                    {notifications.map(item => {
+                        return <NotificationCard key={item.id} {...item} />;
+                    })}
+                </div>
+            ) : (
+                <EmptyList message="Aun no tiene notificaciones" />
+            )}
         </React.Fragment>
     );
 };
