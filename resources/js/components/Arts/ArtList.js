@@ -3,11 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { getArts } from "../../store/actions/artActions";
 import { isArtCompleted } from "../../utils";
 import GenericFilter from "../Filters/GenericFilter";
+import LoadingScreen from "../Navigation/LoadingScreen";
 import ArtCard, { categories, options } from "./ArtCard";
 
 const ArtList = () => {
     const dispatch = useDispatch();
     const arts = useSelector(state => state.art.list);
+    const isLoadingList = useSelector(state => state.art.isLoadingList);
 
     useEffect(() => {
         dispatch(getArts());
@@ -91,6 +93,10 @@ const ArtList = () => {
             }
         }
     ];
+
+    if (isLoadingList) {
+        return <LoadingScreen />;
+    }
 
     return (
         <React.Fragment>
