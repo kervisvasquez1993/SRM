@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 import { getClaims } from "../../store/actions/claimActions";
 import { isClaimCompleted, useUser } from "../../utils";
 import GenericFilter from "../Filters/GenericFilter";
+import LoadingScreen from "../Navigation/LoadingScreen";
 import NegotiationResume from "../Widgets/NegotiationResume";
 import ClaimCard from "./ClaimCard";
 
@@ -11,6 +12,7 @@ const ClaimsList = () => {
     const dispatch = useDispatch();
     const user = useUser();
     const claims = useSelector(state => state.claim.list);
+    const isLoadingList = useSelector(state => state.claim.isLoadingList);
     const [filteredNegotiations, setFilteredNegotiations] = useState([]);
 
     if (!(user.rol === "coordinador" || user.rol === "comprador")) {
@@ -44,6 +46,7 @@ const ClaimsList = () => {
                 {
                     id: "completed",
                     label: "Completadas",
+                    defaultValue: false,
 
                     filter: (item, filters) =>
                         !(
@@ -102,6 +105,10 @@ const ClaimsList = () => {
             }
         }
     ];
+
+    if (isLoadingList) {
+        return <LoadingScreen />;
+    }
 
     return (
         <React.Fragment>

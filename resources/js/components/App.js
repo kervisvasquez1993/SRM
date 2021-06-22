@@ -1,7 +1,13 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, Switch, Redirect, useHistory } from "react-router-dom";
+import {
+    Route,
+    Switch,
+    Redirect,
+    useHistory,
+    useLocation
+} from "react-router-dom";
 import { getMyUser, logout } from "../store/actions/authActions";
 import Login from "./Auth/Login";
 import Example from "./Example";
@@ -22,6 +28,12 @@ import ProductionList from "./Productions/ProductionList";
 import ArtList from "./Arts/ArtList";
 import UserList from "./Users/UserList";
 import ClaimsList from "./Claims/ClaimList";
+import { Gestures } from "react-gesture-handler";
+import {
+    closeSidebar,
+    sidebarPanLeft,
+    sidebarPanRight
+} from "../store/actions/sidebarActions";
 
 axios.interceptors.response.use(
     response => {
@@ -65,15 +77,24 @@ const App = () => {
     const isLoadingUser = useSelector(state => state.auth.isLoadingUser);
 
     const history = useHistory();
+    const location = useLocation();
+    const previous = useRef(null);
 
-    useEffect(() => {
-        dispatch(getMyUser());
-
-        history.listen(location => {
+    React.useEffect(() => {
+        if (
+            !previous.current ||
+            previous.current.pathname != location.pathname
+        ) {
             dispatch({
                 type: "CHANGE_HISTORY"
             });
-        });
+        }
+
+        previous.current = location;
+    }, [location]);
+
+    useEffect(() => {
+        dispatch(getMyUser());
     }, []);
 
     if (isLoadingUser) {
@@ -93,61 +114,92 @@ const App = () => {
         );
     }
 
+    const handleGesture = event => {
+        if (event.type === "panleft") {
+            dispatch(sidebarPanLeft());
+        }
+
+        if (event.type === "panright") {
+            dispatch(sidebarPanRight());
+        }
+    };
+
+    const handleClick = () => {
+        if (isSidebarOpen) {
+            dispatch(closeSidebar());
+        }
+    };
+
     return (
         <React.Fragment>
-            <div className={"menu-wrapper " + (isSidebarOpen && "mostrar")}>
-                <Sidebar />
-                <Navbar />
+            <Gestures
+                recognizers={{
+                    Pan: {
+                        events: {
+                            panleft: handleGesture,
+                            panright: handleGesture
+                        }
+                    }
+                }}
+            >
+                <div className={"menu-wrapper " + (isSidebarOpen && "mostrar")}>
+                    <Sidebar />
+                    <Navbar />
 
-                <div className="page-wrapper" id="wrapper">
-                    <div className="content" id="eventInit">
-                        <Switch>
-                            <Route exact path="/">
-                                <Redirect to="/home" />
-                            </Route>
-                            <Route path="/login">
-                                <Redirect to="/home" />
-                            </Route>
-                            <Route path="/home">
-                                <Example />
-                            </Route>
-                            <Route path="/users">
-                                <UserList />
-                            </Route>
-                            <Route exact path="/tasks">
-                                <TaskList />
-                            </Route>
-                            <Route path="/tasks/:id">
-                                <TaskDetails />
-                            </Route>
-                            <Route path="/me/tasks">
-                                <TaskList
-                                    myTasks
-                                    key={history.location.pathname}
-                                />
-                            </Route>
-                            <Route path="/negotiation/:id">
-                                <ProviderPurchase />
-                            </Route>
-                            <Route path="/negotiations">
-                                <NegotiationList />
-                            </Route>
-                            <Route path="/production">
-                                <ProductionList />
-                            </Route>
-                            <Route path="/arts">
-                                <ArtList />
-                            </Route>
-                            <Route path="/claims">
-                                <ClaimsList />
-                            </Route>
-                            <Route path="*">
-                                <Error />
-                            </Route>
-                        </Switch>
+                    <div
+                        className="page-wrapper"
+                        id="wrapper"
+                        onPointerDown={handleClick}
+                    >
+                        <div className="content" id="eventInit">
+                            <Switch>
+                                <Route exact path="/">
+                                    <Redirect to="/home" />
+                                </Route>
+                                <Route path="/login">
+                                    <Redirect to="/home" />
+                                </Route>
+                                <Route path="/home">
+                                    <Example />
+                                </Route>
+                                <Route path="/users">
+                                    <UserList />
+                                </Route>
+                                <Route exact path="/tasks">
+                                    <TaskList />
+                                </Route>
+                                <Route path="/tasks/:id">
+                                    <TaskDetails />
+                                </Route>
+                                <Route path="/me/tasks">
+                                    <TaskList
+                                        myTasks
+                                        key={history.location.pathname}
+                                    />
+                                </Route>
+                                <Route path="/negotiation/:id">
+                                    <ProviderPurchase />
+                                </Route>
+                                <Route path="/negotiations">
+                                    <NegotiationList />
+                                </Route>
+                                <Route path="/productions">
+                                    <ProductionList />
+                                </Route>
+                                <Route path="/arts">
+                                    <ArtList />
+                                </Route>
+                                <Route path="/claims">
+                                    <ClaimsList />
+                                </Route>
+                                <Route path="*">
+                                    <Error />
+                                </Route>
+                            </Switch>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </Gestures>
             <Modal />
             <ToastContainer
                 position="bottom-right"

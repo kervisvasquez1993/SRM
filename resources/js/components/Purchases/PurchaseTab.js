@@ -11,10 +11,10 @@ const PurchaseTab = ({ negotiation }) => {
     const { compras_total: totalPurchase, compra_po: poCode } = negotiation;
 
     return (
-        <React.Fragment>
+        <div className="my-3">
             {totalPurchase > 0 ? (
                 <React.Fragment>
-                    <div className="row px-2  mb-3">
+                    <div className="resume-card-body resume-card-body-2 mb-3">
                         <SmallCard
                             label="Total de Compra"
                             icon={<MdAttachMoney className="icon-normal" />}
@@ -39,6 +39,7 @@ const PurchaseTab = ({ negotiation }) => {
             ) : (
                 <EmptyList message="No se ha añadido una orden de compra" />
             )}
+
             <div className="text-center">
                 <Link
                     to={`/negotiation/${negotiation.id}`}
@@ -48,7 +49,7 @@ const PurchaseTab = ({ negotiation }) => {
                     <BiLink className="icon-normal ml-2" />
                 </Link>
             </div>
-        </React.Fragment>
+        </div>
     );
 };
 

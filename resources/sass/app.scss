@@ -62,6 +62,36 @@
     align-items: center;
 }
 
+.resume-card-body {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+    align-items: start;
+    grid-gap: 1rem 1rem;
+    justify-content: center;
+    align-content: center;
+
+    &.resume-card-body-1 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (min-width: 540px) {
+    .resume-card-body:not(.resume-card-body-2):not(.resume-card-body-1) {
+        grid-template-columns: repeat(4, 1fr);
+
+        &.single {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+@media (min-width: 1200px) {
+    .resume-card-body:not(.resume-card-body-4):not(.resume-card-body-2):not(.resume-card-body-1) {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
 .nav-pills {
     & .nav-link {
         color: white;
@@ -112,7 +142,8 @@ table,
 }
 
 .text-white {
-    & .form-check label, & label {
+    & .form-check label,
+    & label {
         color: white !important;
     }
 

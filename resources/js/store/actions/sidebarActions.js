@@ -1,13 +1,37 @@
-import axios from "axios";
-
-export const toggleSidebar = (options) => {
+export const toggleSidebar = () => {
     return {
         type: "TOGGLE_SIDEBAR"
-    }
-}
+    };
+};
 
-export const closeSidebar = (options) => {
+export const closeSidebar = () => {
     return {
         type: "CLOSE_SIDEBAR"
-    }
+    };
+};
+
+export const openSidebar = () => {
+    return {
+        type: "OPEN_SIDEBAR"
+    };
+};
+
+export function sidebarPanRight() {
+    return async (dispatch, getState) => {
+        const state = getState();
+
+        if (!state.sidebar.isOpen) {
+            dispatch(openSidebar());
+        }
+    };
+}
+
+export function sidebarPanLeft() {
+    return async (dispatch, getState) => {
+        const state = getState();
+
+        if (state.sidebar.isOpen) {
+            dispatch(closeSidebar());
+        }
+    };
 }

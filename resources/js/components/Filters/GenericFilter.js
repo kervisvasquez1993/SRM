@@ -19,7 +19,9 @@ const GenericFilter = ({
     const [afterFilters, setAfterFilters] = useState({});
 
     useEffect(() => {
-        applyFilter(filter.current);
+        if (filter.current != null) {
+            applyFilter(filter.current);
+        }
     }, [unfilteredData]);
 
     useEffect(() => {
@@ -90,7 +92,7 @@ const GenericFilter = ({
 
     const hide = {
         display: "none"
-    }
+    };
 
     return (
         <React.Fragment>

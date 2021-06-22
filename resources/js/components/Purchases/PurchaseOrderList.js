@@ -6,6 +6,7 @@ import { getPurchaseOrdersFromNegotiation } from "../../store/actions/purchaseOr
 import { getSum, roundMoneyAmount } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
 import LargeCreateButton from "../Widgets/LargeCreateButton";
+import PurchaseOrdersResume from "../Widgets/PurchaseOrdersResume";
 import CreatePurchaseOrderModal from "./CreatePurchaseOrderModal";
 import PurchaseOrder from "./PurchaseOrder";
 
@@ -46,45 +47,55 @@ const PurchaseOrderList = () => {
                     {isMine && <LargeCreateButton onClick={handleCreate} />}
 
                     {purchaseOrders.length > 0 && (
-                        <div className="row mb-4">
-                            <div className="table-responsive">
-                                <table className="table table-sm table-hover table-bordered fade-in">
-                                    <thead className="thead-dark">
-                                        <tr>
-                                            <th scope="col">Item</th>
-                                            <th scope="col">Descripción</th>
-                                            <th scope="col">Registro Salud</th>
-                                            <th scope="col">Cantidad (CTNS)</th>
-                                            <th scope="col">Precio</th>
-                                            <th scope="col">Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {purchaseOrders.map(order => {
-                                            return (
-                                                <PurchaseOrder
-                                                    purchaseOrder={order}
-                                                    key={order.id}
-                                                />
-                                            );
-                                        })}
-                                        <tr>
-                                            <th scope="row" colSpan="5">
-                                                Total
-                                            </th>
-                                            <td>
-                                                {roundMoneyAmount(
-                                                    getSum(
-                                                        purchaseOrders,
-                                                        "total"
-                                                    )
-                                                )}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                        <React.Fragment>
+                            <div className="row mb-4">
+                                <div className="table-responsive">
+                                    <table className="table table-sm table-hover table-bordered fade-in">
+                                        <thead className="thead-dark">
+                                            <tr>
+                                                <th scope="col">Item</th>
+                                                <th scope="col">Descripción</th>
+                                                <th scope="col">
+                                                    Registro Salud
+                                                </th>
+                                                <th scope="col">
+                                                    Cantidad (CTNS)
+                                                </th>
+                                                <th scope="col">Precio</th>
+                                                <th scope="col">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {purchaseOrders.map(order => {
+                                                return (
+                                                    <PurchaseOrder
+                                                        purchaseOrder={order}
+                                                        key={order.id}
+                                                    />
+                                                );
+                                            })}
+                                            <tr>
+                                                <th scope="row" colSpan="5">
+                                                    Total
+                                                </th>
+                                                <td>
+                                                    {roundMoneyAmount(
+                                                        getSum(
+                                                            purchaseOrders,
+                                                            "total"
+                                                        )
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
+
+                            <PurchaseOrdersResume
+                                compras_total={getSum(purchaseOrders, "total")}
+                            />
+                        </React.Fragment>
                     )}
                 </React.Fragment>
             )}

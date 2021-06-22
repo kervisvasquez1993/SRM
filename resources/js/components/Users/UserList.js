@@ -5,6 +5,7 @@ import { openModal } from "../../store/actions/modalActions";
 import { getUsers } from "../../store/actions/userActions";
 import { useUser } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
+import LoadingScreen from "../Navigation/LoadingScreen";
 import LargeCreateButton from "../Widgets/LargeCreateButton";
 import UserCard from "./UserCard";
 import UserModal from "./UserModal";
@@ -20,6 +21,7 @@ const UserList = () => {
     const dispatch = useDispatch();
     const user = useUser();
     const users = useSelector(state => state.user.users);
+    const isLoadingList = useSelector(state => state.user.isLoadingList);
 
     if (user.rol !== "coordinador") {
         return <Redirect to="/home" />;
@@ -28,6 +30,10 @@ const UserList = () => {
     useEffect(() => {
         dispatch(getUsers());
     }, []);
+
+    if (isLoadingList) {
+        return <LoadingScreen />;
+    }
 
     const handleCreate = () => {
         dispatch(

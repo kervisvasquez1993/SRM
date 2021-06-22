@@ -26,7 +26,7 @@ const ArtModal = ({ id }) => {
                 <React.Fragment>
                     <Tabs defaultTab={defaultTab}>
                         <ul
-                            className="nav nav-pills nav-pills-success nav-pills-icons justify-content-center flex-column"
+                            className="nav nav-pills d-flex flex-column mb-4"
                             role="tablist"
                         >
                             <TabButton name="ficha">

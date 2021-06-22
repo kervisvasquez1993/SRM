@@ -9,13 +9,18 @@ const sidebarReducer = (state = defaultState, action) => {
         case "TOGGLE_SIDEBAR":
             return {
                 ...state,
-                isOpen: !state.isOpen,
+                isOpen: !state.isOpen
             };
         case "CLOSE_SIDEBAR":
             return {
                 ...state,
-                isOpen: false,
-            }
+                isOpen: false
+            };
+        case "OPEN_SIDEBAR":
+            return {
+                ...state,
+                isOpen: true
+            };
         default:
             return state;
     }

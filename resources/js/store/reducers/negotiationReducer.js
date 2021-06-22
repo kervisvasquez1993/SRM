@@ -2,6 +2,7 @@ import { filterNegotiations, isNegotiationCompleted } from "../../utils";
 
 const defaultState = {
     negotiations: [],
+    isLoadingList: false,
     isStarting: false,
     negotiation: null,
     negotiationError: false
@@ -13,17 +14,27 @@ const negotiationReducer = (state = defaultState, action) => {
     switch (type) {
         case "GET_NEGOTIATIONS_REQUEST":
             return {
-                ...state
+                ...state,
+                isLoadingList: true
             };
         case "GET_NEGOTIATIONS_SUCCESS":
             return {
                 ...state,
-                negotiations: filterNegotiations(payload)
+                negotiations: filterNegotiations(payload),
+                isLoadingList: false
             };
         case "GET_NEGOTIATIONS_FAILURE":
             return {
-                ...state
+                ...state,
+                isLoadingList: false
             };
+
+        case "CHANGE_HISTORY":
+            return {
+                ...state,
+                isLoadingList: true
+            };
+
         case "GET_NEGOTIATION_REQUEST":
             return {
                 ...state,
