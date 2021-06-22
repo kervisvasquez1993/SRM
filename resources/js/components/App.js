@@ -59,7 +59,7 @@ axios.interceptors.response.use(
 );
 
 export const apiURL =
-    process.env.REACT_APP_API_URL || "/api";
+    process.env.MIX_APP_API_URL || "/api";
 
 axios.interceptors.request.use(config => {
     const token = localStorage.getItem("auth");
