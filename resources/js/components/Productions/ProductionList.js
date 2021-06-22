@@ -37,6 +37,7 @@ const ProductionList = () => {
                 {
                     id: "completed",
                     label: "Completadas",
+                    defaultValue: false,
 
                     filter: (item, filters) =>
                         !(
