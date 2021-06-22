@@ -83,7 +83,7 @@ const Sidebar = () => {
                     <React.Fragment>
                         <Link
                             className="menu-link"
-                            to="/production"
+                            to="/productions"
                             onClick={closeMenu}
                         >
                             <i className="material-icons">

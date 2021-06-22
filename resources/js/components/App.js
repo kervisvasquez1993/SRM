@@ -183,7 +183,7 @@ const App = () => {
                                 <Route path="/negotiations">
                                     <NegotiationList />
                                 </Route>
-                                <Route path="/production">
+                                <Route path="/productions">
                                     <ProductionList />
                                 </Route>
                                 <Route path="/arts">
