@@ -217,3 +217,7 @@ export const isClaimCompleted = claim => {
         claim.reclamos_devoluciones == 1
     );
 };
+
+export const getNegotiationModalName = negotiation => {
+    return `${negotiation.proveedor.nombre} - ${negotiation.proveedor.pais} - ${negotiation.proveedor.ciudad}`;
+};
