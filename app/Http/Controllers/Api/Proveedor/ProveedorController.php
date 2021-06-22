@@ -181,11 +181,15 @@ class ProveedorController extends ApiController
         // Iniciar negociacion
         $pivote->iniciar_negociacion = 1;
         $pivote->save();
-        $url = url("api/pivot/?=$pivote->id");
-        $recipient =  User::find($tarea->sender_id);
+        $link = "/negotiations?id=$pivote->id";
+        /* $recipient =  User::find($tarea->sender_id); */
+        $coordinadores = User::where('rol','coordinador')->get();
+        $userAll = $coordinadores->unique('id');
         $user_login = auth()->user()->name; 
-        $body = "El Usuario $user_login inicio negociación con la empresa:$proveedor->nombre en la tarea: $tarea->nombre";
-        $recipient->notify(new NegociacionEmpresa($body, $url));
+        $text = "El usuario $user_login inicio negociación con la empresa: $proveedor->nombre en la tarea: $tarea->nombre";
+        $type = "iniciar_negociacion";
+        Notification::send($userAll, new GeneralNotification($text, $link, $type));
+        /* $recipient->notify(new GeneralNotification($body, $url, $type)); */
         return $this->successMensaje("La negociacion se inicio exitosamente", Response::HTTP_ACCEPTED);
     }
 }

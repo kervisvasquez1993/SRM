@@ -76,7 +76,7 @@ class PivotController extends ApiController
         $empresa_agregada = $proveedor->nombre;
         $userAll = User::find($coordinador);
         $text = "El usuario '$login_user' añadió la empresa '$empresa_agregada' a la tarea '$tarea_nombre'";
-        $link = "";
+        $link = "/tasks/$tarea->id?providerId=$proveedor->id"; 
         $type = "empresa_agregada";
         Notification::send($userAll, new GeneralNotification($text, $link, $type));  
         return $this->showOneResource(new PivotTareaProveederResource($pivot));
@@ -90,6 +90,7 @@ class PivotController extends ApiController
 
     public function update(Request $request, $pivot_id)
     {
+        
         $usuario = Auth::user();
 
         $pivot = PivotTareaProveeder::findOrFail($pivot_id);
@@ -136,7 +137,6 @@ class PivotController extends ApiController
         $pivot->save();
         $this->produccionTransitoCreate($pivot->id);
         $pivotResource = new PivotTareaProveederResource($pivot);
-
         return $this->showOneResource($pivotResource);
     }
 
