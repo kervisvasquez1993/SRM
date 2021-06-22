@@ -96,8 +96,10 @@ const taskReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 editedTask: null,
-                task: null
+                task: null,
+                isLoadingList: true
             };
+
         case "GET_TASK_REQUEST":
             return {
                 ...state

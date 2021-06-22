@@ -1,7 +1,13 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, Switch, Redirect, useHistory } from "react-router-dom";
+import {
+    Route,
+    Switch,
+    Redirect,
+    useHistory,
+    useLocation
+} from "react-router-dom";
 import { getMyUser, logout } from "../store/actions/authActions";
 import Login from "./Auth/Login";
 import Example from "./Example";
@@ -65,15 +71,24 @@ const App = () => {
     const isLoadingUser = useSelector(state => state.auth.isLoadingUser);
 
     const history = useHistory();
+    const location = useLocation();
+    const previous = useRef(null);
 
-    useEffect(() => {
-        dispatch(getMyUser());
-
-        history.listen(location => {
+    React.useEffect(() => {
+        if (
+            !previous.current ||
+            previous.current.pathname != location.pathname
+        ) {
             dispatch({
                 type: "CHANGE_HISTORY"
             });
-        });
+        }
+
+        previous.current = location;
+    }, [location]);
+
+    useEffect(() => {
+        dispatch(getMyUser());
     }, []);
 
     if (isLoadingUser) {

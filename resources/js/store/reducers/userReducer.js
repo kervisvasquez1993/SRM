@@ -24,6 +24,12 @@ const userReducer = (state = defaultState, action) => {
                 isLoadingList: false
             };
 
+        case "CHANGE_HISTORY":
+            return {
+                ...state,
+                isLoadingList: true
+            };
+
         case "CREATE_USER_SUCCESS":
             return {
                 ...state,

@@ -131,6 +131,10 @@ const TaskList = ({ myTasks = false }) => {
     };
 
     const applyFilter = filter => {
+        if (filter === null) {
+            return;
+        }
+        
         let list = [...tasks];
 
         // Filter by status
