@@ -37,7 +37,9 @@ Route::middleware('auth.jwt')->group(function () {
     Route::apiResource('user', 'Api\User\UserController')->except([
         'update', 'destroy'
     ]);
+    /* insertar nuevo proveedor con notificacion */
     Route::post('/tarea/{tarea_id}/proveedor', 'Api\Proveedor\ProveedorController@store');
+    
 
     Route::apiResource('proveedor', 'Api\Proveedor\ProveedorController')->except('destroy', 'store');
 
