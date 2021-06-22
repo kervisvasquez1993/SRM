@@ -11,11 +11,11 @@ const ProductsTab = ({ negotiation }) => {
     const { total_cbm, total_n_w, total_g_w, total_ctn } = negotiation;
 
     return (
-        <React.Fragment>
+        <div className="my-3">
             {hasNoProducts(negotiation) ? (
                 <EmptyList message="No hay productos registrados" />
             ) : (
-                <div className="row px-2 mb-3">
+                <div className="resume-card-body resume-card-body-4 mb-3">
                     <SmallCard
                         label="Total CBM"
                         icon={<BiCubeAlt className="icon-normal" />}
@@ -58,7 +58,7 @@ const ProductsTab = ({ negotiation }) => {
                     <BiLink className="icon-normal ml-2" />
                 </Link>
             </div>
-        </React.Fragment>
+        </div>
     );
 };
 

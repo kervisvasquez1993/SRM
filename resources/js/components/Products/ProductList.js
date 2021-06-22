@@ -9,6 +9,7 @@ import { getSum, roundMoneyAmount } from "../../utils";
 import { useParams } from "react-router-dom";
 import LargeCreateButton from "../Widgets/LargeCreateButton";
 import CreateProductModal from "./CreateProductModal";
+import ProductsResume from "../Widgets/ProductsResume";
 
 const ProductsList = () => {
     const dispatch = useDispatch();
@@ -109,10 +110,26 @@ const ProductsList = () => {
                                         <td>{product.cbm}</td>
                                         <td>{product.n_w_ctn}</td>
                                         <td>{product.g_w_ctn}</td>
-                                        <td>{roundMoneyAmount(product.total_cbm)}</td>
-                                        <td>{roundMoneyAmount(product.total_n_w)}</td>
-                                        <td>{roundMoneyAmount(product.total_g_w)}</td>
-                                        <td>{roundMoneyAmount(product.total_ctn)}</td>
+                                        <td>
+                                            {roundMoneyAmount(
+                                                product.total_cbm
+                                            )}
+                                        </td>
+                                        <td>
+                                            {roundMoneyAmount(
+                                                product.total_n_w
+                                            )}
+                                        </td>
+                                        <td>
+                                            {roundMoneyAmount(
+                                                product.total_g_w
+                                            )}
+                                        </td>
+                                        <td>
+                                            {roundMoneyAmount(
+                                                product.total_ctn
+                                            )}
+                                        </td>
                                         <td className="text-right">
                                             <div className="d-inline-flex align-items-center">
                                                 {product.corregido_total_pcs}
@@ -155,16 +172,38 @@ const ProductsList = () => {
                                 <th scope="row" colSpan="17">
                                     Total
                                 </th>
-                                <td>{roundMoneyAmount(getSum(products, "total_cbm"))}</td>
-                                <td>{roundMoneyAmount(getSum(products, "total_n_w"))}</td>
-                                <td>{roundMoneyAmount(getSum(products, "total_g_w"))}</td>
-                                <td>{roundMoneyAmount(getSum(products, "total_ctn"))}</td>
-                                <td>{roundMoneyAmount(getSum(products, "corregido_total_pcs"))}</td>
+                                <td>
+                                    {roundMoneyAmount(
+                                        getSum(products, "total_cbm")
+                                    )}
+                                </td>
+                                <td>
+                                    {roundMoneyAmount(
+                                        getSum(products, "total_n_w")
+                                    )}
+                                </td>
+                                <td>
+                                    {roundMoneyAmount(
+                                        getSum(products, "total_g_w")
+                                    )}
+                                </td>
+                                <td>
+                                    {roundMoneyAmount(
+                                        getSum(products, "total_ctn")
+                                    )}
+                                </td>
+                                <td>
+                                    {roundMoneyAmount(
+                                        getSum(products, "corregido_total_pcs")
+                                    )}
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             )}
+
+            <ProductsResume products={products} />
         </React.Fragment>
     );
 };

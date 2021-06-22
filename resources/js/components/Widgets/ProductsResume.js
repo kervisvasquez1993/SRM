@@ -7,16 +7,15 @@ import { GiCardboardBox, GiWeight } from "react-icons/gi";
 import { MdAttachMoney } from "react-icons/md";
 import { getSum, roundMoneyAmount } from "../../utils";
 
-const NegotiationResume = ({ negotiations }) => {
-    const total_cbm = getSum(negotiations, "total_cbm");
-    const total_n_w = getSum(negotiations, "total_n_w");
-    const total_g_w = getSum(negotiations, "total_g_w");
-    const total_ctn = getSum(negotiations, "total_ctn");
-    const compras_total = getSum(negotiations, "compras_total");
+const ProductsResume = ({ products }) => {
+    const total_cbm = getSum(products, "total_cbm");
+    const total_n_w = getSum(products, "total_n_w");
+    const total_g_w = getSum(products, "total_g_w");
+    const total_ctn = getSum(products, "total_ctn");
 
     return (
         <React.Fragment>
-            {negotiations.length > 0 && (
+            {products.length > 0 && (
                 <div className="card py-4 px-3 px-md-5">
                     <div className="resume-card-body">
                         <SmallCard
@@ -50,12 +49,6 @@ const NegotiationResume = ({ negotiations }) => {
                         >
                             {roundMoneyAmount(total_ctn)}
                         </SmallCard>
-                        <SmallCard
-                            label="Total a Pagar"
-                            icon={<MdAttachMoney className="icon-normal" />}
-                        >
-                            {roundMoneyAmount(compras_total)}
-                        </SmallCard>
                     </div>
                 </div>
             )}
@@ -63,4 +56,4 @@ const NegotiationResume = ({ negotiations }) => {
     );
 };
 
-export default NegotiationResume;
+export default ProductsResume;
