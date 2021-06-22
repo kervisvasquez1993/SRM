@@ -28,6 +28,7 @@ import ProductionList from "./Productions/ProductionList";
 import ArtList from "./Arts/ArtList";
 import UserList from "./Users/UserList";
 import ClaimsList from "./Claims/ClaimList";
+import SidebarTouchBorder from "./Navigation/SidebarTouchBorder";
 
 axios.interceptors.response.use(
     response => {
@@ -161,6 +162,7 @@ const App = () => {
                             </Route>
                         </Switch>
                     </div>
+                    <SidebarTouchBorder />
                 </div>
             </div>
             <Modal />

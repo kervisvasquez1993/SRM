@@ -26,6 +26,14 @@
     left: -$sidebar-ancho;
     transition: left 0.5s;
     overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.sidebar-touch-border {
+    position: absolute;
+    top: 0;
+    width: 10%;
+    height: 100%;
 }
 
 .menu-wrapper.mostrar {
@@ -37,15 +45,20 @@
     & .page-wrapper {
         left: $sidebar-ancho;
     }
+
+    & .sidebar-touch-border {
+        width: 100%;
+    }
 }
 
-.logo a {
+.logo button {
     padding: 1.5rem 3rem;
     display: block;
     color: white;
     text-transform: uppercase;
     font-size: 1.5rem;
     border-bottom: solid 1px rgb(182, 182, 182);
+    background: transparent;
 
     &:hover,
     &:focus {
