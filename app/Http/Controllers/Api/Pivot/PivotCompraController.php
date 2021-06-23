@@ -69,7 +69,7 @@ class PivotCompraController extends ApiController
         $tareaNombre   = Tarea::findOrFail($negociacion->tarea_id)->nombre;
         $text = "El usuario: '$login_user' cargo via excel informacion de orden de compra a la empresa '$proveedorName' asociada a la tarea '$tareaNombre'";
         $link = "/negotiation/$negociacion->id#purchases";
-        $type = "cargar_productos";
+        $type = "cargar_compras";
         Notification::send($coordinaodres, new GeneralNotification($text, $link, $type));
         return $this->successMensaje('Archivo de Ordenes de Compra Importado Correctamente', 201);
     }
