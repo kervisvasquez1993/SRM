@@ -83,7 +83,7 @@ Route::middleware('auth.jwt')->group(function () {
     Route::post('/negociaciones/{negociacion_id}/compras', 'Api\Pivot\PivotCompraController@store');
     Route::post('/negociaciones/{negociacion}/importCompra', 'Api\Pivot\PivotCompraController@importCompra');
     Route::get('/negociaciones/{negociacion}/importCompra', 'Api\Pivot\PivotCompraController@exportCompra'); 
-    Route::get('/negociaciones/{negociacione_id}/compras/', 'Api\Pivot\PivotCompraController@show');
+    Route::get('/negociaciones/{negociacione_id}/compras', 'Api\Pivot\PivotCompraController@show');
     Route::put('/negociaciones/{negociacione_id}/compras/{compra}', 'Api\Pivot\PivotCompraController@update');
     //orden de compra
 
@@ -104,7 +104,7 @@ Route::middleware('auth.jwt')->group(function () {
 
     Route::get('/produccion_transito/{produccion_transito_id}/inicio_produccion', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@index');
     Route::post('/produccion_transito/{produccion_transito_id}/inicio_produccion', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@store');
-    Route::put('/inicio_produccion/{produccion_transito_id}/', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@update');
+    Route::put('/inicio_produccion/{produccion_transito_id}', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@update');
     Route::delete('/inicio_produccion/{produccion_transito_id}', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@destroy');
 
 
@@ -199,7 +199,7 @@ Route::middleware('auth.jwt')->group(function () {
 
 
      /* Recepcion reclamos y devoluciones */
-     Route::get('/reclamos_devoluciones/', 'Api\ReclamoDevolucion\ReclamoDevolucionController@index'); 
+     Route::get('/reclamos_devoluciones', 'Api\ReclamoDevolucion\ReclamoDevolucionController@index'); 
      Route::get('/reclamos_devoluciones/{reclamos_devolucione}', 'Api\ReclamoDevolucion\ReclamoDevolucionController@show');
      Route::put('/reclamos_devoluciones/{reclamos_devolucione}', 'Api\ReclamoDevolucion\ReclamoDevolucionController@update');  
  

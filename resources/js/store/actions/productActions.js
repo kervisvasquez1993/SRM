@@ -78,14 +78,14 @@ export function uploadProductForNegotiation(pivotId, file) {
             type: "UPLOADING_PRODUCT_REQUEST"
         });
 
-        console.log(`${apiURL}/negociacion/${pivotId}/importar-producto/`);
+        console.log(`${apiURL}/negociacion/${pivotId}/importar-producto`);
 
         try {
             let formData = new FormData();
             formData.append("import", file);
 
             await axios.post(
-                `${apiURL}/negociacion/${pivotId}/importar-producto/`,
+                `${apiURL}/negociacion/${pivotId}/importar-producto`,
                 formData
             );
 
