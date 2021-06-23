@@ -16,11 +16,7 @@ use App\Http\Resources\ProduccionTransitoResource;
 
 class ProduccionTransitoController extends ApiController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
     public function index()
     {
         $producionTransito = ProduccionTransito::all();
@@ -84,7 +80,6 @@ class ProduccionTransitoController extends ApiController
         $reclamnos_devolucion = RecepcionReclamoDevolucion::where('produccion_transito_id',$produccionTransito_id)->first();
         if(!$reclamnos_devolucion)
         {
-            
             $reclamnosDevolucion = new RecepcionReclamoDevolucion();
             $reclamnosDevolucion->produccion_transito_id = $id;
             $reclamnosDevolucion->save();    

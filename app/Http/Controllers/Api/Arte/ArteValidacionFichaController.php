@@ -14,11 +14,7 @@ use Illuminate\Support\Facades\Notification;
 
 class ArteValidacionFichaController extends ApiController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index($arte_id)
     {
         $arte = Arte::findOrFail($arte_id);

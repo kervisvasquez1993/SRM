@@ -178,7 +178,6 @@ class PivotController extends ApiController
         $produccionAprobar->pivot_tarea_proveeder_id = $id;
         $produccionAprobar->save(); 
         /* notificacion para inicar produccion */
-
         $nombreEmpresa = $produccionAprobar->pivotTable->proveedor->nombre;
         $nombreTarea = $produccionAprobar->pivotTable->tarea->nombre;
         $nombreComprador = $produccionAprobar->pivotTable->tarea->usuarios;

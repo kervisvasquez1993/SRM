@@ -14,23 +14,13 @@ use Illuminate\Support\Facades\Notification;
 
 class ArteValidacionBocetoController extends ApiController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
     public function index($arte_id)
     {
         $arte = Arte::findOrFail($arte_id);
         return $this->showAll($arte->validacionBoceto);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(IncidenciaValidacion $request, $arte_id)
     {
         $validated = $request->validated();
@@ -67,12 +57,6 @@ class ArteValidacionBocetoController extends ApiController
         return $this->showOne($validacion_boceto_id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(ValidacionBoceto $validacion_boceto_id)
     {
         $validacion_boceto_id->delete();

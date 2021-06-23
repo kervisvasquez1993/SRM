@@ -28,9 +28,7 @@ class ProduccionTransitoNacionalizacionController extends ApiController
     public function store(IncidenciaValidacion $request, $produccion_transito_id)
     {
         $request->validated();
-
         $produccionTransito = ProduccionTransito::findOrFail($produccion_transito_id);
-
         $incidencias_transito = new TransitoNacionalizacion();
         $incidencias_transito->produccion_transito_id = $produccionTransito->id;
         $incidencias_transito->user_id = auth()->user()->id;
@@ -51,7 +49,6 @@ class ProduccionTransitoNacionalizacionController extends ApiController
     public function update(IncidenciaValidacion $request, $incidencias_transito_id)
     {
         $request->validated();
-
         $incidencias_transito = TransitoNacionalizacion::findOrFail($incidencias_transito_id);
         $incidencias_transito->update($request->all());
         $incidencias_transito->save();
