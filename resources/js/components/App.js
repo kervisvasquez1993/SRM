@@ -29,12 +29,12 @@ import ArtList from "./Arts/ArtList";
 import UserList from "./Users/UserList";
 import NotificationList from "./Notifications/NotificationList";
 import ClaimsList from "./Claims/ClaimList";
-import { Gestures } from "react-gesture-handler";
 import {
     closeSidebar,
-    sidebarPanLeft,
-    sidebarPanRight
+    sidebarSwipeLeft as sidebarSwipeLeft,
+    sidebarSwipeRight as sidebarSwipeRight
 } from "../store/actions/sidebarActions";
+import { useSwipeable } from "react-swipeable";
 
 axios.interceptors.response.use(
     response => {
@@ -58,8 +58,7 @@ axios.interceptors.response.use(
     }
 );
 
-export const apiURL =
-    process.env.MIX_APP_API_URL || "/api";
+export const apiURL = process.env.MIX_APP_API_URL || "/api";
 
 axios.interceptors.request.use(config => {
     const token = localStorage.getItem("auth");
@@ -76,6 +75,24 @@ const App = () => {
     const isSidebarOpen = useSelector(state => state.sidebar.isOpen);
     const user = useSelector(state => state.auth.user);
     const isLoadingUser = useSelector(state => state.auth.isLoadingUser);
+
+    const handlers = useSwipeable({
+        onSwiped: event => {
+            const tagName = event.event.target.tagName;
+
+            if (tagName === "TD" || tagName === "TH" || tagName === "TABLE") {
+                return;
+            }
+
+            if (event.dir === "Left") {
+                dispatch(sidebarSwipeLeft());
+            }
+
+            if (event.dir === "Right") {
+                dispatch(sidebarSwipeRight());
+            }
+        }
+    });
 
     const history = useHistory();
     const location = useLocation();
@@ -115,16 +132,6 @@ const App = () => {
         );
     }
 
-    const handleGesture = event => {
-        if (event.type === "panleft") {
-            dispatch(sidebarPanLeft());
-        }
-
-        if (event.type === "panright") {
-            dispatch(sidebarPanRight());
-        }
-    };
-
     const handleClick = () => {
         if (isSidebarOpen) {
             dispatch(closeSidebar());
@@ -133,77 +140,70 @@ const App = () => {
 
     return (
         <React.Fragment>
-            <Gestures
-                recognizers={{
-                    Pan: {
-                        events: {
-                            panleft: handleGesture,
-                            panright: handleGesture
-                        }
-                    }
-                }}
+            <div
+                className={"menu-wrapper " + (isSidebarOpen && "mostrar")}
+                {...handlers}
+                style={{ touchAction: "pan-x" }}
             >
-                <div className={"menu-wrapper " + (isSidebarOpen && "mostrar")}>
-                    <Sidebar />
-                    <Navbar />
+                <Sidebar />
+                <Navbar />
 
-                    <div
-                        className="page-wrapper"
-                        id="wrapper"
-                        onPointerDown={handleClick}
-                    >
-                        <div className="content" id="eventInit">
-                            <Switch>
-                                <Route exact path="/">
-                                    <Redirect to="/home" />
-                                </Route>
-                                <Route path="/login">
-                                    <Redirect to="/home" />
-                                </Route>
-                                <Route path="/home">
-                                    <Example />
-                                </Route>
-                                <Route path="/users">
-                                    <UserList />
-                                </Route>
-                                <Route exact path="/tasks">
-                                    <TaskList />
-                                </Route>
-                                <Route path="/tasks/:id">
-                                    <TaskDetails />
-                                </Route>
-                                <Route path="/me/tasks">
-                                    <TaskList
-                                        myTasks
-                                        key={history.location.pathname}
-                                    />
-                                </Route>
-                                <Route path="/negotiation/:id">
-                                    <ProviderPurchase />
-                                </Route>
-                                <Route path="/negotiations">
-                                    <NegotiationList />
-                                </Route>
-                                <Route path="/productions">
-                                    <ProductionList />
-                                </Route>
-                                <Route path="/arts">
-                                    <ArtList />
-                                </Route>
-                                <Route path="/claims">
-                                    <ClaimsList />
-                                </Route>
-                                <Route path="/notifications">
-                                    <NotificationList />
-                                </Route>
-                                <Route path="*">
-                                    <Error />
-                                </Route>
-                            </Switch>
-                        </div>
+                <div
+                    className="page-wrapper"
+                    id="wrapper"
+                    onPointerDown={handleClick}
+                >
+                    <div className="content" id="eventInit">
+                        <Switch>
+                            <Route exact path="/">
+                                <Redirect to="/home" />
+                            </Route>
+                            <Route path="/login">
+                                <Redirect to="/home" />
+                            </Route>
+                            <Route path="/home">
+                                <Example />
+                            </Route>
+                            <Route path="/users">
+                                <UserList />
+                            </Route>
+                            <Route exact path="/tasks">
+                                <TaskList />
+                            </Route>
+                            <Route path="/tasks/:id">
+                                <TaskDetails />
+                            </Route>
+                            <Route path="/me/tasks">
+                                <TaskList
+                                    myTasks
+                                    key={history.location.pathname}
+                                />
+                            </Route>
+                            <Route path="/negotiation/:id">
+                                <ProviderPurchase />
+                            </Route>
+                            <Route path="/negotiations">
+                                <NegotiationList />
+                            </Route>
+                            <Route path="/productions">
+                                <ProductionList />
+                            </Route>
+                            <Route path="/arts">
+                                <ArtList />
+                            </Route>
+                            <Route path="/claims">
+                                <ClaimsList />
+                            </Route>
+                            <Route path="/notifications">
+                                <NotificationList />
+                            </Route>
+                            <Route path="*">
+                                <Error />
+                            </Route>
+                        </Switch>
                     </div>
                 </div>
-            </Gestures>
+            </div>
             <Modal />
             <ToastContainer
                 position="bottom-right"

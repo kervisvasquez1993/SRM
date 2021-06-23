@@ -16,7 +16,7 @@ export const openSidebar = () => {
     };
 };
 
-export function sidebarPanRight() {
+export function sidebarSwipeRight() {
     return async (dispatch, getState) => {
         const state = getState();
 
@@ -26,7 +26,7 @@ export function sidebarPanRight() {
     };
 }
 
-export function sidebarPanLeft() {
+export function sidebarSwipeLeft() {
     return async (dispatch, getState) => {
         const state = getState();
 
