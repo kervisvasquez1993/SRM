@@ -42,7 +42,7 @@ class ArteValidacionFichaController extends ApiController
         $user = $user_all->push($comprador_asignado)->unique('id');
         $text    = "El usuario '$login_user' agrego una incidencia asociada a validación de firchas";
         $link    = "/arts?id=$arte_ficha_validacion->id&tab=validacion_ficha";
-        $type    = "arte_ficha";
+        $type    = "validacion_ficha";
         Notification::send($user, new GeneralNotification($text, $link, $type));
         return $this->showOne($arte_ficha_validacion);
     }
