@@ -22,6 +22,8 @@
     <link href="{{asset('assets/css/material-dashboard.css?v=2.1.2')}}" rel="stylesheet" />
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> 
+
 </head>
 
 <body>
