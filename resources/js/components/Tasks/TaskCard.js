@@ -73,9 +73,7 @@ const TaskCard = ({ task }) => {
 
                 <div className="card-body">
                     <div className="card-text keep-line-breaks">
-                        {task.descripcion.length < 300
-                            ? task.descripcion
-                            : `${task.descripcion.slice(0, 300)}...`}
+                        <div dangerouslySetInnerHTML={{ __html: task.descripcion }} />
                     </div>
                 </div>
 

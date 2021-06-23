@@ -36,6 +36,8 @@ import {
 } from "../store/actions/sidebarActions";
 import { useSwipeable } from "react-swipeable";
 
+import "react-quill/dist/quill.snow.css";
+
 axios.interceptors.response.use(
     response => {
         return response;

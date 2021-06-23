@@ -133,7 +133,7 @@ const TaskDetails = () => {
             </div>
 
             <div className="py-2 text-justify keep-line-breaks">
-                {task.descripcion}
+                <div dangerouslySetInnerHTML={{ __html: task.descripcion }} />
             </div>
 
             {user.rol === "coordinador" && (

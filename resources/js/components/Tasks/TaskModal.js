@@ -75,6 +75,7 @@ const TaskModal = ({ task, isEditor }) => {
                 onChange={handleChange}
                 values={data}
                 errors={errors}
+                setData={setData}
             >
                 <InputText id="nombre" label="Titulo de la Tarea" />
 
