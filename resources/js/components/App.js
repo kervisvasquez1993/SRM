@@ -36,6 +36,10 @@ import {
 } from "../store/actions/sidebarActions";
 import { useSwipeable } from "react-swipeable";
 
+let token = document.head.querySelector('meta[name="csrf-token"]');
+axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+console.log(axios.defaults.headers)
+
 axios.interceptors.response.use(
     response => {
         return response;
