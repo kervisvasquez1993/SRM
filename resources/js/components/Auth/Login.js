@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../store/actions/authActions";
+import PageLogo from "../Widgets/PageLogo";
 
 function extractError(errors, error) {
     if (errors[error]) {
@@ -45,14 +46,10 @@ const Login = () => {
     return (
         <div className="login-container row justify-content-center align-items-center px-4">
             <form className="login-form">
-                <div className="d-flex flex-column align-items-center logo-container mb-4">
-                    <img
-                        className="dynamics-logo"
-                        alt="Logo de dynamics"
-                        src="/images/logo.svg"
-                    />
-                    <p className="srm-logo">SRM</p>
+                <div className="mb-3">
+                    <PageLogo />
                 </div>
+
                 <div className="form-group col-md-12">
                     <label htmlFor="email" className="bmd-label-floating">
                         Email
