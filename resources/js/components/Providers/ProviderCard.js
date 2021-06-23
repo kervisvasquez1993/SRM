@@ -60,9 +60,8 @@ const ProviderCard = ({ provider, selectedProvider }) => {
 
     const enNegociacion = pivot.iniciar_negociacion;
 
-    const handleNegotiate = (e) => {
+    const handleNegotiate = e => {
         e.preventDefault();
-        
 
         dispatch(startNegotiation(taskId, id));
     };
@@ -89,12 +88,9 @@ const ProviderCard = ({ provider, selectedProvider }) => {
                         <h3 className="card-title">{nombre}</h3>
 
                         {enNegociacion ? (
-                            <Link
-                                to={`/negotiation/${pivot.id}`}
-                                className="btn btn-primary btn-round"
-                            >
+                            <button className="btn btn-primary btn-round">
                                 Administrar Compra
-                            </Link>
+                            </button>
                         ) : (
                             !selectedProvider &&
                             (user.rol == "coordinador" || isMine) && (
