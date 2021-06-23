@@ -7,11 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PerfilController;
 
-
-if (App::environment('production')) {
-    URL::forceScheme('https');
-}
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
