@@ -9,6 +9,8 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <link rel="manifest" href="/manifest.json">
+
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
