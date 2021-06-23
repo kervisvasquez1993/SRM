@@ -46,7 +46,7 @@ class PivotCompraController extends ApiController
         $compra->cantidad_ctns = $request->cantidad_ctns;
         $compra->price = $request->price;
         $compra->total = $request->total;
-        $compra->comprador = auth()->user()->email;
+        $compra->comprador = auth()->user()->id;
         $compra->save();
 
         return $this->showOne($compra);

@@ -1,5 +1,7 @@
 import { useSelector } from "react-redux";
 
+export const milisecondsInMinute = 1000 * 60;
+export const milisecondsInHour = 1000 * 60 * 60;
 export const secondsInDay = 1000 * 60 * 60 * 24;
 
 const defaultOptions = {
@@ -22,6 +24,23 @@ export function dateToString(date, options = defaultOptions) {
 
 export function dateToShortString(date, options = defaultShortOptions) {
     return new Intl.DateTimeFormat("default", options).format(date);
+}
+
+export function getElapsedTimeString(date) {
+    const days = Math.floor((new Date() - date) / secondsInDay);
+    if (days > 0) {
+        return days + "d";
+    }
+    const hours = Math.floor((new Date() - date) / milisecondsInHour);
+    if (hours > 0) {
+        return hours + "h";
+    }
+    const minutes = Math.floor((new Date() - date) / milisecondsInMinute);
+    if (minutes > 0) {
+        return minutes + "m";
+    }
+    
+    return "ahora";
 }
 
 export const redCard = {
@@ -103,7 +122,7 @@ export function getColorsFromDates(startDate, finishDate) {
 }
 
 export function getDaysBetweenDates(startDate, finishDate) {
-    return Math.ceil((finishDate - new Date()) / secondsInDay);
+    return Math.ceil((finishDate - startDate) / secondsInDay);
 }
 
 export function getDaysToFinishTask(task) {
@@ -150,7 +169,7 @@ export function getSum(array, column) {
 
 export function isNegotiationCompleted(negotiation) {
     return (
-        negotiation.iniciar_produccion === 1 && negotiation.iniciar_arte === 1
+        negotiation.iniciar_produccion && negotiation.iniciar_arte
     );
 }
 
@@ -212,9 +231,9 @@ export const className = (condition, value) => {
 
 export const isClaimCompleted = claim => {
     return (
-        claim.recepcion_mercancia == 1 &&
-        claim.inspeccion_carga == 1 &&
-        claim.reclamos_devoluciones == 1
+        claim.recepcion_mercancia &&
+        claim.inspeccion_carga &&
+        claim.reclamos_devoluciones
     );
 };
 

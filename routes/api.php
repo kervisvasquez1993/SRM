@@ -3,7 +3,10 @@
 
 use Illuminate\Http\Request;
 use App\Http\Livewire\ShowPosts;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +40,9 @@ Route::middleware('auth.jwt')->group(function () {
     Route::apiResource('user', 'Api\User\UserController')->except([
         'update', 'destroy'
     ]);
+    /* insertar nuevo proveedor con notificacion */
     Route::post('/tarea/{tarea_id}/proveedor', 'Api\Proveedor\ProveedorController@store');
+    
 
     Route::apiResource('proveedor', 'Api\Proveedor\ProveedorController')->except('destroy', 'store');
 
@@ -64,7 +69,7 @@ Route::middleware('auth.jwt')->group(function () {
     //productos
     Route::get('/negociacion/{pivot_tarea_proveedor}/productos', 'Api\Producto\ProductoController@index');
     /* ruta para importar productos */
-    Route::post('/negociacion/{pivot_tarea_proveeder_id}/importar-producto/', 'Api\Producto\ProductoController@importProduct');
+    Route::post('/negociacion/{pivot_tarea_proveeder_id}/importar-producto', 'Api\Producto\ProductoController@importProduct');
     /* fin importan producto */
     Route::post('/negociacion/{pivot_tarea_proveedor}/productos', 'Api\Producto\ProductoController@store');
     Route::put('/productos/{producto}', 'Api\Producto\ProductoController@update');
@@ -75,7 +80,7 @@ Route::middleware('auth.jwt')->group(function () {
     Route::post('/negociaciones/{negociacion_id}/compras', 'Api\Pivot\PivotCompraController@store');
     Route::post('/negociaciones/{negociacion}/importCompra', 'Api\Pivot\PivotCompraController@importCompra');
     Route::get('/negociaciones/{negociacion}/importCompra', 'Api\Pivot\PivotCompraController@exportCompra'); 
-    Route::get('/negociaciones/{negociacione_id}/compras/', 'Api\Pivot\PivotCompraController@show');
+    Route::get('/negociaciones/{negociacione_id}/compras', 'Api\Pivot\PivotCompraController@show');
     Route::put('/negociaciones/{negociacione_id}/compras/{compra}', 'Api\Pivot\PivotCompraController@update');
     //orden de compra
 
@@ -96,7 +101,7 @@ Route::middleware('auth.jwt')->group(function () {
 
     Route::get('/produccion_transito/{produccion_transito_id}/inicio_produccion', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@index');
     Route::post('/produccion_transito/{produccion_transito_id}/inicio_produccion', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@store');
-    Route::put('/inicio_produccion/{produccion_transito_id}/', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@update');
+    Route::put('/inicio_produccion/{produccion_transito_id}', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@update');
     Route::delete('/inicio_produccion/{produccion_transito_id}', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@destroy');
 
 
@@ -186,11 +191,12 @@ Route::middleware('auth.jwt')->group(function () {
     //fin de produccion
     //notificacion
     Route::get('notificacion', 'Api\Notification\NotificationController@index');
+    Route::get('notificacion/count', 'Api\Notification\NotificationController@count');
     Route::patch('/notificacion/{id}', 'Api\Notification\NotificationController@read');
 
 
      /* Recepcion reclamos y devoluciones */
-     Route::get('/reclamos_devoluciones/', 'Api\ReclamoDevolucion\ReclamoDevolucionController@index'); 
+     Route::get('/reclamos_devoluciones', 'Api\ReclamoDevolucion\ReclamoDevolucionController@index'); 
      Route::get('/reclamos_devoluciones/{reclamos_devolucione}', 'Api\ReclamoDevolucion\ReclamoDevolucionController@show');
      Route::put('/reclamos_devoluciones/{reclamos_devolucione}', 'Api\ReclamoDevolucion\ReclamoDevolucionController@update');  
  

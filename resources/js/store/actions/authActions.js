@@ -8,6 +8,8 @@ export function login(user) {
         try {
             const response = await axios.post(`${apiURL}/login`, user);
 
+            console.log(response)
+
             // Get the token and save it
             const token = response.data.access_token;
             localStorage.setItem("auth", token);
@@ -19,6 +21,9 @@ export function login(user) {
 
             dispatch(getMyUser());
         } catch (e) {
+            console.log(e)
+            console.log(e.response)
+            
             if ("errors" in e.response.data) {
                 dispatch({
                     type: "LOGIN_FAILURE",
@@ -51,6 +56,8 @@ export function getMyUser(user) {
                 payload: response.data
             });
         } catch (e) {
+            console.log(e)
+            console.log(e.response)
             dispatch({
                 type: "MY_USER_FAILURE"
             });

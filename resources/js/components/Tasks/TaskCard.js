@@ -45,8 +45,6 @@ const TaskCard = ({ task }) => {
 
     const remainingDays = getRemainingDaysToFinishTask(task);
 
-    console.log(task);
-
     return (
         <Link to={`/tasks/${id}`}>
             <div

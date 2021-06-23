@@ -12,6 +12,8 @@ use App\Http\Controllers\ApiController;
 use App\Http\Resources\ProveedorResource;
 use App\Notifications\NegociacionEmpresa;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\GeneralNotification;
+use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -95,8 +97,15 @@ class ProveedorController extends ApiController
             $proveedor->contacto = $request['contacto'];
             $proveedor->telefono = $request['telefono'];
             $proveedor->email = $request['email'];
-
             $proveedor->save();
+            $login_user = auth()->user()->name;
+            $coordinador = $tarea->sender_id;
+            $userAll = User::find($coordinador);
+            $empresa_agregada = $proveedor->nombre;
+            $text = "El usuario '$login_user' añadió la empresa '$empresa_agregada' a la tarea '$tarea->nombre'";
+            $link = "";
+            $type = "empresa_agregada";
+            Notification::send($userAll, new GeneralNotification($text, $link, $type));           
 
             // informacion asociada a la tabla pivot
             $this->crearPivotConTarea($tarea_id, $proveedor->id);
