@@ -103,7 +103,7 @@ class ProveedorController extends ApiController
             $userAll = User::find($coordinador);
             $empresa_agregada = $proveedor->nombre;
             $text = "El usuario '$login_user' añadió la empresa '$empresa_agregada' a la tarea '$tarea->nombre'";
-            $link = "";
+            $link = "/tasks/$tarea->id?providerId=$proveedor->id";
             $type = "empresa_agregada";
             Notification::send($userAll, new GeneralNotification($text, $link, $type));           
 
