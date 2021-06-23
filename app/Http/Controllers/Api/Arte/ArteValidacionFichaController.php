@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Api\Arte;
 
 use App\Arte;
+use App\User;
 use App\ValidacionFicha;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
+use App\Notifications\GeneralNotification;
 use App\Http\Requests\IncidenciaValidacion;
+use Illuminate\Support\Facades\Notification;
 
 class ArteValidacionFichaController extends ApiController
 {
@@ -33,6 +36,14 @@ class ArteValidacionFichaController extends ApiController
         $arte_ficha_validacion->titulo = $request->titulo;
         $arte_ficha_validacion->descripcion = $request->descripcion;
         $arte_ficha_validacion->save();
+        $login_user = auth()->user()->name;
+        $user_all   = User::where('rol', 'artes')->orWhere('rol', 'coordinador')->get();
+        $comprador_asignado = User::find($arte->pivotTable->tarea->user_id);
+        $user = $user_all->push($comprador_asignado)->unique('id');
+        $text    = "El usuario '$login_user' agrego una incidencia asociada a validación de firchas";
+        $link    = "/arts?id=$arte_ficha_validacion->id&tab=validacion_ficha";
+        $type    = "arte_ficha";
+        Notification::send($user, new GeneralNotification($text, $link, $type));
         return $this->showOne($arte_ficha_validacion);
     }
 
