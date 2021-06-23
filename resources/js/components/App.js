@@ -58,6 +58,9 @@ axios.interceptors.response.use(
     }
 );
 
+console.log(process.env)
+console.log(process.env.MIX_APP_API_URL)
+
 export const apiURL = process.env.MIX_APP_API_URL || "/api";
 
 axios.interceptors.request.use(config => {
