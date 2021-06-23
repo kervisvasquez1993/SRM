@@ -63,6 +63,8 @@ console.log(process.env.MIX_APP_API_URL)
 
 export const apiURL = process.env.MIX_APP_API_URL || "/api";
 
+console.log(apiURL)
+
 axios.interceptors.request.use(config => {
     const token = localStorage.getItem("auth");
 
