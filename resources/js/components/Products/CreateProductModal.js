@@ -51,7 +51,7 @@ const CreateProductModal = ({ pivotId }) => {
             <div className="text-center mb-4">
                 <a
                     className="btn btn-info"
-                    href="http://localhost:8000/templates/productos.xlsx"
+                    href="/templates/productos.xlsx"
                 >
                     Descargar Plantilla
                     <BsCloudDownload className="ml-2 icon-normal" />
