@@ -70,6 +70,7 @@ const Login = () => {
                             autoFocus
                             onChange={handleChange}
                             value={user.email}
+                            placeholder="Escriba su correo electrónico…"
                         />
                         {errorEmail && (
                             <div className="text-danger">
@@ -97,6 +98,7 @@ const Login = () => {
                             autoComplete="current-password"
                             onChange={handleChange}
                             value={user.password}
+                            placeholder="Escriba su contraseña…"
                         />
 
                         {errorPassword && (
