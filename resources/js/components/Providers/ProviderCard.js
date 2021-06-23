@@ -52,16 +52,17 @@ const ProviderCard = ({ provider, selectedProvider }) => {
                     <ProviderFormModal
                         provider={providerToEdit}
                         isEditor={true}
-                        taskId={taskId}
                     />
                 )
             })
         );
     };
 
-    const enNegociacion = pivot.iniciar_negociacion === 1;
+    const enNegociacion = pivot.iniciar_negociacion;
 
-    const handleNegotiate = () => {
+    const handleNegotiate = e => {
+        e.preventDefault();
+
         dispatch(startNegotiation(taskId, id));
     };
 
@@ -74,215 +75,154 @@ const ProviderCard = ({ provider, selectedProvider }) => {
         : normalCard;
 
     return (
-        <div
-            className={`card fade-in ${text} ${background} ${
-                edited && edited.id === id ? "jump" : ""
-            }`}
-            ref={container}
-            tabIndex={-1}
+        <Link
+            to={enNegociacion ? `/negotiation/${pivot.id}` : "#"}
+            style={enNegociacion ? {} : { cursor: "initial" }}
         >
-            <div className="card-header">
-                <div className="d-flex justify-content-between w-100 flex-wrap">
-                    <h3 className="card-title">{nombre}</h3>
+            <div
+                className={`card fade-in ${text} ${background} ${
+                    edited && edited.id === id ? "jump" : ""
+                }`}
+                ref={container}
+                tabIndex={-1}
+            >
+                <div className="card-header">
+                    <div className="d-flex justify-content-between w-100 flex-wrap">
+                        <h3 className="card-title">{nombre}</h3>
 
-                    {enNegociacion ? (
-                        <Link
-                            to={`/negotiation/${pivot.id}`}
-                            className="btn btn-primary btn-round"
-                        >
-                            Administrar Compra
-                        </Link>
+                        {enNegociacion ? (
+                            <button className="btn btn-primary btn-round">
+                                Administrar Compra
+                            </button>
+                        ) : (
+                            !selectedProvider &&
+                            (user.rol == "coordinador" || isMine) && (
+                                <div className="d-flex">
+                                    <button
+                                        className="btn btn btn-outline-primary btn-round"
+                                        onClick={handleNegotiate}
+                                    >
+                                        Negociar
+                                    </button>
+                                </div>
+                            )
+                        )}
+                    </div>
+                    <hr />
+                </div>
+
+                <div className="card-body">
+                    <p className="card-text keep-line-breaks">{descripcion}</p>
+
+                    {(pais || ciudad || distrito) && (
+                        <React.Fragment>
+                            <h3 className="card-title mb-2">Ubicación</h3>
+
+                            {pais && (
+                                <p className="card-text text-capitalize">
+                                    <strong>País : </strong>
+                                    {pais.toLowerCase()}
+                                </p>
+                            )}
+
+                            {ciudad && (
+                                <p className="card-text">
+                                    <strong>Ciudad : </strong>
+                                    {ciudad}
+                                </p>
+                            )}
+
+                            {distrito && (
+                                <p className="card-text">
+                                    <strong>Distrito : </strong>
+                                    {distrito}
+                                </p>
+                            )}
+                        </React.Fragment>
+                    )}
+
+                    {(address || telefono || contacto || email) && (
+                        <React.Fragment>
+                            <h3 className="card-title mb-2">Contacto</h3>
+
+                            {address && (
+                                <p className="card-text">
+                                    <strong>Direccion : </strong>
+                                    {address}
+                                </p>
+                            )}
+
+                            {telefono && (
+                                <p className="card-text">
+                                    <strong>Teléfono : </strong>
+                                    {telefono}
+                                </p>
+                            )}
+                            {contacto && (
+                                <p className="card-text">
+                                    <strong>Contacto : </strong>
+                                    {contacto}
+                                </p>
+                            )}
+
+                            {email && (
+                                <p className="card-text">
+                                    <strong>Email : </strong>
+                                    {email}
+                                </p>
+                            )}
+
+                            {contacto && (
+                                <p className="card-text">
+                                    <strong>Contacto : </strong>
+                                    {contacto}
+                                </p>
+                            )}
+                        </React.Fragment>
+                    )}
+
+                    {isSelected ? (
+                        <div className="d-flex justify-content-center align-items-center mt-4">
+                            <span className="material-icons">done</span>
+                            <span className="material-icons mr-2">done</span>
+                            <strong className="h4">
+                                Ya se inicio producción y arte con esta empresa
+                            </strong>
+                        </div>
                     ) : (
-                        !selectedProvider &&
-                        (user.rol == "coordinador" || isMine) && (
-                            <div className="d-flex">
-                                <button
-                                    className="btn btn-sm btn-outline-primary btn-round"
-                                    onClick={handleNegotiate}
-                                >
-                                    Negociar
-                                </button>
+                        enNegociacion &&
+                        !selectedProvider && (
+                            <div className="d-flex justify-content-center align-items-center mt-4">
+                                <span className="material-icons mr-2">
+                                    done
+                                </span>
+                                <strong className="h4">
+                                    Ya se ha inciado una negociacion con esta
+                                    empresa
+                                </strong>
                             </div>
                         )
                     )}
                 </div>
-                <hr />
-            </div>
 
-            <div className="card-body">
-                <p className="card-text keep-line-breaks">{descripcion}</p>
-
-                {(pais || ciudad || distrito) && (
-                    <React.Fragment>
-                        <h3 className="card-title mb-2">Ubicación</h3>
-
-                        {pais && (
-                            <p className="card-text text-capitalize">
-                                <strong>País : </strong>
-                                {pais.toLowerCase()}
-                            </p>
-                        )}
-
-                        {ciudad && (
-                            <p className="card-text">
-                                <strong>Ciudad : </strong>
-                                {ciudad}
-                            </p>
-                        )}
-
-                        {distrito && (
-                            <p className="card-text">
-                                <strong>Distrito : </strong>
-                                {distrito}
-                            </p>
-                        )}
-                    </React.Fragment>
-                )}
-
-                {(address || telefono || contacto || email) && (
-                    <React.Fragment>
-                        <h3 className="card-title mb-2">Contacto</h3>
-
-                        {address && (
-                            <p className="card-text">
-                                <strong>Direccion : </strong>
-                                {address}
-                            </p>
-                        )}
-
-                        {telefono && (
-                            <p className="card-text">
-                                <strong>Teléfono : </strong>
-                                {telefono}
-                            </p>
-                        )}
-                        {contacto && (
-                            <p className="card-text">
-                                <strong>Contacto : </strong>
-                                {contacto}
-                            </p>
-                        )}
-
-                        {email && (
-                            <p className="card-text">
-                                <strong>Email : </strong>
-                                {email}
-                            </p>
-                        )}
-
-                        {contacto && (
-                            <p className="card-text">
-                                <strong>Contacto : </strong>
-                                {contacto}
-                            </p>
-                        )}
-                    </React.Fragment>
-                )}
-
-                {isSelected ? (
-                    <div className="d-flex justify-content-center align-items-center mt-4">
-                        <span className="material-icons">done</span>
-                        <span className="material-icons mr-2">done</span>
-                        <strong className="h4">
-                            Ya se inicio producción y arte con esta empresa
-                        </strong>
-                    </div>
-                ) : (
-                    enNegociacion &&
-                    !selectedProvider && (
-                        <div className="d-flex justify-content-center align-items-center mt-4">
-                            <span className="material-icons mr-2">done</span>
-                            <strong className="h4">
-                                Ya se ha inciado una negociacion con esta
-                                empresa
-                            </strong>
+                {isMine && (
+                    <div className="card-footer">
+                        <div className="d-flex justify-content-end w-100">
+                            <div className="d-flex">
+                                <button
+                                    className="btn btn-primary btn-round mr-2"
+                                    onClick={handleEdit}
+                                >
+                                    <span className="material-icons">edit</span>
+                                    Editar
+                                </button>
+                            </div>
                         </div>
-                    )
-                )}
-
-                {/* {(pais || ciudad || distrito) && (
-                    <Accordion title="Ubicación" defaultState="close">
-                        <h3 className="card-title mb-2">Ubicación</h3>
-
-                        {pais && (
-                            <p className="card-text text-capitalize">
-                                <strong>País : </strong>
-                                {pais.toLowerCase()}
-                            </p>
-                        )}
-
-                        {ciudad && (
-                            <p className="card-text">
-                                <strong>Ciudad : </strong>
-                                {ciudad}
-                            </p>
-                        )}
-
-                        {distrito && (
-                            <p className="card-text">
-                                <strong>Distrito : </strong>
-                                {distrito}
-                            </p>
-                        )}
-                    </Accordion>
-                )}
-
-                {(address || telefono || contacto || email) && (
-                    <Accordion title="Contacto" defaultState="close">
-                        {address && (
-                            <p className="card-text">
-                                <strong>Direccion : </strong>
-                                {address}
-                            </p>
-                        )}
-
-                        {telefono && (
-                            <p className="card-text">
-                                <strong>Teléfono : </strong>
-                                {telefono}
-                            </p>
-                        )}
-                        {contacto && (
-                            <p className="card-text">
-                                <strong>Contacto : </strong>
-                                {contacto}
-                            </p>
-                        )}
-
-                        {email && (
-                            <p className="card-text">
-                                <strong>Email : </strong>
-                                {email}
-                            </p>
-                        )}
-
-                        {contacto && (
-                            <p className="card-text">
-                                <strong>Contacto : </strong>
-                                {contacto}
-                            </p>
-                        )}
-                    </Accordion>
-                )} */}
-            </div>
-
-            {isMine && (
-                <div className="card-footer">
-                    <div className="d-flex justify-content-end w-100">
-                        <div className="d-flex">
-                            <button
-                                className="btn btn-sm btn-primary btn-round mr-2"
-                                onClick={handleEdit}
-                            >
-                                <span className="material-icons">edit</span>
-                                Editar
-                            </button>
-                        </div>
+                        <hr />
                     </div>
-                    <hr />
-                </div>
-            )}
-        </div>
+                )}
+            </div>
+        </Link>
     );
 };
 

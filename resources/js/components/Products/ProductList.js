@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../store/actions/modalActions";
 import { deleteProduct } from "../../store/actions/productActions";
 import ProductFormModal from "../Products/ProductFormModal";
-
 import EmptyList from "../Navigation/EmptyList";
 import { getSum, roundMoneyAmount } from "../../utils";
 import { useParams } from "react-router-dom";

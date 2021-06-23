@@ -53,7 +53,7 @@ const CreatePurchaseOrderModal = ({ pivotId }) => {
             <div className="text-center mb-4">
                 <a
                     className="btn btn-info"
-                    href="http://localhost:8000/templates/ordenes_compra.xlsx"
+                    href="/templates/ordenes_compra.xlsx"
                 >
                     Descargar Plantilla
                     <BsCloudDownload className="ml-2 icon-normal" />

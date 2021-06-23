@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../../store/actions/authActions";
 import { closeSidebar } from "../../store/actions/sidebarActions";
+import PageLogo from "../Widgets/PageLogo";
 
 const Sidebar = () => {
     const dispatch = useDispatch();
@@ -21,8 +22,8 @@ const Sidebar = () => {
     return (
         <div className="menu">
             <div className="logo">
-                <button className="simple-text logo-normal" onClick={closeMenu}>
-                    SRM Dynamics
+                <button className="" onClick={closeMenu}>
+                    <PageLogo />
                 </button>
             </div>
 

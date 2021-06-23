@@ -18,7 +18,7 @@
 .menu {
     background-color: rgb(33, 37, 41);
     color: rgb(169, 175, 187);
-    height: 100vh;
+    height: 100%;
     width: $sidebar-ancho;
     position: fixed;
     top: 0;
@@ -45,9 +45,8 @@
 }
 
 .logo button {
-    padding: 1.5rem 3rem;
     display: block;
-    color: white;
+    color: white !important;
     text-transform: uppercase;
     font-size: 1.5rem;
     border: 0;
@@ -104,10 +103,6 @@
     }
 
     #botonSidebar {
-        display: none;
-    }
-
-    .cerrar-sesion {
         display: none;
     }
 

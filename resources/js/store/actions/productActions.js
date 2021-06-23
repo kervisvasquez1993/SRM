@@ -78,12 +78,14 @@ export function uploadProductForNegotiation(pivotId, file) {
             type: "UPLOADING_PRODUCT_REQUEST"
         });
 
+        console.log(`${apiURL}/negociacion/${pivotId}/importar-producto`);
+
         try {
             let formData = new FormData();
             formData.append("import", file);
 
             await axios.post(
-                `${apiURL}/negociacion/${pivotId}}/importar-producto/`,
+                `${apiURL}/negociacion/${pivotId}/importar-producto`,
                 formData
             );
 
@@ -93,7 +95,7 @@ export function uploadProductForNegotiation(pivotId, file) {
 
             dispatch(closeModal());
             dispatch(getProductsFromNegotiation(pivotId));
-            
+
             document
                 .querySelector("#wrapper")
                 .scrollTo(0, 10000000000000000000);
@@ -101,6 +103,7 @@ export function uploadProductForNegotiation(pivotId, file) {
             toast.success("✔️ Productos importados");
         } catch (e) {
             console.log(e);
+            console.log(e.response);
         }
     };
 }

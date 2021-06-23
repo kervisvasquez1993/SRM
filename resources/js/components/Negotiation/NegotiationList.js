@@ -472,9 +472,9 @@ const NegotiationList = () => {
                     filter: (item, filters) =>
                         !(
                             filters["status"]["processing"] === false &&
-                            item.iniciar_produccion === 0
+                            !item.iniciar_produccion
                         ),
-                    filterPopulator: item => item.iniciar_produccion === 0
+                    filterPopulator: item => !item.iniciar_produccion
                 },
                 {
                     id: "completed",
@@ -484,9 +484,9 @@ const NegotiationList = () => {
                     filter: (item, filters) =>
                         !(
                             filters["status"]["completed"] === false &&
-                            item.iniciar_produccion === 1
+                            item.iniciar_produccion
                         ),
-                    filterPopulator: item => item.iniciar_produccion === 1
+                    filterPopulator: item => item.iniciar_produccion
                 }
             ]
         },
@@ -541,14 +541,14 @@ const NegotiationList = () => {
     const populatorConfig = [
         {
             header: "Negociaciones en progreso:",
-            filterPopulator: item => item.iniciar_produccion === 0,
+            filterPopulator: item => !item.iniciar_produccion,
             populator: item => {
                 return <NegotiationCard key={item.id} negotiation={item} />;
             }
         },
         {
             header: "Negociaciones completadas:",
-            filterPopulator: item => item.iniciar_produccion === 1,
+            filterPopulator: item => item.iniciar_produccion,
             populator: item => {
                 return <NegotiationCard key={item.id} negotiation={item} />;
             }
