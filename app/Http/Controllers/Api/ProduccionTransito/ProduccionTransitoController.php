@@ -93,12 +93,4 @@ class ProduccionTransitoController extends ApiController
         return $this->errorResponse('Ya Existe', Response::HTTP_BAD_REQUEST);
     
     }
-
-    
-
-    
-    public function destroy(ProduccionTransito $produccionTransito)
-    {
-        //
-    }
 }

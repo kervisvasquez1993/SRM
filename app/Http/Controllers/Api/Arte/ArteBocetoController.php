@@ -32,13 +32,13 @@ class ArteBocetoController extends ApiController
         $boceto->titulo = $request->titulo;
         $boceto->descripcion = $request->descripcion;
         $boceto->save();
-        $login_user = auth()->user()->name;
-        $user_all   = User::where('rol', 'artes')->orWhere('rol', 'coordinador')->get();
+        $login_user         = auth()->user()->name;
+        $user_all           = User::where('rol', 'artes')->orWhere('rol', 'coordinador')->get();
         $comprador_asignado = User::find($arte->pivotTable->tarea->user_id);
-        $user = $user_all->push($comprador_asignado)->unique('id');
-        $text    = "El usuario '$login_user' agrego una incidencia asociada a creacion de boceto";
-        $link    = "/arts?id=$boceto->id&tab=boceto";
-        $type    = "arte_ficha";
+        $user               = $user_all->push($comprador_asignado)->unique('id');
+        $text               = "El usuario '$login_user' agrego una incidencia asociada a creacion de boceto";
+        $link               = "/arts?id=$boceto->id&tab=boceto";
+        $type               = "arte_ficha";
         Notification::send($user, new GeneralNotification($text, $link, $type));
         return $this->showOne($boceto);
     

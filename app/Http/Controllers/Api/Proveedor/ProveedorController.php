@@ -189,7 +189,6 @@ class ProveedorController extends ApiController
         $text = "El usuario $user_login inicio negociación con la empresa: $proveedor->nombre en la tarea: $tarea->nombre";
         $type = "iniciar_negociacion";
         Notification::send($userAll, new GeneralNotification($text, $link, $type));
-        /* $recipient->notify(new GeneralNotification($body, $url, $type)); */
         return $this->successMensaje("La negociacion se inicio exitosamente", Response::HTTP_ACCEPTED);
     }
 }
