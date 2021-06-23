@@ -1,0 +1,17 @@
+.login-container {
+    min-height: 100vh;
+}
+
+.login-form {
+    max-width: 600px;
+
+    & input {
+        background: white !important;
+    }
+}
+
+.srm-logo {
+    color: black;
+    font-weight: bold;
+    font-size: 2rem;
+}
