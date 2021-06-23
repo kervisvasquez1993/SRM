@@ -36,7 +36,7 @@ class ArteConfirmacionProveedorController extends ApiController
         $comprador_asignado = User::find($arte->pivotTable->tarea->user_id);
         $user = $user_all->push($comprador_asignado)->unique('id');
         $text    = "El usuario '$login_user' agrego una incidencia asociada a confirmacion de proveedores";
-        $link    = "/arts?id=$confirmacion_proveedor->id&tab=validacion_ficha";
+        $link    = "/arts?id=$confirmacion_proveedor->id&tab=confirmacion_proveedor";
         $type    = "confirmacion_proveedor";
         Notification::send($user, new GeneralNotification($text, $link, $type));
         return $this->showOne($confirmacion_proveedor);
