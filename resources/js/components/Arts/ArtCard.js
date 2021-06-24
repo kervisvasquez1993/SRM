@@ -1,7 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { StringParam, useQueryParam } from "use-query-params";
 import { openArtModal, updateArt } from "../../store/actions/artActions";
-import { isArtCompleted, useScrollAndTab, useSimpleUrlFocus } from "../../utils";
+import { isArtCompleted, useSimpleUrlFocus } from "../../utils";
 
 export const options = [
     {
@@ -47,8 +48,6 @@ const ArtCard = ({ art }) => {
         state => state.art.isEditingDropdowns
     );
 
-    
-
     const handleOpenManagement = () => {
         dispatch(openArtModal(art.id));
     };
@@ -57,7 +56,13 @@ const ArtCard = ({ art }) => {
         e.stopPropagation();
     };
 
-    const [ref, focusClassName] = useScrollAndTab(art.id);
+    const [tab] = useQueryParam("tab", StringParam);
+
+    const [ref, focusClassName] = useSimpleUrlFocus(art.id, "id", () => {
+        if (tab) {
+            dispatch(openArtModal(art.id, tab));
+        }
+    });
 
     const handleChange = e => {
         const data = {

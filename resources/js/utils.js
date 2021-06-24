@@ -323,14 +323,3 @@ export const useSimpleScrollToId = (hashValue, extraDependencies = []) => {
 
     return ref;
 };
-
-export const useScrollAndTab = id => {
-    const dispatch = useDispatch();
-    const [tab] = useQueryParam("tab", StringParam);
-
-    return useSimpleUrlFocus(id, "id", () => {
-        if (tab) {
-            dispatch(openArtModal(id, tab));
-        }
-    });
-};

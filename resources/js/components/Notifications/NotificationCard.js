@@ -1,21 +1,32 @@
 import React from "react";
-import { BiTask } from "react-icons/bi";
 import { FaRegHandshake } from "react-icons/fa";
-import { HiUpload } from "react-icons/hi";
-import { GiFactory, GiGearHammer } from "react-icons/gi";
+import { GiGearHammer, GiLargePaintBrush, GiPaintBrush } from "react-icons/gi";
 import { RiShip2Line } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { markAsRead } from "../../store/actions/notificationActions";
 import { getElapsedTimeString } from "../../utils";
-import { MdBrush } from "react-icons/md";
 import { AiFillWarning } from "react-icons/ai";
+import { FcFactoryBreakdown, FcMoneyTransfer, FcServices, FcTodoList, FcUpload } from "react-icons/fc";
+
+const iconClassName = "text-dark icon-large mr-3";
+const dangerIconClassName = "text-danger icon-large mr-3";
+const subIconClassName = "text-dark mr-3 notification-sub-icon";
 
 const ArtIncidentIcon = () => {
     return (
         <div className="notification-icon-parent">
-            <AiFillWarning className="text-danger icon-large mr-3" />
-            <MdBrush className="text-primary mr-3 notification-sub-icon" />
+            <AiFillWarning className={dangerIconClassName} />
+            <GiLargePaintBrush className={subIconClassName} />
+        </div>
+    );
+};
+
+const ProductionIncidentIcon = () => {
+    return (
+        <div className="notification-icon-parent">
+            <AiFillWarning className={dangerIconClassName} />
+            <FcServices className={subIconClassName} />
         </div>
     );
 };
@@ -23,48 +34,39 @@ const ArtIncidentIcon = () => {
 const titles = {
     tarea_asignada: {
         title: "Tarea Asignada",
-        icon: <BiTask className="text-primary icon-large mr-3 flex-shrink-0" />
+        icon: <FcTodoList className={iconClassName} />
     },
     empresa_agregada: {
         title: "Empresa Agregada",
-        icon: (
-            <GiFactory className="text-primary icon-large mr-3 flex-shrink-0" />
-        )
+        icon: <FcFactoryBreakdown className={iconClassName} />
     },
     salida_puerto_origen: {
         title: "Salida de Puerto Origen",
-        icon: (
-            <RiShip2Line className="text-primary icon-large mr-3 flex-shrink-0" />
-        )
+        icon: <RiShip2Line className={iconClassName} />
     },
     iniciar_negociacion: {
         title: "Negociación Iniciada",
-        icon: (
-            <FaRegHandshake className="text-primary icon-large mr-3 flex-shrink-0" />
-        )
+        icon: <FaRegHandshake className={iconClassName} />
     },
     cargar_productos: {
         title: "Productos Cargados",
-        icon: (
-            <HiUpload className="text-primary icon-large mr-3 flex-shrink-0" />
-        )
+        icon: <FcUpload className={iconClassName} />
     },
     cargar_compras: {
         title: "Órdenes de Compra Cargadas",
-        icon: (
-            <HiUpload className="text-primary icon-large mr-3 flex-shrink-0" />
-        )
+        icon: <FcUpload className={iconClassName} />
     },
     iniciar_arte: {
         title: "Arte Iniciada",
-        icon: <MdBrush className="text-primary icon-large mr-3 flex-shrink-0" />
+        icon: <GiLargePaintBrush className={iconClassName} />
     },
+
     arte_ficha: {
         title: "Incidencia con Creación de Fichas",
         icon: <ArtIncidentIcon />
     },
     validacion_ficha: {
-        title: "Incidencia con Validación de Bocetos",
+        title: "Incidencia con Validación de Fichas",
         icon: <ArtIncidentIcon />
     },
     arte_boceto: {
@@ -82,9 +84,37 @@ const titles = {
 
     iniciar_produccion: {
         title: "Producción Iniciada",
-        icon: (
-            <GiGearHammer className="text-primary icon-large mr-3 flex-shrink-0" />
-        )
+        icon: <FcServices className={iconClassName} />
+    },
+    pago_anticipado: {
+        title: "Pago Anticipado Agregado",
+        icon: <FcMoneyTransfer className={iconClassName} />
+    },
+    pago_restante: {
+        title: "Pago Balance Agregado",
+        icon: <FcMoneyTransfer className={iconClassName} />
+    },
+
+    incidencia_inicio_produccion: {
+        title: "Incidencia con Inicio de Producción",
+        icon: <ProductionIncidentIcon />
+    },
+    incidencia_fin_produccion: {
+        title: "Incidencia con Fin de Producción",
+        icon: <ProductionIncidentIcon />
+    },
+    incidencia_transito_normalizacion: {
+        title: "Incidencia con Transito Nacionalización",
+        icon: <ProductionIncidentIcon />
+    },
+
+    inicio_produccion: {
+        title: "Producción Iniciada",
+        icon: <GiGearHammer className={iconClassName} />
+    },
+    fin_produccion: {
+        title: "Producción Finalizada",
+        icon: <GiGearHammer className={iconClassName} />
     }
 };
 

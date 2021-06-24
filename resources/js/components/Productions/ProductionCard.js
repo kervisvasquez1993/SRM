@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import { StringParam, useQueryParam } from "use-query-params";
 import { openModal } from "../../store/actions/modalActions";
 import { updateProduction } from "../../store/actions/productionActions";
 import {
@@ -12,7 +13,23 @@ import ProductionManagementModal from "./ProductionManagementModal";
 
 const ProductionCard = ({ production }) => {
     const dispatch = useDispatch();
-    const [ref, focusClassName] = useSimpleUrlFocus(production.id);
+    const [tab] = useQueryParam("tab", StringParam);
+
+    const [ref, focusClassName] = useSimpleUrlFocus(production.id, "id", () => {
+        if (tab) {
+            dispatch(
+                openModal({
+                    title: getNegotiationModalName(production.pivot),
+                    body: (
+                        <ProductionManagementModal
+                            productionId={production.id}
+                        />
+                    ),
+                    defaultTab: tab
+                })
+            );
+        }
+    });
 
     const handleOpenInfo = e => {
         e.preventDefault();

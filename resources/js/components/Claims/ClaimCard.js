@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import { StringParam, useQueryParam } from "use-query-params";
 import { updateClaim } from "../../store/actions/claimActions";
 import { openModal } from "../../store/actions/modalActions";
 import {
@@ -22,7 +23,19 @@ const ClaimCard = ({ claim }) => {
         reclamos_devoluciones
     } = claim;
 
-    const [ref, focusClassName] = useSimpleUrlFocus(id);
+    const [tab] = useQueryParam("tab", StringParam);
+
+    const [ref, focusClassName] = useSimpleUrlFocus(claim.id, "id", () => {
+        if (tab) {
+            dispatch(
+                openModal({
+                    title: getNegotiationModalName(pivot),
+                    body: <ClaimManagementModal claimId={claim.id} />,
+                    defaultTab: tab
+                })
+            );
+        }
+    });
 
     const handleOpenInfo = e => {
         e.preventDefault();
