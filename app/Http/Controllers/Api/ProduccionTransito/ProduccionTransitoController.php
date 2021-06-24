@@ -61,7 +61,7 @@ class ProduccionTransitoController extends ApiController
         $usar_asignado = User::find($produccionTransito->pivotTable->tarea->user_id);
         $user          = $user_all->push($usar_asignado)->unique('id');
 
-        if ($produccionTransito->salida_puero_origen == 1) 
+        if ($request->salida_puero_origen == 1) 
         {
             $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea salio del puerto de origen.";
             $link = "/claims/?id=$produccionTransito->id";
@@ -71,7 +71,7 @@ class ProduccionTransitoController extends ApiController
             $this->reclamosDevolucion($produccionTransito->id);       
         }
 
-        if ($produccionTransito->fin_produccion == 1) 
+        if ($request->fin_produccion == 1) 
         {
             $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea finalizó producción.";
             $link = "/productions?id==$produccionTransito->id";
