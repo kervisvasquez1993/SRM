@@ -71,16 +71,6 @@ class ProduccionTransitoController extends ApiController
             $this->reclamosDevolucion($produccionTransito->id);       
         }
 
-         if ($produccionTransito->inicio_produccion == 1) 
-        {
-            $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea inicio producción.";
-            $link = "/productions?id==$produccionTransito->id";
-            $tipoNotify = "inicio_produccion";
-            Notification::send($user, new GeneralNotification($body, $link, $tipoNotify));
-            /* crear Nuevo Reclamos y devoluciones */
-            $this->reclamosDevolucion($produccionTransito->id);       
-        }
-
         if ($produccionTransito->fin_produccion == 1) 
         {
             $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea finalizó producción.";
