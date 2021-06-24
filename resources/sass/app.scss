@@ -175,3 +175,17 @@ table,
         color: white !important;
     }
 }
+
+.notification-icon-parent {
+    position: relative;
+}
+
+.notification-sub-icon {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    font-size: 35px;
+
+    stroke: rgba(0, 0, 0, 0.4);
+    stroke-width: 1.5px;
+}

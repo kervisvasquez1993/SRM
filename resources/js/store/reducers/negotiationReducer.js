@@ -1,4 +1,4 @@
-import { filterNegotiations, isNegotiationCompleted } from "../../utils";
+import { filterNegotiations } from "../../utils";
 
 const defaultState = {
     negotiations: [],

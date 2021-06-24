@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
 import { getPurchaseOrdersFromNegotiation } from "../../store/actions/purchaseOrderActions";
-import { getSum, roundMoneyAmount } from "../../utils";
+import { getSum, roundMoneyAmount, useSimpleScrollToId } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
 import LargeCreateButton from "../Widgets/LargeCreateButton";
 import PurchaseOrdersResume from "../Widgets/PurchaseOrdersResume";
@@ -25,6 +25,8 @@ const PurchaseOrderList = () => {
 
     const isMine = user.id == negotiation.usuario.id;
 
+    const titleRef = useSimpleScrollToId("#purchases");
+
     const handleCreate = () => {
         dispatch(
             openModal({
@@ -38,7 +40,7 @@ const PurchaseOrderList = () => {
         <React.Fragment>
             {products.length > 0 && (
                 <React.Fragment>
-                    <div className="mr-auto text-center py-4">
+                    <div className="mr-auto text-center py-4" ref={titleRef}>
                         <h1 className="h2">Ordenes de Compra</h1>
                     </div>
 
