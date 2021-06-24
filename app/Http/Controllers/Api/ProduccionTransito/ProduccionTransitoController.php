@@ -65,9 +65,7 @@ class ProduccionTransitoController extends ApiController
             $tipoNotify = "salida_puerto_origen";
             Notification::send($userAll, new GeneralNotification($body, $link, $tipoNotify));
             /* crear Nuevo Reclamos y devoluciones */
-            $this->reclamosDevolucion($produccionTransito->id);
-                     
-
+            $this->reclamosDevolucion($produccionTransito->id);       
         }
 
         return $this->showOneResource(new ProduccionTransitoResource($produccionTransito));
