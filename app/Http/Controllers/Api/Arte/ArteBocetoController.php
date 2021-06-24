@@ -32,6 +32,7 @@ class ArteBocetoController extends ApiController
         $boceto->titulo = $request->titulo;
         $boceto->descripcion = $request->descripcion;
         $boceto->save();
+        /* notificacion */
         $login_user         = auth()->user()->name;
         $user_all           = User::where('rol', 'artes')->orWhere('rol', 'coordinador')->get();
         $comprador_asignado = User::find($arte->pivotTable->tarea->user_id);
