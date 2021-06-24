@@ -42,8 +42,8 @@ class ProduccionTransitoInicioProduccion extends ApiController
         $user_all           = User::where('rol', 'logistica')->orWhere('rol', 'coordinador')->get();
         $comprador_asignado = User::find($produccionTransitoId->pivotTable->tarea->user_id);
         $user               = $user_all->push($comprador_asignado)->unique('id');
-        $text               = "El usuario '$login_user' agrego incidencia a la empresa: ".$produccionTransitoId->pivotTable->proveedor->nombre;
-        $link               = "/productions?id=$inicioProduccion->produccion_transito_id&tab=$inicioProduccion->id";
+        $text               = "El usuario '$login_user' agrego incidencia realcionada con inicio de produccion en la empresa: ".$produccionTransitoId->pivotTable->proveedor->nombre;
+        $link               = "/productions?id=$produccionTransitoId->id&tab=inicio_produccion";
         $type               = "inicio_produccion";
         Notification::send($user, new GeneralNotification($text, $link, $type));
         return $this->showOne($inicioProduccion);
