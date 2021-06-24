@@ -63,6 +63,7 @@ class PivotCompraController extends ApiController
         $archivo = $request->file('import_compra');
         $id_pivot =  $negociacion->id;
         Excel::import(new ComprasImport($id_pivot), $archivo);
+        /* notificacion */
         $login_user    = auth()->user()->name;
         $coordinaodres = User::where('rol', 'coordinador')->get();
         $proveedorName = Proveedor::findOrFail($negociacion->proveedor_id)->nombre;
@@ -72,11 +73,6 @@ class PivotCompraController extends ApiController
         $type = "cargar_compras";
         Notification::send($coordinaodres, new GeneralNotification($text, $link, $type));
         return $this->successMensaje('Archivo de Ordenes de Compra Importado Correctamente', 201);
-    }
-
-    public function exportCompra(PivotTareaProveeder $negociacion)
-    {
-        return Excel::download(new ComprasExport($negociacion->id), 'ordenDeCompra.xlsx');
     }
 
     public function show($compra_id)
