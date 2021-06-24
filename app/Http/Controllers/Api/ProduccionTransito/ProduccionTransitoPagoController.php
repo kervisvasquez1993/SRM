@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\ProduccionTransito;
 
 use App\Pago;
+use App\User;
 use Carbon\Carbon;
 use App\ProduccionTransito;
 use Illuminate\Http\Request;
@@ -11,6 +12,8 @@ use App\Http\Resources\PagoResource;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\GeneralNotification;
+use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProduccionTransitoPagoController extends ApiController
@@ -30,22 +33,24 @@ class ProduccionTransitoPagoController extends ApiController
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), $this->validator_array);
 
+        
+
+        $validator = Validator::make($request->all(), $this->validator_array);
         if ($validator->fails())
         {
             return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
         }
-        
         $produccionTransitoId = ProduccionTransito::findOrFail($request->produccion_transito_id);
-        
         if(!$produccionTransitoId->pagos->isEmpty())
         {
             $tipo = "Pago Restante";
+            $type = "pago_restante";
         }
         else
         {
             $tipo = "Pago Anticipado";
+            $type = "pago_anticipado";
         }
         $pago = new Pago();
         $pago->produccion_transito_id = $request->produccion_transito_id;
@@ -57,6 +62,13 @@ class ProduccionTransitoPagoController extends ApiController
         $pago->tipo = $tipo;
         $pago->fecha = $request->fecha;
         $pago->save();
+        $login_user         = auth()->user()->name;
+        $user_all           = User::where('rol', 'logistica')->orWhere('rol', 'coordinador')->get();
+        $comprador_asignado = User::find($produccionTransitoId->pivotTable->tarea->user_id);
+        $user               = $user_all->push($comprador_asignado)->unique('id');
+        $text               = "El usuario '$login_user' agrego un pago asociado al proveedor ". $produccionTransitoId->pivotTable->proveedor->nombre;
+        $link               = "/productions?id=$request->produccion_transito_id&tab=payments";
+        Notification::send($user, new GeneralNotification($text, $link, $type));
         return $this->showOneResource(new PagoResource($pago));
     }
 
