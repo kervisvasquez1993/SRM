@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { openArtModal, updateArt } from "../../store/actions/artActions";
-import { isArtCompleted, useSimpleUrlFocus } from "../../utils";
+import { isArtCompleted, useScrollAndTab, useSimpleUrlFocus } from "../../utils";
 
 export const options = [
     {
@@ -47,7 +47,7 @@ const ArtCard = ({ art }) => {
         state => state.art.isEditingDropdowns
     );
 
-    const [ref, focusClassName] = useSimpleUrlFocus(art.id);
+    
 
     const handleOpenManagement = () => {
         dispatch(openArtModal(art.id));
@@ -56,6 +56,8 @@ const ArtCard = ({ art }) => {
     const handleInputClick = e => {
         e.stopPropagation();
     };
+
+    const [ref, focusClassName] = useScrollAndTab(art.id);
 
     const handleChange = e => {
         const data = {

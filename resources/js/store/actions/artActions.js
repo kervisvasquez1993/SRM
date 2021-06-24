@@ -69,7 +69,7 @@ export function openArtModal(id, defaultTab = "ficha") {
         dispatch(
             openModal({
                 title: "Hola",
-                body: <ArtModal id={id} defaultTab={defaultTab} />,
+                body: <ArtModal id={id} />,
                 defaultTab: defaultTab
             })
         );

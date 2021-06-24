@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { NumberParam, useQueryParam } from "use-query-params";
+import { NumberParam, StringParam, useQueryParam } from "use-query-params";
+import { openArtModal } from "./store/actions/artActions";
 import { clearFocus, focusOnElementWithId } from "./store/actions/focusActions";
 
 export const milisecondsInMinute = 1000 * 60;
@@ -253,7 +254,7 @@ export const getNegotiationModalName = negotiation => {
     return `${negotiation.proveedor.nombre} - ${negotiation.proveedor.pais} - ${negotiation.proveedor.ciudad}`;
 };
 
-export const useSimpleUrlFocus = (ownId, paramName = "id") => {
+export const useSimpleUrlFocus = (ownId, paramName = "id", callback) => {
     const dispatch = useDispatch();
     const container = useRef(null);
     const focusOnId = useSelector(state => state.focus.focusOnId);
@@ -269,6 +270,10 @@ export const useSimpleUrlFocus = (ownId, paramName = "id") => {
         if (focusOnId && focusOnId === ownId) {
             element = container.current;
             element.scrollIntoView();
+
+            if (callback) {
+                callback();
+            }
 
             handleAnimationEnd = e => {
                 dispatch(clearFocus());
@@ -317,4 +322,15 @@ export const useSimpleScrollToId = (hashValue, extraDependencies = []) => {
     );
 
     return ref;
+};
+
+export const useScrollAndTab = id => {
+    const dispatch = useDispatch();
+    const [tab] = useQueryParam("tab", StringParam);
+
+    return useSimpleUrlFocus(id, "id", () => {
+        if (tab) {
+            dispatch(openArtModal(id, tab));
+        }
+    });
 };
