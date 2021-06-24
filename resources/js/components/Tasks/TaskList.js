@@ -20,7 +20,7 @@ const TaskList = ({ myTasks = false }) => {
     const isLoadingList = useSelector(state => state.task.isLoadingList);
 
     const [filtered, setFilteredTasks] = useState([...tasks]);
-    const [filterDays, setFilterDays] = useState(0);
+    const [filterDays, setFilterDays] = useState(1);
     const filter = useRef(null);
 
     const [filteredAfterStatus, setfilteredAfterStatus] = useState([]);
@@ -175,18 +175,22 @@ const TaskList = ({ myTasks = false }) => {
         // Filter by expiration days
         list = list.filter(
             task =>
-                "time" in filter &&
-                getDaysToFinishTask(task) <= filter.time.days
+                !(
+                    "time" in filter &&
+                    getDaysToFinishTask(task) > filter.time.days
+                )
         );
 
         // Set the max days
         if ("time" in filter) {
+            console.log("Setting ", filter.time.days);
             setFilterDays(filter.time.days);
         }
 
         setFilteredTasks(list);
     };
 
+    const minDays = getMinDays();
     const maxDays = getMaxDays();
 
     //const inProgressTasks = filtered.filter(item => isTaskInProgress(item));
@@ -269,8 +273,8 @@ const TaskList = ({ myTasks = false }) => {
                     )}
                 </div>
 
-                <div className="px-3 row mb-4">
-                    {tasks.length > 0 && maxDays > 1 && (
+                {filteredAfterUsers.length > 1 && maxDays > 1 && maxDays != minDays && (
+                    <div className="px-3 row mb-4">
                         <FilterGroup
                             name="time"
                             text="Tiempo de expiración:"
@@ -280,15 +284,15 @@ const TaskList = ({ myTasks = false }) => {
                                 id="days"
                                 key={maxDays}
                                 text={`${filterDays} días`}
-                                min={getMinDays()}
+                                min={minDays}
                                 max={maxDays}
                                 defaultValue={maxDays}
-                                step="1"
+                                step={1}
                                 reversed
                             />
                         </FilterGroup>
-                    )}
-                </div>
+                    </div>
+                )}
             </Filter>
 
             {filtered.length > 0 ? (
