@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Api\ProduccionTransito;
 
+use App\User;
 use App\ProduccionTransito;
 use Illuminate\Http\Request;
 use App\TransitoNacionalizacion;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\GeneralNotification;
 use App\Http\Requests\IncidenciaValidacion;
+use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProduccionTransitoNacionalizacionController extends ApiController
@@ -35,6 +38,15 @@ class ProduccionTransitoNacionalizacionController extends ApiController
         $incidencias_transito->titulo = $request->titulo;
         $incidencias_transito->descripcion = $request->descripcion;
         $incidencias_transito->save();
+        /* notificacion agregada */
+        $login_user         = auth()->user()->name;
+        $user_all           = User::where('rol', 'logistica')->orWhere('rol', 'coordinador')->get();
+        $comprador_asignado = User::find($produccionTransito->pivotTable->tarea->user_id);
+        $user               = $user_all->push($comprador_asignado)->unique('id');
+        $text               = "El usuario '$login_user' agrego incidencia relacionada con transito nacionalización el  en la empresa: ".$produccionTransito->pivotTable->proveedor->nombre;
+        $link               = "/productions?id=$produccionTransito->id&tab=incidencias_transito";
+        $type               = "transito_normalizacion";
+        Notification::send($user, new GeneralNotification($text, $link, $type));
         return $this->showOne($incidencias_transito);
     }
 
