@@ -4,7 +4,7 @@ import { openModal } from "../../store/actions/modalActions";
 import { deleteProduct } from "../../store/actions/productActions";
 import ProductFormModal from "../Products/ProductFormModal";
 import EmptyList from "../Navigation/EmptyList";
-import { getSum, roundMoneyAmount } from "../../utils";
+import { getSum, roundMoneyAmount, useSimpleScrollToId } from "../../utils";
 import { useParams } from "react-router-dom";
 import LargeCreateButton from "../Widgets/LargeCreateButton";
 import CreateProductModal from "./CreateProductModal";
@@ -16,8 +16,14 @@ const ProductsList = () => {
     const user = useSelector(state => state.auth.user);
     const products = useSelector(state => state.product.products);
     const negotiation = useSelector(state => state.negotiation.negotiation);
+    const purchaseOrders = useSelector(state => state.purchaseOrder.orders);
 
     const isMine = user.id == negotiation.usuario.id;
+
+    const titleRef = useSimpleScrollToId("#products", [
+        products,
+        purchaseOrders
+    ]);
 
     const handleCreate = () => {
         dispatch(
@@ -49,7 +55,7 @@ const ProductsList = () => {
 
     return (
         <React.Fragment>
-            <div className="mr-auto text-center py-4">
+            <div className="mr-auto text-center py-4" ref={titleRef}>
                 <h1 className="h2">Productos</h1>
             </div>
 

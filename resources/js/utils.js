@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { NumberParam, useQueryParam } from "use-query-params";
 import { focusOnElementWithId } from "./store/actions/focusActions";
-import { focusProvider } from "./store/actions/providerActions";
 
 export const milisecondsInMinute = 1000 * 60;
 export const milisecondsInHour = 1000 * 60 * 60;
@@ -263,7 +262,6 @@ export const useSimpleUrlFocus = (ownId, paramName) => {
     const [className, setClassName] = useState("");
 
     useEffect(() => {
-        console.log("detect change on " , focusOnId)
         if (focusOnId && focusOnId === ownId) {
             container.current.scrollIntoView();
         }
@@ -284,7 +282,22 @@ export const useSimpleUrlFocus = (ownId, paramName) => {
         }
     }, [queryId]);
 
-    //return [container, className];
+    return [container, className];
 
-    return [container, focusOnId && focusOnId === ownId ? "jump" : ""];
+    //return [container, focusOnId && focusOnId === ownId ? "jump" : ""];
+};
+
+export const useSimpleScrollToId = (hashValue, extraDependencies = []) => {
+    const { hash } = useLocation();
+
+    const ref = useCallback(
+        element => {
+            if (element && hash === hashValue) {
+                element.scrollIntoView();
+            }
+        },
+        [hash, ...extraDependencies]
+    );
+
+    return ref;
 };

@@ -183,7 +183,6 @@ const TaskList = ({ myTasks = false }) => {
 
         // Set the max days
         if ("time" in filter) {
-            console.log("Setting ", filter.time.days);
             setFilterDays(filter.time.days);
         }
 
