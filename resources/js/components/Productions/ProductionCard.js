@@ -2,12 +2,17 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../store/actions/modalActions";
 import { updateProduction } from "../../store/actions/productionActions";
-import { getNegotiationModalName, getPaymentsInfoFromProduction } from "../../utils";
+import {
+    getNegotiationModalName,
+    getPaymentsInfoFromProduction,
+    useSimpleUrlFocus
+} from "../../utils";
 import NegotiationTabs from "../Negotiation/NegotiationTabs";
 import ProductionManagementModal from "./ProductionManagementModal";
 
 const ProductionCard = ({ production }) => {
     const dispatch = useDispatch();
+    const [ref, focusClassName] = useSimpleUrlFocus(production.id);
 
     const handleOpenInfo = e => {
         e.preventDefault();
@@ -65,14 +70,16 @@ const ProductionCard = ({ production }) => {
         !fin_produccion ||
         !transito_nacionalizacion ||
         !isPrepaymentDone ||
-        !isCompletelyPaid || salida_puero_origen;
+        !isCompletelyPaid ||
+        salida_puero_origen;
     const disableTransit = salida_puero_origen;
 
     return (
         <div
-            className={`card my-2 fade-in py-2`}
+            className={`card my-2 fade-in py-2 ${focusClassName}`}
             onClick={handleOpenManagement}
             style={{ cursor: "pointer" }}
+            ref={ref}
         >
             <div className="card-header ">
                 <div className="row">

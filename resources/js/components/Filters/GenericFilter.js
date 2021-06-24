@@ -58,6 +58,8 @@ const GenericFilter = ({
                         });
                     }
                 }
+            } else {
+                list = list.filter(item => false);
             }
 
             afterResult[filterConf.name] = list;

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { NumberParam, useQueryParam } from "use-query-params";
-import { focusOnElementWithId } from "./store/actions/focusActions";
+import { clearFocus, focusOnElementWithId } from "./store/actions/focusActions";
 
 export const milisecondsInMinute = 1000 * 60;
 export const milisecondsInHour = 1000 * 60 * 60;
@@ -248,11 +248,12 @@ export const isArtCompleted = art => {
         art.confirmacion_proveedor === "finalizado"
     );
 };
+
 export const getNegotiationModalName = negotiation => {
     return `${negotiation.proveedor.nombre} - ${negotiation.proveedor.pais} - ${negotiation.proveedor.ciudad}`;
 };
 
-export const useSimpleUrlFocus = (ownId, paramName) => {
+export const useSimpleUrlFocus = (ownId, paramName = "id") => {
     const dispatch = useDispatch();
     const container = useRef(null);
     const focusOnId = useSelector(state => state.focus.focusOnId);
@@ -262,11 +263,27 @@ export const useSimpleUrlFocus = (ownId, paramName) => {
     const [className, setClassName] = useState("");
 
     useEffect(() => {
+        let handleAnimationEnd;
+        let element;
+
         if (focusOnId && focusOnId === ownId) {
-            container.current.scrollIntoView();
+            element = container.current;
+            element.scrollIntoView();
+
+            handleAnimationEnd = e => {
+                dispatch(clearFocus());
+            };
+
+            element.addEventListener("animationend", handleAnimationEnd);
         }
 
         setClassName(focusOnId === ownId ? "jump" : "");
+
+        return () => {
+            if (element && handleAnimationEnd) {
+                element.removeEventListener("animationend", handleAnimationEnd);
+            }
+        };
     }, [focusOnId]);
 
     useEffect(() => {

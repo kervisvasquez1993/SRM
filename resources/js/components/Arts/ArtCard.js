@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { openArtModal, updateArt } from "../../store/actions/artActions";
-import { isArtCompleted } from "../../utils";
+import { isArtCompleted, useSimpleUrlFocus } from "../../utils";
 
 export const options = [
     {
@@ -47,6 +47,8 @@ const ArtCard = ({ art }) => {
         state => state.art.isEditingDropdowns
     );
 
+    const [ref, focusClassName] = useSimpleUrlFocus(art.id);
+
     const handleOpenManagement = () => {
         dispatch(openArtModal(art.id));
     };
@@ -74,9 +76,12 @@ const ArtCard = ({ art }) => {
 
     return (
         <div
-            className={`card my-2 fade-in py-2 ${isArtCompleted(art) ? "bg-success text-white" : ""}`}
+            className={`card my-2 fade-in py-2 ${
+                isArtCompleted(art) ? "bg-success text-white" : ""
+            } ${focusClassName}`}
             onClick={handleOpenManagement}
             style={{ cursor: "pointer" }}
+            ref={ref}
         >
             <div className="card-header ">
                 <div className="row">

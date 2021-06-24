@@ -5,28 +5,25 @@ const defaultState = {
 const focusReducer = (state = defaultState, action) => {
     const { type, payload } = action;
 
-    switch (type) {
-        case "FOCUS_ON_ID":
-            return {
-                ...state,
-                focusOnId: payload
-            };
-
-        case "OPEN_MODAL":
-            return {
-                ...state,
-                focusOnId: null
-            };
-
-        case "CHANGE_HISTORY":
-            return {
-                ...state,
-                focusOnId: null
-            };
-
-        default:
-            return state;
+    if (type === "FOCUS_ON_ID") {
+        return {
+            ...state,
+            focusOnId: payload
+        };
     }
+
+    if (
+        type === "FOCUS_CLEAR" ||
+        type === "OPEN_MODAL" ||
+        type === "CHANGE_HISTORY"
+    ) {
+        return {
+            ...state,
+            focusOnId: null
+        };
+    }
+
+    return state;
 };
 
 export default focusReducer;
