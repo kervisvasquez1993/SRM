@@ -51,6 +51,7 @@ class ProduccionTransitoPagoController extends ApiController
         {
             $tipo = "Pago Anticipado";
             $type = "pago_anticipado";
+             
         }
         $pago = new Pago();
         $pago->produccion_transito_id = $request->produccion_transito_id;
@@ -66,7 +67,7 @@ class ProduccionTransitoPagoController extends ApiController
         $user_all           = User::where('rol', 'logistica')->orWhere('rol', 'coordinador')->get();
         $comprador_asignado = User::find($produccionTransitoId->pivotTable->tarea->user_id);
         $user               = $user_all->push($comprador_asignado)->unique('id');
-        $text               = "El usuario '$login_user' agrego un pago asociado al proveedor ". $produccionTransitoId->pivotTable->proveedor->nombre;
+        $text               = "El usuario '$login_user' agrego $tipo asociado al proveedor ". $produccionTransitoId->pivotTable->proveedor->nombre;
         $link               = "/productions?id=$request->produccion_transito_id&tab=payments";
         Notification::send($user, new GeneralNotification($text, $link, $type));
         return $this->showOneResource(new PagoResource($pago));
