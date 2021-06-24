@@ -53,29 +53,28 @@ class ProduccionTransitoController extends ApiController
             return $this->errorResponse('Debe tener todos los servicios finalizado', Response::HTTP_BAD_REQUEST);
         }
 
-        $produccionTransito->update($request->all());
-        $produccionTransito->save();
+        $produccionTransito->fill($request->all());
+        
         $user_all = User::where('rol', 'coordinador')->orWhere('rol', 'logistica')->get();
         $nombreEmpresa = $produccionTransito->pivotTable->proveedor->nombre;
         $nombreTarea   = $produccionTransito->pivotTable->tarea->nombre;
         $usar_asignado = User::find($produccionTransito->pivotTable->tarea->user_id);
         $user          = $user_all->push($usar_asignado)->unique('id');
-
+        if($produccionTransito->isDirty('fin_produccion') && $produccionTransito->fin_produccion == 1)
+        {
+            
+            $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea finalizó producción.";
+            $link = "/productions?id=$produccionTransito->id";
+            $tipoNotify = "fin_produccion";
+            Notification::send($user, new GeneralNotification($body, $link, $tipoNotify));
+        }
+       
+        $produccionTransito->save();
         if ($request->salida_puero_origen == 1) 
         {
             $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea salio del puerto de origen.";
             $link = "/claims/?id=$produccionTransito->id";
             $tipoNotify = "salida_puerto_origen";
-            Notification::send($user, new GeneralNotification($body, $link, $tipoNotify));
-            /* crear Nuevo Reclamos y devoluciones */
-            $this->reclamosDevolucion($produccionTransito->id);       
-        }
-
-        if ($request->fin_produccion == 1) 
-        {
-            $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea finalizó producción.";
-            $link = "/productions?id==$produccionTransito->id";
-            $tipoNotify = "fin_produccion";
             Notification::send($user, new GeneralNotification($body, $link, $tipoNotify));
             /* crear Nuevo Reclamos y devoluciones */
             $this->reclamosDevolucion($produccionTransito->id);       
