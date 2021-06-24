@@ -31,6 +31,7 @@ class ArteConfirmacionProveedorController extends ApiController
         $confirmacion_proveedor->titulo = $request->titulo;
         $confirmacion_proveedor->descripcion = $request->descripcion;
         $confirmacion_proveedor->save();
+        /* notificacion*/
         $login_user = auth()->user()->name;
         $user_all   = User::where('rol', 'artes')->orWhere('rol', 'coordinador')->get();
         $comprador_asignado = User::find($arte->pivotTable->tarea->user_id);

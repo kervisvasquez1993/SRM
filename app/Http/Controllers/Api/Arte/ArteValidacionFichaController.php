@@ -36,7 +36,7 @@ class ArteValidacionFichaController extends ApiController
         $user_all   = User::where('rol', 'artes')->orWhere('rol', 'coordinador')->get();
         $comprador_asignado = User::find($arte->pivotTable->tarea->user_id);
         $user = $user_all->push($comprador_asignado)->unique('id');
-        $text    = "El usuario '$login_user' agrego una incidencia asociada a validación de firchas";
+        $text    = "El usuario '$login_user' agrego una incidencia asociada a validación de fichas";
         $link    = "/arts?id=$arte_ficha_validacion->id&tab=validacion_ficha";
         $type    = "validacion_ficha";
         Notification::send($user, new GeneralNotification($text, $link, $type));
