@@ -5,6 +5,10 @@ import CheckboxFilter from "./CheckboxFilter";
 import Filter from "./Filter";
 import FilterGroup from "./FilterGroup";
 
+export let globalOptions = {
+    defaultChekboxValue: undefined
+};
+
 const GenericFilter = ({
     config = [],
     unfilteredData = [],
@@ -171,7 +175,11 @@ const GenericFilter = ({
                                             id={value.id}
                                             text={`${value.label} (${count})`}
                                             defaultValue={
-                                                value.defaultValue != undefined
+                                                globalOptions.defaultChekboxValue !=
+                                                undefined
+                                                    ? globalOptions.defaultChekboxValue
+                                                    : value.defaultValue !=
+                                                      undefined
                                                     ? value.defaultValue
                                                     : true
                                             }

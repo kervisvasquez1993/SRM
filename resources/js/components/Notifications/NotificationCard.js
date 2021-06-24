@@ -1,13 +1,20 @@
 import React from "react";
 import { FaRegHandshake } from "react-icons/fa";
-import { GiGearHammer, GiLargePaintBrush, GiPaintBrush } from "react-icons/gi";
-import { RiShip2Line } from "react-icons/ri";
+import { GiGearHammer, GiLargePaintBrush } from "react-icons/gi";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { markAsRead } from "../../store/actions/notificationActions";
 import { getElapsedTimeString } from "../../utils";
 import { AiFillWarning } from "react-icons/ai";
-import { FcFactoryBreakdown, FcMoneyTransfer, FcServices, FcTodoList, FcUpload } from "react-icons/fc";
+import {
+    FcFactoryBreakdown,
+    FcInTransit,
+    FcMoneyTransfer,
+    FcOk,
+    FcServices,
+    FcTodoList,
+    FcUpload
+} from "react-icons/fc";
 
 const iconClassName = "text-dark icon-large mr-3";
 const dangerIconClassName = "text-danger icon-large mr-3";
@@ -31,6 +38,15 @@ const ProductionIncidentIcon = () => {
     );
 };
 
+const ClaimIncidentIcon = () => {
+    return (
+        <div className="notification-icon-parent">
+            <AiFillWarning className={dangerIconClassName} />
+            <FcInTransit className={subIconClassName} />
+        </div>
+    );
+};
+
 const titles = {
     tarea_asignada: {
         title: "Tarea Asignada",
@@ -42,7 +58,7 @@ const titles = {
     },
     salida_puerto_origen: {
         title: "Salida de Puerto Origen",
-        icon: <RiShip2Line className={iconClassName} />
+        icon: <FcInTransit className={iconClassName} />
     },
     iniciar_negociacion: {
         title: "Negociación Iniciada",
@@ -114,7 +130,25 @@ const titles = {
     },
     fin_produccion: {
         title: "Producción Finalizada",
-        icon: <GiGearHammer className={iconClassName} />
+        icon: (
+            <div className="notification-icon-parent">
+                <FcServices className={iconClassName} />
+                <FcOk className={subIconClassName} />
+            </div>
+        )
+    },
+
+    recepcion_carga: {
+        title: "Incidencia con Recepción de Mercancía",
+        icon: <ClaimIncidentIcon />
+    },
+    inspeccion_carga: {
+        title: "Incidencia con Inspección de Carga",
+        icon: <ClaimIncidentIcon />
+    },
+    reclamo_devolucion_carga: {
+        title: "Incidencia con Reclamos y Devoluciones",
+        icon: <ClaimIncidentIcon />
     }
 };
 
