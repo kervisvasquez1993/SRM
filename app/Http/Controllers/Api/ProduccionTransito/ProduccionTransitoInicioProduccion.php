@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Api\ProduccionTransito;
 
+use App\User;
 use App\InicioProduccion;
+use App\ProduccionTransito;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\GeneralNotification;
 use App\Http\Requests\IncidenciaValidacion;
+use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProduccionTransitoInicioProduccion extends ApiController
@@ -26,13 +30,22 @@ class ProduccionTransitoInicioProduccion extends ApiController
     public function store(IncidenciaValidacion $request)
     {
         $request->validated();
-
+        $produccionTransitoId = ProduccionTransito::findOrFail($request->produccion_transito_id);
         $inicioProduccion = new InicioProduccion();
         $inicioProduccion->produccion_transito_id = $request->produccion_transito_id;
         $inicioProduccion->user_id = auth()->user()->id;
         $inicioProduccion->titulo = $request->titulo;
         $inicioProduccion->descripcion = $request->descripcion;
         $inicioProduccion->save();
+        /* notificacion agregada */
+        $login_user         = auth()->user()->name;
+        $user_all           = User::where('rol', 'logistica')->orWhere('rol', 'coordinador')->get();
+        $comprador_asignado = User::find($produccionTransitoId->pivotTable->tarea->user_id);
+        $user               = $user_all->push($comprador_asignado)->unique('id');
+        $text               = "El usuario '$login_user' agrego incidencia realcionada con inicio de produccion en la empresa: ".$produccionTransitoId->pivotTable->proveedor->nombre;
+        $link               = "/productions?id=$produccionTransitoId->id&tab=inicio_produccion";
+        $type               = "incidencia_inicio_produccion";
+        Notification::send($user, new GeneralNotification($text, $link, $type));
         return $this->showOne($inicioProduccion);
     }
 
