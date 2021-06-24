@@ -36,7 +36,7 @@ class ArteValidacionBocetoController extends ApiController
         $comprador_asignado = User::find($arte->pivotTable->tarea->user_id);
         $user = $user_all->push($comprador_asignado)->unique('id');
         $text    = "El usuario '$login_user' agrego una incidencia asociada a validación de boceto";
-        $link    = "/arts?id=$validacion_boceto->id&tab=validacion_boceto";
+        $link    = "/arts?id=$arte->id&tab=validacion_boceto";
         $type    = "validacion_boceto";
         Notification::send($user, new GeneralNotification($text, $link, $type));
         return $this->showOne($validacion_boceto);
