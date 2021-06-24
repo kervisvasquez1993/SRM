@@ -1,9 +1,9 @@
 import axios from "axios";
-import { data } from "jquery";
 import React from "react";
 import { toast } from "react-toastify";
 import { apiURL } from "../../components/App";
 import NegotiationModal from "../../components/Negotiation/NegotiationModal";
+import { focusOnElementWithId } from "./focusActions";
 import { closeModal, openModal } from "./modalActions";
 
 export function getNegotiations() {
@@ -153,6 +153,8 @@ export function createNegotiation(data) {
                 type: "CREATE_NEGOTIATION_SUCCESS",
                 payload: providerResponse.data.data
             });
+
+            dispatch(focusOnElementWithId(providerResponse.data.data.id));
 
             dispatch(closeModal());
 

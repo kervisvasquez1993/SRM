@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import { apiURL } from "../../components/App";
+import { focusOnElementWithId } from "./focusActions";
 import { closeModal } from "./modalActions";
 
 export function getProviders() {
@@ -60,6 +61,8 @@ export function createProviderFromTask(taskId, provider) {
 
             dispatch(closeModal());
 
+            dispatch(focusOnElementWithId(response.data.data.id));
+
             toast.success("✔️ Empresa creada");
         } catch (e) {
             dispatch({
@@ -88,6 +91,8 @@ export function editProviderFromTask(taskId, provider) {
 
             dispatch(closeModal());
 
+            dispatch(focusOnElementWithId(provider.id));
+
             toast.success("✔️ Empresa editada");
         } catch (e) {
             dispatch({
@@ -104,7 +109,7 @@ export function startNegotiation(taskId, providerId) {
         dispatch({ type: "START_NEGOTIATION_REQUEST" });
 
         try {
-            const response = await axios.post(
+            await axios.post(
                 `${apiURL}/tarea/${taskId}/proveedor/${providerId}/negociar`
             );
 
@@ -113,6 +118,8 @@ export function startNegotiation(taskId, providerId) {
                 taskId,
                 providerId
             });
+
+            dispatch(focusOnElementWithId(providerId));
 
             toast.success("✔️ Negociación iniciada");
         } catch (e) {

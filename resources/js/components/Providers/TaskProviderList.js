@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { IoMdAddCircle } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { StringParam, useQueryParam } from "use-query-params";
 import { openModal } from "../../store/actions/modalActions";
 import { getProvidersFromTask } from "../../store/actions/providerActions";
 import { isNegotiationCompleted } from "../../utils";
@@ -19,10 +18,6 @@ const TaskProviderList = () => {
 
     const [orderedProviders, setOrderedProviders] = useState([]);
     const { id } = useParams();
-
-    const [providerId] = useQueryParam("providerId", StringParam);
-
-    console.log(providerId)
 
     const selectedProvider = providers.find(provider =>
         isNegotiationCompleted(provider.pivot)
