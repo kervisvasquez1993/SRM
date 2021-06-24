@@ -43,8 +43,7 @@ class IncidenciaInspeccionController extends ApiController
         $link = "/claims/?id=$reclamos_devolucione->id&tab=inspeccion_carga";
         $tipoNotify = "inspeccion_carga";
         Notification::send($user_all, new GeneralNotification($body, $link, $tipoNotify));
-        return $this->showOne($recepcion_mercancia);  
-        
+        return $this->showOne($recepcion_mercancia);     
     }
 
    

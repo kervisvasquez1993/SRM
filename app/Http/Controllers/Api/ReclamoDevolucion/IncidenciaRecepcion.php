@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Api\ReclamoDevolucion;
 
+use App\User;
 use App\RecepcionMercancia;
 use Illuminate\Http\Request;
 use App\RecepcionReclamoDevolucion;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
+use App\Notifications\GeneralNotification;
 use App\Http\Requests\IncidenciaValidacion;
+use Illuminate\Support\Facades\Notification;
 
 class IncidenciaRecepcion extends ApiController
 {
@@ -32,7 +35,21 @@ class IncidenciaRecepcion extends ApiController
             'user_id' => auth()->user()->id
         ]);
         $test = $request->all();
+         /* notificacion */
+         $login_user = auth()->user()->name;
+         $comprador_asignado = User::find($reclamos_devolucione->ProduccionTransito->pivotTable->tarea->user_id);
+         $nombre_empresa = $reclamos_devolucione->ProduccionTransito->pivotTable->proveedor->nombre;
+         $user_coordinador = User::where('rol', 'coordinador')->get();
+         $user_all = $user_coordinador->push($comprador_asignado)->unique('id');
+         $body = "El usuario '$login_user' agrego una incidencia relacionado con la recepcción de mercancia con la empresa '$nombre_empresa'";
+         $link = "/claims/?id=$reclamos_devolucione->id&tab=incidencia_recepcion";
+         $tipoNotify = "recepcion_carga";
+         Notification::send($user_all, new GeneralNotification($body, $link, $tipoNotify));
+
+         /* creacion de datos en el objeto */
         $recepcion_mercancia = RecepcionMercancia::create($test);   
+
+        
         return $this->showOne($recepcion_mercancia);  
         
     }
