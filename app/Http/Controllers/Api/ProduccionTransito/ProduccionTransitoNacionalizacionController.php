@@ -45,7 +45,7 @@ class ProduccionTransitoNacionalizacionController extends ApiController
         $user               = $user_all->push($comprador_asignado)->unique('id');
         $text               = "El usuario '$login_user' agrego incidencia relacionada con transito nacionalización el  en la empresa: ".$produccionTransito->pivotTable->proveedor->nombre;
         $link               = "/productions?id=$produccionTransito->id&tab=incidencias_transito";
-        $type               = "transito_normalizacion";
+        $type               = "incidencia_transito_normalizacion";
         Notification::send($user, new GeneralNotification($text, $link, $type));
         return $this->showOne($incidencias_transito);
     }

@@ -46,7 +46,7 @@ class ProduccionTransitoFinProduccion extends ApiController
          $user               = $user_all->push($comprador_asignado)->unique('id');
          $text               = "El usuario '$login_user' agrego incidencia relacionada con el fin de produccion en la empresa: ".$produccion_transito->pivotTable->proveedor->nombre;
          $link               = "/productions?id=$produccion_transito->id&tab=fin_produccion";
-         $type               = "fin_produccion";
+         $type               = "incidencia_fin_produccion";
          Notification::send($user, new GeneralNotification($text, $link, $type));
         return $this->showOne($fin_produccion);
     }
