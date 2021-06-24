@@ -44,7 +44,7 @@ const Login = () => {
     }, [error]);
 
     return (
-        <div className="login-container row justify-content-center align-items-center px-4">
+        <div className="login-container row m-0 justify-content-center align-items-center px-4">
             <form className="login-form">
                 <div className="mb-3">
                     <PageLogo />
