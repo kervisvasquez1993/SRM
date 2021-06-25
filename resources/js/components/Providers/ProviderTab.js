@@ -8,7 +8,13 @@ const ProviderTab = ({ provider }) => {
                 {provider.nombre}
             </p>
 
-            <p className="card-text keep-line-breaks">{provider.descripcion}</p>
+            <div>
+                <strong>Descripción : </strong>
+                <div
+                    className="card-text rich-text"
+                    dangerouslySetInnerHTML={{ __html: provider.descripcion }}
+                ></div>
+            </div>
 
             {(provider.pais || provider.ciudad || provider.distrito) && (
                 <React.Fragment>
