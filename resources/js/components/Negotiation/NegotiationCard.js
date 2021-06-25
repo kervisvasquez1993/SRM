@@ -6,7 +6,8 @@ import {
     getNegotiationModalName,
     getRemainingDaysToFinishTask,
     greenCard,
-    hasNoProducts
+    hasNoProducts,
+    useSimpleUrlFocus
 } from "../../utils";
 import Accordion from "../Widgets/Accordion";
 import NegotiationModal from "./NegotiationModal";
@@ -14,6 +15,7 @@ import NegotiationModal from "./NegotiationModal";
 const NegotiationCard = ({ negotiation }) => {
     const dispatch = useDispatch();
     const {
+        id,
         iniciar_produccion,
         iniciar_arte,
         tarea: task,
@@ -21,6 +23,8 @@ const NegotiationCard = ({ negotiation }) => {
         compras_total: totalPurchase,
         compra_po: poCode
     } = negotiation;
+
+    const [container, focusClassName] = useSimpleUrlFocus(id, "id");
 
     const handleOpen = () => {
         dispatch(
@@ -38,7 +42,8 @@ const NegotiationCard = ({ negotiation }) => {
 
     return (
         <div
-            className={`card my-2 fade-in py-2 ${text} ${background}`}
+            ref={container}
+            className={`card my-2 fade-in py-2 ${text} ${background} ${focusClassName}`}
             onClick={handleOpen}
             style={{ cursor: "pointer" }}
         >

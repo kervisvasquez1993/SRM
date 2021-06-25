@@ -1,7 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { StringParam, useQueryParam } from "use-query-params";
 import { openArtModal, updateArt } from "../../store/actions/artActions";
-import { isArtCompleted } from "../../utils";
+import { isArtCompleted, useSimpleUrlFocus } from "../../utils";
 
 export const options = [
     {
@@ -55,6 +56,14 @@ const ArtCard = ({ art }) => {
         e.stopPropagation();
     };
 
+    const [tab] = useQueryParam("tab", StringParam);
+
+    const [ref, focusClassName] = useSimpleUrlFocus(art.id, "id", () => {
+        if (tab) {
+            dispatch(openArtModal(art.id, tab));
+        }
+    });
+
     const handleChange = e => {
         const data = {
             ...art,
@@ -74,9 +83,12 @@ const ArtCard = ({ art }) => {
 
     return (
         <div
-            className={`card my-2 fade-in py-2 ${isArtCompleted(art) ? "bg-success text-white" : ""}`}
+            className={`card my-2 fade-in py-2 ${
+                isArtCompleted(art) ? "bg-success text-white" : ""
+            } ${focusClassName}`}
             onClick={handleOpenManagement}
             style={{ cursor: "pointer" }}
+            ref={ref}
         >
             <div className="card-header ">
                 <div className="row">

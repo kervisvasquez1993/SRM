@@ -3,7 +3,6 @@ const defaultState = {
     isLoadingList: false,
     errors: {},
     isEditing: false,
-    editedTask: null,
     createdTask: null,
     task: null
 };
@@ -50,7 +49,6 @@ const taskReducer = (state = defaultState, action) => {
         case "OPEN_MODAL":
             return {
                 ...state,
-                editedTask: null,
                 createdTask: null
             };
         case "CLOSE_MODAL":
@@ -81,8 +79,7 @@ const taskReducer = (state = defaultState, action) => {
                     ...state,
                     tasks: newTasks,
                     errors: {},
-                    isEditing: false,
-                    editedTask: payload
+                    isEditing: false
                 };
             }
 
@@ -95,7 +92,6 @@ const taskReducer = (state = defaultState, action) => {
         case "CHANGE_HISTORY":
             return {
                 ...state,
-                editedTask: null,
                 task: null,
                 isLoadingList: true
             };

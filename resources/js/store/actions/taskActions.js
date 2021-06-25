@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import { apiURL } from "../../components/App";
+import { focusOnElementWithId } from "./focusActions";
 import { closeModal } from "./modalActions";
 
 export function getTasks(myTasks = false) {
@@ -41,8 +42,9 @@ export function createTask(task) {
 
             dispatch(closeModal());
 
-            toast.success("✔️ Tarea creada");
+            dispatch(focusOnElementWithId(response.data.data.id));
 
+            toast.success("✔️ Tarea creada");
         } catch (e) {
             dispatch({
                 type: "CREATE_TASK_FAILURE",
@@ -65,6 +67,8 @@ export function editTask(id, task) {
             });
 
             dispatch(closeModal());
+
+            dispatch(focusOnElementWithId(id));
 
             toast.success("✔️ Tarea editada");
         } catch (e) {

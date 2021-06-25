@@ -1,4 +1,9 @@
-import { useSelector } from "react-redux";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useLocation } from "react-router-dom";
+import { NumberParam, StringParam, useQueryParam } from "use-query-params";
+import { openArtModal } from "./store/actions/artActions";
+import { clearFocus, focusOnElementWithId } from "./store/actions/focusActions";
 
 export const milisecondsInMinute = 1000 * 60;
 export const milisecondsInHour = 1000 * 60 * 60;
@@ -39,7 +44,7 @@ export function getElapsedTimeString(date) {
     if (minutes > 0) {
         return minutes + "m";
     }
-    
+
     return "ahora";
 }
 
@@ -168,9 +173,7 @@ export function getSum(array, column) {
 }
 
 export function isNegotiationCompleted(negotiation) {
-    return (
-        negotiation.iniciar_produccion && negotiation.iniciar_arte
-    );
+    return negotiation.iniciar_produccion && negotiation.iniciar_arte;
 }
 
 // If a negotiation has started production and arts, then the rest of the providers of the same task
@@ -238,12 +241,93 @@ export const isClaimCompleted = claim => {
 };
 
 export const isArtCompleted = art => {
-    return art.creacion_fichas === "finalizado"
-    && art.validacion_fichas === "finalizado"
-    && art.creacion_boceto === "finalizado"
-    && art.validacion_boceto === "finalizado"
-    && art.confirmacion_proveedor === "finalizado";
-}
+    return (
+        art.creacion_fichas === "finalizado" &&
+        art.validacion_fichas === "finalizado" &&
+        art.creacion_boceto === "finalizado" &&
+        art.validacion_boceto === "finalizado" &&
+        art.confirmacion_proveedor === "finalizado"
+    );
+};
+
 export const getNegotiationModalName = negotiation => {
     return `${negotiation.proveedor.nombre} - ${negotiation.proveedor.pais} - ${negotiation.proveedor.ciudad}`;
+};
+
+export const useSimpleUrlFocus = (ownId, paramName = "id", callback) => {
+    const dispatch = useDispatch();
+    const container = useRef(null);
+    const focusOnId = useSelector(state => state.focus.focusOnId);
+    const [queryId] = useQueryParam(paramName, NumberParam);
+    const location = useLocation();
+    const history = useHistory();
+    const [className, setClassName] = useState("");
+
+    useEffect(() => {
+        let handleAnimationEnd;
+        let element;
+
+        if (focusOnId && focusOnId === ownId) {
+            element = container.current;
+            element.scrollIntoView();
+
+            if (callback) {
+                callback();
+            }
+
+            handleAnimationEnd = e => {
+                dispatch(clearFocus());
+            };
+
+            element.addEventListener("animationend", handleAnimationEnd);
+        }
+
+        setClassName(focusOnId === ownId ? "jump" : "");
+
+        return () => {
+            if (element && handleAnimationEnd) {
+                element.removeEventListener("animationend", handleAnimationEnd);
+            }
+        };
+    }, [focusOnId]);
+
+    useEffect(() => {
+        if (queryId === ownId) {
+            dispatch(focusOnElementWithId(ownId));
+
+            const queryParams = new URLSearchParams(location.search);
+
+            queryParams.delete(paramName);
+            history.replace({
+                search: queryParams.toString()
+            });
+        }
+    }, [queryId]);
+
+    return [container, className];
+
+    //return [container, focusOnId && focusOnId === ownId ? "jump" : ""];
+};
+
+export const useSimpleScrollToId = (hashValue, extraDependencies = []) => {
+    const { hash } = useLocation();
+
+    const ref = useCallback(
+        element => {
+            if (element && hash === hashValue) {
+                element.scrollIntoView();
+            }
+        },
+        [hash, ...extraDependencies]
+    );
+
+    return ref;
+};
+
+export const removeSlash = text => {
+    if (text[text.length - 1] === "/") {
+        return text.substring(0, text.length - 1);
+    }
+
+    return text;
 };

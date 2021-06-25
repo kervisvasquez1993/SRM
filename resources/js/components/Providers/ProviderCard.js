@@ -1,9 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation, useHistory } from "react-router-dom";
+import { NumberParam, StringParam, useQueryParam } from "use-query-params";
 import { openModal } from "../../store/actions/modalActions";
-import { startNegotiation } from "../../store/actions/providerActions";
-import { blueCard, greenCard, normalCard, redCard, useUser } from "../../utils";
+import {
+    focusProvider,
+    startNegotiation
+} from "../../store/actions/providerActions";
+import {
+    blueCard,
+    greenCard,
+    normalCard,
+    redCard,
+    useSimpleUrlFocus,
+    useUser
+} from "../../utils";
 import Accordion from "../Widgets/Accordion";
 import ProviderFormModal from "./ProviderFormModal";
 
@@ -13,16 +24,14 @@ const ProviderCard = ({ provider, selectedProvider }) => {
     const { id: taskId } = useParams();
 
     const edited = useSelector(state => state.provider.edited);
+    const [queryId] = useQueryParam("providerId", NumberParam);
     const task = useSelector(state => state.task.task);
     const isSelected = selectedProvider === provider;
 
-    const container = useRef(null);
-
-    useEffect(() => {
-        if (edited && edited.id === provider.id) {
-            container.current.focus();
-        }
-    }, [edited]);
+    const [container, focusClassName] = useSimpleUrlFocus(
+        provider.id,
+        "providerId"
+    );
 
     const {
         id,
@@ -80,11 +89,8 @@ const ProviderCard = ({ provider, selectedProvider }) => {
             style={enNegociacion ? {} : { cursor: "initial" }}
         >
             <div
-                className={`card fade-in ${text} ${background} ${
-                    edited && edited.id === id ? "jump" : ""
-                }`}
+                className={`card fade-in ${text} ${background} ${focusClassName}`}
                 ref={container}
-                tabIndex={-1}
             >
                 <div className="card-header">
                     <div className="d-flex justify-content-between w-100 flex-wrap">
