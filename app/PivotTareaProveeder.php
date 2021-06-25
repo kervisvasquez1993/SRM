@@ -11,11 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PivotTareaProveeder extends Model
 {
-    protected $fillabre = [
-        'proveedor_id',
-        'iniciar_negociacion',
-        'iniciar_arte',
-        'iniciar_produccion',
+    protected $fillable = [
         'compra_po',
         'payment_terms',
         'hs_code',
