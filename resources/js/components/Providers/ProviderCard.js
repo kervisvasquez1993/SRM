@@ -118,7 +118,10 @@ const ProviderCard = ({ provider, selectedProvider }) => {
                 </div>
 
                 <div className="card-body">
-                    <p className="card-text keep-line-breaks">{descripcion}</p>
+                    <div
+                        className="card-text rich-text"
+                        dangerouslySetInnerHTML={{ __html: descripcion }}
+                    ></div>
 
                     {(pais || ciudad || distrito) && (
                         <React.Fragment>
