@@ -89,28 +89,28 @@ class PivotController extends ApiController
         return  $this->showOneResource($pivot);
     }
 
-    public function update(Request $request, $pivot_id)
+    public function update(Request $request, PivotTareaProveeder $pivot_id)
     {
         
         $usuario = Auth::user();
 
-        $pivot = PivotTareaProveeder::findOrFail($pivot_id);
+     
 
         // El PO no puede editarse si ya se inicio produccion
-        if ($request->compra_po === null && $pivot->iniciar_produccion === 1) {
+        if ($request->compra_po === null && $pivot_id->iniciar_produccion === 1) {
             return $this->errorResponse("No se puede eliminar el PO de una negociación que ya inicio producción", Response::HTTP_BAD_REQUEST);
         }
 
         // El PO no se puede agregar si no hay compras
-        if ($request->compra_po != null && $pivot->compras->count() < 1) {
+        if ($request->compra_po != null && $pivot_id->compras->count() < 1) {
             return $this->errorResponse("No se puede agregar un PO si no hay compras", Response::HTTP_BAD_REQUEST);
         }
 
         // Actualizar el valor del codigo PO (compra_po)
-        $pivot->compra_po = $request->compra_po;
-        $pivot->save();
+        $pivot_id->update($request->all());
+        $pivot_id->save();
 
-        return $this->showOneResource(new PivotTareaProveederResource($pivot));
+        return $this->showOneResource(new PivotTareaProveederResource($pivot_id));
     }
 
     public function startArte($pivotTareaProveederId)

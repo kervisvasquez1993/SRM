@@ -21,6 +21,11 @@ class CreatePivotTareaProveedersTable extends Migration
             $table->boolean('iniciar_arte')->default(false);
             $table->boolean('iniciar_produccion')->default(false);
             $table->string('compra_po')->nullable()->default(null);
+            $table->string('codigo_comprador')->nullable()->default(null);
+            $table->string('payment_terms')->nullable()->default(null);
+            $table->string('hs_code')->nullable()->default(null);
+            $table->string('incoterms')->nullable()->default(null);
+            $table->date('delivery_time')->nullable()->default(null);
             $table->timestamps();
         });
     }
