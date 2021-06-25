@@ -94,7 +94,8 @@ Route::middleware('auth.jwt')->group(function () {
     /* imagenes de proveedores */
     Route::get('/negociacion/{negociacion_id}/file', 'Api\Pivot\PivotFilesController@index');
     Route::post('/negociacion/{negociacion_id}/file', 'Api\Pivot\PivotFilesController@store');
-    Route::put('/file/{file_id}', 'Api\Pivot\PivotFilesController@show');
+    Route::get('/file/{file_id}', 'Api\Pivot\PivotFilesController@show');
+    Route::put('/file/{file_id}', 'Api\Pivot\PivotFilesController@update');
     Route::delete('/file/{file_id}', 'Api\Pivot\PivotFilesController@destroy');
     //produccion y transito 
 
