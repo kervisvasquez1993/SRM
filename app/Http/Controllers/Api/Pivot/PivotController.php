@@ -19,6 +19,7 @@ use App\Notifications\NegociacionEmpresa;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\GeneralNotification;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\ProduccionNotificacion;
 use Symfony\Component\HttpFoundation\Response;
@@ -61,7 +62,7 @@ class PivotController extends ApiController
         if (!$tarea->proveedores->where('id', $proveedor->id)->isEmpty()) {
             return $this->errorResponse("Este proveedor ya está agregado a esta tarea", Response::HTTP_BAD_REQUEST);
         }
-
+            
         $pivot = new PivotTareaProveeder();
         $pivot->tarea_id = $tarea->id;
         $pivot->proveedor_id = $proveedor->id;
@@ -69,7 +70,16 @@ class PivotController extends ApiController
         $pivot->iniciar_arte = false;
         $pivot->iniciar_produccion = false;
         $pivot->save();
-
+        //notification para 
+        $login_user       = Auth::user()->name;
+        $coordinador      = $tarea->sender_id;
+        $tarea_nombre     = $tarea->nombre;
+        $empresa_agregada = $proveedor->nombre;
+        $userAll = User::find($coordinador);
+        $text = "El usuario '$login_user' añadió la empresa '$empresa_agregada' a la tarea '$tarea_nombre'";
+        $link = "/tasks/$tarea->id?providerId=$proveedor->id"; 
+        $type = "empresa_agregada";
+        Notification::send($userAll, new GeneralNotification($text, $link, $type));  
         return $this->showOneResource(new PivotTareaProveederResource($pivot));
     }
 
@@ -81,6 +91,7 @@ class PivotController extends ApiController
 
     public function update(Request $request, $pivot_id)
     {
+        
         $usuario = Auth::user();
 
         $pivot = PivotTareaProveeder::findOrFail($pivot_id);
@@ -127,7 +138,6 @@ class PivotController extends ApiController
         $pivot->save();
         $this->produccionTransitoCreate($pivot->id);
         $pivotResource = new PivotTareaProveederResource($pivot);
-
         return $this->showOneResource($pivotResource);
     }
 
@@ -147,13 +157,15 @@ class PivotController extends ApiController
         $arte->confirmacion_proveedor = 'sin_inicializar';
         $arte->fecha_fin = Carbon::now(); /* //TODO cambiar el metodo de carbon por fecha de finalizacion recibida de request */
         $arte->save();
-        $nombreEmpresa = $arte->pivotTable->proveedor->nombre;     
-        $userLogin = Auth::user()->name;  
-        $userAll = User::where('rol', 'arte')->orWhere('rol','coordinador')->get();
-        $userUni =  $userAll->unique('id');
+        $nombreEmpresa = $arte->pivotTable->proveedor->nombre;
+        $nombreComprador = $arte->pivotTable->tarea->usuarios;
+        $userLogin = Auth::user()->name;
+        $userAll = User::where('rol', 'artes')->orWhere('rol', 'coordinador')->get();
+        $userUni =  $userAll->push($nombreComprador)->unique('id');
         $body = "El usuario $userLogin inicio Arte con la empresa $nombreEmpresa";
-        $link = url('#');
-        Notification::send($userUni, new ArteNotification($body,$link));
+        $link = "/arts?id=$arte->id";
+        $type = "iniciar_arte";
+        Notification::send($userUni, new GeneralNotification($body, $link, $type));
     }
 
     public function produccionTransitoCreate($id)
@@ -165,15 +177,16 @@ class PivotController extends ApiController
         $produccionAprobar = new ProduccionTransito();
         $produccionAprobar->pivot_tarea_proveeder_id = $id;
         $produccionAprobar->save(); 
+        /* notificacion para inicar produccion */
         $nombreEmpresa = $produccionAprobar->pivotTable->proveedor->nombre;
         $nombreTarea = $produccionAprobar->pivotTable->tarea->nombre;
-        $userLogin = Auth::user()->name; 
-        $userAll = User::where('rol', 'logistica')->orWhere('rol','coordinador')->get();
-        $comprador_asignado =  $produccionAprobar->pivotTable->tarea->usuarios; 
-        $userAll->push($comprador_asignado); 
-        $userFormat =  $userAll->unique('id');
-        $body = "El usuario $userLogin inicio Produccion con la empresa $nombreEmpresa asociada a la tarea $nombreTarea.";
-        $link = url('#');
-        Notification::send($userFormat, new ProduccionNotificacion($body,$link));          
+        $nombreComprador = $produccionAprobar->pivotTable->tarea->usuarios;
+        $userLogin = Auth::user()->name;
+        $userAll = User::where('rol', 'logistica')->orWhere('rol', 'coordinador')->get();
+        $userUni =  $userAll->push($nombreComprador)->unique('id');
+        $body = "El usuario $userLogin inicio Producción con la empresa '$nombreEmpresa' asociado a la tarea '$nombreTarea'";
+        $link = "/productions?id=$produccionAprobar->id";
+        $type = "iniciar_produccion";
+        Notification::send($userUni, new GeneralNotification($body, $link, $type));
     }
 }

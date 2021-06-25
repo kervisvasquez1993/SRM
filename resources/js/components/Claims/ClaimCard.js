@@ -1,8 +1,13 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import { StringParam, useQueryParam } from "use-query-params";
 import { updateClaim } from "../../store/actions/claimActions";
 import { openModal } from "../../store/actions/modalActions";
-import { getNegotiationModalName, isClaimCompleted } from "../../utils";
+import {
+    getNegotiationModalName,
+    isClaimCompleted,
+    useSimpleUrlFocus
+} from "../../utils";
 import NegotiationTabs from "../Negotiation/NegotiationTabs";
 import ClaimManagementModal from "./ClaimManagementModal";
 
@@ -10,12 +15,27 @@ const ClaimCard = ({ claim }) => {
     const dispatch = useDispatch();
 
     const {
+        id,
         pivot: { tarea, proveedor },
         pivot,
         recepcion_mercancia,
         inspeccion_carga,
         reclamos_devoluciones
     } = claim;
+
+    const [tab] = useQueryParam("tab", StringParam);
+
+    const [ref, focusClassName] = useSimpleUrlFocus(claim.id, "id", () => {
+        if (tab) {
+            dispatch(
+                openModal({
+                    title: getNegotiationModalName(pivot),
+                    body: <ClaimManagementModal claimId={claim.id} />,
+                    defaultTab: tab
+                })
+            );
+        }
+    });
 
     const handleOpenInfo = e => {
         e.preventDefault();
@@ -55,9 +75,10 @@ const ClaimCard = ({ claim }) => {
         <div
             className={`card my-2 fade-in py-2 ${
                 isClaimCompleted(claim) ? "bg-success text-white" : ""
-            }`}
+            } ${focusClassName}`}
             onClick={handleOpenManagement}
             style={{ cursor: "pointer" }}
+            ref={ref}
         >
             <div className="card-header ">
                 <div className="row">

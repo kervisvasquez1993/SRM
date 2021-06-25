@@ -2,7 +2,6 @@ const defaultState = {
     providers: [],
     errors: {},
     isEditing: false,
-    edited: null,
     allProviders: []
 };
 
@@ -13,14 +12,14 @@ const providerReducer = (state = defaultState, action) => {
         case "CHANGE_HISTORY":
             return {
                 ...state,
-                edited: null,
                 providers: []
             };
+
         case "OPEN_MODAL":
             return {
-                ...state,
-                edited: null
+                ...state
             };
+
         case "GET_PROVIDERS_REQUEST":
             return {
                 ...state
@@ -34,6 +33,7 @@ const providerReducer = (state = defaultState, action) => {
             return {
                 ...state
             };
+
         case "GET_TASK_PROVIDERS_REQUEST":
             return {
                 ...state
@@ -63,8 +63,7 @@ const providerReducer = (state = defaultState, action) => {
                 ...state,
                 providers: newProviders,
                 errors: {},
-                isEditing: false,
-                edited: payload
+                isEditing: false
             };
 
         case "EDIT_PROVIDER_FAILURE":
@@ -84,8 +83,7 @@ const providerReducer = (state = defaultState, action) => {
                 ...state,
                 providers: [...state.providers, payload],
                 errors: {},
-                isEditing: false,
-                edited: payload
+                isEditing: false
             };
         case "CREATE_TASK_PROVIDER_FAILURE":
             return {
@@ -114,21 +112,19 @@ const providerReducer = (state = defaultState, action) => {
                 providers: _newProviders
             };
 
-            case "CREATE_NEGOTIATION_REQUEST":
-                return {
-                    ...state
-                };
-            case "CREATE_NEGOTIATION_SUCCESS":
-    
-                return {
-                    ...state,
-                    providers: [...state.providers, payload],
-                    edited: payload
-                };
-            case "CREATE_NEGOTIATION_FAILURE":
-                return {
-                    ...state
-                };
+        case "CREATE_NEGOTIATION_REQUEST":
+            return {
+                ...state
+            };
+        case "CREATE_NEGOTIATION_SUCCESS":
+            return {
+                ...state,
+                providers: [...state.providers, payload]
+            };
+        case "CREATE_NEGOTIATION_FAILURE":
+            return {
+                ...state
+            };
         default:
             return state;
     }

@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers\Api\Producto;
 
+use App\User;
+use App\Tarea;
 use App\Producto;
+use App\Proveedor;
 use App\PivotTareaProveeder;
 use Illuminate\Http\Request;
 use App\Imports\ProductosImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\GeneralNotification;
+use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProductoController extends ApiController
@@ -87,7 +92,14 @@ class ProductoController extends ApiController
     {
         $archivo = $request->file('import');
         Excel::import(new ProductosImport($pivot_tarea_proveeder_id->id), $archivo);
-
-        return response()->json('cargado');
+        $login_user    = auth()->user()->name;
+        $coordinaodres = User::where('rol', 'coordinador')->get();
+        $proveedorName = Proveedor::findOrFail($pivot_tarea_proveeder_id->proveedor_id)->nombre;
+        $tareaNombre   = Tarea::findOrFail($pivot_tarea_proveeder_id->tarea_id)->nombre;
+        $text = "El usuario: '$login_user' cargo via excel informacion de producto a la empresa '$proveedorName' asociada a la tarea '$tareaNombre'";
+        $link = "/negotiation/$pivot_tarea_proveeder_id->id#products";
+        $type = "cargar_productos";
+        Notification::send($coordinaodres, new GeneralNotification($text, $link, $type));
+        return $this->successMensaje('Se Cargaron los Archivo de Forma Correcta', 201);
     }
 }

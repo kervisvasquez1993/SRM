@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Api\Arte;
 
 use App\Arte;
+use App\User;
 use App\Ficha;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
+use App\Notifications\GeneralNotification;
 use App\Http\Requests\IncidenciaValidacion;
+use Illuminate\Support\Facades\Notification;
 
 class ArteFichaController extends ApiController
 {
@@ -25,15 +28,24 @@ class ArteFichaController extends ApiController
     
     public function store(IncidenciaValidacion $request, $arte_id)
     {
+        
 
         $request->validated();
         $arte = Arte::findOrFail($arte_id);
         $arte_ficha = new Ficha();
-        $arte_ficha->arte_id = $arte->id;
-        $arte_ficha->user_id = auth()->user()->id;
-        $arte_ficha->titulo = $request->titulo;
+        $arte_ficha->arte_id     = $arte->id;
+        $arte_ficha->user_id     = auth()->user()->id;
+        $arte_ficha->titulo      = $request->titulo;
         $arte_ficha->descripcion = $request->descripcion;
-        $arte_ficha->save();
+        $arte_ficha->save(); 
+        $login_user = auth()->user()->name;
+        $user_all   = User::where('rol', 'artes')->orWhere('rol', 'coordinador')->get();
+        $comprador_asignado = User::find($arte->pivotTable->tarea->user_id);
+        $user = $user_all->push($comprador_asignado)->unique('id');
+        $text    = "El usuario '$login_user' agrego una incidencia asociada a creacion de fircha";
+        $link    = "/arts?id=$arte->id&tab=ficha";
+        $type    = "arte_ficha";
+        Notification::send($user, new GeneralNotification($text, $link, $type));
         return $this->showOne($arte_ficha);
     }
 

@@ -2,6 +2,7 @@ import {combineReducers} from "redux";
 import artReducer from "./artReducer";
 import authReducer from "./authReducer";
 import claimReducer from "./claimReducer";
+import focusReducer from "./focusReducer";
 import genericFormReducer from "./genericFormReducer";
 import incidentReducer from "./incidentReducer";
 import modalReducer from "./modalReducer";
@@ -30,7 +31,8 @@ const rootReducer = combineReducers({
     incident: incidentReducer,
     genericForm: genericFormReducer,
     notification: notificationReducer,
-    claim: claimReducer
+    claim: claimReducer,
+    focus: focusReducer,
 });
 
 export default rootReducer;

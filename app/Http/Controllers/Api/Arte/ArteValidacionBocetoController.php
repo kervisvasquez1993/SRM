@@ -3,31 +3,24 @@
 namespace App\Http\Controllers\Api\Arte;
 
 use App\Arte;
+use App\User;
 use App\ValidacionBoceto;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
+use App\Notifications\GeneralNotification;
 use App\Http\Requests\IncidenciaValidacion;
+use Illuminate\Support\Facades\Notification;
 
 class ArteValidacionBocetoController extends ApiController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
     public function index($arte_id)
     {
         $arte = Arte::findOrFail($arte_id);
         return $this->showAll($arte->validacionBoceto);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(IncidenciaValidacion $request, $arte_id)
     {
         $validated = $request->validated();
@@ -38,6 +31,14 @@ class ArteValidacionBocetoController extends ApiController
         $validacion_boceto->titulo = $request->titulo;
         $validacion_boceto->descripcion = $request->descripcion;
         $validacion_boceto->save();
+        $login_user = auth()->user()->name;
+        $user_all   = User::where('rol', 'artes')->orWhere('rol', 'coordinador')->get();
+        $comprador_asignado = User::find($arte->pivotTable->tarea->user_id);
+        $user = $user_all->push($comprador_asignado)->unique('id');
+        $text    = "El usuario '$login_user' agrego una incidencia asociada a validación de boceto";
+        $link    = "/arts?id=$arte->id&tab=validacion_boceto";
+        $type    = "validacion_boceto";
+        Notification::send($user, new GeneralNotification($text, $link, $type));
         return $this->showOne($validacion_boceto);
     }
 
@@ -56,12 +57,6 @@ class ArteValidacionBocetoController extends ApiController
         return $this->showOne($validacion_boceto_id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(ValidacionBoceto $validacion_boceto_id)
     {
         $validacion_boceto_id->delete();

@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
@@ -7,7 +6,8 @@ import {
     dateToString,
     getRemainingDaysToFinishTask,
     getColorsForTask,
-    greenCard
+    greenCard,
+    useSimpleUrlFocus
 } from "../../utils";
 import TaskModal from "./TaskModal";
 
@@ -15,7 +15,8 @@ const TaskCard = ({ task }) => {
     const dispatch = useDispatch();
     const { id, nombre, descripcion, usuario, fecha_fin, completada } = task;
     const user = useSelector(state => state.auth.user);
-    const editedTask = useSelector(state => state.task.editedTask);
+
+    const [container, focusClassName] = useSimpleUrlFocus(id, "id");
 
     const handleEdit = e => {
         e.preventDefault();
@@ -25,18 +26,12 @@ const TaskCard = ({ task }) => {
             user_id: task.usuario.id
         };
 
-        console.log(taskToEdit);
-
         dispatch(
             openModal({
                 title: "Agregar Tarea",
                 body: <TaskModal task={taskToEdit} isEditor={true} />
             })
         );
-    };
-
-    const styles = {
-        animation: "fade-in"
     };
 
     const { text, background } = completada
@@ -48,9 +43,8 @@ const TaskCard = ({ task }) => {
     return (
         <Link to={`/tasks/${id}`}>
             <div
-                className={`card my-2 task-card fade-in ${
-                    editedTask && editedTask.id === id ? "jump" : ""
-                } ${text} ${background}`}
+                ref={container}
+                className={`card my-2 task-card fade-in ${focusClassName} ${text} ${background}`}
             >
                 <div className="card-header mb-1">
                     <div className="card-text">
@@ -66,7 +60,11 @@ const TaskCard = ({ task }) => {
 
                     <p className="card-text text-right">
                         {task.cantidad_proveedores > 0
-                            ? `${task.cantidad_proveedores} ${task.cantidad_proveedores === 1 ? "empresa" : "empresas"}`
+                            ? `${task.cantidad_proveedores} ${
+                                  task.cantidad_proveedores === 1
+                                      ? "empresa"
+                                      : "empresas"
+                              }`
                             : `Sin empresas`}
                     </p>
                 </div>

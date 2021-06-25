@@ -31,10 +31,13 @@ import NotificationList from "./Notifications/NotificationList";
 import ClaimsList from "./Claims/ClaimList";
 import {
     closeSidebar,
-    sidebarSwipeLeft as sidebarSwipeLeft,
-    sidebarSwipeRight as sidebarSwipeRight
+    sidebarSwipeLeft,
+    sidebarSwipeRight
 } from "../store/actions/sidebarActions";
 import { useSwipeable } from "react-swipeable";
+import { NumberParam, useQueryParam } from "use-query-params";
+import { globalOptions } from "./Filters/GenericFilter";
+import { removeSlash } from "../utils";
 
 import "react-quill/dist/quill.snow.css";
 
@@ -96,6 +99,12 @@ const App = () => {
         }
     });
 
+    const [id] = useQueryParam("id", NumberParam);
+
+    useEffect(() => {
+        globalOptions.defaultChekboxValue = id ? true : undefined;
+    }, [id]);
+
     const history = useHistory();
     const location = useLocation();
     const previous = useRef(null);
@@ -103,7 +112,8 @@ const App = () => {
     React.useEffect(() => {
         if (
             !previous.current ||
-            previous.current.pathname != location.pathname
+            removeSlash(previous.current.pathname) !=
+                removeSlash(location.pathname)
         ) {
             dispatch({
                 type: "CHANGE_HISTORY"
