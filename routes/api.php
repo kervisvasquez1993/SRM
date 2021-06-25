@@ -82,6 +82,7 @@ Route::middleware('auth.jwt')->group(function () {
     Route::get('/negociaciones/{negociacion}/importCompra', 'Api\Pivot\PivotCompraController@exportCompra'); 
     Route::get('/negociaciones/{negociacione_id}/compras', 'Api\Pivot\PivotCompraController@show');
     Route::put('/negociaciones/{negociacione_id}/compras/{compra}', 'Api\Pivot\PivotCompraController@update');
+
     //orden de compra
 
     Route::post('/negociacion/{negociacion_id}/compra', 'Api\Pivot\PivotCompraController@store');
@@ -90,6 +91,11 @@ Route::middleware('auth.jwt')->group(function () {
     Route::delete('compra/{compra_id}', 'Api\Pivot\PivotCompraController@destroy');
     //fin de orden de compra
 
+    /* imagenes de proveedores */
+    Route::get('/negociacion/{negociacion_id}/file', 'Api\Pivot\PivotFilesController@index');
+    Route::post('/negociacion/{negociacion_id}/file', 'Api\Pivot\PivotFilesController@store');
+    Route::put('/file/{file_id}', 'Api\Pivot\PivotFilesController@show');
+    Route::delete('/file/{file_id}', 'Api\Pivot\PivotFilesController@destroy');
     //produccion y transito 
 
     Route::get('/produccion_transito', 'Api\ProduccionTransito\ProduccionTransitoController@index');
@@ -220,12 +226,12 @@ Route::middleware('auth.jwt')->group(function () {
      Route::delete('/inspeccion_carga/{inspeccion_carga_id}', 'Api\ReclamoDevolucion\IncidenciaInspeccionController@destroy');
      /* FIN incidencias de Inspeccion  */
 
-       /* incidencias de  */
-       Route::get('/reclamos_devoluciones/{reclamos_devolucione}/reclamos_devolucion', 'Api\ReclamoDevolucion\ReclamoDevolucionesController@index');
-       Route::post('/reclamos_devoluciones/{reclamos_devolucione}/reclamos_devolucion', 'Api\ReclamoDevolucion\ReclamoDevolucionesController@store');
-       Route::get('/reclamos_devolucion/{reclamos_devolucion_id}', 'Api\ReclamoDevolucion\ReclamoDevolucionesController@show');
-       Route::put('/reclamos_devolucion/{reclamos_devolucion_id}', 'Api\ReclamoDevolucion\ReclamoDevolucionesController@update');
-       Route::delete('/reclamos_devolucion/{reclamos_devolucion_id}', 'Api\ReclamoDevolucion\ReclamoDevolucionesController@destroy');
-       /* FIN incidencias de Inspeccion  */
+    /* incidencias de  */
+    Route::get('/reclamos_devoluciones/{reclamos_devolucione}/reclamos_devolucion', 'Api\ReclamoDevolucion\ReclamoDevolucionesController@index');
+    Route::post('/reclamos_devoluciones/{reclamos_devolucione}/reclamos_devolucion', 'Api\ReclamoDevolucion\ReclamoDevolucionesController@store');
+    Route::get('/reclamos_devolucion/{reclamos_devolucion_id}', 'Api\ReclamoDevolucion\ReclamoDevolucionesController@show');
+    Route::put('/reclamos_devolucion/{reclamos_devolucion_id}', 'Api\ReclamoDevolucion\ReclamoDevolucionesController@update');
+    Route::delete('/reclamos_devolucion/{reclamos_devolucion_id}', 'Api\ReclamoDevolucion\ReclamoDevolucionesController@destroy');
+    /* FIN incidencias de Inspeccion  */
 
 });
