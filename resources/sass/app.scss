@@ -23,6 +23,16 @@
     white-space: pre-line;
 }
 
+.rich-text {
+    white-space: pre-line;
+
+    & p,
+    & ol,
+    & ul {
+        margin-bottom: 0;
+    }
+}
+
 .bg-blue {
     background-color: $blue !important;
 }
@@ -176,8 +186,12 @@ table,
     }
 }
 
-.ql-editor strong {
-    font-weight: bold !important;
+.ql-editor {
+    min-height: 5rem;
+
+    & strong {
+        font-weight: bold !important;
+    }
 }
 
 .notification-icon-parent {

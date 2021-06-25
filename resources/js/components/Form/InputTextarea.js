@@ -11,8 +11,6 @@ const InputTextArea = ({ id, label, value = "" }) => {
     const finalValue = (values && values[id]) || value || "";
 
     const handleChange = e => {
-        console.log(e)
-        console.log(setData)
         if (setData != null) {
             setData(data => {
                 return {

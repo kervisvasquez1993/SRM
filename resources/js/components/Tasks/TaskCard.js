@@ -69,10 +69,11 @@ const TaskCard = ({ task }) => {
                     </p>
                 </div>
 
-                <div className="card-body">
-                    <div className="card-text keep-line-breaks">
-                        <div dangerouslySetInnerHTML={{ __html: task.descripcion }} />
-                    </div>
+                <div className="card-body pt-0">
+                    <div
+                        className="card-text rich-text"
+                        dangerouslySetInnerHTML={{ __html: task.descripcion }}
+                    ></div>
                 </div>
 
                 <div className="card-footer">
