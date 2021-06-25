@@ -1,4 +1,5 @@
 import React from "react";
+import { FaRegHandshake } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../../store/actions/authActions";
@@ -29,21 +30,27 @@ const Sidebar = () => {
 
             <nav>
                 <Link className="menu-link" to="/home" onClick={closeMenu}>
-                    <i className="material-icons">dashboard</i>
-                    <p>Inicio</p>
+                    <div className="link-container">
+                        <i className="material-icons">dashboard</i>
+                        <p>Inicio</p>
+                    </div>
                 </Link>
 
                 {user.rol === "coordinador" && (
                     <Link className="menu-link" to="/users" onClick={closeMenu}>
-                        <i className="material-icons">person</i>
-                        <p>Usuarios</p>
+                        <div className="link-container">
+                            <i className="material-icons">person</i>
+                            <p>Usuarios</p>
+                        </div>
                     </Link>
                 )}
 
                 {(user.rol === "coordinador" || user.rol === "observador") && (
                     <Link className="menu-link" to="/tasks" onClick={closeMenu}>
-                        <i className="material-icons">task_alt</i>
-                        <p>Asignacion de Tareas </p>
+                        <div className="link-container">
+                            <i className="material-icons">task_alt</i>
+                            <p>Asignacion de Tareas </p>
+                        </div>
                     </Link>
                 )}
 
@@ -53,8 +60,10 @@ const Sidebar = () => {
                         to="/me/tasks"
                         onClick={closeMenu}
                     >
-                        <i className="material-icons">task</i>
-                        <p>Mis Tareas</p>
+                        <div className="link-container">
+                            <i className="material-icons">task</i>
+                            <p>Mis Tareas</p>
+                        </div>
                     </Link>
                 )}
 
@@ -64,8 +73,10 @@ const Sidebar = () => {
                         to="/negotiations"
                         onClick={closeMenu}
                     >
-                        <i className="material-icons">business</i>
-                        <p>Negociaciones</p>
+                        <div className="link-container">
+                            <FaRegHandshake className="material-icons" />
+                            <p>Negociaciones</p>
+                        </div>
                     </Link>
                 )}
 
@@ -73,8 +84,10 @@ const Sidebar = () => {
                     user.rol === "coordinador" ||
                     user.rol === "observador") && (
                     <Link className="menu-link" to="/arts" onClick={closeMenu}>
-                        <i className="material-icons">brush</i>
-                        <p>Artes</p>
+                        <div className="link-container">
+                            <i className="material-icons">brush</i>
+                            <p>Artes</p>
+                        </div>
                     </Link>
                 )}
 
@@ -87,20 +100,24 @@ const Sidebar = () => {
                             to="/productions"
                             onClick={closeMenu}
                         >
-                            <i className="material-icons">
-                                precision_manufacturing
-                            </i>
-                            <p>Produccion y Transito</p>
+                            <div className="link-container">
+                                <i className="material-icons">
+                                    precision_manufacturing
+                                </i>
+                                <p>Produccion y Transito</p>
+                            </div>
                         </Link>
                         <Link
                             className="menu-link"
                             to="/claims"
                             onClick={closeMenu}
                         >
-                            <i className="material-icons">
-                                production_quantity_limits
-                            </i>
-                            <p>Reclamos y Devoluciones</p>
+                            <div className="link-container">
+                                <i className="material-icons">
+                                    production_quantity_limits
+                                </i>
+                                <p>Reclamos y Devoluciones</p>
+                            </div>
                         </Link>
                     </React.Fragment>
                 )}
@@ -110,8 +127,10 @@ const Sidebar = () => {
                     onClick={handleLogout}
                     href="#"
                 >
-                    <i className="material-icons">logout</i>
-                    <p>Cerrar Sesión</p>
+                    <div className="link-container">
+                        <i className="material-icons">logout</i>
+                        <p>Cerrar Sesión</p>
+                    </div>
                 </a>
             </nav>
         </div>
