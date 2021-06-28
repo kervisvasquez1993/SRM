@@ -2,10 +2,15 @@
     background: white;
     border: 1px solid #e5e5e5;
 
-    width: 10rem;
+    width: 8rem;
     height: 7rem;
 
     position: relative;
+
+    @media (min-width: 992px) {
+        width: 12rem;
+        height: 10.5rem;
+    }
 
     & .footer {
         background: #f5f5f5;
