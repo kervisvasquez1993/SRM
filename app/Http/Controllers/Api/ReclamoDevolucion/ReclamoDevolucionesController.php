@@ -39,10 +39,7 @@ class ReclamoDevolucionesController extends ApiController
         $link = "/claims/?id=$reclamos_devolucione->id&tab=reclamos_devolucion";
         $tipoNotify = "reclamo_devolucion_carga";
         Notification::send($user_all, new GeneralNotification($body, $link, $tipoNotify));
-
         /* creacion de datos en el objeto */
-
-
         $recepcion_mercancia = ReclamosDevolucione::create($test);   
         return $this->showOne($recepcion_mercancia);  
         

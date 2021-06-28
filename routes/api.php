@@ -235,4 +235,10 @@ Route::middleware('auth.jwt')->group(function () {
     Route::delete('/reclamos_devolucion/{reclamos_devolucion_id}', 'Api\ReclamoDevolucion\ReclamoDevolucionesController@destroy');
     /* FIN incidencias de Inspeccion  */
 
+     /* Archivados */
+     Route::get('/archivado', 'Api\Archivado\ArchivadoController@index'); 
+     Route::get('/archivado/{/archivado_id}', 'Api\Archivado\ArchivadoController@show');
+     Route::put('/archivado/{/archivado_id}', 'Api\Archivado\ArchivadoController@update');  
+ 
+     /* fin de archivado */
 });
