@@ -9,7 +9,6 @@ const defaultState = {
 
     files: [],
     deletingFileId: null,
-    isUploadingFile: false,
     uploadingFiles: []
 };
 

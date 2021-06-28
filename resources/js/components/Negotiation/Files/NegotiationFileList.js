@@ -36,7 +36,6 @@ const ProductsList = () => {
     const files = useSelector(state => state.negotiation.files);
     const isMine = user.id == negotiation.usuario.id;
 
-    const isUploading = useSelector(state => state.negotiation.isUploadingFile);
     const uploadingFiles = useSelector(
         state => state.negotiation.uploadingFiles
     );
@@ -165,16 +164,10 @@ const ProductsList = () => {
                         <button
                             className="btn btn-lg btn-success btn-round mb-4"
                             onClick={handleImport}
-                            disabled={acceptedFiles.length == 0 || isUploading}
+                            disabled={acceptedFiles.length == 0}
                         >
-                            {isUploading ? (
-                                <LoadingSpinner />
-                            ) : (
-                                <React.Fragment>
-                                    "Subir Archivo"
-                                    <BsUpload className="ml-2 icon-normal" />
-                                </React.Fragment>
-                            )}
+                            "Subir Archivo"
+                            <BsUpload className="ml-2 icon-normal" />
                         </button>
                     </div>
                 </React.Fragment>
