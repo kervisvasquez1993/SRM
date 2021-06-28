@@ -10,6 +10,12 @@ const GenericForm = props => {
             <form className="form-horizontal" onSubmit={handleSubmit}>
                 {props.children}
 
+                {props.error && (
+                    <div className="text-danger my-2">
+                        <strong>{props.error}</strong>
+                    </div>
+                )}
+
                 <div className="form-group mb-10">
                     <button
                         className="btn btn-sm btn-outline-success btn-round"

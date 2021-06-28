@@ -69,7 +69,8 @@ class UserController extends ApiController
         // Verificar si un usuario ya tiene el mismo email
         $repetido = User::where('email', $request->email)->where('email', '!=', $user->email)->first();
         if ($repetido) {
-            return $this->errorResponse("El email ya está en uso", Response::HTTP_BAD_REQUEST);
+            return response()->json(['email' => ["El email ya está en uso"]], Response::HTTP_BAD_REQUEST);
+            //return $this->errorResponse("El email ya está en uso", Response::HTTP_BAD_REQUEST);
         }
 
         // Crear el hash de la contraseña nueva

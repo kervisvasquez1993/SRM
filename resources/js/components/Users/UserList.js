@@ -51,7 +51,7 @@ const UserList = () => {
             <LargeCreateButton onClick={handleCreate} />
             <div className="card-columns">
                 {users.map(item => {
-                    return <UserCard key={item.id} {...item} />;
+                    return <UserCard key={item.id} user={item} />;
                 })}
             </div>
         </React.Fragment>
