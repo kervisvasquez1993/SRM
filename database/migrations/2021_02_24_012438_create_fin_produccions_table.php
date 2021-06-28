@@ -19,6 +19,7 @@ class CreateFinProduccionsTable extends Migration
             $table->foreignId('user_id')->references('id')->on('users');
             $table->string('titulo');
             $table->text('descripcion');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

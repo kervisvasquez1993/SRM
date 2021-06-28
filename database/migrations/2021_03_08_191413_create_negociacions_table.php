@@ -17,6 +17,7 @@ class CreateNegociacionsTable extends Migration
             $table->id();
             $table->foreignId('pivot_tarea_proveeder')->references('id')->on('pivot_tarea_proveeders');
             $table->timestamp('fecha_fin');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

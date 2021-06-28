@@ -23,6 +23,7 @@ class CreateArtesTable extends Migration
             $table->enum('validacion_boceto',['sin_inicializar', 'en_proceso', 'finalizado'])->default('sin_inicializar');
             $table->enum('confirmacion_proveedor', ['sin_inicializar', 'en_proceso', 'finalizado'])->default('sin_inicializar');
             $table->timestamp('fecha_fin');
+            $table->softDeletes();
             $table->timestamps();
         });
 

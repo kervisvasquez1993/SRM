@@ -23,6 +23,7 @@ class CreateComprasTable extends Migration
             $table->double('price');
             $table->double('total');
             $table->unsignedBigInteger('comprador');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -26,6 +26,7 @@ class CreatePivotTareaProveedersTable extends Migration
             $table->string('hs_code')->nullable()->default(null);
             $table->string('incoterms')->nullable()->default(null);
             $table->date('delivery_time')->nullable()->default(null);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

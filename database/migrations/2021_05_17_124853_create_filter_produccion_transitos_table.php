@@ -20,6 +20,7 @@ class CreateFilterProduccionTransitosTable extends Migration
             $table->foreignId('produccion_transitos_id')->references('id')->on('produccion_transitos');
             $table->foreignId('pivot_tarea_proveedor_id')->references('id')->on('pivot_tarea_proveeders');
             $table->integer('code_unit');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -38,6 +38,7 @@ class CreateProductosTable extends Migration
             $table->double('total_cbm',)->nullable();
             $table->double('total_n_w',)->nullable();
             $table->double('total_g_w')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -20,6 +20,7 @@ class CreateProduccionTransitosTable extends Migration
             $table->boolean('fin_produccion')->default(false);
             $table->boolean('transito_nacionalizacion')->default(false);
             $table->boolean('salida_puero_origen')->default(false);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

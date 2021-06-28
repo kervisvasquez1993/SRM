@@ -20,6 +20,7 @@ class CreateTareasTable extends Migration
             $table->string('nombre');
             $table->text('descripcion');
             $table->date('fecha_fin');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

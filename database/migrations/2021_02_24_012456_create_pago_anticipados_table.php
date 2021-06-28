@@ -22,6 +22,7 @@ class CreatePagoAnticipadosTable extends Migration
             $table->string('file_pago');
             $table->timestamp('fecha_pago');
             $table->text('descripcion');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

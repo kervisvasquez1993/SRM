@@ -20,6 +20,7 @@ class CreateValidacionBocetosTable extends Migration
             $table->string('titulo');
             $table->text('descripcion');
             $table->boolean('enabled')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

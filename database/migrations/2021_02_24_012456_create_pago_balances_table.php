@@ -24,6 +24,7 @@ class CreatePagoBalancesTable extends Migration
             $table->string('file_pago');
             $table->boolean('pago_completo')->default(false);
             $table->text('descripcion');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -26,6 +26,7 @@ class CreateProveedorsTable extends Migration
             $table->string('telefono')->nullable();
             $table->string('email')->nullable();
             $table->unique(['nombre', 'pais']);
+            $table->softDeletes();
 
             $table->timestamps();
         });
