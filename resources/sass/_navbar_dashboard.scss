@@ -10,7 +10,7 @@
     padding-right: 1rem;
     left: 0;
     transition: left 0.5s;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+    box-shadow: $sidebar-shadow;
 }
 
 @media (min-width: $sidebar-break-point) {

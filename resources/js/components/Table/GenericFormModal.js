@@ -37,6 +37,7 @@ const GenericFormModal = props => {
                 onChange={handleChange}
                 values={data}
                 errors={errors}
+                setData={setData}
             >
                 {props.children}
             </GenericForm>

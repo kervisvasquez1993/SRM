@@ -41,11 +41,12 @@ const IncidentCard = ({ stateName, url1, url2, incident }) => {
                     {incident.titulo}
                 </h5>
                 <hr />
-                <p className="card-text keep-line-breaks">
-                    <SeeMoreText maxLength={200}>
-                        {incident.descripcion}
-                    </SeeMoreText>
-                </p>
+                <div
+                    className="card-text rich-text"
+                    dangerouslySetInnerHTML={{
+                        __html: incident.descripcion
+                    }}
+                ></div>
             </div>
 
             <div className="card-footer">

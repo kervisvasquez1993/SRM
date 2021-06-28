@@ -20,10 +20,13 @@ const TaskTab = ({ task, user }) => {
                 {dateToString(new Date(task.fecha_fin))}
             </p>
 
-            <p className="keep-line-breaks">
+            <div>
                 <strong>Descripción : </strong>
-                {task.descripcion}
-            </p>
+                <div
+                    className="card-text rich-text"
+                    dangerouslySetInnerHTML={{ __html: task.descripcion }}
+                ></div>
+            </div>
         </React.Fragment>
     );
 };

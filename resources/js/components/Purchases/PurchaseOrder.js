@@ -32,7 +32,14 @@ const PurchaseOrder = ({ purchaseOrder }) => {
     return (
         <tr>
             <td>{purchaseOrder.item}</td>
-            <td>{purchaseOrder.descripcion}</td>
+            <td>
+                <div
+                    className="rich-text"
+                    dangerouslySetInnerHTML={{
+                        __html: purchaseOrder.descripcion
+                    }}
+                ></div>
+            </td>
             <td>{purchaseOrder.registro_salud}</td>
             <td>{purchaseOrder.cantidad_ctns}</td>
             <td>{purchaseOrder.price}</td>

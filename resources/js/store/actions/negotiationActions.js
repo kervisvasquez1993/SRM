@@ -167,3 +167,85 @@ export function createNegotiation(data) {
         }
     };
 }
+
+export function getFiles(negotiationId, uploadedFile = null) {
+    return async dispatch => {
+        dispatch({ type: "GET_NEGOTIATION_FILES_REQUEST" });
+
+        try {
+            let response = await axios.get(
+                `${apiURL}/negociacion/${negotiationId}/file`
+            );
+
+            if (uploadedFile) {
+                dispatch({
+                    type: "UPLOAD_NEGOTIATION_FILE_SUCCESS",
+                    payload: uploadedFile
+                });
+            }
+
+            dispatch({
+                type: "GET_NEGOTIATION_FILES_SUCCESS",
+                payload: response.data.data
+            });
+
+            
+        } catch (e) {
+            dispatch({
+                type: "GET_NEGOTIATION_FILES_FAILURE"
+            });
+        }
+    };
+}
+
+export function uploadFile(negotiationId, file) {
+    return async dispatch => {
+        dispatch({
+            type: "UPLOAD_NEGOTIATION_FILE_REQUEST",
+            payload: file.name
+        });
+
+        try {
+            let formData = new FormData();
+            formData.append("file", file);
+
+            await axios.post(
+                `${apiURL}/negociacion/${negotiationId}/file`,
+                formData
+            );
+
+            dispatch(getFiles(negotiationId, file.name));
+
+            toast.success("✔️ Archivo cargado");
+        } catch (e) {
+            toast.error(`🚨 ${e.response.data.error}`);
+            console.log(e.response)
+
+            dispatch({
+                type: "UPLOAD_NEGOTIATION_FILE_FAILURE",
+                payload: file.name
+            });
+        }
+    };
+}
+
+export function deleteFile(id) {
+    return async dispatch => {
+        dispatch({ type: "DELETE_NEGOTIATION_FILE_REQUEST", payload: id });
+
+        try {
+            await axios.delete(`${apiURL}/file/${id}`);
+
+            dispatch({
+                type: "DELETE_NEGOTIATION_FILE_SUCCESS",
+                payload: id
+            });
+        } catch (e) {
+            toast.error("🚨 Error");
+
+            dispatch({
+                type: "DELETE_NEGOTIATION_FILE_FAILURE"
+            });
+        }
+    };
+}
