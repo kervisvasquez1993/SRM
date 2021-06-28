@@ -84,10 +84,7 @@ const ProviderCard = ({ provider, selectedProvider }) => {
         : normalCard;
 
     return (
-        <Link
-            to={enNegociacion ? `/negotiation/${pivot.id}` : "#"}
-            style={enNegociacion ? {} : { cursor: "initial" }}
-        >
+        <Link to={`/negotiation/${pivot.id}`} style={{ cursor: "pointer" }}>
             <div
                 className={`card fade-in ${text} ${background} ${focusClassName}`}
                 ref={container}

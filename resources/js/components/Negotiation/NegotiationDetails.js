@@ -6,7 +6,10 @@ import LoadingScreen from "../Navigation/LoadingScreen";
 import Error from "../Navigation/Error";
 import PurchaseOrderList from "../Purchases/PurchaseOrderList";
 import PoCode from "../Purchases/PoCode";
-import { getNegotiation } from "../../store/actions/negotiationActions";
+import {
+    getNegotiation,
+    startNegotiation
+} from "../../store/actions/negotiationActions";
 import ProductsList from "../Products/ProductList";
 import NegotiationFileList from "./Files/NegotiationFileList";
 
@@ -53,16 +56,23 @@ const ProviderPurchase = () => {
         history.goBack();
     };
 
+    const handleNegotiate = e => {
+        e.preventDefault();
+
+        dispatch(startNegotiation(negotiation));
+    };
+
     return (
         <div className="container-fluid fade-in">
-            <Link
-                to="/home"
-                className="btn btn-outline-primary btn-round"
-                onClick={handleGoBack}
-            >
-                <span className="material-icons mr-2">keyboard_backspace</span>
-                Atras
-            </Link>
+            <div className="d-flex justify-content-end align-items-center">
+                <button
+                    className="btn btn-lg btn-success btn-round"
+                    onClick={handleNegotiate}
+                    disabled={negotiation.iniciar_negociacion}
+                >
+                    Negociar
+                </button>
+            </div>
 
             <PoCode pivot={negotiation} />
             <PurchaseOrderList />
