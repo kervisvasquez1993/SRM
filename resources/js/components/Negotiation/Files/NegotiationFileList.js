@@ -120,17 +120,27 @@ const ProductsList = () => {
                                     </ul>
                                 </React.Fragment>
                             ) : (
-                                <strong>
-                                    Arrastres archivos aquí para subirlos{" "}
-                                    <AiOutlineFileAdd className="mr-2 icon-normal" />
-                                </strong>
+                                fileRejections.length === 0 && (
+                                    <strong>
+                                        Arrastres archivos aquí para subirlos{" "}
+                                        <AiOutlineFileAdd className="mr-2 icon-normal" />
+                                    </strong>
+                                )
                             )}
 
                             {fileRejections.length > 0 && (
                                 <React.Fragment>
-                                    <strong className="mt-5 mb-3">
-                                        Los siguientes archivos no se subirán:
-                                    </strong>
+                                    {acceptedFiles.length === 0 ? (
+                                        <strong className="mb-3 text-danger">
+                                            Ninguno de los siguientes archivos es valido:
+                                        </strong>
+                                    ) : (
+                                        <strong className="mt-4 mb-3">
+                                            Los siguientes archivos no se
+                                            subirán:
+                                        </strong>
+                                    )}
+
                                     <ul>
                                         {fileRejections.map((item, index) => {
                                             let error;
