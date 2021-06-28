@@ -14,6 +14,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends ApiController
 {
+    public function __construct()
+    {
+        $this->middleware('coordinador', ['only' => ['update']]);
+    }
+
     public function index()
     {
         return $this->showAll(User::all());

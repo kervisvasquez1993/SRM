@@ -15,10 +15,12 @@ class Coordinador
      */
     public function handle($request, Closure $next)
     {
-        if( $request->user()->rol == 'coordinador')
-        {
+        if ($request->user()->rol == 'coordinador') {
             return $next($request);
         }
-       return back()->with('messege', 'Acceso restringido');
+
+        return response()->json([
+            'message' => 'Acceso restringido'
+        ]);
     }
 }
