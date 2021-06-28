@@ -188,8 +188,6 @@ export function getFiles(negotiationId, uploadedFile = null) {
                 type: "GET_NEGOTIATION_FILES_SUCCESS",
                 payload: response.data.data
             });
-
-            
         } catch (e) {
             dispatch({
                 type: "GET_NEGOTIATION_FILES_FAILURE"
@@ -219,7 +217,7 @@ export function uploadFile(negotiationId, file) {
             toast.success("✔️ Archivo cargado");
         } catch (e) {
             toast.error(`🚨 ${e.response.data.error}`);
-            console.log(e.response)
+            console.log(e.response);
 
             dispatch({
                 type: "UPLOAD_NEGOTIATION_FILE_FAILURE",
@@ -245,6 +243,35 @@ export function deleteFile(id) {
 
             dispatch({
                 type: "DELETE_NEGOTIATION_FILE_FAILURE"
+            });
+        }
+    };
+}
+
+export function startNegotiation(negotiation) {
+    return async (dispatch, getState) => {
+        const taskId = negotiation.tarea.id;
+        const providerId = negotiation.proveedor.id;
+
+        dispatch({ type: "START_NEGOTIATION_REQUEST" });
+
+        try {
+            await axios.post(
+                `${apiURL}/tarea/${taskId}/proveedor/${providerId}/negociar`
+            );
+
+            dispatch({
+                type: "START_NEGOTIATION_SUCCESS",
+                taskId,
+                providerId
+            });
+
+            dispatch(getNegotiation(negotiation.id));
+
+            toast.success("✔️ Negociación iniciada");
+        } catch (e) {
+            dispatch({
+                type: "START_NEGOTIATION_FAILURE"
             });
         }
     };
