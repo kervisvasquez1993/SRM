@@ -4,10 +4,11 @@ import { Link, Redirect, useHistory, useParams } from "react-router-dom";
 import { getProductsFromNegotiation } from "../../store/actions/productActions";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import Error from "../Navigation/Error";
-import PurchaseOrderList from "./PurchaseOrderList";
-import PoCode from "./PoCode";
+import PurchaseOrderList from "../Purchases/PurchaseOrderList";
+import PoCode from "../Purchases/PoCode";
 import { getNegotiation } from "../../store/actions/negotiationActions";
 import ProductsList from "../Products/ProductList";
+import NegotiationFileList from "./Files/NegotiationFileList";
 
 const ProviderPurchase = () => {
     const history = useHistory();
@@ -66,6 +67,7 @@ const ProviderPurchase = () => {
             <PoCode pivot={negotiation} />
             <PurchaseOrderList />
             <ProductsList />
+            <NegotiationFileList />
         </div>
     );
 };

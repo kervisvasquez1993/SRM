@@ -5,7 +5,12 @@ const defaultState = {
     isLoadingList: false,
     isStarting: false,
     negotiation: null,
-    negotiationError: false
+    negotiationError: false,
+
+    files: [],
+    deletingFileId: null,
+    isUploadingFile: false,
+    uploadingFiles: []
 };
 
 const negotiationReducer = (state = defaultState, action) => {
@@ -32,7 +37,10 @@ const negotiationReducer = (state = defaultState, action) => {
         case "CHANGE_HISTORY":
             return {
                 ...state,
-                isLoadingList: true
+                isLoadingList: true,
+                files: [],
+                isUploadingFile: false,
+                uploadingFiles: []
             };
 
         case "GET_NEGOTIATION_REQUEST":
@@ -112,6 +120,49 @@ const negotiationReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 isEditing: false
+            };
+
+        case "GET_NEGOTIATION_FILES_SUCCESS":
+            return {
+                ...state,
+                files: payload
+            };
+
+        case "DELETE_NEGOTIATION_FILE_REQUEST":
+            return {
+                ...state,
+                deletingFileId: payload
+            };
+        case "DELETE_NEGOTIATION_FILE_SUCCESS":
+            return {
+                ...state,
+                files: state.files.filter(item => item.id != payload),
+                deletingFileId: null
+            };
+        case "DELETE_NEGOTIATION_FILE_FAILURE":
+            return {
+                ...state,
+                deletingFileId: null
+            };
+
+        case "UPLOAD_NEGOTIATION_FILE_REQUEST":
+            return {
+                ...state,
+                uploadingFiles: [...state.uploadingFiles, payload]
+            };
+        case "UPLOAD_NEGOTIATION_FILE_SUCCESS":
+            return {
+                ...state,
+                uploadingFiles: state.uploadingFiles.filter(
+                    item => item != payload
+                )
+            };
+        case "UPLOAD_NEGOTIATION_FILE_FAILURE":
+            return {
+                ...state,
+                uploadingFiles: state.uploadingFiles.filter(
+                    item => item != payload
+                )
             };
         default:
             return state;

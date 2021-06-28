@@ -19,6 +19,8 @@
 
 @import "login";
 
+@import "file";
+
 .keep-line-breaks {
     white-space: pre-line;
 }
@@ -146,6 +148,16 @@ table,
 
     &:hover {
         box-shadow: 0 0 10px rgba(0, 188, 212, 0.4);
+    }
+
+    & ul {
+        margin-bottom: 0;
+    }
+
+    & li {
+        text-align: left;
+        margin-bottom: 0.5rem;
+        max-width: 400px;
     }
 }
 
