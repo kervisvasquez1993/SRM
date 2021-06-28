@@ -20,6 +20,13 @@ class PivotFilesController extends ApiController
     public function store(Request $request)
     {
         $request->merge(['pivot_tarea_proveeder_id' => $request->negociacion_id]);
+        
+
+
+
+
+
+
         $filePivo = PivotFile::create($request->all());
         return $this->showOne($filePivo);
         
