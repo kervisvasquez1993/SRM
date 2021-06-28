@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PagoAnticipado extends Model
 {
+    use SoftDeletes;
     protected $fillable =
     [
         'titulo', 'monto_total', 'porcentaje', 'file_pago', 'fecha_pago', 'descripcion'

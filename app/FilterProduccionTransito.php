@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class FilterProduccionTransito extends Model
 {
+
+    use SoftDeletes;
     protected $fillable = ['proveedor_id', 'user_id', 'produccion_transitos_id', 'pivot_tarea_proveedor_id'];
     
     

@@ -6,11 +6,12 @@ use App\Tarea;
 use App\Producto;
 use App\PivotTareaProveeder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Proveedor extends Model
 {
    
-
+    use SoftDeletes;
 
     public function pivotTareaProveedor()
     {

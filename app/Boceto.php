@@ -3,10 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Boceto extends Model
 {
-
+    use SoftDeletes;
     protected $fillable = [
         'titulo',
         'descripcion'

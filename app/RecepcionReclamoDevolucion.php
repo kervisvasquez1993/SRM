@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class RecepcionReclamoDevolucion extends Model
 {
+    use SoftDeletes;
     protected $fillable =
     [
         'recepcion_mercancia',

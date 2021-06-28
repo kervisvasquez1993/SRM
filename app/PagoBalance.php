@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PagoBalance extends Model
 {
+    use SoftDeletes;
     public function pagoAnticipado()
     {
         return $this->belongsTo(PagoAnticipado::class, 'pago_anticipado_id');

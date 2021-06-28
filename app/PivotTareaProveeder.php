@@ -8,9 +8,11 @@ use App\Proveedor;
 use App\ProduccionTransito;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PivotTareaProveeder extends Model
 {
+    use SoftDeletes;
     protected $fillable = [
         'compra_po',
         'payment_terms',

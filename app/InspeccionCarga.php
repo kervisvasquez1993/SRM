@@ -3,10 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class InspeccionCarga extends Model
 {
-   
+    use SoftDeletes;
    protected $fillable =  [
         'recepcion_reclamo_devolucion_id',
         'user_id',

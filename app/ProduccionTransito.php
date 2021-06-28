@@ -5,9 +5,11 @@ namespace App;
 use App\Pago;
 use App\PivotTareaProveeder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProduccionTransito extends Model
 {
+    use SoftDeletes;
     protected $fillable =
     [
         'pagos_anticipados',
