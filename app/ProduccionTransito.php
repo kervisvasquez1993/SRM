@@ -49,18 +49,9 @@ class ProduccionTransito extends Model
         return $this->hasMany(FinProduccion::class);
     }
 
-
-    public function filter()
+    public function recepcionReclamoDevolucion()
     {
-        return $this->hasMany(FilterProduccionTransito::class);
-    }
-
-    public function scopeWidthFilters($query, $pivot )
-    {
-            return $query->when(count($pivot), function($query) use ($pivot){
-                   $query->whereIn('pivot_tarea_proveeder_id', $pivot);
-            });
-
+        return $this->hasMany(RecepcionReclamoDevolucion::class);
     }
     
 }

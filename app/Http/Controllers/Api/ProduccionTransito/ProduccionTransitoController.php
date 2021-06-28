@@ -8,6 +8,7 @@ use App\ReclamosDevolucione;
 use Illuminate\Http\Request;
 use App\RecepcionReclamoDevolucion;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ApiController;
 use App\Notifications\GeneralNotification;
 use Illuminate\Support\Facades\Notification;
@@ -19,9 +20,23 @@ class ProduccionTransitoController extends ApiController
    
     public function index()
     {
-        $producionTransito = ProduccionTransito::all();
-        $produccionTransitoResource = ProduccionTransitoResource::collection($producionTransito);
-        return $this->showAllResources($produccionTransitoResource);
+        if(auth()->user()->rol == "coordinador" || auth()->user()->rol == "logistica" )
+        {
+            $produccion_transito_user = ProduccionTransito::all();
+        }
+        else
+        {
+            $produccion_transito_user = Auth::user()->tareas()
+            ->with('pivotTareaProveedor.produccionTransito')
+            ->get()
+            ->pluck('pivotTareaProveedor')
+            ->collapse()
+            ->pluck('produccionTransito')
+            ->collapse()
+            ;
+        }        
+        $produccionTransitoResource = ProduccionTransitoResource::collection($produccion_transito_user);
+        return $this->showAllResources($produccionTransitoResource); 
     }
 
     public function show(ProduccionTransito $produccionTransito)

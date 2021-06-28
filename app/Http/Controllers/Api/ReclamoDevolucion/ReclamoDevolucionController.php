@@ -7,6 +7,7 @@ use App\PivotTareaProveeder;
 use Illuminate\Http\Request;
 use App\RecepcionReclamoDevolucion;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ApiController;
 use App\Http\Resources\ReclamoDevolucionResource;
 
@@ -15,7 +16,27 @@ class ReclamoDevolucionController extends ApiController
    
     public function index()
     {
-        return $this->showAllResources(ReclamoDevolucionResource::collection(RecepcionReclamoDevolucion::all()));
+
+        if(Auth::user()->rol == "coordinador" || Auth::user()->rol == "almacen")
+        {
+            $rrd = RecepcionReclamoDevolucion::all();
+            
+        }     
+        else
+        {
+            $rrd = Auth::user()->tareas()
+            ->with('pivotTareaProveedor.produccionTransito.recepcionReclamoDevolucion')
+            ->get()
+            ->pluck('pivotTareaProveedor')
+            ->collapse()
+            ->pluck('produccionTransito')
+            ->collapse()
+            ->pluck('recepcionReclamoDevolucion')
+            ->collapse();
+        }   
+        
+
+        return $this->showAllResources(ReclamoDevolucionResource::collection($rrd));
     }
 
     
