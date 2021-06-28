@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api\User;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Validator;
@@ -30,14 +32,14 @@ class UserController extends ApiController
             return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
         }
 
-        $producto = new User();
-        $producto->name = $request->name;
-        $producto->rol = $request->rol;
-        $producto->email = $request->email;
-        $producto->password = Hash::make($request->password);
-        $producto->save();
+        $usuario = new User();
+        $usuario->name = $request->name;
+        $usuario->rol = $request->rol;
+        $usuario->email = $request->email;
+        $usuario->password = Hash::make($request->password);
+        $usuario->save();
 
-        return $this->showOne($producto);
+        return $this->showOne($usuario);
     }
 
 
@@ -48,6 +50,31 @@ class UserController extends ApiController
 
     public function update(Request $request, User $user)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'rol' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
+        }
+
+        // Verificar si un usuario ya tiene el mismo email
+        $repetido = User::where('email', $request->email)->where('email', '!=', $user->email)->first();
+        if ($repetido) {
+            return $this->errorResponse("El email ya está en uso", Response::HTTP_BAD_REQUEST);
+        }
+
+        // Crear el hash de la contraseña nueva
+        $request->merge([
+            'password' => Hash::make($request->password)
+        ]);
+
+        $user->update($request->all());
+
+        return $this->showOne($user);
     }
 
 
