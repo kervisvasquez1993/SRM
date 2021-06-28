@@ -181,7 +181,7 @@ Route::middleware('auth.jwt')->group(function () {
     //fin de boceto
 
     //validacion de boceto de
-    Route::get('arte/{arte_id}/validacion_boceto', 'Api\Arte\ArteValidacionBocetoController@index');
+    Route::get('arte/{arte_id}/validacion_boceto', 'Api\ArteArteValidacionBocetoController@index');
     Route::post('arte/{arte_id}/validacion_boceto', 'Api\Arte\ArteValidacionBocetoController@store');
     Route::get('validacion_boceto/{validacion_boceto_id}', 'Api\Arte\ArteValidacionBocetoController@show');
     Route::put('validacion_boceto/{validacion_boceto_id}', 'Api\Arte\ArteValidacionBocetoController@update');
