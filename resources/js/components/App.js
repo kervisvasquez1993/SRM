@@ -17,7 +17,7 @@ import LoadingScreen from "./Navigation/LoadingScreen";
 import Navbar from "./Navigation/Navbar";
 import Sidebar from "./Navigation/Sidebar";
 import NegotiationList from "./Negotiation/NegotiationList";
-import ProviderPurchase from "./Purchases/ProviderPurchase";
+import ProviderPurchase from "./Negotiation/NegotiationDetails";
 import TaskDetails from "./Tasks/TaskDetails";
 import TaskList from "./Tasks/TaskList";
 import jwt_decode from "jwt-decode";
@@ -38,6 +38,8 @@ import { useSwipeable } from "react-swipeable";
 import { NumberParam, useQueryParam } from "use-query-params";
 import { globalOptions } from "./Filters/GenericFilter";
 import { removeSlash } from "../utils";
+
+import "react-quill/dist/quill.snow.css";
 
 axios.interceptors.response.use(
     response => {
@@ -126,7 +128,11 @@ const App = () => {
     }, []);
 
     if (isLoadingUser) {
-        return <LoadingScreen></LoadingScreen>;
+        return (
+            <div className="content">
+                <LoadingScreen></LoadingScreen>
+            </div>
+        );
     }
 
     if (!user) {

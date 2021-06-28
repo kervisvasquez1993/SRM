@@ -66,6 +66,7 @@ const ProviderFormModal = ({ provider, isEditor = false }) => {
                 handleReset={handleReset}
                 onChange={handleChange}
                 errors={errors}
+                setData={setData}
             >
                 <InputText
                     id="nombre"

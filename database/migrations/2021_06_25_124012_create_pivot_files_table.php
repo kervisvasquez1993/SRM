@@ -17,6 +17,7 @@ class CreatePivotFilesTable extends Migration
             $table->id();
             $table->foreignId('pivot_tarea_proveeder_id')->references('id')->on('pivot_tarea_proveeders');
             $table->string('url');
+            $table->string('name');
             $table->timestamps();
         });
     }
