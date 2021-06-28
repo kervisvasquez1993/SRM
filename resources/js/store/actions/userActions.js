@@ -60,3 +60,16 @@ export function createUser(data) {
         });
     };
 }
+
+export function editUser(data) {
+    return dispatch => {
+        return genericFormSubmit(dispatch, () =>
+            axios.put(`${apiURL}/user/${data.id}`, data)
+        ).then(response => {
+            dispatch({
+                type: "EDIT_USER_SUCCESS",
+                payload: response
+            });
+        });
+    };
+}

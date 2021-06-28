@@ -1,10 +1,24 @@
 import { capitalize } from "lodash";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { openArtModal, updateArt } from "../../store/actions/artActions";
+import { useDispatch } from "react-redux";
+import { openModal } from "../../store/actions/modalActions";
 import { dateToString } from "../../utils";
+import UserModal from "./UserModal";
 
-const UserCard = ({ name, email, created_at, rol }) => {
+const UserCard = ({ user }) => {
+    const { name, email, created_at, rol } = user;
+
+    const dispatch = useDispatch();
+
+    const handleEdit = () => {
+        dispatch(
+            openModal({
+                title: "Usuario Incidencia",
+                body: <UserModal formData={user} isEditor={true} />
+            })
+        );
+    };
+
     return (
         <div className="card fade-in my-2 py-2">
             <div className="card-header pb-0">
@@ -34,6 +48,16 @@ const UserCard = ({ name, email, created_at, rol }) => {
                         Creado el {dateToString(new Date(created_at))}
                     </small>
                 </p>
+            </div>
+
+            <div className="card-footer justify-content-end">
+                <button
+                    className="btn btn-sm btn-success btn-circle ml-3"
+                    type="button"
+                    onClick={handleEdit}
+                >
+                    <span className="material-icons">edit</span>
+                </button>
             </div>
         </div>
     );

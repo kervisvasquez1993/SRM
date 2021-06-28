@@ -55,8 +55,6 @@ const TaskDetails = () => {
             user_id: task.usuario.id
         };
 
-        console.log(taskToEdit);
-
         dispatch(
             openModal({
                 title: "Editar Tarea",

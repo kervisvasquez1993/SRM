@@ -10,7 +10,7 @@ export async function genericFormSubmit(dispatch, request) {
                     type: "FORM_SUBMIT_SUCCESS",
                     payload: e.data.data
                 });
-    
+
                 dispatch(closeModal());
 
                 resolve(e.data.data);
@@ -18,10 +18,18 @@ export async function genericFormSubmit(dispatch, request) {
             .catch(e => {
                 dispatch({
                     type: "FORM_SUBMIT_FAILURE",
-                    errors: e.response.data
+                    errors: e.response.data,
+                    error: e.response.data.error
                 });
 
                 reject(e.response);
             });
     });
+}
+
+export function showGeneralError(message) {
+    return {
+        type: "FORM_SHOW_GENERAL_ERROR",
+        payload: message
+    };
 }

@@ -37,12 +37,11 @@ Route::middleware('auth.jwt')->group(function () {
 
     Route::get('me/tareas', 'Api\Tarea\TareaController@tareasUsuario');
 
-    Route::apiResource('user', 'Api\User\UserController')->except([
-        'update', 'destroy'
-    ]);
+    Route::apiResource('user', 'Api\User\UserController')->except(['destroy']);
+    
     /* insertar nuevo proveedor con notificacion */
     Route::post('/tarea/{tarea_id}/proveedor', 'Api\Proveedor\ProveedorController@store');
-    
+
 
     Route::apiResource('proveedor', 'Api\Proveedor\ProveedorController')->except('destroy', 'store');
 
@@ -62,9 +61,9 @@ Route::middleware('auth.jwt')->group(function () {
 
     Route::put('/negociacion/{pivotTareaProveederId}/iniciar-arte', 'Api\Pivot\PivotController@startArte');
     Route::put('/negociacion/{pivotTareaProveederId}/iniciar-produccion', 'Api\Pivot\PivotController@startProduccion');
-    /* Route::post('/testProduccion/{id}', 'Api\Pivot\PivotController@artesCreate'); */  
+    /* Route::post('/testProduccion/{id}', 'Api\Pivot\PivotController@artesCreate'); */
 
-    
+
 
     //productos
     Route::get('/negociacion/{pivot_tarea_proveedor}/productos', 'Api\Producto\ProductoController@index');
@@ -79,7 +78,7 @@ Route::middleware('auth.jwt')->group(function () {
     //orden de compra 
     Route::post('/negociaciones/{negociacion_id}/compras', 'Api\Pivot\PivotCompraController@store');
     Route::post('/negociaciones/{negociacion}/importCompra', 'Api\Pivot\PivotCompraController@importCompra');
-    Route::get('/negociaciones/{negociacion}/importCompra', 'Api\Pivot\PivotCompraController@exportCompra'); 
+    Route::get('/negociaciones/{negociacion}/importCompra', 'Api\Pivot\PivotCompraController@exportCompra');
     Route::get('/negociaciones/{negociacione_id}/compras', 'Api\Pivot\PivotCompraController@show');
     Route::put('/negociaciones/{negociacione_id}/compras/{compra}', 'Api\Pivot\PivotCompraController@update');
 
@@ -201,30 +200,30 @@ Route::middleware('auth.jwt')->group(function () {
     Route::patch('/notificacion/{id}', 'Api\Notification\NotificationController@read');
 
 
-     /* Recepcion reclamos y devoluciones */
-     Route::get('/reclamos_devoluciones', 'Api\ReclamoDevolucion\ReclamoDevolucionController@index'); 
-     Route::get('/reclamos_devoluciones/{reclamos_devolucione}', 'Api\ReclamoDevolucion\ReclamoDevolucionController@show');
-     Route::put('/reclamos_devoluciones/{reclamos_devolucione}', 'Api\ReclamoDevolucion\ReclamoDevolucionController@update');  
- 
-     /* fin de reclamos y devoluciones */
+    /* Recepcion reclamos y devoluciones */
+    Route::get('/reclamos_devoluciones', 'Api\ReclamoDevolucion\ReclamoDevolucionController@index');
+    Route::get('/reclamos_devoluciones/{reclamos_devolucione}', 'Api\ReclamoDevolucion\ReclamoDevolucionController@show');
+    Route::put('/reclamos_devoluciones/{reclamos_devolucione}', 'Api\ReclamoDevolucion\ReclamoDevolucionController@update');
+
+    /* fin de reclamos y devoluciones */
 
 
-     /* incidencias de Recepción */
-     Route::get('/reclamos_devoluciones/{reclamos_devolucione}/incidencia_recepcion', 'Api\ReclamoDevolucion\IncidenciaRecepcion@index');
-     Route::post('/reclamos_devoluciones/{reclamos_devolucione}/incidencia_recepcion', 'Api\ReclamoDevolucion\IncidenciaRecepcion@store');
-     Route::get('/incidencia_recepcion/{incidencia_recepcion_id}', 'Api\ReclamoDevolucion\IncidenciaRecepcion@show');
-     Route::put('/incidencia_recepcion/{incidencia_recepcion_id}', 'Api\ReclamoDevolucion\IncidenciaRecepcion@update');
-     Route::delete('/incidencia_recepcion/{incidencia_recepcion_id}', 'Api\ReclamoDevolucion\IncidenciaRecepcion@destroy');
-     /* FIN incidencias de Recepción  */
+    /* incidencias de Recepción */
+    Route::get('/reclamos_devoluciones/{reclamos_devolucione}/incidencia_recepcion', 'Api\ReclamoDevolucion\IncidenciaRecepcion@index');
+    Route::post('/reclamos_devoluciones/{reclamos_devolucione}/incidencia_recepcion', 'Api\ReclamoDevolucion\IncidenciaRecepcion@store');
+    Route::get('/incidencia_recepcion/{incidencia_recepcion_id}', 'Api\ReclamoDevolucion\IncidenciaRecepcion@show');
+    Route::put('/incidencia_recepcion/{incidencia_recepcion_id}', 'Api\ReclamoDevolucion\IncidenciaRecepcion@update');
+    Route::delete('/incidencia_recepcion/{incidencia_recepcion_id}', 'Api\ReclamoDevolucion\IncidenciaRecepcion@destroy');
+    /* FIN incidencias de Recepción  */
 
 
-     /* incidencias de inspeccion */
-     Route::get('/reclamos_devoluciones/{reclamos_devolucione}/inspeccion_carga', 'Api\ReclamoDevolucion\IncidenciaInspeccionController@index');
-     Route::post('/reclamos_devoluciones/{reclamos_devolucione}/inspeccion_carga', 'Api\ReclamoDevolucion\IncidenciaInspeccionController@store');
-     Route::get('/inspeccion_carga/{inspeccion_carga_id}', 'Api\ReclamoDevolucion\IncidenciaInspeccionController@show');
-     Route::put('/inspeccion_carga/{inspeccion_carga_id}', 'Api\ReclamoDevolucion\IncidenciaInspeccionController@update');
-     Route::delete('/inspeccion_carga/{inspeccion_carga_id}', 'Api\ReclamoDevolucion\IncidenciaInspeccionController@destroy');
-     /* FIN incidencias de Inspeccion  */
+    /* incidencias de inspeccion */
+    Route::get('/reclamos_devoluciones/{reclamos_devolucione}/inspeccion_carga', 'Api\ReclamoDevolucion\IncidenciaInspeccionController@index');
+    Route::post('/reclamos_devoluciones/{reclamos_devolucione}/inspeccion_carga', 'Api\ReclamoDevolucion\IncidenciaInspeccionController@store');
+    Route::get('/inspeccion_carga/{inspeccion_carga_id}', 'Api\ReclamoDevolucion\IncidenciaInspeccionController@show');
+    Route::put('/inspeccion_carga/{inspeccion_carga_id}', 'Api\ReclamoDevolucion\IncidenciaInspeccionController@update');
+    Route::delete('/inspeccion_carga/{inspeccion_carga_id}', 'Api\ReclamoDevolucion\IncidenciaInspeccionController@destroy');
+    /* FIN incidencias de Inspeccion  */
 
     /* incidencias de  */
     Route::get('/reclamos_devoluciones/{reclamos_devolucione}/reclamos_devolucion', 'Api\ReclamoDevolucion\ReclamoDevolucionesController@index');
@@ -234,10 +233,10 @@ Route::middleware('auth.jwt')->group(function () {
     Route::delete('/reclamos_devolucion/{reclamos_devolucion_id}', 'Api\ReclamoDevolucion\ReclamoDevolucionesController@destroy');
     /* FIN incidencias de Inspeccion  */
 
-     /* Archivados */
-     Route::get('/archivado', 'Api\Archivado\ArchivadoController@index'); 
-     Route::get('/archivado/{/archivado_id}', 'Api\Archivado\ArchivadoController@show');
-     Route::put('/archivado/{/archivado_id}', 'Api\Archivado\ArchivadoController@update');  
- 
-     /* fin de archivado */
+    /* Archivados */
+    Route::get('/archivado', 'Api\Archivado\ArchivadoController@index');
+    Route::get('/archivado/{/archivado_id}', 'Api\Archivado\ArchivadoController@show');
+    Route::put('/archivado/{/archivado_id}', 'Api\Archivado\ArchivadoController@update');
+
+    /* fin de archivado */
 });

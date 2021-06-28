@@ -11,6 +11,7 @@ const GenericFormModal = props => {
 
     const isEditing = useSelector(state => state.genericForm.isEditing);
     const errors = useSelector(state => state.genericForm.errors);
+    const error = useSelector(state => state.genericForm.error);
 
     const handleChange = e => {
         const { id, value } = e.target;
@@ -25,8 +26,11 @@ const GenericFormModal = props => {
 
     const handleSubmit = e => {
         e.preventDefault();
+        const result = onSubmit(data);
 
-        onSubmit(data);
+        if (result) {
+            setData(result);
+        }
     };
 
     return (
@@ -37,6 +41,7 @@ const GenericFormModal = props => {
                 onChange={handleChange}
                 values={data}
                 errors={errors}
+                error={error}
                 setData={setData}
             >
                 {props.children}

@@ -10,7 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements JWTSubject
 {
-    
+
     use SoftDeletes;
     public function getJWTIdentifier()
     {
@@ -21,7 +21,7 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    
+
     use Notifiable;
 
     /**
@@ -30,7 +30,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','rol_id'
+        'name', 'rol', 'email', 'password'
     ];
 
     /**
@@ -50,7 +50,7 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    
+
 
     public function tareas()
     {
@@ -126,5 +126,4 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(FilterProduccionTransito::class);
     }
-    
 }
