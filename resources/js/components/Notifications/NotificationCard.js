@@ -16,9 +16,9 @@ import {
     FcUpload
 } from "react-icons/fc";
 
-const iconClassName = "text-dark icon-large mr-3";
-const dangerIconClassName = "text-danger icon-large mr-3";
-const subIconClassName = "text-dark mr-3 notification-sub-icon";
+const iconClassName = "text-dark icon-large mr-3 flex-shrink-0";
+const dangerIconClassName = "text-danger icon-large mr-3 flex-shrink-0";
+const subIconClassName = "text-dark mr-3 notification-sub-icon flex-shrink-0";
 
 const ArtIncidentIcon = () => {
     return (
