@@ -202,10 +202,14 @@ Route::middleware('auth.jwt')->group(function () {
 
     /* Recepcion reclamos y devoluciones */
     Route::get('/reclamos_devoluciones', 'Api\ReclamoDevolucion\ReclamoDevolucionController@index');
+    Route::get('/reclamos_devoluciones/{reclamos_devoluciones_id}', 'Api\ReclamoDevolucion\ReclamoDevolucionController@show');
     Route::get('/reclamos_devoluciones/{reclamos_devolucione}', 'Api\ReclamoDevolucion\ReclamoDevolucionController@show');
     Route::put('/reclamos_devoluciones/{reclamos_devolucione}', 'Api\ReclamoDevolucion\ReclamoDevolucionController@update');
-
     /* fin de reclamos y devoluciones */
+
+    /* productos en recepcion */
+
+    /* fin del producto */
 
 
     /* incidencias de Recepción */
