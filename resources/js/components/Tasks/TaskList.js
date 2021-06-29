@@ -81,7 +81,7 @@ const TaskList = ({ myTasks = false }) => {
             return Math.max(...dias, 0);
         }
 
-        return 0;
+        return 1;
     }, [postFilterLists]);
 
     const getMinDays = useCallback(() => {
@@ -164,31 +164,12 @@ const TaskList = ({ myTasks = false }) => {
             useAccordion: true,
             type: "slider",
             filter: (item, filterValue) =>
-                !(getDaysToFinishTask(item) > filterValue),
+                true,
             sliderLabelText: " días",
             sliderMin: minDays,
             sliderMax: maxDays,
             defaultValue: maxDays,
-            sliderReverse: true,
-            group: (
-                <FilterGroup
-                    name="time"
-                    text="Tiempo de expiración:"
-                    className="col-sm-6"
-                    key="time"
-                >
-                    <SliderFilter
-                        id="days"
-                        key={maxDays}
-                        text={`2 días`}
-                        min={minDays}
-                        max={maxDays}
-                        defaultValue={maxDays}
-                        step={1}
-                        reversed
-                    />
-                </FilterGroup>
-            )
+            sliderReverse: true
         }
     ];
 
