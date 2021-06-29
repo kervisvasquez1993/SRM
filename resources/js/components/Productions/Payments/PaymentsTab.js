@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { AiFillCheckCircle } from "react-icons/ai";
+import { AiFillCheckCircle, AiFillWarning } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../../store/actions/modalActions";
 import { getPayments } from "../../../store/actions/productionActions";
@@ -106,6 +106,15 @@ const PaymentsTab = ({ production }) => {
                                 <AiFillCheckCircle className="icon-large mb-2" />
                                 <p className="h4 text-center">
                                     La compra se ha pagado en su totalidad
+                                </p>
+                            </div>
+                        )}
+
+                        {paidPercentage > 100 && (
+                            <div className="text-warning d-flex align-items-center flex-column mt-4 mb-2">
+                                <AiFillWarning className="icon-large mb-2" />
+                                <p className="h4 text-center">
+                                    ¡Se ha pagado un {roundMoneyAmount(paidPercentage - 100)}% de más!
                                 </p>
                             </div>
                         )}
