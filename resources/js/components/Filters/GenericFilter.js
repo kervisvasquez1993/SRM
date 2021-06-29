@@ -4,6 +4,7 @@ import Accordion from "../Widgets/Accordion";
 import CheckboxFilter from "./CheckboxFilter";
 import Filter from "./Filter";
 import FilterGroup from "./FilterGroup";
+import SliderFilter from "./SliderFilter";
 
 export let globalOptions = {
     defaultChekboxValue: undefined
@@ -15,10 +16,11 @@ const GenericFilter = ({
     populatorConfig = [],
     children = null,
     onChange = null,
-    setFilteredList = null
+    setFilteredList = null,
+    setPostFilterLists = null
 }) => {
     const filter = useRef(null);
-    const [filtered, setFiltered] = useState([...unfilteredData]);
+    const [filtered, setFiltered] = useState([]);
 
     const [afterFilters, setAfterFilters] = useState({});
 
@@ -40,30 +42,40 @@ const GenericFilter = ({
 
         config.forEach(filterConf => {
             if (filterConf.name in filter) {
-                if (typeof filterConf.values === "function") {
-                    list = list.filter(item => filterConf.filter(item, filter));
+                if (filterConf.type === "slider") {
+                    list = list.filter(item =>
+                        filterConf.filter(
+                            item,
+                            filter[filterConf.name][filterConf.name]
+                        )
+                    );
                 } else {
-                    let isAllDisabled = Object.values(
-                        filter[filterConf.name]
-                    ).every(i => !i);
+                    if (
+                        typeof filterConf.values === "function" ||
+                        filterConf.group
+                    ) {
+                        list = list.filter(item =>
+                            filterConf.filter(item, filter)
+                        );
+                    } else {
+                        let isAllDisabled = Object.values(
+                            filter[filterConf.name]
+                        ).every(i => !i);
 
-                    /*
-                    for (let key in filter[filterConf.name]) {
-                        if (!filter[filterConf.name][key]) {
-                            isAllDisabled = false;
-                            break;
+                        if (
+                            !filterConf.unfilterWhenAllDisabled ||
+                            !isAllDisabled
+                        ) {
+                            filterConf.values.forEach(subConfig => {
+                                list = list.filter(item =>
+                                    subConfig.filter(item, filter)
+                                );
+                            });
                         }
-                    }*/
-                    if (!filterConf.unfilterWhenAllDisabled || !isAllDisabled) {
-                        filterConf.values.forEach(subConfig => {
-                            list = list.filter(item =>
-                                subConfig.filter(item, filter)
-                            );
-                        });
                     }
                 }
             } else {
-                list = list.filter(item => false);
+                list = list.filter(() => false);
             }
 
             afterResult[filterConf.name] = list;
@@ -74,6 +86,10 @@ const GenericFilter = ({
 
         if (setFilteredList) {
             setFilteredList(list);
+        }
+
+        if (setPostFilterLists) {
+            setPostFilterLists(afterResult);
         }
     };
 
@@ -111,81 +127,138 @@ const GenericFilter = ({
                 <div className="mb-5">
                     <Filter onUpdate={applyFilter} useRef={filter}>
                         {config.map((filterConf, index) => {
-                            const { name, values, useAccordion } = filterConf;
-
-                            let innerContent;
+                            const {
+                                name,
+                                values,
+                                useAccordion,
+                                group,
+                                type
+                            } = filterConf;
 
                             let label = filterConf.label;
+                            let innerContent;
 
                             const previouslyFiltered = getPreviousFilteredList(
                                 index
                             );
 
-                            if (typeof values === "function") {
-                                if (name in filteredGroups) {
-                                    innerContent = filteredGroups[name].map(
-                                        item => {
-                                            let count = 0;
-                                            if (filterConf.counterFilter) {
-                                                previouslyFiltered.forEach(
-                                                    listItem => {
-                                                        if (
-                                                            filterConf.counterFilter(
-                                                                listItem,
-                                                                item
+                            if (type === "slider") {
+                                if (
+                                    filterConf.sliderMin ===
+                                    filterConf.sliderMax
+                                ) {
+                                    return;
+                                }
+
+                                innerContent = (
+                                    <SliderFilter
+                                        id={name}
+                                        key={
+                                            filterConf.sliderMin +
+                                            filterConf.sliderMax
+                                        }
+                                        text={filterConf.sliderLabelText}
+                                        min={filterConf.sliderMin}
+                                        max={filterConf.sliderMax}
+                                        defaultValue={
+                                            filterConf.defaultValue || 0
+                                        }
+                                        step={filterConf.sliderStep || 1}
+                                        reversed={
+                                            filterConf.sliderReverse || false
+                                        }
+                                    />
+                                );
+                            } else {
+                                if (typeof values === "function") {
+                                    if (name in filteredGroups) {
+                                        innerContent = filteredGroups[name].map(
+                                            item => {
+                                                let count = 0;
+                                                if (filterConf.counterFilter) {
+                                                    previouslyFiltered.forEach(
+                                                        listItem => {
+                                                            if (
+                                                                filterConf.counterFilter(
+                                                                    listItem,
+                                                                    item
+                                                                )
                                                             )
-                                                        )
-                                                            count++;
-                                                    }
+                                                                count++;
+                                                        }
+                                                    );
+                                                }
+
+                                                return (
+                                                    <CheckboxFilter
+                                                        key={item}
+                                                        id={item}
+                                                        text={`${item} ${
+                                                            filterConf.counterFilter
+                                                                ? `(${count})`
+                                                                : ""
+                                                        } `}
+                                                    />
                                                 );
                                             }
+                                        );
+                                    }
+                                } else {
+                                    innerContent = values.map(value => {
+                                        let count = 0;
 
-                                            return (
-                                                <CheckboxFilter
-                                                    key={item}
-                                                    id={item}
-                                                    text={`${item} ${
-                                                        filterConf.counterFilter
-                                                            ? `(${count})`
-                                                            : ""
-                                                    } `}
-                                                />
+                                        if (previouslyFiltered) {
+                                            previouslyFiltered.forEach(
+                                                listItem => {
+                                                    if (
+                                                        value.filterPopulator(
+                                                            listItem
+                                                        )
+                                                    )
+                                                        count++;
+                                                }
                                             );
                                         }
-                                    );
+
+                                        if (count == 0) {
+                                            return;
+                                        }
+
+                                        return (
+                                            <CheckboxFilter
+                                                key={value.id}
+                                                id={value.id}
+                                                text={`${value.label} (${count})`}
+                                                defaultValue={
+                                                    globalOptions.defaultChekboxValue !=
+                                                    undefined
+                                                        ? globalOptions.defaultChekboxValue
+                                                        : value.defaultValue !=
+                                                          undefined
+                                                        ? value.defaultValue
+                                                        : true
+                                                }
+                                            />
+                                        );
+                                    });
                                 }
-                            } else {
-                                innerContent = values.map(value => {
-                                    let count = 0;
 
-                                    if (previouslyFiltered) {
-                                        previouslyFiltered.forEach(listItem => {
-                                            if (value.filterPopulator(listItem))
-                                                count++;
-                                        });
+                                if (
+                                    filter.current &&
+                                    filterConf.unfilterWhenAllDisabled &&
+                                    filterConf.name in filter.current
+                                ) {
+                                    let isAllDisabled = Object.values(
+                                        filter.current[filterConf.name]
+                                    ).every(i => !i);
+
+                                    if (
+                                        filterConf.unfilterWhenAllDisabled &&
+                                        isAllDisabled
+                                    ) {
+                                        label += " (todos)";
                                     }
-
-                                    if (count == 0) {
-                                        return;
-                                    }
-
-                                    return (
-                                        <CheckboxFilter
-                                            key={value.id}
-                                            id={value.id}
-                                            text={`${value.label} (${count})`}
-                                            defaultValue={
-                                                globalOptions.defaultChekboxValue !=
-                                                undefined
-                                                    ? globalOptions.defaultChekboxValue
-                                                    : value.defaultValue !=
-                                                      undefined
-                                                    ? value.defaultValue
-                                                    : true
-                                            }
-                                        />
-                                    );
-                                });
+                                }
                             }
 
                             if (
@@ -195,23 +268,6 @@ const GenericFilter = ({
                                     previouslyFiltered.length == 0)
                             ) {
                                 return;
-                            }
-
-                            if (
-                                filter.current &&
-                                filterConf.unfilterWhenAllDisabled &&
-                                filterConf.name in filter.current
-                            ) {
-                                let isAllDisabled = Object.values(
-                                    filter.current[filterConf.name]
-                                ).every(i => !i);
-
-                                if (
-                                    filterConf.unfilterWhenAllDisabled &&
-                                    isAllDisabled
-                                ) {
-                                    label += " (todos)";
-                                }
                             }
 
                             return (

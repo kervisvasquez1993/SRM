@@ -42,12 +42,12 @@ const TaskDetails = () => {
         dispatch(getTask(id));
     }, []);
 
-    if (user.rol === "comprador" && task.usuario.id != user.id) {
-        return <Redirect to="/home" />;
-    }
-
     if (!task) {
         return <LoadingScreen />;
+    }
+
+    if (user.rol === "comprador" && task.usuario.id != user.id) {
+        return <Redirect to="/home" />;
     }
 
     const handleEdit = () => {

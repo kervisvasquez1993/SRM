@@ -1,18 +1,47 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../store/actions/modalActions";
-import { clearTaskList, getTasks } from "../../store/actions/taskActions";
-import CheckboxFilter from "../Filters/CheckboxFilter";
-import Filter from "../Filters/Filter";
+import { getTasks } from "../../store/actions/taskActions";
 import FilterGroup from "../Filters/FilterGroup";
 import TaskCard from "./TaskCard";
 import TaskModal, { emptyTask } from "./TaskModal";
 import SliderFilter from "../Filters/SliderFilter";
 import { getDaysToFinishTask } from "../../utils";
 import { Redirect } from "react-router-dom";
-import EmptyList from "../Navigation/EmptyList";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import { Helmet } from "react-helmet-async";
+import GenericFilter from "../Filters/GenericFilter";
+
+const cardCreator = item => {
+    return <TaskCard key={item.id} task={item} />;
+};
+
+const isTaskCompleted = task => {
+    return task.completada;
+};
+
+const isTaskExpired = task => {
+    const timeToFinish = new Date(task.fecha_fin) - new Date();
+    return !isTaskCompleted(task) && timeToFinish < 0;
+};
+
+const isTaskInNegotiation = task => {
+    return (
+        !isTaskCompleted(task) && !isTaskExpired(task) && task.tiene_negociacion
+    );
+};
+
+// const isTaskInProgress = task => {
+//     return !isTaskCompleted(task) && !isTaskExpired(task);
+// };
+
+const isTaskNotInNegotiation = task => {
+    return (
+        !isTaskCompleted(task) &&
+        !isTaskExpired(task) &&
+        !task.tiene_negociacion
+    );
+};
 
 const TaskList = ({ myTasks = false }) => {
     const dispatch = useDispatch();
@@ -20,12 +49,7 @@ const TaskList = ({ myTasks = false }) => {
     const tasks = useSelector(state => state.task.tasks);
     const isLoadingList = useSelector(state => state.task.isLoadingList);
 
-    const [filtered, setFilteredTasks] = useState([...tasks]);
-    const [filterDays, setFilterDays] = useState(1);
-    const filter = useRef(null);
-
-    const [filteredAfterStatus, setfilteredAfterStatus] = useState([]);
-    const [filteredAfterUsers, setfilteredAfterUsers] = useState([]);
+    const [postFilterLists, setPostFilterLists] = useState([]);
 
     if (
         (!myTasks &&
@@ -37,15 +61,7 @@ const TaskList = ({ myTasks = false }) => {
 
     useEffect(() => {
         dispatch(getTasks(myTasks));
-
-        return () => {
-            dispatch(clearTaskList());
-        };
     }, []);
-
-    useEffect(() => {
-        applyFilter(filter.current);
-    }, [tasks]);
 
     const handleCreate = () => {
         dispatch(
@@ -56,156 +72,148 @@ const TaskList = ({ myTasks = false }) => {
         );
     };
 
-    const isTaskExpired = task => {
-        const timeToFinish = new Date(task.fecha_fin) - new Date();
-        return timeToFinish < 0 && !task.completada;
-    };
+    const getMaxDays = useCallback(() => {
+        if ("user" in postFilterLists) {
+            const dias = postFilterLists["user"].map(task =>
+                getDaysToFinishTask(task)
+            );
 
-    const isTaskCompleted = task => {
-        return task.completada;
-    };
-
-    // const isTaskInProgress = task => {
-    //     return !isTaskCompleted(task) && !isTaskExpired(task);
-    // };
-
-    const isTaskNotInNegotiation = task => {
-        return (
-            !isTaskCompleted(task) &&
-            !isTaskExpired(task) &&
-            !task.tiene_negociacion
-        );
-    };
-
-    const isTaskInNegotiation = task => {
-        return (
-            !isTaskCompleted(task) &&
-            !isTaskExpired(task) &&
-            task.tiene_negociacion
-        );
-    };
-
-    const countCompleted = () => {
-        return tasks.filter(task => isTaskCompleted(task)).length;
-    };
-
-    // const countInProgress = () => {
-    //     return tasks.filter(task => isTaskInProgress(task)).length;
-    // };
-
-    const countNotInNegotiation = () => {
-        return tasks.filter(task => isTaskNotInNegotiation(task)).length;
-    };
-
-    const countInNegotiation = () => {
-        return tasks.filter(task => isTaskInNegotiation(task)).length;
-    };
-
-    const countExpired = () => {
-        return tasks.filter(task => isTaskExpired(task)).length;
-    };
-
-    const countByUserName = name => {
-        return filteredAfterStatus.filter(task => task.usuario.name === name)
-            .length;
-    };
-
-    const getMaxDays = () => {
-        const dias = filteredAfterUsers.map(task => {
-            return getDaysToFinishTask(task);
-        });
-
-        return Math.max(...dias, 0);
-    };
-
-    const getMinDays = () => {
-        const dias = filteredAfterUsers.map(task =>
-            isTaskExpired(task) || isTaskCompleted(task)
-                ? Infinity
-                : getDaysToFinishTask(task)
-        );
-
-        return Math.max(Math.min(...dias));
-    };
-
-    const applyFilter = filter => {
-        if (filter === null) {
-            return;
+            return Math.max(...dias, 0);
         }
 
-        let list = [...tasks];
+        return 0;
+    }, [postFilterLists]);
 
-        // Filter by status
-        list = list.filter(task => {
-            if ("state" in filter) {
-                if (!filter.state.expired && isTaskExpired(task)) {
-                    return false;
-                }
+    const getMinDays = useCallback(() => {
+        if ("user" in postFilterLists) {
+            const dias = postFilterLists["user"].map(task =>
+                isTaskExpired(task) || isTaskCompleted(task)
+                    ? Infinity
+                    : getDaysToFinishTask(task)
+            );
 
-                if (!filter.state.completed && isTaskCompleted(task)) {
-                    return false;
-                }
-
-                // if (!filter.state.progress && isTaskInProgress(task))
-                //     return false;
-                if (
-                    !filter.state.notInNegotiation &&
-                    isTaskNotInNegotiation(task)
-                ) {
-                    return false;
-                }
-
-                if (!filter.state.inNegotiation && isTaskInNegotiation(task)) {
-                    return false;
-                }
-            }
-
-            return true;
-        });
-
-        setfilteredAfterStatus(list);
-
-        // Filter by user
-        list = list.filter(
-            task => !("user" in filter && !filter.user[task.usuario.name])
-        );
-        setfilteredAfterUsers(list);
-
-        list.forEach(item => getDaysToFinishTask(item));
-
-        // Filter by expiration days
-        list = list.filter(
-            task =>
-                !(
-                    "time" in filter &&
-                    getDaysToFinishTask(task) > filter.time.days
-                )
-        );
-
-        // Set the max days
-        if ("time" in filter) {
-            setFilterDays(filter.time.days);
+            return Math.max(Math.min(...dias));
         }
-
-        setFilteredTasks(list);
-    };
+        return 0;
+    }, [postFilterLists]);
 
     const minDays = getMinDays();
     const maxDays = getMaxDays();
 
-    //const inProgressTasks = filtered.filter(item => isTaskInProgress(item));
-    const tasksNotInNegotiation = filtered.filter(item =>
-        isTaskNotInNegotiation(item)
-    );
-    const tasksInNegotiation = filtered.filter(item =>
-        isTaskInNegotiation(item)
-    );
-    const completedTasks = filtered.filter(item => isTaskCompleted(item));
-    const expiredTasks = filtered.filter(item => isTaskExpired(item));
+    const filterConfig = [
+        {
+            name: "status",
+            type: "checkbox",
+            label: "Estado",
+            values: [
+                {
+                    id: "notInNegotiation",
+                    label: "Sin negociación",
+                    filter: (item, filters) =>
+                        !(
+                            filters["status"]["notInNegotiation"] === false &&
+                            isTaskNotInNegotiation(item)
+                        ),
+                    filterPopulator: item => isTaskNotInNegotiation(item)
+                },
+                {
+                    id: "inNegotiation",
+                    label: "En negociación",
+                    filter: (item, filters) =>
+                        !(
+                            filters["status"]["inNegotiation"] === false &&
+                            isTaskInNegotiation(item)
+                        ),
+                    filterPopulator: item => isTaskInNegotiation(item)
+                },
+                {
+                    id: "expired",
+                    label: "Vencida",
+                    filter: (item, filters) =>
+                        !(
+                            filters["status"]["expired"] === false &&
+                            isTaskExpired(item)
+                        ),
+                    filterPopulator: item => isTaskExpired(item)
+                },
+                {
+                    id: "completed",
+                    label: "Completada",
+                    defaultValue: false,
+                    filter: (item, filters) =>
+                        !(
+                            filters["status"]["completed"] === false &&
+                            isTaskCompleted(item)
+                        ),
+                    filterPopulator: item => isTaskCompleted(item)
+                }
+            ]
+        },
+        {
+            name: "user",
+            type: "checkbox",
+            label: "Usuario",
+            useAccordion: true,
+            values: item => item.usuario.name,
+            filter: (item, filters) => filters.user[item.usuario.name],
+            counterFilter: (item, id) => item.usuario.name === id
+        },
+        {
+            name: "time",
+            label: "Tiempo de expiración",
+            useAccordion: true,
+            type: "slider",
+            filter: (item, filterValue) =>
+                !(getDaysToFinishTask(item) > filterValue),
+            sliderLabelText: " días",
+            sliderMin: minDays,
+            sliderMax: maxDays,
+            defaultValue: maxDays,
+            sliderReverse: true,
+            group: (
+                <FilterGroup
+                    name="time"
+                    text="Tiempo de expiración:"
+                    className="col-sm-6"
+                    key="time"
+                >
+                    <SliderFilter
+                        id="days"
+                        key={maxDays}
+                        text={`2 días`}
+                        min={minDays}
+                        max={maxDays}
+                        defaultValue={maxDays}
+                        step={1}
+                        reversed
+                    />
+                </FilterGroup>
+            )
+        }
+    ];
 
-    let filteredUsers = new Set();
-    filteredAfterStatus.forEach(item => filteredUsers.add(item.usuario.name));
-    filteredUsers = [...filteredUsers].sort();
+    const populatorConfig = [
+        {
+            header: "Sin negociación :",
+            filterPopulator: item => isTaskNotInNegotiation(item),
+            populator: cardCreator
+        },
+        {
+            header: "En negociación :",
+            filterPopulator: item => isTaskInNegotiation(item),
+            populator: cardCreator
+        },
+        {
+            header: "Tareas Vencidas :",
+            filterPopulator: item => isTaskExpired(item),
+            populator: cardCreator
+        },
+        {
+            header: "Tareas Completadas :",
+            filterPopulator: item => isTaskCompleted(item),
+            populator: cardCreator
+        }
+    ];
 
     const helmet = (
         <Helmet>
@@ -237,157 +245,12 @@ const TaskList = ({ myTasks = false }) => {
                 </div>
             )}
 
-            <Filter onUpdate={applyFilter} useRef={filter}>
-                <div className="px-3 row mb-4">
-                    <FilterGroup name="state" text="Estado:">
-                        <CheckboxFilter
-                            id="notInNegotiation"
-                            text={`Sin negociaciones (${countNotInNegotiation()})`}
-                        />
-                        <CheckboxFilter
-                            id="inNegotiation"
-                            text={`En negociación (${countInNegotiation()})`}
-                        />
-                        <CheckboxFilter
-                            id="expired"
-                            text={`Vencidas (${countExpired()})`}
-                            defaultValue={true}
-                        />
-                        <CheckboxFilter
-                            id="completed"
-                            text={`Completadas (${countCompleted()})`}
-                            defaultValue={false}
-                        />
-                    </FilterGroup>
-
-                    {!myTasks && filteredUsers.length > 0 && (
-                        <FilterGroup name="user" text="Usuario:">
-                            {filteredUsers.map((user, index) => {
-                                const count = countByUserName(user);
-
-                                if (count === 0) {
-                                    return;
-                                }
-
-                                return (
-                                    <CheckboxFilter
-                                        key={user}
-                                        id={user}
-                                        text={`${user} (${count})`}
-                                    />
-                                );
-                            })}
-                        </FilterGroup>
-                    )}
-                </div>
-
-                {filteredAfterUsers.length > 1 &&
-                    maxDays > 1 &&
-                    maxDays != minDays && (
-                        <div className="px-3 row mb-4">
-                            <FilterGroup
-                                name="time"
-                                text="Tiempo de expiración:"
-                                className="col-sm-6"
-                            >
-                                <SliderFilter
-                                    id="days"
-                                    key={maxDays}
-                                    text={`${filterDays} días`}
-                                    min={minDays}
-                                    max={maxDays}
-                                    defaultValue={maxDays}
-                                    step={1}
-                                    reversed
-                                />
-                            </FilterGroup>
-                        </div>
-                    )}
-            </Filter>
-
-            {filtered.length > 0 ? (
-                <React.Fragment>
-                    {/* {inProgressTasks.length > 0 && (
-                        <React.Fragment>
-                            <h2 className="mt-4 h3">Tareas en progreso:</h2>
-                            <hr className="mb-4" />
-                            <div className="d-flex flex-column-reverse">
-                                {inProgressTasks.map(item => {
-                                    return (
-                                        <TaskCard key={item.id} task={item} />
-                                    );
-                                })}
-                            </div>
-                        </React.Fragment>
-                    )} */}
-
-                    {tasksNotInNegotiation.length > 0 && (
-                        <React.Fragment>
-                            <h2 className="mt-4 h3">
-                                Tareas sin negociaciones:
-                            </h2>
-                            <hr className="mb-4" />
-                            <div className="d-flex flex-column-reverse">
-                                {tasksNotInNegotiation.map(item => {
-                                    return (
-                                        <TaskCard key={item.id} task={item} />
-                                    );
-                                })}
-                            </div>
-                        </React.Fragment>
-                    )}
-
-                    {tasksInNegotiation.length > 0 && (
-                        <React.Fragment>
-                            <h2 className="mt-4 h3">Tareas en negociación:</h2>
-                            <hr className="mb-4" />
-                            <div className="d-flex flex-column-reverse">
-                                {tasksInNegotiation.map(item => {
-                                    return (
-                                        <TaskCard key={item.id} task={item} />
-                                    );
-                                })}
-                            </div>
-                        </React.Fragment>
-                    )}
-
-                    {expiredTasks.length > 0 && (
-                        <React.Fragment>
-                            <h2 className="mt-4 h3">Tareas Vencidas:</h2>
-                            <hr className="mb-4" />
-                            <div className="d-flex flex-column-reverse">
-                                {expiredTasks.map(item => {
-                                    return (
-                                        <TaskCard key={item.id} task={item} />
-                                    );
-                                })}
-                            </div>
-                        </React.Fragment>
-                    )}
-
-                    {completedTasks.length > 0 && (
-                        <React.Fragment>
-                            <h2 className="mt-4 h3">Tareas Completadas:</h2>
-                            <hr className="mb-4" />
-                            <div className="d-flex flex-column-reverse">
-                                {completedTasks.map(item => {
-                                    return (
-                                        <TaskCard key={item.id} task={item} />
-                                    );
-                                })}
-                            </div>
-                        </React.Fragment>
-                    )}
-
-                    {/* <div className="d-flex flex-column-reverse">
-                        {filtered.map(task => {
-                            return <TaskCard key={task.id} task={task} />;
-                        })}
-                    </div> */}
-                </React.Fragment>
-            ) : (
-                <EmptyList />
-            )}
+            <GenericFilter
+                config={filterConfig}
+                unfilteredData={tasks}
+                populatorConfig={populatorConfig}
+                setPostFilterLists={setPostFilterLists}
+            ></GenericFilter>
         </React.Fragment>
     );
 };

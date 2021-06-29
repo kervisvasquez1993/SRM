@@ -98,9 +98,3 @@ export function getTask(id) {
         }
     };
 }
-
-export function clearTaskList() {
-    return {
-        type: "CLEAR_TASK_LIST"
-    };
-}
