@@ -2,61 +2,46 @@
 
 namespace App\Http\Controllers\Api\ReclamoDevolucion;
 
-use App\Http\Controllers\Controller;
+use App\RecepcionProducto;
 use Illuminate\Http\Request;
+use App\RecepcionReclamoDevolucion;
+use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\ApiController;
 
-class RecepcionProductoController extends Controller
+class RecepcionProductoController extends ApiController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+  
+    public function index(RecepcionReclamoDevolucion $reclamos_devoluciones_id)
     {
-        //
+        $productos = $reclamos_devoluciones_id->recepcionProducto;
+        return $this->showAll($productos);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+  
     public function store(Request $request)
     {
-        //
+        
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function importProducts(Request $request, $id)
+    {
+        $archivo = $request->file('import');
+        Excel::import(new RecepcionProducto(), $archivo);
+    }
+
+    
     public function show($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //

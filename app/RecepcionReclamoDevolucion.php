@@ -34,4 +34,8 @@ class RecepcionReclamoDevolucion extends Model
     {
         return $this->hasMany(ReclamosDevolucione::class);
     }
+    public function recepcionProducto()
+    {
+        return $this->hasMany(RecepcionProducto::class);
+    }
 }

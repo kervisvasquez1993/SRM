@@ -31,4 +31,9 @@ class RecepcionProducto extends Model
          'validacion',
          'observaciones',    
     ];
+
+    public function RecepcionReclamoDevolucion()
+    {
+        return $this->belongsTo(RecepcionReclamoDevolucion::class,'recepcion_reclamo_devolucion_id');
+    }
 }
