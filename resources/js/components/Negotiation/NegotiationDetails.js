@@ -64,10 +64,10 @@ const ProviderPurchase = () => {
                 Atras
             </Link>
 
-            <PoCode pivot={negotiation} />
-            <PurchaseOrderList />
-            <ProductsList />
             <NegotiationFileList />
+            <ProductsList />
+            <PurchaseOrderList />
+            <PoCode pivot={negotiation} />
         </div>
     );
 };
