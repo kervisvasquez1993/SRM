@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductions } from "../../store/actions/productionActions";
 import GenericFilter from "../Filters/GenericFilter";
@@ -108,12 +109,19 @@ const ProductionList = () => {
         }
     ];
 
+    const helmet = (
+        <Helmet>
+            <title>{`Producción y Transito - ${process.env.MIX_APP_NAME}`}</title>
+        </Helmet>
+    );
+
     if (isLoadingList) {
-        return <LoadingScreen />;
+        return <LoadingScreen>{helmet}</LoadingScreen>;
     }
 
     return (
         <React.Fragment>
+            {helmet}
             <h1 className="text-center my-5">Producción y Transito</h1>
 
             <GenericFilter

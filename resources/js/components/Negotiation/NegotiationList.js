@@ -443,6 +443,7 @@ import NegotiationCard from "./NegotiationCard";
 
 import NegotiationResume from "../Widgets/NegotiationResume";
 import LoadingScreen from "../Navigation/LoadingScreen";
+import { Helmet } from "react-helmet-async";
 
 const NegotiationList = () => {
     const dispatch = useDispatch();
@@ -555,12 +556,19 @@ const NegotiationList = () => {
         }
     ];
 
+    const helmet = (
+        <Helmet>
+            <title>{`Negociaciones - ${process.env.MIX_APP_NAME}`}</title>
+        </Helmet>
+    );
+
     if (isLoadingList) {
-        return <LoadingScreen />;
+        return <LoadingScreen>{helmet}</LoadingScreen>;
     }
 
     return (
         <React.Fragment>
+            {helmet}
             <h1 className="text-center my-5">Negociaciones</h1>
             <div className="mb-5"></div>
             <GenericFilter

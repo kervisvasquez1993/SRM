@@ -9,6 +9,7 @@ import PoCode from "../Purchases/PoCode";
 import { getNegotiation } from "../../store/actions/negotiationActions";
 import ProductsList from "../Products/ProductList";
 import NegotiationFileList from "./Files/NegotiationFileList";
+import { Helmet } from "react-helmet-async";
 
 const ProviderPurchase = () => {
     const history = useHistory();
@@ -55,6 +56,10 @@ const ProviderPurchase = () => {
 
     return (
         <div className="container-fluid fade-in">
+             <Helmet>
+                <title>{`${negotiation.proveedor.nombre} - ${process.env.MIX_APP_NAME}`}</title>
+            </Helmet>
+            
             <Link
                 to="/home"
                 className="btn btn-outline-primary btn-round"

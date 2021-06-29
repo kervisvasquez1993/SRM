@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { useDispatch, useSelector } from "react-redux";
 import { getArts } from "../../store/actions/artActions";
 import { isArtCompleted } from "../../utils";
@@ -44,7 +45,7 @@ const ArtList = () => {
                     filterPopulator: item => isArtCompleted(item)
                 }
             ]
-        },
+        }
     ];
 
     const otherFilters = categories.map(
@@ -75,7 +76,7 @@ const ArtList = () => {
         }
     );
 
-    filterConfig = [...filterConfig, ...otherFilters]
+    filterConfig = [...filterConfig, ...otherFilters];
 
     const populatorConfig = [
         {
@@ -94,12 +95,19 @@ const ArtList = () => {
         }
     ];
 
+    const helmet = (
+        <Helmet>
+            <title>{`Artes - ${process.env.MIX_APP_NAME}`}</title>
+        </Helmet>
+    );
+
     if (isLoadingList) {
-        return <LoadingScreen />;
+        return <LoadingScreen>{helmet}</LoadingScreen>;
     }
 
     return (
         <React.Fragment>
+            {helmet}
             <h1 className="text-center my-5">Artes</h1>
 
             <GenericFilter

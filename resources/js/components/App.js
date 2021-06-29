@@ -40,6 +40,7 @@ import { globalOptions } from "./Filters/GenericFilter";
 import { removeSlash } from "../utils";
 
 import "react-quill/dist/quill.snow.css";
+import { Helmet } from "react-helmet-async";
 
 axios.interceptors.response.use(
     response => {
@@ -156,6 +157,10 @@ const App = () => {
 
     return (
         <React.Fragment>
+            <Helmet>
+                <title>{process.env.MIX_APP_NAME}</title>
+            </Helmet>
+            
             <div
                 className={"menu-wrapper " + (isSidebarOpen && "mostrar")}
                 {...handlers}

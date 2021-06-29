@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { getClaims } from "../../store/actions/claimActions";
@@ -106,12 +107,19 @@ const ClaimsList = () => {
         }
     ];
 
+    const helmet = (
+        <Helmet>
+            <title>{`Reclamos y Devoluciones - ${process.env.MIX_APP_NAME}`}</title>
+        </Helmet>
+    );
+
     if (isLoadingList) {
-        return <LoadingScreen />;
+        return <LoadingScreen>{helmet}</LoadingScreen>;
     }
 
     return (
         <React.Fragment>
+            {helmet}
             <h1 className="text-center my-5">Reclamos y Devoluciones</h1>
 
             <GenericFilter
