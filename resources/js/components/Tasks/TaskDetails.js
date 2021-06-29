@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect, useHistory, useParams } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
@@ -41,12 +42,12 @@ const TaskDetails = () => {
         dispatch(getTask(id));
     }, []);
 
-    if (!task) {
-        return <LoadingScreen />;
-    }
-
     if (user.rol === "comprador" && task.usuario.id != user.id) {
         return <Redirect to="/home" />;
+    }
+
+    if (!task) {
+        return <LoadingScreen />;
     }
 
     const handleEdit = () => {
@@ -67,6 +68,10 @@ const TaskDetails = () => {
 
     return (
         <div className="container-fluid fade-in">
+            <Helmet>
+                <title>{`${task.nombre} - ${process.env.MIX_APP_NAME}`}</title>
+            </Helmet>
+
             <div className="container-fluid d-flex justify-content-between mb-4">
                 <div>
                     <Link

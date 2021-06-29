@@ -12,6 +12,7 @@ import {
 } from "../../store/actions/negotiationActions";
 import ProductsList from "../Products/ProductList";
 import NegotiationFileList from "./Files/NegotiationFileList";
+import { Helmet } from "react-helmet-async";
 
 const ProviderPurchase = () => {
     const history = useHistory();
@@ -64,6 +65,10 @@ const ProviderPurchase = () => {
 
     return (
         <div className="container-fluid fade-in">
+            <Helmet>
+                <title>{`${negotiation.proveedor.nombre} - ${process.env.MIX_APP_NAME}`}</title>
+            </Helmet>
+
             <div className="d-flex justify-content-end align-items-center">
                 <button
                     className="btn btn-lg btn-success btn-round"
@@ -74,10 +79,10 @@ const ProviderPurchase = () => {
                 </button>
             </div>
 
-            <PoCode pivot={negotiation} />
-            <PurchaseOrderList />
-            <ProductsList />
             <NegotiationFileList />
+            <ProductsList />
+            <PurchaseOrderList />
+            <PoCode pivot={negotiation} />
         </div>
     );
 };

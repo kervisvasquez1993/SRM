@@ -49,7 +49,7 @@ const Sidebar = () => {
                     <Link className="menu-link" to="/tasks" onClick={closeMenu}>
                         <div className="link-container">
                             <i className="material-icons">task_alt</i>
-                            <p>Asignacion de Tareas </p>
+                            <p>Asignación de Tareas </p>
                         </div>
                     </Link>
                 )}
@@ -104,7 +104,7 @@ const Sidebar = () => {
                                 <i className="material-icons">
                                     precision_manufacturing
                                 </i>
-                                <p>Produccion y Transito</p>
+                                <p>Producción y Transito</p>
                             </div>
                         </Link>
                         <Link

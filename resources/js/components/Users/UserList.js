@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
@@ -31,8 +32,14 @@ const UserList = () => {
         dispatch(getUsers());
     }, []);
 
+    const helmet = (
+        <Helmet>
+            <title>{`Usuarios - ${process.env.MIX_APP_NAME}`}</title>
+        </Helmet>
+    );
+
     if (isLoadingList) {
-        return <LoadingScreen />;
+        return <LoadingScreen>{helmet}</LoadingScreen>;
     }
 
     const handleCreate = () => {
@@ -46,10 +53,11 @@ const UserList = () => {
 
     return (
         <React.Fragment>
+            {helmet}
             <h1 className="text-center my-5">Usuarios</h1>
             {users.length === 0 && <EmptyList />}
             <LargeCreateButton onClick={handleCreate} />
-            <div className="card-columns">
+            <div className="user-cards">
                 {users.map(item => {
                     return <UserCard key={item.id} user={item} />;
                 })}

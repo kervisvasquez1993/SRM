@@ -12,6 +12,7 @@ import { getDaysToFinishTask } from "../../utils";
 import { Redirect } from "react-router-dom";
 import EmptyList from "../Navigation/EmptyList";
 import LoadingScreen from "../Navigation/LoadingScreen";
+import { Helmet } from "react-helmet-async";
 
 const TaskList = ({ myTasks = false }) => {
     const dispatch = useDispatch();
@@ -206,12 +207,20 @@ const TaskList = ({ myTasks = false }) => {
     filteredAfterStatus.forEach(item => filteredUsers.add(item.usuario.name));
     filteredUsers = [...filteredUsers].sort();
 
+    const helmet = (
+        <Helmet>
+            <title>{`Tareas - ${process.env.MIX_APP_NAME}`}</title>
+        </Helmet>
+    );
+
     if (isLoadingList) {
-        return <LoadingScreen />;
+        return <LoadingScreen>{helmet}</LoadingScreen>;
     }
 
     return (
         <React.Fragment>
+            {helmet}
+
             <h1 className="text-center my-5">
                 {myTasks ? "Mis Tareas" : "Tareas"}
             </h1>
@@ -272,26 +281,28 @@ const TaskList = ({ myTasks = false }) => {
                     )}
                 </div>
 
-                {filteredAfterUsers.length > 1 && maxDays > 1 && maxDays != minDays && (
-                    <div className="px-3 row mb-4">
-                        <FilterGroup
-                            name="time"
-                            text="Tiempo de expiración:"
-                            className="col-sm-6"
-                        >
-                            <SliderFilter
-                                id="days"
-                                key={maxDays}
-                                text={`${filterDays} días`}
-                                min={minDays}
-                                max={maxDays}
-                                defaultValue={maxDays}
-                                step={1}
-                                reversed
-                            />
-                        </FilterGroup>
-                    </div>
-                )}
+                {filteredAfterUsers.length > 1 &&
+                    maxDays > 1 &&
+                    maxDays != minDays && (
+                        <div className="px-3 row mb-4">
+                            <FilterGroup
+                                name="time"
+                                text="Tiempo de expiración:"
+                                className="col-sm-6"
+                            >
+                                <SliderFilter
+                                    id="days"
+                                    key={maxDays}
+                                    text={`${filterDays} días`}
+                                    min={minDays}
+                                    max={maxDays}
+                                    defaultValue={maxDays}
+                                    step={1}
+                                    reversed
+                                />
+                            </FilterGroup>
+                        </div>
+                    )}
             </Filter>
 
             {filtered.length > 0 ? (
