@@ -49,7 +49,7 @@ const UserList = () => {
             <h1 className="text-center my-5">Usuarios</h1>
             {users.length === 0 && <EmptyList />}
             <LargeCreateButton onClick={handleCreate} />
-            <div className="card-columns">
+            <div className="user-cards">
                 {users.map(item => {
                     return <UserCard key={item.id} user={item} />;
                 })}

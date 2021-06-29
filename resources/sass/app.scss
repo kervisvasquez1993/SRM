@@ -220,3 +220,16 @@ table,
     stroke: rgba(0, 0, 0, 0.4);
     stroke-width: 1.5px;
 }
+
+.user-cards {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row-reverse;
+
+    & .card {
+        flex-basis: 220px;
+        flex-grow: 1;
+        margin: 1rem;
+        flex-shrink: 0;
+    }
+}
