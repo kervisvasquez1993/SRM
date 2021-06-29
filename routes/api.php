@@ -208,6 +208,7 @@ Route::middleware('auth.jwt')->group(function () {
     /* fin de reclamos y devoluciones */
 
     /* productos en recepcion */
+        
 
     /* fin del producto */
 
