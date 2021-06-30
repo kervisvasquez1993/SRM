@@ -157,42 +157,42 @@ Route::middleware('auth.jwt')->group(function () {
 
     //arte fichas ', '
 
-    Route::get('arte/{arte_id}/ficha', 'Api\Arte\ArteFichaController@index');
-    Route::post('arte/{arte_id}/ficha', 'Api\Arte\ArteFichaController@store');
-    Route::get('ficha/{fichaId}', 'Api\Arte\ArteFichaController@show');
-    Route::put('ficha/{fichaId}', 'Api\Arte\ArteFichaController@update');
-    Route::delete('ficha/{fichaId}', 'Api\Arte\ArteFichaController@destroy');
+    Route::get('arte/{arte}/ficha', 'Api\Arte\ArteFichaController@index');
+    Route::post('arte/{arte}/ficha', 'Api\Arte\ArteFichaController@store');
+    Route::get('ficha/{ficha}', 'Api\Arte\ArteFichaController@show');
+    Route::put('ficha/{ficha}', 'Api\Arte\ArteFichaController@update');
+    Route::delete('ficha/{ficha}', 'Api\Arte\ArteFichaController@destroy');
     //fin de ficha
     // arte validacion Ficha 
-    Route::get('arte/{arte_id}/validacion_ficha', 'Api\Arte\ArteValidacionFichaController@index');
-    Route::post('arte/{arte_id}/validacion_ficha', 'Api\Arte\ArteValidacionFichaController@store');
-    Route::get('validacion_ficha/{validacion_ficha_id}', 'Api\Arte\ArteValidacionFichaController@show');
-    Route::put('validacion_ficha/{validacion_ficha_id}', 'Api\Arte\ArteValidacionFichaController@update');
-    Route::delete('validacion_ficha/{validacion_ficha_id}', 'Api\Arte\ArteValidacionFichaController@destroy');
+    Route::get('arte/{arte}/validacion_ficha', 'Api\Arte\ArteValidacionFichaController@index');
+    Route::post('arte/{arte}/validacion_ficha', 'Api\Arte\ArteValidacionFichaController@store');
+    Route::get('validacion_ficha/{validacion_ficha}', 'Api\Arte\ArteValidacionFichaController@show');
+    Route::put('validacion_ficha/{validacion_ficha}', 'Api\Arte\ArteValidacionFichaController@update');
+    Route::delete('validacion_ficha/{validacion_ficha}', 'Api\Arte\ArteValidacionFichaController@destroy');
     // fin arte validacion Ficha
 
     //boceto 
-    Route::get('arte/{arte_id}/boceto', 'Api\Arte\ArteBocetoController@index');
-    Route::post('arte/{arte_id}/boceto', 'Api\Arte\ArteBocetoController@store');
-    Route::get('boceto/{boceto_id}', 'Api\Arte\ArteBocetoController@show');
-    Route::put('boceto/{boceto_id}', 'Api\Arte\ArteBocetoController@update');
-    Route::delete('boceto/{boceto_id}', 'Api\Arte\ArteBocetoController@destroy');
+    Route::get('arte/{arte}/boceto', 'Api\Arte\ArteBocetoController@index');
+    Route::post('arte/{arte}/boceto', 'Api\Arte\ArteBocetoController@store');
+    Route::get('boceto/{boceto}', 'Api\Arte\ArteBocetoController@show');
+    Route::put('boceto/{boceto}', 'Api\Arte\ArteBocetoController@update');
+    Route::delete('boceto/{boceto}', 'Api\Arte\ArteBocetoController@destroy');
     //fin de boceto
 
     //validacion de boceto de
-    Route::get('arte/{arte_id}/validacion_boceto', 'Api\ArteArteValidacionBocetoController@index');
-    Route::post('arte/{arte_id}/validacion_boceto', 'Api\Arte\ArteValidacionBocetoController@store');
-    Route::get('validacion_boceto/{validacion_boceto_id}', 'Api\Arte\ArteValidacionBocetoController@show');
-    Route::put('validacion_boceto/{validacion_boceto_id}', 'Api\Arte\ArteValidacionBocetoController@update');
-    Route::delete('validacion_boceto/{validacion_boceto_id}', 'Api\Arte\ArteValidacionBocetoController@destroy');
+    Route::get('arte/{arte}/validacion_boceto', 'Api\Arte\ArteValidacionBocetoController@index');
+    Route::post('arte/{arte}/validacion_boceto', 'Api\Arte\ArteValidacionBocetoController@store');
+    Route::get('validacion_boceto/{validacion_boceto}', 'Api\Arte\ArteValidacionBocetoController@show');
+    Route::put('validacion_boceto/{validacion_boceto}', 'Api\Arte\ArteValidacionBocetoController@update');
+    Route::delete('validacion_boceto/{validacion_boceto}', 'Api\Arte\ArteValidacionBocetoController@destroy');
     //fin de boceto
 
     //confirmacion de proveedor
-    Route::get('arte/{arte_id}/confirmacion_proveedor', 'Api\Arte\ArteConfirmacionProveedorController@index');
-    Route::post('arte/{arte_id}/confirmacion_proveedor', 'Api\Arte\ArteConfirmacionProveedorController@store');
-    Route::get('confirmacion_proveedor/{confirmacion_proveedor_id}', 'Api\Arte\ArteConfirmacionProveedorController@show');
-    Route::put('confirmacion_proveedor/{confirmacion_proveedor_id}', 'Api\Arte\ArteConfirmacionProveedorController@update');
-    Route::delete('confirmacion_proveedor/{confirmacion_proveedor_id}', 'Api\Arte\ArteConfirmacionProveedorController@destroy');
+    Route::get('arte/{arte}/confirmacion_proveedor', 'Api\Arte\ArteConfirmacionProveedorController@index');
+    Route::post('arte/{arte}/confirmacion_proveedor', 'Api\Arte\ArteConfirmacionProveedorController@store');
+    Route::get('confirmacion_proveedor/{confirmacion_proveedor}', 'Api\Arte\ArteConfirmacionProveedorController@show');
+    Route::put('confirmacion_proveedor/{confirmacion_proveedor}', 'Api\Arte\ArteConfirmacionProveedorController@update');
+    Route::delete('confirmacion_proveedor/{confirmacion_proveedor}', 'Api\Arte\ArteConfirmacionProveedorController@destroy');
     //fin de produccion
     //notificacion
     Route::get('notificacion', 'Api\Notification\NotificationController@index');

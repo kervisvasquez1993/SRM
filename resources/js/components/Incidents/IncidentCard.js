@@ -1,4 +1,5 @@
 import React from "react";
+import { BsPersonFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteIncident } from "../../store/actions/incidentActions";
 import { openModal } from "../../store/actions/modalActions";
@@ -35,7 +36,7 @@ const IncidentCard = ({ stateName, url1, url2, incident }) => {
     };
 
     return (
-        <div className={`card shadow-lg my-4 fade-in`}>
+        <div className={`card shadow-lg my-3 fade-in`}>
             <div className="card-body pb-0">
                 <h5 className="card-title font-weight-bold">
                     {incident.titulo}
@@ -51,15 +52,26 @@ const IncidentCard = ({ stateName, url1, url2, incident }) => {
 
             <div className="card-footer">
                 <div className="d-flex justify-content-between align-items-center w-100 flex-wrap">
-                    <div className="d-flex">
-                        <i className="material-icons mr-1">access_time</i>
-                        Fecha :{" "}
-                        <strong>
-                            {dateToShortString(new Date(incident.created_at))}
-                        </strong>
+                    <div className="d-flex flex-wrap">
+                        <div className="d-flex align-items-center mr-4 mb-1">
+                            <BsPersonFill className="icon-normal mr-1" />
+                            <strong>{incident.usuario_nombre}</strong>
+                        </div>
+
+                        <div className="d-flex">
+                            <i className="material-icons mr-1">access_time</i>
+                            <p className="m-0">
+                                Fecha :{" "}
+                                <strong>
+                                    {dateToShortString(
+                                        new Date(incident.created_at)
+                                    )}
+                                </strong>
+                            </p>
+                        </div>
                     </div>
 
-                    <div className="d-flex bt-sm justify-content-start">
+                    <div className="d-flex bt-sm justify-content-end flex-grow-1">
                         <button
                             className="btn btn-success btn-circle"
                             type="button"

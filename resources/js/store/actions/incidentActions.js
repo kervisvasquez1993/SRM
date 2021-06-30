@@ -49,6 +49,7 @@ export function createIncident(url1, parentId, url2, data) {
 
             toast.success("✔️ Incidencia iniciada");
         } catch (e) {
+            console.log(e.response)
             dispatch({
                 type: "FORM_SUBMIT_FAILURE",
                 errors: e.response.data.error

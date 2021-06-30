@@ -8,30 +8,30 @@ use App\Boceto;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
+use App\Http\Resources\IncidenciaResource;
 use App\Notifications\GeneralNotification;
 use App\Http\Requests\IncidenciaValidacion;
 use Illuminate\Support\Facades\Notification;
 
 class ArteBocetoController extends ApiController
 {
-    
-    public function index($arte_id)
+
+    public function index(Arte $arte)
     {
-        $arte = Arte::findOrFail($arte_id);
-        return $this->showAll($arte->boceto);
+        return $this->showAllResources(IncidenciaResource::collection($arte->boceto));
     }
 
-    
-    public function store(IncidenciaValidacion $request, $arte_id)
+    public function store(IncidenciaValidacion $request, Arte $arte)
     {
-        $validated = $request->validated();
-        $arte = Arte::findOrFail($arte_id);
+        $request->validated();
+        
         $boceto = new Boceto();
         $boceto->arte_id = $arte->id;
         $boceto->user_id = auth()->user()->id;
         $boceto->titulo = $request->titulo;
         $boceto->descripcion = $request->descripcion;
         $boceto->save();
+
         /* notificacion */
         $login_user         = auth()->user()->name;
         $user_all           = User::where('rol', 'artes')->orWhere('rol', 'coordinador')->get();
@@ -41,29 +41,28 @@ class ArteBocetoController extends ApiController
         $link               = "/arts?id=$arte->id&tab=boceto";
         $type               = "arte_boceto";
         Notification::send($user, new GeneralNotification($text, $link, $type));
-        return $this->showOne($boceto);
-    
+        return $this->showOneResource(new IncidenciaResource($boceto));
     }
 
-  
-    public function show(Boceto $boceto_id)
+
+    public function show(Boceto $boceto)
     {
-        return $this->showOne($boceto_id);
+        return $this->showOneResource(new IncidenciaResource($boceto));
     }
 
-   
-    public function update(IncidenciaValidacion $request, Boceto $boceto_id)
+    public function update(IncidenciaValidacion $request, Boceto $boceto)
     {
-        $validated = $request->validated();
-        $boceto_id->update($request->all());
-        $boceto_id->save();
-        return $this->showOne($boceto_id);
+        $request->validated();
+
+        $boceto->update($request->all());
+        $boceto->save();
+        return $this->showOneResource(new IncidenciaResource($boceto));
     }
 
-    
-    public function destroy(Boceto $boceto_id)
+
+    public function destroy(Boceto $boceto)
     {
-        $boceto_id->delete();
-        return $this->showOne($boceto_id);
+        $boceto->delete();
+        return $this->showOneResource(new IncidenciaResource($boceto));
     }
 }
