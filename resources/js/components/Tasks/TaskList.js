@@ -31,10 +31,6 @@ const isTaskInNegotiation = task => {
     );
 };
 
-// const isTaskInProgress = task => {
-//     return !isTaskCompleted(task) && !isTaskExpired(task);
-// };
-
 const isTaskNotInNegotiation = task => {
     return (
         !isTaskCompleted(task) &&
@@ -157,39 +153,40 @@ const TaskList = ({ myTasks = false }) => {
             values: item => item.usuario.name,
             filter: (item, filters) => filters.user[item.usuario.name],
             counterFilter: (item, id) => item.usuario.name === id
-        },
-        {
-            name: "time",
-            label: "Tiempo de expiración",
-            useAccordion: true,
-            type: "slider",
-            filter: (item, filterValue) =>
-                !(getDaysToFinishTask(item) > filterValue),
-            sliderLabelText: " días",
-            sliderMin: minDays,
-            sliderMax: maxDays,
-            defaultValue: maxDays,
-            sliderReverse: true,
-            group: (
-                <FilterGroup
-                    name="time"
-                    text="Tiempo de expiración:"
-                    className="col-sm-6"
-                    key="time"
-                >
-                    <SliderFilter
-                        id="days"
-                        key={maxDays}
-                        text={`2 días`}
-                        min={minDays}
-                        max={maxDays}
-                        defaultValue={maxDays}
-                        step={1}
-                        reversed
-                    />
-                </FilterGroup>
-            )
         }
+        // {
+        //     name: "time",
+        //     label: "Tiempo de expiración",
+        //     useAccordion: true,
+        //     type: "slider",
+        //     filter: (item, filterValue) =>
+        //         !(getDaysToFinishTask(item) > filterValue),
+        //     defaultFilter: (item, filterValue) => true,
+        //     sliderLabelText: " días",
+        //     sliderMin: minDays,
+        //     sliderMax: maxDays,
+        //     defaultValue: maxDays,
+        //     sliderReverse: true,
+        //     group: (
+        //         <FilterGroup
+        //             name="time"
+        //             text="Tiempo de expiración:"
+        //             className="col-sm-6"
+        //             key="time"
+        //         >
+        //             <SliderFilter
+        //                 id="days"
+        //                 key={maxDays}
+        //                 text={`2 días`}
+        //                 min={minDays}
+        //                 max={maxDays}
+        //                 defaultValue={maxDays}
+        //                 step={1}
+        //                 reversed
+        //             />
+        //         </FilterGroup>
+        //     )
+        // }
     ];
 
     const populatorConfig = [

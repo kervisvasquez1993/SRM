@@ -87,30 +87,9 @@ export function getColorsForTask(task) {
 
 export function getColorsFromDates(startDate, finishDate) {
     const percentage = (finishDate - new Date()) / (finishDate - startDate);
-    let days = getDaysBetweenDates(
-        finishDate - new Date(),
-        new Date(finishDate)
-    );
 
-    /*
-    if (percentage < 0) {
-        return blackCard;
-    }
+    let days = getDaysBetweenDates(new Date(), finishDate);
 
-    if (days <= 2) {
-        return redCard;
-    } else if (days <= 4) {
-        return yellowCard;
-    } else {
-        if (percentage < 0.333) {
-            return redCard;
-        } else if (percentage < 0.666) {
-            return yellowCard;
-        } else {
-            return normalCard;
-        }
-    }
-    */
     if (percentage < 0) {
         return redCard;
     }

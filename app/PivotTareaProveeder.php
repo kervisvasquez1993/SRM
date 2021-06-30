@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class PivotTareaProveeder extends Model
 {
     use SoftDeletes;
+    
     protected $fillable = [
         'compra_po',
         'payment_terms',

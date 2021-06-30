@@ -8,7 +8,16 @@ import EmptyList from "../Navigation/EmptyList";
 import LargeCreateButton from "../Widgets/LargeCreateButton";
 import PurchaseOrdersResume from "../Widgets/PurchaseOrdersResume";
 import CreatePurchaseOrderModal from "./CreatePurchaseOrderModal";
+import PoCodeModal from "./PoCodeModal";
 import PurchaseOrder from "./PurchaseOrder";
+
+const campos = [
+    { name: "compra_po", label: "Código PO" },
+    { name: "payment_terms", label: "Términos de Pago" },
+    { name: "hs_code", label: "Código HS" },
+    { name: "incoterms", label: "Incoterms" },
+    { name: "delivery_time", label: "Tiempo de Entrega" }
+];
 
 const PurchaseOrderList = () => {
     const purchaseOrders = useSelector(state => state.purchaseOrder.orders);
@@ -32,6 +41,15 @@ const PurchaseOrderList = () => {
             openModal({
                 title: "Agregar Orden de Compra",
                 body: <CreatePurchaseOrderModal pivotId={pivotId} />
+            })
+        );
+    };
+
+    const handleEdit = () => {
+        dispatch(
+            openModal({
+                title: "Agregar Orden de Compra",
+                body: <PoCodeModal formData={negotiation} />
             })
         );
     };
@@ -97,6 +115,59 @@ const PurchaseOrderList = () => {
                             <PurchaseOrdersResume
                                 compras_total={getSum(purchaseOrders, "total")}
                             />
+
+                            <div className="row mb-4">
+                                <div className="table-responsive">
+                                    <table className="table table-sm table-hover table-bordered fade-in">
+                                        <thead className="thead-dark">
+                                            <tr>
+                                                <th scope="col">Campo</th>
+                                                <th scope="col">Valor</th>
+                                                <th scope="col">Acción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {campos.map(item => {
+                                                const { name, label } = item;
+                                                return (
+                                                    <tr key={name}>
+                                                        <th scope="row">
+                                                            {label}
+                                                        </th>
+                                                        <td>
+                                                            {negotiation[
+                                                                name
+                                                            ] || (
+                                                                <div className="no-result d-flex align-items-center">
+                                                                    <span className="material-icons mr-2">
+                                                                        search_off
+                                                                    </span>
+                                                                    No hay
+                                                                    registros
+                                                                    para mostrar
+                                                                </div>
+                                                            )}
+                                                        </td>
+                                                        <td>
+                                                            <button
+                                                                className="btn btn-sm btn-success btn-circle ml-3"
+                                                                type="button"
+                                                                onClick={
+                                                                    handleEdit
+                                                                }
+                                                            >
+                                                                <span className="material-icons">
+                                                                    edit
+                                                                </span>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </React.Fragment>
                     )}
                 </React.Fragment>
