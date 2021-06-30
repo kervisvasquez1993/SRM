@@ -35,7 +35,6 @@ class CreateRecepcionProductosTable extends Migration
             $table->double('packing_total_unidad_spl')->nullable();
             $table->boolean('validacion')->defaul('false');
             $table->string('observaciones')->nullable();
-            $table->softDeletes();
             $table->timestamps();
         });
     }
