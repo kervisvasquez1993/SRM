@@ -77,7 +77,7 @@ const TaskList = ({ myTasks = false }) => {
             return Math.max(...dias, 0);
         }
 
-        return 0;
+        return 1;
     }, [postFilterLists]);
 
     const getMinDays = useCallback(() => {
