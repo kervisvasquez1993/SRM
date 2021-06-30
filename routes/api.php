@@ -210,9 +210,15 @@ Route::middleware('auth.jwt')->group(function () {
     /* productos en recepcion */
     Route::get('/reclamos_devoluciones/{reclamos_devoluciones_id}/recepcion', 'Api\ReclamoDevolucion\RecepcionProductoController@index');
     Route::post('/reclamos_devoluciones/{reclamos_devoluciones_id}/importProducto', 'Api\ReclamoDevolucion\RecepcionProductoController@importProducts');
-
     /* fin del producto */
-
+    
+    /* show para inspeccion de mercancia */
+    Route::get('/reclamos_devoluciones/{reclamos_devoluciones_id}/inspeccion', 'Api\ReclamoDevolucion\inspeccionProductoController@index');
+    Route::post('/reclamos_devoluciones/{reclamos_devoluciones_id}/inspeccion', 'Api\ReclamoDevolucion\inspeccionProductoController@store');
+    Route::post('/inspeccion/{inspeccion_id}', 'Api\ReclamoDevolucion\inspeccionProductoController@update');
+    Route::get('/inspeccion/{inspeccion_id}', 'Api\ReclamoDevolucion\inspeccionProductoController@show');
+    Route::delete('/inspeccion/{inspeccion_id}', 'Api\ReclamoDevolucion\inspeccionProductoController@destroy');
+    /* fin show para inspeccion de mercancia */
 
     /* incidencias de Recepción */
     Route::get('/reclamos_devoluciones/{reclamos_devolucione}/incidencia_recepcion', 'Api\ReclamoDevolucion\IncidenciaRecepcion@index');
