@@ -1,4 +1,5 @@
 import React from "react";
+import { AiOutlineBarcode } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { StringParam, useQueryParam } from "use-query-params";
 import { updateClaim } from "../../store/actions/claimActions";
@@ -16,7 +17,7 @@ const ClaimCard = ({ claim }) => {
 
     const {
         id,
-        pivot: { tarea, proveedor },
+        pivot: { tarea, proveedor, compra_po },
         pivot,
         recepcion_mercancia,
         inspeccion_carga,
@@ -80,16 +81,12 @@ const ClaimCard = ({ claim }) => {
             style={{ cursor: "pointer" }}
             ref={ref}
         >
-            <div className="card-header ">
-                <div className="row">
-                    <div className="col-sm h4 d-flex mb-3">
-                        <span className="material-icons mr-2">business</span>
-                        Proveedor : <strong>{proveedor.nombre}</strong>
-                    </div>
-                    <div className="col-sm h4 d-flex">
-                        <span className="material-icons mr-2">task</span>
-                        Tarea : <strong>{tarea.nombre}</strong>
-                    </div>
+            <div className="card-header ml-2">
+                <div className="col-sm h4 d-flex mb-3">
+                    <AiOutlineBarcode className="icon-normal mr-2" />
+                    <p className="mb-0">
+                        Codigo : <strong>{compra_po}</strong>
+                    </p>
                 </div>
             </div>
 
