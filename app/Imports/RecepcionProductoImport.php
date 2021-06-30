@@ -22,6 +22,7 @@ class RecepcionProductoImport implements ToModel, WithStartRow , WithCalculatedF
     {
         $recepcionProducto = 
         [
+            
             'recepcion_reclamo_devolucion_id' => $this->pivot_id,
             'codigo_sistema'                  =>$row['0'] ,
             'descripcion'                     =>$row['1'] ,
@@ -31,9 +32,9 @@ class RecepcionProductoImport implements ToModel, WithStartRow , WithCalculatedF
             'u_m'                             =>$row['5'] ,
             'cantidad_u_m'                    =>$row['6'] ,
             'total_unidades_bulto'            =>$row['7'] ,
-            'cantidad_empaque_intermedio'     =>($row['8'] == 'N/A') ?   0 : $row['8'] ,
+            'cantidad_empaque_intermedio'     =>($row['8'] == 'N/A') ?   0 :  $row['8'] ,
             'u_m_empaque_intermedio'          =>($row['9'] == 'N/A') ?   0 :  $row['9'] ,
-            'unidades_en_bulto_resto'         =>($row['10'] == 'N/A') ?  0 : $row['10'] ,
+            'unidades_en_bulto_resto'         =>($row['10'] == 'N/A') ?  0 :  $row['10'] ,
             'presentacion'                    =>$row['11'],
             'referencia_catalogo'             =>$row['12'],
             'packing_u_m'                     =>$row['13'],
@@ -56,13 +57,7 @@ class RecepcionProductoImport implements ToModel, WithStartRow , WithCalculatedF
             return null;
             
         }
-       /*  $validacion_exist = RecepcionProducto::where('codigo_sistema', $row['0'])->first();
-
-        if($validacion_exist)
-        {
-             $validacion_exist->update($recepcionProducto);
-             return $validacion_exist;
-        } */
+        
         
 
         return new RecepcionProducto($recepcionProducto);
