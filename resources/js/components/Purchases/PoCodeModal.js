@@ -1,44 +1,33 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { editPoCode } from "../../store/actions/negotiationActions";
+import {
+    editPoCode,
+    updateNegotiation
+} from "../../store/actions/negotiationActions";
 import { extractError } from "../../utils";
+import { apiURL } from "../App";
 import GenericForm from "../Form/GenericForm";
+import InputDate from "../Form/InputDate";
 import InputText from "../Form/InputText";
+import GenericFormModal from "../Table/GenericFormModal";
 
-const PoCodeModal = ({ pivot }) => {
+const PoCodeModal = ({ formData }) => {
     const dispatch = useDispatch();
-    const [data, setData] = useState({ ...pivot });
 
-    const isEditing = useSelector(state => state.negotiation.isEditing);
-
-    const handleChange = e => {
-        const { id, value } = e.target;
-
-        setData(data => {
-            return {
-                ...data,
-                [id]: value
-            };
-        });
-    };
-
-    const handleSubmit = e => {
-        e.preventDefault();
-
-        dispatch(editPoCode(data));
+    const onSubmit = data => {
+        //axios.put(`${apiURL}/pivot/${formData.id}`, data).then(repsonse => console.log(repsonse));
+        dispatch(updateNegotiation(data));
     };
 
     return (
-        <div className="modal-body">
-            <GenericForm
-                handleSubmit={handleSubmit}
-                disableSubmit={isEditing}
-                onChange={handleChange}
-                values={data}
-            >
-                <InputText id="compra_po" label="Código PO" />
-            </GenericForm>
-        </div>
+        <GenericFormModal formData={formData} onSubmit={onSubmit}>
+            <InputText id="compra_po" label="Código PO" />
+            <InputText id="payment_terms" label="Términos de Pago" />
+            <InputText id="hs_code" label="Código HS" />
+            <InputText id="incoterms" label="Incoterms" />
+            <InputDate id="delivery_time" label="Tiempo de Entrega" />
+        </GenericFormModal>
     );
 };
 

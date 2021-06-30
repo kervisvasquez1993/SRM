@@ -5,7 +5,6 @@ import { getProductsFromNegotiation } from "../../store/actions/productActions";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import Error from "../Navigation/Error";
 import PurchaseOrderList from "../Purchases/PurchaseOrderList";
-import PoCode from "../Purchases/PoCode";
 import {
     getNegotiation,
     startNegotiation
@@ -82,7 +81,6 @@ const ProviderPurchase = () => {
             <NegotiationFileList />
             <ProductsList />
             <PurchaseOrderList />
-            <PoCode pivot={negotiation} />
         </div>
     );
 };

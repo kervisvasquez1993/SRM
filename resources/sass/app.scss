@@ -233,3 +233,9 @@ table,
         flex-shrink: 0;
     }
 }
+
+.table.table-sm {
+    & td  {
+        padding: 0.5rem 0.2rem !important;
+    }
+}
