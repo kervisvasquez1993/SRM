@@ -8,6 +8,7 @@ use App\RecepcionReclamoDevolucion;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\ApiController;
+use App\Imports\RecepcionProductoImport;
 
 class RecepcionProductoController extends ApiController
 {
@@ -15,6 +16,7 @@ class RecepcionProductoController extends ApiController
     public function index(RecepcionReclamoDevolucion $reclamos_devoluciones_id)
     {
         $productos = $reclamos_devoluciones_id->recepcionProducto;
+        return $productos->count();
         return $this->showAll($productos);
     }
 
@@ -24,10 +26,13 @@ class RecepcionProductoController extends ApiController
         
     }
 
-    public function importProducts(Request $request, $id)
+    public function importProducts(Request $request, RecepcionReclamoDevolucion $reclamos_devoluciones_id)
     {
+
         $archivo = $request->file('import');
-        Excel::import(new RecepcionProducto(), $archivo);
+        RecepcionProducto::where('recepcion_reclamo_devolucion_id', $reclamos_devoluciones_id->id)->delete();
+        /* Excel::import(new RecepcionProductoImport($reclamos_devoluciones_id->id), $archivo); */
+        return "cargado exitosamente";
     }
 
     

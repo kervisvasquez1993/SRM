@@ -209,6 +209,7 @@ Route::middleware('auth.jwt')->group(function () {
 
     /* productos en recepcion */
     Route::get('/reclamos_devoluciones/{reclamos_devoluciones_id}/recepcion', 'Api\ReclamoDevolucion\RecepcionProductoController@index');
+    Route::post('/reclamos_devoluciones/{reclamos_devoluciones_id}/importProducto', 'Api\ReclamoDevolucion\RecepcionProductoController@importProducts');
 
     /* fin del producto */
 

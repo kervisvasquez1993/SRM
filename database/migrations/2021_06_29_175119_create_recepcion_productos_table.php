@@ -16,7 +16,7 @@ class CreateRecepcionProductosTable extends Migration
         Schema::create('recepcion_productos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('recepcion_reclamo_devolucion_id')->references('id')->on('recepcion_reclamo_devolucions');
-            $table->string('codigo_sistema');
+            $table->string('codigo_sistema')->nullable();
             $table->text('descripcion')->nullable();
             $table->string('lote')->nullable();
             $table->date('vence')->nullable();

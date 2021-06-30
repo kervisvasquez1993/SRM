@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class RecepcionProducto extends Model
 {
     use SoftDeletes;
-    private $fillable = 
+    protected $fillable =
     [
          'recepcion_reclamo_devolucion_id',
          'codigo_sistema',
@@ -31,6 +31,21 @@ class RecepcionProducto extends Model
          'validacion',
          'observaciones',    
     ];
+
+    protected $casts = 
+    [
+        'total_recibido_en_unidades' => 'double',
+        'cantidad_u_m' => 'double',
+        'total_unidades_bulto' => 'double',
+        'cantidad_empaque_intermedio' => 'double',
+        'u_m_empaque_intermedio' => 'double',
+        'unidades_en_bulto_resto' => 'double',
+        'packing_cantidad_u_m' => 'double',
+        'packing_unidades_u_m' => 'double',
+        'packing_total_unidad_spl' => 'double',
+
+    ];
+
 
     public function RecepcionReclamoDevolucion()
     {
