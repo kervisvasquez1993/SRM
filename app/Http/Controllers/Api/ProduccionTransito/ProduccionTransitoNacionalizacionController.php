@@ -11,67 +11,59 @@ use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Validator;
 use App\Notifications\GeneralNotification;
 use App\Http\Requests\IncidenciaValidacion;
+use App\Http\Resources\IncidenciaResource;
 use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProduccionTransitoNacionalizacionController extends ApiController
 {
-    private $validator_array = [
-        'titulo' => 'required',
-        'descripcion' => 'required'
-    ];
-
-    public function index(Request $request, $produccion_transito_id)
+    public function index(ProduccionTransito $produccion_transito)
     {
-        $produccionTransito = ProduccionTransito::findOrFail($produccion_transito_id);
-        return  $this->showAll($produccionTransito->transitosNacionalizacion);
+        return  $this->showAllResources(IncidenciaResource::collection($produccion_transito->transitosNacionalizacion));
     }
 
-
-    public function store(IncidenciaValidacion $request, $produccion_transito_id)
+    public function store(IncidenciaValidacion $request, ProduccionTransito $produccion_transito)
     {
         $request->validated();
-        $produccionTransito = ProduccionTransito::findOrFail($produccion_transito_id);
+
         $incidencias_transito = new TransitoNacionalizacion();
-        $incidencias_transito->produccion_transito_id = $produccionTransito->id;
+        $incidencias_transito->produccion_transito_id = $produccion_transito->id;
         $incidencias_transito->user_id = auth()->user()->id;
         $incidencias_transito->titulo = $request->titulo;
         $incidencias_transito->descripcion = $request->descripcion;
         $incidencias_transito->save();
+
         /* notificacion agregada */
         $login_user         = auth()->user()->name;
         $user_all           = User::where('rol', 'logistica')->orWhere('rol', 'coordinador')->get();
-        $comprador_asignado = User::find($produccionTransito->pivotTable->tarea->user_id);
+        $comprador_asignado = User::find($produccion_transito->pivotTable->tarea->user_id);
         $user               = $user_all->push($comprador_asignado)->unique('id');
-        $text               = "El usuario '$login_user' agrego incidencia relacionada con transito nacionalización el  en la empresa: ".$produccionTransito->pivotTable->proveedor->nombre;
-        $link               = "/productions?id=$produccionTransito->id&tab=incidencias_transito";
+        $text               = "El usuario '$login_user' agrego incidencia relacionada con transito nacionalización el  en la empresa: ".$produccion_transito->pivotTable->proveedor->nombre;
+        $link               = "/productions?id=$produccion_transito->id&tab=incidencias_transito";
         $type               = "incidencia_transito_normalizacion";
         Notification::send($user, new GeneralNotification($text, $link, $type));
-        return $this->showOne($incidencias_transito);
+
+        return $this->showOneResource(new IncidenciaResource($incidencias_transito));
     }
 
 
-    public function show($incidencias_transito_id)
+    public function show(TransitoNacionalizacion $incidencia_transito)
     {
-        $incidencias_transito = TransitoNacionalizacion::findOrFail($incidencias_transito_id);
-        return  $this->showOne($incidencias_transito);
+        return $this->showOneResource(new IncidenciaResource($incidencia_transito));
     }
 
 
-    public function update(IncidenciaValidacion $request, $incidencias_transito_id)
+    public function update(IncidenciaValidacion $request, TransitoNacionalizacion $incidencia_transito)
     {
         $request->validated();
-        $incidencias_transito = TransitoNacionalizacion::findOrFail($incidencias_transito_id);
-        $incidencias_transito->update($request->all());
-        $incidencias_transito->save();
-        return  $this->showOne($incidencias_transito);
+        $incidencia_transito->update($request->all());
+        return $this->showOneResource(new IncidenciaResource($incidencia_transito));
     }
 
 
-    public function destroy($incidencias_transito_id)
+    public function destroy(TransitoNacionalizacion $incidencia_transito)
     {
-        $incidencias_transito = TransitoNacionalizacion::findOrFail($incidencias_transito_id);
-        $incidencias_transito->delete();
-        return $this->showOne($incidencias_transito);
+        $incidencia_transito->delete();
+        return $this->showOneResource(new IncidenciaResource($incidencia_transito));
     }
 }

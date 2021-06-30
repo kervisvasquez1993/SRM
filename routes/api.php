@@ -38,7 +38,7 @@ Route::middleware('auth.jwt')->group(function () {
     Route::get('me/tareas', 'Api\Tarea\TareaController@tareasUsuario');
 
     Route::apiResource('user', 'Api\User\UserController')->except(['destroy']);
-    
+
     /* insertar nuevo proveedor con notificacion */
     Route::post('/tarea/{tarea_id}/proveedor', 'Api\Proveedor\ProveedorController@store');
 
@@ -104,10 +104,10 @@ Route::middleware('auth.jwt')->group(function () {
 
     //inicio de produccion 
 
-    Route::get('/produccion_transito/{produccion_transito_id}/inicio_produccion', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@index');
-    Route::post('/produccion_transito/{produccion_transito_id}/inicio_produccion', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@store');
-    Route::put('/inicio_produccion/{produccion_transito_id}', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@update');
-    Route::delete('/inicio_produccion/{produccion_transito_id}', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@destroy');
+    Route::get('/produccion_transito/{produccion_transito}/inicio_produccion', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@index');
+    Route::post('/produccion_transito/{produccion_transito}/inicio_produccion', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@store');
+    Route::put('/inicio_produccion/{inicio_produccion}', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@update');
+    Route::delete('/inicio_produccion/{inicio_produccion}', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@destroy');
 
 
 
@@ -120,19 +120,19 @@ Route::middleware('auth.jwt')->group(function () {
 
 
     // incidencia transitosNacionalizacion
-    Route::get('produccion_transito/{produccion_transito_id}/incidencias_transito', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@index');
-    Route::post('produccion_transito/{produccion_transito_id}/incidencias_transito', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@store');
-    Route::get('incidencias_transito/{incidencias_transito_id}', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@show');
-    Route::put('incidencias_transito/{incidencias_transito_id}', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@update');
-    Route::delete('incidencias_transito/{incidencias_transito_id}', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@destroy');
+    Route::get('produccion_transito/{produccion_transito}/incidencias_transito', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@index');
+    Route::post('produccion_transito/{produccion_transito}/incidencias_transito', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@store');
+    Route::get('incidencias_transito/{incidencia_transito}', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@show');
+    Route::put('incidencias_transito/{incidencia_transito}', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@update');
+    Route::delete('incidencias_transito/{incidencia_transito}', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@destroy');
 
     // incidencia fin de produccion 
 
-    Route::get('produccion_transito/{produccion_transito_id}/fin_produccion', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@index');
-    Route::post('produccion_transito/{produccion_transito_id}/fin_produccion', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@store');
-    Route::get('fin_produccion/{fin_produccion_id}', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@show');
-    Route::put('fin_produccion/{fin_produccion_id}', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@update');
-    Route::delete('fin_produccion/{fin_produccion_id}', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@destroy');
+    Route::get('produccion_transito/{produccion_transito}/fin_produccion', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@index');
+    Route::post('produccion_transito/{produccion_transito}/fin_produccion', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@store');
+    Route::get('fin_produccion/{fin_produccion}', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@show');
+    Route::put('fin_produccion/{fin_produccion}', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@update');
+    Route::delete('fin_produccion/{fin_produccion}', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@destroy');
 
     // fin de incidencia de fin de produccion
 
@@ -211,7 +211,7 @@ Route::middleware('auth.jwt')->group(function () {
     Route::get('/reclamos_devoluciones/{reclamos_devoluciones_id}/recepcion', 'Api\ReclamoDevolucion\RecepcionProductoController@index');
     Route::post('/reclamos_devoluciones/{reclamos_devoluciones_id}/importProducto', 'Api\ReclamoDevolucion\RecepcionProductoController@importProducts');
     /* fin del producto */
-    
+
     /* show para inspeccion de mercancia */
     Route::get('/reclamos_devoluciones/{reclamos_devoluciones_id}/inspeccion', 'Api\ReclamoDevolucion\inspeccionProductoController@index');
     Route::post('/reclamos_devoluciones/{reclamos_devoluciones_id}/inspeccion', 'Api\ReclamoDevolucion\inspeccionProductoController@store');
