@@ -3,7 +3,7 @@ import { AiOutlineBarcode } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { StringParam, useQueryParam } from "use-query-params";
 import { openArtModal, updateArt } from "../../store/actions/artActions";
-import { isArtCompleted, useSimpleUrlFocus } from "../../utils";
+import { isArtCompleted, useSimpleUrlFocus, useUser } from "../../utils";
 
 export const options = [
     {
@@ -48,6 +48,7 @@ const ArtCard = ({ art }) => {
     const isEditingDropdowns = useSelector(
         state => state.art.isEditingDropdowns
     );
+    const user = useUser();
 
     const handleOpenManagement = () => {
         dispatch(openArtModal(art.id));
@@ -103,6 +104,19 @@ const ArtCard = ({ art }) => {
             <div className="card-body py-0 my-0 ml-2">
                 <div className="row">
                     {categories.map(({ value, label }) => {
+                        let disable = true;
+
+                        if (
+                            user.rol === "coordinador" ||
+                            user.rol === "comprador"
+                        ) {
+                            if (value != "creacion_boceto") {
+                                disable = false;
+                            }
+                        } else if (user.rol === "artes" && value === "creacion_boceto") {
+                            disable = false;
+                        }
+
                         return (
                             <div
                                 className="form-group col-sm-6 col-md-4 col-lg-3"
@@ -115,7 +129,7 @@ const ArtCard = ({ art }) => {
                                     id={value}
                                     value={art[value]}
                                     onChange={handleChange}
-                                    disabled={isEditingDropdowns}
+                                    disabled={disable || isEditingDropdowns}
                                 >
                                     {selectOptions}
                                 </select>

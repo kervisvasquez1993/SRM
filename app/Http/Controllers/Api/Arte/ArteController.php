@@ -30,15 +30,13 @@ class ArteController extends ApiController
 
     public function update(Request $request, Arte $arte)
     {
-        if((auth()->user()->rol != 'coordinador') && ($request->fecha_fin))
-        {
+        $user = auth()->user();
+        if (!($user->rol === 'coordinador' || $user->rol === 'artes') && ($request->fecha_fin)) {
             return $this->errorResponse('No tiene Permiso para Realizar esta Operacion', 403);
         }
-               
+
         $arte->update($request->all());
         $arte->save();
         return $this->showOneResource(new ArteResource($arte));
     }
-
-
 }
