@@ -22,7 +22,7 @@ export const emptyTask = {
     descripcion: ""
 };
 
-const TaskModal = ({ task, isEditor }) => {
+const TaskModal = ({ task, isEditor = false }) => {
     const dispatch = useDispatch();
 
     const [users, setUsers] = useState([]);

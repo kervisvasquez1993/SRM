@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class RecepcionProducto extends Model
 {
-    use SoftDeletes;
     protected $fillable =
     [
          'recepcion_reclamo_devolucion_id',
