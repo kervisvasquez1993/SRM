@@ -14,7 +14,7 @@ const SmallCard = ({
                 {icon || <span className="material-icons">{materialIcon}</span>}
             </div>
             <div className="d-flex flex-column align-items-center text-center text-sm-left">
-                <p className="card-text font-weight-bold m-0 h5">{children}</p>
+                <p className="card-text font-weight-bold m-0 h5 text-center">{children}</p>
                 <p className="card-title text-center m-0">{label}</p>
             </div>
         </div>
