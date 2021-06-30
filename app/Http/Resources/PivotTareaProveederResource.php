@@ -28,8 +28,12 @@ class PivotTareaProveederResource extends JsonResource
             'total_cbm'           => $this->productos->sum('total_cbm'),
             'total_n_w'           => $this->productos->sum('total_n_w'),
             'total_g_w'           => $this->productos->sum('total_g_w'),
-            'compra_po'           => $this->compra_po,
             'compras_total'       => $this->compras->sum('total'),
+            'compra_po'           => $this->compra_po,
+            'payment_terms'       => $this->payment_terms,
+            'hs_code'             => $this->hs_code,
+            'incoterms'           => $this->incoterms,
+            'delivery_time'       => $this->delivery_time,
         ];
     }
 }

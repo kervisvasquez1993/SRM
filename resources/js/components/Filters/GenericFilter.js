@@ -75,7 +75,12 @@ const GenericFilter = ({
                     }
                 }
             } else {
-                list = list.filter(() => false);
+                //list = list.filter(() => false);
+                list = list.filter(item =>
+                    filterConf.defaultFilter
+                        ? filterConf.defaultFilter(item, filter)
+                        : false
+                );
             }
 
             afterResult[filterConf.name] = list;
