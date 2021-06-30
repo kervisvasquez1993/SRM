@@ -2,7 +2,15 @@ import React, { useContext, useEffect, useState } from "react";
 import { FilterContext } from "./Filter";
 import { FilterGroupContext } from "./FilterGroup";
 
-const SliderFilter = ({ id, text, defaultValue = 0, min = 0, max = 1, step = 0.01, reversed = false }) => {
+const SliderFilter = ({
+    id,
+    text,
+    defaultValue = 0,
+    min = 0,
+    max = 1,
+    step = 0.01,
+    reversed = false
+}) => {
     const { state, setState } = useContext(FilterContext);
     const { name } = useContext(FilterGroupContext);
 
@@ -19,7 +27,7 @@ const SliderFilter = ({ id, text, defaultValue = 0, min = 0, max = 1, step = 0.0
             newState[name][id] = value;
             return newState;
         });
-    }, [value])
+    }, [value]);
 
     return (
         <div className="form-check form-check-inline p-1 d-flex align-items-center">
@@ -42,6 +50,7 @@ const SliderFilter = ({ id, text, defaultValue = 0, min = 0, max = 1, step = 0.0
                 }
             ></input>
             <label htmlFor={id} className="form-label ml-2">
+                {value}
                 {text}
             </label>
         </div>

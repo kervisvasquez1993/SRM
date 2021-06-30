@@ -86,7 +86,12 @@ const App = () => {
         onSwiped: event => {
             const tagName = event.event.target.tagName;
 
-            if (tagName === "TD" || tagName === "TH" || tagName === "TABLE") {
+            if (
+                tagName === "TD" ||
+                tagName === "TH" ||
+                tagName === "TABLE" ||
+                tagName === "INPUT"
+            ) {
                 return;
             }
 
@@ -160,7 +165,7 @@ const App = () => {
             <Helmet>
                 <title>{process.env.MIX_APP_NAME}</title>
             </Helmet>
-            
+
             <div
                 className={"menu-wrapper " + (isSidebarOpen && "mostrar")}
                 {...handlers}
