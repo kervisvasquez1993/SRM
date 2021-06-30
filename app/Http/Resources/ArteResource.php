@@ -25,7 +25,7 @@ class ArteResource extends JsonResource
             'validacion_boceto' => $this->validacion_boceto,
             'confirmacion_proveedor' => $this->confirmacion_proveedor,
             'fecha_fin' => $this->fecha_fin,
-
+            'codigo' => $this->pivotTable->compra_po
         ];
     }
 }
