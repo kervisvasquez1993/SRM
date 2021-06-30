@@ -16,7 +16,6 @@ class RecepcionProductoController extends ApiController
     public function index(RecepcionReclamoDevolucion $reclamos_devoluciones_id)
     {
         $productos = $reclamos_devoluciones_id->recepcionProducto;
-        return $productos->count();
         return $this->showAll($productos);
     }
 
