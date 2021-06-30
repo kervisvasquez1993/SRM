@@ -208,7 +208,8 @@ Route::middleware('auth.jwt')->group(function () {
     /* fin de reclamos y devoluciones */
 
     /* productos en recepcion */
-        
+    Route::get('/reclamos_devoluciones/{reclamos_devoluciones_id}/recepcion', 'Api\ReclamoDevolucion\RecepcionProductoController@index');
+    Route::post('/reclamos_devoluciones/{reclamos_devoluciones_id}/importProducto', 'Api\ReclamoDevolucion\RecepcionProductoController@importProducts');
 
     /* fin del producto */
 

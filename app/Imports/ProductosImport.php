@@ -20,7 +20,6 @@ class ProductosImport implements ToModel, WithStartRow,WithCalculatedFormulas
     }
     public function model(array $row)
     {
-      
         $product = [
         'pivot_tarea_proveeder_id' => $this->pivot_id,
         'hs_code'              => $row[1],
@@ -79,8 +78,6 @@ class ProductosImport implements ToModel, WithStartRow,WithCalculatedFormulas
         {
             return null;
         }
-        
-
         return new Producto($product);
     }
 
