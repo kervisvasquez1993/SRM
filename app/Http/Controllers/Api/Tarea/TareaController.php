@@ -23,6 +23,7 @@ class TareaController extends ApiController
 
     public function index()
     {
+
         $tareas = TareaResource::collection(Tarea::all());
         return $this->showAllResources($tareas);
     }
@@ -39,7 +40,7 @@ class TareaController extends ApiController
         if ($validator->fails()) {
             return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
         }
-        
+
         $tarea = new Tarea();
         $tarea->nombre = $request->nombre;
         $tarea->user_id = $request->user_id;
@@ -47,15 +48,19 @@ class TareaController extends ApiController
         $tarea->descripcion = $request->descripcion;
         $tarea->fecha_fin = $request->fecha_fin;
         $tarea->save();
+        
         /* seccion para las notificaciones */
         $comprador = User::find($tarea->user_id);
         $coordinador = User::find($tarea->sender_id);
         $coordinadores = User::where('rol', 'coordinador')->get();
         $userAll = $coordinadores->push($comprador)->unique('id');
-        $text = "El coordinador $coordinador->name asigno la tarea: $tarea->nombre, al comprador $comprador->name" ;
+        $text = "El coordinador $coordinador->name asigno la tarea: $tarea->nombre, al comprador $comprador->name";
         $link = "tasks/$tarea->id";
         $type = "tarea_asignada";
+        $this->sendPushNotification($userAll, "Tarea Asignada", $text);
         Notification::send($userAll, new GeneralNotification($text, $link, $type));
+
+
         return $this->showOneResource(new TareaResource($tarea));
     }
 
@@ -88,7 +93,6 @@ class TareaController extends ApiController
 
     public function destroy(Tarea $tarea)
     {
-
     }
 
     public function tareasUsuario(Request $request)

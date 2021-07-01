@@ -43,6 +43,19 @@ import "react-quill/dist/quill.snow.css";
 import { Helmet } from "react-helmet-async";
 import ReceptionPage from "./Claims/Reception/ReceptionPage";
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 axios.interceptors.response.use(
     response => {
         return response;
