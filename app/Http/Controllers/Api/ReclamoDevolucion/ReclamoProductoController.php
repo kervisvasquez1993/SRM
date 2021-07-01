@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Api\ReclamoDevolucion;
 
+use App\ReclamoProducto;
 use Illuminate\Http\Request;
 use App\RecepcionReclamoDevolucion;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
-use App\ReclamoProducto;
+use App\Http\Requests\IncidenciaValidacion;
 
 class ReclamoProductoController extends ApiController
 {
@@ -16,17 +17,17 @@ class ReclamoProductoController extends ApiController
         $inspeccion_productos = $reclamos_devoluciones_id->ReclamoProducto;
         return $this->showAll($inspeccion_productos);
     }
-    public function store( Request $request, RecepcionReclamoDevolucion $reclamos_devoluciones_id)
+    public function store( IncidenciaValidacion $request, RecepcionReclamoDevolucion $reclamos_devoluciones_id)
     {
         $request->merge(
             [
               'recepcion_reclamo_devolucion_id' =>  $reclamos_devoluciones_id->id,
-              'user_login' => auth()->user()->name,
+              'user_login' => auth()->user()->id,
             ]
         );
-        
+
         $inspeccion_producto =  ReclamoProducto::create($request->all());
-        return $inspeccion_producto;
+        return $this->showOne($inspeccion_producto);
     }
 
     public function update(Request $request, ReclamoProducto $reclamo_id)
