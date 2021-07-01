@@ -19,6 +19,7 @@ class CreateRecepcionReclamoDevolucionsTable extends Migration
             $table->boolean('recepcion_mercancia')->default(false);
             $table->boolean('inspeccion_carga')->default(false);
             $table->boolean('reclamos_devoluciones')->default(false);
+            $table->text('descripcion_inspeccion')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

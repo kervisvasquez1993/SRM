@@ -213,11 +213,11 @@ Route::middleware('auth.jwt')->group(function () {
     /* fin del producto */
     
     /* show para inspeccion de mercancia */
-    Route::get('/reclamos_devoluciones/{reclamos_devoluciones_id}/inspeccion', 'Api\ReclamoDevolucion\inspeccionProductoController@index');
-    Route::post('/reclamos_devoluciones/{reclamos_devoluciones_id}/inspeccion', 'Api\ReclamoDevolucion\inspeccionProductoController@store');
-    Route::post('/inspeccion/{inspeccion_id}', 'Api\ReclamoDevolucion\inspeccionProductoController@update');
-    Route::get('/inspeccion/{inspeccion_id}', 'Api\ReclamoDevolucion\inspeccionProductoController@show');
-    Route::delete('/inspeccion/{inspeccion_id}', 'Api\ReclamoDevolucion\inspeccionProductoController@destroy');
+    Route::get('/reclamos_devoluciones/{reclamos_devoluciones_id}/reclamo', 'Api\ReclamoDevolucion\ReclamoProductoController@index');
+    Route::post('/reclamos_devoluciones/{reclamos_devoluciones_id}/reclamo', 'Api\ReclamoDevolucion\ReclamoProductoController@store');
+    Route::put('/reclamo_producto/{reclamo_id}', 'Api\ReclamoDevolucion\ReclamoProductoController@update');
+    Route::get('/reclamo_producto/{reclamo_id}', 'Api\ReclamoDevolucion\ReclamoProductoController@show');
+    Route::delete('/reclamo_producto/{reclamo_id}', 'Api\ReclamoDevolucion\ReclamoProductoController@destroy');
     /* fin show para inspeccion de mercancia */
 
     /* incidencias de Recepción */

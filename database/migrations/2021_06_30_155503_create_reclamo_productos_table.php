@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRecepcionImagensTable extends Migration
+class CreateReclamoProductosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class CreateRecepcionImagensTable extends Migration
      */
     public function up()
     {
-        Schema::create('recepcion_imagens', function (Blueprint $table) {
+        Schema::create('reclamo_productos', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('recepcion_reclamo_devolucion_id')->references('id')->on('recepcion_reclamo_devolucions');
+            $table->string('titulo');
+            $table->text('descripcion');
+            $table->unsignedBigInteger('user_login');
             $table->timestamps();
         });
     }
@@ -26,6 +30,6 @@ class CreateRecepcionImagensTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('recepcion_imagens');
+        Schema::dropIfExists('reclamo_productos');
     }
 }
