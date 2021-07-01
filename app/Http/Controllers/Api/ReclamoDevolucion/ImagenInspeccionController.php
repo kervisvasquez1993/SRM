@@ -25,8 +25,6 @@ class ImagenInspeccionController extends ApiController
         $request->validate([
             'file' => 'max:10000',
         ]);
-
-        $pivot_id = $request->negociacion_id;
         $name = $request->file('file')->getClientOriginalName();
 
         $coincidencia = ImagenInspeccion::where('recepcion_reclamo_devolucion_id', $reclamos_devoluciones_id->id)->where('name', $name)->first();

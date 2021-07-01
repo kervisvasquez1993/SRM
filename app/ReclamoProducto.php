@@ -19,8 +19,8 @@ class ReclamoProducto extends Model
     {
         return $this->belongsTo(RecepcionReclamoDevolucion::class);
     }
-    public function reclamoProductoImagen()
+    public function imagenReclamo()
     {
-        return $this->hasMany(ReclamoProducto::class);
+        return $this->hasMany(ImagenReclamo::class);
     }
 }

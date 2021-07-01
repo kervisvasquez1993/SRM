@@ -220,6 +220,9 @@ Route::middleware('auth.jwt')->group(function () {
             Route::put('/reclamo_producto/{reclamo_id}', 'Api\ReclamoDevolucion\ReclamoProductoController@update');
             Route::get('/reclamo_producto/{reclamo_id}', 'Api\ReclamoDevolucion\ReclamoProductoController@show');
             Route::delete('/reclamo_producto/{reclamo_id}', 'Api\ReclamoDevolucion\ReclamoProductoController@destroy');
+            /* imagenes para reclamos */
+            Route::post('/reclamo_producto/{reclamo_id}/imagen', 'Api\ReclamoDevolucion\ReclamoProductoController@uploadImagen');
+            Route::get('/reclamo_producto/{reclamo_id}/imagen', 'Api\ReclamoDevolucion\ReclamoProductoController@getImagen');
 
             /* imagenesde inspeccion */
             Route::get('/reclamos_devoluciones/{reclamos_devoluciones_id}/imagen_inspeccion', 'Api\ReclamoDevolucion\ImagenInspeccionController@index');

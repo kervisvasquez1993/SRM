@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api\ReclamoDevolucion;
 
+use App\ImagenReclamo;
 use App\ReclamoProducto;
 use Illuminate\Http\Request;
 use App\RecepcionReclamoDevolucion;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\IncidenciaValidacion;
+use Symfony\Component\HttpFoundation\Response;
 
 class ReclamoProductoController extends ApiController
 {
@@ -39,5 +41,33 @@ class ReclamoProductoController extends ApiController
     {
         $reclamo_id->delete();
         return $this->showOne($reclamo_id);
+    }
+
+    public function uploadImagen(Request $request, ReclamoProducto $reclamo_id)
+    {
+        $request->validate([
+            'file' => 'max:10000',
+        ]);
+        
+        $name = $request->file('file')->getClientOriginalName();
+        
+        $coincidencia = ImagenReclamo::where('reclamo_producto_id', $reclamo_id->id)->where('name', $name)->first();
+        /* return $reclamo_id; */
+        if ($coincidencia != null) {
+            return $this->errorResponse("Ya existe un archivo con el mismo nombre",  Response::HTTP_BAD_REQUEST);
+        }
+        
+        $file = new ImagenReclamo();
+        
+        $file->reclamo_producto_id = $reclamo_id->id;
+        $file->url = $request->file('file')->store('reclamo_imagenes');
+        $file->name = $request->file('file')->getClientOriginalName();
+        $file->save();
+        return $this->showOne($file);
+    }
+    public function getImagen(ReclamoProducto $reclamo_id){
+        $imagen_reclamos = $reclamo_id->imagenReclamo;
+        return $this->showAll($imagen_reclamos);
+
     }
 }
