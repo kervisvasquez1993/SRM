@@ -3,6 +3,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ReactDOM from "react-dom";
 import { toast } from "react-toastify";
+import QuoteApp from "./QuoteApp";
 
 function Example() {
     const handleToast = () => {
@@ -11,7 +12,8 @@ function Example() {
 
     return (
         <div className="container">
-            <div className="row justify-content-center">
+
+            {/* <div className="row justify-content-center">
                 <div className="col-md-8">
                     <div className="card">
                         <div className="card-header">Example Component</div>
@@ -26,7 +28,9 @@ function Example() {
                         </button>
                     </div>
                 </div>
-            </div>
+            </div> */}
+
+            <QuoteApp />
         </div>
     );
 }

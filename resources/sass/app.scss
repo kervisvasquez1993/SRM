@@ -21,6 +21,12 @@
 
 @import "file";
 
+@import "drag_drop";
+
+body {
+    overflow: hidden;
+}
+
 .keep-line-breaks {
     white-space: pre-line;
 }

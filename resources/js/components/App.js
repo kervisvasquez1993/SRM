@@ -84,7 +84,8 @@ const App = () => {
 
     const handlers = useSwipeable({
         onSwiped: event => {
-            const tagName = event.event.target.tagName;
+            const target = event.event.target;
+            const tagName = target.tagName;
 
             if (
                 tagName === "TD" ||
@@ -92,6 +93,10 @@ const App = () => {
                 tagName === "TABLE" ||
                 tagName === "INPUT"
             ) {
+                return;
+            }
+
+            if (target.classList.contains("ignore-swipe")) {
                 return;
             }
 
