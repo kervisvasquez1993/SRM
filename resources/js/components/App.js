@@ -41,6 +41,7 @@ import { removeSlash } from "../utils";
 
 import "react-quill/dist/quill.snow.css";
 import { Helmet } from "react-helmet-async";
+import ReceptionPage from "./Claims/Reception/ReceptionPage";
 
 axios.interceptors.response.use(
     response => {
@@ -217,8 +218,11 @@ const App = () => {
                             <Route path="/arts">
                                 <ArtList />
                             </Route>
-                            <Route path="/claims">
+                            <Route exact path="/claims">
                                 <ClaimsList />
+                            </Route>
+                            <Route exact path="/claims/:id/reception">
+                                <ReceptionPage />
                             </Route>
                             <Route path="/notifications">
                                 <NotificationList />

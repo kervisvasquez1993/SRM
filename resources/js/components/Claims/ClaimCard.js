@@ -203,21 +203,21 @@ const ClaimCard = ({ claim }) => {
 
                     <div className="d-flex flex-column flex-lg-row justify-content-center mb-2">
                         <Link
-                            to="/"
+                            to={`/claims/${id}/reception`}
                             className=" btn btn-sm btn-warning mx-4 flex-basis-0 flex-grow-1"
                         >
                             <FaBoxOpen className="icon-normal mr-2" />
                             Recepción
                         </Link>
                         <Link
-                            to="/"
+                            to={`/claims/${id}/inspection`}
                             className=" btn btn-sm btn-danger mx-4 flex-basis-0 flex-grow-1"
                         >
                             <AiOutlineZoomIn className="icon-normal mr-2" />
                             Inspección
                         </Link>
                         <Link
-                            to="/"
+                            to={`/claims/${id}/claims`}
                             className=" btn btn-sm btn-success mx-4 flex-basis-0 flex-grow-1"
                         >
                             <ImNewspaper className="icon-normal mr-2" />
