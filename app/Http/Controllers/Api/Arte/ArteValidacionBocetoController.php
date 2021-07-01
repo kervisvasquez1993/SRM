@@ -10,21 +10,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
 use App\Notifications\GeneralNotification;
 use App\Http\Requests\IncidenciaValidacion;
+use App\Http\Resources\IncidenciaResource;
 use Illuminate\Support\Facades\Notification;
 
 class ArteValidacionBocetoController extends ApiController
 {
    
-    public function index($arte_id)
+    public function index(Arte $arte)
     {
-        $arte = Arte::findOrFail($arte_id);
-        return $this->showAll($arte->validacionBoceto);
+        return $this->showAllResources(IncidenciaResource::collection($arte->validacionBoceto));
     }
 
-    public function store(IncidenciaValidacion $request, $arte_id)
+    public function store(IncidenciaValidacion $request, Arte $arte)
     {
         $validated = $request->validated();
-        $arte = Arte::findOrFail($arte_id);
         $validacion_boceto = new ValidacionBoceto();
         $validacion_boceto->arte_id = $arte->id;
         $validacion_boceto->user_id = auth()->user()->id;
@@ -39,27 +38,28 @@ class ArteValidacionBocetoController extends ApiController
         $link    = "/arts?id=$arte->id&tab=validacion_boceto";
         $type    = "validacion_boceto";
         Notification::send($user, new GeneralNotification($text, $link, $type));
-        return $this->showOne($validacion_boceto);
+        return $this->showOneResource(new IncidenciaResource($validacion_boceto));
     }
 
   
-    public function show(ValidacionBoceto $validacion_boceto_id)
+    public function show(ValidacionBoceto $validacion_boceto)
     {
-        return $validacion_boceto_id;
+        return $this->showOneResource(new IncidenciaResource($validacion_boceto));
     }
 
     
-    public function update(IncidenciaValidacion $request, ValidacionBoceto $validacion_boceto_id)
+    public function update(IncidenciaValidacion $request, ValidacionBoceto $validacion_boceto)
     {
-        $validated = $request->validated();
-        $validacion_boceto_id->update($request->all());
-        $validacion_boceto_id->save();
-        return $this->showOne($validacion_boceto_id);
+        $request->validated();
+
+        $validacion_boceto->update($request->all());
+        $validacion_boceto->save();
+        return $this->showOneResource(new IncidenciaResource($validacion_boceto));
     }
 
-    public function destroy(ValidacionBoceto $validacion_boceto_id)
+    public function destroy(ValidacionBoceto $validacion_boceto)
     {
-        $validacion_boceto_id->delete();
-        return $this->showOne($validacion_boceto_id);
+        $validacion_boceto->delete();
+        return $this->showOneResource(new IncidenciaResource($validacion_boceto));
     }
 }

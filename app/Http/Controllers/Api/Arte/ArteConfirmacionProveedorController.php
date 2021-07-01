@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\ConfirmacionProveedor;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
+use App\Http\Resources\IncidenciaResource;
 use App\Notifications\GeneralNotification;
 use App\Http\Requests\IncidenciaValidacion;
 use Illuminate\Support\Facades\Notification;
@@ -15,23 +16,22 @@ use Illuminate\Support\Facades\Notification;
 class ArteConfirmacionProveedorController extends ApiController
 {
     
-    public function index($arte_id)
+    public function index(Arte $arte)
     {
-        $arte = Arte::findOrFail($arte_id);
-        return $this->showAll($arte->confirmacionProveedor);
+        return $this->showAllResources(IncidenciaResource::collection($arte->confirmacionProveedor));
     }
 
-    public function store(IncidenciaValidacion $request, $arte_id)
+    public function store(IncidenciaValidacion $request, Arte $arte)
     {
-        $validated = $request->validated();
-        $arte = Arte::findOrFail($arte_id);
+        $request->validated();
+
         $confirmacion_proveedor = new  ConfirmacionProveedor();
         $confirmacion_proveedor->arte_id = $arte->id;
         $confirmacion_proveedor->user_id = auth()->user()->id;
         $confirmacion_proveedor->titulo = $request->titulo;
         $confirmacion_proveedor->descripcion = $request->descripcion;
         $confirmacion_proveedor->save();
-        /* notificacion*/
+        
         $login_user = auth()->user()->name;
         $user_all   = User::where('rol', 'artes')->orWhere('rol', 'coordinador')->get();
         $comprador_asignado = User::find($arte->pivotTable->tarea->user_id);
@@ -40,28 +40,28 @@ class ArteConfirmacionProveedorController extends ApiController
         $link    = "/arts?id=$arte->id&tab=confirmacion_proveedor";
         $type    = "confirmacion_proveedor";
         Notification::send($user, new GeneralNotification($text, $link, $type));
-        return $this->showOne($confirmacion_proveedor);
+        return $this->showOneResource(new IncidenciaResource($confirmacion_proveedor));
     }
 
     
-    public function show(ConfirmacionProveedor $confirmacion_proveedor_id)
+    public function show(ConfirmacionProveedor $confirmacion_proveedor)
     {
-        return $this->showOne($confirmacion_proveedor_id);
+        return $this->showOneResource(new IncidenciaResource($confirmacion_proveedor));
     }
 
     
-    public function update(IncidenciaValidacion $request, ConfirmacionProveedor $confirmacion_proveedor_id)
+    public function update(IncidenciaValidacion $request, ConfirmacionProveedor $confirmacion_proveedor)
     {
-        $validated = $request->validated();
-        $confirmacion_proveedor_id->update($request->all());
-        $confirmacion_proveedor_id->save();
-        return $this->showOne($confirmacion_proveedor_id);
+        $request->validated();
+        $confirmacion_proveedor->update($request->all());
+        $confirmacion_proveedor->save();
+        return $this->showOneResource(new IncidenciaResource($confirmacion_proveedor));
     }
 
    
-    public function destroy(ConfirmacionProveedor $confirmacion_proveedor_id)
+    public function destroy(ConfirmacionProveedor $confirmacion_proveedor)
     {
-        $confirmacion_proveedor_id->delete();
-        return $this->showOne($confirmacion_proveedor_id);
+        $confirmacion_proveedor->delete();
+        return $this->showOneResource(new IncidenciaResource($confirmacion_proveedor));
     }
 }

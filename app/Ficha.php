@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Ficha extends Model
 {
     use SoftDeletes;
+    
     protected $fillable = [
         'titulo',
         'descripcion'
-    ]; 
+    ];
+
     public function arte()
     {
         return $this->belongsTo(Arte::class, 'arte_id');

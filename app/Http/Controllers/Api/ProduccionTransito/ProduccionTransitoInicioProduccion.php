@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\IncidenciaResource;
 use App\Notifications\GeneralNotification;
 use App\Http\Requests\IncidenciaValidacion;
 use Illuminate\Support\Facades\Notification;
@@ -16,58 +17,52 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProduccionTransitoInicioProduccion extends ApiController
 {
-    private $validator_array = [
-        'titulo' => 'required',
-        'descripcion' => 'required'
-    ];
-
-    public function index(Request $request)
+    public function index(ProduccionTransito $produccion_transito)
     {
-        $inicioProduccion = InicioProduccion::where('produccion_transito_id', $request->produccion_transito_id)->get();
-        return $this->showAll($inicioProduccion);
+        return $this->showAllResources(IncidenciaResource::collection($produccion_transito->inicioProduccion));
     }
 
-    public function store(IncidenciaValidacion $request)
+    public function store(IncidenciaValidacion $request, ProduccionTransito $produccion_transito)
     {
         $request->validated();
-        $produccionTransitoId = ProduccionTransito::findOrFail($request->produccion_transito_id);
+
         $inicioProduccion = new InicioProduccion();
-        $inicioProduccion->produccion_transito_id = $request->produccion_transito_id;
+        $inicioProduccion->produccion_transito_id = $produccion_transito->id;
         $inicioProduccion->user_id = auth()->user()->id;
         $inicioProduccion->titulo = $request->titulo;
         $inicioProduccion->descripcion = $request->descripcion;
         $inicioProduccion->save();
+
         /* notificacion agregada */
         $login_user         = auth()->user()->name;
         $user_all           = User::where('rol', 'logistica')->orWhere('rol', 'coordinador')->get();
-        $comprador_asignado = User::find($produccionTransitoId->pivotTable->tarea->user_id);
+        $comprador_asignado = User::find($produccion_transito->pivotTable->tarea->user_id);
         $user               = $user_all->push($comprador_asignado)->unique('id');
-        $text               = "El usuario '$login_user' agrego incidencia realcionada con inicio de produccion en la empresa: ".$produccionTransitoId->pivotTable->proveedor->nombre;
-        $link               = "/productions?id=$produccionTransitoId->id&tab=inicio_produccion";
+        $text               = "El usuario '$login_user' agrego incidencia realcionada con inicio de produccion en la empresa: ".$produccion_transito->pivotTable->proveedor->nombre;
+        $link               = "/productions?id=$produccion_transito->id&tab=inicio_produccion";
         $type               = "incidencia_inicio_produccion";
         Notification::send($user, new GeneralNotification($text, $link, $type));
-        return $this->showOne($inicioProduccion);
+
+        return $this->showOneResource(new IncidenciaResource($inicioProduccion));
     }
 
 
     public function show($inicioProduccion_id)
     {
+
     }
 
-    public function update(IncidenciaValidacion $request, $inicioProduccion_id)
+    public function update(IncidenciaValidacion $request, InicioProduccion $inicio_produccion)
     {
         $request->validated();
 
-        $inicioProduccion = InicioProduccion::findOrFail($inicioProduccion_id);
-        $inicioProduccion->update($request->all());
-        $inicioProduccion->save();
-        return $this->showOne($inicioProduccion);
+        $inicio_produccion->update($request->all());
+        return $this->showOneResource(new IncidenciaResource($inicio_produccion));
     }
 
-    public function destroy($inicioProduccion_id)
+    public function destroy(InicioProduccion $inicio_produccion)
     {
-        $inicioProduccion = InicioProduccion::findOrFail($inicioProduccion_id);
-        $inicioProduccion->delete();
-        return $this->showOne($inicioProduccion);
+        $inicio_produccion->delete();
+        return $this->showOneResource(new IncidenciaResource($inicio_produccion));
     }
 }

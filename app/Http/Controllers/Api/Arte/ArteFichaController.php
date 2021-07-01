@@ -10,34 +10,27 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
 use App\Notifications\GeneralNotification;
 use App\Http\Requests\IncidenciaValidacion;
+use App\Http\Resources\IncidenciaResource;
 use Illuminate\Support\Facades\Notification;
 
 class ArteFichaController extends ApiController
 {
-    private $validator_array = [
-        'titulo' => 'required',
-        'descripcion' => 'required'
-    ];
-
-    public function index($arte_id)
+    public function index(Arte $arte)
     {
-        $arte = Arte::findOrFail($arte_id);
-        return $this->showAll($arte->ficha);
+        return $this->showAllResources(IncidenciaResource::collection($arte->ficha));
     }
 
-    
-    public function store(IncidenciaValidacion $request, $arte_id)
+    public function store(IncidenciaValidacion $request, Arte $arte)
     {
-        
-
         $request->validated();
-        $arte = Arte::findOrFail($arte_id);
+
         $arte_ficha = new Ficha();
-        $arte_ficha->arte_id     = $arte->id;
-        $arte_ficha->user_id     = auth()->user()->id;
-        $arte_ficha->titulo      = $request->titulo;
+        $arte_ficha->arte_id = $arte->id;
+        $arte_ficha->user_id = auth()->user()->id;
+        $arte_ficha->titulo = $request->titulo;
         $arte_ficha->descripcion = $request->descripcion;
-        $arte_ficha->save(); 
+        $arte_ficha->save();
+
         $login_user = auth()->user()->name;
         $user_all   = User::where('rol', 'artes')->orWhere('rol', 'coordinador')->get();
         $comprador_asignado = User::find($arte->pivotTable->tarea->user_id);
@@ -46,30 +39,25 @@ class ArteFichaController extends ApiController
         $link    = "/arts?id=$arte->id&tab=ficha";
         $type    = "arte_ficha";
         Notification::send($user, new GeneralNotification($text, $link, $type));
-        return $this->showOne($arte_ficha);
+        return $this->showOneResource(new IncidenciaResource($arte_ficha));
     }
 
 
-    public function show($fichaId)
+    public function show(Ficha $ficha)
     {
-        $ficha = Ficha::findOrFail($fichaId);
-        return $this->showOne($ficha);
+        return $this->showOneResource(new IncidenciaResource($ficha));
     }
 
-    public function update(IncidenciaValidacion $request, $fichaId)
+    public function update(IncidenciaValidacion $request, Ficha $ficha)
     {
-        $request->validated();
-        $ficha = Ficha::findOrFail($fichaId);
         $ficha->update($request->all());
-        $ficha->save();
-        return $this->showOne($ficha);
+        return $this->showOneResource(new IncidenciaResource($ficha));
     }
 
 
-    public function destroy($fichaId)
+    public function destroy(Ficha $ficha)
     {
-        $ficha = Ficha::findOrFail($fichaId);
         $ficha->delete();
-        return $this->showOne($ficha);
+        return $this->showOneResource(new IncidenciaResource($ficha));
     }
 }

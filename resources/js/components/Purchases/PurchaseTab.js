@@ -5,16 +5,19 @@ import EmptyList from "../Navigation/EmptyList";
 import SmallCard from "../Widgets/SmallCard";
 import { Link } from "react-router-dom";
 import { BiLink } from "react-icons/bi";
-import { roundMoneyAmount } from "../../utils";
+import { dateToString, roundMoneyAmount } from "../../utils";
+import { FcOvertime } from "react-icons/fc";
+import { FaRegHandshake } from "react-icons/fa";
+import { GiSandsOfTime } from "react-icons/gi";
 
 const PurchaseTab = ({ negotiation }) => {
-    const { compras_total: totalPurchase, compra_po: poCode } = negotiation;
+    const { compras_total: totalPurchase } = negotiation;
 
     return (
         <div className="my-3">
             {totalPurchase > 0 ? (
                 <React.Fragment>
-                    <div className="resume-card-body resume-card-body-2 mb-3">
+                    <div className="resume-card-body resume-card-body-5 mb-3">
                         <SmallCard
                             label="Total de Compra"
                             icon={<MdAttachMoney className="icon-normal" />}
@@ -28,7 +31,45 @@ const PurchaseTab = ({ negotiation }) => {
                             icon={<AiOutlineBarcode className="icon-normal" />}
                             backgroundClass="bg-secondary"
                         >
-                            {poCode || (
+                            {negotiation.compra_po || (
+                                <span className="text-danger">
+                                    No se ha agregado
+                                </span>
+                            )}
+                        </SmallCard>
+
+                        <SmallCard
+                            label="Términos de Pago"
+                            icon={<FaRegHandshake className="icon-normal" />}
+                            backgroundClass="bg-info"
+                        >
+                            {negotiation.payment_terms || (
+                                <span className="text-danger">
+                                    No se ha agregado
+                                </span>
+                            )}
+                        </SmallCard>
+
+                        <SmallCard
+                            label="Código HS"
+                            icon={<AiOutlineBarcode className="icon-normal" />}
+                            backgroundClass="bg-primary"
+                        >
+                            {negotiation.hs_code || (
+                                <span className="text-danger">
+                                    No se ha agregado
+                                </span>
+                            )}
+                        </SmallCard>
+
+                        <SmallCard
+                            label="Tiempo de Entrega"
+                            icon={<GiSandsOfTime className="icon-normal" />}
+                            backgroundClass="bg-danger"
+                        >
+                            {dateToString(
+                                new Date(negotiation.delivery_time)
+                            ) || (
                                 <span className="text-danger">
                                     No se ha agregado
                                 </span>

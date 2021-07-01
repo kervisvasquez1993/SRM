@@ -1,8 +1,9 @@
 import React from "react";
+import { AiOutlineBarcode } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { StringParam, useQueryParam } from "use-query-params";
 import { openArtModal, updateArt } from "../../store/actions/artActions";
-import { isArtCompleted, useSimpleUrlFocus } from "../../utils";
+import { isArtCompleted, useSimpleUrlFocus, useUser } from "../../utils";
 
 export const options = [
     {
@@ -47,6 +48,7 @@ const ArtCard = ({ art }) => {
     const isEditingDropdowns = useSelector(
         state => state.art.isEditingDropdowns
     );
+    const user = useUser();
 
     const handleOpenManagement = () => {
         dispatch(openArtModal(art.id));
@@ -90,46 +92,51 @@ const ArtCard = ({ art }) => {
             style={{ cursor: "pointer" }}
             ref={ref}
         >
-            <div className="card-header ">
-                <div className="row">
-                    <div className="col-sm h4 d-flex mb-3">
-                        <p className="m-0">
-                            <span className="material-icons mr-2">
-                                business
-                            </span>
-                            Proveedor : <strong>{art.proveedor}</strong>
-                        </p>
-                    </div>
-                    <div className="col-sm h4 d-flex">
-                        <p className="m-0">
-                            <span className="material-icons mr-2">task</span>
-                            Tarea : <strong>{art.tarea}</strong>
-                        </p>
-                    </div>
+            <div className="card-header ml-2">
+                <div className="col-sm h4 d-flex mb-3">
+                    <AiOutlineBarcode className="icon-normal mr-2" />
+                    <p className="mb-0">
+                        Codigo : <strong>{art.codigo}</strong>
+                    </p>
                 </div>
             </div>
 
             <div className="card-body py-0 my-0 ml-2">
-                {categories.map(({ value, label }) => {
-                    return (
-                        <div
-                            className="form-group"
-                            onClick={handleInputClick}
-                            key={value}
-                        >
-                            <label htmlFor={value}>{label}</label>
-                            <select
-                                className="form-control"
-                                id={value}
-                                value={art[value]}
-                                onChange={handleChange}
-                                disabled={isEditingDropdowns}
+                <div className="row">
+                    {categories.map(({ value, label }) => {
+                        let disable = true;
+
+                        if (
+                            user.rol === "coordinador" ||
+                            user.rol === "comprador"
+                        ) {
+                            if (value != "creacion_boceto") {
+                                disable = false;
+                            }
+                        } else if (user.rol === "artes" && value === "creacion_boceto") {
+                            disable = false;
+                        }
+
+                        return (
+                            <div
+                                className="form-group col-sm-6 col-md-4 col-lg-3"
+                                onClick={handleInputClick}
+                                key={value}
                             >
-                                {selectOptions}
-                            </select>
-                        </div>
-                    );
-                })}
+                                <label htmlFor={value}>{label}</label>
+                                <select
+                                    className="form-control"
+                                    id={value}
+                                    value={art[value]}
+                                    onChange={handleChange}
+                                    disabled={disable || isEditingDropdowns}
+                                >
+                                    {selectOptions}
+                                </select>
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
 
             <div className="card-footer">

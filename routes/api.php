@@ -38,7 +38,7 @@ Route::middleware('auth.jwt')->group(function () {
     Route::get('me/tareas', 'Api\Tarea\TareaController@tareasUsuario');
 
     Route::apiResource('user', 'Api\User\UserController')->except(['destroy']);
-    
+
     /* insertar nuevo proveedor con notificacion */
     Route::post('/tarea/{tarea_id}/proveedor', 'Api\Proveedor\ProveedorController@store');
 
@@ -104,10 +104,10 @@ Route::middleware('auth.jwt')->group(function () {
 
     //inicio de produccion 
 
-    Route::get('/produccion_transito/{produccion_transito_id}/inicio_produccion', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@index');
-    Route::post('/produccion_transito/{produccion_transito_id}/inicio_produccion', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@store');
-    Route::put('/inicio_produccion/{produccion_transito_id}', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@update');
-    Route::delete('/inicio_produccion/{produccion_transito_id}', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@destroy');
+    Route::get('/produccion_transito/{produccion_transito}/inicio_produccion', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@index');
+    Route::post('/produccion_transito/{produccion_transito}/inicio_produccion', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@store');
+    Route::put('/inicio_produccion/{inicio_produccion}', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@update');
+    Route::delete('/inicio_produccion/{inicio_produccion}', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@destroy');
 
 
 
@@ -120,19 +120,19 @@ Route::middleware('auth.jwt')->group(function () {
 
 
     // incidencia transitosNacionalizacion
-    Route::get('produccion_transito/{produccion_transito_id}/incidencias_transito', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@index');
-    Route::post('produccion_transito/{produccion_transito_id}/incidencias_transito', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@store');
-    Route::get('incidencias_transito/{incidencias_transito_id}', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@show');
-    Route::put('incidencias_transito/{incidencias_transito_id}', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@update');
-    Route::delete('incidencias_transito/{incidencias_transito_id}', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@destroy');
+    Route::get('produccion_transito/{produccion_transito}/incidencias_transito', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@index');
+    Route::post('produccion_transito/{produccion_transito}/incidencias_transito', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@store');
+    Route::get('incidencias_transito/{incidencia_transito}', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@show');
+    Route::put('incidencias_transito/{incidencia_transito}', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@update');
+    Route::delete('incidencias_transito/{incidencia_transito}', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@destroy');
 
     // incidencia fin de produccion 
 
-    Route::get('produccion_transito/{produccion_transito_id}/fin_produccion', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@index');
-    Route::post('produccion_transito/{produccion_transito_id}/fin_produccion', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@store');
-    Route::get('fin_produccion/{fin_produccion_id}', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@show');
-    Route::put('fin_produccion/{fin_produccion_id}', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@update');
-    Route::delete('fin_produccion/{fin_produccion_id}', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@destroy');
+    Route::get('produccion_transito/{produccion_transito}/fin_produccion', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@index');
+    Route::post('produccion_transito/{produccion_transito}/fin_produccion', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@store');
+    Route::get('fin_produccion/{fin_produccion}', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@show');
+    Route::put('fin_produccion/{fin_produccion}', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@update');
+    Route::delete('fin_produccion/{fin_produccion}', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@destroy');
 
     // fin de incidencia de fin de produccion
 
@@ -157,42 +157,42 @@ Route::middleware('auth.jwt')->group(function () {
 
     //arte fichas ', '
 
-    Route::get('arte/{arte_id}/ficha', 'Api\Arte\ArteFichaController@index');
-    Route::post('arte/{arte_id}/ficha', 'Api\Arte\ArteFichaController@store');
-    Route::get('ficha/{fichaId}', 'Api\Arte\ArteFichaController@show');
-    Route::put('ficha/{fichaId}', 'Api\Arte\ArteFichaController@update');
-    Route::delete('ficha/{fichaId}', 'Api\Arte\ArteFichaController@destroy');
+    Route::get('arte/{arte}/ficha', 'Api\Arte\ArteFichaController@index');
+    Route::post('arte/{arte}/ficha', 'Api\Arte\ArteFichaController@store');
+    Route::get('ficha/{ficha}', 'Api\Arte\ArteFichaController@show');
+    Route::put('ficha/{ficha}', 'Api\Arte\ArteFichaController@update');
+    Route::delete('ficha/{ficha}', 'Api\Arte\ArteFichaController@destroy');
     //fin de ficha
     // arte validacion Ficha 
-    Route::get('arte/{arte_id}/validacion_ficha', 'Api\Arte\ArteValidacionFichaController@index');
-    Route::post('arte/{arte_id}/validacion_ficha', 'Api\Arte\ArteValidacionFichaController@store');
-    Route::get('validacion_ficha/{validacion_ficha_id}', 'Api\Arte\ArteValidacionFichaController@show');
-    Route::put('validacion_ficha/{validacion_ficha_id}', 'Api\Arte\ArteValidacionFichaController@update');
-    Route::delete('validacion_ficha/{validacion_ficha_id}', 'Api\Arte\ArteValidacionFichaController@destroy');
+    Route::get('arte/{arte}/validacion_ficha', 'Api\Arte\ArteValidacionFichaController@index');
+    Route::post('arte/{arte}/validacion_ficha', 'Api\Arte\ArteValidacionFichaController@store');
+    Route::get('validacion_ficha/{validacion_ficha}', 'Api\Arte\ArteValidacionFichaController@show');
+    Route::put('validacion_ficha/{validacion_ficha}', 'Api\Arte\ArteValidacionFichaController@update');
+    Route::delete('validacion_ficha/{validacion_ficha}', 'Api\Arte\ArteValidacionFichaController@destroy');
     // fin arte validacion Ficha
 
     //boceto 
-    Route::get('arte/{arte_id}/boceto', 'Api\Arte\ArteBocetoController@index');
-    Route::post('arte/{arte_id}/boceto', 'Api\Arte\ArteBocetoController@store');
-    Route::get('boceto/{boceto_id}', 'Api\Arte\ArteBocetoController@show');
-    Route::put('boceto/{boceto_id}', 'Api\Arte\ArteBocetoController@update');
-    Route::delete('boceto/{boceto_id}', 'Api\Arte\ArteBocetoController@destroy');
+    Route::get('arte/{arte}/boceto', 'Api\Arte\ArteBocetoController@index');
+    Route::post('arte/{arte}/boceto', 'Api\Arte\ArteBocetoController@store');
+    Route::get('boceto/{boceto}', 'Api\Arte\ArteBocetoController@show');
+    Route::put('boceto/{boceto}', 'Api\Arte\ArteBocetoController@update');
+    Route::delete('boceto/{boceto}', 'Api\Arte\ArteBocetoController@destroy');
     //fin de boceto
 
     //validacion de boceto de
-    Route::get('arte/{arte_id}/validacion_boceto', 'Api\ArteArteValidacionBocetoController@index');
-    Route::post('arte/{arte_id}/validacion_boceto', 'Api\Arte\ArteValidacionBocetoController@store');
-    Route::get('validacion_boceto/{validacion_boceto_id}', 'Api\Arte\ArteValidacionBocetoController@show');
-    Route::put('validacion_boceto/{validacion_boceto_id}', 'Api\Arte\ArteValidacionBocetoController@update');
-    Route::delete('validacion_boceto/{validacion_boceto_id}', 'Api\Arte\ArteValidacionBocetoController@destroy');
+    Route::get('arte/{arte}/validacion_boceto', 'Api\Arte\ArteValidacionBocetoController@index');
+    Route::post('arte/{arte}/validacion_boceto', 'Api\Arte\ArteValidacionBocetoController@store');
+    Route::get('validacion_boceto/{validacion_boceto}', 'Api\Arte\ArteValidacionBocetoController@show');
+    Route::put('validacion_boceto/{validacion_boceto}', 'Api\Arte\ArteValidacionBocetoController@update');
+    Route::delete('validacion_boceto/{validacion_boceto}', 'Api\Arte\ArteValidacionBocetoController@destroy');
     //fin de boceto
 
     //confirmacion de proveedor
-    Route::get('arte/{arte_id}/confirmacion_proveedor', 'Api\Arte\ArteConfirmacionProveedorController@index');
-    Route::post('arte/{arte_id}/confirmacion_proveedor', 'Api\Arte\ArteConfirmacionProveedorController@store');
-    Route::get('confirmacion_proveedor/{confirmacion_proveedor_id}', 'Api\Arte\ArteConfirmacionProveedorController@show');
-    Route::put('confirmacion_proveedor/{confirmacion_proveedor_id}', 'Api\Arte\ArteConfirmacionProveedorController@update');
-    Route::delete('confirmacion_proveedor/{confirmacion_proveedor_id}', 'Api\Arte\ArteConfirmacionProveedorController@destroy');
+    Route::get('arte/{arte}/confirmacion_proveedor', 'Api\Arte\ArteConfirmacionProveedorController@index');
+    Route::post('arte/{arte}/confirmacion_proveedor', 'Api\Arte\ArteConfirmacionProveedorController@store');
+    Route::get('confirmacion_proveedor/{confirmacion_proveedor}', 'Api\Arte\ArteConfirmacionProveedorController@show');
+    Route::put('confirmacion_proveedor/{confirmacion_proveedor}', 'Api\Arte\ArteConfirmacionProveedorController@update');
+    Route::delete('confirmacion_proveedor/{confirmacion_proveedor}', 'Api\Arte\ArteConfirmacionProveedorController@destroy');
     //fin de produccion
     //notificacion
     Route::get('notificacion', 'Api\Notification\NotificationController@index');
@@ -202,7 +202,7 @@ Route::middleware('auth.jwt')->group(function () {
 
     /* Recepcion reclamos y devoluciones */
     Route::get('/reclamos_devoluciones', 'Api\ReclamoDevolucion\ReclamoDevolucionController@index');
-    Route::get('/reclamos_devoluciones/{reclamos_devoluciones_id}', 'Api\ReclamoDevolucion\ReclamoDevolucionController@show');
+    Route::get('/reclamos_devoluciones/{reclamos_devolucion}', 'Api\ReclamoDevolucion\ReclamoDevolucionController@show');
     Route::get('/reclamos_devoluciones/{reclamos_devolucione}', 'Api\ReclamoDevolucion\ReclamoDevolucionController@show');
     Route::put('/reclamos_devoluciones/{reclamos_devolucione}', 'Api\ReclamoDevolucion\ReclamoDevolucionController@update');
     /* fin de reclamos y devoluciones */
