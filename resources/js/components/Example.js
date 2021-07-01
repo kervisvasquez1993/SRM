@@ -45,7 +45,7 @@ function startFCM() {
                         "content"
                     ),
                     "Authorization":
-                        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9sb2dpbiIsImlhdCI6MTYyNTE2ODQzNCwiZXhwIjoxNjI1MjU0ODM0LCJuYmYiOjE2MjUxNjg0MzQsImp0aSI6ImJDUENrNURwSWs3TzRUNE8iLCJzdWIiOjEsInBydiI6Ijg3ZTBhZjFlZjlmZDE1ODEyZmRlYzk3MTUzYTE0ZTBiMDQ3NTQ2YWEifQ.BczABQEghK-Br9ZIQM2tO8Vs-FEUzxaLIfbLncPExjc"
+                        `Bearer ${localStorage.getItem("auth")}`
                 }
             });
             $.ajax({
