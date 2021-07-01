@@ -26,9 +26,8 @@ class RecepcionProductoController extends ApiController
         
     }
 
-    public function importProducts(Request $request, RecepcionReclamoDevolucion $reclamos_devoluciones_id)
+    public function importar(Request $request, RecepcionReclamoDevolucion $reclamos_devoluciones_id)
     {
-
         $archivo = $request->file('import');
         $reclamos_devoluciones_id->recepcionProducto()->delete();
         Excel::import(new RecepcionProductoImport($reclamos_devoluciones_id->id), $archivo);

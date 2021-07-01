@@ -39,7 +39,8 @@ const claimReducer = (state = defaultState, action) => {
                 ...state,
                 list: state.list.map(item =>
                     item.id === payload.id ? payload : item
-                )
+                ),
+                current: payload
             };
 
         case "GET_CLAIM_REQUEST":

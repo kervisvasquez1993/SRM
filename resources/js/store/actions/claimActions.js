@@ -1,5 +1,7 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 import { apiURL } from "../../components/App";
+import { closeModal } from "./modalActions";
 
 export function getClaims() {
     return async dispatch => {
@@ -25,7 +27,9 @@ export function getClaim(id) {
         dispatch({ type: "GET_CLAIM_REQUEST" });
 
         try {
-            const response = await axios.get(`${apiURL}/reclamos_devoluciones/${id}`);
+            const response = await axios.get(
+                `${apiURL}/reclamos_devoluciones/${id}`
+            );
 
             dispatch({
                 type: "GET_CLAIM_SUCCESS",
@@ -57,6 +61,35 @@ export function updateClaim(data) {
             dispatch({
                 type: "UPDATE_CLAIM_FAILURE"
             });
+        }
+    };
+}
+
+export function importExcel(id, file) {
+    return async dispatch => {
+        dispatch({
+            type: "UPLOADING_PRODUCT_REQUEST"
+        });
+
+        try {
+            let formData = new FormData();
+            formData.append("import", file);
+
+            await axios.post(
+                `${apiURL}/reclamos_devoluciones/${id}/importar`,
+                formData
+            );
+
+            dispatch({
+                type: "UPLOADING_PRODUCT_SUCCESS"
+            });
+
+            dispatch(closeModal());
+
+            toast.success("✔️ Excel importado");
+        } catch (e) {
+            console.log(e);
+            console.log(e.response);
         }
     };
 }

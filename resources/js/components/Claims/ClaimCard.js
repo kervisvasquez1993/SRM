@@ -97,14 +97,14 @@ const ClaimCard = ({ claim }) => {
 
                 <div className="flex-grow-1 d-flex justify-content-end align-items-center">
                     <button
-                        className="btn btn-info btn-round d-sm-none"
+                        className="btn btn-round d-sm-none"
                         onClick={handleOpenInfo}
                     >
                         <FaInfo className="icon-small" />
                     </button>
 
                     <button
-                        className="btn btn-sm btn-info btn-round d-none d-sm-block"
+                        className="btn btn-sm btn-round d-none d-sm-block"
                         onClick={handleOpenInfo}
                     >
                         <FaInfo className="icon-small mr-2" />
@@ -183,17 +183,26 @@ const ClaimCard = ({ claim }) => {
                                 ></div>
                             </div>
 
-                            <div className="progress-status progress-warning completed">
+                            <div
+                                className={`progress-status progress-warning ${recepcion_mercancia &&
+                                    "completed"}`}
+                            >
                                 <GiCheckMark className="icon-done" />
                                 <CgClose className="icon-not-done" />
                                 <p>Recepción</p>
                             </div>
-                            <div className="progress-status progress-danger current completed">
+                            <div
+                                className={`progress-status progress-warning ${inspeccion_carga &&
+                                    "completed"}`}
+                            >
                                 <GiCheckMark className="icon-done" />
                                 <CgClose className="icon-not-done" />
                                 <p>Inspección</p>
                             </div>
-                            <div className="progress-status progress-success">
+                            <div
+                                className={`progress-status progress-warning ${reclamos_devoluciones &&
+                                    "completed"}`}
+                            >
                                 <GiCheckMark className="icon-done" />
                                 <CgClose className="icon-not-done" />
                                 <p>Reclamos y Devoluciones</p>
@@ -211,7 +220,7 @@ const ClaimCard = ({ claim }) => {
                         </Link>
                         <Link
                             to={`/claims/${id}/inspection`}
-                            className=" btn btn-sm btn-danger mx-4 flex-basis-0 flex-grow-1"
+                            className=" btn btn-sm btn-info mx-4 flex-basis-0 flex-grow-1"
                         >
                             <AiOutlineZoomIn className="icon-normal mr-2" />
                             Inspección

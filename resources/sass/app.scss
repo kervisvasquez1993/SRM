@@ -26,6 +26,23 @@
 
 @import "progress_bar";
 
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap");
+
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4 {
+    font-family: "Montserrat", sans-serif !important;
+}
+
 .keep-line-breaks {
     white-space: pre-line;
 }
@@ -150,6 +167,7 @@ table,
     color: #707070;
     outline: none;
     transition: border 0.24s ease-in-out;
+    max-width: 700px;
 
     &:hover {
         box-shadow: 0 0 10px rgba(0, 188, 212, 0.4);
@@ -251,4 +269,12 @@ table,
     & td {
         padding: 0.5rem 0.2rem !important;
     }
+}
+
+.scale-3 {
+    transform: scale(3);
+}
+
+.form-check .form-check-sign .check {
+    z-index: initial;
 }

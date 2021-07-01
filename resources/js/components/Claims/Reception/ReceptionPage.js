@@ -1,9 +1,12 @@
 import React, { useEffect } from "react";
+import { useDropzone } from "react-dropzone";
 import { Helmet } from "react-helmet-async";
+import { BsUpload } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useParams } from "react-router-dom";
-import { getClaim } from "../../../store/actions/claimActions";
+import { getClaim, importExcel, updateClaim } from "../../../store/actions/claimActions";
 import { useUser } from "../../../utils";
+import Error from "../../Navigation/Error";
 import LoadingScreen from "../../Navigation/LoadingScreen";
 
 const ReceptionPage = () => {
@@ -13,6 +16,16 @@ const ReceptionPage = () => {
     const user = useUser();
     const claim = useSelector(state => state.claim.current);
     const isLoadingCurrent = useSelector(state => state.claim.isLoadingCurrent);
+
+    const {
+        acceptedFiles,
+        getRootProps,
+        getInputProps,
+        isDragActive
+    } = useDropzone({
+        maxFiles: 1,
+        accept: ".xlsx"
+    });
 
     if (!(user.rol === "coordinador" || user.rol === "comprador")) {
         return <Redirect to="/home" />;
@@ -32,9 +45,77 @@ const ReceptionPage = () => {
         return <LoadingScreen>{helmet}</LoadingScreen>;
     }
 
+    if (!claim) {
+        return <Error />;
+    }
+
+    const { inspeccion_carga } = claim;
+
+    const handleUpload = e => {
+        e.preventDefault();
+        dispatch(importExcel(claimId, acceptedFiles[0]));
+    };
+
+    const handleCheck = e => {
+        const data = {
+            ...claim,
+            [e.target.id]: !Boolean(claim[e.target.id])
+        };
+
+        dispatch(updateClaim(data));
+    };
+
     return (
         <React.Fragment>
-            <h1 className="text-center my-5">Recepción</h1>
+            <div className="d-flex align-items-center mt-5 justify-content-between">
+                <h1 className="text-left">Recepción</h1>
+                <div className="form-check form-check p-1">
+                    <label className="form-check-label">
+                        <input
+                            className="form-check-input"
+                            type="checkbox"
+                            id="inspeccion_carga"
+                            onChange={handleCheck}
+                            checked={inspeccion_carga}
+                        />
+                        <span className="form-check-sign scale-3">
+                            <span className="check"></span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <hr className="mb-5" />
+
+            <div className="d-flex justify-content-center">
+                <div
+                    {...getRootProps({
+                        className: `dropzone rounded mx-5 mb-2 ${
+                            isDragActive ? "drag-active" : ""
+                        }`
+                    })}
+                >
+                    <input name="import" {...getInputProps()} />
+                    {acceptedFiles.length > 0 ? (
+                        <div>
+                            {acceptedFiles[0].name} - {acceptedFiles[0].size}{" "}
+                            bytes
+                        </div>
+                    ) : (
+                        <span>Arrastre un archivo excel o haga clic aquí</span>
+                    )}
+                </div>
+            </div>
+
+            <div className="text-center">
+                <button
+                    className="btn btn-lg btn-success btn-round mb-4"
+                    onClick={handleUpload}
+                >
+                    Importar Excel
+                    <BsUpload className="ml-3 icon-normal" />
+                </button>
+            </div>
         </React.Fragment>
     );
 };

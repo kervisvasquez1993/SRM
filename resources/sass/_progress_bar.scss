@@ -70,21 +70,25 @@ $bar-height: 5px;
 
             background: #4caf50;
 
-            // & .bar {
-            //     background: #4caf50;
-            // }
+            & .bar {
+                background: #4caf50;
+            }
 
-            // &.progress-danger {
-            //     background: #f44336;
-            // }
+            &.progress-danger {
+                background: #f44336;
+            }
 
-            // &.progress-success {
-            //     background: #4caf50;
-            // }
+            &.progress-success {
+                background: #4caf50;
+            }
 
-            // &.progress-warning {
-            //     background: #ff9800;
-            // }
+            &.progress-warning {
+                background: #ff9800;
+            }
+
+            &.progress-info {
+                background: #00bcd4;;
+            }
         }
 
         p {
