@@ -180,6 +180,7 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Spatie\Backup\BackupServiceProvider::class,
 
+        Kreait\Laravel\Firebase\ServiceProvider::class
     ],
 
     /*
