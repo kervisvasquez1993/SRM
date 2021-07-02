@@ -2,58 +2,51 @@
 
 namespace App\Http\Controllers\Api;
 
-use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
-use Validator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
     public function login(Request $request)
     {
         $credentials = $request->only("email", "password");
-        $validator = Validator::make($credentials, [
+        Validator::make($credentials, [
             'email' => 'required|email',
             'password' => 'required',
         ]);
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()
-            ], 422);
-        }
-        if (!$token = JWTAuth::attempt([
-            'email' => $request->email,
-            'password' => $request->password
-        ])) {
+
+        if (!Auth::attempt($credentials)) {
             return response()->json(['error' => 'Los Datos Suministrado son incorrectos,'], 401);
         }
+
+        $user = $request->user();
+        $tokenResult = $user->createToken('Personal Access Token');
+
+        $token = $tokenResult->token;
+        $token->expires_at = Carbon::now()->addWeeks(1);
+        $token->save();
+
         return response()->json([
-            'access_token' => $token
+            'access_token' => $tokenResult->accessToken
         ]);
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        JWTAuth::invalidate();
+        $request->user()->token()->revoke();
+
         return response()->json([
             'message' => 'Successfully logged out'
-        ]);
-    }
-
-    public function refresh()
-    {
-        return response()->json([
-            'access_token' => JWTAuth::refresh(),
-            'token_type' => 'bearer',
-            'expires_in' => JWTAuth::factory()->getTTL() * 120
         ]);
     }
 
     public function me()
     {
         return response()->json(
-            JWTAuth::user()
+            Auth::user()
         );
     }
 }
