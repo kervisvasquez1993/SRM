@@ -47,6 +47,8 @@ trait ApiResponse
 
     protected function sendNotifications($usuarios, $notificacion)
     {
+        \Illuminate\Support\Facades\Notification::send($usuarios, $notificacion);
+        
         $messaging = app('firebase.messaging');
 
         $config = WebPushConfig::fromArray([
