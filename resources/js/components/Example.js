@@ -30,43 +30,76 @@ function startFCM() {
     //             }
     //         })
 
+    // messaging
+    //     .requestPermission()
+    //     .then(function() {
+    //         const token = messaging.getToken();
+    //         console.log(token);
+    //         return messaging.getToken();
+    //     })
+    //     .then(function(response) {
+    //         console.log(response);
+    //         $.ajaxSetup({
+    //             headers: {
+    //                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+    //                     "content"
+    //                 ),
+    //                 "Authorization":
+    //                     `Bearer ${localStorage.getItem("auth")}`
+    //             }
+    //         });
+    //         $.ajax({
+    //             url: "/api/store-token",
+    //             type: "POST",
+    //             data: {
+    //                 token: response
+    //             },
+    //             dataType: "JSON",
+    //             success: function(response) {
+    //                 alert("Token stored.");
+    //             },
+    //             error: function(error) {
+    //                 console.log(error);
+    //                 alert(error);
+    //             }
+    //         });
+    //     })
+    //     .catch(function(error) {
+    //         console.log(error);
+    //         alert(error);
+    //     });
+
     messaging
-        .requestPermission()
-        .then(function() {
-            const token = messaging.getToken();
-            console.log(token);
-            return messaging.getToken();
+        .getToken({
+            vapidKey:
+                "BJWiG1SA-CMBjxpd9s2hDz2mikd9kJragE0C28I1TDi2uVjroSkgJKTvnLq3kQNAqZmAArwU97vdrx00_vv2APA"
         })
-        .then(function(response) {
-            console.log(response);
-            $.ajaxSetup({
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                        "content"
-                    ),
-                    "Authorization":
-                        `Bearer ${localStorage.getItem("auth")}`
-                }
-            });
-            $.ajax({
-                url: "/api/store-token",
-                type: "POST",
-                data: {
-                    token: response
-                },
-                dataType: "JSON",
-                success: function(response) {
-                    alert("Token stored.");
-                },
-                error: function(error) {
-                    console.log(error);
-                    alert(error);
-                }
-            });
+        .then(currentToken => {
+            if (currentToken) {
+                // Send the token to your server and update the UI if necessary
+                // ...
+                console.log("New Token! ");
+                console.log(currentToken);
+
+                axios
+                    .post("/api/store-token", {
+                        token: currentToken
+                    })
+                    .then(response => {
+                        console.log("Token sended to the server!");
+                        console.log(response);
+                    });
+            } else {
+                // Show permission request UI
+                console.log(
+                    "No registration token available. Request permission to generate one."
+                );
+                // ...
+            }
         })
-        .catch(function(error) {
-            console.log(error);
-            alert(error);
+        .catch(err => {
+            console.log("An error occurred while retrieving token. ", err);
+            // ...
         });
 }
 

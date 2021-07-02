@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Api\Tarea;
 
 use App\User;
 use App\Tarea;
+use Google\Client;
 use Illuminate\Http\Request;
 use App\Notifications\TareaSent;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use App\Http\Resources\TareaResource;
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Validator;
@@ -23,7 +26,6 @@ class TareaController extends ApiController
 
     public function index()
     {
-
         $tareas = TareaResource::collection(Tarea::all());
         return $this->showAllResources($tareas);
     }
@@ -48,7 +50,7 @@ class TareaController extends ApiController
         $tarea->descripcion = $request->descripcion;
         $tarea->fecha_fin = $request->fecha_fin;
         $tarea->save();
-        
+
         /* seccion para las notificaciones */
         $comprador = User::find($tarea->user_id);
         $coordinador = User::find($tarea->sender_id);
@@ -57,9 +59,9 @@ class TareaController extends ApiController
         $text = "El coordinador $coordinador->name asigno la tarea: $tarea->nombre, al comprador $comprador->name";
         $link = "tasks/$tarea->id";
         $type = "tarea_asignada";
-        $this->sendPushNotification($userAll, "Tarea Asignada", $text);
-        Notification::send($userAll, new GeneralNotification($text, $link, $type));
-
+        $title = "Tarea Asignada";
+        
+        $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title));
 
         return $this->showOneResource(new TareaResource($tarea));
     }
