@@ -13,7 +13,6 @@ class GeneralNotification extends Notification
     public $link;
     public $type;
     public $title;
-    
     use Queueable;
 
     /**
@@ -21,7 +20,7 @@ class GeneralNotification extends Notification
      *
      * @return void
      */
-    public function __construct($text, $link, $type, $title)
+    public function __construct($text, $link, $type, $title="Notificación")
     {
         $this->text = $text;
         $this->link = $link;
