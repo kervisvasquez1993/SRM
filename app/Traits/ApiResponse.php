@@ -56,8 +56,9 @@ trait ApiResponse
             "notification" => [
                 "title" => $notification->title,
                 "body" => $notification->text,
-                "click_action" => "https://www.google.com/",
-                'icon' => 'https://miro.medium.com/max/800/1*GwBZgjItyjEwaaZn-lxTTA.png'
+                'click_action' => 'https://srm-dynamics.herokuapp.com/tasks',
+                'icon' => 'https://miro.medium.com/max/800/1*GwBZgjItyjEwaaZn-lxTTA.png',
+                'image' => 'https://miro.medium.com/max/800/1*GwBZgjItyjEwaaZn-lxTTA.png'
             ]
         ];
         $encodedData = json_encode($data);
