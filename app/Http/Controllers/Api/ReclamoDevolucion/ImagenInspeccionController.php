@@ -22,6 +22,7 @@ class ImagenInspeccionController extends ApiController
 
     public function store(Request $request, RecepcionReclamoDevolucion $reclamos_devoluciones_id)
     {
+        
         $request->validate([
             'file' => 'max:10000',
         ]);
@@ -34,7 +35,7 @@ class ImagenInspeccionController extends ApiController
 
         $file = new ImagenInspeccion();
         $file->recepcion_reclamo_devolucion_id = $reclamos_devoluciones_id->id;
-        $file->url = $request->file('file')->store('inspeccion_imagenes');
+        $file->url = $request->file('file')->store('inspeccion_imagenes','s3');
         $file->name = $request->file('file')->getClientOriginalName();
         $file->save();
         return $this->showOne($file);
