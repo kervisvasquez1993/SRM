@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\User;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\ApiController;
@@ -20,9 +20,22 @@ class WebNotificationController extends ApiController
     {
         $user = auth()->user();
 
-        $user->token = null;
+        $user->device_key = null;
         $user->save();
 
         return response()->json(['Token successfully removed.']);
+    }
+
+    public static function deleteTokenByName($token)
+    {
+        $usuario = User::where('device_key', $token)->first();
+        if ($usuario) {
+            $usuario->device_key = null;
+            $usuario->save();
+
+            error_log($usuario->name);
+
+            error_log("Deleting token: $token");
+        }
     }
 }

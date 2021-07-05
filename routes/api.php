@@ -1,11 +1,16 @@
 <?php
 
-
+use App\Http\Controllers\Api\WebNotificationController;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Livewire\ShowPosts;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Route;
+use App\Notifications\GeneralNotification;
+use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Firebase\Messaging\Notification;
+use Kreait\Firebase\Messaging\WebPushConfig;
 
 
 /*
@@ -262,8 +267,54 @@ Route::middleware('auth:api')->group(function () {
 
     /* fin de archivado */
 
-
     // Notificaciones
-    Route::post('/store-token', 'Api\WebNotificationController@storeToken');
-    Route::post('/delete-token', 'Api\WebNotificationController@deleteToken');
+    Route::post('/push-notification', 'Api\WebNotificationController@storeToken');
+    Route::delete('/push-notification', 'Api\WebNotificationController@deleteToken');
+
+    Route::post('/notification-test', function () {
+        $usuarios = User::all();
+        $notificacion = new GeneralNotification("hola", "/home", "type", "Test");
+        \Illuminate\Support\Facades\Notification::send($usuarios, $notificacion);
+
+        $messaging = app('firebase.messaging');
+
+        $config = WebPushConfig::fromArray([
+            'fcm_options' => [
+                'link' => $notificacion->link,
+            ],
+        ]);
+
+        $message = CloudMessage::new()
+            ->withNotification(Notification::create($notificacion->title, $notificacion->text))->withWebPushConfig($config);
+
+        $deviceTokens = $usuarios->whereNotNull('device_key')->pluck('device_key')->all();
+
+
+        $result = $messaging->validateRegistrationTokens($deviceTokens);
+        foreach ($result["unknown"] as $token) {
+            WebNotificationController::deleteTokenByName($token);
+        }
+
+        foreach ($result["invalid"] as $token) {
+            WebNotificationController::deleteTokenByName($token);
+        }
+
+        return $result;
+
+
+        $report = $messaging->sendMulticast($message, $deviceTokens);
+
+
+
+        // if ($report->hasFailures()) {
+        //     foreach ($report->failures()->getItems() as $failure) {
+        //         if ($failure->error()->getMessage() === "Requested entity was not found.") {
+        //             error_log(get_class($failure));
+        //             error_log($failure->error()->getMessage());
+        //             error_log(get_class($failure->target()));
+        //             error_log($failure->target()->value());
+        //         }
+        //     }
+        // }
+    });
 });
