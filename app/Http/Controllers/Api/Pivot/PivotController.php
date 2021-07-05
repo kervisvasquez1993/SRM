@@ -72,10 +72,11 @@ class PivotController extends ApiController
         $pivot->save();
         //notification para 
         $login_user       = Auth::user()->name;
-        $coordinador      = $tarea->sender_id;
+        $coordinador      = User::find($tarea->sender_id);
         $tarea_nombre     = $tarea->nombre;
         $empresa_agregada = $proveedor->nombre;
-        $userAll = User::find($coordinador);
+        $presidentes = User::where('rol', 'presidente')->get();
+        $userAll = $presidentes->push($coordinador)->unique('id'); 
         $text = "El usuario '$login_user' añadió la empresa '$empresa_agregada' a la tarea '$tarea_nombre'";
         $link = "/tasks/$tarea->id?providerId=$proveedor->id"; 
         $type = "empresa_agregada";

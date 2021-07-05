@@ -7,6 +7,7 @@ use App\Tarea;
 use App\Proveedor;
 use App\PivotTareaProveeder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\TareaProveedor;
 use App\Http\Controllers\ApiController;
 use App\Http\Resources\ProveedorResource;
@@ -99,8 +100,10 @@ class ProveedorController extends ApiController
             $proveedor->email = $request['email'];
             $proveedor->save();
             $login_user = auth()->user()->name;
-            $coordinador = $tarea->sender_id;
-            $userAll = User::find($coordinador);
+            $coordinador = User::find($tarea->sender_id);
+            $presidentes = User::where('rol', 'presidente')->get();
+            $userAll = $presidentes->push($coordinador)->unique('id'); 
+            
             $empresa_agregada = $proveedor->nombre;
             $text = "El usuario '$login_user' añadió la empresa '$empresa_agregada' a la tarea '$tarea->nombre'";
             $link = "/tasks/$tarea->id?providerId=$proveedor->id";
@@ -124,7 +127,6 @@ class ProveedorController extends ApiController
         $pivotTareaProveedor->iniciar_arte = false;
         $pivotTareaProveedor->iniciar_produccion = false;
         $pivotTareaProveedor->save();
-
         return $this->successMensaje("Nueva pivot", Response::HTTP_ACCEPTED);
     }
 
