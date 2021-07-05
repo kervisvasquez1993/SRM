@@ -265,4 +265,5 @@ Route::middleware('auth:api')->group(function () {
 
     // Notificaciones
     Route::post('/store-token', 'Api\WebNotificationController@storeToken');
+    Route::post('/delete-token', 'Api\WebNotificationController@deleteToken');
 });

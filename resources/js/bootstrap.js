@@ -1,4 +1,4 @@
-window._ = require('lodash');
+window._ = require("lodash");
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -7,8 +7,8 @@ window._ = require('lodash');
  */
 
 try {
-    window.Popper = require('popper.js').default;
-    window.$ = window.jQuery = require('jquery');
+    window.Popper = require("popper.js").default;
+    window.$ = window.jQuery = require("jquery");
 
     // require('bootstrap');
 } catch (e) {}
@@ -19,9 +19,9 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = require('axios');
+window.axios = require("axios");
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -40,14 +40,21 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     encrypted: true
 // });
 
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-      navigator.serviceWorker.register("/firebase-messaging-sw.js").then(function(registration) {
-        // Registration was successful
-        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-      }, function(err) {
-        // registration failed :(
-        console.log('ServiceWorker registration failed: ', err);
-      });
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function() {
+        navigator.serviceWorker.register("/firebase-messaging-sw.js").then(
+            function(registration) {
+                console.log(
+                    "Firebase ServiceWorker registration successful with scope: ",
+                    registration.scope
+                );
+            },
+            function(err) {
+                console.log(
+                    "Firebase ServiceWorker registration failed: ",
+                    err
+                );
+            }
+        );
     });
-  }
+}
