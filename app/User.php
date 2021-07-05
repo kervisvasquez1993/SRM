@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\FcmToken;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -115,5 +116,10 @@ class User extends Authenticatable
     public function filter()
     {
         return $this->hasMany(FilterProduccionTransito::class);
+    }
+
+    public function fcmTokens()
+    {
+        return $this->hasMany(FcmToken::class);
     }
 }

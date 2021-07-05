@@ -27,6 +27,7 @@
         "sass-loader": "^8.0.0"
     },
     "dependencies": {
+        "device-uuid": "^1.0.4",
         "filterizr": "^2.2.4",
         "jwt-decode": "^3.1.2",
         "query-string": "^7.0.1",

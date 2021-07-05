@@ -50,6 +50,14 @@ trait ApiResponse
     {
         // Enviar las notificaciones internas de la APP
         \Illuminate\Support\Facades\Notification::send($usuarios, $notificacion);
+
+        // Obtener los tokens de los usuarios a los que se les enviara la notificación
+        //$deviceTokens = $usuarios->whereNotNull('device_key')->pluck('device_key')->all();
+        $deviceTokens = $usuarios->pluck('fcmTokens')->collapse()->pluck("value")->all();
+
+        if (count($deviceTokens) === 0) {
+            return;
+        }
         
         $messaging = app('firebase.messaging');
 
@@ -65,9 +73,6 @@ trait ApiResponse
             ->withNotification(Notification::create($notificacion->title, $notificacion->text))
             ->withHighestPossiblePriority()
             ->withWebPushConfig($config);
-
-        // Obtener los tokens de los usuarios a los que se les enviara la notificación
-        $deviceTokens = $usuarios->whereNotNull('device_key')->pluck('device_key')->all();
 
         // Elimninar los tokens que ya no son validos
         $result = $messaging->validateRegistrationTokens($deviceTokens);

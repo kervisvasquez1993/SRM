@@ -1,4 +1,8 @@
+import axios from "axios";
 import { apiURL } from "./App";
+import { DeviceUUID } from "device-uuid";
+
+const uuid = new DeviceUUID().get();
 
 const firebaseConfig = {
     apiKey: "AIzaSyBZtJyq8vyVOeWI6y0MieoGWhL4O7ni_Yk",
@@ -12,7 +16,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
-// Esta función se ejecuta al iniciar sesión y se encarga de solicitar un nuevo token de Firebase Messagin
+// Esta función se ejecuta al iniciar sesión y se encarga de solicitar un nuevo token de Firebase Messaging
 // y lo envia al server para que este lo registre en la base de datos
 export function sendTokenToServer() {
     messaging
@@ -27,11 +31,13 @@ export function sendTokenToServer() {
                 // Si el token guardado es distinto al nuevo
                 if (oldToken !== currentToken) {
                     console.log("New Token!");
+                    console.log(currentToken);
 
                     // Enviar al server el token
                     axios
                         .post(`${apiURL}/push-notification`, {
-                            token: currentToken
+                            value: currentToken,
+                            device_id: uuid
                         })
                         .then(response => {
                             // Se registro el token correctamente en el server
@@ -40,7 +46,13 @@ export function sendTokenToServer() {
 
                             // Guardar el token localmente
                             localStorage.setItem("FcmToken", currentToken);
+                            localStorage.setItem(
+                                "FcmTokenId",
+                                response.data.id
+                            );
                         });
+                } else {
+                    console.log("Same token");
                 }
             } else {
                 // No se recibio ningun token
@@ -65,17 +77,16 @@ messaging.onMessage(payload => {
 export function removeTokenFromServer() {
     messaging.deleteToken();
 
-    const token = localStorage.getItem("FcmToken");
+    const tokenId = localStorage.getItem("FcmTokenId");
     localStorage.removeItem("FcmToken");
+    localStorage.removeItem("FcmTokenId");
 
-    if (token) {
+    if (tokenId) {
         console.log("Removing token from server");
 
         // Enviar una peticion al server para borrar el token
         return axios
-            .delete(`${apiURL}/push-notification`, {
-                token
-            })
+            .delete(`${apiURL}/push-notification/${tokenId}`)
             .then(response => {
                 console.log("Token removed from the server!");
                 console.log(response);

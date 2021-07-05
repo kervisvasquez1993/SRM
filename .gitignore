@@ -14,3 +14,5 @@ yarn-error.log
 public/css/app.css
 public/js/app.js
 srm
+
+firebase_credentials.json
