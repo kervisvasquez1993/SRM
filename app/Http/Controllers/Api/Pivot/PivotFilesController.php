@@ -36,7 +36,7 @@ class PivotFilesController extends ApiController
 
         $file = new PivotFile();
         $file->pivot_tarea_proveeder_id = $pivot_id;
-        $file->url = $request->file('file')->store('negociacion_archivos', 's3');
+        $file->url = $request->file('file')->store::disk('negociacion_archivos', 's3');
         $file->name = $request->file('file')->getClientOriginalName();
         $file->save();
         return $this->showOne($file);
