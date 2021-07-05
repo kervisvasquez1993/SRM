@@ -68,6 +68,5 @@ class Kernel extends HttpKernel
         'comprador' => \App\Http\Middleware\Comprador::class,
         'coordinador' => \App\Http\Middleware\Coordinador::class,
         'Artes' => \App\Http\Middleware\Artes::class,
-        'auth.jwt' => \Tymon\JWTAuth\Http\Middleware\Authenticate::class,
     ];
 }

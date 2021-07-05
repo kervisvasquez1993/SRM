@@ -1,7 +1,5 @@
-import React, { useState } from "react";
-import ReactQuill from "react-quill";
+import React from "react";
 import "react-quill/dist/quill.snow.css";
-import ReactDOM from "react-dom";
 import { toast } from "react-toastify";
 
 function Example() {

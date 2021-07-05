@@ -37,4 +37,9 @@ class Tarea extends Model
     {
         return  $this->belongsTo(User::class, 'user_id');
     }
+
+    public function sender()
+    {
+        return  $this->belongsTo(User::class, 'sender_id');
+    }
 }

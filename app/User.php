@@ -2,27 +2,18 @@
 
 namespace App;
 
-use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\FcmToken;
+use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable
 {
 
     use SoftDeletes;
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
-    }
-    public function getJWTCustomClaims()
-    {
-        return [];
-    }
-
-
-    use Notifiable;
+    use HasApiTokens, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -30,7 +21,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'rol', 'email', 'password'
+        'name', 'rol', 'email', 'password', 'device_key'
     ];
 
     /**
@@ -125,5 +116,10 @@ class User extends Authenticatable implements JWTSubject
     public function filter()
     {
         return $this->hasMany(FilterProduccionTransito::class);
+    }
+
+    public function fcmTokens()
+    {
+        return $this->hasMany(FcmToken::class);
     }
 }

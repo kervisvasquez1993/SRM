@@ -24,7 +24,7 @@
     {{-- <link href="{{asset('assets/css/material-dashboard.css?v=2.1.2')}}" rel="stylesheet" /> --}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> 
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
 </head>
 
@@ -32,5 +32,12 @@
     <div id="root">
 
     </div>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+     <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-messaging.js"></script>
 </body>
 </html>

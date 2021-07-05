@@ -105,7 +105,9 @@ class ProveedorController extends ApiController
             $text = "El usuario '$login_user' añadió la empresa '$empresa_agregada' a la tarea '$tarea->nombre'";
             $link = "/tasks/$tarea->id?providerId=$proveedor->id";
             $type = "empresa_agregada";
-            Notification::send($userAll, new GeneralNotification($text, $link, $type));           
+            $title = "Empresa Agregada";
+
+            $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title));
 
             // informacion asociada a la tabla pivot
             $this->crearPivotConTarea($tarea_id, $proveedor->id);
@@ -183,9 +185,9 @@ class ProveedorController extends ApiController
         $pivote->save();
         $link = "/negotiations?id=$pivote->id";
         /* $recipient =  User::find($tarea->sender_id); */
-        $coordinadores = User::where('rol','coordinador')->get();
+        $coordinadores = User::where('rol', 'coordinador')->get();
         $userAll = $coordinadores->unique('id');
-        $user_login = auth()->user()->name; 
+        $user_login = auth()->user()->name;
         $text = "El usuario $user_login inicio negociación con la empresa: $proveedor->nombre en la tarea: $tarea->nombre";
         $type = "iniciar_negociacion";
         Notification::send($userAll, new GeneralNotification($text, $link, $type));
