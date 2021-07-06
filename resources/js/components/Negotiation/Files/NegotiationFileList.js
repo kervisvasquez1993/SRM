@@ -7,36 +7,22 @@ import {
     getFiles,
     uploadFile
 } from "../../../store/actions/negotiationActions";
-import { useSimpleScrollToId } from "../../../utils";
-import { store } from "../../Index";
+import { isRepeatedValidator, maxUploadSize, maxUploadSizeText, useSimpleScrollToId } from "../../../utils";
 import EmptyList from "../../Navigation/EmptyList";
-import LoadingSpinner from "../../Navigation/LoadingSpinner";
 import NegotiationFileCard from "./NegotiationFileCard";
-
-const maxUploadSize = 10000000;
-const maxUploadSizeText = "10 MB";
-
-const isRepeatedValidator = file => {
-    const state = store.getState();
-
-    if (state.negotiation.files.find(item => item.name === file.name)) {
-        return {
-            code: "repeated-name",
-            message: "Nombre de archivo repetido"
-        };
-    }
-
-    return null;
-};
 
 const ProductsList = () => {
     const dispatch = useDispatch();
+    // @ts-ignore
     const user = useSelector(state => state.auth.user);
+    // @ts-ignore
     const negotiation = useSelector(state => state.negotiation.negotiation);
+    // @ts-ignore
     const files = useSelector(state => state.negotiation.files);
     const isMine = user.id == negotiation.usuario.id;
 
     const uploadingFiles = useSelector(
+        // @ts-ignore
         state => state.negotiation.uploadingFiles
     );
 

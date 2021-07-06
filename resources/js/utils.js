@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { NumberParam, StringParam, useQueryParam } from "use-query-params";
+import { store } from "./components/Index";
 import { openArtModal } from "./store/actions/artActions";
 import { clearFocus, focusOnElementWithId } from "./store/actions/focusActions";
 
@@ -309,4 +310,20 @@ export const removeSlash = text => {
     }
 
     return text;
+};
+
+export const maxUploadSize = 10000000;
+export const maxUploadSizeText = "10 MB";
+
+export const isRepeatedValidator = (file, stateSelector = (state) => state.negotiation.files) => {
+    const state = store.getState();
+
+    if (stateSelector(state).find(item => item.name === file.name)) {
+        return {
+            code: "repeated-name",
+            message: "Nombre de archivo repetido"
+        };
+    }
+
+    return null;
 };

@@ -49,7 +49,7 @@ const IncidentsTab = ({ stateName, url1, url2, title }) => {
     return (
         <React.Fragment>
             <div className="mr-auto text-center py-2">
-                <h3 className="h2">{title}</h3>
+                <h2>{title}</h2>
             </div>
 
             {areIncidentsLoading ? (

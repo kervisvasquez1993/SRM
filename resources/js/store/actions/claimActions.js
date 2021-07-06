@@ -123,3 +123,85 @@ export function getReceptionItems(claimId) {
         }
     };
 }
+
+export function getFiles(id, uploadedFile = null) {
+    return async dispatch => {
+        dispatch({ type: "GET_INSPECTION_FILES_REQUEST" });
+
+        try {
+            let response = await axios.get(
+                `${apiURL}/reclamos_devoluciones/${id}/imagen_inspeccion`
+            );
+
+            console.log(response);
+
+            if (uploadedFile) {
+                dispatch({
+                    type: "UPLOAD_INSPECTION_FILE_SUCCESS",
+                    payload: uploadedFile
+                });
+            }
+
+            dispatch({
+                type: "GET_INSPECTION_FILES_SUCCESS",
+                payload: response.data.data
+            });
+        } catch (e) {
+            dispatch({
+                type: "GET_INSPECTION_FILES_FAILURE"
+            });
+        }
+    };
+}
+
+export function uploadFile(id, file) {
+    return async dispatch => {
+        dispatch({
+            type: "UPLOAD_INSPECTION_FILE_REQUEST",
+            payload: file.name
+        });
+
+        try {
+            let formData = new FormData();
+            formData.append("file", file);
+
+            await axios.post(
+                `${apiURL}/reclamos_devoluciones/${id}/imagen_inspeccion`,
+                formData
+            );
+
+            dispatch(getFiles(id, file.name));
+
+            toast.success("✔️ Archivo cargado");
+        } catch (e) {
+            toast.error(`🚨 ${e.response.data.error}`);
+            console.log(e.response);
+
+            dispatch({
+                type: "UPLOAD_INSPECTION_FILE_FAILURE",
+                payload: file.name
+            });
+        }
+    };
+}
+
+export function deleteFile(id) {
+    return async dispatch => {
+        dispatch({ type: "DELETE_INSPECTION_FILE_REQUEST", payload: id });
+
+        try {
+            await axios.delete(`${apiURL}/imagen_inspeccion/${id}`);
+
+            dispatch({
+                type: "DELETE_INSPECTION_FILE_SUCCESS",
+                payload: id
+            });
+        } catch (e) {
+            toast.error("🚨 Error");
+
+            dispatch({
+                type: "DELETE_INSPECTION_FILE_FAILURE"
+            });
+        }
+    };
+}

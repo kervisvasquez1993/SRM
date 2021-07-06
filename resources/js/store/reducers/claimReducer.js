@@ -5,7 +5,10 @@ const defaultState = {
     isLoadingCurrent: true,
     isUploadingFile: false,
 
-    receptionItems: []
+    receptionItems: [],
+
+    inspectionFiles: [],
+    uploadingFiles: []
 };
 
 const claimReducer = (state = defaultState, action) => {
@@ -84,6 +87,49 @@ const claimReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 receptionItems: payload
+            };
+
+        case "GET_INSPECTION_FILES_SUCCESS":
+            return {
+                ...state,
+                inspectionFiles: payload
+            };
+
+        case "DELETE_INSPECTION_FILE_REQUEST":
+            return {
+                ...state,
+                deletingFileId: payload
+            };
+        case "DELETE_INSPECTION_FILE_SUCCESS":
+            return {
+                ...state,
+                inspectionFiles: state.inspectionFiles.filter(item => item.id != payload),
+                deletingFileId: null
+            };
+        case "DELETE_INSPECTION_FILE_FAILURE":
+            return {
+                ...state,
+                deletingFileId: null
+            };
+
+        case "UPLOAD_INSPECTION_FILE_REQUEST":
+            return {
+                ...state,
+                uploadingFiles: [...state.uploadingFiles, payload]
+            };
+        case "UPLOAD_INSPECTION_FILE_SUCCESS":
+            return {
+                ...state,
+                uploadingFiles: state.uploadingFiles.filter(
+                    item => item != payload
+                )
+            };
+        case "UPLOAD_INSPECTION_FILE_FAILURE":
+            return {
+                ...state,
+                uploadingFiles: state.uploadingFiles.filter(
+                    item => item != payload
+                )
             };
 
         default:
