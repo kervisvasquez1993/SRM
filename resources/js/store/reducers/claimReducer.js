@@ -64,12 +64,6 @@ const claimReducer = (state = defaultState, action) => {
                 isLoadingCurrent: false
             };
 
-        case "CLOSE_MODAL":
-            return {
-                ...state,
-                current: null
-            };
-
         case "UPLOADING_CLAIMS_REQUEST":
             return {
                 ...state,

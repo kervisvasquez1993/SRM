@@ -12,8 +12,8 @@ const modalReducer = (state = defaultState, action) => {
         case "OPEN_MODAL":
             return {
                 ...state,
-                ...payload,
-                isOpen: true
+                isOpen: true,
+                ...payload
             };
         case "CLOSE_MODAL":
             return {

@@ -18,7 +18,7 @@ const ReceptionTable = () => {
     return (
         <React.Fragment>
             {receptionItems.length > 0 && (
-                <div className="table-responsive table-text mt-5">
+                <div className="table-responsive table-text my-5">
                     <table className="table table-sm table-hover table-bordered fade-in">
                         <thead className="thead-dark">
                             <tr>

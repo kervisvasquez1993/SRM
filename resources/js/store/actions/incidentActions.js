@@ -30,7 +30,7 @@ export function getIncidents(url1, url2, parentId) {
     };
 }
 
-export function createIncident(url1, parentId, url2, data) {
+export function createIncident(url1, url2, parentId, data) {
     return async (dispatch, _getState) => {
         dispatch({ type: "FORM_SUBMIT_REQUEST" });
 
@@ -45,11 +45,16 @@ export function createIncident(url1, parentId, url2, data) {
                 payload: response.data.data
             });
 
+            dispatch({
+                type: "CREATE_INCIDENT_SUCCESS",
+                payload: response.data.data
+            });
+
             dispatch(closeModal());
 
             toast.success("✔️ Incidencia iniciada");
         } catch (e) {
-            console.log(e.response)
+            console.log(e.response);
             dispatch({
                 type: "FORM_SUBMIT_FAILURE",
                 errors: e.response.data.error
@@ -58,13 +63,13 @@ export function createIncident(url1, parentId, url2, data) {
     };
 }
 
-export function editIncident(url, data) {
+export function editIncident(url2, data) {
     return async (dispatch, _getState) => {
         dispatch({ type: "FORM_SUBMIT_REQUEST" });
 
         try {
             const response = await axios.put(
-                `${apiURL}/${url}/${data.id}`,
+                `${apiURL}/${url2}/${data.id}`,
                 data
             );
 
@@ -73,10 +78,16 @@ export function editIncident(url, data) {
                 payload: response.data.data
             });
 
+            dispatch({
+                type: "EDIT_INCIDENT_SUCCESS",
+                payload: response.data.data
+            });
+
             dispatch(closeModal());
 
             toast.success("✔️ Incidencia editada");
         } catch (e) {
+            console.log(e.response);
             dispatch({
                 type: "FORM_SUBMIT_FAILURE",
                 errors: e.response.data.error

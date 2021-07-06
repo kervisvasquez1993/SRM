@@ -10,6 +10,7 @@ import {
     updateClaim
 } from "../../../store/actions/claimActions";
 import { useUser } from "../../../utils";
+import IncidentsTab from "../../Incidents/IncidentsTab";
 import Error from "../../Navigation/Error";
 import LoadingScreen from "../../Navigation/LoadingScreen";
 import ReceptionTable from "./ReceptionTable";
@@ -135,6 +136,13 @@ const ReceptionPage = () => {
             </div>
 
             <ReceptionTable />
+
+            <IncidentsTab
+                stateName="claim"
+                url1="reclamos_devoluciones"
+                url2="incidencia_recepcion"
+                title="Comentarios"
+            ></IncidentsTab>
         </React.Fragment>
     );
 };

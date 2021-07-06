@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import IncidentModal from "./IncidentModal";
 import IncidentCard from "./IncidentCard";
-import { emptyIncident, getIncidents } from "../../store/actions/incidentActions";
+import {
+    emptyIncident,
+    getIncidents
+} from "../../store/actions/incidentActions";
 import { openModal } from "../../store/actions/modalActions";
 import EmptyList from "../Navigation/EmptyList";
 import LoadingScreen from "../Navigation/LoadingScreen";

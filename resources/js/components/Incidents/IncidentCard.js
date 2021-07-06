@@ -3,12 +3,13 @@ import { BsPersonFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteIncident } from "../../store/actions/incidentActions";
 import { openModal } from "../../store/actions/modalActions";
-import { dateToShortString } from "../../utils";
+import { dateToShortString, useUser } from "../../utils";
 import SeeMoreText from "../Widgets/SeeMoreText";
 import IncidentModal from "./IncidentModal";
 
 const IncidentCard = ({ stateName, url1, url2, incident }) => {
     const dispatch = useDispatch();
+    const user = useUser();
 
     const modal = useSelector(store => store.modal);
 
@@ -36,7 +37,7 @@ const IncidentCard = ({ stateName, url1, url2, incident }) => {
     };
 
     return (
-        <div className={`card shadow-lg my-3 fade-in`}>
+        <div className={`card shadow-md my-2 fade-in`}>
             <div className="card-body pb-0">
                 <h5 className="card-title font-weight-bold">
                     {incident.titulo}
@@ -70,23 +71,24 @@ const IncidentCard = ({ stateName, url1, url2, incident }) => {
                             </p>
                         </div>
                     </div>
-
-                    <div className="d-flex bt-sm justify-content-end flex-grow-1">
-                        <button
-                            className="btn btn-success btn-circle"
-                            type="button"
-                            onClick={handleEdit}
-                        >
-                            <span className="material-icons">edit</span>
-                        </button>
-                        <button
-                            className="btn bt-sm btn-danger btn-circle"
-                            type="button"
-                            onClick={handleDelete}
-                        >
-                            <span className="material-icons">clear</span>
-                        </button>
-                    </div>
+                    {user.id === incident.user_id && (
+                        <div className="d-flex bt-sm justify-content-end flex-grow-1">
+                            <button
+                                className="btn btn-success btn-circle"
+                                type="button"
+                                onClick={handleEdit}
+                            >
+                                <span className="material-icons">edit</span>
+                            </button>
+                            <button
+                                className="btn bt-sm btn-danger btn-circle"
+                                type="button"
+                                onClick={handleDelete}
+                            >
+                                <span className="material-icons">clear</span>
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
