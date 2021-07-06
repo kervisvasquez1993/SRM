@@ -260,3 +260,31 @@ table,
 .form-check .form-check-sign .check {
     z-index: initial;
 }
+
+.table-sticky {
+    & th {
+        position: sticky;
+        top: 0;
+    }
+
+    & thead th {
+        border: 0;
+    }
+
+    & .thead-row-1 {
+        height: 40px;
+
+        & th {
+            position: sticky;
+            top: 0;
+        }
+    }
+
+    & .thead-row-2 {
+        & th {
+            position: sticky;
+            top: 40px;
+        }
+    }
+}
+

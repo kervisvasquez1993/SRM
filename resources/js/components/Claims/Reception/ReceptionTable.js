@@ -18,10 +18,13 @@ const ReceptionTable = () => {
     return (
         <React.Fragment>
             {receptionItems.length > 0 && (
-                <div className="table-responsive table-text my-5">
-                    <table className="table table-sm table-hover table-bordered fade-in">
+                <div
+                    className="table-responsive table-text my-5"
+                    style={{ maxHeight: "75vh" }}
+                >
+                    <table className="table table-sticky table-bordered table-sm table-hover fade-in">
                         <thead className="thead-dark">
-                            <tr>
+                            <tr className="thead-row-1">
                                 <th scope="col" colSpan={13}>
                                     RECEPCION DE MERCANCIA
                                 </th>
@@ -29,7 +32,7 @@ const ReceptionTable = () => {
                                     PACKING LIST
                                 </th>
                             </tr>
-                            <tr>
+                            <tr className="thead-row-2">
                                 <th scope="col">Codigo Sistema</th>
                                 <th scope="col" style={{ minWidth: "200px" }}>
                                     Descripción Sistema
@@ -105,8 +108,8 @@ const ReceptionTable = () => {
                                 <td></td>
                                 <th scope="row">Total</th>
 
-                                <th scope="row" colSpan={2}></th>
-                                <th scope="row">
+                                <td colSpan={2}></td>
+                                <th scope="row" className="text-left">
                                     {roundMoneyAmount(
                                         getSum(
                                             receptionItems,
@@ -115,13 +118,13 @@ const ReceptionTable = () => {
                                     )}
                                 </th>
                                 <td></td>
-                                <th scope="row">
+                                <th scope="row" className="text-left">
                                     {roundMoneyAmount(
                                         getSum(receptionItems, "cantidad_u_m")
                                     )}
                                 </th>
-                                <th scope="row" colSpan={7}></th>
-                                <th scope="row">
+                                <td colSpan={7}></td>
+                                <th scope="row" className="text-left">
                                     {roundMoneyAmount(
                                         getSum(
                                             receptionItems,
@@ -130,7 +133,7 @@ const ReceptionTable = () => {
                                     )}
                                 </th>
                                 <td></td>
-                                <th scope="row">
+                                <th scope="row" className="text-left">
                                     {roundMoneyAmount(
                                         getSum(
                                             receptionItems,
@@ -138,10 +141,7 @@ const ReceptionTable = () => {
                                         )
                                     )}
                                 </th>
-                                <th
-                                    scope="row border-0 borderless "
-                                    colSpan={2}
-                                ></th>
+                                <td colSpan={2}></td>
                             </tr>
                         </tbody>
                     </table>
