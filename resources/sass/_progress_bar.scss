@@ -87,7 +87,11 @@ $bar-height: 5px;
             }
 
             &.progress-info {
-                background: #00bcd4;;
+                background: #00bcd4;
+            }
+
+            &.progress-primary {
+                background: #9c27b0;
             }
         }
 
@@ -114,4 +118,16 @@ $bar-height: 5px;
 
 .flex-basis-0 {
     flex-basis: 0;
+}
+
+.card {
+    &.bg-success {
+        & .bar {
+            display: none;
+        }
+
+        & p {
+            color: white;
+        }
+    }
 }

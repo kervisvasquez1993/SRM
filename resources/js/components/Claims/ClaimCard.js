@@ -204,7 +204,7 @@ const ClaimCard = ({ claim }) => {
                                 <p>Recepción</p>
                             </div>
                             <div
-                                className={`progress-status progress-warning ${inspeccion_carga &&
+                                className={`progress-status progress-info ${inspeccion_carga &&
                                     "completed"} ${
                                     currentStep === 1 ? "current" : ""
                                 }`}
@@ -214,7 +214,7 @@ const ClaimCard = ({ claim }) => {
                                 <p>Inspección</p>
                             </div>
                             <div
-                                className={`progress-status progress-warning ${reclamos_devoluciones &&
+                                className={`progress-status progress-primary ${reclamos_devoluciones &&
                                     "completed"} ${
                                     currentStep === 2 ? "current" : ""
                                 }`}
@@ -243,7 +243,7 @@ const ClaimCard = ({ claim }) => {
                         </Link>
                         <Link
                             to={`/claims/${id}/claim`}
-                            className=" btn btn-sm btn-success mx-4 flex-basis-0 flex-grow-1"
+                            className=" btn btn-sm btn-primary mx-4 flex-basis-0 flex-grow-1"
                         >
                             <ImNewspaper className="icon-normal mr-2" />
                             Reclamos y Devoluciones
