@@ -84,9 +84,10 @@ const ReceptionPage = () => {
     return (
         <React.Fragment>
             <div className="d-flex align-items-center mt-5 justify-content-between">
-                <h1 className="text-left">Recepción</h1>
-                <div className="form-check form-check p-1">
+                <h1 className="text-left h2">Recepción</h1>
+                <div className="form-check form-check p-1 ml-5">
                     <label className="form-check-label">
+                        ¿Completado?
                         <input
                             className="form-check-input"
                             type="checkbox"
@@ -95,7 +96,7 @@ const ReceptionPage = () => {
                             checked={recepcion_mercancia}
                             disabled={inspeccion_carga || reclamos_devoluciones}
                         />
-                        <span className="form-check-sign scale-3">
+                        <span className="form-check-sign">
                             <span className="check"></span>
                         </span>
                     </label>
