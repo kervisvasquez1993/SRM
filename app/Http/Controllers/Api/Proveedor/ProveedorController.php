@@ -174,21 +174,21 @@ class ProveedorController extends ApiController
         return $this->update($request, $proveedor);
     }
 
-    public function iniciarNegociacion(Request $request, $tarea_id, $proveedor_id)
+    public function iniciarNegociacion(Request $request, Tarea $tarea_id, Proveedor $proveedor_id)
     {
         // Obtener la tarea
-        $tarea = Tarea::findOrFail($tarea_id);
-        $proveedor = Proveedor::findOrFail($proveedor_id);
-        $pivote = PivotTareaProveeder::where('tarea_id', $tarea_id)->where('proveedor_id', $proveedor_id)->first();
+        
+        $pivote = PivotTareaProveeder::where('tarea_id', $tarea_id->id)->where('proveedor_id', $proveedor_id->id)->first();
         // Iniciar negociacion
         $pivote->iniciar_negociacion = 1;
         $pivote->save();
         $link = "/negotiations?id=$pivote->id";
         /* $recipient =  User::find($tarea->sender_id); */
-        $coordinadores = User::where('rol','coordinador')->get();
-        $userAll = $coordinadores->unique('id');
+        $coordinador = User::find($pivote->tarea->sender_id);
+        $presidentes = User::where('rol', 'presidente')->get();
+        $userAll = $presidentes->push($coordinador)->unique('id'); 
         $user_login = auth()->user()->name; 
-        $text = "El usuario $user_login inicio negociación con la empresa: $proveedor->nombre en la tarea: $tarea->nombre";
+        $text = "El usuario '$user_login' inicio un proceso de negociación con la empresa: '$proveedor_id->nombre' asociada a la tarea: '$tarea_id->nombre'";
         $type = "iniciar_negociacion";
         Notification::send($userAll, new GeneralNotification($text, $link, $type));
         return $this->successMensaje("La negociacion se inicio exitosamente", Response::HTTP_ACCEPTED);
