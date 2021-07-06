@@ -43,6 +43,7 @@ import "react-quill/dist/quill.snow.css";
 import { Helmet } from "react-helmet-async";
 import ReceptionPage from "./Claims/Reception/ReceptionPage";
 import InspectionPage from "./Claims/Inspection/InspectionPage";
+import ClaimPage from "./Claims/Claims/ClaimPage";
 
 // const messaging = firebase.messaging();
 
@@ -234,6 +235,9 @@ const App = () => {
                             </Route>
                             <Route exact path="/claims/:id/inspection">
                                 <InspectionPage />
+                            </Route>
+                            <Route exact path="/claims/:id/claim">
+                                <ClaimPage />
                             </Route>
                             <Route path="/notifications">
                                 <NotificationList />

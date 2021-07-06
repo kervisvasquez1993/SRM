@@ -242,7 +242,7 @@ const ClaimCard = ({ claim }) => {
                             Inspección
                         </Link>
                         <Link
-                            to={`/claims/${id}/claims`}
+                            to={`/claims/${id}/claim`}
                             className=" btn btn-sm btn-success mx-4 flex-basis-0 flex-grow-1"
                         >
                             <ImNewspaper className="icon-normal mr-2" />
