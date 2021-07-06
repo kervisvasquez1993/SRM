@@ -4,18 +4,28 @@ import { Helmet } from "react-helmet-async";
 import { BsUpload } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useParams } from "react-router-dom";
-import { getClaim, importExcel, updateClaim } from "../../../store/actions/claimActions";
+import {
+    getClaim,
+    importExcel,
+    updateClaim
+} from "../../../store/actions/claimActions";
 import { useUser } from "../../../utils";
 import Error from "../../Navigation/Error";
 import LoadingScreen from "../../Navigation/LoadingScreen";
+import ReceptionTable from "./ReceptionTable";
 
 const ReceptionPage = () => {
     const dispatch = useDispatch();
+    // @ts-ignore
     const { id: claimId } = useParams();
 
     const user = useUser();
+    // @ts-ignore
     const claim = useSelector(state => state.claim.current);
+    // @ts-ignore
     const isLoadingCurrent = useSelector(state => state.claim.isLoadingCurrent);
+    // @ts-ignore
+    const isUploadingFile = useSelector(state => state.claim.isUploadingFile);
 
     const {
         acceptedFiles,
@@ -49,11 +59,16 @@ const ReceptionPage = () => {
         return <Error />;
     }
 
-    const { inspeccion_carga } = claim;
+    const {
+        recepcion_mercancia,
+        inspeccion_carga,
+        reclamos_devoluciones
+    } = claim;
 
     const handleUpload = e => {
         e.preventDefault();
         dispatch(importExcel(claimId, acceptedFiles[0]));
+        acceptedFiles.length = 0;
     };
 
     const handleCheck = e => {
@@ -74,9 +89,10 @@ const ReceptionPage = () => {
                         <input
                             className="form-check-input"
                             type="checkbox"
-                            id="inspeccion_carga"
+                            id="recepcion_mercancia"
                             onChange={handleCheck}
-                            checked={inspeccion_carga}
+                            checked={recepcion_mercancia}
+                            disabled={inspeccion_carga || reclamos_devoluciones}
                         />
                         <span className="form-check-sign scale-3">
                             <span className="check"></span>
@@ -111,11 +127,14 @@ const ReceptionPage = () => {
                 <button
                     className="btn btn-lg btn-success btn-round mb-4"
                     onClick={handleUpload}
+                    disabled={acceptedFiles.length == 0 || isUploadingFile}
                 >
                     Importar Excel
                     <BsUpload className="ml-3 icon-normal" />
                 </button>
             </div>
+
+            <ReceptionTable />
         </React.Fragment>
     );
 };

@@ -215,7 +215,7 @@ Route::middleware('auth:api')->group(function () {
     /* show de productos de recepcion reclamo devoucion */
     /* productos en recepcion */
     Route::get('/reclamos_devoluciones/{reclamos_devoluciones_id}/recepcion', 'Api\ReclamoDevolucion\RecepcionProductoController@index');
-    Route::post('/reclamos_devoluciones/{reclamos_devoluciones_id}/importProducto', 'Api\ReclamoDevolucion\RecepcionProductoController@importProducts');
+    Route::post('/reclamos_devoluciones/{reclamos_devoluciones_id}/importar', 'Api\ReclamoDevolucion\RecepcionProductoController@importar');
     /* fin del producto */
 
     /* show para inspeccion de mercancia */

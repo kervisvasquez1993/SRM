@@ -78,6 +78,16 @@ const ClaimCard = ({ claim }) => {
         e.stopPropagation();
     };
 
+    const currentStep = reclamos_devoluciones
+        ? 2
+        : inspeccion_carga
+        ? 2
+        : recepcion_mercancia
+        ? 1
+        : 0;
+
+    const percentageCompleted = (currentStep / 2) * 100;
+
     return (
         <div
             className={`card my-2 fade-in py-2 ${
@@ -179,13 +189,15 @@ const ClaimCard = ({ claim }) => {
                             <div className="bar">
                                 <div
                                     className="bar-progress"
-                                    style={{ width: "50%" }}
+                                    style={{ width: `${percentageCompleted}%` }}
                                 ></div>
                             </div>
 
                             <div
                                 className={`progress-status progress-warning ${recepcion_mercancia &&
-                                    "completed"}`}
+                                    "completed"} ${
+                                    currentStep === 0 ? "current" : ""
+                                }`}
                             >
                                 <GiCheckMark className="icon-done" />
                                 <CgClose className="icon-not-done" />
@@ -193,7 +205,9 @@ const ClaimCard = ({ claim }) => {
                             </div>
                             <div
                                 className={`progress-status progress-warning ${inspeccion_carga &&
-                                    "completed"}`}
+                                    "completed"} ${
+                                    currentStep === 1 ? "current" : ""
+                                }`}
                             >
                                 <GiCheckMark className="icon-done" />
                                 <CgClose className="icon-not-done" />
@@ -201,7 +215,9 @@ const ClaimCard = ({ claim }) => {
                             </div>
                             <div
                                 className={`progress-status progress-warning ${reclamos_devoluciones &&
-                                    "completed"}`}
+                                    "completed"} ${
+                                    currentStep === 2 ? "current" : ""
+                                }`}
                             >
                                 <GiCheckMark className="icon-done" />
                                 <CgClose className="icon-not-done" />

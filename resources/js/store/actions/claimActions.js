@@ -68,7 +68,7 @@ export function updateClaim(data) {
 export function importExcel(id, file) {
     return async dispatch => {
         dispatch({
-            type: "UPLOADING_PRODUCT_REQUEST"
+            type: "UPLOADING_CLAIMS_REQUEST"
         });
 
         try {
@@ -81,15 +81,45 @@ export function importExcel(id, file) {
             );
 
             dispatch({
-                type: "UPLOADING_PRODUCT_SUCCESS"
+                type: "UPLOADING_CLAIMS_SUCCESS"
             });
 
-            dispatch(closeModal());
+            dispatch(getReceptionItems(id));
 
             toast.success("✔️ Excel importado");
         } catch (e) {
             console.log(e);
             console.log(e.response);
+
+            dispatch({
+                type: "UPLOADING_CLAIMS_FAILURE"
+            });
+        }
+    };
+}
+
+export function getReceptionItems(claimId) {
+    return async dispatch => {
+        dispatch({
+            type: "GET_RECEPTION_ITEMS_REQUEST"
+        });
+
+        try {
+            const response = await axios.get(
+                `${apiURL}/reclamos_devoluciones/${claimId}/recepcion`
+            );
+
+            dispatch({
+                type: "GET_RECEPTION_ITEMS_SUCCESS",
+                payload: response.data.data
+            });
+        } catch (e) {
+            console.log(e);
+            console.log(e.response);
+
+            dispatch({
+                type: "GET_RECEPTION_ITEMS_FAILURE"
+            });
         }
     };
 }

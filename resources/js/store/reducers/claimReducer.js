@@ -2,7 +2,10 @@ const defaultState = {
     list: [],
     isLoadingList: true,
     current: null,
-    isLoadingCurrent: true
+    isLoadingCurrent: true,
+    isUploadingFile: false,
+
+    receptionItems: []
 };
 
 const claimReducer = (state = defaultState, action) => {
@@ -14,7 +17,8 @@ const claimReducer = (state = defaultState, action) => {
                 ...state,
                 list: [],
                 isLoadingList: true,
-                isLoadingCurrent: true
+                isLoadingCurrent: true,
+                receptionItems: []
             };
 
         case "GET_CLAIMS_REQUEST":
@@ -64,6 +68,28 @@ const claimReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 current: null
+            };
+
+        case "UPLOADING_CLAIMS_REQUEST":
+            return {
+                ...state,
+                isUploadingFile: true
+            };
+        case "UPLOADING_CLAIMS_SUCCESS":
+            return {
+                ...state,
+                isUploadingFile: false
+            };
+        case "UPLOADING_CLAIMS_FAILURE":
+            return {
+                ...state,
+                isUploadingFile: false
+            };
+
+        case "GET_RECEPTION_ITEMS_SUCCESS":
+            return {
+                ...state,
+                receptionItems: payload
             };
 
         default:

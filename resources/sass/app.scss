@@ -155,8 +155,6 @@ table,
     font-size: 0.9rem !important;
 }
 
-
-
 .card.notification {
     max-width: 800px;
     &:first-child {
@@ -233,9 +231,25 @@ table,
     }
 }
 
-.table.table-sm {
-    & td {
-        padding: 0.5rem 0.2rem !important;
+.table {
+    & .rich-text {
+        margin-bottom: 0;
+    }
+
+    & th {
+        text-align: center;
+    }
+
+    &.table-sm {
+        & td,
+        th {
+            font-size: 0.7rem !important;
+            padding: 0.5rem 0.2rem !important;
+        }
+
+        & th {
+            padding: 0.5rem 0.5rem !important;
+        }
     }
 }
 
