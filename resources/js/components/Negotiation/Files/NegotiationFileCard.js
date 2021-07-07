@@ -1,13 +1,13 @@
 import React from "react";
-import { AiFillFile, AiFillFilePdf } from "react-icons/ai";
+import { AiFillFile } from "react-icons/ai";
 import { MdDeleteForever } from "react-icons/md";
 import { VscFilePdf } from "react-icons/vsc";
-import { GrDocumentTxt } from "react-icons/gr";
 import { ImFileText2 } from "react-icons/im";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteFile } from "../../../store/actions/negotiationActions";
 import LoadingSpinner from "../../Navigation/LoadingSpinner";
+import { confirmDelete } from "../../../appText";
 
 const NegotiationFileCard = ({ data }) => {
     const { id, name, dummy, url } = data;
@@ -15,6 +15,7 @@ const NegotiationFileCard = ({ data }) => {
 
     const dispatch = useDispatch();
     const deletingFileId = useSelector(
+        // @ts-ignore
         state => state.negotiation.deletingFileId
     );
 
@@ -24,7 +25,7 @@ const NegotiationFileCard = ({ data }) => {
         e.preventDefault();
         e.stopPropagation();
 
-        if (confirm("¿Esta seguro?")) {
+        if (confirm(confirmDelete)) {
             dispatch(deleteFile(id));
         }
     };
@@ -43,7 +44,7 @@ const NegotiationFileCard = ({ data }) => {
         content = <VscFilePdf />;
     } else if (extension === "txt") {
         content = <ImFileText2 />;
-    }  else if (extension === "xlsx") {
+    } else if (extension === "xlsx") {
         content = <SiMicrosoftexcel />;
     }
 

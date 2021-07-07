@@ -221,12 +221,11 @@ Route::middleware('auth:api')->group(function () {
     /* show para inspeccion de mercancia */
     Route::get('/reclamos_devoluciones/{reclamos_devoluciones_id}/reclamo', 'Api\ReclamoDevolucion\ReclamoProductoController@index');
     Route::post('/reclamos_devoluciones/{reclamos_devoluciones_id}/reclamo', 'Api\ReclamoDevolucion\ReclamoProductoController@store');
-    Route::put('/reclamo_producto/{reclamo_id}', 'Api\ReclamoDevolucion\ReclamoProductoController@update');
-    Route::get('/reclamo_producto/{reclamo_id}', 'Api\ReclamoDevolucion\ReclamoProductoController@show');
-    Route::delete('/reclamo_producto/{reclamo_id}', 'Api\ReclamoDevolucion\ReclamoProductoController@destroy');
+    Route::put('/reclamo/{reclamo_id}', 'Api\ReclamoDevolucion\ReclamoProductoController@update');
+    Route::delete('/reclamo/{reclamo_id}', 'Api\ReclamoDevolucion\ReclamoProductoController@destroy');
     /* imagenes para reclamos */
-    Route::post('/reclamo_producto/{reclamo_id}/imagen', 'Api\ReclamoDevolucion\ReclamoProductoController@uploadImagen');
-    Route::get('/reclamo_producto/{reclamo_id}/imagen', 'Api\ReclamoDevolucion\ReclamoProductoController@getImagen');
+    Route::post('/reclamo/{reclamo_id}/archivo', 'Api\ReclamoDevolucion\ReclamoProductoController@importarArchivo');
+    Route::get('/reclamo/{reclamo_id}/archivo', 'Api\ReclamoDevolucion\ReclamoProductoController@getArchivos');
     /* imagenesde inspeccion */
     Route::get('/reclamos_devoluciones/{reclamos_devoluciones_id}/imagen_inspeccion', 'Api\ReclamoDevolucion\ImagenInspeccionController@index');
     Route::post('/reclamos_devoluciones/{reclamos_devoluciones_id}/imagen_inspeccion', 'Api\ReclamoDevolucion\ImagenInspeccionController@store');

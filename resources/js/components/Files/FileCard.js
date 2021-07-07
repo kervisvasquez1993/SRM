@@ -1,13 +1,12 @@
 import React from "react";
-import { AiFillFile, AiFillFilePdf } from "react-icons/ai";
+import { AiFillFile } from "react-icons/ai";
 import { MdDeleteForever } from "react-icons/md";
 import { VscFilePdf } from "react-icons/vsc";
-import { GrDocumentTxt } from "react-icons/gr";
 import { ImFileText2 } from "react-icons/im";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteFile } from "../../store/actions/negotiationActions";
 import LoadingSpinner from "../Navigation/LoadingSpinner";
+import { confirmDelete } from "../../appText";
 
 const FileCard = ({ data, stateName, deleteAction }) => {
     const { id, name, dummy, url } = data;
@@ -22,7 +21,7 @@ const FileCard = ({ data, stateName, deleteAction }) => {
         e.preventDefault();
         e.stopPropagation();
 
-        if (confirm("¿Está seguro?")) {
+        if (confirm(confirmDelete)) {
             dispatch(deleteAction());
         }
     };

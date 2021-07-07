@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import { apiURL } from "../../components/App";
+import { genericFormSubmit } from "./genericFormActions";
 import { closeModal } from "./modalActions";
 
 export function getClaims() {
@@ -203,5 +204,74 @@ export function deleteFile(id) {
                 type: "DELETE_INSPECTION_FILE_FAILURE"
             });
         }
+    };
+}
+
+export function getProductClaims(parentId) {
+    return async dispatch => {
+        dispatch({ type: "GET_PRODUCT_CLAIMS_REQUEST" });
+
+        try {
+            const response = await axios.get(
+                `${apiURL}/reclamos_devoluciones/${parentId}/reclamo`
+            );
+
+            dispatch({
+                type: "GET_PRODUCT_CLAIMS_SUCCESS",
+                payload: response.data.data
+            });
+        } catch (e) {
+            dispatch({
+                type: "GET_PRODUCT_CLAIMS_FAILURE"
+            });
+        }
+    };
+}
+
+export function createProductClaim(parentId, data) {
+    return dispatch => {
+        return genericFormSubmit(dispatch, () =>
+            axios.post(
+                `${apiURL}/reclamos_devoluciones/${parentId}/reclamo`,
+                data
+            )
+        ).then(response => {
+            dispatch({
+                type: "CREATE_PRODUCT_CLAIM_SUCCESS",
+                payload: response
+            });
+
+            toast.success("✔️ Reclamo creado");
+        });
+    };
+}
+
+export function editProductClaim(data) {
+    return dispatch => {
+        return genericFormSubmit(dispatch, () =>
+            axios.put(`${apiURL}/reclamo/${data.id}`, data)
+        ).then(response => {
+            dispatch({
+                type: "EDIT_PRODUCT_CLAIM_SUCCESS",
+                payload: response
+            });
+
+            toast.success("✔️ Reclamo editado");
+        });
+    };
+}
+
+export function deleteProductClaim(id) {
+    return dispatch => {
+        return genericFormSubmit(dispatch, () =>
+            axios.delete(`${apiURL}/reclamo/${id}`)
+        ).then(response => {
+            dispatch({
+                type: "DELETE_PRODUCT_CLAIM_SUCCESS",
+                payload: response
+            });
+
+            toast.success("✔️ Reclamo eliminado");
+        });
     };
 }

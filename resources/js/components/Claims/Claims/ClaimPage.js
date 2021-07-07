@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
-import { useDropzone } from "react-dropzone";
 import { Helmet } from "react-helmet-async";
-import { BsUpload } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useParams } from "react-router-dom";
 import { getClaim, updateClaim } from "../../../store/actions/claimActions";
@@ -9,6 +7,7 @@ import { useUser } from "../../../utils";
 import IncidentsTab from "../../Incidents/IncidentsTab";
 import Error from "../../Navigation/Error";
 import LoadingScreen from "../../Navigation/LoadingScreen";
+import ProductClaimList from "./ProductClaimList";
 
 const ClaimPage = () => {
     const dispatch = useDispatch();
@@ -74,6 +73,8 @@ const ClaimPage = () => {
             </div>
 
             <hr />
+
+            <ProductClaimList />
 
             <IncidentsTab
                 stateName="claim"
