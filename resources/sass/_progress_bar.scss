@@ -1,0 +1,113 @@
+$bar-height: 5px;
+
+.progress-container {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    padding: 0;
+    max-width: 600px;
+
+    & > p {
+        width: 0;
+        white-space: nowrap;
+        text-align: center;
+    }
+
+    & .bar {
+        position: absolute;
+        width: calc(100% - 4px);
+        height: $bar-height;
+        background: gray;
+        left: 2px;
+        top: calc(1rem - #{$bar-height / 2});
+        z-index: -1;
+
+        & .bar-progress {
+            height: 100%;
+            background: #4caf50;
+        }
+    }
+
+    & .progress-status {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        border: 3px solid white;
+        background: gray;
+        position: relative;
+
+        & .icon-done {
+            display: none;
+        }
+
+        &.current::before {
+            content: "";
+            position: absolute;
+            width: 140%;
+            height: 140%;
+            background: inherit;
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        & svg {
+            text-shadow: 1px 1px 2px black;
+            filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.4));
+        }
+
+        &.completed {
+            & .icon-done {
+                display: initial;
+            }
+
+            & .icon-not-done {
+                display: none;
+            }
+
+            background: #4caf50;
+
+            // & .bar {
+            //     background: #4caf50;
+            // }
+
+            // &.progress-danger {
+            //     background: #f44336;
+            // }
+
+            // &.progress-success {
+            //     background: #4caf50;
+            // }
+
+            // &.progress-warning {
+            //     background: #ff9800;
+            // }
+        }
+
+        p {
+            position: absolute;
+            color: black;
+            top: 2rem;
+            text-align: center;
+            min-width: 100px;
+        }
+    }
+
+    & .progress-position {
+        position: relative;
+
+        & .progress-status-text {
+            text-align: center;
+            position: absolute;
+            left: -25px;
+            width: 50px;
+        }
+    }
+}
+
+.flex-basis-0 {
+    flex-basis: 0;
+}

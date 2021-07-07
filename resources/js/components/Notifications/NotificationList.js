@@ -9,10 +9,11 @@ const ProductionList = () => {
     const dispatch = useDispatch();
     const notifications = useSelector(state => state.notification.list);
     const isLoadingList = useSelector(state => state.notification.isLoadingList);
+    const unreadCount = useSelector(state => state.notification.unreadCount);
 
     useEffect(() => {
         dispatch(getNotifications());
-    }, []);
+    }, [unreadCount]);
 
     if (isLoadingList) {
         return <LoadingScreen />;

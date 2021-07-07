@@ -1,5 +1,9 @@
 import axios from "axios";
 import { apiURL } from "../../components/App";
+import {
+    removeTokenFromServer,
+    sendTokenToServer
+} from "../../components/FirebaseSetup";
 
 export function login(user) {
     return async (dispatch, getState) => {
@@ -8,7 +12,7 @@ export function login(user) {
         try {
             const response = await axios.post(`${apiURL}/login`, user);
 
-            console.log(response)
+            console.log(response);
 
             // Get the token and save it
             const token = response.data.access_token;
@@ -21,9 +25,9 @@ export function login(user) {
 
             dispatch(getMyUser());
         } catch (e) {
-            console.log(e)
-            console.log(e.response)
-            
+            console.log(e);
+            console.log(e.response);
+
             if ("errors" in e.response.data) {
                 dispatch({
                     type: "LOGIN_FAILURE",
@@ -49,15 +53,17 @@ export function getMyUser(user) {
             const token = localStorage.getItem("auth", token);
             const response = await axios.get(`${apiURL}/me`, { token });
 
-            console.log(response)
+            console.log(response);
 
             dispatch({
                 type: "MY_USER_SUCESS",
                 payload: response.data
             });
+
+            sendTokenToServer();
         } catch (e) {
-            console.log(e)
-            console.log(e.response)
+            console.log(e);
+            console.log(e.response);
             dispatch({
                 type: "MY_USER_FAILURE"
             });
@@ -66,9 +72,13 @@ export function getMyUser(user) {
 }
 
 export function logout(user) {
-    localStorage.removeItem("auth");
-    
-    return {
-        type: "LOGOUT"
-    }
+    return async (dispatch, getState) => {
+        await removeTokenFromServer();
+
+        localStorage.removeItem("auth");
+
+        dispatch({
+            type: "LOGOUT"
+        });
+    };
 }

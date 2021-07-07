@@ -108,7 +108,9 @@ class ProveedorController extends ApiController
             $text = "El usuario '$login_user' añadió la empresa '$empresa_agregada' a la tarea '$tarea->nombre'";
             $link = "/tasks/$tarea->id?providerId=$proveedor->id";
             $type = "empresa_agregada";
-            Notification::send($userAll, new GeneralNotification($text, $link, $type));           
+            $title = "Empresa Agregada";
+
+            $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title));
 
             // informacion asociada a la tabla pivot
             $this->crearPivotConTarea($tarea_id, $proveedor->id);

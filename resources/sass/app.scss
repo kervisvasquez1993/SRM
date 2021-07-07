@@ -1,6 +1,9 @@
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Nunito");
 
+@import url("https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css");
+@import url("/assets/css/material-dashboard.css?v=2.1.2");
+
 // Variables
 @import "variables";
 
@@ -20,6 +23,8 @@
 @import "login";
 
 @import "file";
+
+@import "progress_bar";
 
 .keep-line-breaks {
     white-space: pre-line;
