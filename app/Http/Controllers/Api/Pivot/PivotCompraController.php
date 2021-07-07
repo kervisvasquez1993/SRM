@@ -65,13 +65,15 @@ class PivotCompraController extends ApiController
         Excel::import(new ComprasImport($id_pivot), $archivo);
         /* notificacion */
         $login_user    = auth()->user()->name;
-        $coordinaodres = User::where('rol', 'coordinador')->get();
+        $coordinador = User::find($negociacion->tarea->sender_id);
+        $presidentes = User::where('rol', 'presidente')->get();
+        $userAll = $presidentes->push($coordinador)->unique('id'); 
         $proveedorName = Proveedor::findOrFail($negociacion->proveedor_id)->nombre;
         $tareaNombre   = Tarea::findOrFail($negociacion->tarea_id)->nombre;
         $text = "El usuario: '$login_user' cargo via excel informacion de orden de compra a la empresa '$proveedorName' asociada a la tarea '$tareaNombre'";
         $link = "/negotiation/$negociacion->id#purchases";
         $type = "cargar_compras";
-        Notification::send($coordinaodres, new GeneralNotification($text, $link, $type));
+        Notification::send($userAll, new GeneralNotification($text, $link, $type));
         return $this->successMensaje('Archivo de Ordenes de Compra Importado Correctamente', 201);
     }
 

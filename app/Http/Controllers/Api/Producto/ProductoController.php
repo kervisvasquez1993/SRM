@@ -93,13 +93,15 @@ class ProductoController extends ApiController
         $archivo = $request->file('import');
         Excel::import(new ProductosImport($pivot_tarea_proveeder_id->id), $archivo);
         $login_user    = auth()->user()->name;
-        $coordinaodres = User::where('rol', 'coordinador')->get();
+        $coordinador = User::find($pivot_tarea_proveeder_id->tarea->sender_id);
+        $presidentes = User::where('rol', 'presidente')->get();
+        $userAll = $presidentes->push($coordinador)->unique('id'); 
         $proveedorName = Proveedor::findOrFail($pivot_tarea_proveeder_id->proveedor_id)->nombre;
         $tareaNombre   = Tarea::findOrFail($pivot_tarea_proveeder_id->tarea_id)->nombre;
         $text = "El usuario: '$login_user' cargo via excel informacion de producto a la empresa '$proveedorName' asociada a la tarea '$tareaNombre'";
         $link = "/negotiation/$pivot_tarea_proveeder_id->id#products";
         $type = "cargar_productos";
-        Notification::send($coordinaodres, new GeneralNotification($text, $link, $type));
+        Notification::send($userAll, new GeneralNotification($text, $link, $type));
         return $this->successMensaje('Se Cargaron los Archivo de Forma Correcta', 201);
     }
 }

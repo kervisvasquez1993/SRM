@@ -7,6 +7,7 @@ use App\Tarea;
 use App\Proveedor;
 use App\PivotTareaProveeder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\TareaProveedor;
 use App\Http\Controllers\ApiController;
 use App\Http\Resources\ProveedorResource;
@@ -99,8 +100,10 @@ class ProveedorController extends ApiController
             $proveedor->email = $request['email'];
             $proveedor->save();
             $login_user = auth()->user()->name;
-            $coordinador = $tarea->sender_id;
-            $userAll = User::find($coordinador);
+            $coordinador = User::find($tarea->sender_id);
+            $presidentes = User::where('rol', 'presidente')->get();
+            $userAll = $presidentes->push($coordinador)->unique('id'); 
+            
             $empresa_agregada = $proveedor->nombre;
             $text = "El usuario '$login_user' añadió la empresa '$empresa_agregada' a la tarea '$tarea->nombre'";
             $link = "/tasks/$tarea->id?providerId=$proveedor->id";
@@ -126,7 +129,6 @@ class ProveedorController extends ApiController
         $pivotTareaProveedor->iniciar_arte = false;
         $pivotTareaProveedor->iniciar_produccion = false;
         $pivotTareaProveedor->save();
-
         return $this->successMensaje("Nueva pivot", Response::HTTP_ACCEPTED);
     }
 
@@ -174,21 +176,21 @@ class ProveedorController extends ApiController
         return $this->update($request, $proveedor);
     }
 
-    public function iniciarNegociacion(Request $request, $tarea_id, $proveedor_id)
+    public function iniciarNegociacion(Request $request, Tarea $tarea_id, Proveedor $proveedor_id)
     {
         // Obtener la tarea
-        $tarea = Tarea::findOrFail($tarea_id);
-        $proveedor = Proveedor::findOrFail($proveedor_id);
-        $pivote = PivotTareaProveeder::where('tarea_id', $tarea_id)->where('proveedor_id', $proveedor_id)->first();
+        
+        $pivote = PivotTareaProveeder::where('tarea_id', $tarea_id->id)->where('proveedor_id', $proveedor_id->id)->first();
         // Iniciar negociacion
         $pivote->iniciar_negociacion = 1;
         $pivote->save();
         $link = "/negotiations?id=$pivote->id";
         /* $recipient =  User::find($tarea->sender_id); */
-        $coordinadores = User::where('rol', 'coordinador')->get();
-        $userAll = $coordinadores->unique('id');
-        $user_login = auth()->user()->name;
-        $text = "El usuario $user_login inicio negociación con la empresa: $proveedor->nombre en la tarea: $tarea->nombre";
+        $coordinador = User::find($pivote->tarea->sender_id);
+        $presidentes = User::where('rol', 'presidente')->get();
+        $userAll = $presidentes->push($coordinador)->unique('id'); 
+        $user_login = auth()->user()->name; 
+        $text = "El usuario '$user_login' inicio un proceso de negociación con la empresa: '$proveedor_id->nombre' asociada a la tarea: '$tarea_id->nombre'";
         $type = "iniciar_negociacion";
         Notification::send($userAll, new GeneralNotification($text, $link, $type));
         return $this->successMensaje("La negociacion se inicio exitosamente", Response::HTTP_ACCEPTED);
