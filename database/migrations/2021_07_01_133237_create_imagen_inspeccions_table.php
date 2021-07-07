@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInspeccionProductosTable extends Migration
+class CreateImagenInspeccionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateInspeccionProductosTable extends Migration
      */
     public function up()
     {
-        Schema::create('inspeccion_productos', function (Blueprint $table) {
+        Schema::create('imagen_inspeccions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('recepcion_reclamo_devolucion_id')->references('id')->on('recepcion_reclamo_devolucions');
-            $table->string('titulo');
-            $table->text('descripcion');
-            $table->unsignedBigInteger('user_login');
+            $table->string('url');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateInspeccionProductosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inspeccion_productos');
+        Schema::dropIfExists('imagen_inspeccions');
     }
 }

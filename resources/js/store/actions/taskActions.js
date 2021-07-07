@@ -46,6 +46,7 @@ export function createTask(task) {
 
             toast.success("✔️ Tarea creada");
         } catch (e) {
+            console.log(e.response)
             dispatch({
                 type: "CREATE_TASK_FAILURE",
                 errors: e.response.data

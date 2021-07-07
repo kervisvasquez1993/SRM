@@ -38,8 +38,12 @@ class RecepcionReclamoDevolucion extends Model
         return $this->hasMany(RecepcionProducto::class);
     }
 
-    public function inspeccionProducto()
+    public function ReclamoProducto()
     {
-        return $this->hasMany(InspeccionProducto::class);
+        return $this->hasMany(ReclamoProducto::class);
+    }
+    public function ImagenInspeccion()
+    {
+        return $this->hasMany(ImagenInspeccion::class);
     }
 }

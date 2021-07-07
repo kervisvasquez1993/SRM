@@ -9,9 +9,10 @@ use Illuminate\Notifications\Notification;
 
 class GeneralNotification extends Notification
 {
-    protected $text;
-    protected $link;
-    protected $type;
+    public $text;
+    public $link;
+    public $type;
+    public $title;
     use Queueable;
 
     /**
@@ -19,11 +20,12 @@ class GeneralNotification extends Notification
      *
      * @return void
      */
-    public function __construct($text, $link, $type)
+    public function __construct($text, $link, $type, $title="Notificación")
     {
         $this->text = $text;
         $this->link = $link;
         $this->type = $type;
+        $this->title = $title;
     }
 
    

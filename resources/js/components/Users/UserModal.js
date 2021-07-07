@@ -7,7 +7,7 @@ import InputSelect from "../Form/InputSelect";
 import InputText from "../Form/InputText";
 import GenericFormModal from "../Table/GenericFormModal";
 
-const roles = ["coordinador", "comprador", "observador", "artes"];
+const roles = ["coordinador", "comprador", "observador", "artes", 'almacen', 'presidente', 'logistica'];
 
 const UserModal = ({ formData, isEditor }) => {
     const dispatch = useDispatch();

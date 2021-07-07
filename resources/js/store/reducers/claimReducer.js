@@ -1,7 +1,8 @@
 const defaultState = {
     list: [],
-    isLoadingList: false,
-    current: null
+    isLoadingList: true,
+    current: null,
+    isLoadingCurrent: true
 };
 
 const claimReducer = (state = defaultState, action) => {
@@ -12,7 +13,8 @@ const claimReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 list: [],
-                isLoadingList: true
+                isLoadingList: true,
+                isLoadingCurrent: true
             };
 
         case "GET_CLAIMS_REQUEST":
@@ -40,10 +42,21 @@ const claimReducer = (state = defaultState, action) => {
                 )
             };
 
+        case "GET_CLAIM_REQUEST":
+            return {
+                ...state,
+                isLoadingCurrent: true
+            };
         case "GET_CLAIM_SUCCESS":
             return {
                 ...state,
-                current: payload
+                current: payload,
+                isLoadingCurrent: false
+            };
+        case "GET_CLAIM_FAILURE":
+            return {
+                ...state,
+                isLoadingCurrent: false
             };
 
         case "CLOSE_MODAL":

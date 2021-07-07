@@ -11,7 +11,7 @@ import LoadingSpinner from "../../Navigation/LoadingSpinner";
 
 const NegotiationFileCard = ({ data }) => {
     const { id, name, dummy, url } = data;
-    const link = `/storage/${url}`;
+    const link = `https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/${url}`;
 
     const dispatch = useDispatch();
     const deletingFileId = useSelector(

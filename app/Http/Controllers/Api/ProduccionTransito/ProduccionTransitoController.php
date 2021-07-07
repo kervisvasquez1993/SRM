@@ -20,7 +20,7 @@ class ProduccionTransitoController extends ApiController
    
     public function index()
     {
-        if(auth()->user()->rol == "coordinador" || auth()->user()->rol == "logistica" )
+        if(auth()->user()->rol == "coordinador" || auth()->user()->rol == "logistica"  || auth()->user()->rol == "presidente" )
         {
             $produccion_transito_user = ProduccionTransito::all();
         }
@@ -70,19 +70,37 @@ class ProduccionTransitoController extends ApiController
 
         $produccionTransito->fill($request->all());
         
-        $user_all = User::where('rol', 'coordinador')->orWhere('rol', 'logistica')->get();
+        $user_all = User::where('rol', 'presidente')->orWhere('rol', 'logistica')->get();
+        $coordinador   = User::find($produccionTransito->pivotTable->tarea->sender_id);
+        $comprador_asignado = User::find($produccionTransito->pivotTable->tarea->user_id);
         $nombreEmpresa = $produccionTransito->pivotTable->proveedor->nombre;
         $nombreTarea   = $produccionTransito->pivotTable->tarea->nombre;
-        $usar_asignado = User::find($produccionTransito->pivotTable->tarea->user_id);
-        $user          = $user_all->push($usar_asignado)->unique('id');
+        $user          = $user_all->push($coordinador,$comprador_asignado)->unique('id');
+        $link = "/productions?id=$produccionTransito->id";
+        if($produccionTransito->isDirty('inicio_produccion') && $produccionTransito->inicio_produccion == 1)
+        {
+            
+            $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea inicio producción.";
+            
+            $tipoNotify = "inicio_produccion";
+            Notification::send($user, new GeneralNotification($body, $link, $tipoNotify));
+        }
         if($produccionTransito->isDirty('fin_produccion') && $produccionTransito->fin_produccion == 1)
         {
             
             $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea finalizó producción.";
-            $link = "/productions?id=$produccionTransito->id";
             $tipoNotify = "fin_produccion";
             Notification::send($user, new GeneralNotification($body, $link, $tipoNotify));
         }
+
+        if($produccionTransito->isDirty('transito_nacionalizacion') && $produccionTransito->transito_nacionalizacion == 1)
+        {
+            
+            $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea finalizó la seccion de transito y nacionalizacion.";
+            $tipoNotify = "transito_nacionalizacion";
+            Notification::send($user, new GeneralNotification($body, $link, $tipoNotify));
+        }
+
        
         $produccionTransito->save();
         if ($request->salida_puero_origen == 1) 

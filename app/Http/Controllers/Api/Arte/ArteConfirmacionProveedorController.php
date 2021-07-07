@@ -31,14 +31,17 @@ class ArteConfirmacionProveedorController extends ApiController
         $confirmacion_proveedor->titulo = $request->titulo;
         $confirmacion_proveedor->descripcion = $request->descripcion;
         $confirmacion_proveedor->save();
-        
-        $login_user = auth()->user()->name;
-        $user_all   = User::where('rol', 'artes')->orWhere('rol', 'coordinador')->get();
+
+
+        $login_user         = auth()->user()->name;
+        $user_all           = User::where('rol', 'artes')->get();
         $comprador_asignado = User::find($arte->pivotTable->tarea->user_id);
-        $user = $user_all->push($comprador_asignado)->unique('id');
-        $text    = "El usuario '$login_user' agrego una incidencia asociada a confirmacion de proveedores";
-        $link    = "/arts?id=$arte->id&tab=confirmacion_proveedor";
-        $type    = "confirmacion_proveedor";
+        $coordinador        = User::find($arte->pivotTable->tarea->sender_id);
+        $user               = $user_all->push($comprador_asignado, $coordinador)->unique('id');
+        $codigo             = $arte->pivotTable->compra_po;
+        $text               = "El usuario '$login_user' agrego comentario en la sección Confirmación de Proveedor asociado al codigo: $codigo";
+        $link               = "/arts?id=$arte->id&tab=confirmacion_proveedor";
+        $type               = "confirmacion_proveedor";
         Notification::send($user, new GeneralNotification($text, $link, $type));
         return $this->showOneResource(new IncidenciaResource($confirmacion_proveedor));
     }

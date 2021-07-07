@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Api\Tarea;
 
 use App\User;
 use App\Tarea;
+use Google\Client;
 use Illuminate\Http\Request;
 use App\Notifications\TareaSent;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use App\Http\Resources\TareaResource;
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Validator;
@@ -39,7 +42,7 @@ class TareaController extends ApiController
         if ($validator->fails()) {
             return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
         }
-        
+
         $tarea = new Tarea();
         $tarea->nombre = $request->nombre;
         $tarea->user_id = $request->user_id;
@@ -47,15 +50,19 @@ class TareaController extends ApiController
         $tarea->descripcion = $request->descripcion;
         $tarea->fecha_fin = $request->fecha_fin;
         $tarea->save();
+
         /* seccion para las notificaciones */
         $comprador = User::find($tarea->user_id);
         $coordinador = User::find($tarea->sender_id);
-        $coordinadores = User::where('rol', 'coordinador')->get();
-        $userAll = $coordinadores->push($comprador)->unique('id');
-        $text = "El coordinador $coordinador->name asigno la tarea: $tarea->nombre, al comprador $comprador->name" ;
+        $presidentes = User::where('rol', 'presidente')->get();
+        $userAll = $presidentes->push($comprador)->unique('id');
+        $text = "El coordinador $coordinador->name asigno la tarea: $tarea->nombre al usuario $comprador->name y finaliza $tarea->fecha_fin" ;
         $link = "tasks/$tarea->id";
         $type = "tarea_asignada";
-        Notification::send($userAll, new GeneralNotification($text, $link, $type));
+        $title = "Tarea Asignada";
+        
+        $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title));
+
         return $this->showOneResource(new TareaResource($tarea));
     }
 
@@ -88,7 +95,6 @@ class TareaController extends ApiController
 
     public function destroy(Tarea $tarea)
     {
-
     }
 
     public function tareasUsuario(Request $request)
