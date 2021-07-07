@@ -30,13 +30,15 @@ class ArteValidacionBocetoController extends ApiController
         $validacion_boceto->titulo = $request->titulo;
         $validacion_boceto->descripcion = $request->descripcion;
         $validacion_boceto->save();
-        $login_user = auth()->user()->name;
-        $user_all   = User::where('rol', 'artes')->orWhere('rol', 'coordinador')->get();
+        $login_user         = auth()->user()->name;
+        $user_all           = User::where('rol', 'artes')->get();
+        $coordinador        = User::find($arte->pivotTable->tarea->sender_id);
         $comprador_asignado = User::find($arte->pivotTable->tarea->user_id);
-        $user = $user_all->push($comprador_asignado)->unique('id');
-        $text    = "El usuario '$login_user' agrego una incidencia asociada a validación de boceto";
-        $link    = "/arts?id=$arte->id&tab=validacion_boceto";
-        $type    = "validacion_boceto";
+        $user               = $user_all->push($comprador_asignado, $coordinador)->unique('id');
+        $codigo             = $arte->pivotTable->compra_po;
+        $text               = "El usuario '$login_user' agrego comentario en la sección Validación de Boceto asociado al codigo: $codigo";
+        $link               = "/arts?id=$arte->id&tab=validacion_boceto";
+        $type               = "validacion_boceto";
         Notification::send($user, new GeneralNotification($text, $link, $type));
         return $this->showOneResource(new IncidenciaResource($validacion_boceto));
     }

@@ -39,12 +39,10 @@ class ArteController extends ApiController
             return $this->errorResponse('No tiene Permiso para Realizar esta Operacion', 403);
         }
         /* creacion de mensaje */
-        $user_all = User::where('rol', 'presidente')->orWhere('rol', 'arte')->get();
+        $user_all = User::where('rol', 'presidente')->orWhere('rol', 'artes')->get();
         $coordinador   = User::find($arte->pivotTable->tarea->sender_id);
         $comprador_asignado = User::find($arte->pivotTable->tarea->user_id);
         $codigo = $arte->pivotTable->compra_po;
-        $nombreEmpresa = $arte->pivotTable->proveedor->nombre;
-        $nombreTarea   = $arte->pivotTable->tarea->nombre;
         $user          = $user_all->push($coordinador,$comprador_asignado)->unique('id');
         /* fin de cuerpo comun de mensaje */
         $arte->fill($request->all());
