@@ -24,6 +24,11 @@
 
 @import "file";
 
+@import "drag_drop";
+
+body {
+    overflow: hidden;
+}
 @import "progress_bar";
 
 @import "dropzone";
