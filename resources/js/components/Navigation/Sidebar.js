@@ -82,7 +82,8 @@ const Sidebar = () => {
 
                 {(user.rol === "artes" ||
                     user.rol === "coordinador" ||
-                    user.rol === "observador") && (
+                    user.rol === "observador" ||
+                    user.rol === "comprador") && (
                     <Link className="menu-link" to="/arts" onClick={closeMenu}>
                         <div className="link-container">
                             <i className="material-icons">brush</i>
