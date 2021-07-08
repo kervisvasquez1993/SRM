@@ -9,7 +9,7 @@ import Error from "../../Navigation/Error";
 import LoadingScreen from "../../Navigation/LoadingScreen";
 import ProductClaimList from "./ProductClaimList";
 
-const ClaimPage = () => {
+const ProductClaimPage = () => {
     const dispatch = useDispatch();
     // @ts-ignore
     const { id: claimId } = useParams();
@@ -53,8 +53,10 @@ const ClaimPage = () => {
 
     return (
         <React.Fragment>
-            <div className="d-flex align-items-center mt-5 justify-content-between">
-                <h1 className="text-left h2">Reclamos y Devoluciones</h1>
+            <div className="d-flex flex-wrap align-items-center mt-5 justify-content-between">
+                <h1 className="text-left h2 text-center">
+                    Reclamos y Devoluciones
+                </h1>
                 <div className="form-check form-check p-1 ml-5">
                     <label className="form-check-label">
                         ¿Completado?
@@ -86,4 +88,4 @@ const ClaimPage = () => {
     );
 };
 
-export default ClaimPage;
+export default ProductClaimPage;

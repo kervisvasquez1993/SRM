@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\RecepcionReclamoDevolucion;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\IncidenciaValidacion;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -69,5 +70,12 @@ class ReclamoProductoController extends ApiController
     public function getArchivos(ReclamoProducto $reclamo_id)
     {
         return $this->showAll($reclamo_id->imagenReclamo);
+    }
+
+    public function eliminarArchivo(ReclamoProducto $reclamo, ImagenReclamo $imagen_reclamo)
+    {
+        Storage::delete($imagen_reclamo->url);
+        $imagen_reclamo->delete();
+        return $this->showOne($imagen_reclamo);
     }
 }

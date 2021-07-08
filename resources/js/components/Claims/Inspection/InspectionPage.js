@@ -61,8 +61,8 @@ const ReceptionPage = () => {
 
     return (
         <React.Fragment>
-            <div className="d-flex align-items-center mt-5 justify-content-between">
-                <h1 className="text-left h2">Inspección</h1>
+            <div className="d-flex flex-wrap align-items-center mt-5 justify-content-between">
+                <h1 className="text-left h2 text-center">Inspección</h1>
                 <div className="form-check form-check p-1 ml-5">
                     <label className="form-check-label">
                         ¿Completado?
@@ -81,7 +81,7 @@ const ReceptionPage = () => {
                 </div>
             </div>
 
-            <hr/>
+            <hr />
 
             <InspectionFileList />
 

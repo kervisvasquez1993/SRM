@@ -224,8 +224,9 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/reclamo/{reclamo_id}', 'Api\ReclamoDevolucion\ReclamoProductoController@update');
     Route::delete('/reclamo/{reclamo_id}', 'Api\ReclamoDevolucion\ReclamoProductoController@destroy');
     /* imagenes para reclamos */
-    Route::post('/reclamo/{reclamo_id}/archivo', 'Api\ReclamoDevolucion\ReclamoProductoController@importarArchivo');
     Route::get('/reclamo/{reclamo_id}/archivo', 'Api\ReclamoDevolucion\ReclamoProductoController@getArchivos');
+    Route::post('/reclamo/{reclamo_id}/archivo', 'Api\ReclamoDevolucion\ReclamoProductoController@importarArchivo');
+    Route::delete('/reclamo/{reclamo}/archivo/{imagen_reclamo}', 'Api\ReclamoDevolucion\ReclamoProductoController@eliminarArchivo');
     /* imagenesde inspeccion */
     Route::get('/reclamos_devoluciones/{reclamos_devoluciones_id}/imagen_inspeccion', 'Api\ReclamoDevolucion\ImagenInspeccionController@index');
     Route::post('/reclamos_devoluciones/{reclamos_devoluciones_id}/imagen_inspeccion', 'Api\ReclamoDevolucion\ImagenInspeccionController@store');

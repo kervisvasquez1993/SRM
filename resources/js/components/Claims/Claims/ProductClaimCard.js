@@ -5,6 +5,8 @@ import { confirmDelete } from "../../../appText";
 import { deleteProductClaim } from "../../../store/actions/claimActions";
 import { openModal } from "../../../store/actions/modalActions";
 import { dateToShortString, useUser } from "../../../utils";
+import { apiURL } from "../../App";
+import ProductClaimFileList from "../../Files/GenericFileList";
 import ProductClaimModal from "./ProductClaimModal";
 
 const ProductClaimCard = ({ data }) => {
@@ -26,6 +28,8 @@ const ProductClaimCard = ({ data }) => {
         }
     };
 
+    const url = `${apiURL}/reclamo/${data.id}/archivo`;
+
     return (
         <div className={`card shadow-md my-2 fade-in`}>
             <div className="card-body pb-0">
@@ -37,6 +41,13 @@ const ProductClaimCard = ({ data }) => {
                         __html: data.descripcion
                     }}
                 ></div>
+
+                <ProductClaimFileList
+                    id={data.id}
+                    getUrl={url}
+                    uploadUrl={url}
+                    deleteUrl={url}
+                />
             </div>
 
             <div className="card-footer">
