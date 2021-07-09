@@ -10,10 +10,11 @@ import {
     updateClaim
 } from "../../../store/actions/claimActions";
 import { useUser } from "../../../utils";
+import { apiURL } from "../../App";
+import GenericFileList from "../../Files/GenericFileList";
 import IncidentsTab from "../../Incidents/IncidentsTab";
 import Error from "../../Navigation/Error";
 import LoadingScreen from "../../Navigation/LoadingScreen";
-import ReceptionTable from "./ReceptionTable";
 
 const ReceptionPage = () => {
     const dispatch = useDispatch();
@@ -25,18 +26,6 @@ const ReceptionPage = () => {
     const claim = useSelector(state => state.claim.current);
     // @ts-ignore
     const isLoadingCurrent = useSelector(state => state.claim.isLoadingCurrent);
-    // @ts-ignore
-    const isUploadingFile = useSelector(state => state.claim.isUploadingFile);
-
-    const {
-        acceptedFiles,
-        getRootProps,
-        getInputProps,
-        isDragActive
-    } = useDropzone({
-        maxFiles: 1,
-        accept: ".xlsx"
-    });
 
     if (
         !(
@@ -72,12 +61,6 @@ const ReceptionPage = () => {
         reclamos_devoluciones
     } = claim;
 
-    const handleUpload = e => {
-        e.preventDefault();
-        dispatch(importExcel(claimId, acceptedFiles[0]));
-        acceptedFiles.length = 0;
-    };
-
     const handleCheck = e => {
         const data = {
             ...claim,
@@ -90,17 +73,19 @@ const ReceptionPage = () => {
     return (
         <React.Fragment>
             <div className="d-flex flex-wrap align-items-center mt-5 justify-content-between">
-                <h1 className="text-left h2 text-center">Recepción</h1>
+                <h1 className="text-left h2 text-center">Inspección</h1>
                 <div className="form-check form-check p-1 ml-5">
                     <label className="form-check-label">
                         ¿Completado?
                         <input
                             className="form-check-input"
                             type="checkbox"
-                            id="recepcion_mercancia"
+                            id="inspeccion_carga"
                             onChange={handleCheck}
-                            checked={recepcion_mercancia}
-                            disabled={inspeccion_carga || reclamos_devoluciones}
+                            checked={inspeccion_carga}
+                            disabled={
+                                reclamos_devoluciones || !recepcion_mercancia
+                            }
                         />
                         <span className="form-check-sign">
                             <span className="check"></span>
@@ -109,55 +94,23 @@ const ReceptionPage = () => {
                 </div>
             </div>
 
-            <hr className="mb-5" />
+            <hr />
 
-            <ReceptionTable />
-
-            {user.rol === "almacen" && (
-                <React.Fragment>
-                    <div className="d-flex justify-content-center">
-                        <div
-                            {...getRootProps({
-                                className: `dropzone rounded mx-5 mb-2 ${
-                                    isDragActive ? "drag-active" : ""
-                                }`
-                            })}
-                        >
-                            <input name="import" {...getInputProps()} />
-                            {acceptedFiles.length > 0 ? (
-                                <div>
-                                    {acceptedFiles[0].name} -{" "}
-                                    {acceptedFiles[0].size} bytes
-                                </div>
-                            ) : (
-                                <span>
-                                    Arrastre un archivo excel o haga clic aquí
-                                </span>
-                            )}
-                        </div>
-                    </div>
-
-                    <div className="text-center">
-                        <button
-                            className="btn btn-lg btn-success btn-round mb-4"
-                            onClick={handleUpload}
-                            disabled={
-                                acceptedFiles.length == 0 || isUploadingFile
-                            }
-                        >
-                            Importar Excel
-                            <BsUpload className="ml-3 icon-normal" />
-                        </button>
-                    </div>
-                </React.Fragment>
-            )}
+            <GenericFileList
+                id="inspection"
+                getUrl={`${apiURL}/reclamos_devoluciones/${claimId}/imagen_inspeccion`}
+                uploadUrl={`${apiURL}/reclamos_devoluciones/${claimId}/imagen_inspeccion`}
+                deleteUrl={`${apiURL}/imagen_inspeccion`}
+                hideDropzone={user.rol != "almacen"}
+                allowEditing={user.rol === "almacen"}
+            />
 
             <hr className="mt-5" />
 
             <IncidentsTab
                 stateName="claim"
                 url1="reclamos_devoluciones"
-                url2="incidencia_recepcion"
+                url2="inspeccion_carga"
                 title="Comentarios"
                 useEmptyListMessage={false}
             ></IncidentsTab>

@@ -16,7 +16,13 @@ const ClaimsList = () => {
     const isLoadingList = useSelector(state => state.claim.isLoadingList);
     const [filteredNegotiations, setFilteredNegotiations] = useState([]);
 
-    if (!(user.rol === "coordinador" || user.rol === "comprador")) {
+    if (
+        !(
+            user.rol === "coordinador" ||
+            user.rol === "comprador" ||
+            user.rol === "almacen"
+        )
+    ) {
         return <Redirect to="/home" />;
     }
 

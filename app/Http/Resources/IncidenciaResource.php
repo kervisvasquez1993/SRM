@@ -14,6 +14,7 @@ class IncidenciaResource extends JsonResource
             'titulo' => $this->titulo,
             'descripcion' => $this->descripcion,
             'created_at' => $this->created_at,
+            'user_id' => $this->user_id,
             'usuario_nombre' => $this->user->name
         ];
     }

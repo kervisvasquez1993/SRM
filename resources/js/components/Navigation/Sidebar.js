@@ -82,7 +82,8 @@ const Sidebar = () => {
 
                 {(user.rol === "artes" ||
                     user.rol === "coordinador" ||
-                    user.rol === "observador") && (
+                    user.rol === "observador" ||
+                    user.rol === "comprador") && (
                     <Link className="menu-link" to="/arts" onClick={closeMenu}>
                         <div className="link-container">
                             <i className="material-icons">brush</i>
@@ -93,7 +94,8 @@ const Sidebar = () => {
 
                 {(user.rol === "coordinador" ||
                     user.rol === "comprador" ||
-                    user.rol === "observador") && (
+                    user.rol === "observador" ||
+                    user.rol === "logistica") && (
                     <React.Fragment>
                         <Link
                             className="menu-link"
@@ -107,6 +109,14 @@ const Sidebar = () => {
                                 <p>Producción y Transito</p>
                             </div>
                         </Link>
+                    </React.Fragment>
+                )}
+
+                {(user.rol === "coordinador" ||
+                    user.rol === "comprador" ||
+                    user.rol === "observador" ||
+                    user.rol === "almacen") && (
+                    <React.Fragment>
                         <Link
                             className="menu-link"
                             to="/claims"

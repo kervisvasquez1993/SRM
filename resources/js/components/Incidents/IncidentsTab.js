@@ -2,13 +2,16 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import IncidentModal from "./IncidentModal";
 import IncidentCard from "./IncidentCard";
-import { emptyIncident, getIncidents } from "../../store/actions/incidentActions";
+import {
+    emptyIncident,
+    getIncidents
+} from "../../store/actions/incidentActions";
 import { openModal } from "../../store/actions/modalActions";
 import EmptyList from "../Navigation/EmptyList";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import LargeCreateButton from "../Widgets/LargeCreateButton";
 
-const IncidentsTab = ({ stateName, url1, url2, title }) => {
+const IncidentsTab = ({ stateName, url1, url2, title, useEmptyListMessage = true }) => {
     const dispatch = useDispatch();
 
     const parent = useSelector(state => state[stateName].current);
@@ -46,14 +49,16 @@ const IncidentsTab = ({ stateName, url1, url2, title }) => {
     return (
         <React.Fragment>
             <div className="mr-auto text-center py-2">
-                <h3 className="h2">{title}</h3>
+                <h3>{title}</h3>
             </div>
 
             {areIncidentsLoading ? (
                 <LoadingScreen />
             ) : (
                 <React.Fragment>
-                    {incidents.length === 0 && <EmptyList />}
+                    {
+                        useEmptyListMessage && incidents.length === 0 && <EmptyList />
+                    }
 
                     <LargeCreateButton onClick={handleCreate} />
                     <div className="d-flex flex-column-reverse">

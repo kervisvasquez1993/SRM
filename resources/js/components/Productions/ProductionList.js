@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
 import { getProductions } from "../../store/actions/productionActions";
+import { useUser } from "../../utils";
 import GenericFilter from "../Filters/GenericFilter";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import NegotiationResume from "../Widgets/NegotiationResume";
@@ -9,9 +11,21 @@ import ProductionCard from "./ProductionCard";
 
 const ProductionList = () => {
     const dispatch = useDispatch();
+    const user = useUser();
     const productions = useSelector(state => state.production.list);
     const [filteredNegotiations, setFilteredNegotiations] = useState([]);
     const isLoadingList = useSelector(state => state.production.isLoadingList);
+
+    if (
+        !(
+            user.rol === "coordinador" ||
+            user.rol === "comprador" ||
+            user.rol === "observador" ||
+            user.rol === "logistica"
+        )
+    ) {
+        return <Redirect to="/home" />;
+    }
 
     const onChange = filteredList => {
         setFilteredNegotiations(filteredList.map(item => item.pivot));

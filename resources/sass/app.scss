@@ -24,7 +24,35 @@
 
 @import "file";
 
+@import "drag_drop";
+
+body {
+    overflow: hidden;
+}
 @import "progress_bar";
+
+@import "dropzone";
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;800&display=swap");
+
+b, strong {
+    font-weight: bold;
+}
+
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4 {
+    font-family: "Montserrat", sans-serif !important;
+}
 
 .keep-line-breaks {
     white-space: pre-line;
@@ -136,41 +164,6 @@ table,
     font-size: 0.9rem !important;
 }
 
-.dropzone {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem;
-    border-width: 2px;
-    border-radius: 2px;
-    border-color: #8c8c8c;
-    border-style: dashed;
-    background-color: #fafafa;
-    color: #707070;
-    outline: none;
-    transition: border 0.24s ease-in-out;
-
-    &:hover {
-        box-shadow: 0 0 10px rgba(0, 188, 212, 0.4);
-    }
-
-    & ul {
-        margin-bottom: 0;
-    }
-
-    & li {
-        text-align: left;
-        margin-bottom: 0.5rem;
-        max-width: 400px;
-    }
-}
-
-.drag-active {
-    border-color: rgb(0, 188, 212);
-    box-shadow: 0 0 10px rgba(0, 188, 212, 0.4);
-}
-
 .card.notification {
     max-width: 800px;
     &:first-child {
@@ -247,8 +240,60 @@ table,
     }
 }
 
-.table.table-sm {
-    & td {
-        padding: 0.5rem 0.2rem !important;
+.table {
+    & .rich-text {
+        margin-bottom: 0;
+    }
+
+    & th {
+        text-align: center;
+    }
+
+    &.table-sm {
+        & td,
+        th {
+            font-size: 0.7rem !important;
+            padding: 0.5rem 0.2rem !important;
+        }
+
+        & th {
+            padding: 0.5rem 0.5rem !important;
+        }
     }
 }
+
+.scale-3 {
+    transform: scale(3);
+}
+
+.form-check .form-check-sign .check {
+    z-index: initial;
+}
+
+.table-sticky {
+    & th {
+        position: sticky;
+        top: 0;
+    }
+
+    & thead th {
+        border: 0;
+    }
+
+    & .thead-row-1 {
+        height: 40px;
+
+        & th {
+            position: sticky;
+            top: 0;
+        }
+    }
+
+    & .thead-row-2 {
+        & th {
+            position: sticky;
+            top: 40px;
+        }
+    }
+}
+

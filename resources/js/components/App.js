@@ -42,6 +42,8 @@ import { removeSlash } from "../utils";
 import "react-quill/dist/quill.snow.css";
 import { Helmet } from "react-helmet-async";
 import ReceptionPage from "./Claims/Reception/ReceptionPage";
+import InspectionPage from "./Claims/Inspection/InspectionPage";
+import ProductClaimPage from "./Claims/Claims/ProductClaimPage";
 
 // const messaging = firebase.messaging();
 
@@ -92,7 +94,8 @@ const App = () => {
 
     const handlers = useSwipeable({
         onSwiped: event => {
-            const tagName = event.event.target.tagName;
+            const target = event.event.target;
+            const tagName = target.tagName;
 
             if (
                 tagName === "TD" ||
@@ -100,6 +103,10 @@ const App = () => {
                 tagName === "TABLE" ||
                 tagName === "INPUT"
             ) {
+                return;
+            }
+
+            if (target.classList.contains("ignore-swipe")) {
                 return;
             }
 
@@ -230,6 +237,12 @@ const App = () => {
                             </Route>
                             <Route exact path="/claims/:id/reception">
                                 <ReceptionPage />
+                            </Route>
+                            <Route exact path="/claims/:id/inspection">
+                                <InspectionPage />
+                            </Route>
+                            <Route exact path="/claims/:id/claim">
+                                <ProductClaimPage />
                             </Route>
                             <Route path="/notifications">
                                 <NotificationList />

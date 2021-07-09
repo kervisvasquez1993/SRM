@@ -48,16 +48,41 @@ class UserSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => 'jesus',
+            'name' => 'Jesus',
             'rol' => "comprador",
             'email' => 'jesus@gmail.com',
             'password' =>Hash::make("123456789"),
             'created_at' => Carbon::now()
         ]);
+
         DB::table('users')->insert([
-            'name' => 'arte',
+            'name' => 'Arte',
             'rol' => "artes",
             'email' => 'arte@gmail.com',
+            'password' =>Hash::make("123456789"),
+            'created_at' => Carbon::now()
+        ]);
+
+        DB::table('users')->insert([
+            'name' => 'Almacen',
+            'rol' => "almacen",
+            'email' => 'almacen@gmail.com',
+            'password' =>Hash::make("123456789"),
+            'created_at' => Carbon::now()
+        ]);
+
+        DB::table('users')->insert([
+            'name' => 'Presidente',
+            'rol' => "presidente",
+            'email' => 'presidente@gmail.com',
+            'password' =>Hash::make("123456789"),
+            'created_at' => Carbon::now()
+        ]);
+
+        DB::table('users')->insert([
+            'name' => 'Logistica',
+            'rol' => "logistica",
+            'email' => 'logistica@gmail.com',
             'password' =>Hash::make("123456789"),
             'created_at' => Carbon::now()
         ]);

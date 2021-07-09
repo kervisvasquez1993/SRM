@@ -1,32 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AiFillFile } from "react-icons/ai";
 import { MdDeleteForever } from "react-icons/md";
 import { VscFilePdf } from "react-icons/vsc";
 import { ImFileText2 } from "react-icons/im";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteFile } from "../../../store/actions/negotiationActions";
-import LoadingSpinner from "../../Navigation/LoadingSpinner";
-import { confirmDelete } from "../../../appText";
+import { confirmDelete } from "../../appText";
+import { deleteFile } from "../../store/actions/fileManagerActions";
+import LoadingSpinner from "../Navigation/LoadingSpinner";
 
-const NegotiationFileCard = ({ data }) => {
+const GenericFileCard = ({
+    data,
+    deleteUrl = null,
+    managerId = null,
+    allowEditing
+}) => {
     const { id, name, dummy, url } = data;
     const link = `https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/${url}`;
 
     const dispatch = useDispatch();
-    const deletingFileId = useSelector(
-        // @ts-ignore
-        state => state.negotiation.deletingFileId
-    );
 
-    const handleClick = () => {};
+    // @ts-ignore
+    const fileStates = useSelector(state => state.fileManager.states);
+    const deletingFileId = fileStates[managerId].deletingFileId;
 
     const handleDelete = e => {
         e.preventDefault();
         e.stopPropagation();
 
         if (confirm(confirmDelete)) {
-            dispatch(deleteFile(id));
+            dispatch(deleteFile(managerId, data.id, deleteUrl));
         }
     };
 
@@ -59,10 +62,12 @@ const NegotiationFileCard = ({ data }) => {
                     ) : (
                         <React.Fragment>
                             {content}
-                            <MdDeleteForever
-                                className="delete-icon"
-                                onClick={handleDelete}
-                            />
+                            {allowEditing && (
+                                <MdDeleteForever
+                                    className="delete-icon"
+                                    onClick={handleDelete}
+                                />
+                            )}
                         </React.Fragment>
                     )}
                 </div>
@@ -73,4 +78,4 @@ const NegotiationFileCard = ({ data }) => {
     );
 };
 
-export default NegotiationFileCard;
+export default GenericFileCard;

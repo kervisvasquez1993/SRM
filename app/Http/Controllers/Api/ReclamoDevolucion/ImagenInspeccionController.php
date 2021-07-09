@@ -26,19 +26,21 @@ class ImagenInspeccionController extends ApiController
         $request->validate([
             'file' => 'max:10000',
         ]);
-        $name = $request->file('file')->getClientOriginalName();
+
+        $file = $request->file('file');
+        $name = $file->getClientOriginalName();
 
         $coincidencia = ImagenInspeccion::where('recepcion_reclamo_devolucion_id', $reclamos_devoluciones_id->id)->where('name', $name)->first();
         if ($coincidencia != null) {
             return $this->errorResponse("Ya existe un archivo con el mismo nombre",  Response::HTTP_BAD_REQUEST);
         }
 
-        $file = new ImagenInspeccion();
-        $file->recepcion_reclamo_devolucion_id = $reclamos_devoluciones_id->id;
-        $file->url = $request->file('file')->store('inspeccion_imagenes','s3');
-        $file->name = $request->file('file')->getClientOriginalName();
-        $file->save();
-        return $this->showOne($file);
+        $pivot_file = new ImagenInspeccion();
+        $pivot_file->recepcion_reclamo_devolucion_id = $reclamos_devoluciones_id->id;
+        $pivot_file->url = Storage::disk('s3')->put("negociacion_archivos",  $file, 'public');
+        $pivot_file->name = $file->getClientOriginalName();
+        $pivot_file->save();
+        return $this->showOne($pivot_file);
     }
 
     public function show(ImagenInspeccion $imagen_inspeccion_id)

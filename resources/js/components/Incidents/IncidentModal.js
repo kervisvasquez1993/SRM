@@ -1,6 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createIncident, editIncident } from "../../store/actions/incidentActions";
+import {
+    createIncident,
+    editIncident
+} from "../../store/actions/incidentActions";
 import InputText from "../Form/InputText";
 import InputTextArea from "../Form/InputTextarea";
 import GenericFormModal from "../Table/GenericFormModal";
@@ -13,17 +16,12 @@ const IncidentModal = ({ stateName, url1, url2, formData, isEditor }) => {
         if (isEditor) {
             dispatch(editIncident(url2, data));
         } else {
-            dispatch(
-                createIncident(url1, art.id, url2, data)
-            );
+            dispatch(createIncident(url1, url2, art.id, data));
         }
     };
 
     return (
-        <GenericFormModal
-            formData={formData}
-            onSubmit={onSubmit}
-        >
+        <GenericFormModal formData={formData} onSubmit={onSubmit}>
             <InputText id="titulo" label="Titulo" />
             <InputTextArea id="descripcion" label="Descripción" />
         </GenericFormModal>

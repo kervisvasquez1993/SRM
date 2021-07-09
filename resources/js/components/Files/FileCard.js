@@ -5,28 +5,35 @@ import { VscFilePdf } from "react-icons/vsc";
 import { ImFileText2 } from "react-icons/im";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteFile } from "../../../store/actions/negotiationActions";
-import LoadingSpinner from "../../Navigation/LoadingSpinner";
-import { confirmDelete } from "../../../appText";
+import LoadingSpinner from "../Navigation/LoadingSpinner";
+import { confirmDelete } from "../../appText";
+import { deleteFile } from "../../store/actions/fileManagerActions";
 
-const NegotiationFileCard = ({ data }) => {
+const FileCard = ({
+    data,
+    stateName,
+    deleteAction = null,
+    deleteUrl = null,
+    managerId = null
+}) => {
     const { id, name, dummy, url } = data;
     const link = `https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/${url}`;
 
     const dispatch = useDispatch();
     const deletingFileId = useSelector(
-        // @ts-ignore
-        state => state.negotiation.deletingFileId
+        state => state[stateName].deletingFileId
     );
-
-    const handleClick = () => {};
 
     const handleDelete = e => {
         e.preventDefault();
         e.stopPropagation();
 
         if (confirm(confirmDelete)) {
-            dispatch(deleteFile(id));
+            if (deleteAction) {
+                dispatch(deleteAction());
+            } else {
+                dispatch(deleteFile(managerId, data.id, deleteUrl));
+            }
         }
     };
 
@@ -73,4 +80,4 @@ const NegotiationFileCard = ({ data }) => {
     );
 };
 
-export default NegotiationFileCard;
+export default FileCard;

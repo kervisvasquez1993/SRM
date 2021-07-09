@@ -1,54 +1,55 @@
 import React from "react";
 import { BsPersonFill } from "react-icons/bs";
-import { useDispatch, useSelector } from "react-redux";
-import { deleteIncident } from "../../store/actions/incidentActions";
-import { openModal } from "../../store/actions/modalActions";
-import { dateToShortString, useUser } from "../../utils";
-import SeeMoreText from "../Widgets/SeeMoreText";
-import IncidentModal from "./IncidentModal";
+import { useDispatch } from "react-redux";
+import { confirmDelete } from "../../../appText";
+import { deleteProductClaim } from "../../../store/actions/claimActions";
+import { openModal } from "../../../store/actions/modalActions";
+import { dateToShortString, useUser } from "../../../utils";
+import { apiURL } from "../../App";
+import GenericFileList from "../../Files/GenericFileList";
+import ProductClaimModal from "./ProductClaimModal";
 
-const IncidentCard = ({ stateName, url1, url2, incident }) => {
+const ProductClaimCard = ({ data }) => {
     const dispatch = useDispatch();
     const user = useUser();
-
-    const modal = useSelector(store => store.modal);
 
     const handleEdit = () => {
         dispatch(
             openModal({
-                title: "Editar Incidencia",
-                body: (
-                    <IncidentModal
-                        stateName={stateName}
-                        url1={url1}
-                        url2={url2}
-                        formData={incident}
-                        isEditor={true}
-                    />
-                ),
-                onClose: () =>
-                    dispatch(openModal({ ...modal, defaultTab: url2 }))
+                title: "Editar Reclamo",
+                body: <ProductClaimModal formData={data} isEditor={true} />
             })
         );
     };
 
     const handleDelete = () => {
-        dispatch(deleteIncident(url2, incident.id));
+        if (confirm(confirmDelete)) {
+            dispatch(deleteProductClaim(data.id));
+        }
     };
+
+    const url = `${apiURL}/reclamo/${data.id}/archivo`;
 
     return (
         <div className={`card shadow-md my-2 fade-in`}>
             <div className="card-body pb-0">
-                <h5 className="card-title font-weight-bold">
-                    {incident.titulo}
-                </h5>
+                <h5 className="card-title font-weight-bold">{data.titulo}</h5>
                 <hr />
                 <div
                     className="card-text rich-text"
                     dangerouslySetInnerHTML={{
-                        __html: incident.descripcion
+                        __html: data.descripcion
                     }}
                 ></div>
+
+                <GenericFileList
+                    id={data.id}
+                    getUrl={url}
+                    uploadUrl={url}
+                    deleteUrl={url}
+                    hideDropzone={user.rol != "almacen"}
+                    allowEditing={user.rol === "almacen"}
+                />
             </div>
 
             <div className="card-footer">
@@ -56,7 +57,7 @@ const IncidentCard = ({ stateName, url1, url2, incident }) => {
                     <div className="d-flex flex-wrap">
                         <div className="d-flex align-items-center mr-4 mb-1">
                             <BsPersonFill className="icon-normal mr-1" />
-                            <strong>{incident.usuario_nombre}</strong>
+                            <strong>{data.usuario.name}</strong>
                         </div>
 
                         <div className="d-flex">
@@ -65,13 +66,13 @@ const IncidentCard = ({ stateName, url1, url2, incident }) => {
                                 Fecha :{" "}
                                 <strong>
                                     {dateToShortString(
-                                        new Date(incident.created_at)
+                                        new Date(data.created_at)
                                     )}
                                 </strong>
                             </p>
                         </div>
                     </div>
-                    {user.id === incident.user_id && (
+                    {user.id === data.user_login && (
                         <div className="d-flex bt-sm justify-content-end flex-grow-1">
                             <button
                                 className="btn btn-success btn-circle"
@@ -95,4 +96,4 @@ const IncidentCard = ({ stateName, url1, url2, incident }) => {
     );
 };
 
-export default IncidentCard;
+export default ProductClaimCard;

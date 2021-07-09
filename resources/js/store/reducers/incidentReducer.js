@@ -25,6 +25,19 @@ const incidentReducer = (state = defaultState, action) => {
                 ...state,
                 areIncidentsLoading: false
             };
+
+        case "CREATE_INCIDENT_SUCCESS":
+            return {
+                ...state,
+                incidents: [...state.incidents, payload]
+            };
+        case "EDIT_INCIDENT_SUCCESS":
+            return {
+                ...state,
+                incidents: state.incidents.map(item =>
+                    item.id == payload.id ? payload : item
+                )
+            };
         case "DELETE_INCIDENT_SUCCESS":
             return {
                 ...state,
