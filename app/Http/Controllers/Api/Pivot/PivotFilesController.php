@@ -26,20 +26,22 @@ class PivotFilesController extends ApiController
             'file' => 'max:10000',
         ]);
 
+        $file = $request->file('file');
+
         $pivot_id = $request->negociacion_id;
-        $name = $request->file('file')->getClientOriginalName();
+        $name =  $file->getClientOriginalName();
 
         $coincidencia = PivotFile::where('pivot_tarea_proveeder_id', $pivot_id)->where('name', $name)->first();
         if ($coincidencia != null) {
             return $this->errorResponse("Ya existe un archivo con el mismo nombre",  Response::HTTP_BAD_REQUEST);
         }
 
-        $file = new PivotFile();
-        $file->pivot_tarea_proveeder_id = $pivot_id;
-        $file->url = $request->file('file')->store('negociacion_archivos', 's3');
-        $file->name = $request->file('file')->getClientOriginalName();
-        $file->save();
-        return $this->showOne($file);
+        $pivot_file = new PivotFile();
+        $pivot_file->pivot_tarea_proveeder_id = $pivot_id;
+        $pivot_file->url = Storage::disk('s3')->put("negociacion_archivos",  $file, 'public');
+        $pivot_file->name =  $file->getClientOriginalName();
+        $pivot_file->save();
+        return $this->showOne($pivot_file);
     }
 
 

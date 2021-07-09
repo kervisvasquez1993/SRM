@@ -50,7 +50,8 @@ class ReclamoProductoController extends ApiController
             'file' => 'max:10000',
         ]);
 
-        $name = $request->file('file')->getClientOriginalName();
+        $file = $request->file('file');
+        $name = $file->getClientOriginalName();
 
         $coincidencia = ImagenReclamo::where('reclamo_producto_id', $reclamo_id->id)->where('name', $name)->first();
         /* return $reclamo_id; */
@@ -58,13 +59,12 @@ class ReclamoProductoController extends ApiController
             return $this->errorResponse("Ya existe un archivo con el mismo nombre",  Response::HTTP_BAD_REQUEST);
         }
 
-        $file = new ImagenReclamo();
-
-        $file->reclamo_producto_id = $reclamo_id->id;
-        $file->url = $request->file('file')->store('reclamo_imagenes');
-        $file->name = $request->file('file')->getClientOriginalName();
-        $file->save();
-        return $this->showOne($file);
+        $pivot_file = new ImagenReclamo();
+        $pivot_file->reclamo_producto_id = $reclamo_id->id;
+        $pivot_file->url = Storage::disk('s3')->put("negociacion_archivos",  $file, 'public');
+        $pivot_file->name = $file->getClientOriginalName();
+        $pivot_file->save();
+        return $this->showOne($pivot_file);
     }
 
     public function getArchivos(ReclamoProducto $reclamo_id)
