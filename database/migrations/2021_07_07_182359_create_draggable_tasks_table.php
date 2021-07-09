@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDraggebleTasksTable extends Migration
+class CreateDraggableTasksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateDraggebleTasksTable extends Migration
      */
     public function up()
     {
-        Schema::create('draggeble_tasks', function (Blueprint $table) {
+        Schema::create('draggable_tasks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('tarea_id')->references('id')->on('tareas');
-            $table->integer('posiction_row')->default();
-            $table->integer('position_column')->default();
+            $table->integer('row')->default('0');
+            $table->integer('column')->default('0');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateDraggebleTasksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('draggeble_tasks');
+        Schema::dropIfExists('draggable_tasks');
     }
 }

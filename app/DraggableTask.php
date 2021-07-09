@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DraggebleTask extends Model
+class DraggableTask extends Model
 {
     /* use HasFactory; */
     public function tareas()
