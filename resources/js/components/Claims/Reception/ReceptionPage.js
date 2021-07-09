@@ -38,7 +38,13 @@ const ReceptionPage = () => {
         accept: ".xlsx"
     });
 
-    if (!(user.rol === "coordinador" || user.rol === "comprador")) {
+    if (
+        !(
+            user.rol === "coordinador" ||
+            user.rol === "comprador" ||
+            user.rol === "almacen"
+        )
+    ) {
         return <Redirect to="/home" />;
     }
 
@@ -105,44 +111,55 @@ const ReceptionPage = () => {
 
             <hr className="mb-5" />
 
-            <div className="d-flex justify-content-center">
-                <div
-                    {...getRootProps({
-                        className: `dropzone rounded mx-5 mb-2 ${
-                            isDragActive ? "drag-active" : ""
-                        }`
-                    })}
-                >
-                    <input name="import" {...getInputProps()} />
-                    {acceptedFiles.length > 0 ? (
-                        <div>
-                            {acceptedFiles[0].name} - {acceptedFiles[0].size}{" "}
-                            bytes
-                        </div>
-                    ) : (
-                        <span>Arrastre un archivo excel o haga clic aquí</span>
-                    )}
-                </div>
-            </div>
-
-            <div className="text-center">
-                <button
-                    className="btn btn-lg btn-success btn-round mb-4"
-                    onClick={handleUpload}
-                    disabled={acceptedFiles.length == 0 || isUploadingFile}
-                >
-                    Importar Excel
-                    <BsUpload className="ml-3 icon-normal" />
-                </button>
-            </div>
-
             <ReceptionTable />
+
+            {user.rol === "almacen" && (
+                <React.Fragment>
+                    <div className="d-flex justify-content-center">
+                        <div
+                            {...getRootProps({
+                                className: `dropzone rounded mx-5 mb-2 ${
+                                    isDragActive ? "drag-active" : ""
+                                }`
+                            })}
+                        >
+                            <input name="import" {...getInputProps()} />
+                            {acceptedFiles.length > 0 ? (
+                                <div>
+                                    {acceptedFiles[0].name} -{" "}
+                                    {acceptedFiles[0].size} bytes
+                                </div>
+                            ) : (
+                                <span>
+                                    Arrastre un archivo excel o haga clic aquí
+                                </span>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="text-center">
+                        <button
+                            className="btn btn-lg btn-success btn-round mb-4"
+                            onClick={handleUpload}
+                            disabled={
+                                acceptedFiles.length == 0 || isUploadingFile
+                            }
+                        >
+                            Importar Excel
+                            <BsUpload className="ml-3 icon-normal" />
+                        </button>
+                    </div>
+                </React.Fragment>
+            )}
+
+            <hr className="mt-5" />
 
             <IncidentsTab
                 stateName="claim"
                 url1="reclamos_devoluciones"
                 url2="incidencia_recepcion"
                 title="Comentarios"
+                useEmptyListMessage={false}
             ></IncidentsTab>
         </React.Fragment>
     );

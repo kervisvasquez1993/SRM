@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getFiles, uploadFile } from "../../store/actions/fileManagerActions";
 import { maxUploadSize, maxUploadSizeText } from "../../utils";
 import { store } from "../Index";
+import EmptyList from "../Navigation/EmptyList";
 import NegotiationFileCard from "../Negotiation/Files/NegotiationFileCard";
 import GenericFileCard from "./GenericFileCard";
 
@@ -25,7 +26,14 @@ export const isRepeatedValidator = (file, managerId) => {
     return null;
 };
 
-const ProductClaimFileList = ({ id, getUrl, uploadUrl, deleteUrl }) => {
+const GenericFileList = ({
+    id,
+    getUrl,
+    uploadUrl,
+    deleteUrl,
+    hideDropzone = false,
+    allowEditing = true
+}) => {
     const dispatch = useDispatch();
     // @ts-ignore
     const fileStates = useSelector(state => state.fileManager.states);
@@ -66,6 +74,10 @@ const ProductClaimFileList = ({ id, getUrl, uploadUrl, deleteUrl }) => {
                 <h3>Archivos</h3>
             </div>
 
+            {files.length === 0 && (
+                <EmptyList message="No se han cargado archivos" />
+            )}
+
             {(files.length > 0 || uploadingFiles.length > 0) && (
                 <div className="d-flex flex-wrap justify-content-center mb-4">
                     {files.map(item => {
@@ -75,6 +87,7 @@ const ProductClaimFileList = ({ id, getUrl, uploadUrl, deleteUrl }) => {
                                 data={item}
                                 deleteUrl={deleteUrl}
                                 managerId={id}
+                                allowEditing={allowEditing}
                             />
                         );
                     })}
@@ -96,85 +109,90 @@ const ProductClaimFileList = ({ id, getUrl, uploadUrl, deleteUrl }) => {
                 </div>
             )}
 
-            <div className="text-center mb-3">
-                <div
-                    {...getRootProps({
-                        className: `dropzone rounded mb-2 ${
-                            isDragActive ? "drag-active" : ""
-                        }`
-                    })}
-                >
-                    <input name="import" {...getInputProps()} />
-                    {acceptedFiles.length > 0 ? (
-                        <React.Fragment>
-                            <strong className="mb-4">
-                                Archivos para subir:
-                            </strong>
-                            <ul>
-                                {acceptedFiles.map((item, index) => (
-                                    <li key={index}>{item.name}</li>
-                                ))}
-                            </ul>
-                        </React.Fragment>
-                    ) : (
-                        fileRejections.length === 0 && (
-                            <strong>
-                                Arrastres archivos aquí para subirlos{" "}
-                                <AiOutlineFileAdd className="mr-2 icon-normal" />
-                            </strong>
-                        )
-                    )}
-
-                    {fileRejections.length > 0 && (
-                        <React.Fragment>
-                            {acceptedFiles.length === 0 ? (
-                                <strong className="mb-3 text-danger">
-                                    Ninguno de los siguientes archivos es
-                                    valido:
+            {!hideDropzone && (
+                <div className="text-center mb-3">
+                    <div
+                        {...getRootProps({
+                            className: `dropzone rounded mb-2 ${
+                                isDragActive ? "drag-active" : ""
+                            }`
+                        })}
+                    >
+                        <input name="import" {...getInputProps()} />
+                        {acceptedFiles.length > 0 ? (
+                            <React.Fragment>
+                                <strong className="mb-4">
+                                    Archivos para subir:
                                 </strong>
-                            ) : (
-                                <strong className="mt-4 mb-3">
-                                    Los siguientes archivos no se subirán:
+                                <ul>
+                                    {acceptedFiles.map((item, index) => (
+                                        <li key={index}>{item.name}</li>
+                                    ))}
+                                </ul>
+                            </React.Fragment>
+                        ) : (
+                            fileRejections.length === 0 && (
+                                <strong>
+                                    Arrastres archivos aquí para subirlos{" "}
+                                    <AiOutlineFileAdd className="mr-2 icon-normal" />
                                 </strong>
-                            )}
+                            )
+                        )}
 
-                            <ul>
-                                {fileRejections.map((item, index) => {
-                                    let error;
+                        {fileRejections.length > 0 && (
+                            <React.Fragment>
+                                {acceptedFiles.length === 0 ? (
+                                    <strong className="mb-3 text-danger">
+                                        Ninguno de los siguientes archivos es
+                                        valido:
+                                    </strong>
+                                ) : (
+                                    <strong className="mt-4 mb-3">
+                                        Los siguientes archivos no se subirán:
+                                    </strong>
+                                )}
 
-                                    switch (item.errors[0].code) {
-                                        case "file-too-large":
-                                            error = `Supera el maximo de ${maxUploadSizeText}`;
-                                            break;
-                                        case "repeated-name":
-                                            error = item.errors[0].message;
-                                            break;
-                                        default:
-                                            break;
-                                    }
+                                <ul>
+                                    {fileRejections.map((item, index) => {
+                                        let error;
 
-                                    return (
-                                        <li key={index} className="text-danger">
-                                            {item.file.name} ({error})
-                                        </li>
-                                    );
-                                })}
-                            </ul>
-                        </React.Fragment>
-                    )}
+                                        switch (item.errors[0].code) {
+                                            case "file-too-large":
+                                                error = `Supera el maximo de ${maxUploadSizeText}`;
+                                                break;
+                                            case "repeated-name":
+                                                error = item.errors[0].message;
+                                                break;
+                                            default:
+                                                break;
+                                        }
+
+                                        return (
+                                            <li
+                                                key={index}
+                                                className="text-danger"
+                                            >
+                                                {item.file.name} ({error})
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            </React.Fragment>
+                        )}
+                    </div>
+
+                    <button
+                        className="btn btn-lg btn-success btn-round"
+                        onClick={handleImport}
+                        disabled={acceptedFiles.length == 0}
+                    >
+                        "Subir Archivo"
+                        <BsUpload className="ml-2 icon-normal" />
+                    </button>
                 </div>
-
-                <button
-                    className="btn btn-lg btn-success btn-round"
-                    onClick={handleImport}
-                    disabled={acceptedFiles.length == 0}
-                >
-                    "Subir Archivo"
-                    <BsUpload className="ml-2 icon-normal" />
-                </button>
-            </div>
+            )}
         </React.Fragment>
     );
 };
 
-export default ProductClaimFileList;
+export default GenericFileList;

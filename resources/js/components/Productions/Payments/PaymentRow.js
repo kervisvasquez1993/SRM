@@ -9,21 +9,7 @@ const PaymentRow = ({ index, payment, production }) => {
     const user = useUser();
     const dispatch = useDispatch();
 
-    const handleEdit = product => {
-        /*
-        dispatch(
-            openModal({
-                title: "Editar Pago",
-                body: (
-                    <PaymentModal
-                        payment={payment}
-                        production={production}
-                        isEditor={true}
-                    />
-                )
-            })
-        );
-        */
+    const handleEdit = () => {
         dispatch(
             openModal({
                 title: "Agregar Pago",
@@ -38,7 +24,7 @@ const PaymentRow = ({ index, payment, production }) => {
         );
     };
 
-    const handleDelete = product => {
+    const handleDelete = () => {
         dispatch(deletePayment(payment.id));
     };
 
@@ -62,13 +48,13 @@ const PaymentRow = ({ index, payment, production }) => {
             <td>{payment.user.name}</td>
             <td>{dateToShortString(new Date(payment.fecha))}</td>
             <td>{payment.monto}</td>
-            {user.rol === "coordinador" && (
+            {(user.rol === "coordinador" || user.rol === "logistica") && (
                 <td className="text-right">
                     <div className="d-flex justify-content-start">
                         <button
                             className="btn btn-success btn-circle ml-3"
                             type="button"
-                            onClick={() => handleEdit(payment)}
+                            onClick={() => handleEdit()}
                         >
                             <span className="material-icons">edit</span>
                         </button>
@@ -76,7 +62,7 @@ const PaymentRow = ({ index, payment, production }) => {
                             <button
                                 className="btn btn-danger btn-circle"
                                 type="button"
-                                onClick={() => handleDelete(payment)}
+                                onClick={() => handleDelete()}
                             >
                                 <span className="material-icons">clear</span>
                             </button>

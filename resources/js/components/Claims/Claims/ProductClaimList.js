@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductClaims } from "../../../store/actions/claimActions";
 import { openModal } from "../../../store/actions/modalActions";
+import { useUser } from "../../../utils";
 import EmptyList from "../../Navigation/EmptyList";
 import LoadingScreen from "../../Navigation/LoadingScreen";
 import LargeCreateButton from "../../Widgets/LargeCreateButton";
@@ -15,8 +16,10 @@ const emptyClaim = {
 
 const ProductClaimList = () => {
     const dispatch = useDispatch();
+    const user = useUser();
     // @ts-ignore
     const claim = useSelector(state => state.claim.current);
+    // @ts-ignore
     const productClaims = useSelector(state => state.claim.productClaims);
 
     const areIncidentsLoading = useSelector(
@@ -54,7 +57,10 @@ const ProductClaimList = () => {
                 <React.Fragment>
                     {productClaims.length === 0 && <EmptyList />}
 
-                    <LargeCreateButton onClick={handleCreate} />
+                    {user.rol === "almacen" && (
+                        <LargeCreateButton onClick={handleCreate} />
+                    )}
+
                     <div className="d-flex flex-column-reverse">
                         {productClaims.length > 0 &&
                             productClaims.map(item => {

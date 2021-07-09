@@ -9,7 +9,12 @@ import { confirmDelete } from "../../appText";
 import { deleteFile } from "../../store/actions/fileManagerActions";
 import LoadingSpinner from "../Navigation/LoadingSpinner";
 
-const GenericFileCard = ({ data, deleteUrl = null, managerId = null }) => {
+const GenericFileCard = ({
+    data,
+    deleteUrl = null,
+    managerId = null,
+    allowEditing
+}) => {
     const { id, name, dummy, url } = data;
     const link = `https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/${url}`;
 
@@ -57,10 +62,12 @@ const GenericFileCard = ({ data, deleteUrl = null, managerId = null }) => {
                     ) : (
                         <React.Fragment>
                             {content}
-                            <MdDeleteForever
-                                className="delete-icon"
-                                onClick={handleDelete}
-                            />
+                            {allowEditing && (
+                                <MdDeleteForever
+                                    className="delete-icon"
+                                    onClick={handleDelete}
+                                />
+                            )}
                         </React.Fragment>
                     )}
                 </div>

@@ -10,10 +10,11 @@ import {
     updateClaim
 } from "../../../store/actions/claimActions";
 import { useUser } from "../../../utils";
+import { apiURL } from "../../App";
+import GenericFileList from "../../Files/GenericFileList";
 import IncidentsTab from "../../Incidents/IncidentsTab";
 import Error from "../../Navigation/Error";
 import LoadingScreen from "../../Navigation/LoadingScreen";
-import InspectionFileList from "./InspectionFileList";
 
 const ReceptionPage = () => {
     const dispatch = useDispatch();
@@ -26,7 +27,13 @@ const ReceptionPage = () => {
     // @ts-ignore
     const isLoadingCurrent = useSelector(state => state.claim.isLoadingCurrent);
 
-    if (!(user.rol === "coordinador" || user.rol === "comprador")) {
+    if (
+        !(
+            user.rol === "coordinador" ||
+            user.rol === "comprador" ||
+            user.rol === "almacen"
+        )
+    ) {
         return <Redirect to="/home" />;
     }
 
@@ -48,7 +55,11 @@ const ReceptionPage = () => {
         return <Error />;
     }
 
-    const { inspeccion_carga, reclamos_devoluciones } = claim;
+    const {
+        recepcion_mercancia,
+        inspeccion_carga,
+        reclamos_devoluciones
+    } = claim;
 
     const handleCheck = e => {
         const data = {
@@ -72,7 +83,9 @@ const ReceptionPage = () => {
                             id="inspeccion_carga"
                             onChange={handleCheck}
                             checked={inspeccion_carga}
-                            disabled={reclamos_devoluciones}
+                            disabled={
+                                reclamos_devoluciones || !recepcion_mercancia
+                            }
                         />
                         <span className="form-check-sign">
                             <span className="check"></span>
@@ -83,13 +96,23 @@ const ReceptionPage = () => {
 
             <hr />
 
-            <InspectionFileList />
+            <GenericFileList
+                id="inspection"
+                getUrl={`${apiURL}/reclamos_devoluciones/${claimId}/imagen_inspeccion`}
+                uploadUrl={`${apiURL}/reclamos_devoluciones/${claimId}/imagen_inspeccion`}
+                deleteUrl={`${apiURL}/imagen_inspeccion`}
+                hideDropzone={user.rol != "almacen"}
+                allowEditing={user.rol === "almacen"}
+            />
+
+            <hr className="mt-5" />
 
             <IncidentsTab
                 stateName="claim"
                 url1="reclamos_devoluciones"
                 url2="inspeccion_carga"
                 title="Comentarios"
+                useEmptyListMessage={false}
             ></IncidentsTab>
         </React.Fragment>
     );

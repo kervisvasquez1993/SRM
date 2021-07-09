@@ -20,7 +20,13 @@ const ProductClaimPage = () => {
     // @ts-ignore
     const isLoadingCurrent = useSelector(state => state.claim.isLoadingCurrent);
 
-    if (!(user.rol === "coordinador" || user.rol === "comprador")) {
+    if (
+        !(
+            user.rol === "coordinador" ||
+            user.rol === "comprador" ||
+            user.rol === "almacen"
+        )
+    ) {
         return <Redirect to="/home" />;
     }
 
@@ -66,6 +72,7 @@ const ProductClaimPage = () => {
                             id="reclamos_devoluciones"
                             onChange={handleCheck}
                             checked={claim.reclamos_devoluciones}
+                            disabled={!claim.inspeccion_carga}
                         />
                         <span className="form-check-sign">
                             <span className="check"></span>
@@ -78,11 +85,14 @@ const ProductClaimPage = () => {
 
             <ProductClaimList />
 
+            <hr className="mt-5" />
+
             <IncidentsTab
                 stateName="claim"
                 url1="reclamos_devoluciones"
                 url2="reclamos_devolucion"
                 title="Comentarios"
+                useEmptyListMessage={false}
             ></IncidentsTab>
         </React.Fragment>
     );

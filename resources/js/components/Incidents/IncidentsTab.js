@@ -11,7 +11,7 @@ import EmptyList from "../Navigation/EmptyList";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import LargeCreateButton from "../Widgets/LargeCreateButton";
 
-const IncidentsTab = ({ stateName, url1, url2, title }) => {
+const IncidentsTab = ({ stateName, url1, url2, title, useEmptyListMessage = true }) => {
     const dispatch = useDispatch();
 
     const parent = useSelector(state => state[stateName].current);
@@ -49,14 +49,16 @@ const IncidentsTab = ({ stateName, url1, url2, title }) => {
     return (
         <React.Fragment>
             <div className="mr-auto text-center py-2">
-                <h2>{title}</h2>
+                <h3>{title}</h3>
             </div>
 
             {areIncidentsLoading ? (
                 <LoadingScreen />
             ) : (
                 <React.Fragment>
-                    {incidents.length === 0 && <EmptyList />}
+                    {
+                        useEmptyListMessage && incidents.length === 0 && <EmptyList />
+                    }
 
                     <LargeCreateButton onClick={handleCreate} />
                     <div className="d-flex flex-column-reverse">

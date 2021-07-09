@@ -7,13 +7,15 @@ import { updateProduction } from "../../store/actions/productionActions";
 import {
     getNegotiationModalName,
     getPaymentsInfoFromProduction,
-    useSimpleUrlFocus
+    useSimpleUrlFocus,
+    useUser
 } from "../../utils";
 import NegotiationTabs from "../Negotiation/NegotiationTabs";
 import ProductionManagementModal from "./ProductionManagementModal";
 
 const ProductionCard = ({ production }) => {
     const dispatch = useDispatch();
+    const user = useUser();
     const [tab] = useQueryParam("tab", StringParam);
 
     const [ref, focusClassName] = useSimpleUrlFocus(production.id, "id", () => {
@@ -54,7 +56,6 @@ const ProductionCard = ({ production }) => {
     };
 
     const {
-        pivot,
         inicio_produccion,
         fin_produccion,
         transito_nacionalizacion,
@@ -81,16 +82,24 @@ const ProductionCard = ({ production }) => {
         isCompletelyPaid
     } = getPaymentsInfoFromProduction(production);
 
-    const disableProductionStarted = fin_produccion;
-    const disableProductionFinished = !inicio_produccion || salida_puero_origen;
+    const disableProductionStarted =
+        fin_produccion ||
+        !(user.rol === "coordinador" || user.rol === "comprador");
+
+    const disableProductionFinished =
+        !inicio_produccion ||
+        salida_puero_origen ||
+        !(user.rol === "coordinador" || user.rol === "comprador");
+
+    const disableTransit = salida_puero_origen || user.rol != "logistica";
     const disablePortDeparture =
         !inicio_produccion ||
         !fin_produccion ||
         !transito_nacionalizacion ||
         !isPrepaymentDone ||
         !isCompletelyPaid ||
-        salida_puero_origen;
-    const disableTransit = salida_puero_origen;
+        salida_puero_origen ||
+        user.rol != "logistica";
 
     return (
         <div

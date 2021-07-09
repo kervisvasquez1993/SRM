@@ -114,7 +114,9 @@ const PaymentsTab = ({ production }) => {
                             <div className="text-warning d-flex align-items-center flex-column mt-4 mb-2">
                                 <AiFillWarning className="icon-large mb-2" />
                                 <p className="h4 text-center">
-                                    ¡Se ha pagado un {roundMoneyAmount(paidPercentage - 100)}% de más!
+                                    ¡Se ha pagado un{" "}
+                                    {roundMoneyAmount(paidPercentage - 100)}% de
+                                    más!
                                 </p>
                             </div>
                         )}
@@ -123,7 +125,8 @@ const PaymentsTab = ({ production }) => {
                     <div className="card py-5 px-3">
                         {payments.length === 0 && <EmptyList />}
 
-                        {user.rol === "coordinador" && (
+                        {(user.rol === "coordinador" ||
+                            user.rol === "logistica") && (
                             <LargeCreateButton onClick={handleCreate} />
                         )}
 

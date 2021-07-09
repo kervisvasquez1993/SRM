@@ -33,7 +33,11 @@ body {
 
 @import "dropzone";
 
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;800&display=swap");
+
+b, strong {
+    font-weight: bold;
+}
 
 html,
 body,

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getReceptionItems } from "../../../store/actions/claimActions";
 import { dateToShortString, getSum, roundMoneyAmount } from "../../../utils";
+import EmptyList from "../../Navigation/EmptyList";
 
 const ReceptionTable = () => {
     const dispatch = useDispatch();
@@ -17,6 +18,10 @@ const ReceptionTable = () => {
 
     return (
         <React.Fragment>
+            {receptionItems.length === 0 && (
+                <EmptyList className="no-result d-flex justify-content-center align-items-center mb-5 mx-3" />
+            )}
+
             {receptionItems.length > 0 && (
                 <div
                     className="table-responsive table-text my-5"

@@ -6,7 +6,7 @@ import { deleteProductClaim } from "../../../store/actions/claimActions";
 import { openModal } from "../../../store/actions/modalActions";
 import { dateToShortString, useUser } from "../../../utils";
 import { apiURL } from "../../App";
-import ProductClaimFileList from "../../Files/GenericFileList";
+import GenericFileList from "../../Files/GenericFileList";
 import ProductClaimModal from "./ProductClaimModal";
 
 const ProductClaimCard = ({ data }) => {
@@ -42,11 +42,13 @@ const ProductClaimCard = ({ data }) => {
                     }}
                 ></div>
 
-                <ProductClaimFileList
+                <GenericFileList
                     id={data.id}
                     getUrl={url}
                     uploadUrl={url}
                     deleteUrl={url}
+                    hideDropzone={user.rol != "almacen"}
+                    allowEditing={user.rol === "almacen"}
                 />
             </div>
 

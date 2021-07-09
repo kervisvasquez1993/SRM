@@ -10,21 +10,22 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
 use App\Notifications\GeneralNotification;
 use App\Http\Requests\IncidenciaValidacion;
+use App\Http\Resources\IncidenciaResource;
 use Illuminate\Support\Facades\Notification;
 
-class ReclamoDevolucionesController extends ApiController
+class IncidenciaReclamoController extends ApiController
 {
     public function index(RecepcionReclamoDevolucion $reclamos_devolucione)
     {
         $incidencia_recepcion = $reclamos_devolucione->reclamoDevolucion;
-        return $this->showAll($incidencia_recepcion);
+        return $this->showAllResources(IncidenciaResource::collection($incidencia_recepcion));
     }
 
-   
+
     public function store(IncidenciaValidacion $request, RecepcionReclamoDevolucion $reclamos_devolucione)
     {
         $reclamos_devolucione_id = $reclamos_devolucione->id;
-         $request->merge([
+        $request->merge([
             'recepcion_reclamo_devolucion_id' => $reclamos_devolucione_id,
             'user_id' => auth()->user()->id
         ]);
@@ -40,31 +41,29 @@ class ReclamoDevolucionesController extends ApiController
         $tipoNotify = "reclamo_devolucion_carga";
         Notification::send($user_all, new GeneralNotification($body, $link, $tipoNotify));
         /* creacion de datos en el objeto */
-        $recepcion_mercancia = ReclamosDevolucione::create($test);   
-        return $this->showOne($recepcion_mercancia);  
-        
+        $recepcion_mercancia = ReclamosDevolucione::create($test);
+
+        return $this->showOneResource(new IncidenciaResource($recepcion_mercancia));
     }
 
-   
+
     public function show(ReclamosDevolucione $reclamos_devolucion_id)
     {
-       
-        return $this->showOne($reclamos_devolucion_id);
+        return $this->showOneResource(new IncidenciaResource($reclamos_devolucion_id));
     }
 
-   
+
     public function update(IncidenciaValidacion $request, ReclamosDevolucione $reclamos_devolucion_id)
     {
-         $reclamos_devolucion_id->update($request->only('titulo', 'descripcion'));
-         $reclamos_devolucion_id->save();
-         return $this->showOne($reclamos_devolucion_id);
+        $reclamos_devolucion_id->update($request->only('titulo', 'descripcion'));
+        $reclamos_devolucion_id->save();
+        return $this->showOneResource(new IncidenciaResource($reclamos_devolucion_id));
     }
 
-  
-    public function destroy( ReclamosDevolucione $reclamos_devolucion_id)
-    {  
-        $reclamos_devolucion_id->delete();
-        return $this->showOne($reclamos_devolucion_id);
 
+    public function destroy(ReclamosDevolucione $reclamos_devolucion_id)
+    {
+        $reclamos_devolucion_id->delete();
+        return $this->showOneResource(new IncidenciaResource($reclamos_devolucion_id));
     }
 }
