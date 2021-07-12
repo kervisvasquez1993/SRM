@@ -39,6 +39,8 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('tarea', 'Api\Tarea\TareaController');
     //fin de tarea
 
+    Route::apiResource('draggable_task', 'Api\DraggableTaskController')->except(['destroy', 'show', 'store']);
+
     Route::get('me/tareas', 'Api\Tarea\TareaController@tareasUsuario');
 
     Route::apiResource('user', 'Api\User\UserController')->except(['destroy']);
