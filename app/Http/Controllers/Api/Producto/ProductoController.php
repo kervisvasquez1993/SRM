@@ -101,7 +101,10 @@ class ProductoController extends ApiController
         $text = "El usuario: '$login_user' cargo via excel informacion de producto a la empresa '$proveedorName' asociada a la tarea '$tareaNombre'";
         $link = "/negotiation/$pivot_tarea_proveeder_id->id#products";
         $type = "cargar_productos";
-        Notification::send($userAll, new GeneralNotification($text, $link, $type));
+        /* Notification::send($userAll, new GeneralNotification($text, $link, $type)); */
+        $title = "Importacion de Productos";
+        $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title));
+        
         return $this->successMensaje('Se Cargaron los Archivo de Forma Correcta', 201);
     }
 }
