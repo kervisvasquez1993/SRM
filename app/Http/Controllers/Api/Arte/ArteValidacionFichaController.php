@@ -41,7 +41,9 @@ class ArteValidacionFichaController extends ApiController
         $text               = "El usuario '$login_user' agrego comentario en la sección Validación de Fichas asociado al codigo: $codigo";
         $link    = "/arts?id=$arte->id&tab=validacion_ficha";
         $type    = "validacion_ficha";
-        Notification::send($user, new GeneralNotification($text, $link, $type));
+        $title   = "Comentario en Validación de Fichas";
+        /* Notification::send($user, new GeneralNotification($text, $link, $type)); */
+        $this->sendNotifications($user, new GeneralNotification($text, $link, $type, $title));
 
         return $this->showOneResource(new IncidenciaResource($arte_ficha_validacion));
     }

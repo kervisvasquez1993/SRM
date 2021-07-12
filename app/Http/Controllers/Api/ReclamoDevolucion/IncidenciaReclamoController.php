@@ -38,8 +38,10 @@ class IncidenciaReclamoController extends ApiController
         $user_all = $user_coordinador->push($comprador_asignado)->unique('id');
         $body = "El usuario '$login_user' agrego una incidencia relacionado con la reclamos y devolución asociado a la empresa '$nombre_empresa'";
         $link = "/claims/?id=$reclamos_devolucione->id&tab=reclamos_devolucion";
-        $tipoNotify = "reclamo_devolucion_carga";
-        Notification::send($user_all, new GeneralNotification($body, $link, $tipoNotify));
+        $type = "reclamo_devolucion_carga";
+        /* Notification::send($user_all, new GeneralNotification($body, $link, $tipoNotify)); */
+        $title = "$login_user Agrego comentario en reclamo y devoluciones";
+        $this->sendNotifications($user_all, new GeneralNotification($body, $link, $type, $title));
         /* creacion de datos en el objeto */
         $recepcion_mercancia = ReclamosDevolucione::create($test);
 

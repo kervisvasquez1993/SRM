@@ -80,7 +80,9 @@ class PivotController extends ApiController
         $text = "El usuario '$login_user' añadió la empresa '$empresa_agregada' a la tarea '$tarea_nombre'";
         $link = "/tasks/$tarea->id?providerId=$proveedor->id"; 
         $type = "empresa_agregada";
-        Notification::send($userAll, new GeneralNotification($text, $link, $type));  
+        $title = "Empresa Agregada";
+        /* Notification::send($userAll, new GeneralNotification($text, $link, $type)); */  
+        $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title));
         return $this->showOneResource(new PivotTareaProveederResource($pivot));
     }
 

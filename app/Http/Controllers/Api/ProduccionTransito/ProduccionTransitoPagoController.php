@@ -69,7 +69,9 @@ class ProduccionTransitoPagoController extends ApiController
         $user               = $user_all->push($comprador_asignado)->unique('id');
         $text               = "El usuario '$login_user' agrego $tipo asociado al proveedor ". $produccionTransitoId->pivotTable->proveedor->nombre;
         $link               = "/productions?id=$request->produccion_transito_id&tab=payments";
-        Notification::send($user, new GeneralNotification($text, $link, $type));
+        /* Notification::send($user, new GeneralNotification($text, $link, $type)); */
+        $title = "Se Agrego un Pago";
+        $this->sendNotifications($user, new GeneralNotification($text, $link, $type, $title));
         return $this->showOneResource(new PagoResource($pago));
     }
 

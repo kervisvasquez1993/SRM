@@ -41,7 +41,9 @@ class ProduccionTransitoInicioProduccion extends ApiController
         $text               = "El usuario '$login_user' agrego incidencia realcionada con inicio de produccion en la empresa: ".$produccion_transito->pivotTable->proveedor->nombre;
         $link               = "/productions?id=$produccion_transito->id&tab=inicio_produccion";
         $type               = "incidencia_inicio_produccion";
-        Notification::send($user, new GeneralNotification($text, $link, $type));
+        /* Notification::send($user, new GeneralNotification($text, $link, $type)); */
+        $title = "Comentario en relacionado con Inicio de Producción";
+        $this->sendNotifications($user, new GeneralNotification($text, $link, $type, $title));
 
         return $this->showOneResource(new IncidenciaResource($inicioProduccion));
     }
