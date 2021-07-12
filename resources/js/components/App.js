@@ -10,7 +10,7 @@ import {
 } from "react-router-dom";
 import { getMyUser, logout } from "../store/actions/authActions";
 import Login from "./Auth/Login";
-import Example from "./Example";
+import Home from "./Home/Home";
 import Modal from "./Modal/Modal";
 import Error from "./Navigation/Error";
 import LoadingScreen from "./Navigation/LoadingScreen";
@@ -203,7 +203,7 @@ const App = () => {
                                 <Redirect to="/home" />
                             </Route>
                             <Route path="/home">
-                                <Example />
+                                <Home />
                             </Route>
                             <Route path="/users">
                                 <UserList />

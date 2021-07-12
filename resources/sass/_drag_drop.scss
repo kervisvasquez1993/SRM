@@ -1,8 +1,14 @@
-.droppable-column {
-    background: lightgrey;
-    padding: 8px;
+.droppable-column-parent {
+    display: flex;
+    flex-direction: column;
     width: 250px;
     min-width: 150px;
+}
+
+.droppable-column {
+    flex-grow: 1;
+    background: lightgrey;
+    padding: 8px;
 
     &.drag-over {
         background: lightblue;
@@ -12,7 +18,8 @@
 .draggable-card {
     user-select: none;
     padding: 16px;
-    margin: 0 0 8px 0;
+    margin: 0;
+    margin-bottom: 10px;
     background: #f2f2f2;
 
     &.dragging {

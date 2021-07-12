@@ -36,7 +36,7 @@ class DraggableTaskController extends Controller
         $totalFilas = DraggableTask::where('column', $columnaNueva)->count();
 
         // La fila destino
-        $filaNueva = min((int)$request->row, $totalFilas - 1);
+        $filaNueva = min((int)$request->row, $totalFilas);
         $filaNueva = max(0, $filaNueva);
 
         if ($columnaActual == $columnaNueva) {
