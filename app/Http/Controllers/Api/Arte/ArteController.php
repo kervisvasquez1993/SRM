@@ -55,7 +55,7 @@ class ArteController extends ApiController
             $type        = "creacion_fichas";
             
             /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
-            $this->sendNotifications($user, new GeneralNotification($body, $link, $type, $title));
+            /* $this->sendNotifications($user, new GeneralNotification($body, $link, $type, $title)); */
         }
 
         
