@@ -31,7 +31,7 @@ class RecepcionProductoController extends ApiController
         $archivo = $request->file('import');
         $reclamos_devoluciones_id->recepcionProducto()->delete();
         Excel::import(new RecepcionProductoImport($reclamos_devoluciones_id->id), $archivo);
-        return "cargado exitosamente";
+        
     }
 
     

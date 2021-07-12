@@ -39,7 +39,7 @@ class ArteBocetoController extends ApiController
         $coordinador        = User::find($arte->pivotTable->tarea->sender_id);
         $user               = $user_all->push($comprador_asignado, $coordinador)->unique('id');
         $codigo             = $arte->pivotTable->compra_po;
-        $text               = "El usuario '$login_user' agrego comentario en la creación de boceto asociado al codigo: $codigo";
+        $text               = "El usuario '$login_user' agregó comentario en la creación de boceto asociado al codigo: $codigo";
         $link               = "/arts?id=$arte->id&tab=boceto";
         $type               = "arte_boceto";
         $title              = "Creación de Boceto";

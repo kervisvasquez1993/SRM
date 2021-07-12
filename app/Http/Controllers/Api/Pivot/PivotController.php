@@ -136,7 +136,6 @@ class PivotController extends ApiController
         }
         $arte = new Arte();
         $arte->pivot_tarea_proveeder_id = $id;
-        $arte->nombre = 'test';
         $arte->creacion_fichas = 'sin_inicializar';
         $arte->validacion_fichas = 'sin_inicializar';
         $arte->creacion_boceto =  'sin_inicializar';
