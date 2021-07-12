@@ -73,7 +73,9 @@ class PivotCompraController extends ApiController
         $text = "El usuario: '$login_user' cargo via excel informacion de orden de compra a la empresa '$proveedorName' asociada a la tarea '$tareaNombre'";
         $link = "/negotiation/$negociacion->id#purchases";
         $type = "cargar_compras";
-        Notification::send($userAll, new GeneralNotification($text, $link, $type));
+        $title = "Importación de Producto";
+        /* Notification::send($userAll, new GeneralNotification($text, $link, $type)); */
+        $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title));
         return $this->successMensaje('Archivo de Ordenes de Compra Importado Correctamente', 201);
     }
 

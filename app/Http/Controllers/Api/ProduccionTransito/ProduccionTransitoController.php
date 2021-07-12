@@ -83,14 +83,18 @@ class ProduccionTransitoController extends ApiController
             $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea inicio producción.";
             
             $tipoNotify = "inicio_produccion";
-            Notification::send($user, new GeneralNotification($body, $link, $tipoNotify));
+            /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
+            $title = "Inicio de Produccion";
+            $this->sendNotifications($user, new GeneralNotification($body, $link, $tipoNotify, $title));
         }
         if($produccionTransito->isDirty('fin_produccion') && $produccionTransito->fin_produccion == 1)
         {
             
             $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea finalizó producción.";
             $tipoNotify = "fin_produccion";
-            Notification::send($user, new GeneralNotification($body, $link, $tipoNotify));
+            /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
+            $title = "Fin de Produccion";
+            $this->sendNotifications($user, new GeneralNotification($body, $link, $tipoNotify, $title));
         }
 
         if($produccionTransito->isDirty('transito_nacionalizacion') && $produccionTransito->transito_nacionalizacion == 1)
@@ -98,7 +102,9 @@ class ProduccionTransitoController extends ApiController
             
             $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea finalizó la seccion de transito y nacionalizacion.";
             $tipoNotify = "transito_nacionalizacion";
-            Notification::send($user, new GeneralNotification($body, $link, $tipoNotify));
+            /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
+            $title = "Transito Nacionalizacion";
+            $this->sendNotifications($user, new GeneralNotification($body, $link, $tipoNotify, $title));
         }
 
        
@@ -108,7 +114,10 @@ class ProduccionTransitoController extends ApiController
             $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea salio del puerto de origen.";
             $link = "/claims/?id=$produccionTransito->id";
             $tipoNotify = "salida_puerto_origen";
-            Notification::send($user, new GeneralNotification($body, $link, $tipoNotify));
+            /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
+            $title = "Salida de Puero de Origen";
+            $this->sendNotifications($user, new GeneralNotification($body, $link, $tipoNotify, $title));
+            
             /* crear Nuevo Reclamos y devoluciones */
             $this->reclamosDevolucion($produccionTransito->id);       
         }
