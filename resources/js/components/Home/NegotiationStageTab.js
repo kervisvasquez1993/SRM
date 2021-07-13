@@ -1,34 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { IoMdAddCircle } from "react-icons/io";
+import { BiLink } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { openModal } from "../../store/actions/modalActions";
+import { Link } from "react-router-dom";
 import { getProvidersFromTask } from "../../store/actions/providerActions";
 import { isNegotiationCompleted } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
-import ProviderCard from "../Providers/ProviderCard";
-import NewProviderModal from "./ProviderModal";
+import SimpleProviderCard from "./SimpleProviderCard";
 
-const TaskProviderList = () => {
+const NegotiationStageTab = ({ taskId }) => {
     const dispatch = useDispatch();
 
-    // @ts-ignore
     const providers = useSelector(state => state.provider.providers);
-    // @ts-ignore
-    const user = useSelector(state => state.auth.user);
-    // @ts-ignore
-    const task = useSelector(state => state.task.task);
-
     const [orderedProviders, setOrderedProviders] = useState([]);
-    // @ts-ignore
-    const { id } = useParams();
-
     const selectedProvider = providers.find(provider =>
         isNegotiationCompleted(provider.pivot)
     );
 
     useEffect(() => {
-        dispatch(getProvidersFromTask(id));
+        dispatch(getProvidersFromTask(taskId));
+
+        return () => {
+            dispatch({
+                type: "CLEAR_PROVIDERS"
+            });
+        };
     }, []);
 
     useEffect(() => {
@@ -48,40 +43,17 @@ const TaskProviderList = () => {
         setOrderedProviders(ordered);
     }, [providers]);
 
-    const handleCreateProvider = () => {
-        dispatch(
-            openModal({
-                title: "Agregar Empresa",
-                body: <NewProviderModal />
-            })
-        );
-    };
-
-    const isMine = user.id == task.usuario.id;
-
     return (
         <React.Fragment>
-            <div className="mr-auto text-center">
-                <h2 className="py-4">Empresas Asociadas</h2>
-                {isMine && !selectedProvider && (
-                    <button
-                        className="btn btn-lg btn-success btn-round"
-                        onClick={handleCreateProvider}
-                    >
-                        <IoMdAddCircle className="mr-2" />
-                        Agregar Empresa
-                    </button>
-                )}
-            </div>
+            <h3 className="text-center">Empresas Asociadas</h3>
 
             {orderedProviders.length > 0 ? (
                 <div className="d-flex flex-column-reverse">
                     {orderedProviders.map(provider => {
                         return (
-                            <ProviderCard
+                            <SimpleProviderCard
                                 key={provider.id}
-                                // @ts-ignore
-                                taskId={task.id}
+                                taskId={taskId}
                                 provider={provider}
                                 selectedProvider={selectedProvider}
                             />
@@ -91,8 +63,18 @@ const TaskProviderList = () => {
             ) : (
                 <EmptyList />
             )}
+
+            <div className="text-center my-3">
+                <Link
+                    to={`/tasks/${taskId}`}
+                    className="btn btn-info btn-round"
+                >
+                    Ver Detalles
+                    <BiLink className="icon-normal ml-2" />
+                </Link>
+            </div>
         </React.Fragment>
     );
 };
 
-export default TaskProviderList;
+export default NegotiationStageTab;

@@ -1,12 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, Link, useLocation, useHistory } from "react-router-dom";
-import { NumberParam, StringParam, useQueryParam } from "use-query-params";
+import { useParams, Link } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
-import {
-    focusProvider,
-    startNegotiation
-} from "../../store/actions/providerActions";
+import { startNegotiation } from "../../store/actions/providerActions";
 import {
     blueCard,
     greenCard,
@@ -15,16 +11,15 @@ import {
     useSimpleUrlFocus,
     useUser
 } from "../../utils";
-import Accordion from "../Widgets/Accordion";
 import ProviderFormModal from "./ProviderFormModal";
 
 const ProviderCard = ({ provider, selectedProvider }) => {
     const dispatch = useDispatch();
     const user = useUser();
+    // @ts-ignore
     const { id: taskId } = useParams();
 
-    const edited = useSelector(state => state.provider.edited);
-    const [queryId] = useQueryParam("providerId", NumberParam);
+    // @ts-ignore
     const task = useSelector(state => state.task.task);
     const isSelected = selectedProvider === provider;
 

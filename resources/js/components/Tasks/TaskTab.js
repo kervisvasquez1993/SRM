@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { dateToString } from "../../utils";
 
 const TaskTab = ({ task, user = null }) => {
-    console.log(task);
     return (
         <React.Fragment>
             <ul className="list-group">

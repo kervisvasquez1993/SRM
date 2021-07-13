@@ -34,6 +34,12 @@ const providerReducer = (state = defaultState, action) => {
                 ...state
             };
 
+        case "CLEAR_PROVIDERS":
+            return {
+                ...state,
+                providers: []
+            };
+
         case "GET_TASK_PROVIDERS_REQUEST":
             return {
                 ...state

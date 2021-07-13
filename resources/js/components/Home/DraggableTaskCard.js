@@ -27,7 +27,7 @@ function DraggableTaskCard({ draggableTask, column, invalidDrop, snapshot }) {
     const handleClick = () => {
         dispatch(
             openModal({
-                title: "Draggable",
+                title: nombre,
                 body: (
                     <DraggableTaskModal
                         draggableTask={draggableTask}

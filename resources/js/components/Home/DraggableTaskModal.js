@@ -4,6 +4,7 @@ import TaskTab from "../Tasks/TaskTab";
 import TabButton from "../Widgets/TabButton";
 import TabContent from "../Widgets/TabContent";
 import Tabs from "../Widgets/Tabs";
+import NegotiationStageTab from "./NegotiationStageTab";
 
 const DraggableTaskModal = ({ draggableTask, defaultTab }) => {
     const dispatch = useDispatch();
@@ -49,6 +50,10 @@ const DraggableTaskModal = ({ draggableTask, defaultTab }) => {
                             task={{ ...task, id: task.tarea_id }}
                             user={task.usuario}
                         />
+                    </TabContent>
+
+                    <TabContent name={1}>
+                        <NegotiationStageTab taskId={task.tarea_id} />
                     </TabContent>
                 </div>
             </Tabs>
