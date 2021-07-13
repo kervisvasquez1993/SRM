@@ -11,18 +11,19 @@ class DraggableTaskResource extends JsonResource
     {
         $tarea = $this->tarea;
 
-        
+        $codigo_po = null;
 
         $arte_iniciada = null;
         $negociacion_arte = $tarea->pivotTareaProveedor->where('iniciar_arte', true)->first();
         if ($negociacion_arte) {
+            $codigo_po = $negociacion_arte->compra_po;
             $arte_iniciada = $negociacion_arte->arte;
         }
 
         $negociacion_produccion =  $tarea->pivotTareaProveedor->where('iniciar_produccion', true)->first();
         $produccion_iniciada = null;
         if ($negociacion_produccion) {
-            
+            $codigo_po = $negociacion_produccion->compra_po;
             $produccion_iniciada =  $negociacion_produccion->produccionTransito;
             $produccion_iniciada->recepcionReclamoDevolucion;
         }
@@ -43,6 +44,8 @@ class DraggableTaskResource extends JsonResource
 
             'arte_iniciada' => $arte_iniciada,
             'produccion_iniciada' =>  $produccion_iniciada,
+
+            'codigo_po' => $codigo_po
         ];
 
         return  $array;

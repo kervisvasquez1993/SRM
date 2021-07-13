@@ -23,27 +23,35 @@ function TaskDraggableCard({ task, column, invalidDrop, snapshot }) {
             {invalidDrop && snapshot.isDragging ? (
                 <div className={`card my-0 text-white bg-danger`}>
                     <div className="card-header">
-                        <h3 className="tarea h4">Está tarea aún no puede pasar a esta etapa</h3>
+                        <h3 className="tarea h4">
+                            Está tarea no puede pasar a esta etapa
+                        </h3>
                     </div>
                 </div>
             ) : (
                 <div className={`card my-0 ${text} ${background}`}>
                     <div className="card-header">
                         <h3 className="tarea h4">{nombre}</h3>
+
+                        {column >= 2 && (
+                            <div className="d-flex align-items-center">
+                                <AiOutlineBarcode className="icon-small mr-1" />
+                                {task.codigo_po ? (
+                                    <span>{task.codigo_po}</span>
+                                ) : (
+                                    <span className="my-2">Sin Codigo PO</span>
+                                )}
+                            </div>
+                        )}
+
                         <div className="d-flex align-items-center">
-                            <span className="material-icons md-18">person</span>
+                            <span className="material-icons icon-small mr-1">
+                                person
+                            </span>
                             <span>{usuario_nombre}</span>
                         </div>
-                        {column >= 2 &&
-                            (task.negociacion && task.negociacion.compra_po ? (
-                                <div className="d-flex align-items-center">
-                                    <AiOutlineBarcode className="icon-small" />
-                                    <span>{task.negociacion.compra_po}</span>
-                                </div>
-                            ) : (
-                                "hola"
-                            ))}
-                        <hr className="mb-1" />
+
+                        {column < 2 && <hr className="mb-1" />}
 
                         {column < 2 && (
                             <div className="d-flex justify-content-between">
