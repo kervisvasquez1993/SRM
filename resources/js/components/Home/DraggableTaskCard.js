@@ -3,14 +3,20 @@ import { AiOutlineBarcode } from "react-icons/ai";
 import { FcFactoryBreakdown } from "react-icons/fc";
 import { GiFactory } from "react-icons/gi";
 import { IoTimeOutline } from "react-icons/io5";
+import { useDispatch } from "react-redux";
+import { openModal } from "../../store/actions/modalActions";
 import {
     getColorsForTask,
     getRemainingDaysToFinishTask,
     greenCard
 } from "../../utils";
+import DraggableTaskModal from "./DraggableTaskModal";
 
-function DraggableTaskCard({ task, column, invalidDrop, snapshot }) {
-    const { nombre, inicio_produccion, usuario_nombre } = task;
+function DraggableTaskCard({ draggableTask, column, invalidDrop, snapshot }) {
+    const dispatch = useDispatch();
+
+    const task = draggableTask.task;
+    const { nombre, inicio_produccion, usuario } = draggableTask.task;
 
     const { text, background } = inicio_produccion
         ? greenCard
@@ -18,10 +24,23 @@ function DraggableTaskCard({ task, column, invalidDrop, snapshot }) {
 
     const remainingDays = getRemainingDaysToFinishTask(task);
 
+    const handleClick = () => {
+        console.log("click");
+        dispatch(
+            openModal({
+                title: "Draggable",
+                body: <DraggableTaskModal draggableTask={draggableTask} />
+            })
+        );
+    };
+
     return (
         <React.Fragment>
             {invalidDrop && snapshot.isDragging ? (
-                <div className={`card my-0 text-white bg-danger`}>
+                <div
+                    className={`card my-0 text-white bg-danger`}
+                    onClick={handleClick}
+                >
                     <div className="card-header">
                         <h3 className="tarea h4">
                             Está tarea no puede pasar a esta etapa
@@ -29,7 +48,10 @@ function DraggableTaskCard({ task, column, invalidDrop, snapshot }) {
                     </div>
                 </div>
             ) : (
-                <div className={`card my-0 ${text} ${background}`}>
+                <div
+                    className={`card my-0 ${text} ${background}`}
+                    onClick={handleClick}
+                >
                     <div className="card-header">
                         <h3 className="tarea h4">{nombre}</h3>
 
@@ -48,7 +70,7 @@ function DraggableTaskCard({ task, column, invalidDrop, snapshot }) {
                             <span className="material-icons icon-small mr-1">
                                 person
                             </span>
-                            <span>{usuario_nombre}</span>
+                            <span>{usuario.name}</span>
                         </div>
 
                         {column < 2 && <hr className="mb-1" />}

@@ -34,11 +34,12 @@ class DraggableTaskResource extends JsonResource
             'column' =>  $this->column,
             'tarea_id' =>  $this->tarea_id,
 
-            'usuario_nombre' => $tarea->usuario->name,
+            'usuario' => $tarea->usuario,
             'nombre' => $tarea->nombre,
             'fecha_fin' => $tarea->fecha_fin,
             'created_at' => $tarea->created_at,
             'cantidad_proveedores' => $tarea->proveedores->count(),
+            'descripcion' => $tarea->descripcion,
 
             'tiene_negociaciones' => !$tarea->pivotTareaProveedor->where('iniciar_negociacion', true)->isEmpty(),
 

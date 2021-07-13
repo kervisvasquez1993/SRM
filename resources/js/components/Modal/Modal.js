@@ -5,6 +5,7 @@ import {
     closeModal,
     removeModalCloseCallback
 } from "../../store/actions/modalActions";
+import { isTouchDevice } from "../../utils";
 
 const Modal = () => {
     const dispatch = useDispatch();
@@ -14,12 +15,15 @@ const Modal = () => {
     const onClose = useSelector(store => store.modal.onClose);
 
     const handleClose = () => {
+        console.log("cerrar");
         dispatch(closeModal());
     };
 
     useEffect(() => {
         if (!isOpen) {
+            console.log("se cerro el modal");
             if (onClose) {
+                console.log("abrir de nuevo");
                 onClose();
                 dispatch(removeModalCloseCallback());
             }
@@ -48,6 +52,14 @@ const Modal = () => {
         e.stopPropagation();
     };
 
+    const clickBackground = e => {
+        if (!isTouchDevice()) {
+            e.preventDefault();
+            e.stopPropagation();
+            handleClose();
+        }
+    };
+
     return (
         <React.Fragment>
             {isOpen && (
@@ -58,12 +70,12 @@ const Modal = () => {
             <div
                 className={"modal fade" + (isOpen ? "show" : "")}
                 id="abrirmodal"
-                tabIndex="-1"
+                tabIndex={-1}
                 role="dialog"
                 aria-labelledby="myModalLabel"
                 style={isOpen ? { display: "block" } : { display: "none" }}
                 aria-hidden="true"
-                onPointerDown={handleClose}
+                onPointerDown={clickBackground}
             >
                 <div
                     className="modal-dialog modal-primary modal-lg"
@@ -80,7 +92,12 @@ const Modal = () => {
                                 aria-label="Close"
                                 onClick={handleClose}
                             >
-                                <span aria-hidden="true">×</span>
+                                <span
+                                    aria-hidden="true"
+                                    className="icon-medium"
+                                >
+                                    ×
+                                </span>
                             </button>
                         </div>
                         {body}

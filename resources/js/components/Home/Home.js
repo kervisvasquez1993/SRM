@@ -236,7 +236,7 @@ function Home() {
                                                             "dragging"}`}
                                                     >
                                                         <DraggableTaskCard
-                                                            task={item.task}
+                                                            draggableTask={item}
                                                             column={ind}
                                                             invalidDrop={
                                                                 invalidDrop
