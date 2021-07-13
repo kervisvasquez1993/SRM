@@ -9,7 +9,7 @@ import {
     greenCard
 } from "../../utils";
 
-function TaskDraggableCard({ task, column, invalidDrop, snapshot }) {
+function DraggableTaskCard({ task, column, invalidDrop, snapshot }) {
     const { nombre, inicio_produccion, usuario_nombre } = task;
 
     const { text, background } = inicio_produccion
@@ -76,4 +76,4 @@ function TaskDraggableCard({ task, column, invalidDrop, snapshot }) {
     );
 }
 
-export default TaskDraggableCard;
+export default DraggableTaskCard;

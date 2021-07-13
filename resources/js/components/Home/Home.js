@@ -4,7 +4,7 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { apiURL } from "../App";
 import axios from "axios";
 import _, { result } from "lodash";
-import TaskDraggableCard from "./TaskDraggableCard";
+import DraggableTaskCard from "./DraggableTaskCard";
 import EmptyList from "../Navigation/EmptyList";
 
 const reorder = (list, startIndex, endestinationDroppableIndex) => {
@@ -235,7 +235,7 @@ function Home() {
                                                             snapshot.draggingOver) &&
                                                             "dragging"}`}
                                                     >
-                                                        <TaskDraggableCard
+                                                        <DraggableTaskCard
                                                             task={item.task}
                                                             column={ind}
                                                             invalidDrop={
