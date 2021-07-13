@@ -78,7 +78,7 @@ const Modal = () => {
                 onPointerDown={clickBackground}
             >
                 <div
-                    className="modal-dialog modal-primary modal-lg"
+                    className="modal-dialog modal-primary modal-xl modal-fullscreen-sm-down"
                     role="document"
                     onPointerDown={stopPropagation}
                 >
