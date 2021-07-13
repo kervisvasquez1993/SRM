@@ -106,7 +106,7 @@ const App = () => {
                 return;
             }
 
-            if (target.classList.contains("ignore-swipe")) {
+            if (target.classList.contains("ignore-swipe") || target.closest(".ignore-swipe")) {
                 return;
             }
 

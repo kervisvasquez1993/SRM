@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\DraggableTask;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\DraggableTaskResource;
 
 class DraggableTaskController extends Controller
 {
     public function index()
     {
-        return DraggableTask::all();
+        return DraggableTaskResource::collection(DraggableTask::all());
     }
 
     public function store(Request $request)
@@ -98,7 +99,7 @@ class DraggableTaskController extends Controller
         $draggableTask->row = $filaNueva;
         $draggableTask->save();
 
-        return $draggableTask;
+        return new DraggableTaskResource($draggableTask);
     }
     
     public function destroy($id)

@@ -46,9 +46,15 @@ class PivotTareaProveeder extends Model
     {
         return $this->hasMany(Arte::class);
     }
+
+    public function arte()
+    {
+        return $this->hasOne(Arte::class);
+    }
+    
     public function produccionTransito()
     {
-        return $this->hasMany(ProduccionTransito::class);
+        return $this->hasOne(ProduccionTransito::class);
     }
 
    public function pivotFile()

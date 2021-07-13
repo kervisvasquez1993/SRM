@@ -2,16 +2,12 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class DraggableTask extends Model
 {
-    /* use HasFactory; */
-    public function tareas()
+    public function tarea()
     {
         return $this->belongsTo(Tarea::class, 'tarea_id');
     }
-
-
 }
