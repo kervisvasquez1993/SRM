@@ -1,5 +1,6 @@
 // Fonts
-@import url("https://fonts.googleapis.com/css?family=Nunito");
+//@import url("https://fonts.googleapis.com/css?family=Nunito");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;800&display=swap");
 
 @import url("https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css");
 @import url("/assets/css/material-dashboard.css?v=2.1.2");
@@ -33,12 +34,6 @@ body {
 
 @import "dropzone";
 
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;800&display=swap");
-
-b, strong {
-    font-weight: bold;
-}
-
 html,
 body,
 h1,
@@ -52,6 +47,15 @@ h6,
 .h3,
 .h4 {
     font-family: "Montserrat", sans-serif !important;
+}
+
+b,
+strong {
+    font-weight: bold;
+}
+
+.font-weight-bold {
+    font-weight: bold !important;
 }
 
 .keep-line-breaks {
@@ -296,4 +300,3 @@ table,
         }
     }
 }
-
