@@ -9,7 +9,6 @@ class Arte extends Model
 {
     use SoftDeletes;
     protected $fillable = [
-        'nombre',
         'creacion_fichas',
         'validacion_fichas',
         'creacion_boceto',

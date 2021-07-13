@@ -24,36 +24,32 @@ export function sendTokenToServer() {
             vapidKey:
                 "BJWiG1SA-CMBjxpd9s2hDz2mikd9kJragE0C28I1TDi2uVjroSkgJKTvnLq3kQNAqZmAArwU97vdrx00_vv2APA"
         })
-        .then(currentToken => {
-            if (currentToken) {
+        .then(newToken => {
+            if (newToken) {
                 const oldToken = localStorage.getItem("FcmToken");
 
                 // Si el token guardado es distinto al nuevo
-                if (oldToken !== currentToken) {
-                    console.log("New Token!");
-                    console.log(currentToken);
-
-                    // Enviar al server el token
-                    axios
-                        .post(`${apiURL}/push-notification`, {
-                            value: currentToken,
-                            device_id: uuid
-                        })
-                        .then(response => {
-                            // Se registro el token correctamente en el server
-                            console.log("Token sended to the server!");
-                            console.log(response);
-
-                            // Guardar el token localmente
-                            localStorage.setItem("FcmToken", currentToken);
-                            localStorage.setItem(
-                                "FcmTokenId",
-                                response.data.id
-                            );
-                        });
-                } else {
-                    console.log("Same token");
+                if (oldToken && oldToken !== newToken) {
+                    axios.delete(`${apiURL}/push-notification/${oldToken}`);
                 }
+
+                console.log("New Token!");
+
+                // Enviar al server el token
+                axios
+                    .post(`${apiURL}/push-notification`, {
+                        value: newToken,
+                        device_id: uuid
+                    })
+                    .then(response => {
+                        // Se registro el token correctamente en el server
+                        console.log("Token sended to the server!");
+                        console.log(response);
+
+                        // Guardar el token localmente
+                        localStorage.setItem("FcmToken", newToken);
+                        localStorage.setItem("FcmTokenId", response.data.id);
+                    });
             } else {
                 // No se recibio ningun token
                 console.log(

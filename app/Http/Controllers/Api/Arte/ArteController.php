@@ -49,10 +49,13 @@ class ArteController extends ApiController
         /* creacion de ficha */
         if($arte->isDirty('creacion_fichas') && $arte->creacion_fichas == 'en_proceso' )
         {
-            $body       = "Se actualizo el campo creación de ficha al estado 'En Proceso' perteneciente al codigo: $codigo";
-            $link       = "";
-            $tipoNotify = "creacion_fichas";
-            Notification::send($user, new GeneralNotification($body, $link, $tipoNotify));
+            $body        = "Se actualizo el campo creación de ficha al estado 'En Proceso' perteneciente al codigo: $codigo";
+            $link        = "";
+            $title       = "Creación de Fichas";
+            $type        = "creacion_fichas";
+            
+            /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
+            /* $this->sendNotifications($user, new GeneralNotification($body, $link, $type, $title)); */
         }
 
         
@@ -60,8 +63,10 @@ class ArteController extends ApiController
         {
             $body       = "Se actualizo el campo creación de ficha al estado 'Finalizado' perteneciente al codigo: $codigo";
             $link       = "";
-            $tipoNotify = "creacion_fichas";
-            Notification::send($user, new GeneralNotification($body, $link, $tipoNotify));
+            $type = "creacion_fichas";
+            $title      = "Actualización de fichas";
+            /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
+            $this->sendNotifications($user, new GeneralNotification($body, $link, $type, $title));
         }
 
         /* fin de creacion de ficha */
@@ -71,8 +76,10 @@ class ArteController extends ApiController
         {
             $body       = "Se actualizo el campo validación de ficha al estado 'En Proceso' perteneciente al codigo: $codigo";
             $link       = "";
-            $tipoNotify = "validacion_fichas";
-            Notification::send($user, new GeneralNotification($body, $link, $tipoNotify));
+            $type       = "validacion_fichas";
+            $title      = "Actualización Validación de Ficha";
+            /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
+            $this->sendNotifications($user, new GeneralNotification($body, $link, $type, $title));
         }
 
 
@@ -81,8 +88,10 @@ class ArteController extends ApiController
         {
             $body       = "Se actualizo el campo validación de ficha al estado 'Finalizado' perteneciente al codigo: $codigo";
             $link       = "";
-            $tipoNotify = "validacion_fichas";
-            Notification::send($user, new GeneralNotification($body, $link, $tipoNotify));
+            $type       = "validacion_fichas";
+            $title      = "Actualización Validación de Fichas";
+            /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
+            $this->sendNotifications($user, new GeneralNotification($body, $link, $type, $title));
         }
 
         /* fin de validacion de fichas */
@@ -94,16 +103,21 @@ class ArteController extends ApiController
         {
             $body       = "Se actualizo el campo Creación de Boceto al estado 'En Proceso' perteneciente al codigo: $codigo";
             $link       = "";
-            $tipoNotify = "creacion_boceto";
-            Notification::send($user, new GeneralNotification($body, $link, $tipoNotify));
+            $type       = "creacion_boceto";
+            $title      = "Actualización de Creación de boceto";
+
+            /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
+            $this->sendNotifications($user, new GeneralNotification($body, $link, $type, $title));
         }
 
         if($arte->isDirty('creacion_boceto') && $arte->creacion_boceto == 'finalizado' )
         {
             $body       = "Se actualizo el campo Creación de Boceto al estado 'Finalizado' perteneciente al codigo: $codigo";
             $link       = "";
-            $tipoNotify = "creacion_boceto";
-            Notification::send($user, new GeneralNotification($body, $link, $tipoNotify));
+            $type       = "creacion_boceto";
+            $title      = "Actualización de Creación de Boceto";
+            /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
+            $this->sendNotifications($user, new GeneralNotification($body, $link, $type, $title));
         }
 
         /* fin de creacion de boceto */
@@ -115,16 +129,20 @@ class ArteController extends ApiController
         {
             $body       = "Se actualizo el campo Validación de Boceto al estado 'En Proceso' perteneciente al codigo: $codigo";
             $link       = "";
-            $tipoNotify = "validacion_boceto";
-            Notification::send($user, new GeneralNotification($body, $link, $tipoNotify));
+            $type       = "validacion_boceto";
+            $title      = "Actualización en Valiación de boceto";
+            /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
+            $this->sendNotifications($user, new GeneralNotification($body, $link, $type, $title));
         }
 
         if($arte->isDirty('validacion_boceto') && $arte->validacion_boceto == 'finaliado' )
         {
             $body       = "Se actualizo el campo Validación de Boceto al estado 'Finalizado' perteneciente al codigo: $codigo";
             $link       = "";
-            $tipoNotify = "validacion_boceto";
-            Notification::send($user, new GeneralNotification($body, $link, $tipoNotify));
+            $type       = "validacion_boceto";
+            $title      = "Actualización de validación de bocetos";
+            /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
+            $this->sendNotifications($user, new GeneralNotification($body, $link, $type, $title));
         }
 
         /* fin de validacion de boceto */
@@ -136,15 +154,20 @@ class ArteController extends ApiController
         {
             $body       = "Se actualizo el campo Confirmación de Proveedor al estado 'En Proceso' perteneciente al codigo: $codigo";
             $link       = "";
-            $tipoNotify = "confirmacion_proveedor";
-            Notification::send($user, new GeneralNotification($body, $link, $tipoNotify));
+            $type       = "confirmacion_proveedor";
+            $link       = "Actualización de Confirmación de proveedor";
+            /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
+            $this->sendNotifications($user, new GeneralNotification($body, $link, $type, $title));
         }
         if($arte->isDirty('confirmacion_proveedor') && $arte->confirmacion_proveedor == 'finalizado' )
         {
             $body       = "Se actualizo el campo Confirmación de Proveedor al estado 'Finalizado' perteneciente al codigo: $codigo";
             $link       = "";
-            $tipoNotify = "confirmacion_proveedor";
-            Notification::send($user, new GeneralNotification($body, $link, $tipoNotify));
+            $type       = "confirmacion_proveedor";
+            $title      = "Actualización de Confirmación de Proveedor";
+
+            /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
+            $this->sendNotifications($user, new GeneralNotification($body, $link, $type, $title));
         }
         /* fin de valicaicon de proveedor */
 

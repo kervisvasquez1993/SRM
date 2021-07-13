@@ -40,7 +40,9 @@ class ProduccionTransitoFinProduccion extends ApiController
         $text               = "El usuario '$login_user' agrego incidencia relacionada con el fin de produccion en la empresa: " . $produccion_transito->pivotTable->proveedor->nombre;
         $link               = "/productions?id=$produccion_transito->id&tab=fin_produccion";
         $type               = "incidencia_fin_produccion";
-        Notification::send($user, new GeneralNotification($text, $link, $type));
+        /* Notification::send($user, new GeneralNotification($text, $link, $type)); */
+        $title = "Comentario en fin de Producción";
+        $this->sendNotifications($user, new GeneralNotification($text, $link, $type, $title));
 
         return $this->showOneResource(new IncidenciaResource($fin_produccion));
     }

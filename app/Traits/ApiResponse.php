@@ -54,7 +54,6 @@ trait ApiResponse
         // Obtener los tokens de los usuarios a los que se les enviara la notificación
         //$deviceTokens = $usuarios->whereNotNull('device_key')->pluck('device_key')->all();
         $deviceTokens = $usuarios->pluck('fcmTokens')->collapse()->pluck("value")->all();
-
         if (count($deviceTokens) === 0) {
             return;
         }

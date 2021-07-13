@@ -41,8 +41,10 @@ class IncidenciaInspeccionController extends ApiController
         $user_all = $user_coordinador->push($comprador_asignado)->unique('id');
         $body = "El usuario '$login_user' agrego una incidencia relacionado con la inspección de mercancia con la empresa '$nombre_empresa'";
         $link = "/claims/?id=$reclamos_devolucione->id&tab=inspeccion_carga";
-        $tipoNotify = "inspeccion_carga";
-        Notification::send($user_all, new GeneralNotification($body, $link, $tipoNotify));
+        $type = "inspeccion_carga";
+        /* Notification::send($user_all, new GeneralNotification($body, $link, $tipoNotify)); */
+        $title = "$login_user Agrego comentario en inspección de mercancia";
+        $this->sendNotifications($user_all, new GeneralNotification($body, $link, $type, $title));
 
         return $this->showOneResource(new IncidenciaResource($recepcion_mercancia));
     }

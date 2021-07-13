@@ -22,6 +22,7 @@ class CreatePagosTable extends Migration
             $table->string('url_archivo_factura');
             $table->date('fecha');
             $table->string('tipo');
+            $table->string('url_factura');
             $table->softDeletes();
             $table->timestamps();
         });

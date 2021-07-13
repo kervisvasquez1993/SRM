@@ -56,7 +56,7 @@ class TareaController extends ApiController
         $comprador = User::find($tarea->user_id);
         $coordinador = User::find($tarea->sender_id);
         $presidentes = User::where('rol', 'presidente')->get();
-        $userAll = $presidentes->push($comprador)->unique('id');
+        $userAll = $presidentes->push($comprador, $coordinador)->unique('id');
         $text = "El coordinador $coordinador->name asigno la tarea: $tarea->nombre al usuario $comprador->name y finaliza $tarea->fecha_fin" ;
         $link = "tasks/$tarea->id";
         $type = "tarea_asignada";
