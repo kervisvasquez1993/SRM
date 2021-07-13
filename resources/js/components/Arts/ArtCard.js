@@ -20,6 +20,12 @@ export const options = [
     }
 ];
 
+export const dictOptions = {
+    sin_inicializar: "Sin Inicializar",
+    en_proceso: "En Proceso",
+    finalizado: "Finalizado"
+};
+
 export const categories = [
     {
         value: "creacion_fichas",
@@ -113,7 +119,10 @@ const ArtCard = ({ art }) => {
                             if (value != "creacion_boceto") {
                                 disable = false;
                             }
-                        } else if (user.rol === "artes" && value === "creacion_boceto") {
+                        } else if (
+                            user.rol === "artes" &&
+                            value === "creacion_boceto"
+                        ) {
                             disable = false;
                         }
 
