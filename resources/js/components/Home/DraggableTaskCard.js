@@ -25,11 +25,15 @@ function DraggableTaskCard({ draggableTask, column, invalidDrop, snapshot }) {
     const remainingDays = getRemainingDaysToFinishTask(task);
 
     const handleClick = () => {
-        console.log("click");
         dispatch(
             openModal({
                 title: "Draggable",
-                body: <DraggableTaskModal draggableTask={draggableTask} />
+                body: (
+                    <DraggableTaskModal
+                        draggableTask={draggableTask}
+                        defaultTab={column}
+                    />
+                )
             })
         );
     };
