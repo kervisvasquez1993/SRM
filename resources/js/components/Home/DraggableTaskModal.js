@@ -45,7 +45,10 @@ const DraggableTaskModal = ({ draggableTask, defaultTab }) => {
 
                 <div className="tab-content tab-space p-2">
                     <TabContent name={0}>
-                        <TaskTab task={task} user={task.usuario} />
+                        <TaskTab
+                            task={{ ...task, id: task.tarea_id }}
+                            user={task.usuario}
+                        />
                     </TabContent>
                 </div>
             </Tabs>
