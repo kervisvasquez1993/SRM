@@ -1,14 +1,11 @@
 import React from "react";
 import { AiOutlineBarcode } from "react-icons/ai";
-import { FcFactoryBreakdown } from "react-icons/fc";
-import { GiFactory } from "react-icons/gi";
-import { IoTimeOutline } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../store/actions/modalActions";
 import {
+    blueCard,
     getColorsForTask,
-    getRemainingDaysToFinishTask,
-    greenCard
+    getRemainingDaysToFinishTask
 } from "../../utils";
 import DraggableTaskModal from "./DraggableTaskModal";
 
@@ -16,11 +13,10 @@ function DraggableTaskCard({ draggableTask, column, invalidDrop, snapshot }) {
     const dispatch = useDispatch();
 
     const task = draggableTask.task;
-    const { nombre, inicio_produccion, usuario } = draggableTask.task;
+    const { nombre, produccion_iniciada, usuario } = draggableTask.task;
 
-    const { text, background } = inicio_produccion
-        ? greenCard
-        : getColorsForTask(task);
+    let { text, background } =
+        column >= 2 || produccion_iniciada ? blueCard : getColorsForTask(task);
 
     const remainingDays = getRemainingDaysToFinishTask(task);
 
@@ -81,12 +77,16 @@ function DraggableTaskCard({ draggableTask, column, invalidDrop, snapshot }) {
 
                         {column < 2 && (
                             <div className="d-flex justify-content-between">
-                                <div className="d-flex align-items-center">
-                                    <span className="material-icons md-18 mr-1">
-                                        access_time
-                                    </span>
-                                    <span>{remainingDays} días</span>
-                                </div>
+                                {produccion_iniciada ? (
+                                    <div></div>
+                                ) : (
+                                    <div className="d-flex align-items-center">
+                                        <span className="material-icons md-18 mr-1">
+                                            access_time
+                                        </span>
+                                        <span>{remainingDays} días</span>
+                                    </div>
+                                )}
                                 <div className="d-flex align-items-center">
                                     <span className="material-icons md-18 mr-1">
                                         business
