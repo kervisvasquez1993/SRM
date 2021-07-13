@@ -23,25 +23,33 @@ const DraggableTaskModal = ({ draggableTask, defaultTab }) => {
                         Etapa 1 - Negociación
                     </TabButton>
 
-                    <TabButton name={1}>
-                        <i className="material-icons">business</i>
-                        Etapa 2 - Negociación
-                    </TabButton>
+                    {task.column > 0 && (
+                        <TabButton name={1}>
+                            <i className="material-icons">business</i>
+                            Etapa 2 - Negociación
+                        </TabButton>
+                    )}
 
-                    <TabButton name={2}>
-                        <i className="material-icons">inventory_2</i>
-                        Etapa 3 - Artes
-                    </TabButton>
+                    {task.column > 1 && (
+                        <TabButton name={2}>
+                            <i className="material-icons">inventory_2</i>
+                            Etapa 3 - Artes
+                        </TabButton>
+                    )}
 
-                    <TabButton name={3}>
-                        <i className="material-icons">receipt_long</i>
-                        Etapa 4 - Producción
-                    </TabButton>
+                    {task.column > 2 && (
+                        <TabButton name={3}>
+                            <i className="material-icons">receipt_long</i>
+                            Etapa 4 - Producción
+                        </TabButton>
+                    )}
 
-                    <TabButton name={4}>
-                        <i className="material-icons">receipt_long</i>
-                        Etapa 5 - Reclamos y Devoluciones
-                    </TabButton>
+                    {task.column > 3 && (
+                        <TabButton name={4}>
+                            <i className="material-icons">receipt_long</i>
+                            Etapa 5 - Reclamos y Devoluciones
+                        </TabButton>
+                    )}
                 </ul>
 
                 <div className="tab-content tab-space p-2">

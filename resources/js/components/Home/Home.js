@@ -152,7 +152,6 @@ function Home() {
             }
 
             if (!movedTask.arte_iniciada) {
-                console.log("arte sin iniciar!!");
                 // Bloquear la columna 3 cuando la tarea no ha iniciado arte
                 toDisable.push(2);
             }

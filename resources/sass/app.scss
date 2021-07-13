@@ -315,3 +315,7 @@ table,
         margin: 0;
     }
 }
+
+.nav-link.disabled {
+    opacity: 0.15;
+}

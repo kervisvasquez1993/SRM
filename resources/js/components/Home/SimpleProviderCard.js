@@ -31,7 +31,7 @@ const SimpleProviderCard = ({
             style={{ cursor: "pointer" }}
             onClick={handleClick}
         >
-            <div className={`card fade-in ${text} ${background} my-2`}>
+            <div className={`card fade-in ${text} ${background} my-2 shadow-md`}>
                 <div className="card-header">
                     <div className="d-flex justify-content-between w-100 flex-wrap">
                         <h3 className="card-title">{nombre}</h3>
@@ -40,8 +40,6 @@ const SimpleProviderCard = ({
                             <BiLink className="icon-normal ml-2" />
                         </button>
                     </div>
-
-                    {!showOnlySummary && <hr />}
                 </div>
             </div>
         </Link>

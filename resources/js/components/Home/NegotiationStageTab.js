@@ -27,20 +27,23 @@ const NegotiationStageTab = ({ taskId }) => {
     }, []);
 
     useEffect(() => {
-        const ordered = providers.sort((x, y) => {
-            const x1 = x.pivot.iniciar_negociacion;
-            const y1 = y.pivot.iniciar_negociacion;
+        // const ordered = providers.sort((x, y) => {
+        //     const x1 = x.pivot.iniciar_negociacion;
+        //     const y1 = y.pivot.iniciar_negociacion;
 
-            if (x == selectedProvider) {
-                return 1;
-            } else if (y == selectedProvider) {
-                return -1;
-            }
+        //     if (x == selectedProvider) {
+        //         return 1;
+        //     } else if (y == selectedProvider) {
+        //         return -1;
+        //     }
 
-            return x1 === y1 ? 0 : x1 > y1 ? 1 : -1;
-        });
+        //     return x1 === y1 ? 0 : x1 > y1 ? 1 : -1;
+        // });
 
-        setOrderedProviders(ordered);
+        // setOrderedProviders(ordered);
+        setOrderedProviders(
+            providers.filter(item => item.pivot.iniciar_negociacion)
+        );
     }, [providers]);
 
     return (

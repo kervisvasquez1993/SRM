@@ -15,15 +15,12 @@ const Modal = () => {
     const onClose = useSelector(store => store.modal.onClose);
 
     const handleClose = () => {
-        console.log("cerrar");
         dispatch(closeModal());
     };
 
     useEffect(() => {
         if (!isOpen) {
-            console.log("se cerro el modal");
             if (onClose) {
-                console.log("abrir de nuevo");
                 onClose();
                 dispatch(removeModalCloseCallback());
             }
