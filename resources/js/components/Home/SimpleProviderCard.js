@@ -39,12 +39,14 @@ const SimpleProviderCard = ({ provider, taskId, selectedProvider }) => {
                         </button>
                     </div>
                 </div>
-                <div className="card-body pt-0">
-                    <ProviderStatus
-                        provider={provider}
-                        selectedProvider={selectedProvider}
-                    />
-                </div>
+                {enNegociacion && (
+                    <div className="card-body pt-0">
+                        <ProviderStatus
+                            provider={provider}
+                            selectedProvider={selectedProvider}
+                        />
+                    </div>
+                )}
             </div>
         </Link>
     );

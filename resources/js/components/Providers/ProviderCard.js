@@ -183,10 +183,12 @@ const ProviderCard = ({ provider, selectedProvider }) => {
                         </React.Fragment>
                     )}
 
-                    <ProviderStatus
-                        provider={provider}
-                        selectedProvider={selectedProvider}
-                    />
+                    {enNegociacion && (
+                        <ProviderStatus
+                            provider={provider}
+                            selectedProvider={selectedProvider}
+                        />
+                    )}
                 </div>
 
                 {isMine && (

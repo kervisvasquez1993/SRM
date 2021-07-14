@@ -4,6 +4,10 @@ const ProviderStatus = ({ provider, selectedProvider }) => {
     const isSelected = selectedProvider === provider;
     const enNegociacion = provider.pivot.iniciar_negociacion;
 
+    if (!enNegociacion) {
+        return null;
+    }
+
     return (
         <div className="d-flex justify-content-center align-items-center">
             {selectedProvider ? (
