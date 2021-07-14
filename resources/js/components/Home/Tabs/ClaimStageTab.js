@@ -23,7 +23,7 @@ const ClaimStageTab = ({ claim }) => {
                         <CheckIcon checked={claim.inspeccion_carga} />
                     </li>
                 </ul>
-
+                
                 <ul className="list-group">
                     <li className="list-group-item d-flex align-items-center">
                         <strong>Reclamos y Devoluciones</strong>

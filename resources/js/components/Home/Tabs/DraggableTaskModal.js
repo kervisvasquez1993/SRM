@@ -60,25 +60,36 @@ const DraggableTaskModal = ({ draggableTask, defaultTab }) => {
                         />
                     </TabContent>
 
-                    <TabContent name={1}>
-                        <NegotiationStageTab taskId={task.tarea_id} />
-                    </TabContent>
+                    {task.column > 0 && (
+                        <TabContent name={1}>
+                            <NegotiationStageTab taskId={task.tarea_id} />
+                        </TabContent>
+                    )}
 
-                    <TabContent name={2}>
-                        <ArtStageTab art={task.arte_iniciada} />
-                    </TabContent>
+                    {task.column > 1 && (
+                        <TabContent name={2}>
+                            <ArtStageTab art={task.arte_iniciada} />
+                        </TabContent>
+                    )}
 
-                    <TabContent name={3}>
-                        <ProductionStageTab
-                            production={task.produccion_iniciada}
-                        />
-                    </TabContent>
+                    {task.column > 2 && (
+                        <TabContent name={3}>
+                            <ProductionStageTab
+                                production={task.produccion_iniciada}
+                            />
+                        </TabContent>
+                    )}
 
-                    <TabContent name={4}>
-                        <ClaimStageTab
-                            claim={task.produccion_iniciada.recepcion_reclamo_devolucion}
-                        />
-                    </TabContent>
+                    {task.column > 3 && (
+                        <TabContent name={4}>
+                            <ClaimStageTab
+                                claim={
+                                    task.produccion_iniciada
+                                        .recepcion_reclamo_devolucion
+                                }
+                            />
+                        </TabContent>
+                    )}
                 </div>
             </Tabs>
         </div>
