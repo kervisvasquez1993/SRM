@@ -101,7 +101,7 @@ class ProveedorController extends ApiController
             $proveedor->save();
             $login_user = auth()->user()->name;
             $coordinador = User::find($tarea->sender_id);
-            $presidentes = User::where('rol', 'presidente')->get();
+            $presidentes = User::where('isPresidente', true)->get();
             $userAll = $presidentes->push($coordinador)->unique('id'); 
             
             $empresa_agregada = $proveedor->nombre;

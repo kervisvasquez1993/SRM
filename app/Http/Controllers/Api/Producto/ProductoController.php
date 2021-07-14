@@ -94,7 +94,7 @@ class ProductoController extends ApiController
         Excel::import(new ProductosImport($pivot_tarea_proveeder_id->id), $archivo);
         $login_user    = auth()->user()->name;
         $coordinador = User::find($pivot_tarea_proveeder_id->tarea->sender_id);
-        $presidentes = User::where('rol', 'presidente')->get();
+        $presidentes = User::where('isPresidente', true)->get();
         $userAll = $presidentes->push($coordinador)->unique('id'); 
         $proveedorName = Proveedor::findOrFail($pivot_tarea_proveeder_id->proveedor_id)->nombre;
         $tareaNombre   = Tarea::findOrFail($pivot_tarea_proveeder_id->tarea_id)->nombre;

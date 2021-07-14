@@ -64,6 +64,8 @@ class ReclamoProductoController extends ApiController
         $pivot_file->url = Storage::disk('s3')->put("negociacion_archivos",  $file, 'public');
         $pivot_file->name = $file->getClientOriginalName();
         $pivot_file->save();
+
+        /* notifiacion */
         return $this->showOne($pivot_file);
     }
 
