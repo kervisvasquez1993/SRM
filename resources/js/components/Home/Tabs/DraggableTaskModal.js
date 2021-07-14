@@ -15,7 +15,7 @@ const DraggableTaskModal = ({ draggableTask, defaultTab }) => {
 
     return (
         <React.Fragment>
-            <div className="modal-body">
+            <div className="modal-body py-5">
                 <Tabs defaultTab={defaultTab}>
                     <ul
                         className="nav nav-pills d-flex flex-column flex-lg-row justify-content-center mb-4"

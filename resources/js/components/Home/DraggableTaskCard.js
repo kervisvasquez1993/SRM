@@ -92,7 +92,9 @@ function DraggableTaskCard({ draggableTask, column, invalidDrop, snapshot }) {
                             <span>{usuario.name}</span>
                         </div>
 
-                        {column < 2 && <hr className="mb-1" />}
+                        {column < 2 && !produccion_iniciada && (
+                            <hr className="mb-1" />
+                        )}
 
                         {column < 2 && (
                             <div className="d-flex justify-content-between">
