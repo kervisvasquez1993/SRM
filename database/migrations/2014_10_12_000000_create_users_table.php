@@ -29,6 +29,7 @@ class CreateUsersTable extends Migration
             $table->softDeletes();
             $table->rememberToken();
             $table->string('device_key')->nullable();
+            $table->boolean('isPresidente')->default(false);
             $table->timestamps();
         });
 

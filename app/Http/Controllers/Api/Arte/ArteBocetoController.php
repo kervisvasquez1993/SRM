@@ -34,7 +34,7 @@ class ArteBocetoController extends ApiController
 
         /* notificacion */
         $login_user         = auth()->user()->name;
-        $user_all           = User::where('rol', 'artes')->get();
+        $user_all           = User::where('rol','artes')->orWhere('isPresidente', true)->get();
         $comprador_asignado = User::find($arte->pivotTable->tarea->user_id);
         $coordinador        = User::find($arte->pivotTable->tarea->sender_id);
         $user               = $user_all->push($comprador_asignado, $coordinador)->unique('id');
@@ -42,7 +42,7 @@ class ArteBocetoController extends ApiController
         $text               = "El usuario '$login_user' agregó comentario en la creación de boceto asociado al codigo: $codigo";
         $link               = "/arts?id=$arte->id&tab=boceto";
         $type               = "arte_boceto";
-        $title              = "Creación de Boceto";
+        $title              = "Comentario sobre Creación de Boceto";
         /* Notification::send($user, new GeneralNotification($text, $link, $type)); */
         $this->sendNotifications($user, new GeneralNotification($text, $link, $type, $title));
         return $this->showOneResource(new IncidenciaResource($boceto));
