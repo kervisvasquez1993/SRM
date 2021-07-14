@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { getProvidersFromTask } from "../../../store/actions/providerActions";
 import { isNegotiationCompleted } from "../../../utils";
 import EmptyList from "../../Navigation/EmptyList";
+import LoadingScreen from "../../Navigation/LoadingScreen";
+import LoadingSpinner from "../../Navigation/LoadingSpinner";
 import SimpleProviderCard from "../SimpleProviderCard";
 
 const ProviderList = ({ taskId, filterProvidersInNegotiation = false }) => {
@@ -12,6 +14,9 @@ const ProviderList = ({ taskId, filterProvidersInNegotiation = false }) => {
 
     // @ts-ignore
     const providers = useSelector(state => state.provider.providers);
+    // @ts-ignore
+    const isLoading = useSelector(state => state.provider.isLoadingList);
+
     const [orderedProviders, setOrderedProviders] = useState([]);
     const selectedProvider = providers.find(provider =>
         isNegotiationCompleted(provider.pivot)
@@ -47,6 +52,10 @@ const ProviderList = ({ taskId, filterProvidersInNegotiation = false }) => {
 
         setOrderedProviders(ordered);
     }, [providers]);
+
+    if (isLoading) {
+        return <LoadingScreen />;
+    }
 
     return (
         <React.Fragment>

@@ -6,6 +6,7 @@ import { openModal } from "../../store/actions/modalActions";
 import { getProvidersFromTask } from "../../store/actions/providerActions";
 import { isNegotiationCompleted } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
+import LoadingScreen from "../Navigation/LoadingScreen";
 import ProviderCard from "../Providers/ProviderCard";
 import NewProviderModal from "./ProviderModal";
 
@@ -14,6 +15,8 @@ const TaskProviderList = () => {
 
     // @ts-ignore
     const providers = useSelector(state => state.provider.providers);
+    // @ts-ignore
+    const isLoading = useSelector(state => state.provider.isLoadingList);
     // @ts-ignore
     const user = useSelector(state => state.auth.user);
     // @ts-ignore
@@ -58,6 +61,10 @@ const TaskProviderList = () => {
     };
 
     const isMine = user.id == task.usuario.id;
+
+    if (isLoading) {
+        return <LoadingScreen />;
+    }
 
     return (
         <React.Fragment>

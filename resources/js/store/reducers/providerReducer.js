@@ -1,5 +1,6 @@
 const defaultState = {
     providers: [],
+    isLoadingList: false,
     errors: {},
     isEditing: false,
     allProviders: []
@@ -12,7 +13,8 @@ const providerReducer = (state = defaultState, action) => {
         case "CHANGE_HISTORY":
             return {
                 ...state,
-                providers: []
+                providers: [],
+                isLoadingList: true
             };
 
         case "OPEN_MODAL":
@@ -37,22 +39,27 @@ const providerReducer = (state = defaultState, action) => {
         case "CLEAR_PROVIDERS":
             return {
                 ...state,
-                providers: []
+                providers: [],
+                isLoadingList: true
             };
 
         case "GET_TASK_PROVIDERS_REQUEST":
             return {
-                ...state
+                ...state,
+                isLoadingList: true
             };
         case "GET_TASKS_PROVIDERS_SUCCESS":
             return {
                 ...state,
-                providers: payload
+                providers: payload,
+                isLoadingList: false
             };
         case "GET_TASKS_PROVIDERS_FAILURE":
             return {
-                ...state
+                ...state,
+                isLoadingList: false
             };
+
         case "EDIT_PROVIDER_REQUEST":
             return {
                 ...state,
