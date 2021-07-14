@@ -1,10 +1,10 @@
 import React from "react";
-import TaskTab from "../../Tasks/TaskTab";
 import TabButton from "../../Widgets/TabButton";
 import TabContent from "../../Widgets/TabContent";
 import Tabs from "../../Widgets/Tabs";
 import ArtStageTab from "./ArtStageTab";
 import ClaimStageTab from "./ClaimStageTab";
+import FirstStageTab from "./FirstStageTab";
 import NegotiationStageTab from "./NegotiationStageTab";
 import ProductionStageTab from "./ProductionStageTab";
 
@@ -54,10 +54,7 @@ const DraggableTaskModal = ({ draggableTask, defaultTab }) => {
 
                 <div className="tab-content tab-space p-2">
                     <TabContent name={0}>
-                        <TaskTab
-                            task={{ ...task, id: task.tarea_id }}
-                            user={task.usuario}
-                        />
+                        <FirstStageTab task={task} />
                     </TabContent>
 
                     {task.column > 0 && (

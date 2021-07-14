@@ -50,7 +50,7 @@ const TaskTab = ({ task, user = null }) => {
                                 business
                             </span>
                             <p className="my-0">
-                                <strong>Empresas agregadas : </strong>
+                                <strong>Empresas Asociadas : </strong>
                                 {task.cantidad_proveedores}
                             </p>
                         </div>
