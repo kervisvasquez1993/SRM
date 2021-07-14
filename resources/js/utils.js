@@ -153,7 +153,7 @@ export function getSum(array, column) {
 }
 
 export function isNegotiationCompleted(negotiation) {
-    return negotiation.iniciar_produccion && negotiation.iniciar_arte;
+    return negotiation.iniciar_produccion || negotiation.iniciar_arte;
 }
 
 // If a negotiation has started production and arts, then the rest of the providers of the same task

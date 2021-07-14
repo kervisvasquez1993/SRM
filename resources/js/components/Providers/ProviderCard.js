@@ -182,28 +182,43 @@ const ProviderCard = ({ provider, selectedProvider }) => {
                         </React.Fragment>
                     )}
 
-                    {isSelected ? (
-                        <div className="d-flex justify-content-center align-items-center mt-4">
-                            <span className="material-icons">done</span>
-                            <span className="material-icons mr-2">done</span>
-                            <strong className="h4">
-                                Ya se inicio producción y arte con esta empresa
-                            </strong>
-                        </div>
-                    ) : (
-                        enNegociacion &&
-                        !selectedProvider && (
-                            <div className="d-flex justify-content-center align-items-center mt-4">
-                                <span className="material-icons mr-2">
-                                    done
-                                </span>
-                                <strong className="h4">
-                                    Ya se ha inciado una negociacion con esta
-                                    empresa
-                                </strong>
-                            </div>
-                        )
-                    )}
+                    <div className="d-flex justify-content-center align-items-center mt-4">
+                        {selectedProvider ? (
+                            isSelected ? (
+                                <React.Fragment>
+                                    <span className="material-icons">done</span>
+                                    <span className="material-icons mr-2">
+                                        done
+                                    </span>
+                                    <strong className="h4 m-0">
+                                        Esta empresa fue escogida para continuar
+                                        con producción y arte
+                                    </strong>
+                                </React.Fragment>
+                            ) : (
+                                <React.Fragment>
+                                    <span className="material-icons mr-2">
+                                        close
+                                    </span>
+                                    <strong className="h4 m-0">
+                                        Esta empresa fue descartada
+                                    </strong>
+                                </React.Fragment>
+                            )
+                        ) : (
+                            enNegociacion && (
+                                <React.Fragment>
+                                    <span className="material-icons mr-2">
+                                        done
+                                    </span>
+                                    <strong className="h4 m-0">
+                                        Se ha inciado una negociacion con
+                                        esta empresa
+                                    </strong>
+                                </React.Fragment>
+                            )
+                        )}
+                    </div>
                 </div>
 
                 {isMine && (
