@@ -1,13 +1,16 @@
 .droppable-column-parent {
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 400px;
     min-width: 200px;
+    background: lightgrey;
+    padding: 1rem 0 1rem 0;
+    border-right: 3px solid rgba(0, 0, 0, 0.05);
 }
 
 .droppable-column {
     flex-grow: 1;
-    background: lightgrey;
+
     padding: 8px;
     margin: 0px 4px 0 4px;
     min-height: 200px;
@@ -23,6 +26,5 @@
 
     &.dragging {
         opacity: 0.7;
-       
     }
 }
