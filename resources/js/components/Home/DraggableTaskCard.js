@@ -87,12 +87,14 @@ function DraggableTaskCard({ draggableTask, column, invalidDrop, snapshot }) {
                                         <span>{remainingDays} días</span>
                                     </div>
                                 )}
-                                <div className="d-flex align-items-center">
-                                    <span className="material-icons md-18 mr-1">
-                                        business
-                                    </span>
-                                    <span>{task.cantidad_proveedores}</span>
-                                </div>
+                                {column === 0 && (
+                                    <div className="d-flex align-items-center">
+                                        <span className="material-icons md-18 mr-1">
+                                            business
+                                        </span>
+                                        <span>{task.cantidad_proveedores}</span>
+                                    </div>
+                                )}
                             </div>
                         )}
                     </div>
