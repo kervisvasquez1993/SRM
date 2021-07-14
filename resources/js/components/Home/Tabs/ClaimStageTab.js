@@ -4,62 +4,43 @@ import { Link } from "react-router-dom";
 import EmptyList from "../../Navigation/EmptyList";
 import CheckIcon from "../../Widgets/CheckIcon";
 
-const ClaimStageTab = ({ production }) => {
+const ClaimStageTab = ({ claim }) => {
     return (
         <React.Fragment>
-            <h3 className="text-center">Producción</h3>
+            <h3 className="text-center">Reclamos y Devoluciones</h3>
 
-            {production ? (
-                <React.Fragment>
-                    <ul className="list-group">
-                        <li className="list-group-item d-flex align-items-center">
-                            <strong>Inicio de Producción</strong>
-                            <CheckIcon checked={production.inicio_produccion} />
-                        </li>
+            <React.Fragment>
+                <ul className="list-group">
+                    <li className="list-group-item d-flex align-items-center">
+                        <strong>Recepción de Mercancia</strong>
+                        <CheckIcon checked={claim.recepcion_mercancia} />
+                    </li>
+                </ul>
 
-                        <li className="list-group-item d-flex align-items-center">
-                            <strong>Pago Anticipado</strong>
-                            <CheckIcon checked={false} />
-                        </li>
+                <ul className="list-group">
+                    <li className="list-group-item d-flex align-items-center">
+                        <strong>Inspección</strong>
+                        <CheckIcon checked={claim.inspeccion_carga} />
+                    </li>
+                </ul>
 
-                        <li className="list-group-item d-flex align-items-center">
-                            <strong>Pago Balance</strong>
-                            <CheckIcon checked={false} />
-                        </li>
+                <ul className="list-group">
+                    <li className="list-group-item d-flex align-items-center">
+                        <strong>Reclamos y Devoluciones</strong>
+                        <CheckIcon checked={claim.reclamos_devoluciones} />
+                    </li>
+                </ul>
 
-                        <li className="list-group-item d-flex align-items-center">
-                            <strong>Fin de Producción</strong>
-                            <CheckIcon checked={production.fin_produccion} />
-                        </li>
-
-                        <li className="list-group-item d-flex align-items-center">
-                            <strong>Transito Nacionalización</strong>
-                            <CheckIcon
-                                checked={production.transito_nacionalizacion}
-                            />
-                        </li>
-
-                        <li className="list-group-item d-flex align-items-center">
-                            <strong>Salida Puerto Origen</strong>
-                            <CheckIcon
-                                checked={production.salida_puero_origen}
-                            />
-                        </li>
-                    </ul>
-
-                    <div className="text-center my-3">
-                        <Link
-                            to={`/productions/?id=${production.id}`}
-                            className="btn btn-info btn-round"
-                        >
-                            Ver Detalles
-                            <BiLink className="icon-normal ml-2" />
-                        </Link>
-                    </div>
-                </React.Fragment>
-            ) : (
-                <EmptyList message="No se ha iniciado arte" />
-            )}
+                <div className="text-center my-3">
+                    <Link
+                        to={`/claims/?id=${claim.id}`}
+                        className="btn btn-info btn-round"
+                    >
+                        Ver Detalles
+                        <BiLink className="icon-normal ml-2" />
+                    </Link>
+                </div>
+            </React.Fragment>
         </React.Fragment>
     );
 };

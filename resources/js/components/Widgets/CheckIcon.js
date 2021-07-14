@@ -6,7 +6,7 @@ const CheckIcon = ({ checked }) => {
             {checked ? (
                 <span className="material-icons ml-2">done</span>
             ) : (
-                <span className="material-icons" style={{ opacity: "0.3" }}>
+                <span className="material-icons" style={{ opacity: "0.2" }}>
                     close
                 </span>
             )}

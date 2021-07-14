@@ -4,6 +4,7 @@ import TabButton from "../../Widgets/TabButton";
 import TabContent from "../../Widgets/TabContent";
 import Tabs from "../../Widgets/Tabs";
 import ArtStageTab from "./ArtStageTab";
+import ClaimStageTab from "./ClaimStageTab";
 import NegotiationStageTab from "./NegotiationStageTab";
 import ProductionStageTab from "./ProductionStageTab";
 
@@ -70,6 +71,12 @@ const DraggableTaskModal = ({ draggableTask, defaultTab }) => {
                     <TabContent name={3}>
                         <ProductionStageTab
                             production={task.produccion_iniciada}
+                        />
+                    </TabContent>
+
+                    <TabContent name={4}>
+                        <ClaimStageTab
+                            claim={task.produccion_iniciada.recepcion_reclamo_devolucion}
                         />
                     </TabContent>
                 </div>
