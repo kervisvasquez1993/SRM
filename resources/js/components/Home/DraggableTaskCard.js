@@ -1,5 +1,6 @@
 import React from "react";
 import { AiOutlineBarcode } from "react-icons/ai";
+import { IoArrowRedoSharp } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../store/actions/modalActions";
 import {
@@ -19,6 +20,24 @@ function DraggableTaskCard({ draggableTask, column, invalidDrop, snapshot }) {
         column >= 2 || produccion_iniciada ? blueCard : getColorsForTask(task);
 
     const remainingDays = getRemainingDaysToFinishTask(task);
+
+    let canBeMovedToNextStage = true;
+
+    if (column === 0 && !task.tiene_negociaciones) {
+        canBeMovedToNextStage = false;
+    } else if (column === 1 && !task.arte_iniciada) {
+        canBeMovedToNextStage = false;
+    } else if (column === 2 && !task.produccion_iniciada) {
+        canBeMovedToNextStage = false;
+    } else if (
+        column === 3 &&
+        task.produccion_iniciada &&
+        !task.produccion_iniciada.recepcion_reclamo_devolucion
+    ) {
+        canBeMovedToNextStage = false;
+    } else if (column === 4) {
+        canBeMovedToNextStage = false;
+    }
 
     const handleClick = () => {
         dispatch(
@@ -84,7 +103,11 @@ function DraggableTaskCard({ draggableTask, column, invalidDrop, snapshot }) {
                                         <span className="material-icons md-18 mr-1">
                                             access_time
                                         </span>
-                                        <span>{remainingDays} días</span>
+                                        <span>
+                                            {remainingDays > 0
+                                                ? `${remainingDays} días`
+                                                : "Vencida"}
+                                        </span>
                                     </div>
                                 )}
                                 {column === 0 && (
@@ -98,6 +121,12 @@ function DraggableTaskCard({ draggableTask, column, invalidDrop, snapshot }) {
                             </div>
                         )}
                     </div>
+
+                    {canBeMovedToNextStage && (
+                        <div className="move-next-stage-icon">
+                            <IoArrowRedoSharp />
+                        </div>
+                    )}
                 </div>
             )}
         </React.Fragment>
