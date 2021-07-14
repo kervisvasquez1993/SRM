@@ -12,6 +12,7 @@ import {
     useUser
 } from "../../utils";
 import ProviderFormModal from "./ProviderFormModal";
+import ProviderStatus from "./ProviderStatus";
 
 const ProviderCard = ({ provider, selectedProvider }) => {
     const dispatch = useDispatch();
@@ -182,43 +183,10 @@ const ProviderCard = ({ provider, selectedProvider }) => {
                         </React.Fragment>
                     )}
 
-                    <div className="d-flex justify-content-center align-items-center mt-4">
-                        {selectedProvider ? (
-                            isSelected ? (
-                                <React.Fragment>
-                                    <span className="material-icons">done</span>
-                                    <span className="material-icons mr-2">
-                                        done
-                                    </span>
-                                    <strong className="h4 m-0">
-                                        Esta empresa fue escogida para continuar
-                                        con producción y arte
-                                    </strong>
-                                </React.Fragment>
-                            ) : (
-                                <React.Fragment>
-                                    <span className="material-icons mr-2">
-                                        close
-                                    </span>
-                                    <strong className="h4 m-0">
-                                        Esta empresa fue descartada
-                                    </strong>
-                                </React.Fragment>
-                            )
-                        ) : (
-                            enNegociacion && (
-                                <React.Fragment>
-                                    <span className="material-icons mr-2">
-                                        done
-                                    </span>
-                                    <strong className="h4 m-0">
-                                        Se ha inciado una negociacion con
-                                        esta empresa
-                                    </strong>
-                                </React.Fragment>
-                            )
-                        )}
-                    </div>
+                    <ProviderStatus
+                        provider={provider}
+                        selectedProvider={selectedProvider}
+                    />
                 </div>
 
                 {isMine && (
