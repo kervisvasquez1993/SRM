@@ -35,9 +35,10 @@ class ProduccionTransitoInicioProduccion extends ApiController
 
         /* notificacion agregada */
         $login_user         = auth()->user()->name;
-        $user_all           = User::where('rol', 'logistica')->orWhere('rol', 'coordinador')->get();
+        $user_all           = User::where('rol', 'logistica')->orWhere('isPresidente', true)->get();
+        $coordinador        = User::find($produccion_transito->pivotTable->tarea->sender_id);
         $comprador_asignado = User::find($produccion_transito->pivotTable->tarea->user_id);
-        $user               = $user_all->push($comprador_asignado)->unique('id');
+        $user               = $user_all->push($comprador_asignado, $coordinador)->unique('id');
         $text               = "El usuario '$login_user' agrego incidencia realcionada con inicio de produccion en la empresa: ".$produccion_transito->pivotTable->proveedor->nombre;
         $link               = "/productions?id=$produccion_transito->id&tab=inicio_produccion";
         $type               = "incidencia_inicio_produccion";

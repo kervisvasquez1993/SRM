@@ -64,9 +64,10 @@ class ProduccionTransitoPagoController extends ApiController
         $pago->fecha = $request->fecha;
         $pago->save();
         $login_user         = auth()->user()->name;
-        $user_all           = User::where('rol', 'logistica')->orWhere('rol', 'coordinador')->get();
+        $user_all           = User::where('rol', 'logistica')->orWhere('isPresidente', true)->get();
+        $coordinador        = User::find($produccionTransitoId->pivotTable->tarea->sender_id);
         $comprador_asignado = User::find($produccionTransitoId->pivotTable->tarea->user_id);
-        $user               = $user_all->push($comprador_asignado)->unique('id');
+        $user               = $user_all->push($comprador_asignado,$coordinador)->unique('id');
         $text               = "El usuario '$login_user' agrego $tipo asociado al proveedor ". $produccionTransitoId->pivotTable->proveedor->nombre;
         $link               = "/productions?id=$request->produccion_transito_id&tab=payments";
         /* Notification::send($user, new GeneralNotification($text, $link, $type)); */

@@ -32,7 +32,8 @@ class PivotFilesController extends ApiController
         $name =  $file->getClientOriginalName();
 
         $coincidencia = PivotFile::where('pivot_tarea_proveeder_id', $pivot_id)->where('name', $name)->first();
-        if ($coincidencia != null) {
+        if ($coincidencia != null) 
+        {
             return $this->errorResponse("Ya existe un archivo con el mismo nombre",  Response::HTTP_BAD_REQUEST);
         }
 

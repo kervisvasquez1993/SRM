@@ -13,7 +13,8 @@ class Pago extends Model
         'titulo',
         'url_archivo_factura',
         'monto',
-        'fecha'
+        'fecha',
+        'url_factura'
     ];
 
     protected $casts = [

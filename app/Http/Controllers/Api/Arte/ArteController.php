@@ -19,6 +19,21 @@ class ArteController extends ApiController
      *
      * @return \Illuminate\Http\Response
      */
+    
+    private $etiquetas = [
+        "sin_inicializar" => "Sin Inicializar",
+        "en_proceso" => "En Proceso",
+        "finalizado" => "Finalizado"
+    ];
+
+    private $categorias = [
+        "creacion_fichas" => "Creación de Fichas",
+        "validacion_fichas" => "Validación de Fichas",
+        "creacion_boceto" => "Creación de Bocetos",
+        "validacion_boceto" => "Validación de Bocetos",
+        "confirmacion_proveedor" => "Confirmación de Proveedor"
+    ];
+
     public function index()
     {
         $arte = Arte::orderByDesc('id')->get();
@@ -30,161 +45,30 @@ class ArteController extends ApiController
     {
         return $this->showOneResource(new ArteResource($arte));
     }
-
     public function update(Request $request, Arte $arte)
     {
         $user = auth()->user();
-        if (!($user->rol === 'comprador' || $user->rol === 'coordinador' || $user->rol === 'artes') && ($request->fecha_fin)) 
-        {
+        if (!($user->rol === 'comprador' || $user->rol === 'coordinador' || $user->rol === 'artes') && ($request->fecha_fin)) {
             return $this->errorResponse('No tiene Permiso para Realizar esta Operacion', 403);
         }
-        /* notificacion */
-        $user_all = User::where('isPresidente', true)->orWhere('rol', 'artes')->get();
-        $coordinador   = User::find($arte->pivotTable->tarea->sender_id);
+        /* creacion de mensaje */
+        $user_all           = User::where('isPresidente', true)->orWhere('rol', 'artes')->get();
+        $coordinador        = User::find($arte->pivotTable->tarea->sender_id);
         $comprador_asignado = User::find($arte->pivotTable->tarea->user_id);
-        $codigo = $arte->pivotTable->compra_po;
-        $user          = $user_all->push($coordinador,$comprador_asignado)->unique('id');
-        /* fin de cuerpo comun de mensaje */
+        $codigo             = $arte->pivotTable->compra_po;
+        $user               = $user_all->push($coordinador, $comprador_asignado)->unique('id');
         $arte->fill($request->all());
-        /* creacion de ficha */
-        if($arte->isDirty('creacion_fichas') && $arte->creacion_fichas == 'en_proceso' )
-        {
-            $this->creacionFicha('En Proceso', $codigo, $user);
-        }
-        
-        if($arte->isDirty('creacion_fichas') && $arte->creacion_fichas == 'finalizado' )
-        {
-            $this->creacionFicha('Finalizado', $codigo, $user);
-        }
-
-        /* fin de creacion de ficha */
-        /* validacion de fichas */
-
-        if($arte->isDirty('validacion_fichas') && $arte->validacion_fichas == 'en_proceso' )
-        {
-            
-             $this->notificacionReusable(
-                $user,
-                'Validación de Fichas',
-                'En Proceso',
-                $codigo,
-                "link",
-                "Actualización Validación de Ficha",
-                "validacion_fichas",
-            ); 
-            
-        }
-
-
-
-        if($arte->isDirty('validacion_fichas') && $arte->validacion_fichas == 'finalizado' )
-        {
-            $this->notificacionReusable(
-                $user,
-                'Validación de Fichas',
-                'Finalizado',
-                $codigo,
-                "link",
-                "Actualización Validación de Ficha",
-                "validacion_fichas",
-            ); 
-        }
-
-        if($arte->isDirty('creacion_boceto') && $arte->creacion_boceto == 'en_proceso' )
-        {
-            
-            $this->notificacionReusable(
-                $user,
-                'Creación de Bocetos',
-                'En Proceso',
-                $codigo,
-                "link",
-                "Actualización Creación de Boceto",
-                "creacion_boceto",
-            ); 
-        }
-
-        if($arte->isDirty('creacion_boceto') && $arte->creacion_boceto == 'finalizado' )
-        {
-           
-            $this->notificacionReusable(
-                $user,
-                'Creación de Bocetos',
-                'Finalizado',
-                $codigo,
-                "link",
-                "Actualización Creación de Boceto",
-                "creacion_boceto",
-            ); 
-        }
-
-        /* fin de creacion de boceto */
-
-
-        /* validacion de boceto */
-
-        if($arte->isDirty('validacion_boceto') && $arte->validacion_boceto == 'en_proceso' )
-        {
-            $this->notificacionReusable(
-                $user,
-                'Validación de Bocetos',
-                'En Proceso',
-                $codigo,
-                "link",
-                "Actualización Validación de Boceto",
-                "validacion_boceto",
-            ); 
-        }
-
-        if($arte->isDirty('validacion_boceto') && $arte->validacion_boceto == 'finalizado' )
-        {
-            
-            $this->notificacionReusable(
-                $user,
-                'Validación de Boceto',
-                'Finalizado',
-                $codigo,
-                "link",
-                "Actualización Validación de Boceto",
-                "validacion_boceto",
-            ); 
-        }
-
-        /* fin de validacion de boceto */
-
-
-        /* conficrmacionde proveedor */
-
-        if($arte->isDirty('confirmacion_proveedor') && $arte->confirmacion_proveedor == 'en_proceso' )
-        {
-            
-            $this->notificacionReusable(
-                $user,
-                'Confirmación de Proveedor',
-                'En Proceso',
-                $codigo,
-                "link",
-                "Actualización en Confirmacion de Proveedor",
-                "confirmacion_de_proveedor",
-            ); 
-        }
-        if($arte->isDirty('confirmacion_proveedor') && $arte->confirmacion_proveedor == 'finalizado' )
-        {
-              $this->notificacionReusable(
-                $user,
-                'Confirmación de Proveedor',
-                'Finalizado',
-                $codigo,
-                "link",
-                "Actualización en Confirmacion de Proveedor",
-                "confirmacion_de_proveedor",
-            ); 
-        }
-        /* fin de valicaicon de proveedor */
-
-
-
-        $arte->save(); 
+        foreach ($this->categorias as $id => $etiqueta):
+            if ($arte->isDirty($id)):
+                $etiquetaValor = $this->etiquetas[$arte[$id]];
+                $body        = "Se actualizo el campo '$etiqueta' al estado '$etiquetaValor' perteneciente al codigo: $codigo";
+                $link        = "/arts?id=$arte->id";
+                $title       = $etiqueta;
+                $type        = "cambio_".$id;
+                $this->sendNotifications($user, new GeneralNotification($body, $link, $type, $title));
+            endif;
+        endforeach;
+        $arte->save();
         return $this->showOneResource(new ArteResource($arte));
     }
 

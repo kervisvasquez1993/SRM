@@ -48,7 +48,8 @@ class PivotController extends ApiController
         ]);
 
         // Comprobar la validacion
-        if ($validator->fails()) {
+        if ($validator->fails()) 
+        {
             return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
         }
 
@@ -59,7 +60,8 @@ class PivotController extends ApiController
         $proveedor = Proveedor::findOrFail($request->proveedor_id);
 
         // Comprobar si el proveedor ya está agregado a esta tarea
-        if (!$tarea->proveedores->where('id', $proveedor->id)->isEmpty()) {
+        if (!$tarea->proveedores->where('id', $proveedor->id)->isEmpty())
+        {
             return $this->errorResponse("Este proveedor ya está agregado a esta tarea", Response::HTTP_BAD_REQUEST);
         }
             
@@ -75,7 +77,7 @@ class PivotController extends ApiController
         $coordinador      = User::find($tarea->sender_id);
         $tarea_nombre     = $tarea->nombre;
         $empresa_agregada = $proveedor->nombre;
-        $presidentes = User::where('rol', 'presidente')->get();
+        $presidentes = User::where('isPresidente', true)->get();
         $userAll = $presidentes->push($coordinador)->unique('id'); 
         $text = "El usuario '$login_user' añadió la empresa '$empresa_agregada' a la tarea '$tarea_nombre'";
         $link = "/tasks/$tarea->id?providerId=$proveedor->id"; 
@@ -96,7 +98,6 @@ class PivotController extends ApiController
     {
         // Actualizar el valor del codigo PO (compra_po)
         $pivot_id->update($request->all());
-        
         return $this->showOneResource(new PivotTareaProveederResource($pivot_id));
     }
 
@@ -108,19 +109,17 @@ class PivotController extends ApiController
         // TODO: Cambiar la forma en que se inicializa el nombre
         $this->artesCreate($pivot->id, $pivot->compra_po);
         $pivotResource = new PivotTareaProveederResource($pivot);
-
         return $this->showOneResource($pivotResource);
     }
 
     public function startProduccion($pivotTareaProveederId)
     {
         $pivot = PivotTareaProveeder::findOrFail($pivotTareaProveederId);
-
         // No se puede iniciar produccion sin un codigo PO
-        if ($pivot->compra_po === null) {
+        if ($pivot->compra_po === null) 
+        {
             return $this->errorResponse("No se puede iniciar producción sin un codigo PO", Response::HTTP_BAD_REQUEST);
         }
-
         $pivot->iniciar_produccion = 1;
         $pivot->save();
         $this->produccionTransitoCreate($pivot->id);
@@ -131,7 +130,8 @@ class PivotController extends ApiController
     public function artesCreate($id)
     {
         $artesCreate = Arte::where('pivot_tarea_proveeder_id', $id)->first();
-        if ($artesCreate) {
+        if ($artesCreate) 
+        {
             return $this->successMensaje('Ya se Inicializo El Arte con este Proveedor', 201);
         }
         $arte = new Arte();
@@ -147,18 +147,21 @@ class PivotController extends ApiController
         $comprador = User::find($arte->pivotTable->tarea->user_id);
         $coordinador     = User::find($arte->pivotTable->tarea->sender_id);
         $userLogin = Auth::user()->name;
-        $userAll = User::where('rol', 'artes')->orWhere('rol', 'presidente')->get();
+        $userAll = User::where('rol', 'artes')->orWhere('isPresidente', true)->get();
         $userUni =  $userAll->push($comprador,$coordinador)->unique('id');
-        $body = "El usuario $userLogin inicio Arte con la empresa $nombreEmpresa";
-        $link = "/arts?id=$arte->id";
-        $type = "iniciar_arte";
-        Notification::send($userUni, new GeneralNotification($body, $link, $type));
+        $body    = "El usuario $userLogin inicio Arte con la empresa $nombreEmpresa";
+        $link    = "/arts?id=$arte->id";
+        $type    = "iniciar_arte";
+        $title   = "Inicio de Arte";
+        /* Notification::send($userUni, new GeneralNotification($body, $link, $type)); */
+        $this->sendNotifications($userAll, new GeneralNotification($body, $link, $type, $title));
     }
 
     public function produccionTransitoCreate($id)
     {
         $producionTransito = ProduccionTransito::where('pivot_tarea_proveeder_id', $id)->first();
-        if ($producionTransito) {
+        if ($producionTransito) 
+        {
             return $this->successMensaje('Ya se Inicializo la produccion con este Proveedor', 201);
         }
         $produccionAprobar = new ProduccionTransito();
@@ -170,11 +173,13 @@ class PivotController extends ApiController
         $comprador     = User::find($produccionAprobar->pivotTable->tarea->user_id);
         $coordinador   = User::find($produccionAprobar->pivotTable->tarea->sender_id);
         $userLogin = Auth::user()->name;
-        $userAll = User::where('rol','logistica')->orWhere('rol', 'presidente')->get();
+        $userAll = User::where('rol','logistica')->orWhere('isPresidente', true)->get();
         $userUni =  $userAll->push($comprador, $coordinador)->unique('id');
-        $body = "El usuario $userLogin inicio Producción con la empresa '$nombreEmpresa' asociado a la tarea '$nombreTarea'";
-        $link = "/productions?id=$produccionAprobar->id";
-        $type = "iniciar_produccion";
-        Notification::send($userUni, new GeneralNotification($body, $link, $type));
+        $body    = "El usuario $userLogin inicio Producción con la empresa '$nombreEmpresa' asociado a la tarea '$nombreTarea'";
+        $link    = "/productions?id=$produccionAprobar->id";
+        $type    = "iniciar_produccion";
+        $title   = "Inicio de Produccion";
+        /* Notification::send($userUni, new GeneralNotification($body, $link, $type)); */
+        $this->sendNotifications($userUni, new GeneralNotification($body, $link, $type, $title));
     }
 }

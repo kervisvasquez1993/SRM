@@ -32,8 +32,7 @@ class ProduccionTransitoController extends ApiController
             ->pluck('pivotTareaProveedor')
             ->collapse()
             ->pluck('produccionTransito')
-            ->collapse()
-            ;
+            ->collapse();
         }        
         $produccionTransitoResource = ProduccionTransitoResource::collection($produccion_transito_user);
         return $this->showAllResources($produccionTransitoResource); 
@@ -70,7 +69,7 @@ class ProduccionTransitoController extends ApiController
 
         $produccionTransito->fill($request->all());
         
-        $user_all = User::where('rol', 'presidente')->orWhere('rol', 'logistica')->get();
+        $user_all = User::where('isPresidente', true)->orWhere('rol', 'logistica')->get();
         $coordinador   = User::find($produccionTransito->pivotTable->tarea->sender_id);
         $comprador_asignado = User::find($produccionTransito->pivotTable->tarea->user_id);
         $nombreEmpresa = $produccionTransito->pivotTable->proveedor->nombre;

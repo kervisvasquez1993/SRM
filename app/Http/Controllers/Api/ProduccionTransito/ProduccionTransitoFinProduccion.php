@@ -34,10 +34,11 @@ class ProduccionTransitoFinProduccion extends ApiController
         $fin_produccion->save();
         /* notificacion agregada */
         $login_user         = auth()->user()->name;
-        $user_all           = User::where('rol', 'logistica')->orWhere('rol', 'coordinador')->get();
+        $user_all           = User::where('rol', 'logistica')->get();
+        $coordinador        = User::find($produccion_transito->pivotTable->tarea->sender_id);
         $comprador_asignado = User::find($produccion_transito->pivotTable->tarea->user_id);
-        $user               = $user_all->push($comprador_asignado)->unique('id');
-        $text               = "El usuario '$login_user' agrego incidencia relacionada con el fin de produccion en la empresa: " . $produccion_transito->pivotTable->proveedor->nombre;
+        $user               = $user_all->push($comprador_asignado, $coordinador)->unique('id');
+        $text               = "El usuario '$login_user' agrego cometario relacionada con el fin de produccion en la empresa: " . $produccion_transito->pivotTable->proveedor->nombre;
         $link               = "/productions?id=$produccion_transito->id&tab=fin_produccion";
         $type               = "incidencia_fin_produccion";
         /* Notification::send($user, new GeneralNotification($text, $link, $type)); */

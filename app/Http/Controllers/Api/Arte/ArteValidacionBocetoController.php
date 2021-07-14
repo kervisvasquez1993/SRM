@@ -31,7 +31,7 @@ class ArteValidacionBocetoController extends ApiController
         $validacion_boceto->descripcion = $request->descripcion;
         $validacion_boceto->save();
         $login_user         = auth()->user()->name;
-        $user_all           = User::where('rol', 'artes')->get();
+        $user_all           = User::where('rol', 'artes')->orWhere('isPresidente', true)->get();
         $coordinador        = User::find($arte->pivotTable->tarea->sender_id);
         $comprador_asignado = User::find($arte->pivotTable->tarea->user_id);
         $user               = $user_all->push($comprador_asignado, $coordinador)->unique('id');

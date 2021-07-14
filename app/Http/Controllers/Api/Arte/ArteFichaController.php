@@ -34,7 +34,7 @@ class ArteFichaController extends ApiController
 
 
         $login_user         = auth()->user()->name;
-        $user_all           = User::where('rol', 'artes')->get();
+        $user_all           = User::where('rol', 'artes')->orWhere('isPresidente', true)->get();
         $comprador_asignado = User::find($arte->pivotTable->tarea->user_id);
         $coordinador        = User::find($arte->pivotTable->tarea->sender_id);
         $user               = $user_all->push($comprador_asignado,$coordinador)->unique('id');

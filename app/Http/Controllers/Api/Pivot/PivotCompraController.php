@@ -66,7 +66,7 @@ class PivotCompraController extends ApiController
         /* notificacion */
         $login_user    = auth()->user()->name;
         $coordinador = User::find($negociacion->tarea->sender_id);
-        $presidentes = User::where('rol', 'presidente')->get();
+        $presidentes = User::where('isPresidente', true)->get();
         $userAll = $presidentes->push($coordinador)->unique('id'); 
         $proveedorName = Proveedor::findOrFail($negociacion->proveedor_id)->nombre;
         $tareaNombre   = Tarea::findOrFail($negociacion->tarea_id)->nombre;
