@@ -444,13 +444,21 @@ import NegotiationCard from "./NegotiationCard";
 import NegotiationResume from "../Widgets/NegotiationResume";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import { Helmet } from "react-helmet-async";
+import { getSum, roundMoneyAmount } from "../../utils";
 
 const NegotiationList = () => {
     const dispatch = useDispatch();
+    // @ts-ignore
     const user = useSelector(state => state.auth.user);
+    // @ts-ignore
     const negotiations = useSelector(state => state.negotiation.negotiations);
+    // @ts-ignore
     const isLoadingList = useSelector(state => state.negotiation.isLoadingList);
     const [filteredNegotiations, setFilteredNegotiations] = useState([]);
+
+    const [compare, setCompare] = useState(false);
+    const [selectedNegotiations, setSelectedNegotiations] = useState([]);
+    const [results, setResults] = useState([]);
 
     if (!(user.rol == "coordinador" || user.rol == "observador")) {
         return <Redirect to="/home" />;
@@ -460,6 +468,36 @@ const NegotiationList = () => {
         dispatch(getNegotiations());
         dispatch(getUsers());
     }, []);
+
+    const toggleCheckbox = id => {
+        const newSelected = [...selectedNegotiations];
+
+        if (newSelected.includes(id)) {
+            newSelected.splice(selectedNegotiations.indexOf(id), 1);
+        } else {
+            newSelected.push(id);
+        }
+        setSelectedNegotiations(newSelected);
+    };
+
+    const handleCompare = () => {
+        const value = !compare;
+
+        if (!value) {
+            setResults([]);
+            setSelectedNegotiations([]);
+        }
+
+        setCompare(value);
+    };
+
+    const handleShowResults = () => {
+        setResults(
+            selectedNegotiations.map(id =>
+                negotiations.find(item => item.id == id)
+            )
+        );
+    };
 
     const filterConfig = [
         {
@@ -544,14 +582,26 @@ const NegotiationList = () => {
             header: "Negociaciones en progreso:",
             filterPopulator: item => !item.iniciar_produccion,
             populator: item => {
-                return <NegotiationCard key={item.id} negotiation={item} />;
+                return (
+                    <NegotiationCard
+                        key={item.id}
+                        negotiation={item}
+                        {...{ toggleCheckbox, selectedNegotiations, compare }}
+                    />
+                );
             }
         },
         {
             header: "Negociaciones completadas:",
             filterPopulator: item => item.iniciar_produccion,
             populator: item => {
-                return <NegotiationCard key={item.id} negotiation={item} />;
+                return (
+                    <NegotiationCard
+                        key={item.id}
+                        negotiation={item}
+                        {...{ toggleCheckbox, selectedNegotiations, compare }}
+                    />
+                );
             }
         }
     ];
@@ -577,7 +627,94 @@ const NegotiationList = () => {
                 populatorConfig={populatorConfig}
                 setFilteredList={setFilteredNegotiations}
             >
+                <h2 className="mt-4 h3">Resumen:</h2>
+
                 <NegotiationResume negotiations={filteredNegotiations} />
+
+                <div className="mb-5">
+                    <h2 className="mt-5 h3">Comparación:</h2>
+
+                    {results.length > 0 && (
+                        <div className="table-responsive">
+                            <table className="table table-sm table-hover table-bordered fade-in">
+                                <thead className="thead-dark">
+                                    <tr>
+                                        <th scope="col">Empresa</th>
+                                        <th scope="col">Total CBM</th>
+                                        <th scope="col">
+                                            Total Peso Neto (kg)
+                                        </th>
+                                        <th scope="col">
+                                            Total Peso Bruto (kg)
+                                        </th>
+                                        <th scope="col">Total CTN</th>
+                                        <th scope="col">Total a Pagar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {results.length > 0 &&
+                                        results.map(item => {
+                                            const {
+                                                proveedor: { nombre },
+                                                total_cbm,
+                                                total_n_w,
+                                                total_g_w,
+                                                total_ctn,
+                                                compras_total
+                                            } = item;
+
+                                            return (
+                                                <tr key={item.id}>
+                                                    <th scope="row">
+                                                        {nombre}
+                                                    </th>
+                                                    <td>
+                                                        {roundMoneyAmount(
+                                                            total_cbm
+                                                        )}
+                                                    </td>
+                                                    <td>
+                                                        {roundMoneyAmount(
+                                                            total_n_w
+                                                        )}
+                                                    </td>
+                                                    <td>
+                                                        {roundMoneyAmount(
+                                                            total_g_w
+                                                        )}
+                                                    </td>
+                                                    <td>
+                                                        {roundMoneyAmount(
+                                                            total_ctn
+                                                        )}
+                                                    </td>
+                                                    <td>
+                                                        {roundMoneyAmount(
+                                                            compras_total
+                                                        )}
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+
+                    <button className="btn btn-primary" onClick={handleCompare}>
+                        {compare ? "Dejar de Comparar" : "Comenzar a Comparar"}
+                    </button>
+
+                    {compare && (
+                        <button
+                            className="btn btn-success"
+                            disabled={selectedNegotiations.length < 2}
+                            onClick={handleShowResults}
+                        >
+                            Mostrar Resultados
+                        </button>
+                    )}
+                </div>
             </GenericFilter>
         </React.Fragment>
     );

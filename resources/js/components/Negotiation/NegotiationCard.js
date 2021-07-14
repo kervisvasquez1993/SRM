@@ -9,10 +9,14 @@ import {
     hasNoProducts,
     useSimpleUrlFocus
 } from "../../utils";
-import Accordion from "../Widgets/Accordion";
 import NegotiationModal from "./NegotiationModal";
 
-const NegotiationCard = ({ negotiation }) => {
+const NegotiationCard = ({
+    negotiation,
+    compare,
+    selectedNegotiations,
+    toggleCheckbox
+}) => {
     const dispatch = useDispatch();
     const {
         id,
@@ -27,12 +31,25 @@ const NegotiationCard = ({ negotiation }) => {
     const [container, focusClassName] = useSimpleUrlFocus(id, "id");
 
     const handleOpen = () => {
-        dispatch(
-            openModal({
-                title: getNegotiationModalName(negotiation),
-                body: <NegotiationModal negotiation={negotiation} />
-            })
-        );
+        if (false) {
+            dispatch(
+                openModal({
+                    title: getNegotiationModalName(negotiation),
+                    body: <NegotiationModal negotiation={negotiation} />
+                })
+            );
+        } else {
+            toggleCheckbox(id);
+        }
+    };
+
+    const handleCheck = e => {
+        e.preventDefault();
+        e.stopPropagation();
+    };
+
+    const stopPropagation = e => {
+        e.stopPropagation();
     };
 
     const { text, background } =
@@ -41,85 +58,121 @@ const NegotiationCard = ({ negotiation }) => {
     const remainingDays = getRemainingDaysToFinishTask(task);
 
     return (
-        <div
-            ref={container}
-            className={`card my-2 fade-in py-2 ${text} ${background} ${focusClassName}`}
-            onClick={handleOpen}
-            style={{ cursor: "pointer" }}
-        >
-            <div className="card-header ">
-                <div className="row">
-                    <div className="col-sm h4 d-flex mb-3">
-                        <span className="material-icons mr-2">business</span>
-                        <span>
-                            Proveedor : <strong>{proveedor.nombre}</strong>
-                        </span>
-                    </div>
-                    <div className="col-sm h4 d-flex">
-                        <span className="material-icons mr-2">task</span>
-                        <span>
-                            Tarea : <strong>{task.nombre}</strong>
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <div className="card-body py-0 my-0 ml-2">
-                {(hasNoProducts(negotiation) && (
-                    <p className="card-text d-flex align-items-center">
-                        <span className="material-icons mr-2 text-danger">
-                            warning
-                        </span>
-                        No tiene productos
-                    </p>
-                )) ||
-                    (totalPurchase == 0 && (
-                        <p className="card-text d-flex align-items-center">
-                            <span className="material-icons mr-2 text-danger">
-                                warning
+        <React.Fragment>
+            <div
+                className="d-flex align-items-center cursor-pointer"
+                onClick={handleOpen}
+            >
+                {compare && (
+                    <div
+                        className="form-check form-check p-1 mr-2"
+                        style={{ transform: "scale(1.3)" }}
+                    >
+                        <label className="form-check-label">
+                            <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id="inicio_produccion"
+                                checked={selectedNegotiations.includes(id)}
+                                onChange={handleCheck}
+                                onClick={stopPropagation}
+                            />
+                            <span className="form-check-sign">
+                                <span className="check"></span>
                             </span>
-                            No tiene una orden de compra
-                        </p>
-                    )) ||
-                    (!poCode && (
-                        <p className="card-text d-flex align-items-center">
-                            <span className="material-icons mr-2 text-danger">
-                                warning
-                            </span>
-                            No tiene un código PO
-                        </p>
-                    ))}
-            </div>
+                        </label>
+                    </div>
+                )}
 
-            <div className="card-footer">
-                <div className="d-flex justify-content-between align-items-center w-100 flex-wrap">
-                    <div className="d-flex">
-                        {background != "bg-success" &&
-                            (background === "bg-danger" ? (
-                                <React.Fragment>
-                                    <i className="material-icons mr-1">
+                <div
+                    ref={container}
+                    className={`card my-2 fade-in py-2 ${text} ${background} ${focusClassName}`}
+                >
+                    <div className="card-header ">
+                        <div className="row">
+                            <div className="col-sm h4 d-flex mb-3">
+                                <span className="material-icons mr-2">
+                                    business
+                                </span>
+                                <span>
+                                    Proveedor :{" "}
+                                    <strong>{proveedor.nombre}</strong>
+                                </span>
+                            </div>
+                            <div className="col-sm h4 d-flex">
+                                <span className="material-icons mr-2">
+                                    task
+                                </span>
+                                <span>
+                                    Tarea : <strong>{task.nombre}</strong>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="card-body py-0 my-0 ml-2">
+                        {(hasNoProducts(negotiation) && (
+                            <p className="card-text d-flex align-items-center">
+                                <span className="material-icons mr-2 text-danger">
+                                    warning
+                                </span>
+                                No tiene productos
+                            </p>
+                        )) ||
+                            (totalPurchase == 0 && (
+                                <p className="card-text d-flex align-items-center">
+                                    <span className="material-icons mr-2 text-danger">
                                         warning
-                                    </i>
-                                    <strong>Esta tarea expiró</strong>
-                                </React.Fragment>
-                            ) : (
-                                <React.Fragment>
-                                    <i className="material-icons mr-1">
-                                        access_time
-                                    </i>
-                                    <strong>
-                                        Finaliza en {remainingDays} días
-                                    </strong>
-                                </React.Fragment>
+                                    </span>
+                                    No tiene una orden de compra
+                                </p>
+                            )) ||
+                            (!poCode && (
+                                <p className="card-text d-flex align-items-center">
+                                    <span className="material-icons mr-2 text-danger">
+                                        warning
+                                    </span>
+                                    No tiene un código PO
+                                </p>
                             ))}
                     </div>
 
-                    <button className="btn btn-sm btn-info btn-round">
-                        Ver Detalles
-                    </button>
+                    {!compare && (
+                        <div className="card-footer">
+                            <div className="d-flex justify-content-between align-items-center w-100 flex-wrap">
+                                <div className="d-flex">
+                                    {background != "bg-success" &&
+                                        (background === "bg-danger" ? (
+                                            <React.Fragment>
+                                                <i className="material-icons mr-1">
+                                                    warning
+                                                </i>
+                                                <strong>
+                                                    Esta tarea expiró
+                                                </strong>
+                                            </React.Fragment>
+                                        ) : (
+                                            <React.Fragment>
+                                                <i className="material-icons mr-1">
+                                                    access_time
+                                                </i>
+                                                <strong>
+                                                    Finaliza en {remainingDays}{" "}
+                                                    días
+                                                </strong>
+                                            </React.Fragment>
+                                        ))}
+                                </div>
+
+                                <button className="btn btn-sm btn-info btn-round">
+                                    Ver Detalles
+                                </button>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
-        </div>
+        </React.Fragment>
     );
 };
 
