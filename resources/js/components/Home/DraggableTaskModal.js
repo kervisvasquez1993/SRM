@@ -6,6 +6,7 @@ import TabContent from "../Widgets/TabContent";
 import Tabs from "../Widgets/Tabs";
 import ArtStageTab from "./ArtStageTab";
 import NegotiationStageTab from "./NegotiationStageTab";
+import ProductionStageTab from "./ProductionStageTab";
 
 const DraggableTaskModal = ({ draggableTask, defaultTab }) => {
     const task = draggableTask.task;
@@ -65,6 +66,12 @@ const DraggableTaskModal = ({ draggableTask, defaultTab }) => {
 
                     <TabContent name={2}>
                         <ArtStageTab art={task.arte_iniciada} />
+                    </TabContent>
+
+                    <TabContent name={3}>
+                        <ProductionStageTab
+                            production={task.produccion_iniciada}
+                        />
                     </TabContent>
                 </div>
             </Tabs>

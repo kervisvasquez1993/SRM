@@ -13,6 +13,33 @@ import {
 import NegotiationTabs from "../Negotiation/NegotiationTabs";
 import ProductionManagementModal from "./ProductionManagementModal";
 
+export const categories = [
+    {
+        value: "inicio_produccion",
+        label: "Inicio de Producción"
+    },
+    {
+        value: "inicio_produccion",
+        label: "Pago Anticipado"
+    },
+    {
+        value: "inicio_produccion",
+        label: "Pago Balance"
+    },
+    {
+        value: "inicio_produccion",
+        label: "Fin de Producción"
+    },
+    {
+        value: "inicio_produccion",
+        label: "Transito Nacionalización"
+    },
+    {
+        value: "inicio_produccion",
+        label: "Salida Puerto Origen"
+    }
+];
+
 const ProductionCard = ({ production }) => {
     const dispatch = useDispatch();
     const user = useUser();

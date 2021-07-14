@@ -10,6 +10,7 @@ import SimpleProviderCard from "./SimpleProviderCard";
 const NegotiationStageTab = ({ taskId }) => {
     const dispatch = useDispatch();
 
+    // @ts-ignore
     const providers = useSelector(state => state.provider.providers);
     const [orderedProviders, setOrderedProviders] = useState([]);
     const selectedProvider = providers.find(provider =>

@@ -4,6 +4,34 @@ import { Link } from "react-router-dom";
 import { categories, dictOptions } from "../Arts/ArtCard";
 import EmptyList from "../Navigation/EmptyList";
 
+const Badge = ({
+    children,
+    background = "bg-primary",
+    inheritSize = false
+}) => {
+    let style = {};
+
+    if (inheritSize) {
+        style["fontSize"] = "inherit";
+    }
+
+    return (
+        <span className={`badge ${background}`} style={style}>
+            {children}
+        </span>
+    );
+};
+
+const getColor = value => {
+    if (value === "sin_inicializar") {
+        return "bg-secondary";
+    } else if (value === "en_proceso") {
+        return "bg-primary";
+    } else {
+        return "bg-success";
+    }
+};
+
 const ArtStageTab = ({ art }) => {
     return (
         <React.Fragment>
@@ -16,7 +44,13 @@ const ArtStageTab = ({ art }) => {
                             return (
                                 <li className="list-group-item" key={value}>
                                     <p className="mb-0">
-                                        {label} {dictOptions[art[value]]}
+                                        <strong>{label}</strong>{" "}
+                                        <Badge
+                                            inheritSize
+                                            background={getColor(art[value])}
+                                        >
+                                            {dictOptions[art[value]]}
+                                        </Badge>
                                     </p>
                                 </li>
                             );
