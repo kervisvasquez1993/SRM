@@ -7,7 +7,7 @@ import {
     getColorsForTask,
     getRemainingDaysToFinishTask
 } from "../../utils";
-import DraggableTaskModal from "./DraggableTaskModal";
+import DraggableTaskModal from "./Tabs/DraggableTaskModal";
 
 function DraggableTaskCard({ draggableTask, column, invalidDrop, snapshot }) {
     const dispatch = useDispatch();

@@ -1,9 +1,8 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import TaskTab from "../Tasks/TaskTab";
-import TabButton from "../Widgets/TabButton";
-import TabContent from "../Widgets/TabContent";
-import Tabs from "../Widgets/Tabs";
+import TaskTab from "../../Tasks/TaskTab";
+import TabButton from "../../Widgets/TabButton";
+import TabContent from "../../Widgets/TabContent";
+import Tabs from "../../Widgets/Tabs";
 import ArtStageTab from "./ArtStageTab";
 import NegotiationStageTab from "./NegotiationStageTab";
 import ProductionStageTab from "./ProductionStageTab";

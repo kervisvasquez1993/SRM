@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { BiLink } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getProvidersFromTask } from "../../store/actions/providerActions";
-import { isNegotiationCompleted } from "../../utils";
-import EmptyList from "../Navigation/EmptyList";
-import SimpleProviderCard from "./SimpleProviderCard";
+import { getProvidersFromTask } from "../../../store/actions/providerActions";
+import { isNegotiationCompleted } from "../../../utils";
+import EmptyList from "../../Navigation/EmptyList";
+import SimpleProviderCard from "../SimpleProviderCard";
 
 const NegotiationStageTab = ({ taskId }) => {
     const dispatch = useDispatch();

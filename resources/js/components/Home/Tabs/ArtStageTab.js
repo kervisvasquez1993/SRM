@@ -1,8 +1,8 @@
 import React from "react";
 import { BiLink } from "react-icons/bi";
 import { Link } from "react-router-dom";
-import { categories, dictOptions } from "../Arts/ArtCard";
-import EmptyList from "../Navigation/EmptyList";
+import { categories, dictOptions } from "../../Arts/ArtCard";
+import EmptyList from "../../Navigation/EmptyList";
 
 const Badge = ({
     children,

@@ -1,21 +1,8 @@
 import React from "react";
 import { BiLink } from "react-icons/bi";
 import { Link } from "react-router-dom";
-import EmptyList from "../Navigation/EmptyList";
-
-const CheckIcon = ({ checked }) => {
-    return (
-        <React.Fragment>
-            {checked ? (
-                <span className="material-icons ml-2">done</span>
-            ) : (
-                <span className="material-icons" style={{ opacity: "0.3" }}>
-                    close
-                </span>
-            )}
-        </React.Fragment>
-    );
-};
+import EmptyList from "../../Navigation/EmptyList";
+import CheckIcon from "../../Widgets/CheckIcon";
 
 const ProductionStageTab = ({ production }) => {
     return (
