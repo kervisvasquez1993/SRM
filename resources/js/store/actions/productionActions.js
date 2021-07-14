@@ -102,6 +102,7 @@ export function createPayment(production, data) {
             dispatch(getProductions());
             dispatch(reopenProductionModal(production));
         } catch (e) {
+        
             dispatch({
                 type: "CREATE_PAYMENT_FAILURE",
                 errors: e.response.data

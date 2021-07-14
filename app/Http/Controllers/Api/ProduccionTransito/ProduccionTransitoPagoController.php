@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Notifications\GeneralNotification;
 use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Storage;
 
 class ProduccionTransitoPagoController extends ApiController
 {
@@ -58,7 +59,7 @@ class ProduccionTransitoPagoController extends ApiController
         $pago->user_id = Auth::user()->id;
         $pago->titulo = $request->titulo;
         $pago->monto = $request->monto;
-        //$pago->url_archivo_factura = $request->url_archivo_factura->store('factura-pago');
+        $pago->url_archivo_factura = Storage::disk('s3')->put("pagos",  $request->file('url_archivo_factura'), 'public');
         $pago->url_archivo_factura = $request->url_archivo_factura;
         $pago->tipo = $tipo;
         $pago->fecha = $request->fecha;
@@ -85,7 +86,6 @@ class ProduccionTransitoPagoController extends ApiController
     {
         
         $pago->update($request->all());
-        $pago->save();
         return $this->showOneResource(new PagoResource($pago));
     }
 

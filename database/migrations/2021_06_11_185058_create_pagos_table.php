@@ -19,10 +19,9 @@ class CreatePagosTable extends Migration
             $table->foreignId('user_id')->references('id')->on('users');
             $table->string('titulo');
             $table->double('monto');
-            $table->string('url_archivo_factura');
+            $table->string('url_archivo_factura')->nullable();
             $table->date('fecha');
             $table->string('tipo');
-            $table->string('url_factura');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -10,11 +10,11 @@ class Pago extends Model
     use SoftDeletes;
     protected $fillable =
     [
+        'user_id',
         'titulo',
         'url_archivo_factura',
         'monto',
         'fecha',
-        'url_factura'
     ];
 
     protected $casts = [
