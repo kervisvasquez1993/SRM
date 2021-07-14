@@ -36,9 +36,10 @@ class IncidenciaInspeccionController extends ApiController
         /* notificacion */
         $login_user = auth()->user()->name;
         $comprador_asignado = User::find($reclamos_devolucione->ProduccionTransito->pivotTable->tarea->user_id);
+        $user_coordinador = User::find($reclamos_devolucione->ProduccionTransito->pivotTable->tarea->sender_id);
         $nombre_empresa = $reclamos_devolucione->ProduccionTransito->pivotTable->proveedor->nombre;
         $user_coordinador = User::find($reclamos_devolucione->ProduccionTransito->pivotTable->tarea->sender_id);
-        $presidente = User::where('isPresidente', true)->get();
+        $presidente = User::where('isPresidente', true)->orWhere('rol', 'almacen')->get();
         $user_all = $presidente->push($user_coordinador, $comprador_asignado)->unique('id');
         $body = "El usuario '$login_user' agrego una comentario relacionado con la inspección de mercancia con la empresa '$nombre_empresa'";
         $link = "/claims/?id=$reclamos_devolucione->id&tab=inspeccion_carga";

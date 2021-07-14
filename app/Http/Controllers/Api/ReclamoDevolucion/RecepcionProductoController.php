@@ -38,13 +38,13 @@ class RecepcionProductoController extends ApiController
         $comprador_asignado = User::find($reclamos_devoluciones_id->ProduccionTransito->pivotTable->tarea->user_id);
         $coordinador_asignado = User::find($reclamos_devoluciones_id->ProduccionTransito->pivotTable->tarea->sender_id);
         $nombre_empresa = $reclamos_devoluciones_id->ProduccionTransito->pivotTable->proveedor->nombre;
-        $presidente = User::where('isPresidente', true)->get();
+        $presidente = User::where('isPresidente', true)->orWhere('rol', 'almacen')->get();
         $user_all = $presidente->push($comprador_asignado, $coordinador_asignado)->unique('id');
         $body = "El usuario '$login_user' importo excel con informacion de Recepción de mercancia asociada a la empresa : '$nombre_empresa'";
-        $link = "";
-        $type = "importacion_recepcion_mercancia";
+        $link = "/claims/$reclamos_devoluciones_id->id/reception";
+        $type = "reclamo_devolucion_carga";
         /* Notification::send($user_all, new GeneralNotification($body, $link, $tipoNotify)); */
-        $title = "Importación de Productos en Recepción";
+        $title = "Importación de productos Recepción";
         $this->sendNotifications($user_all, new GeneralNotification($body, $link, $type, $title));
         
     }

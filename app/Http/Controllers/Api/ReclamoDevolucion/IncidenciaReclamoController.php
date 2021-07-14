@@ -35,7 +35,7 @@ class IncidenciaReclamoController extends ApiController
         $comprador_asignado = User::find($reclamos_devolucione->ProduccionTransito->pivotTable->tarea->user_id);
         $coordinador_asignado = User::find($reclamos_devolucione->ProduccionTransito->pivotTable->tarea->sender_id);
         $nombre_empresa = $reclamos_devolucione->ProduccionTransito->pivotTable->proveedor->nombre;
-        $presidente = User::where('isPresidente', true)->get();
+        $presidente = User::where('isPresidente', true)->orWhere('rol', 'almacen')->get();
         $user_all = $presidente->push($comprador_asignado, $coordinador_asignado)->unique('id');
         $body = "El usuario '$login_user' agrego una incidencia relacionado con la reclamos y devolución asociado a la empresa '$nombre_empresa'";
         $link = "/claims/?id=$reclamos_devolucione->id&tab=reclamos_devolucion";

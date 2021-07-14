@@ -110,12 +110,14 @@ class ProduccionTransitoController extends ApiController
         $produccionTransito->save();
         if ($request->salida_puero_origen == 1) 
         {
+            $almacen = User::where('rol', 'almacen')->get();
+            $nuevo_user = $almacen->push($user);
             $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea salio del puerto de origen.";
             $link = "/claims/?id=$produccionTransito->id";
             $tipoNotify = "salida_puerto_origen";
             /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
             $title = "Salida de Puero de Origen";
-            $this->sendNotifications($user, new GeneralNotification($body, $link, $tipoNotify, $title));
+            $this->sendNotifications($nuevo_user, new GeneralNotification($body, $link, $tipoNotify, $title));
             
             /* crear Nuevo Reclamos y devoluciones */
             $this->reclamosDevolucion($produccionTransito->id);       
