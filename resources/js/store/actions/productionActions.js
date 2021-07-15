@@ -59,6 +59,7 @@ export function updateProduction(data) {
                 payload: response.data.data
             });
         } catch (e) {
+            console.log(e.response)
             dispatch({
                 type: "UPDATE_PRODUCTION_FAILURE"
             });
