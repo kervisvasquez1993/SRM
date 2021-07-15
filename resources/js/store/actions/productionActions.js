@@ -106,7 +106,7 @@ export function editPayment(data) {
         return genericFormSubmit(dispatch, () =>
             axios.post(`${apiURL}/pago/${data.get("id")}`, data)
         ).then(() => {
-            //dispatch(getProductions());
+            dispatch(getProductions());
             // dispatch(reopenProductionModal(production));
         });
     };
