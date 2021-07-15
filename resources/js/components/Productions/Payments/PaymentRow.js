@@ -22,7 +22,8 @@ const PaymentRow = ({ index, payment, production }) => {
                         production={production}
                     />
                 ),
-                onClose: () => dispatch(openModal({ ...modal }))
+                onClose: () =>
+                    dispatch(openModal({ ...modal, defaultTab: "payments" }))
             })
         );
     };

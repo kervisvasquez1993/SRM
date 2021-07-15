@@ -53,7 +53,8 @@ const PaymentsTab = ({ production }) => {
                         production={production}
                     />
                 ),
-                onClose: () => dispatch(openModal({ ...modal }))
+                onClose: () =>
+                    dispatch(openModal({ ...modal, defaultTab: "payments" }))
             })
         );
     };

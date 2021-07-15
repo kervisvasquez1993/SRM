@@ -83,9 +83,12 @@ const negotiationReducer = (state = defaultState, action) => {
             };
 
         case "DELETE_PAYMENT_SUCCESS":
+            const payments = state.payments.filter(item => item.id != payload);
+
             return {
                 ...state,
-                payments: state.payments.filter(item => item.id != payload)
+                payments,
+                current: { ...state.current, pagos: payments }
             };
 
         case "FORM_SUBMIT_REQUEST":
