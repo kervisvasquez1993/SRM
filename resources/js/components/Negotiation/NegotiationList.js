@@ -444,7 +444,11 @@ import NegotiationCard from "./NegotiationCard";
 import NegotiationResume from "../Widgets/NegotiationResume";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import { Helmet } from "react-helmet-async";
-import { getSum, roundMoneyAmount } from "../../utils";
+import { roundMoneyAmount } from "../../utils";
+
+import { GoGitCompare } from "react-icons/go";
+import { TiCancel } from "react-icons/ti";
+import { BsCardList } from "react-icons/bs";
 
 const NegotiationList = () => {
     const dispatch = useDispatch();
@@ -702,7 +706,17 @@ const NegotiationList = () => {
                     )}
 
                     <button className="btn btn-primary" onClick={handleCompare}>
-                        {compare ? "Dejar de Comparar" : "Comenzar a Comparar"}
+                        {compare ? (
+                            <React.Fragment>
+                                <TiCancel className="icon-normal mr-2" />
+                                Dejar de Comparar
+                            </React.Fragment>
+                        ) : (
+                            <React.Fragment>
+                                <GoGitCompare className="icon-normal mr-2" />
+                                Comenzar a Comparar
+                            </React.Fragment>
+                        )}
                     </button>
 
                     {compare && (
@@ -711,6 +725,7 @@ const NegotiationList = () => {
                             disabled={selectedNegotiations.length < 2}
                             onClick={handleShowResults}
                         >
+                            <BsCardList className="icon-normal mr-2" />
                             Mostrar Resultados
                         </button>
                     )}
