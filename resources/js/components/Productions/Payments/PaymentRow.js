@@ -33,8 +33,6 @@ const PaymentRow = ({ index, payment, production }) => {
         dispatch(deletePayment(payment.id));
     };
 
-    console.log(payment);
-
     return (
         <tr key={payment.id} className="fade-in">
             {/* <EditableInput

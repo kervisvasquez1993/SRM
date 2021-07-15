@@ -34,7 +34,7 @@ const PaymentModal = ({ production, formData, isEditor }) => {
         Object.keys(data).forEach(key => formData.append(key, data[key]));
 
         if (isEditor) {
-            dispatch(editPayment(formData, acceptedFiles[0]));
+            dispatch(editPayment(formData));
         } else {
             dispatch(createPayment(production, formData));
         }
@@ -51,26 +51,40 @@ const PaymentModal = ({ production, formData, isEditor }) => {
             <InputDate id="fecha" label="Fecha" />
             <InputNumber id="monto" label="Monto" />
 
-            <p>
-                Si ya tiene un documento Excel, puede agregarlo usando la
-                siguiente caja:
-            </p>
+            {formData.url_archivo_factura ? (
+                <React.Fragment>
+                    <p className="my-5">
+                        Este pago cuenta con un archivo de factura:{" "}
+                        <a
+                            href={`https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/${formData.url_archivo_factura}`}
+                            target="_blank"
+                            download="factura"
+                        >
+                            Descargar
+                        </a>
+                    </p>
 
-            <div
-                {...getRootProps({
-                    className: `dropzone rounded mx-5 mb-2 ${
-                        isDragActive ? "drag-active" : ""
-                    }`
-                })}
-            >
-                <input name="import" {...getInputProps()} />
-                {acceptedFiles.length > 0 ? (
-                    <div>
-                        {acceptedFiles[0].name} - {acceptedFiles[0].size} bytes
-                    </div>
-                ) : (
-                    <span>Arrastre un archivo excel o haga clic aquí</span>
-                )}
+                    <p>Si lo desea, puede remplazar el archivo anterior:</p>
+                </React.Fragment>
+            ) : null}
+            <div className="d-flex justify-content-center">
+                <div
+                    {...getRootProps({
+                        className: `dropzone rounded mx-5 mb-2 ${
+                            isDragActive ? "drag-active" : ""
+                        }`
+                    })}
+                >
+                    <input name="import" {...getInputProps()} />
+                    {acceptedFiles.length > 0 ? (
+                        <div>
+                            {acceptedFiles[0].name} - {acceptedFiles[0].size}{" "}
+                            bytes
+                        </div>
+                    ) : (
+                        <span>Arrastre un archivo excel o haga clic aquí</span>
+                    )}
+                </div>
             </div>
         </GenericFormModal>
     );
