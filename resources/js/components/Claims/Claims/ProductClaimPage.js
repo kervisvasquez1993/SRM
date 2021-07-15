@@ -72,7 +72,9 @@ const ProductClaimPage = () => {
                             id="reclamos_devoluciones"
                             onChange={handleCheck}
                             checked={claim.reclamos_devoluciones}
-                            disabled={!claim.inspeccion_carga}
+                            disabled={
+                                !claim.inspeccion_carga || user.rol != "almacen"
+                            }
                         />
                         <span className="form-check-sign">
                             <span className="check"></span>

@@ -100,7 +100,11 @@ const ReceptionPage = () => {
                             id="recepcion_mercancia"
                             onChange={handleCheck}
                             checked={recepcion_mercancia}
-                            disabled={inspeccion_carga || reclamos_devoluciones}
+                            disabled={
+                                inspeccion_carga ||
+                                reclamos_devoluciones ||
+                                user.rol != "almacen"
+                            }
                         />
                         <span className="form-check-sign">
                             <span className="check"></span>

@@ -84,7 +84,9 @@ const ReceptionPage = () => {
                             onChange={handleCheck}
                             checked={inspeccion_carga}
                             disabled={
-                                reclamos_devoluciones || !recepcion_mercancia
+                                reclamos_devoluciones ||
+                                !recepcion_mercancia ||
+                                user.rol != "almacen"
                             }
                         />
                         <span className="form-check-sign">
