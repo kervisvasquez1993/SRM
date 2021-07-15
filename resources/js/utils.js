@@ -153,7 +153,7 @@ export function getSum(array, column) {
 }
 
 export function isNegotiationCompleted(negotiation) {
-    return negotiation.iniciar_produccion && negotiation.iniciar_arte;
+    return negotiation.iniciar_produccion || negotiation.iniciar_arte;
 }
 
 // If a negotiation has started production and arts, then the rest of the providers of the same task
@@ -315,7 +315,10 @@ export const removeSlash = text => {
 export const maxUploadSize = 10000000;
 export const maxUploadSizeText = "10 MB";
 
-export const isRepeatedValidator = (file, stateSelector = (state) => state.negotiation.files) => {
+export const isRepeatedValidator = (
+    file,
+    stateSelector = state => state.negotiation.files
+) => {
     const state = store.getState();
 
     if (stateSelector(state).find(item => item.name === file.name)) {
@@ -326,4 +329,12 @@ export const isRepeatedValidator = (file, stateSelector = (state) => state.negot
     }
 
     return null;
+};
+
+export const isTouchDevice = () => {
+    return (
+        "ontouchstart" in window ||
+        navigator.maxTouchPoints > 0 ||
+        navigator.msMaxTouchPoints > 0
+    );
 };

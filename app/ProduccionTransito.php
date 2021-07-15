@@ -51,7 +51,7 @@ class ProduccionTransito extends Model
 
     public function recepcionReclamoDevolucion()
     {
-        return $this->hasMany(RecepcionReclamoDevolucion::class);
+        return $this->hasOne(RecepcionReclamoDevolucion::class);
     }
     
 }

@@ -6,17 +6,24 @@ import { openModal } from "../../store/actions/modalActions";
 import { getProvidersFromTask } from "../../store/actions/providerActions";
 import { isNegotiationCompleted } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
+import LoadingScreen from "../Navigation/LoadingScreen";
 import ProviderCard from "../Providers/ProviderCard";
 import NewProviderModal from "./ProviderModal";
 
 const TaskProviderList = () => {
     const dispatch = useDispatch();
 
+    // @ts-ignore
     const providers = useSelector(state => state.provider.providers);
+    // @ts-ignore
+    const isLoading = useSelector(state => state.provider.isLoadingList);
+    // @ts-ignore
     const user = useSelector(state => state.auth.user);
+    // @ts-ignore
     const task = useSelector(state => state.task.task);
 
     const [orderedProviders, setOrderedProviders] = useState([]);
+    // @ts-ignore
     const { id } = useParams();
 
     const selectedProvider = providers.find(provider =>
@@ -55,6 +62,10 @@ const TaskProviderList = () => {
 
     const isMine = user.id == task.usuario.id;
 
+    if (isLoading) {
+        return <LoadingScreen />;
+    }
+
     return (
         <React.Fragment>
             <div className="mr-auto text-center">
@@ -76,6 +87,8 @@ const TaskProviderList = () => {
                         return (
                             <ProviderCard
                                 key={provider.id}
+                                // @ts-ignore
+                                taskId={task.id}
                                 provider={provider}
                                 selectedProvider={selectedProvider}
                             />

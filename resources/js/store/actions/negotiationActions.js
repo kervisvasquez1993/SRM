@@ -138,14 +138,10 @@ export function editPoCode(data) {
 }
 
 export function updateNegotiation(data) {
-
-    console.log("actualizando")
     return dispatch => {
-        console.log("data ", data)
         return genericFormSubmit(dispatch, () =>
             axios.put(`${apiURL}/pivot/${data.id}`, data)
         ).then(response => {
-            console.log("repsonse ", response)
             dispatch({
                 type: "EDIT_PO_CODE_SUCCESS",
                 payload: response
@@ -155,33 +151,6 @@ export function updateNegotiation(data) {
 
             toast.success("✔️ Código PO editado");
         });
-    };
-
-    return async (dispatch, getState) => {
-        dispatch({ type: "EDIT_PO_CODE_REQUEST" });
-
-        try {
-            const response = await axios.put(
-                `${apiURL}/pivot/${data.id}`,
-                data
-            );
-
-            dispatch({
-                type: "EDIT_PO_CODE_SUCCESS",
-                payload: response.data.data
-            });
-
-            dispatch(closeModal());
-
-            toast.success("✔️ Código PO editado");
-
-            
-        } catch (e) {
-            dispatch({
-                type: "EDIT_PO_CODE_FAILURE",
-                errors: e.response.data
-            });
-        }
     };
 }
 

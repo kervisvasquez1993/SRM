@@ -1,8 +1,19 @@
-.droppable-column {
+.droppable-column-parent {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    min-width: 200px;
     background: lightgrey;
+    padding: 1rem 0 1rem 0;
+    border-right: 3px solid rgba(0, 0, 0, 0.05);
+}
+
+.droppable-column {
+    flex-grow: 1;
+
     padding: 8px;
-    width: 250px;
-    min-width: 150px;
+    margin: 0px 4px 0 4px;
+    min-height: 200px;
 
     &.drag-over {
         background: lightblue;
@@ -11,11 +22,19 @@
 
 .draggable-card {
     user-select: none;
-    padding: 16px;
-    margin: 0 0 8px 0;
-    background: #f2f2f2;
+    margin-bottom: 6px;
 
     &.dragging {
         opacity: 0.7;
+    }
+
+    .move-next-stage-icon {
+        position: absolute;
+        top: 0;
+        right: -1.2rem;
+        font-size: 2rem;
+        filter: drop-shadow(2px 2px 0.5px black);
+
+        animation: constant-jumping 3s infinite;
     }
 }

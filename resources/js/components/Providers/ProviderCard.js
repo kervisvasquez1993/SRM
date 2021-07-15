@@ -1,12 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, Link, useLocation, useHistory } from "react-router-dom";
-import { NumberParam, StringParam, useQueryParam } from "use-query-params";
+import { useParams, Link } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
-import {
-    focusProvider,
-    startNegotiation
-} from "../../store/actions/providerActions";
+import { startNegotiation } from "../../store/actions/providerActions";
 import {
     blueCard,
     greenCard,
@@ -15,16 +11,16 @@ import {
     useSimpleUrlFocus,
     useUser
 } from "../../utils";
-import Accordion from "../Widgets/Accordion";
 import ProviderFormModal from "./ProviderFormModal";
+import ProviderStatus from "./ProviderStatus";
 
 const ProviderCard = ({ provider, selectedProvider }) => {
     const dispatch = useDispatch();
     const user = useUser();
+    // @ts-ignore
     const { id: taskId } = useParams();
 
-    const edited = useSelector(state => state.provider.edited);
-    const [queryId] = useQueryParam("providerId", NumberParam);
+    // @ts-ignore
     const task = useSelector(state => state.task.task);
     const isSelected = selectedProvider === provider;
 
@@ -187,27 +183,11 @@ const ProviderCard = ({ provider, selectedProvider }) => {
                         </React.Fragment>
                     )}
 
-                    {isSelected ? (
-                        <div className="d-flex justify-content-center align-items-center mt-4">
-                            <span className="material-icons">done</span>
-                            <span className="material-icons mr-2">done</span>
-                            <strong className="h4">
-                                Ya se inicio producción y arte con esta empresa
-                            </strong>
-                        </div>
-                    ) : (
-                        enNegociacion &&
-                        !selectedProvider && (
-                            <div className="d-flex justify-content-center align-items-center mt-4">
-                                <span className="material-icons mr-2">
-                                    done
-                                </span>
-                                <strong className="h4">
-                                    Ya se ha inciado una negociacion con esta
-                                    empresa
-                                </strong>
-                            </div>
-                        )
+                    {enNegociacion && (
+                        <ProviderStatus
+                            provider={provider}
+                            selectedProvider={selectedProvider}
+                        />
                     )}
                 </div>
 

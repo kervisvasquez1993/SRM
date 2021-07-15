@@ -39,6 +39,8 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('tarea', 'Api\Tarea\TareaController');
     //fin de tarea
 
+    Route::apiResource('draggable_task', 'Api\DraggableTaskController')->except(['destroy', 'show', 'store']);
+
     Route::get('me/tareas', 'Api\Tarea\TareaController@tareasUsuario');
 
     Route::apiResource('user', 'Api\User\UserController')->except(['destroy']);
@@ -271,45 +273,5 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/push-notification', 'Api\WebNotificationController@storeToken');
     Route::delete('/push-notification/{fcmToken}', 'Api\WebNotificationController@deleteToken');
 
-    // Route::post('/notification-test', function () {
-    //     $usuarios = User::all();
-    //     $notificacion = new GeneralNotification("hola", "/home", "type", "Test");
-    //     \Illuminate\Support\Facades\Notification::send($usuarios, $notificacion);
-
-    //     $messaging = app('firebase.messaging');
-
-    //     $config = WebPushConfig::fromArray([
-    //         'fcm_options' => [
-    //             'link' => $notificacion->link,
-    //         ],
-    //     ]);
-
-    //     $message = CloudMessage::new()
-    //         ->withNotification(Notification::create($notificacion->title, $notificacion->text))->withWebPushConfig($config);
-
-    //     //$deviceTokens = $usuarios->whereNotNull('device_key')->pluck('device_key')->all();
-    //     $deviceTokens = $usuarios->pluck('fcmTokens')->collapse()->pluck("value")->all();
-
-    //     $result = $messaging->validateRegistrationTokens($deviceTokens);
-    //     foreach ($result["unknown"] as $token) {
-    //         WebNotificationController::deleteTokenByName($token);
-    //     }
-
-    //     foreach ($result["invalid"] as $token) {
-    //         WebNotificationController::deleteTokenByName($token);
-    //     }
-
-    //     return $result;
-
-    //     // if ($report->hasFailures()) {
-    //     //     foreach ($report->failures()->getItems() as $failure) {
-    //     //         if ($failure->error()->getMessage() === "Requested entity was not found.") {
-    //     //             error_log(get_class($failure));
-    //     //             error_log($failure->error()->getMessage());
-    //     //             error_log(get_class($failure->target()));
-    //     //             error_log($failure->target()->value());
-    //     //         }
-    //     //     }
-    //     // }
-    // });
+   
 });

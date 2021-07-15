@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Tarea;
 use App\User;
 use App\Tarea;
 use Google\Client;
+use App\DraggableTask;
 use Illuminate\Http\Request;
 use App\Notifications\TareaSent;
 use App\Http\Controllers\Controller;
@@ -60,6 +61,19 @@ class TareaController extends ApiController
         $link = "tasks/$tarea->id";
         $type = "tarea_asignada";
         $title = "Tarea Asignada";
+
+        // Mover todos los cards arrastrables de la columna 0 una posicion hacia abajo
+        $cards = DraggableTask::where('column', 0)->get();
+        
+        foreach($cards as $card){
+            $card->row =  $card->row + 1;
+            $card->save();
+        }
+
+        // Crear un nuevo card arrastrable
+        $draggable = new DraggableTask();
+        $draggable->tarea_id = $tarea->id;
+        $draggable->save();
         
         $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title));
 

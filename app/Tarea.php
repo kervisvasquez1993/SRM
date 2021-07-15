@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Tarea extends Model
 {
     use SoftDeletes;
+
+    public function draggebleTask()
+    {
+        return $this->hasMany(DraggebleTask::class);
+    }
     public function principalPivot()
     {
         return $this->hasMany(PivotTareaProveeder::class);

@@ -8,9 +8,7 @@ const LoadingScreen = ({ children = null }) => {
                 className="spinner-border"
                 role="status"
                 style={{ width: "5rem", height: "5rem" }}
-            >
-                <span className="sr-only">Loading...</span>
-            </div>
+            ></div>
         </div>
     );
 };

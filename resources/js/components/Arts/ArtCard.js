@@ -20,32 +20,39 @@ export const options = [
     }
 ];
 
+export const dictOptions = {
+    sin_inicializar: "Sin Inicializar",
+    en_proceso: "En Proceso",
+    finalizado: "Finalizado"
+};
+
 export const categories = [
     {
         value: "creacion_fichas",
-        label: "Creación de Fichas :"
+        label: "Creación de Fichas"
     },
     {
         value: "validacion_fichas",
-        label: "Validación de Fichas :"
+        label: "Validación de Fichas"
     },
     {
         value: "creacion_boceto",
-        label: "Creación de Bocetos :"
+        label: "Creación de Bocetos"
     },
     {
         value: "validacion_boceto",
-        label: "Validación de Bocetos :"
+        label: "Validación de Bocetos"
     },
     {
         value: "confirmacion_proveedor",
-        label: "Confirmación de Proveedor :"
+        label: "Confirmación de Proveedor"
     }
 ];
 
 const ArtCard = ({ art }) => {
     const dispatch = useDispatch();
     const isEditingDropdowns = useSelector(
+        // @ts-ignore
         state => state.art.isEditingDropdowns
     );
     const user = useUser();
@@ -113,13 +120,16 @@ const ArtCard = ({ art }) => {
                             if (value != "creacion_boceto") {
                                 disable = false;
                             }
-                        } else if (user.rol === "artes" && value === "creacion_boceto") {
+                        } else if (
+                            user.rol === "artes" &&
+                            value === "creacion_boceto"
+                        ) {
                             disable = false;
                         }
 
                         return (
                             <div
-                                className="form-group col-sm-6 col-md-4 col-lg-3"
+                                className="form-group col-sm-6 col-md-4 col-lg"
                                 onClick={handleInputClick}
                                 key={value}
                             >
