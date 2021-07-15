@@ -37,6 +37,7 @@ trait ApiResponse
     }
     protected function showAllResources(ResourceCollection $collection, $code = 200)
     {
+        $collection = $this->listarId($collection);
         return $this->successResponse(['data' => $collection], $code);
     }
     protected function showOne(Model $instace, $code = 200)
@@ -63,6 +64,11 @@ trait ApiResponse
         $paginated->appends(request()->all());
 
         return $paginated;
+    }
+
+    protected function listarId(ResourceCollection $collection)
+    {
+        return $collection->orderBy('id');
     }
 
     protected function sendNotifications($usuarios, $notificacion)

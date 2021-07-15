@@ -62,6 +62,7 @@ class PivotCompraController extends ApiController
 
         $archivo = $request->file('import_compra');
         $id_pivot =  $negociacion->id;
+        $negociacion->compras()->delete(); 
         Excel::import(new ComprasImport($id_pivot), $archivo);
         /* notificacion */
         $login_user    = auth()->user()->name;
