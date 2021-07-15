@@ -68,7 +68,7 @@ trait ApiResponse
 
     protected function listarId(ResourceCollection $collection)
     {
-        return $collection->orderBy('id');
+        return $collection->sortBy('id')->values()->all();
     }
 
     protected function sendNotifications($usuarios, $notificacion)
