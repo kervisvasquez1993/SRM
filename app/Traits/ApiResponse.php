@@ -50,7 +50,7 @@ trait ApiResponse
     }
     protected function showAllResourcesPaginate(ResourceCollection $collection, $code = 200)
     {
-        $collection = $this->paginate($collection);
+        /* $collection = $this->paginate($collection); */
         return $this->successResponse(['data' => $collection], $code);
     }
     protected function paginate(ResourceCollection $collation)
