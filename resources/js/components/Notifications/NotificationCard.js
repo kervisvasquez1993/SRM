@@ -149,6 +149,27 @@ const titles = {
     reclamo_devolucion_carga: {
         title: "Incidencia con Reclamos y Devoluciones",
         icon: <ClaimIncidentIcon />
+    },
+
+    cambio_creacion_fichas: {
+        title: "Creación de Fichas",
+        icon: <GiLargePaintBrush className={iconClassName} />
+    },
+    cambio_validacion_fichas: {
+        title: "Validación de Fichas",
+        icon: <GiLargePaintBrush className={iconClassName} />
+    },
+    cambio_creacion_boceto: {
+        title: "Creación de Bocetos",
+        icon: <GiLargePaintBrush className={iconClassName} />
+    },
+    cambio_validacion_boceto: {
+        title: "Validación de Bocetos",
+        icon: <GiLargePaintBrush className={iconClassName} />
+    },
+    cambio_confirmacion_proveedor: {
+        title: "Confirmación de Proveedor",
+        icon: <GiLargePaintBrush className={iconClassName} />
     }
 };
 
