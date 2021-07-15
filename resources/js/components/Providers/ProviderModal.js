@@ -38,7 +38,7 @@ const ProviderModal = () => {
         const newProviders = allProviders.filter(
             i => !taskProviders.find(j => j.id === i.id)
         );
-        
+
         // Set the new list for the form
         setShownProviders(newProviders);
     }, [allProviders]);
@@ -56,49 +56,55 @@ const ProviderModal = () => {
 
     return (
         <div className="modal-body">
-            <h3 className="text-center">Agregar Empresa Existente</h3>
-            <p>Selecciona una empresa de la siguiente lista:</p>
-            <form className="form-horizontal">
-                <div className="form-row">
-                    <div className="col-md-12 mb-3">
-                        <select
-                            className={"custom-select"}
-                            id="proveedor_id"
-                            name="proveedor_id"
-                            value={proveedorId}
-                            onChange={e => setProveedorId(e.target.value)}
-                        >
-                            <option value="">Selecciona...</option>
-                            {shownProviders.map(provider => {
-                                return (
-                                    <option
-                                        key={provider.id}
-                                        value={provider.id}
-                                    >
-                                        {`${provider.nombre} - País: ${provider.pais} - Ciudad: ${provider.ciudad}`}
-                                    </option>
-                                );
-                            })}
-                        </select>
-                    </div>
-                </div>
-                <div className="form-row justify-content-center">
-                    <button
-                        className="btn btn-success btn-round"
-                        type="submit"
-                        onClick={handleAddProvider}
-                    >
-                        <IoMdAddCircle className="mr-2" />
-                        Agregar
-                    </button>
-                </div>
-            </form>
-            <hr className="my-5" />
-            <h3 className="text-center">Agregar Empresa Nueva</h3>
-            <p>O cree una empresa totalmente desde cero:</p>
+            {shownProviders.length > 0 && (
+                <React.Fragment>
+                    <h3 className="text-center mb-5">
+                        Agregar Empresa Existente
+                    </h3>
+                    <form className="form-horizontal">
+                        <div className="form-row">
+                            <div className="col-md-12 mb-3">
+                                <select
+                                    className={"custom-select"}
+                                    id="proveedor_id"
+                                    name="proveedor_id"
+                                    value={proveedorId}
+                                    onChange={e =>
+                                        setProveedorId(e.target.value)
+                                    }
+                                >
+                                    <option value="">Selecciona...</option>
+                                    {shownProviders.map(provider => {
+                                        return (
+                                            <option
+                                                key={provider.id}
+                                                value={provider.id}
+                                            >
+                                                {`${provider.nombre} - País: ${provider.pais} - Ciudad: ${provider.ciudad}`}
+                                            </option>
+                                        );
+                                    })}
+                                </select>
+                            </div>
+                        </div>
+                        <div className="form-row justify-content-center">
+                            <button
+                                className="btn btn-success btn-round"
+                                type="submit"
+                                onClick={handleAddProvider}
+                            >
+                                <IoMdAddCircle className="mr-2" />
+                                Agregar
+                            </button>
+                        </div>
+                    </form>
+                    <hr className="my-5" />
+                </React.Fragment>
+            )}
+            <h3 className="text-center mb-5">Agregar Empresa Nueva</h3>
             <div className="form-row justify-content-center">
                 <button
-                    className="btn btn-success btn-round"
+                    className="btn btn-success btn-round mb-5"
                     type="submit"
                     onClick={handleCreateNewProvider}
                 >
