@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../../store/actions/modalActions";
 import { deletePayment } from "../../../store/actions/productionActions";
 import { dateToShortString, useUser } from "../../../utils";
+import EmptyList from "../../Navigation/EmptyList";
 import PaymentModal from "./PaymentModal";
 
 const PaymentRow = ({ index, payment, production }) => {
@@ -32,6 +33,8 @@ const PaymentRow = ({ index, payment, production }) => {
         dispatch(deletePayment(payment.id));
     };
 
+    console.log(payment);
+
     return (
         <tr key={payment.id} className="fade-in">
             {/* <EditableInput
@@ -48,6 +51,19 @@ const PaymentRow = ({ index, payment, production }) => {
             /> */}
             <th scope="row">{index}</th>
             <td>{payment.titulo}</td>
+            <td>
+                {payment.url_archivo_factura ? (
+                    <a
+                        href={`https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/${payment.url_archivo_factura}`}
+                        target="_blank"
+                        download="factura"
+                    >
+                        Descargar
+                    </a>
+                ) : (
+                    <EmptyList message="No hay archivo" />
+                )}
+            </td>
             <td>{payment.tipo}</td>
             <td>{payment.user.name}</td>
             <td>{dateToShortString(new Date(payment.fecha))}</td>

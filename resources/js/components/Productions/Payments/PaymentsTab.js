@@ -139,12 +139,15 @@ const PaymentsTab = ({ production }) => {
                         {payments.length > 0 && (
                             <React.Fragment>
                                 <div className="table-responsive">
-                                    <table className="table table-hover fade-in py-0">
+                                    <table className="table table-hover fade-in py-0 text-center">
                                         <thead>
                                             <tr>
                                                 <th scope="col">#</th>
                                                 <th scope="col text-center">
                                                     Titulo
+                                                </th>
+                                                <th scope="col text-center">
+                                                    Archivo
                                                 </th>
                                                 <th scope="col text-center">
                                                     Tipo

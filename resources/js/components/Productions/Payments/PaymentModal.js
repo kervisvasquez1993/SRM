@@ -25,8 +25,7 @@ const PaymentModal = ({ production, formData, isEditor }) => {
         getInputProps,
         isDragActive
     } = useDropzone({
-        maxFiles: 1,
-        accept: ".xlsx"
+        maxFiles: 1
     });
 
     const onSubmit = data => {
