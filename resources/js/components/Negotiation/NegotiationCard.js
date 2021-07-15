@@ -31,15 +31,15 @@ const NegotiationCard = ({
     const [container, focusClassName] = useSimpleUrlFocus(id, "id");
 
     const handleOpen = () => {
-        if (false) {
+        if (compare) {
+            toggleCheckbox(id);
+        } else {
             dispatch(
                 openModal({
                     title: getNegotiationModalName(negotiation),
                     body: <NegotiationModal negotiation={negotiation} />
                 })
             );
-        } else {
-            toggleCheckbox(id);
         }
     };
 
