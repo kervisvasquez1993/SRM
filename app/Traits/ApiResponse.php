@@ -10,6 +10,7 @@ use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification;
 use Illuminate\Database\Eloquent\Collection;
 use Kreait\Firebase\Messaging\WebPushConfig;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use App\Http\Controllers\Api\WebNotificationController;
@@ -31,6 +32,7 @@ trait ApiResponse
 
     protected function showAll(Collection $collection, $code = 200)
     {
+        
         return $this->successResponse(['data' => $collection], $code);
     }
     protected function showAllResources(ResourceCollection $collection, $code = 200)
@@ -44,6 +46,23 @@ trait ApiResponse
     protected function showOneResource(JsonResource $instace, $code = 200)
     {
         return $this->successResponse(['data' => $instace], $code);
+    }
+    protected function showAllResourcesPaginate(ResourceCollection $collection, $code = 200)
+    {
+        $collection = $this->paginate($collection);
+        return $this->successResponse(['data' => $collection], $code);
+    }
+    protected function paginate(ResourceCollection $collation)
+    {
+        $page = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = 2;
+        $result = $collation->slice(($page - 1 ) * $perPage, $perPage)->values();
+        $paginated = new LengthAwarePaginator($result, $collation->count(), $perPage, $page, [
+            'path' => LengthAwarePaginator::resolveCurrentPage(),
+        ]);
+        $paginated->appends(request()->all());
+
+        return $paginated;
     }
 
     protected function sendNotifications($usuarios, $notificacion)
@@ -85,4 +104,6 @@ trait ApiResponse
         // Enviar las notificaciones
         $messaging->sendMulticast($message, $deviceTokens);
     }
+
+    
 }
