@@ -91,6 +91,7 @@ class ProductoController extends ApiController
     public function importProduct(Request $request, PivotTareaProveeder $pivot_tarea_proveeder_id)
     {
         $archivo = $request->file('import');
+        $pivot_tarea_proveeder_id->productos()->delete(); 
         Excel::import(new ProductosImport($pivot_tarea_proveeder_id->id), $archivo);
         $login_user    = auth()->user()->name;
         $coordinador = User::find($pivot_tarea_proveeder_id->tarea->sender_id);
