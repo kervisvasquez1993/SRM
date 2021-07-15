@@ -121,7 +121,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('produccion_transito/{produccion_transito_id}/pago', 'Api\ProduccionTransito\ProduccionTransitoPagoController@index');
     Route::post('produccion_transito/{produccion_transito_id}/pago', 'Api\ProduccionTransito\ProduccionTransitoPagoController@store');
     Route::get('pago/{pago}', 'Api\ProduccionTransito\ProduccionTransitoPagoController@show');
-    Route::put('pago/{pago}', 'Api\ProduccionTransito\ProduccionTransitoPagoController@update');
+    Route::post('pago/{pago}', 'Api\ProduccionTransito\ProduccionTransitoPagoController@update');
+    // Route::post('pago/{pago}/archivo', 'Api\ProduccionTransito\ProduccionTransitoPagoController@actualizarArchivo');
     Route::delete('pago/{pago}', 'Api\ProduccionTransito\ProduccionTransitoPagoController@destroy');
 
 

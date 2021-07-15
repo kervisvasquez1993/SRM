@@ -101,12 +101,12 @@ export function createPayment(production, data) {
     };
 }
 
-export function editPayment(production, data) {
+export function editPayment(data) {
     return dispatch => {
         return genericFormSubmit(dispatch, () =>
-            axios.put(`${apiURL}/pago/${data.id}`, data)
+            axios.post(`${apiURL}/pago/${data.get("id")}`, data)
         ).then(() => {
-            dispatch(getProductions());
+            //dispatch(getProductions());
             // dispatch(reopenProductionModal(production));
         });
     };
