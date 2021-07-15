@@ -59,9 +59,9 @@ class ProduccionTransitoPagoController extends ApiController
         $pago->user_id                = Auth::user()->id;
         $pago->titulo                 = $request->titulo;
         $pago->monto                  = $request->monto;
-        if($request->file('archivo_factura'))
+        if($request->file('url_archivo_factura'))
         {
-            $pago->url_archivo_factura    = Storage::disk('s3')->put("pagos",  $request->file('archivo_factura'), 'public');
+            $pago->url_archivo_factura    = Storage::disk('s3')->put("pagos",  $request->file('url_archivo_factura'), 'public');
         }
         
         $pago->tipo                   = $tipo;
@@ -88,11 +88,13 @@ class ProduccionTransitoPagoController extends ApiController
 
     public function update(Request $request, Pago $pago)
     {
-            if($request->hasFile('url_archivo_factura'))
+            if($request->hasFile('test'))
             {
-                Storage::delete($pago->url_archivo_factura);
                 
-                $request->merge(["url_archivo_factura" => Storage::disk('s3')->put("pagos",  $request->file('archivo_factura'), 'public')]);
+                Storage::disk('s3')->delete($pago->url_archivo_factura);
+                
+                $pago->url_archivo_factura = Storage::disk('s3')->put("pagos",  $request->file('test'), 'public'); 
+                
             }
             $pago->update($request->all());
             return $this->showOneResource(new PagoResource($pago));

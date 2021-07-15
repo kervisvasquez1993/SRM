@@ -55,7 +55,7 @@ trait ApiResponse
     protected function paginate(ResourceCollection $collation)
     {
         $page = LengthAwarePaginator::resolveCurrentPage();
-        $perPage = 2;
+        $perPage = 20;
         $result = $collation->slice(($page - 1 ) * $perPage, $perPage)->values();
         $paginated = new LengthAwarePaginator($result, $collation->count(), $perPage, $page, [
             'path' => LengthAwarePaginator::resolveCurrentPage(),
