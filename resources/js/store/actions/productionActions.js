@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 import { apiURL } from "../../components/App";
 import ProductionManagementModal from "../../components/Productions/ProductionManagementModal";
+import { genericFormSubmit } from "./genericFormActions";
 import { closeModal, openModal } from "./modalActions";
 
 export function getProductions() {
@@ -28,7 +29,9 @@ export function getProduction(id) {
         dispatch({ type: "GET_PRODUCTION_REQUEST" });
 
         try {
-            const response = await axios.get(`${apiURL}/produccion_transito/${id}`);
+            const response = await axios.get(
+                `${apiURL}/produccion_transito/${id}`
+            );
 
             dispatch({
                 type: "GET_PRODUCTION_SUCCESS",
@@ -85,52 +88,27 @@ export function getPayments(productionId) {
 }
 
 export function createPayment(production, data) {
-    return async (dispatch, _getState) => {
-        dispatch({ type: "CREATE_PAYMENT_REQUEST" });
-
-        try {
-            const response = await axios.post(
+    return dispatch => {
+        return genericFormSubmit(dispatch, () =>
+            axios.post(
                 `${apiURL}/produccion_transito/${production.id}/pago`,
                 data
-            );
-
-            dispatch({
-                type: "CREATE_PAYMENT_SUCCESS",
-                payload: response.data.data
-            });
-
+            )
+        ).then(() => {
             dispatch(getProductions());
-            dispatch(reopenProductionModal(production));
-        } catch (e) {
-        
-            dispatch({
-                type: "CREATE_PAYMENT_FAILURE",
-                errors: e.response.data
-            });
-        }
+            // dispatch(reopenProductionModal(production));
+        });
     };
 }
 
 export function editPayment(production, data) {
-    return async (dispatch, _getState) => {
-        dispatch({ type: "CREATE_PAYMENT_REQUEST" });
-
-        try {
-            const response = await axios.put(`${apiURL}/pago/${data.id}`, data);
-
-            dispatch({
-                type: "CREATE_PAYMENT_SUCCESS",
-                payload: response.data.data
-            });
-
+    return dispatch => {
+        return genericFormSubmit(dispatch, () =>
+            axios.put(`${apiURL}/pago/${data.id}`, data)
+        ).then(() => {
             dispatch(getProductions());
-            dispatch(reopenProductionModal(production));
-        } catch (e) {
-            dispatch({
-                type: "CREATE_PAYMENT_FAILURE",
-                errors: e.response.data
-            });
-        }
+            // dispatch(reopenProductionModal(production));
+        });
     };
 }
 
@@ -139,7 +117,7 @@ export function deletePayment(paymentId) {
         dispatch({ type: "DELETE_PAYMENT_REQUEST" });
 
         try {
-            const response = await axios.delete(`${apiURL}/pago/${paymentId}`);
+            await axios.delete(`${apiURL}/pago/${paymentId}`);
 
             dispatch({
                 type: "DELETE_PAYMENT_SUCCESS",
@@ -156,20 +134,15 @@ export function deletePayment(paymentId) {
     };
 }
 
-function reopenProductionModal(production, defaultTab = "payments") {
-    return async (dispatch, getState) => {
-        dispatch(closeModal());
+// function reopenProductionModal(production) {
+//     return async dispatch => {
+//         dispatch(closeModal());
 
-        dispatch(
-            openModal({
-                title: production.pivot.proveedor.nombre,
-                body: (
-                    <ProductionManagementModal
-                        productionId={production.id}
-                        defaultTab={defaultTab}
-                    />
-                )
-            })
-        );
-    };
-}
+//         dispatch(
+//             openModal({
+//                 title: production.pivot.proveedor.nombre,
+//                 body: <ProductionManagementModal productionId={production.id} />
+//             })
+//         );
+//     };
+// }

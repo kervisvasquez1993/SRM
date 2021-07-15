@@ -17,7 +17,8 @@ class PagoResource extends JsonResource
             'monto' => $this->monto,
             'url_archivo_factura' => $this->url_archivo_factura,
             'tipo' => $this->tipo,
-            'fecha' => $this->fecha
+            'fecha' => $this->fecha,
+            'titulo' => $this->titulo,
         ];
     }
 }

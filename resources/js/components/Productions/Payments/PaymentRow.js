@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../../store/actions/modalActions";
 import { deletePayment } from "../../../store/actions/productionActions";
 import { dateToShortString, useUser } from "../../../utils";
@@ -8,6 +8,8 @@ import PaymentModal from "./PaymentModal";
 const PaymentRow = ({ index, payment, production }) => {
     const user = useUser();
     const dispatch = useDispatch();
+    // @ts-ignore
+    const modal = useSelector(store => store.modal);
 
     const handleEdit = () => {
         dispatch(
@@ -19,7 +21,8 @@ const PaymentRow = ({ index, payment, production }) => {
                         isEditor={true}
                         production={production}
                     />
-                )
+                ),
+                onClose: () => dispatch(openModal({ ...modal }))
             })
         );
     };

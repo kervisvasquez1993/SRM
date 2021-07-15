@@ -21,7 +21,6 @@ class ProduccionTransitoPagoController extends ApiController
 {
     private $validator_array = [
         'titulo' => 'required',
-        'url_archivo_factura' => 'required',
         'monto' => 'required|numeric',
         'fecha' => 'required|date',
     ];
@@ -34,45 +33,37 @@ class ProduccionTransitoPagoController extends ApiController
 
     public function store(Request $request)
     {
-
-        
-
         $validator = Validator::make($request->all(), $this->validator_array);
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
         }
+
         $produccionTransitoId = ProduccionTransito::findOrFail($request->produccion_transito_id);
-        if(!$produccionTransitoId->pagos->isEmpty())
-        {
+        if (!$produccionTransitoId->pagos->isEmpty()) {
             $tipo = "Pago Restante";
             $type = "pago_restante";
-        }
-        else
-        {
+        } else {
             $tipo = "Pago Anticipado";
             $type = "pago_anticipado";
-             
         }
         $pago = new Pago();
         $pago->produccion_transito_id = $request->produccion_transito_id;
         $pago->user_id                = Auth::user()->id;
         $pago->titulo                 = $request->titulo;
         $pago->monto                  = $request->monto;
-        if($request->file('url_archivo_factura'))
-        {
+        if ($request->file('url_archivo_factura')) {
             $pago->url_archivo_factura    = Storage::disk('s3')->put("pagos",  $request->file('url_archivo_factura'), 'public');
         }
-        
+
         $pago->tipo                   = $tipo;
         $pago->fecha                  = $request->fecha;
-        $pago->save();          
+        $pago->save();
         $login_user                   = auth()->user()->name;
         $user_all                     = User::where('rol', 'logistica')->orWhere('isPresidente', true)->get();
         $coordinador                  = User::find($produccionTransitoId->pivotTable->tarea->sender_id);
         $comprador_asignado           = User::find($produccionTransitoId->pivotTable->tarea->user_id);
-        $user                         = $user_all->push($comprador_asignado,$coordinador)->unique('id');
-        $text                         = "El usuario '$login_user' agrego $tipo asociado al proveedor ". $produccionTransitoId->pivotTable->proveedor->nombre;
+        $user                         = $user_all->push($comprador_asignado, $coordinador)->unique('id');
+        $text                         = "El usuario '$login_user' agrego $tipo asociado al proveedor " . $produccionTransitoId->pivotTable->proveedor->nombre;
         $link                         = "/productions?id=$request->produccion_transito_id&tab=payments";
         /* Notification::send($user, new GeneralNotification($text, $link, $type)); */
         $title = "Se Agrego un Pago";
@@ -82,23 +73,25 @@ class ProduccionTransitoPagoController extends ApiController
 
     public function show(Pago $pago)
     {
-        
+
         return $this->showOneResource(new PagoResource($pago));
     }
 
     public function update(Request $request, Pago $pago)
     {
-            if($request->hasFile('test'))
-            {
-                
-                Storage::disk('s3')->delete($pago->url_archivo_factura);
-                
-                $pago->url_archivo_factura = Storage::disk('s3')->put("pagos",  $request->file('test'), 'public'); 
-                
-            }
-            $pago->update($request->all());
-            return $this->showOneResource(new PagoResource($pago));
-    
+        $validator = Validator::make($request->all(), $this->validator_array);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
+        }
+        
+        if ($request->hasFile('test')) {
+
+            Storage::disk('s3')->delete($pago->url_archivo_factura);
+
+            $pago->url_archivo_factura = Storage::disk('s3')->put("pagos",  $request->file('test'), 'public');
+        }
+        $pago->update($request->all());
+        return $this->showOneResource(new PagoResource($pago));
     }
 
     public function destroy(Pago $pago)

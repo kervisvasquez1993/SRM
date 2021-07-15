@@ -19,10 +19,14 @@ import PaymentRow from "./PaymentRow";
 const PaymentsTab = ({ production }) => {
     const user = useUser();
     const dispatch = useDispatch();
+    // @ts-ignore
     const payments = useSelector(state => state.production.payments);
     const arePaymentsLoading = useSelector(
+        // @ts-ignore
         state => state.production.arePaymentsLoading
     );
+    // @ts-ignore
+    const modal = useSelector(store => store.modal);
 
     const {
         totalToPay,
@@ -48,7 +52,8 @@ const PaymentsTab = ({ production }) => {
                         isEditor={false}
                         production={production}
                     />
-                )
+                ),
+                onClose: () => dispatch(openModal({ ...modal }))
             })
         );
     };
