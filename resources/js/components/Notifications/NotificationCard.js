@@ -7,6 +7,8 @@ import { markAsRead } from "../../store/actions/notificationActions";
 import { getElapsedTimeString } from "../../utils";
 import { AiFillWarning } from "react-icons/ai";
 import {
+    FcAssistant,
+    FcComments,
     FcFactoryBreakdown,
     FcInTransit,
     FcMoneyTransfer,
@@ -41,8 +43,8 @@ const ProductionIncidentIcon = () => {
 const ClaimIncidentIcon = () => {
     return (
         <div className="notification-icon-parent">
-            <AiFillWarning className={dangerIconClassName} />
-            <FcInTransit className={subIconClassName} />
+            <FcComments className={dangerIconClassName} />
+            <FcAssistant className={subIconClassName} />
         </div>
     );
 };
@@ -139,15 +141,15 @@ const titles = {
     },
 
     recepcion_carga: {
-        title: "Incidencia con Recepción de Mercancía",
+        title: "Comentario en Recepción de Mercancía",
         icon: <ClaimIncidentIcon />
     },
     inspeccion_carga: {
-        title: "Incidencia con Inspección de Carga",
+        title: "Comentario en Inspección de Carga",
         icon: <ClaimIncidentIcon />
     },
     reclamo_devolucion_carga: {
-        title: "Incidencia con Reclamos y Devoluciones",
+        title: "Comentario en Reclamos y Devoluciones",
         icon: <ClaimIncidentIcon />
     },
 
