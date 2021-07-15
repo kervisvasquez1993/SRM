@@ -1,13 +1,23 @@
-import React, { createContext, useState } from "react";
+import React, { createContext } from "react";
 
-export const FormContext = createContext();
+export const FormContext = createContext(null);
 
 const GenericForm = props => {
-    const { handleSubmit, disableSubmit, handleReset = null } = props;
+    const {
+        handleSubmit,
+        disableSubmit,
+        handleReset = null,
+        hideButtons = false,
+        formId = "genericForm"
+    } = props;
 
     return (
         <FormContext.Provider value={{ ...props }}>
-            <form className="form-horizontal" onSubmit={handleSubmit}>
+            <form
+                className="form-horizontal"
+                onSubmit={handleSubmit}
+                id={formId}
+            >
                 {props.children}
 
                 {props.error && (
@@ -16,30 +26,32 @@ const GenericForm = props => {
                     </div>
                 )}
 
-                <div className="form-group mb-10">
-                    <button
-                        className="btn btn-sm btn-outline-success btn-round"
-                        type="submit"
-                        disabled={disableSubmit}
-                    >
-                        {disableSubmit ? (
-                            <div className="spinner-border spinner-border-sm">
-                                <span className="sr-only">Loading...</span>
-                            </div>
-                        ) : (
-                            "Enviar"
-                        )}
-                    </button>
-                    {handleReset && (
+                {!hideButtons && (
+                    <div className="form-group mb-10">
                         <button
-                            className="btn btn-sm btn-outline-warning btn-round"
-                            type="reset"
-                            onClick={handleReset}
+                            className="btn btn-success btn-round"
+                            type="submit"
+                            disabled={disableSubmit}
                         >
-                            Limpiar
+                            {disableSubmit ? (
+                                <div className="spinner-border spinner-border-sm">
+                                    <span className="sr-only">Loading...</span>
+                                </div>
+                            ) : (
+                                "Enviar"
+                            )}
                         </button>
-                    )}
-                </div>
+                        {handleReset && (
+                            <button
+                                className="btn btn-warning btn-round"
+                                type="reset"
+                                onClick={handleReset}
+                            >
+                                Limpiar
+                            </button>
+                        )}
+                    </div>
+                )}
             </form>
         </FormContext.Provider>
     );
