@@ -183,7 +183,7 @@ function Home() {
 
     return (
         <React.Fragment>
-            <h1 className="text-center my-5">Tareas</h1>
+            <h1 className="text-center my-5">Inicio</h1>
 
             <div style={{ display: "flex" }} className="ignore-swipe">
                 <DragDropContext
