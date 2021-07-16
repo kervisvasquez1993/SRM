@@ -81,7 +81,7 @@ $highlight-text-color: white;
         transition: transform 0.2s;
     }
 
-    &:hover {
+    &:hover, &.active {
         background-color: rgb(65, 65, 65);
         color: $highlight-text-color !important;
         text-decoration: none;
@@ -89,6 +89,10 @@ $highlight-text-color: white;
         & .link-container {
             transform: translateX(0.8em);
         }
+    }
+
+    &:hover:not(.active) {
+        background-color: rgb(94, 94, 94);
     }
 
     &:focus {

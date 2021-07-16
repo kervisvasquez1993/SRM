@@ -1,7 +1,7 @@
 import React from "react";
 import { FaRegHandshake } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { logout } from "../../store/actions/authActions";
 import { closeSidebar } from "../../store/actions/sidebarActions";
 import PageLogo from "../Widgets/PageLogo";
@@ -29,67 +29,89 @@ const Sidebar = () => {
             </div>
 
             <nav>
-                <Link className="menu-link" to="/home" onClick={closeMenu}>
+                <NavLink
+                    className="menu-link"
+                    to="/home"
+                    onClick={closeMenu}
+                    activeClassName="active"
+                >
                     <div className="link-container">
                         <i className="material-icons">dashboard</i>
                         <p>Inicio</p>
                     </div>
-                </Link>
+                </NavLink>
 
                 {user.rol === "coordinador" && (
-                    <Link className="menu-link" to="/users" onClick={closeMenu}>
+                    <NavLink
+                        className="menu-link"
+                        to="/users"
+                        onClick={closeMenu}
+                        activeClassName="active"
+                    >
                         <div className="link-container">
                             <i className="material-icons">person</i>
                             <p>Usuarios</p>
                         </div>
-                    </Link>
+                    </NavLink>
                 )}
 
                 {(user.rol === "coordinador" || user.rol === "observador") && (
-                    <Link className="menu-link" to="/tasks" onClick={closeMenu}>
+                    <NavLink
+                        className="menu-link"
+                        to="/tasks"
+                        onClick={closeMenu}
+                        activeClassName="active"
+                    >
                         <div className="link-container">
                             <i className="material-icons">task_alt</i>
                             <p>Asignación de Tareas </p>
                         </div>
-                    </Link>
+                    </NavLink>
                 )}
 
                 {(user.rol === "coordinador" || user.rol === "comprador") && (
-                    <Link
+                    <NavLink
                         className="menu-link"
                         to="/me/tasks"
                         onClick={closeMenu}
+                        activeClassName="active"
                     >
                         <div className="link-container">
                             <i className="material-icons">task</i>
                             <p>Mis Tareas</p>
                         </div>
-                    </Link>
+                    </NavLink>
                 )}
 
                 {(user.rol === "coordinador" || user.rol === "observador") && (
-                    <Link
+                    <NavLink
                         className="menu-link"
                         to="/negotiations"
                         onClick={closeMenu}
+                        activeClassName="active"
                     >
                         <div className="link-container">
                             <FaRegHandshake className="material-icons" />
                             <p>Negociaciones</p>
                         </div>
-                    </Link>
+                    </NavLink>
                 )}
 
                 {(user.rol === "artes" ||
                     user.rol === "coordinador" ||
                     user.rol === "observador" ||
                     user.rol === "comprador") && (
-                    <Link className="menu-link" to="/arts" onClick={closeMenu}>
+                    <NavLink
+                        className="menu-link"
+                        to="/arts"
+                        onClick={closeMenu}
+                        activeClassName="active"
+                    >
                         <div className="link-container">
                             <i className="material-icons">brush</i>
                             <p>Artes</p>
                         </div>
-                    </Link>
+                    </NavLink>
                 )}
 
                 {(user.rol === "coordinador" ||
@@ -97,10 +119,11 @@ const Sidebar = () => {
                     user.rol === "observador" ||
                     user.rol === "logistica") && (
                     <React.Fragment>
-                        <Link
+                        <NavLink
                             className="menu-link"
                             to="/productions"
                             onClick={closeMenu}
+                            activeClassName="active"
                         >
                             <div className="link-container">
                                 <i className="material-icons">
@@ -108,7 +131,7 @@ const Sidebar = () => {
                                 </i>
                                 <p>Producción y Transito</p>
                             </div>
-                        </Link>
+                        </NavLink>
                     </React.Fragment>
                 )}
 
@@ -117,10 +140,11 @@ const Sidebar = () => {
                     user.rol === "observador" ||
                     user.rol === "almacen") && (
                     <React.Fragment>
-                        <Link
+                        <NavLink
                             className="menu-link"
                             to="/claims"
                             onClick={closeMenu}
+                            activeClassName="active"
                         >
                             <div className="link-container">
                                 <i className="material-icons">
@@ -128,7 +152,7 @@ const Sidebar = () => {
                                 </i>
                                 <p>Reclamos y Devoluciones</p>
                             </div>
-                        </Link>
+                        </NavLink>
                     </React.Fragment>
                 )}
 
