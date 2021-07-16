@@ -59,6 +59,8 @@ const ProductClaimPage = () => {
 
     return (
         <React.Fragment>
+            {helmet}
+
             <div className="d-flex flex-wrap align-items-center mt-5 justify-content-between">
                 <h1 className="text-left h2 text-center">
                     Reclamos y Devoluciones

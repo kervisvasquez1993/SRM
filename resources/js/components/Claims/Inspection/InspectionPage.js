@@ -43,7 +43,7 @@ const ReceptionPage = () => {
 
     const helmet = (
         <Helmet>
-            <title>{`Recepción - ${process.env.MIX_APP_NAME}`}</title>
+            <title>{`Inspección - ${process.env.MIX_APP_NAME}`}</title>
         </Helmet>
     );
 
@@ -72,6 +72,8 @@ const ReceptionPage = () => {
 
     return (
         <React.Fragment>
+            {helmet}
+
             <div className="d-flex flex-wrap align-items-center mt-5 justify-content-between">
                 <h1 className="text-left h2 text-center">Inspección</h1>
                 <div className="form-check form-check p-1 ml-5">
