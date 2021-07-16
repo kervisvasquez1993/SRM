@@ -23,7 +23,7 @@ class ProduccionTransitoController extends ApiController
         if (auth()->user()->rol == "coordinador" || auth()->user()->rol == "logistica"  || auth()->user()->rol == "presidente") {
             $produccion_transito_user = ProduccionTransito::all();
         } else {
-            $produccion_transito_user = Auth::user()->tareas()
+            return $produccion_transito_user = Auth::user()->tareas()
                 ->with('pivotTareaProveedor.produccionTransito')
                 ->get();
                 // ->pluck('pivotTareaProveedor')

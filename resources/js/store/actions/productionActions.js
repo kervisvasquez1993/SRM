@@ -17,6 +17,8 @@ export function getProductions() {
                 payload: response.data.data
             });
         } catch (e) {
+            console.log(e);
+            console.log(e.response);
             dispatch({
                 type: "GET_PRODUCTIONS_FAILURE"
             });
@@ -59,7 +61,7 @@ export function updateProduction(data) {
                 payload: response.data.data
             });
         } catch (e) {
-            console.log(e.response)
+            console.log(e.response);
             dispatch({
                 type: "UPDATE_PRODUCTION_FAILURE"
             });
