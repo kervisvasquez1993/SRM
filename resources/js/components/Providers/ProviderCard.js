@@ -101,7 +101,7 @@ const ProviderCard = ({ provider, selectedProvider }) => {
                                         className="btn btn btn-outline-primary btn-round"
                                         onClick={handleNegotiate}
                                     >
-                                        Negociar
+                                        Iniciar Negociación
                                     </button>
                                 </div>
                             )

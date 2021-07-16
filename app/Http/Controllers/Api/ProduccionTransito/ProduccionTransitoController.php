@@ -28,9 +28,9 @@ class ProduccionTransitoController extends ApiController
                 ->get()
                 ->pluck('pivotTareaProveedor')
                 ->collapse()
-                ->pluck('produccionTransito')
-                ->collapse();
+                ->pluck('produccionTransito');
         }
+        
         $produccionTransitoResource = ProduccionTransitoResource::collection($produccion_transito_user);
         return $this->showAllResources($produccionTransitoResource);
     }

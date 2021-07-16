@@ -70,11 +70,11 @@ const ProviderPurchase = () => {
 
             <div className="d-flex justify-content-end align-items-center">
                 <button
-                    className="btn btn-lg btn-success btn-round"
+                    className="btn btn-lg btn-success btn-round my-5"
                     onClick={handleNegotiate}
                     disabled={negotiation.iniciar_negociacion}
                 >
-                    Negociar
+                    Iniciar Negociación
                 </button>
             </div>
 
