@@ -20,18 +20,17 @@ class ProduccionTransitoController extends ApiController
 
     public function index()
     {
-        // if (auth()->user()->rol == "coordinador" || auth()->user()->rol == "logistica"  || auth()->user()->rol == "presidente") {
-        //     $produccion_transito_user = ProduccionTransito::all();
-        // } else {
-        //     $produccion_transito_user = Auth::user()->tareas()
-        //         ->with('pivotTareaProveedor.produccionTransito')
-        //         ->get()
-        //         ->pluck('pivotTareaProveedor')
-        //         ->collapse()
-        //         ->pluck('produccionTransito');
-        // }
-
-        $produccion_transito_user = ProduccionTransito::all();
+        if (auth()->user()->rol == "coordinador" || auth()->user()->rol == "logistica"  || auth()->user()->rol == "presidente") {
+            $produccion_transito_user = ProduccionTransito::all();
+        } else {
+            $produccion_transito_user = Auth::user()->tareas()
+                ->with('pivotTareaProveedor.produccionTransito')
+                ->get()
+                ->pluck('pivotTareaProveedor')
+                ->collapse()
+                ->pluck('produccionTransito')
+                ->values();
+        }
         
         $produccionTransitoResource = ProduccionTransitoResource::collection($produccion_transito_user);
         return $this->showAllResources($produccionTransitoResource);
