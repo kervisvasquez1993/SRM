@@ -17,18 +17,18 @@ class ReclamoDevolucionController extends ApiController
     public function index()
     {
 
-        if (Auth::user()->rol == "coordinador" || Auth::user()->rol == "almacen") {
-            $rrd = RecepcionReclamoDevolucion::all();
-        } else {
-            $rrd = Auth::user()->tareas()
-                ->with('pivotTareaProveedor.produccionTransito.recepcionReclamoDevolucion')
-                ->get()
-                ->pluck('pivotTareaProveedor')
-                ->collapse()
-                ->pluck('produccionTransito')
-                ->pluck('recepcionReclamoDevolucion');
-        }
-
+        // if (Auth::user()->rol == "coordinador" || Auth::user()->rol == "almacen") {
+        //     $rrd = RecepcionReclamoDevolucion::all();
+        // } else {
+        //     $rrd = Auth::user()->tareas()
+        //         ->with('pivotTareaProveedor.produccionTransito.recepcionReclamoDevolucion')
+        //         ->get()
+        //         ->pluck('pivotTareaProveedor')
+        //         ->collapse()
+        //         ->pluck('produccionTransito')
+        //         ->pluck('recepcionReclamoDevolucion');
+        // }
+        $rrd = RecepcionReclamoDevolucion::all();
         return $this->showAllResources(ReclamoDevolucionResource::collection($rrd));
     }
 
