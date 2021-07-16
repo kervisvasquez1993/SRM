@@ -26,8 +26,9 @@ class ReclamoDevolucionController extends ApiController
                 ->pluck('pivotTareaProveedor')
                 ->collapse()
                 ->pluck('produccionTransito')
+                ->collapse()
                 ->pluck('recepcionReclamoDevolucion')
-                ->values();
+                ->collapse();
         }
 
         return $this->showAllResources(ReclamoDevolucionResource::collection($rrd));

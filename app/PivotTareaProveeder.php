@@ -54,7 +54,7 @@ class PivotTareaProveeder extends Model
     
     public function produccionTransito()
     {
-        return $this->hasOne(ProduccionTransito::class);
+        return $this->hasMany(ProduccionTransito::class);
     }
 
    public function pivotFile()
