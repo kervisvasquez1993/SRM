@@ -25,11 +25,11 @@ class ProduccionTransitoController extends ApiController
         } else {
             $produccion_transito_user = Auth::user()->tareas()
                 ->with('pivotTareaProveedor.produccionTransito')
-                ->get()
-                ->pluck('pivotTareaProveedor')
-                ->collapse()
-                ->pluck('produccionTransito')
-                ->values();
+                ->get();
+                // ->pluck('pivotTareaProveedor')
+                // ->collapse()
+                // ->pluck('produccionTransito')
+                // ->values();
         }
         
         $produccionTransitoResource = ProduccionTransitoResource::collection($produccion_transito_user);
