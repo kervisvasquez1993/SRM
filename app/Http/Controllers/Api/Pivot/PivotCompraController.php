@@ -71,17 +71,9 @@ class PivotCompraController extends ApiController
         try{
             Excel::import(new ComprasImport($id_pivot), $archivo);
          
-        }catch(\Maatwebsite\Excel\Exceptions\NoTypeDetectedException $e)
+        }  catch(\Exception $e  )
         {
-            return $this->errorResponse("Formato no valido", 413);
-        }
-        catch(\ErrorException $e)
-        {
-            return $this->errorResponse('Formato no Valido', 413);
-        }
-        catch(\Illuminate\Database\QueryException $e)
-        {
-            return $this->errorResponse('Archivo Excel Incorrecto', 413);
+            return $this->errorResponse("Formato del Archivo no valido", 413);
         }
      
 
