@@ -48,28 +48,26 @@ const PaymentRow = ({ index, payment, production }) => {
             <td>{payment.user.name}</td>
             <td>{dateToShortString(new Date(payment.fecha))}</td>
             <td>{payment.monto}</td>
-            {(user.rol === "coordinador" || user.rol === "logistica") && (
-                <td className="text-right">
-                    <div className="d-flex justify-content-start">
+            <td className="text-right">
+                <div className="d-flex justify-content-start">
+                    <button
+                        className="btn btn-success btn-circle ml-3"
+                        type="button"
+                        onClick={() => handleEdit()}
+                    >
+                        <span className="material-icons">edit</span>
+                    </button>
+                    {payment.tipo != "Pago Anticipado" && (
                         <button
-                            className="btn btn-success btn-circle ml-3"
+                            className="btn btn-danger btn-circle"
                             type="button"
-                            onClick={() => handleEdit()}
+                            onClick={() => handleDelete()}
                         >
-                            <span className="material-icons">edit</span>
+                            <span className="material-icons">clear</span>
                         </button>
-                        {payment.tipo != "Pago Anticipado" && (
-                            <button
-                                className="btn btn-danger btn-circle"
-                                type="button"
-                                onClick={() => handleDelete()}
-                            >
-                                <span className="material-icons">clear</span>
-                            </button>
-                        )}
-                    </div>
-                </td>
-            )}
+                    )}
+                </div>
+            </td>
         </tr>
     );
 };

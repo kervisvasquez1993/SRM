@@ -125,38 +125,33 @@ const PaymentsTab = ({ production }) => {
                     <div className="card py-5 px-3">
                         {payments.length === 0 && <EmptyList />}
 
-                        {(user.rol === "coordinador" ||
-                            user.rol === "logistica") && (
-                            <LargeCreateButton onClick={handleCreate} />
-                        )}
+                        <LargeCreateButton onClick={handleCreate} />
 
                         {payments.length > 0 && (
                             <React.Fragment>
                                 <div className="table-responsive">
-                                    <table className="table table-hover fade-in py-0">
+                                    <table className="table table-hover fade-in py-0 text-center">
                                         <thead>
                                             <tr>
                                                 <th scope="col">#</th>
-                                                <th scope="col text-center">
+                                                <th scope="col">
                                                     Titulo
                                                 </th>
-                                                <th scope="col text-center">
+                                                <th scope="col">
                                                     Tipo
                                                 </th>
-                                                <th scope="col text-center">
+                                                <th scope="col">
                                                     Usuario
                                                 </th>
-                                                <th scope="col text-center">
+                                                <th scope="col">
                                                     Fecha
                                                 </th>
-                                                <th scope="col text-center">
+                                                <th scope="col">
                                                     Monto
                                                 </th>
-                                                {user.rol === "coordinador" && (
-                                                    <th scope="col text-center">
-                                                        Acciones
-                                                    </th>
-                                                )}
+                                                <th scope="col">
+                                                    Acciones
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
