@@ -18,7 +18,6 @@ class ArteResource extends JsonResource
             'id' => $this->id,
             'tarea' => $this->pivotTable->tarea->nombre,
             'proveedor' => $this->pivotTable->proveedor->nombre,
-            'nombre' => $this->nombre,
             'creacion_fichas' => $this->creacion_fichas,
             'validacion_fichas' => $this->validacion_fichas,
             'creacion_boceto' => $this->creacion_boceto,

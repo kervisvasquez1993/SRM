@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api\Arte;
 
-use auth;
 use App\Arte;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ArteResource;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ApiController;
 use App\Notifications\GeneralNotification;
 use Illuminate\Support\Facades\Notification;
@@ -36,9 +36,22 @@ class ArteController extends ApiController
 
     public function index()
     {
-        $arte = Arte::orderByDesc('id')->get();
-        $arteResource = ArteResource::collection($arte);
-        return $this->showAllResources($arteResource);
+        if (auth()->user()->rol == "coordinador" || auth()->user()->rol == "arte") {
+            $arteResource = Arte::all();
+        } else {
+            $arteResource = Auth::user()
+                ->tareas()
+                ->has('pivotTareaProveedor.arte')
+                ->with('pivotTareaProveedor.arte')
+                ->get()
+                ->pluck('pivotTareaProveedor')
+                ->collapse()
+                ->whereNotNull('arte')
+                ->pluck('arte');
+        }
+
+        
+        return $this->showAllResources(ArteResource::collection($arteResource));
     }
 
     public function show(Arte $arte)
