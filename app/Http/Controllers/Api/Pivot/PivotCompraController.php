@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Pivot;
 
+use Error;
 use App\User;
 use App\Tarea;
 use App\Compra;
@@ -10,6 +11,7 @@ use App\PivotTareaProveeder;
 use Illuminate\Http\Request;
 use App\Exports\ComprasExport;
 use App\Imports\ComprasImport;
+use Psy\Exception\ErrorException;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\ApiController;
@@ -63,7 +65,31 @@ class PivotCompraController extends ApiController
         $archivo = $request->file('import_compra');
         $id_pivot =  $negociacion->id;
         $negociacion->compras()->delete(); 
-        Excel::import(new ComprasImport($id_pivot), $archivo);
+
+
+
+        try{
+            Excel::import(new ComprasImport($id_pivot), $archivo);
+         
+        }catch(\Maatwebsite\Excel\Exceptions\NoTypeDetectedException $e)
+        {
+            return $this->errorResponse("Formato no valido", 413);
+        }
+        catch(\ErrorException $e)
+        {
+            return $this->errorResponse('Formato no Valido', 413);
+        }
+        catch(\Illuminate\Database\QueryException $e)
+        {
+            return $this->errorResponse('Archivo Excel Incorrecto', 413);
+        }
+     
+
+
+
+
+
+
         /* notificacion */
         $login_user    = auth()->user()->name;
         $coordinador = User::find($negociacion->tarea->sender_id);

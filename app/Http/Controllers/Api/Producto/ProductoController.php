@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers\Api\Producto;
 
+use Error;
 use App\User;
 use App\Tarea;
 use App\Producto;
 use App\Proveedor;
+use ErrorException;
 use App\PivotTareaProveeder;
 use Illuminate\Http\Request;
+use Psy\Exception\Exception;
 use App\Imports\ProductosImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Validator;
 use App\Notifications\GeneralNotification;
 use Illuminate\Support\Facades\Notification;
+use Carbon\Exceptions\BadMethodCallException;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProductoController extends ApiController
@@ -92,7 +96,31 @@ class ProductoController extends ApiController
     {
         $archivo = $request->file('import');
         $pivot_tarea_proveeder_id->productos()->delete();
-        Excel::import(new ProductosImport($pivot_tarea_proveeder_id->id), $archivo);
+
+        try{
+            Excel::import(new ProductosImport($pivot_tarea_proveeder_id->id), $archivo);
+            /* notificacion */
+            
+         
+        }catch(\Maatwebsite\Excel\Exceptions\NoTypeDetectedException $e)
+        {
+            return $this->errorResponse("Formato no valido", 413);
+        }
+        catch(\ErrorException $e)
+        {
+            return $this->errorResponse('Formato no Valido', 413);
+        }
+        catch(\Error $e)
+        {
+            return $this->errorResponse('Error Inesperado', 413);
+        }
+        catch(\Illuminate\Database\QueryException $e)
+        {
+            return $this->errorResponse('Archivo Excel Incorrecto', 413);
+        }
+     
+     
+        /* notificacion */
         $login_user    = auth()->user()->name;
         $coordinador = User::find($pivot_tarea_proveeder_id->tarea->sender_id);
         $presidentes = User::where('isPresidente', true)->get();
@@ -106,7 +134,6 @@ class ProductoController extends ApiController
         /* Notification::send($userAll, new GeneralNotification($text, $link, $type)); */
         $title = "Importacion de Productos";
         $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title));
-
         return $this->successMensaje('Se Cargaron los Archivo de Forma Correcta', 201);
     }
 }

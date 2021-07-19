@@ -94,7 +94,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/negociacion/{negociacion_id}/compra', 'Api\Pivot\PivotCompraController@show');
     Route::put('compra/{compra_id}', 'Api\Pivot\PivotCompraController@update');
     Route::delete('compra/{compra_id}', 'Api\Pivot\PivotCompraController@destroy');
-    //fin de orden de compra
+    //fin de orden de compraº
 
     /* imagenes de proveedores */
     Route::get('/negociacion/{negociacion_id}/file', 'Api\Pivot\PivotFilesController@index');

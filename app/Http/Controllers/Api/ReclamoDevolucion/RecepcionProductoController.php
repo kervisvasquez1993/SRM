@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api\ReclamoDevolucion;
 
+use Error;
 use App\User;
 use App\RecepcionProducto;
 use Illuminate\Http\Request;
+use Psy\Exception\ErrorException;
 use App\RecepcionReclamoDevolucion;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
@@ -32,7 +34,34 @@ class RecepcionProductoController extends ApiController
     {
         $archivo = $request->file('import');
         $reclamos_devoluciones_id->recepcionProducto()->delete();
-        Excel::import(new RecepcionProductoImport($reclamos_devoluciones_id->id), $archivo);
+        
+        try
+        {
+            Excel::import(new RecepcionProductoImport($reclamos_devoluciones_id->id), $archivo);
+        }
+        catch(\Maatwebsite\Excel\Exceptions\NoTypeDetectedException $e)
+        {
+            return $this->errorResponse("Formato de Excel no valido", 413);
+        }
+        catch(\ErrorException $e)
+        {
+            return $this->errorResponse('Formato de Excel no valido', 413);
+        }
+        catch(\Error $e)
+        {
+            return $this->errorResponse('Formato de Excel no valido', 413);
+        }
+        catch(\Illuminate\Database\QueryException $e)
+        {
+            return $this->errorResponse('Formato de Excel no valido', 413);
+        }
+     
+        
+
+
+
+
+
         /* notificacion */
         $login_user = auth()->user()->name;
         $comprador_asignado = User::find($reclamos_devoluciones_id->ProduccionTransito->pivotTable->tarea->user_id);
