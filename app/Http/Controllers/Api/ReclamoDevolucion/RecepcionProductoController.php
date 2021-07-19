@@ -39,23 +39,10 @@ class RecepcionProductoController extends ApiController
         {
             Excel::import(new RecepcionProductoImport($reclamos_devoluciones_id->id), $archivo);
         }
-        catch(\Maatwebsite\Excel\Exceptions\NoTypeDetectedException $e)
+        catch(\Exception $e  )
         {
-            return $this->errorResponse("Formato de Excel no valido", 413);
+            return $this->errorResponse("Formato del Archivo no valido", 413);
         }
-        catch(\ErrorException $e)
-        {
-            return $this->errorResponse('Formato de Excel no valido', 413);
-        }
-        catch(\Error $e)
-        {
-            return $this->errorResponse('Formato de Excel no valido', 413);
-        }
-        catch(\Illuminate\Database\QueryException $e)
-        {
-            return $this->errorResponse('Formato de Excel no valido', 413);
-        }
-     
         
 
 
