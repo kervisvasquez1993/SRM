@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { AiFillFile } from "react-icons/ai";
 import { MdDeleteForever } from "react-icons/md";
 import { VscFilePdf } from "react-icons/vsc";

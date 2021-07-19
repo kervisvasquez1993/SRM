@@ -7,8 +7,8 @@ import { getFiles, uploadFile } from "../../store/actions/fileManagerActions";
 import { maxUploadSize, maxUploadSizeText } from "../../utils";
 import { store } from "../Index";
 import EmptyList from "../Navigation/EmptyList";
-import NegotiationFileCard from "../Negotiation/Files/NegotiationFileCard";
 import GenericFileCard from "./GenericFileCard";
+import UploadingFileCard from "./UploadingFileCard";
 
 export const isRepeatedValidator = (file, managerId) => {
     const state = store.getState();
@@ -92,17 +92,12 @@ const GenericFileList = ({
                         );
                     })}
                     {uploadingFiles.map((item, index) => {
-                        const fileData = {
-                            id: item,
-                            name: item,
-                            url: "#",
-                            dummy: true
-                        };
-
                         return (
-                            <NegotiationFileCard
+                            <UploadingFileCard
                                 key={item + index}
-                                data={fileData}
+                                data={{
+                                    name: item
+                                }}
                             />
                         );
                     })}
