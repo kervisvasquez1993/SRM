@@ -118,15 +118,15 @@ const ProductionCard = ({ production }) => {
         salida_puero_origen ||
         !(user.rol === "coordinador" || user.rol === "comprador");
 
-    const disableTransit = salida_puero_origen || user.rol != "logistica";
+    const disableTransit = salida_puero_origen;
+
     const disablePortDeparture =
         !inicio_produccion ||
         !fin_produccion ||
         !transito_nacionalizacion ||
         !isPrepaymentDone ||
         !isCompletelyPaid ||
-        salida_puero_origen ||
-        user.rol != "logistica";
+        salida_puero_origen;
 
     return (
         <div
