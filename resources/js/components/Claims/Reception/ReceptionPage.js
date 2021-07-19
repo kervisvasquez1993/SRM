@@ -13,6 +13,7 @@ import { useUser } from "../../../utils";
 import IncidentsTab from "../../Incidents/IncidentsTab";
 import Error from "../../Navigation/Error";
 import LoadingScreen from "../../Navigation/LoadingScreen";
+import LoadingSpinner from "../../Navigation/LoadingSpinner";
 import ReceptionTable from "./ReceptionTable";
 
 const ReceptionPage = () => {
@@ -90,7 +91,7 @@ const ReceptionPage = () => {
     return (
         <React.Fragment>
             {helmet}
-            
+
             <div className="d-flex flex-wrap align-items-center mt-5 justify-content-between">
                 <h1 className="text-left h2 text-center">Recepción</h1>
                 <div className="form-check form-check p-1 ml-5">
@@ -151,8 +152,14 @@ const ReceptionPage = () => {
                                 acceptedFiles.length == 0 || isUploadingFile
                             }
                         >
-                            Importar Excel
-                            <BsUpload className="ml-3 icon-normal" />
+                            {isUploadingFile ? (
+                                <LoadingSpinner />
+                            ) : (
+                                <React.Fragment>
+                                    Importar Excel
+                                    <BsUpload className="ml-3 icon-normal" />
+                                </React.Fragment>
+                            )}
                         </button>
                     </div>
                 </React.Fragment>
