@@ -172,11 +172,7 @@ const App = () => {
     }, []);
 
     if (isLoadingUser) {
-        return (
-            <div className="content">
-                <LoadingScreen></LoadingScreen>
-            </div>
-        );
+        return <LoadingScreen></LoadingScreen>;
     }
 
     if (!user) {
