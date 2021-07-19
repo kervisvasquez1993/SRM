@@ -34,19 +34,38 @@ const GenericFormModal = props => {
     };
 
     return (
-        <div className="modal-body">
-            <GenericForm
-                handleSubmit={handleSubmit}
-                disableSubmit={isEditing}
-                onChange={handleChange}
-                values={data}
-                errors={errors}
-                error={error}
-                setData={setData}
-            >
-                {props.children}
-            </GenericForm>
-        </div>
+        <React.Fragment>
+            <div className="modal-body">
+                <GenericForm
+                    handleSubmit={handleSubmit}
+                    onChange={handleChange}
+                    values={data}
+                    errors={errors}
+                    error={error}
+                    setData={setData}
+                    hideButtons
+                >
+                    {props.children}
+                </GenericForm>
+            </div>
+
+            <div className="modal-footer">
+                <button
+                    className="btn btn-success"
+                    type="submit"
+                    form="genericForm"
+                    disabled={isEditing}
+                >
+                    {isEditing ? (
+                        <div className="spinner-border spinner-border-sm">
+                            <span className="sr-only">Loading...</span>
+                        </div>
+                    ) : (
+                        "Enviar"
+                    )}
+                </button>
+            </div>
+        </React.Fragment>
     );
 };
 

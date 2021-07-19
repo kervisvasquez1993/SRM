@@ -62,6 +62,7 @@ axios.interceptors.response.use(
             if (token) {
                 // Get the expiration date of the token
                 const tokenData = jwt_decode(token);
+                // @ts-ignore
                 const expirationDate = new Date(tokenData.exp * 1000);
 
                 if (new Date() > expirationDate) {
@@ -88,13 +89,17 @@ axios.interceptors.request.use(config => {
 
 const App = () => {
     const dispatch = useDispatch();
+    // @ts-ignore
     const isSidebarOpen = useSelector(state => state.sidebar.isOpen);
+    // @ts-ignore
     const user = useSelector(state => state.auth.user);
+    // @ts-ignore
     const isLoadingUser = useSelector(state => state.auth.isLoadingUser);
 
     const handlers = useSwipeable({
         onSwiped: event => {
             const target = event.event.target;
+            // @ts-ignore
             const tagName = target.tagName;
 
             if (
@@ -106,7 +111,12 @@ const App = () => {
                 return;
             }
 
-            if (target.classList.contains("ignore-swipe") || target.closest(".ignore-swipe")) {
+            if (
+                // @ts-ignore
+                target.classList.contains("ignore-swipe") ||
+                // @ts-ignore
+                target.closest(".ignore-swipe")
+            ) {
                 return;
             }
 
@@ -146,6 +156,19 @@ const App = () => {
 
     useEffect(() => {
         dispatch(getMyUser());
+
+        history.block((location, action) => {
+            if (action === "PUSH") {
+                if (
+                    location.pathname + location.search + location.hash ===
+                    previous.current.pathname +
+                        previous.current.search +
+                        previous.current.hash
+                ) {
+                    return false;
+                }
+            }
+        });
     }, []);
 
     if (isLoadingUser) {

@@ -89,6 +89,8 @@ const ReceptionPage = () => {
 
     return (
         <React.Fragment>
+            {helmet}
+            
             <div className="d-flex flex-wrap align-items-center mt-5 justify-content-between">
                 <h1 className="text-left h2 text-center">Recepción</h1>
                 <div className="form-check form-check p-1 ml-5">
@@ -100,7 +102,11 @@ const ReceptionPage = () => {
                             id="recepcion_mercancia"
                             onChange={handleCheck}
                             checked={recepcion_mercancia}
-                            disabled={inspeccion_carga || reclamos_devoluciones}
+                            disabled={
+                                inspeccion_carga ||
+                                reclamos_devoluciones ||
+                                user.rol != "almacen"
+                            }
                         />
                         <span className="form-check-sign">
                             <span className="check"></span>

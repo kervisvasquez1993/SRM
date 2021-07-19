@@ -86,6 +86,25 @@
     }
 }
 
+.navigation-buttons {
+    display: none;
+
+    button {
+        transition: transform 0.2s;
+    }
+
+    button:hover {
+        transform: scale(1.15);
+    }
+}
+
+.nav-button {
+    border: 0;
+    background: transparent;
+    font-size: 2rem;
+    padding: 0 1rem 0 1rem;
+}
+
 @media (min-width: $sidebar-break-point) {
     .cerrar-sesion-dashboard {
         display: inherit !important;
@@ -93,5 +112,9 @@
 
     #botonSidebar {
         display: none;
+    }
+
+    .navigation-buttons {
+        display: block;
     }
 }

@@ -23,7 +23,7 @@ const negotiationReducer = (state = defaultState, action) => {
             };
         case "GET_PRODUCTIONS_REQUEST":
             return {
-                ...state,
+                ...state
             };
         case "GET_PRODUCTIONS_SUCCESS":
             return {
@@ -82,28 +82,13 @@ const negotiationReducer = (state = defaultState, action) => {
                 arePaymentsLoading: false
             };
 
-        case "CREATE_PAYMENT_REQUEST":
-            return {
-                ...state,
-                isEditing: true
-            };
-        case "CREATE_PAYMENT_SUCCESS":
-            return {
-                ...state,
-                errors: {},
-                isEditing: false
-            };
-        case "CREATE_PAYMENT_FAILURE":
-            return {
-                ...state,
-                errors: action.errors,
-                isEditing: false
-            };
-
         case "DELETE_PAYMENT_SUCCESS":
+            const payments = state.payments.filter(item => item.id != payload);
+
             return {
                 ...state,
-                payments: state.payments.filter(item => item.id != payload)
+                payments,
+                current: { ...state.current, pagos: payments }
             };
 
         case "FORM_SUBMIT_REQUEST":

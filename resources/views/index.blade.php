@@ -9,6 +9,10 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('favicon-96x96.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
+
     <link rel="manifest" href="/manifest.json">
 
     <!-- Scripts -->
@@ -38,6 +42,6 @@
 
     <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
-     <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-messaging.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-messaging.js"></script>
 </body>
 </html>

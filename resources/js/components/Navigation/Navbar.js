@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
+import { IoCaretBack, IoCaretForward } from "react-icons/io5";
+import { GrRefresh } from "react-icons/gr";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { logout } from "../../store/actions/authActions";
 import { getUnreadNotificationsCount } from "../../store/actions/notificationActions";
 import { toggleSidebar } from "../../store/actions/sidebarActions";
@@ -9,6 +11,7 @@ const Navbar = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.auth.user);
     const unreadNotificationsCount = useSelector(
+        // @ts-ignore
         state => state.notification.unreadCount
     );
 
@@ -24,6 +27,9 @@ const Navbar = () => {
         };
     }, []);
 
+    const history = useHistory();
+    const location = useLocation();
+
     return (
         <nav className="navbar-dashboard">
             <div className="navbar-inicio">
@@ -33,6 +39,21 @@ const Navbar = () => {
                 >
                     <i className="material-icons">menu</i>
                 </button>
+
+                <div className="ml-3 navigation-buttons">
+                    <button className="nav-button" onClick={history.goBack}>
+                        <IoCaretBack />
+                    </button>
+                    <button className="nav-button" onClick={history.goForward}>
+                        <IoCaretForward />
+                    </button>
+                    <button
+                        className="nav-button"
+                        onClick={() => history.go(0)}
+                    >
+                        <GrRefresh />
+                    </button>
+                </div>
             </div>
 
             <Link to="/notifications" className="campana">

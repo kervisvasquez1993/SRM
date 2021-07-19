@@ -23,13 +23,6 @@ class ProduccionTransitoController extends ApiController
         if (auth()->user()->rol == "coordinador" || auth()->user()->rol == "logistica"  || auth()->user()->rol == "presidente") {
             $produccion_transito_user = ProduccionTransito::all();
         } else {
-            /* $produccion_transito_user = Auth::user()->tareas()
-            ->with('pivotTareaProveedor.produccionTransito')
-            ->get()
-            ->pluck('pivotTareaProveedor')
-            ->collapse()
-            ->pluck('produccionTransito')
-            ->collapse(); */
             $produccion_transito_user = Auth::user()
                 ->tareas()
                 ->has('pivotTareaProveedor.produccionTransito')
@@ -112,7 +105,7 @@ class ProduccionTransitoController extends ApiController
         $produccionTransito->save();
         if ($request->salida_puero_origen == 1) {
             $almacen = User::where('rol', 'almacen')->get();
-            $nuevo_user = $almacen->push($user);
+            $nuevo_user = $almacen->merge($user);
             $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea salio del puerto de origen.";
             $link = "/claims/?id=$produccionTransito->id";
             $tipoNotify = "salida_puerto_origen";

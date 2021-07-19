@@ -7,6 +7,8 @@ import { markAsRead } from "../../store/actions/notificationActions";
 import { getElapsedTimeString } from "../../utils";
 import { AiFillWarning } from "react-icons/ai";
 import {
+    FcAssistant,
+    FcComments,
     FcFactoryBreakdown,
     FcInTransit,
     FcMoneyTransfer,
@@ -41,8 +43,8 @@ const ProductionIncidentIcon = () => {
 const ClaimIncidentIcon = () => {
     return (
         <div className="notification-icon-parent">
-            <AiFillWarning className={dangerIconClassName} />
-            <FcInTransit className={subIconClassName} />
+            <FcComments className={dangerIconClassName} />
+            <FcAssistant className={subIconClassName} />
         </div>
     );
 };
@@ -139,16 +141,37 @@ const titles = {
     },
 
     recepcion_carga: {
-        title: "Incidencia con Recepción de Mercancía",
+        title: "Comentario en Recepción de Mercancía",
         icon: <ClaimIncidentIcon />
     },
     inspeccion_carga: {
-        title: "Incidencia con Inspección de Carga",
+        title: "Comentario en Inspección de Carga",
         icon: <ClaimIncidentIcon />
     },
     reclamo_devolucion_carga: {
-        title: "Incidencia con Reclamos y Devoluciones",
+        title: "Comentario en Reclamos y Devoluciones",
         icon: <ClaimIncidentIcon />
+    },
+
+    cambio_creacion_fichas: {
+        title: "Creación de Fichas",
+        icon: <GiLargePaintBrush className={iconClassName} />
+    },
+    cambio_validacion_fichas: {
+        title: "Validación de Fichas",
+        icon: <GiLargePaintBrush className={iconClassName} />
+    },
+    cambio_creacion_boceto: {
+        title: "Creación de Bocetos",
+        icon: <GiLargePaintBrush className={iconClassName} />
+    },
+    cambio_validacion_boceto: {
+        title: "Validación de Bocetos",
+        icon: <GiLargePaintBrush className={iconClassName} />
+    },
+    cambio_confirmacion_proveedor: {
+        title: "Confirmación de Proveedor",
+        icon: <GiLargePaintBrush className={iconClassName} />
     }
 };
 

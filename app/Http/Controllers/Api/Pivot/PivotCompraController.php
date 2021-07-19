@@ -67,8 +67,9 @@ class PivotCompraController extends ApiController
         /* notificacion */
         $login_user    = auth()->user()->name;
         $coordinador = User::find($negociacion->tarea->sender_id);
+        $comprador = $negociacion->tarea->usuario;
         $presidentes = User::where('isPresidente', true)->get();
-        $userAll = $presidentes->push($coordinador)->unique('id'); 
+        $userAll = $presidentes->push($coordinador, $comprador)->unique('id'); 
         $proveedorName = Proveedor::findOrFail($negociacion->proveedor_id)->nombre;
         $tareaNombre   = Tarea::findOrFail($negociacion->tarea_id)->nombre;
         $text = "El usuario: '$login_user' cargo via excel informacion de orden de compra a la empresa '$proveedorName' asociada a la tarea '$tareaNombre'";

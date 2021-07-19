@@ -1,13 +1,16 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../../store/actions/modalActions";
 import { deletePayment } from "../../../store/actions/productionActions";
 import { dateToShortString, useUser } from "../../../utils";
+import EmptyList from "../../Navigation/EmptyList";
 import PaymentModal from "./PaymentModal";
 
 const PaymentRow = ({ index, payment, production }) => {
     const user = useUser();
     const dispatch = useDispatch();
+    // @ts-ignore
+    const modal = useSelector(store => store.modal);
 
     const handleEdit = () => {
         dispatch(
@@ -19,7 +22,9 @@ const PaymentRow = ({ index, payment, production }) => {
                         isEditor={true}
                         production={production}
                     />
-                )
+                ),
+                onClose: () =>
+                    dispatch(openModal({ ...modal, defaultTab: "payments" }))
             })
         );
     };
@@ -44,6 +49,19 @@ const PaymentRow = ({ index, payment, production }) => {
             /> */}
             <th scope="row">{index}</th>
             <td>{payment.titulo}</td>
+            <td>
+                {payment.url_archivo_factura ? (
+                    <a
+                        href={`https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/${payment.url_archivo_factura}`}
+                        target="_blank"
+                        download="factura"
+                    >
+                        Descargar
+                    </a>
+                ) : (
+                    <EmptyList message="No hay archivo" />
+                )}
+            </td>
             <td>{payment.tipo}</td>
             <td>{payment.user.name}</td>
             <td>{dateToShortString(new Date(payment.fecha))}</td>

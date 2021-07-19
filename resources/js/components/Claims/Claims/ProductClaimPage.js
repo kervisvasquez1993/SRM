@@ -59,6 +59,8 @@ const ProductClaimPage = () => {
 
     return (
         <React.Fragment>
+            {helmet}
+
             <div className="d-flex flex-wrap align-items-center mt-5 justify-content-between">
                 <h1 className="text-left h2 text-center">
                     Reclamos y Devoluciones
@@ -72,7 +74,9 @@ const ProductClaimPage = () => {
                             id="reclamos_devoluciones"
                             onChange={handleCheck}
                             checked={claim.reclamos_devoluciones}
-                            disabled={!claim.inspeccion_carga}
+                            disabled={
+                                !claim.inspeccion_carga || user.rol != "almacen"
+                            }
                         />
                         <span className="form-check-sign">
                             <span className="check"></span>

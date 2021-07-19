@@ -631,105 +631,126 @@ const NegotiationList = () => {
                 populatorConfig={populatorConfig}
                 setFilteredList={setFilteredNegotiations}
             >
-                <h2 className="mt-4 h3">Resumen:</h2>
+                {filteredNegotiations.length > 0 && (
+                    <React.Fragment>
+                        <h2 className="mt-4 h3">Resumen:</h2>
 
-                <NegotiationResume negotiations={filteredNegotiations} />
+                        <NegotiationResume
+                            negotiations={filteredNegotiations}
+                        />
 
-                <div className="mb-5">
-                    <h2 className="mt-5 h3">Comparación:</h2>
+                        {filteredNegotiations.length > 1 && (
+                            <div className="mb-5">
+                                <h2 className="mt-5 h3">Comparación:</h2>
 
-                    {results.length > 0 && (
-                        <div className="table-responsive">
-                            <table className="table table-sm table-hover table-bordered fade-in">
-                                <thead className="thead-dark">
-                                    <tr>
-                                        <th scope="col">Empresa</th>
-                                        <th scope="col">Total CBM</th>
-                                        <th scope="col">
-                                            Total Peso Neto (kg)
-                                        </th>
-                                        <th scope="col">
-                                            Total Peso Bruto (kg)
-                                        </th>
-                                        <th scope="col">Total CTN</th>
-                                        <th scope="col">Total a Pagar</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {results.length > 0 &&
-                                        results.map(item => {
-                                            const {
-                                                proveedor: { nombre },
-                                                total_cbm,
-                                                total_n_w,
-                                                total_g_w,
-                                                total_ctn,
-                                                compras_total
-                                            } = item;
-
-                                            return (
-                                                <tr key={item.id}>
-                                                    <th scope="row">
-                                                        {nombre}
+                                {results.length > 0 && (
+                                    <div className="table-responsive">
+                                        <table className="table table-sm table-hover table-bordered fade-in">
+                                            <thead className="thead-dark">
+                                                <tr>
+                                                    <th scope="col">Empresa</th>
+                                                    <th scope="col">
+                                                        Total CBM
                                                     </th>
-                                                    <td>
-                                                        {roundMoneyAmount(
-                                                            total_cbm
-                                                        )}
-                                                    </td>
-                                                    <td>
-                                                        {roundMoneyAmount(
-                                                            total_n_w
-                                                        )}
-                                                    </td>
-                                                    <td>
-                                                        {roundMoneyAmount(
-                                                            total_g_w
-                                                        )}
-                                                    </td>
-                                                    <td>
-                                                        {roundMoneyAmount(
-                                                            total_ctn
-                                                        )}
-                                                    </td>
-                                                    <td>
-                                                        {roundMoneyAmount(
-                                                            compras_total
-                                                        )}
-                                                    </td>
+                                                    <th scope="col">
+                                                        Total Peso Neto (kg)
+                                                    </th>
+                                                    <th scope="col">
+                                                        Total Peso Bruto (kg)
+                                                    </th>
+                                                    <th scope="col">
+                                                        Total CTN
+                                                    </th>
+                                                    <th scope="col">
+                                                        Total a Pagar
+                                                    </th>
                                                 </tr>
-                                            );
-                                        })}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
+                                            </thead>
+                                            <tbody>
+                                                {results.length > 0 &&
+                                                    results.map(item => {
+                                                        const {
+                                                            proveedor: {
+                                                                nombre
+                                                            },
+                                                            total_cbm,
+                                                            total_n_w,
+                                                            total_g_w,
+                                                            total_ctn,
+                                                            compras_total
+                                                        } = item;
 
-                    <button className="btn btn-primary" onClick={handleCompare}>
-                        {compare ? (
-                            <React.Fragment>
-                                <TiCancel className="icon-normal mr-2" />
-                                Dejar de Comparar
-                            </React.Fragment>
-                        ) : (
-                            <React.Fragment>
-                                <GoGitCompare className="icon-normal mr-2" />
-                                Comenzar a Comparar
-                            </React.Fragment>
+                                                        return (
+                                                            <tr key={item.id}>
+                                                                <th scope="row">
+                                                                    {nombre}
+                                                                </th>
+                                                                <td>
+                                                                    {roundMoneyAmount(
+                                                                        total_cbm
+                                                                    )}
+                                                                </td>
+                                                                <td>
+                                                                    {roundMoneyAmount(
+                                                                        total_n_w
+                                                                    )}
+                                                                </td>
+                                                                <td>
+                                                                    {roundMoneyAmount(
+                                                                        total_g_w
+                                                                    )}
+                                                                </td>
+                                                                <td>
+                                                                    {roundMoneyAmount(
+                                                                        total_ctn
+                                                                    )}
+                                                                </td>
+                                                                <td>
+                                                                    {roundMoneyAmount(
+                                                                        compras_total
+                                                                    )}
+                                                                </td>
+                                                            </tr>
+                                                        );
+                                                    })}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                )}
+
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={handleCompare}
+                                >
+                                    {compare ? (
+                                        <React.Fragment>
+                                            <TiCancel className="icon-normal mr-2" />
+                                            Dejar de Comparar
+                                        </React.Fragment>
+                                    ) : (
+                                        <React.Fragment>
+                                            <GoGitCompare className="icon-normal mr-2" />
+                                            Comenzar a Comparar
+                                        </React.Fragment>
+                                    )}
+                                </button>
+
+                                {compare && (
+                                    <button
+                                        className="btn btn-success"
+                                        disabled={
+                                            selectedNegotiations.length < 2
+                                        }
+                                        onClick={handleShowResults}
+                                    >
+                                        <BsCardList className="icon-normal mr-2" />
+                                        Mostrar Resultados
+                                    </button>
+                                )}
+                            </div>
                         )}
-                    </button>
-
-                    {compare && (
-                        <button
-                            className="btn btn-success"
-                            disabled={selectedNegotiations.length < 2}
-                            onClick={handleShowResults}
-                        >
-                            <BsCardList className="icon-normal mr-2" />
-                            Mostrar Resultados
-                        </button>
-                    )}
-                </div>
+                    </React.Fragment>
+                )}
             </GenericFilter>
         </React.Fragment>
     );
