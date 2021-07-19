@@ -23,27 +23,27 @@ const DraggableTaskModal = ({ draggableTask, defaultTab }) => {
                     >
                         <TabButton name={0}>
                             <i className="material-icons">task</i>
-                            Etapa 1 - Negociación
+                            Etapa 1 - Busqueda de Proveedor
                         </TabButton>
 
                         {task.column > 0 && (
                             <TabButton name={1}>
                                 <i className="material-icons">business</i>
-                                Etapa 2 - Negociación
+                                Etapa 2 - Selección de Proveedor
                             </TabButton>
                         )}
 
                         {task.column > 1 && (
                             <TabButton name={2}>
                                 <i className="material-icons">inventory_2</i>
-                                Etapa 3 - Artes
+                                Etapa 3 - Elaboración de Artes
                             </TabButton>
                         )}
 
                         {task.column > 2 && (
                             <TabButton name={3}>
                                 <i className="material-icons">receipt_long</i>
-                                Etapa 4 - Producción
+                                Etapa 4 - Producción y Transito
                             </TabButton>
                         )}
 
