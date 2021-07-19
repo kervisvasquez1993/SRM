@@ -102,6 +102,11 @@ const purcharseOrderReducer = (state = defaultState, action) => {
                 ...state,
                 isUploadingFile: false
             };
+        case "UPLOAD_PURCHASE_ORDERS_FAILURE":
+            return {
+                ...state,
+                isUploadingFile: false
+            };
         default:
             return state;
     }

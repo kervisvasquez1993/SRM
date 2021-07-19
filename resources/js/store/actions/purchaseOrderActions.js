@@ -104,7 +104,11 @@ export function uploadPurchaseOrders(pivotId, file) {
 
             toast.success("✔️ Ordenes importadas");
         } catch (e) {
-            console.log(e);
+            toast.error(`🚨 ${e.response.data.error}`);
+
+            dispatch({
+                type: "UPLOAD_PURCHASE_ORDERS_FAILURE"
+            });
         }
     };
 }

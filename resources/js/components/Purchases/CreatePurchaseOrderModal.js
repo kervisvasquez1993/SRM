@@ -42,6 +42,7 @@ const CreatePurchaseOrderModal = ({ pivotId }) => {
     const handleImport = e => {
         e.preventDefault();
         dispatch(uploadPurchaseOrders(pivotId, acceptedFiles[0]));
+        acceptedFiles.length = 0;
     };
 
     return (

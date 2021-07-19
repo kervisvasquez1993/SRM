@@ -89,8 +89,7 @@ export function importExcel(id, file) {
 
             toast.success("✔️ Excel importado");
         } catch (e) {
-            console.log(e);
-            console.log(e.response);
+            toast.error(`🚨 ${e.response.data.error}`);
 
             dispatch({
                 type: "UPLOADING_CLAIMS_FAILURE"

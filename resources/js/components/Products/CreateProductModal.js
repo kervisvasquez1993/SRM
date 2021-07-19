@@ -40,6 +40,7 @@ const CreateProductModal = ({ pivotId }) => {
     const handleImport = e => {
         e.preventDefault();
         dispatch(uploadProductForNegotiation(pivotId, acceptedFiles[0]));
+        acceptedFiles.length = 0;
     };
 
     return (

@@ -80,6 +80,11 @@ const productReducer = (state = defaultState, action) => {
                 ...state,
                 isUploadingFile: false
             };
+        case "UPLOADING_PRODUCT_FAILURE":
+            return {
+                ...state,
+                isUploadingFile: false
+            };
 
         default:
             return state;
