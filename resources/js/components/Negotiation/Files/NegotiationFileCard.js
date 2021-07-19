@@ -11,7 +11,6 @@ import { confirmDelete } from "../../../appText";
 
 const NegotiationFileCard = ({ data }) => {
     const { id, name, dummy, url } = data;
-    const link = `https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/${url}`;
 
     const dispatch = useDispatch();
     const deletingFileId = useSelector(
@@ -39,7 +38,7 @@ const NegotiationFileCard = ({ data }) => {
         extension === "jpge" ||
         extension === "gif"
     ) {
-        content = <img src={link} />;
+        content = <img src={url} />;
     } else if (extension === "pdf") {
         content = <VscFilePdf />;
     } else if (extension === "txt") {
@@ -49,7 +48,7 @@ const NegotiationFileCard = ({ data }) => {
     }
 
     return (
-        <a href={link} target="_blank" download={name}>
+        <a href={url}>
             <div className="file-card mb-2 mr-2">
                 <div className="preview">
                     {dummy ? (
