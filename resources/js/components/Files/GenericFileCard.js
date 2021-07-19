@@ -51,7 +51,7 @@ const GenericFileCard = ({
     }
 
     return (
-        <a href={url} target="_blank" download={name}>
+        <a href={url}>
             <div className="file-card mb-2 mr-2">
                 <div className="preview">
                     {dummy ? (
