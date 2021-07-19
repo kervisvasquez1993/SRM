@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../store/actions/modalActions";
-import { deleteProduct } from "../../store/actions/productActions";
+import {
+    deleteProduct,
+    getProductsFromNegotiation
+} from "../../store/actions/productActions";
 import ProductFormModal from "../Products/ProductFormModal";
 import EmptyList from "../Navigation/EmptyList";
 import { getSum, roundMoneyAmount, useSimpleScrollToId } from "../../utils";
@@ -9,21 +12,28 @@ import { useParams } from "react-router-dom";
 import LargeCreateButton from "../Widgets/LargeCreateButton";
 import CreateProductModal from "./CreateProductModal";
 import ProductsResume from "../Widgets/ProductsResume";
+import LoadingScreen from "../Navigation/LoadingScreen";
 
 const ProductsList = () => {
     const dispatch = useDispatch();
+    // @ts-ignore
     const { id } = useParams();
+    // @ts-ignore
     const user = useSelector(state => state.auth.user);
+    // @ts-ignore
     const products = useSelector(state => state.product.products);
+    // @ts-ignore
+    const isLoadingList = useSelector(state => state.product.isLoadingList);
+    // @ts-ignore
     const negotiation = useSelector(state => state.negotiation.negotiation);
-    const purchaseOrders = useSelector(state => state.purchaseOrder.orders);
 
     const isMine = user.id == negotiation.usuario.id;
 
-    const titleRef = useSimpleScrollToId("#products", [
-        products,
-        purchaseOrders
-    ]);
+    const titleRef = useSimpleScrollToId("#products");
+
+    useEffect(() => {
+        dispatch(getProductsFromNegotiation(id));
+    }, []);
 
     const handleCreate = () => {
         dispatch(
@@ -53,10 +63,14 @@ const ProductsList = () => {
         dispatch(deleteProduct(product));
     };
 
+    if (isLoadingList) {
+        return <LoadingScreen />;
+    }
+
     return (
         <React.Fragment>
             <div className="mr-auto text-center py-4" ref={titleRef}>
-                <h1 className="h2">Productos</h1>
+                <h2>Productos</h2>
             </div>
 
             {products.length === 0 && <EmptyList />}
@@ -174,7 +188,11 @@ const ProductsList = () => {
                                 );
                             })}
                             <tr>
-                                <th scope="row" colSpan="17">
+                                <th
+                                    scope="row"
+                                    // @ts-ignore
+                                    colSpan="17"
+                                >
                                     Total
                                 </th>
                                 <td>

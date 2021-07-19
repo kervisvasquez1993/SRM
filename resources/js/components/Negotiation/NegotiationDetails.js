@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+// @ts-ignore
 import { Link, Redirect, useHistory, useParams } from "react-router-dom";
+// @ts-ignore
 import { getProductsFromNegotiation } from "../../store/actions/productActions";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import Error from "../Navigation/Error";
@@ -17,13 +19,23 @@ import { apiURL } from "../App";
 const ProviderPurchase = () => {
     const history = useHistory();
     const dispatch = useDispatch();
+    // @ts-ignore
     const { id } = useParams();
+    // @ts-ignore
     const user = useSelector(state => state.auth.user);
+    // @ts-ignore
     const negotiation = useSelector(state => state.negotiation.negotiation);
     const negotiationError = useSelector(
+        // @ts-ignore
         state => state.negotiation.negotiationError
     );
-    
+
+    // @ts-ignore
+    const areFilesLoading = useSelector(state => state.fileManager.isLoading);
+    const areProductsLoading = useSelector(
+        // @ts-ignore
+        state => state.product.isLoadingList
+    );
 
     if (
         !(
@@ -39,7 +51,6 @@ const ProviderPurchase = () => {
         document.querySelector("#wrapper").scrollTo(0, 0);
 
         dispatch(getNegotiation(id));
-        dispatch(getProductsFromNegotiation(id));
     }, []);
 
     if (negotiationError) {
@@ -56,6 +67,7 @@ const ProviderPurchase = () => {
         return <Redirect to="/home" />;
     }
 
+    // @ts-ignore
     const handleGoBack = () => {
         history.goBack();
     };
@@ -82,6 +94,10 @@ const ProviderPurchase = () => {
                 </button>
             </div>
 
+            <div className="mr-auto text-center py-4">
+                <h2 className="h2">Archivos</h2>
+            </div>
+
             <GenericFileList
                 id="negotiation"
                 getUrl={`${apiURL}/negociacion/${negotiation.id}/file`}
@@ -89,10 +105,11 @@ const ProviderPurchase = () => {
                 deleteUrl={`${apiURL}/file`}
                 hideDropzone={!isMine}
                 allowEditing={isMine}
+                hideTitle={true}
             />
 
-            <ProductsList />
-            <PurchaseOrderList />
+            {!areFilesLoading && <ProductsList />}
+            {!areProductsLoading && <PurchaseOrderList />}
         </div>
     );
 };

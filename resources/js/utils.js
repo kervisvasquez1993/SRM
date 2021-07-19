@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
+// @ts-ignore
 import { NumberParam, StringParam, useQueryParam } from "use-query-params";
 import { store } from "./components/Index";
+// @ts-ignore
 import { openArtModal } from "./store/actions/artActions";
 import { clearFocus, focusOnElementWithId } from "./store/actions/focusActions";
 
@@ -25,22 +27,27 @@ const defaultShortOptions = {
 };
 
 export function dateToString(date, options = defaultOptions) {
+    // @ts-ignore
     return new Intl.DateTimeFormat("default", options).format(date);
 }
 
 export function dateToShortString(date, options = defaultShortOptions) {
+    // @ts-ignore
     return new Intl.DateTimeFormat("default", options).format(date);
 }
 
 export function getElapsedTimeString(date) {
+    // @ts-ignore
     const days = Math.floor((new Date() - date) / secondsInDay);
     if (days > 0) {
         return days + "d";
     }
+    // @ts-ignore
     const hours = Math.floor((new Date() - date) / milisecondsInHour);
     if (hours > 0) {
         return hours + "h";
     }
+    // @ts-ignore
     const minutes = Math.floor((new Date() - date) / milisecondsInMinute);
     if (minutes > 0) {
         return minutes + "m";
@@ -74,6 +81,7 @@ export const normalCard = {
     background: ""
 };
 
+// @ts-ignore
 const blackCard = {
     text: "text-white",
     background: "bg-dark"
@@ -87,6 +95,7 @@ export function getColorsForTask(task) {
 }
 
 export function getColorsFromDates(startDate, finishDate) {
+    // @ts-ignore
     const percentage = (finishDate - new Date()) / (finishDate - startDate);
 
     let days = getDaysBetweenDates(new Date(), finishDate);
@@ -118,6 +127,7 @@ export function getDaysToFinishTask(task) {
 }
 
 export function getRemainingDaysToFinishTask(task) {
+    // @ts-ignore
     return Math.ceil((new Date(task.fecha_fin) - new Date()) / secondsInDay);
 }
 
@@ -128,6 +138,7 @@ export function extractError(errors, error) {
 }
 
 export function useUser() {
+    // @ts-ignore
     const user = useSelector(state => state.auth.user);
 
     return user;
@@ -148,6 +159,7 @@ export function getSum(array, column) {
     }
 
     let values = array.map(item => Number(item[column]));
+    // @ts-ignore
     const result = values.reduce((a, b) => a + b);
     return values.reduce((a, b) => a + b);
 }
@@ -234,9 +246,16 @@ export const getNegotiationModalName = negotiation => {
     return `${negotiation.proveedor.nombre} - ${negotiation.proveedor.pais} - ${negotiation.proveedor.ciudad}`;
 };
 
+export const scrollIntoViewOptions = {
+    behavior: "smooth",
+    block: "start",
+    inline: "start"
+};
+
 export const useSimpleUrlFocus = (ownId, paramName = "id", callback) => {
     const dispatch = useDispatch();
     const container = useRef(null);
+    // @ts-ignore
     const focusOnId = useSelector(state => state.focus.focusOnId);
     const [queryId] = useQueryParam(paramName, NumberParam);
     const location = useLocation();
@@ -249,12 +268,13 @@ export const useSimpleUrlFocus = (ownId, paramName = "id", callback) => {
 
         if (focusOnId && focusOnId === ownId) {
             element = container.current;
-            element.scrollIntoView();
+            element.scrollIntoView(scrollIntoViewOptions);
 
             if (callback) {
                 callback();
             }
 
+            // @ts-ignore
             handleAnimationEnd = e => {
                 dispatch(clearFocus());
             };
@@ -295,7 +315,7 @@ export const useSimpleScrollToId = (hashValue, extraDependencies = []) => {
     const ref = useCallback(
         element => {
             if (element && hash === hashValue) {
-                element.scrollIntoView();
+                element.scrollIntoView(scrollIntoViewOptions);
             }
         },
         [hash, ...extraDependencies]

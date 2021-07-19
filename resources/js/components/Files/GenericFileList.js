@@ -7,6 +7,7 @@ import { getFiles, uploadFile } from "../../store/actions/fileManagerActions";
 import { maxUploadSize, maxUploadSizeText } from "../../utils";
 import { store } from "../Index";
 import EmptyList from "../Navigation/EmptyList";
+import LoadingScreen from "../Navigation/LoadingScreen";
 import GenericFileCard from "./GenericFileCard";
 import UploadingFileCard from "./UploadingFileCard";
 
@@ -32,7 +33,8 @@ const GenericFileList = ({
     uploadUrl,
     deleteUrl,
     hideDropzone = false,
-    allowEditing = true
+    allowEditing = true,
+    hideTitle = false
 }) => {
     const dispatch = useDispatch();
     // @ts-ignore
@@ -58,6 +60,7 @@ const GenericFileList = ({
     }
 
     const files = fileStates[id].files;
+    const isLoadingList = fileStates[id].isLoadingList;
     const uploadingFiles = fileStates[id].uploadingFiles;
 
     const handleImport = e => {
@@ -68,11 +71,17 @@ const GenericFileList = ({
         acceptedFiles.length = 0;
     };
 
+    if (isLoadingList) {
+        return <LoadingScreen />;
+    }
+
     return (
         <React.Fragment>
-            <div className="mr-auto text-center mb-4">
-                <h3>Archivos</h3>
-            </div>
+            {!hideTitle && (
+                <div className="mr-auto text-center mb-4">
+                    <h3>Archivos</h3>
+                </div>
+            )}
 
             {files.length === 0 && (
                 <EmptyList message="No se han cargado archivos" />

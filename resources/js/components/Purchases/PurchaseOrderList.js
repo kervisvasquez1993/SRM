@@ -5,6 +5,8 @@ import { openModal } from "../../store/actions/modalActions";
 import { getPurchaseOrdersFromNegotiation } from "../../store/actions/purchaseOrderActions";
 import { getSum, roundMoneyAmount, useSimpleScrollToId } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
+import LoadingScreen from "../Navigation/LoadingScreen";
+// @ts-ignore
 import LargeCreateButton from "../Widgets/LargeCreateButton";
 import PurchaseOrdersResume from "../Widgets/PurchaseOrdersResume";
 import CreatePurchaseOrderModal from "./CreatePurchaseOrderModal";
@@ -20,12 +22,23 @@ const campos = [
 ];
 
 const PurchaseOrderList = () => {
+    // @ts-ignore
     const purchaseOrders = useSelector(state => state.purchaseOrder.orders);
+    // @ts-ignore
+    const isLoadingList = useSelector(
+        // @ts-ignore
+        state => state.purchaseOrder.isLoadingList
+    );
+
+    // @ts-ignore
     const user = useSelector(state => state.auth.user);
+    // @ts-ignore
     const products = useSelector(state => state.product.products);
+    // @ts-ignore
     const negotiation = useSelector(state => state.negotiation.negotiation);
 
     const dispatch = useDispatch();
+    // @ts-ignore
     const { id: pivotId } = useParams();
 
     useEffect(() => {
@@ -54,12 +67,16 @@ const PurchaseOrderList = () => {
         );
     };
 
+    if (isLoadingList) {
+        return <LoadingScreen />;
+    }
+
     return (
         <React.Fragment>
             {products.length > 0 && (
                 <React.Fragment>
                     <div className="mr-auto text-center py-4" ref={titleRef}>
-                        <h1 className="h2">Orden de Compra</h1>
+                        <h2>Orden de Compra</h2>
                     </div>
 
                     {purchaseOrders.length == 0 && <EmptyList />}
@@ -148,7 +165,7 @@ const PurchaseOrderList = () => {
                                             );
                                         })}
                                         <tr>
-                                            <th scope="row" colSpan="5">
+                                            <th scope="row" colSpan={5}>
                                                 Total
                                             </th>
                                             <td>

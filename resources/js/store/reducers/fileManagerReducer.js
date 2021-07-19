@@ -1,7 +1,8 @@
 const defaultState = {
     states: {},
     inspectionFiles: [],
-    uploadingFiles: []
+    uploadingFiles: [],
+    isLoading: false
 };
 
 const fileManagerReducer = (state = defaultState, action) => {
@@ -13,29 +14,41 @@ const fileManagerReducer = (state = defaultState, action) => {
         case "CHANGE_HISTORY":
             return {
                 ...state,
-                list: [],
-                isLoadingList: true,
-                isLoadingCurrent: true,
-                receptionItems: [],
-
-                areClaimsLoading: true,
-                productClaims: []
+                isLoading: true
             };
 
-        case "GET_FILES_SUCCESS":
+        case "GET_FILES_REQUEST":
             if (!(id in states)) {
                 states[id] = {
                     files: [],
+                    isLoadingList: true,
                     uploadingFiles: [],
                     deletingFileId: null
                 };
             }
 
+            return {
+                ...state,
+                states,
+                isLoading: true
+            };
+        case "GET_FILES_SUCCESS":
             states[id].files = payload;
+            states[id].isLoadingList = false;
 
             return {
                 ...state,
-                states
+                states,
+                isLoading: false
+            };
+        case "GET_FILES_FAILURE":
+            states[id].files = [];
+            states[id].isLoadingList = false;
+
+            return {
+                ...state,
+                states,
+                isLoading: false
             };
 
         case "DELETE_FILE_REQUEST":

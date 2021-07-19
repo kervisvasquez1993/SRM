@@ -4,7 +4,7 @@ import { apiURL } from "../../components/App";
 
 export function getFiles(managerId, url, uploadedFile = null) {
     return async dispatch => {
-        dispatch({ type: "GET_FILES_REQUEST" });
+        dispatch({ type: "GET_FILES_REQUEST", id: managerId });
 
         try {
             let response = await axios.get(url);

@@ -1,5 +1,6 @@
 const defaultState = {
     products: [],
+    isLoadingList: [],
     isUploadingFile: false
 };
 
@@ -10,7 +11,8 @@ const productReducer = (state = defaultState, action) => {
         case "CHANGE_HISTORY":
             return {
                 ...state,
-                products: []
+                products: [],
+                isLoadingList: true
             };
 
         case "MODAL_CLOSE":
@@ -21,16 +23,19 @@ const productReducer = (state = defaultState, action) => {
 
         case "GET_PRODUCTS_REQUEST":
             return {
-                ...state
+                ...state,
+                isLoadingList: true
             };
         case "GET_PRODUCTS_SUCCESS":
             return {
                 ...state,
-                products: payload
+                products: payload,
+                isLoadingList: false
             };
         case "GET_PRODUCTS_FAILURE":
             return {
-                ...state
+                ...state,
+                isLoadingList: false
             };
 
         case "CREATE_PRODUCT_SUCCESS":

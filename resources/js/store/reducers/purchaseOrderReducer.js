@@ -2,13 +2,20 @@ const defaultState = {
     orders: [],
     errors: {},
     isEditing: false,
-    isUploadingFile: false
+    isUploadingFile: false,
+    isLoadingList: false
 };
 
 const purcharseOrderReducer = (state = defaultState, action) => {
     const { type, payload } = action;
 
     switch (type) {
+        case "CHANGE_HISTORY":
+            return {
+                ...state,
+                isLoadingList: true
+            };
+
         case "OPEN_MODAL":
             return {
                 ...state
@@ -26,16 +33,19 @@ const purcharseOrderReducer = (state = defaultState, action) => {
             };
         case "GET_PURCHASE_ORDERS_REQUEST":
             return {
-                ...state
+                ...state,
+                isLoadingList: true
             };
         case "GET_PURCHASE_ORDERS_SUCCESS":
             return {
                 ...state,
+                isLoadingList: false,
                 orders: payload
             };
         case "GET_PURCHASE_ORDERS_FAILURE":
             return {
                 ...state,
+                isLoadingList: false,
                 orders: []
             };
         case "CREATE_PURCHASE_ORDER_REQUEST":
