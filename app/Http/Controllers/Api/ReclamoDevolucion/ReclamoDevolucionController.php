@@ -20,11 +20,14 @@ class ReclamoDevolucionController extends ApiController
         if (Auth::user()->rol == "coordinador" || Auth::user()->rol == "almacen") {
             $rrd = RecepcionReclamoDevolucion::all();
         } else {
-            $rrd = Auth::user()->tareas()
+            $rrd = Auth::user()
+                ->tareas()
+                ->has('pivotTareaProveedor.produccionTransito.recepcionReclamoDevolucion')
                 ->with('pivotTareaProveedor.produccionTransito.recepcionReclamoDevolucion')
                 ->get()
                 ->pluck('pivotTareaProveedor')
                 ->collapse()
+                ->whereNotNull('produccionTransito')
                 ->pluck('produccionTransito')
                 ->pluck('recepcionReclamoDevolucion');
         }
