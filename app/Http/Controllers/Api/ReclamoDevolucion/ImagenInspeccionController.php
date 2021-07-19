@@ -6,23 +6,23 @@ use App\ImagenInspeccion;
 use Illuminate\Http\Request;
 use App\RecepcionReclamoDevolucion;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\FileResource;
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
 class ImagenInspeccionController extends ApiController
 {
-    
+
     public function index(RecepcionReclamoDevolucion $reclamos_devoluciones_id)
     {
-        $imagenes = $reclamos_devoluciones_id->ImagenInspeccion;
-        return $this->showAll($imagenes);
+        return $this->showAllResources(FileResource::collection($reclamos_devoluciones_id->ImagenInspeccion));
     }
 
 
     public function store(Request $request, RecepcionReclamoDevolucion $reclamos_devoluciones_id)
     {
-        
+
         $request->validate([
             'file' => 'max:10000',
         ]);
@@ -40,20 +40,18 @@ class ImagenInspeccionController extends ApiController
         $pivot_file->url = Storage::disk('s3')->put("negociacion_archivos",  $file, 'public');
         $pivot_file->name = $file->getClientOriginalName();
         $pivot_file->save();
-        return $this->showOne($pivot_file);
+        return $this->showOneResource(new FileResource($pivot_file));
     }
 
     public function show(ImagenInspeccion $imagen_inspeccion_id)
     {
-        return $this->showOne($imagen_inspeccion_id);
+        return $this->showOneResource(new FileResource($imagen_inspeccion_id));
     }
-
-    
 
     public function destroy(ImagenInspeccion $imagen_inspeccion_id)
     {
         Storage::delete($imagen_inspeccion_id->url);
         $imagen_inspeccion_id->delete();
-        return $this->showOne($imagen_inspeccion_id);
+        return $this->showOneResource(new FileResource($imagen_inspeccion_id));
     }
 }

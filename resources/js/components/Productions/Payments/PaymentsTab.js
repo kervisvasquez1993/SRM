@@ -140,24 +140,13 @@ const PaymentsTab = ({ production }) => {
                                         <thead>
                                             <tr>
                                                 <th scope="col">#</th>
-                                                <th scope="col">
-                                                    Titulo
-                                                </th>
-                                                <th scope="col">
-                                                    Tipo
-                                                </th>
-                                                <th scope="col">
-                                                    Usuario
-                                                </th>
-                                                <th scope="col">
-                                                    Fecha
-                                                </th>
-                                                <th scope="col">
-                                                    Monto
-                                                </th>
-                                                <th scope="col">
-                                                    Acciones
-                                                </th>
+                                                <th scope="col">Titulo</th>
+                                                <th scope="col">Archivo</th>
+                                                <th scope="col">Tipo</th>
+                                                <th scope="col">Usuario</th>
+                                                <th scope="col">Fecha</th>
+                                                <th scope="col">Monto</th>
+                                                <th scope="col">Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>

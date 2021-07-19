@@ -10,8 +10,9 @@ import {
     startNegotiation
 } from "../../store/actions/negotiationActions";
 import ProductsList from "../Products/ProductList";
-import NegotiationFileList from "./Files/NegotiationFileList";
 import { Helmet } from "react-helmet-async";
+import GenericFileList from "../Files/GenericFileList";
+import { apiURL } from "../App";
 
 const ProviderPurchase = () => {
     const history = useHistory();
@@ -22,6 +23,7 @@ const ProviderPurchase = () => {
     const negotiationError = useSelector(
         state => state.negotiation.negotiationError
     );
+    
 
     if (
         !(
@@ -48,7 +50,9 @@ const ProviderPurchase = () => {
         return <LoadingScreen />;
     }
 
-    if (user.rol === "comprador" && user.id != negotiation.usuario.id) {
+    const isMine = user.id == negotiation.usuario.id;
+
+    if (user.rol === "comprador" && !isMine) {
         return <Redirect to="/home" />;
     }
 
@@ -78,7 +82,15 @@ const ProviderPurchase = () => {
                 </button>
             </div>
 
-            <NegotiationFileList />
+            <GenericFileList
+                id="negotiation"
+                getUrl={`${apiURL}/negociacion/${negotiation.id}/file`}
+                uploadUrl={`${apiURL}/negociacion/${negotiation.id}/file`}
+                deleteUrl={`${apiURL}/file`}
+                hideDropzone={!isMine}
+                allowEditing={isMine}
+            />
+
             <ProductsList />
             <PurchaseOrderList />
         </div>

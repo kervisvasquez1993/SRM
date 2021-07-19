@@ -6,6 +6,7 @@ import axios from "axios";
 import _, { result } from "lodash";
 import DraggableTaskCard from "./DraggableTaskCard";
 import EmptyList from "../Navigation/EmptyList";
+import LoadingScreen from "../Navigation/LoadingScreen";
 
 const reorder = (list, startIndex, endestinationDroppableIndex) => {
     const result = Array.from(list);
@@ -42,6 +43,7 @@ function Home() {
     //     ]
     // ]);
     const [state, setState] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     //const [disabledDroppable, setDisabledDroppable] = useState(-1);
     const [disabledDroppables, setDisabledDroppables] = useState([]);
     const [invalidDrop, setInvalidDrop] = useState(false);
@@ -67,6 +69,7 @@ function Home() {
             });
 
             setState(newState);
+            setIsLoading(false);
         }
 
         fetchData();
@@ -180,6 +183,10 @@ function Home() {
 
         setInvalidDrop(!destination);
     }, []);
+
+    if (isLoading) {
+        return <LoadingScreen />;
+    }
 
     return (
         <React.Fragment>

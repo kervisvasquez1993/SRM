@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { AiFillFile } from "react-icons/ai";
 import { MdDeleteForever } from "react-icons/md";
 import { VscFilePdf } from "react-icons/vsc";
@@ -16,7 +16,6 @@ const GenericFileCard = ({
     allowEditing
 }) => {
     const { id, name, dummy, url } = data;
-    const link = `https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/${url}`;
 
     const dispatch = useDispatch();
 
@@ -42,7 +41,7 @@ const GenericFileCard = ({
         extension === "jpge" ||
         extension === "gif"
     ) {
-        content = <img src={link} />;
+        content = <img src={url} />;
     } else if (extension === "pdf") {
         content = <VscFilePdf />;
     } else if (extension === "txt") {
@@ -52,7 +51,7 @@ const GenericFileCard = ({
     }
 
     return (
-        <a href={link} target="_blank" download={name}>
+        <a href={url}>
             <div className="file-card mb-2 mr-2">
                 <div className="preview">
                     {dummy ? (

@@ -7,6 +7,7 @@ use App\ReclamoProducto;
 use Illuminate\Http\Request;
 use App\RecepcionReclamoDevolucion;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\FileResource;
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\IncidenciaValidacion;
@@ -54,7 +55,7 @@ class ReclamoProductoController extends ApiController
         $name = $file->getClientOriginalName();
 
         $coincidencia = ImagenReclamo::where('reclamo_producto_id', $reclamo_id->id)->where('name', $name)->first();
-        /* return $reclamo_id; */
+        
         if ($coincidencia != null) {
             return $this->errorResponse("Ya existe un archivo con el mismo nombre",  Response::HTTP_BAD_REQUEST);
         }
@@ -66,18 +67,18 @@ class ReclamoProductoController extends ApiController
         $pivot_file->save();
 
         /* notifiacion */
-        return $this->showOne($pivot_file);
+        return $this->showOneResource(new FileResource($pivot_file));
     }
 
     public function getArchivos(ReclamoProducto $reclamo_id)
     {
-        return $this->showAll($reclamo_id->imagenReclamo);
+        return $this->showAllResources(FileResource::collection($reclamo_id->imagenReclamo));
     }
 
     public function eliminarArchivo(ReclamoProducto $reclamo, ImagenReclamo $imagen_reclamo)
     {
         Storage::delete($imagen_reclamo->url);
         $imagen_reclamo->delete();
-        return $this->showOne($imagen_reclamo);
+        return $this->showOneResource(new FileResource($imagen_reclamo));
     }
 }
