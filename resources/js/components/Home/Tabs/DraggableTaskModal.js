@@ -74,7 +74,7 @@ const DraggableTaskModal = ({ draggableTask, defaultTab }) => {
                     {task.column > 2 && (
                         <TabContent name={3}>
                             <ProductionStageTab
-                                production={task.produccion_iniciada}
+                                productionId={task.produccion_iniciada.id}
                             />
                         </TabContent>
                     )}

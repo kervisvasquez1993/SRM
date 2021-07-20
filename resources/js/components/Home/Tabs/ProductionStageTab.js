@@ -1,10 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BiLink } from "react-icons/bi";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { getProduction } from "../../../store/actions/productionActions";
 import EmptyList from "../../Navigation/EmptyList";
+import LoadingScreen from "../../Navigation/LoadingScreen";
 import CheckIcon from "../../Widgets/CheckIcon";
 
-const ProductionStageTab = ({ production }) => {
+const ProductionStageTab = ({ productionId }) => {
+    const dispatch = useDispatch();
+    // @ts-ignore
+    const production = useSelector(state => state.production.current);
+    // @ts-ignore
+    const isLoading = useSelector(state => state.production.isLoading);
+
+    useEffect(() => {
+        dispatch(getProduction(productionId));
+
+        return () => {
+            dispatch({
+                type: "REMOVE_PRODUCTION"
+            });
+        };
+    }, []);
+
+    if (isLoading) {
+        return <LoadingScreen />;
+    }
+
     return (
         <React.Fragment>
             <h3 className="text-center">Producción</h3>
