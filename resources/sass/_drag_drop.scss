@@ -21,6 +21,7 @@
 .draggable-card {
     user-select: none;
     margin-bottom: 6px;
+    cursor: pointer;
 
     &.dragging {
         opacity: 0.7;

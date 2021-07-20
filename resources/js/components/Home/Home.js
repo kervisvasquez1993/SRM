@@ -7,6 +7,7 @@ import _, { result } from "lodash";
 import DraggableTaskCard from "./DraggableTaskCard";
 import EmptyList from "../Navigation/EmptyList";
 import LoadingScreen from "../Navigation/LoadingScreen";
+import { useUser } from "../../utils";
 
 const reorder = (list, startIndex, endestinationDroppableIndex) => {
     const result = Array.from(list);
@@ -42,6 +43,9 @@ function Home() {
     //         }
     //     ]
     // ]);
+    const user = useUser();
+    const disableDragAndDrop = user.rol !== "coordinador";
+
     const [state, setState] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     //const [disabledDroppable, setDisabledDroppable] = useState(-1);
@@ -226,6 +230,9 @@ function Home() {
                                                 key={item.id}
                                                 draggableId={`${item.id}`}
                                                 index={index}
+                                                isDragDisabled={
+                                                    disableDragAndDrop
+                                                }
                                             >
                                                 {(provided, snapshot) => (
                                                     <div
