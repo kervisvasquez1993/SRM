@@ -3,6 +3,7 @@ import { BiLink } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getProduction } from "../../../store/actions/productionActions";
+import { getPaymentsInfoFromProduction } from "../../../utils";
 import EmptyList from "../../Navigation/EmptyList";
 import LoadingScreen from "../../Navigation/LoadingScreen";
 import CheckIcon from "../../Widgets/CheckIcon";
@@ -28,6 +29,11 @@ const ProductionStageTab = ({ productionId }) => {
         return <LoadingScreen />;
     }
 
+    const {
+        prepaymentPercentage,
+        isCompletelyPaid
+    } = getPaymentsInfoFromProduction(production);
+
     return (
         <React.Fragment>
             <h3 className="text-center">Producción</h3>
@@ -42,12 +48,12 @@ const ProductionStageTab = ({ productionId }) => {
 
                         <li className="list-group-item d-flex align-items-center">
                             <strong>Pago Anticipado</strong>
-                            <CheckIcon checked={false} />
+                            <CheckIcon checked={prepaymentPercentage > 0} />
                         </li>
 
                         <li className="list-group-item d-flex align-items-center">
                             <strong>Pago Balance</strong>
-                            <CheckIcon checked={false} />
+                            <CheckIcon checked={isCompletelyPaid} />
                         </li>
 
                         <li className="list-group-item d-flex align-items-center">
