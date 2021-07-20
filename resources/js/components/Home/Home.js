@@ -56,7 +56,12 @@ function Home() {
         async function fetchData() {
             const response = await axios.get(`${apiURL}/draggable_task`);
 
-            const items = response.data.data;
+            let items = response.data.data;
+
+            // Si el usuario es un comprador solo se le mostraran las tareas de él
+            if (user.rol === "comprador") {
+                items = items.filter(item => item.usuario.id === user.id);
+            }
 
             const newState = [[], [], [], [], []];
             newState.forEach((column, columnIndex) => {
