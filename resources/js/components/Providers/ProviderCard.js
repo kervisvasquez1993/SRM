@@ -91,7 +91,7 @@ const ProviderCard = ({ provider, selectedProvider }) => {
 
                         {enNegociacion ? (
                             <button className="btn btn-primary btn-round">
-                                Administrar Compra
+                                Cotizar
                             </button>
                         ) : (
                             !selectedProvider &&
