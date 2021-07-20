@@ -311,8 +311,6 @@ export const useSimpleUrlFocus = (ownId, paramName = "id", callback) => {
 
 export const useSimpleScrollToId = (hashValue, extraDependencies = []) => {
     const { hash } = useLocation();
-
-    const location = useLocation();
     const history = useHistory();
 
     const ref = useCallback(

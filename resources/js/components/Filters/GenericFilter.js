@@ -6,7 +6,7 @@ import Filter from "./Filter";
 import FilterGroup from "./FilterGroup";
 import SliderFilter from "./SliderFilter";
 
-export let globalOptions = {
+export let filtersGlobalOptions = {
     defaultChekboxValue: undefined
 };
 
@@ -235,9 +235,10 @@ const GenericFilter = ({
                                                 id={value.id}
                                                 text={`${value.label} (${count})`}
                                                 defaultValue={
-                                                    globalOptions.defaultChekboxValue !=
-                                                    undefined
-                                                        ? globalOptions.defaultChekboxValue
+                                                    filtersGlobalOptions.defaultChekboxValue !=
+                                                        undefined &&
+                                                    !filterConf.unfilterWhenAllDisabled
+                                                        ? filtersGlobalOptions.defaultChekboxValue
                                                         : value.defaultValue !=
                                                           undefined
                                                         ? value.defaultValue

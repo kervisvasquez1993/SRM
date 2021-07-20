@@ -36,7 +36,7 @@ import {
 } from "../store/actions/sidebarActions";
 import { useSwipeable } from "react-swipeable";
 import { NumberParam, useQueryParam } from "use-query-params";
-import { globalOptions } from "./Filters/GenericFilter";
+import { filtersGlobalOptions } from "./Filters/GenericFilter";
 import { removeSlash } from "../utils";
 
 import "react-quill/dist/quill.snow.css";
@@ -133,14 +133,14 @@ const App = () => {
     const [id] = useQueryParam("id", NumberParam);
 
     useEffect(() => {
-        globalOptions.defaultChekboxValue = id ? true : undefined;
+        filtersGlobalOptions.defaultChekboxValue = id ? true : undefined;
     }, [id]);
 
     const history = useHistory();
     const location = useLocation();
     const previous = useRef(null);
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (
             !previous.current ||
             removeSlash(previous.current.pathname) !=
