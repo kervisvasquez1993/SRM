@@ -9,8 +9,10 @@ const ProductionList = () => {
     const dispatch = useDispatch();
     // @ts-ignore
     const notifications = useSelector(state => state.notification.list);
-    // @ts-ignore
-    const isLoadingList = useSelector(state => state.notification.isLoadingList);
+    const isLoadingList = useSelector(
+        // @ts-ignore
+        state => state.notification.isLoadingList
+    );
     // @ts-ignore
     const unreadCount = useSelector(state => state.notification.unreadCount);
 

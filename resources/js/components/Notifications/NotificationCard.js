@@ -14,6 +14,7 @@ import {
     FcMoneyTransfer,
     FcOk,
     FcServices,
+    FcSurvey,
     FcTodoList,
     FcUpload
 } from "react-icons/fc";
@@ -138,6 +139,10 @@ const titles = {
                 <FcOk className={subIconClassName} />
             </div>
         )
+    },
+    transito_nacionalizacion: {
+        title: "Transito Nacionalización Finalizado",
+        icon: <FcSurvey className={iconClassName} />
     },
 
     recepcion_carga: {
