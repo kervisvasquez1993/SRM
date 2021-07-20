@@ -150,7 +150,7 @@ const Sidebar = () => {
                                 <i className="material-icons">
                                     production_quantity_limits
                                 </i>
-                                <p>Reclamos y Devoluciones</p>
+                                <p>Recepción Reclamos y Devoluciones</p>
                             </div>
                         </NavLink>
                     </React.Fragment>

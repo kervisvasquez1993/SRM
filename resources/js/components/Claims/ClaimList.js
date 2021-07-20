@@ -115,7 +115,7 @@ const ClaimsList = () => {
 
     const helmet = (
         <Helmet>
-            <title>{`Reclamos y Devoluciones - ${process.env.MIX_APP_NAME}`}</title>
+            <title>{`Recepción Reclamos y Devoluciones - ${process.env.MIX_APP_NAME}`}</title>
         </Helmet>
     );
 
@@ -126,7 +126,7 @@ const ClaimsList = () => {
     return (
         <React.Fragment>
             {helmet}
-            <h1 className="text-center my-5">Reclamos y Devoluciones</h1>
+            <h1 className="text-center my-5">Recepción Reclamos y Devoluciones</h1>
 
             <GenericFilter
                 config={filterConfig}
