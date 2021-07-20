@@ -63,11 +63,11 @@ export function sendTokenToServer() {
         });
 }
 
-// Esta función se ejecuta cuando la pagina web esta en primer plano y se recibe un mensaje de Firebase Messaging
-messaging.onMessage(payload => {
-    const title = payload.notification.title;
-    new Notification(title, { ...payload.notification });
-});
+// // Esta función se ejecuta cuando la pagina web esta en primer plano y se recibe un mensaje de Firebase Messaging
+// messaging.onMessage(payload => {
+//     const title = payload.notification.title;
+//     new Notification(title, { ...payload.notification });
+// });
 
 // Esta función se llama cada vez que el usuario cierra sesión y se encarga de remover el token de Firebase Messaging del server
 export function removeTokenFromServer() {
