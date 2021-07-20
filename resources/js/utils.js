@@ -248,8 +248,8 @@ export const getNegotiationModalName = negotiation => {
 
 export const scrollIntoViewOptions = {
     behavior: "smooth",
-    block: "start",
-    inline: "start"
+    block: "center",
+    inline: "center"
 };
 
 export const useSimpleUrlFocus = (ownId, paramName = "id", callback) => {
@@ -312,10 +312,17 @@ export const useSimpleUrlFocus = (ownId, paramName = "id", callback) => {
 export const useSimpleScrollToId = (hashValue, extraDependencies = []) => {
     const { hash } = useLocation();
 
+    const location = useLocation();
+    const history = useHistory();
+
     const ref = useCallback(
         element => {
             if (element && hash === hashValue) {
                 element.scrollIntoView(scrollIntoViewOptions);
+
+                history.replace({
+                    hash: ""
+                });
             }
         },
         [hash, ...extraDependencies]
