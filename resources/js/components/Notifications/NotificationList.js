@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getNotifications } from "../../store/actions/notificationActions";
+import { dateToString } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import NotificationCard from "./NotificationCard";
@@ -24,18 +25,32 @@ const ProductionList = () => {
         return <LoadingScreen />;
     }
 
+    let lastEpoch = null;
+
     return (
         <React.Fragment>
             <h1 className="text-center my-5">Notificaciones</h1>
-            {notifications.length > 0 ? (
-                <div className="d-flex flex-column align-items-center">
-                    {notifications.map(item => {
-                        return <NotificationCard key={item.id} {...item} />;
-                    })}
-                </div>
-            ) : (
-                <EmptyList message="Aun no tiene notificaciones" />
-            )}
+
+            {notifications.map(item => {
+                let header = null;
+                const epoch = new Date(item.created_at).setHours(0, 0, 0, 0);
+
+                if (lastEpoch != epoch) {
+                    lastEpoch = epoch;
+                    header = (
+                        <h2 className="h4 mt-4">
+                            {dateToString(new Date(item.created_at))}
+                        </h2>
+                    );
+                }
+
+                return (
+                    <React.Fragment key={item.id}>
+                        {header}
+                        <NotificationCard {...item} />
+                    </React.Fragment>
+                );
+            })}
         </React.Fragment>
     );
 };
