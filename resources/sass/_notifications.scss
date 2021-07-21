@@ -1,0 +1,25 @@
+.notifications-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.card.notification {
+    &:first-child {
+        border-radius: 10px 10px 0 0 !important;
+    }
+
+    &:last-child {
+        border-radius: 0 0 10px 10px !important;
+    }
+
+    &.unread {
+        background: rgba(112, 181, 249, 0.2);
+    }
+
+    & a {
+        color: inherit;
+    }
+    & a:hover {
+        color: inherit;
+    }
+}

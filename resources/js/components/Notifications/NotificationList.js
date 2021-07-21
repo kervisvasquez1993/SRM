@@ -31,26 +31,33 @@ const ProductionList = () => {
         <React.Fragment>
             <h1 className="text-center my-5">Notificaciones</h1>
 
-            {notifications.map(item => {
-                let header = null;
-                const epoch = new Date(item.created_at).setHours(0, 0, 0, 0);
-
-                if (lastEpoch != epoch) {
-                    lastEpoch = epoch;
-                    header = (
-                        <h2 className="h4 mt-4">
-                            {dateToString(new Date(item.created_at))}
-                        </h2>
+            <div className="notifications-container">
+                {notifications.map(item => {
+                    let header = null;
+                    const epoch = new Date(item.created_at).setHours(
+                        0,
+                        0,
+                        0,
+                        0
                     );
-                }
 
-                return (
-                    <React.Fragment key={item.id}>
-                        {header}
-                        <NotificationCard {...item} />
-                    </React.Fragment>
-                );
-            })}
+                    if (lastEpoch != epoch) {
+                        lastEpoch = epoch;
+                        header = (
+                            <h2 className="h4 mt-4">
+                                {dateToString(new Date(item.created_at))}
+                            </h2>
+                        );
+                    }
+
+                    return (
+                        <React.Fragment key={item.id}>
+                            {header}
+                            <NotificationCard {...item} />
+                        </React.Fragment>
+                    );
+                })}
+            </div>
         </React.Fragment>
     );
 };
