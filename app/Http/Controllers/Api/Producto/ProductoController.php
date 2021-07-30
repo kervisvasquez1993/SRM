@@ -86,7 +86,8 @@ class ProductoController extends ApiController
         $pivot_tarea_proveeder_id->productos()->delete(); 
 
         try{
-            Excel::import(new ProductosImport($pivot_tarea_proveeder_id->id), $archivo);
+             Excel::import(new ProductosImport($pivot_tarea_proveeder_id->id), $archivo);
+            
             /* notificacion */
             
          
