@@ -31,6 +31,7 @@ class ProductoController extends ApiController
             return response()->json($validatior->errors(), Response::HTTP_BAD_REQUEST);
         }
     }
+    /* tet */
 
     public function index(Request $request)
     {
