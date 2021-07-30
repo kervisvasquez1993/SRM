@@ -23,30 +23,14 @@ use Symfony\Component\HttpFoundation\Response;
 class ProductoController extends ApiController
 {
     private $validation_rules = [
-        'hs_code' => 'required',
-        'product_code' => 'required',
-        'description' => 'required',
-        'original_product_name' => 'required',
-        'brand' => 'required',
-        'product_name' => 'required',
-        'total_pcs' => 'required|numeric',
-        'shelf_life' => 'required|numeric',
-        'total_pcs' => 'required|numeric',
-        'pcs_unit' => 'required|numeric',
-        'pcs_inner_box' => 'required|numeric',
-        'pcs_ctn' => 'required|numeric',
-        'ctn_packing_size_l' => 'required|numeric',
-        'ctn_packing_size_w' => 'required|numeric',
-        'ctn_packing_size_h' => 'required|numeric',
-        'cbm' => 'required|numeric',
-        'n_w_ctn' => 'required|numeric',
-        'g_w_ctn' => 'required|numeric',
-        'total_ctn' => 'required|numeric',
-        'corregido_total_pcs' => 'required|numeric',
-        'total_cbm' => 'required|numeric',
-        'total_n_w' => 'required|numeric',
-        'total_g_w' => 'required|numeric',
+        'product_name_supplier' => 'required|unique',
     ];
+
+    private function showError($validatior){
+        if ($validatior->fails()) {
+            return response()->json($validatior->errors(), Response::HTTP_BAD_REQUEST);
+        }
+    }
 
     public function index(Request $request)
     {
@@ -62,13 +46,16 @@ class ProductoController extends ApiController
         if ($validator->fails()) {
             return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
         }
-
         $request->merge(["pivot_tarea_proveeder_id" => $pivot_tarea_proveedor->id]);
         $producto = Producto::create($request->all());
 
         return $this->showOne($producto);
     }
 
+    public function show(Producto $producto)
+    {
+        return $this->showOne($producto);
+    }
 
     public function update(Request $request, Producto $producto)
     {
@@ -124,4 +111,5 @@ class ProductoController extends ApiController
         $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title));
         return $this->successMensaje('Se Cargaron los Archivo de Forma Correcta', 201);
     }
+
 }
