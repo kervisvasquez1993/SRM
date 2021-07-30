@@ -83,7 +83,7 @@ class ProductoController extends ApiController
     public function importProduct(Request $request, PivotTareaProveeder $pivot_tarea_proveeder_id)
     {
         $archivo = $request->file('import');
-        $pivot_tarea_proveeder_id->productos()->delete();
+        $pivot_tarea_proveeder_id->productos()->delete(); 
 
         try{
             Excel::import(new ProductosImport($pivot_tarea_proveeder_id->id), $archivo);
@@ -92,6 +92,7 @@ class ProductoController extends ApiController
          
         } catch(\Exception $e  )
         {
+            return error_log($e);
             return $this->errorResponse("Formato del Archivo no valido", 413);
         }
      

@@ -27,7 +27,7 @@ class CreateProductosTable extends Migration
             $table->double('total_pcs')->nullable();
             $table->double('unit_price')->nullable();
             $table->double('total_usd')->nullable();
-            $table->double('pcs_unit_packing', )->nullable();
+            $table->double('pcs_unit_packing')->nullable();
             $table->double('pcs_inner_box_paking', )->nullable()->default('0');
             $table->double('pcs_ctn_paking', )->nullable();
             $table->double('ctn_packing_size_l', )->nullable();

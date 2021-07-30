@@ -62,7 +62,8 @@ class ProductosImport implements ToModel, WithStartRow,WithCalculatedFormulas
         ];
 
         $validator = Validator::make($product, [
-            'pivot_tarea_proveeder_id' => 'required',
+            
+            'product_name_supplier' => 'required'
                   
         ]);
 
@@ -71,7 +72,23 @@ class ProductosImport implements ToModel, WithStartRow,WithCalculatedFormulas
         {
             return null;
         }
+
+
+        $producto =  Producto::where('product_name_supplier', $product['product_name_supplier'])->first();
+
+
+        /* validar  si la fila existe*/
+        
+        /* fin de la validacion */
+        if($producto)
+        {
+            $producto->update($product);
+            return null;
+        }
+        
         return new Producto($product);
+        
+
     }
 
     public function startRow(): int
