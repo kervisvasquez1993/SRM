@@ -68,7 +68,8 @@ class ProductoController extends ApiController
         if ($validator->fails()) {
             return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
         }
-        $producto->update($request->all());
+        $producto->update(
+        $request->all());
         $producto->save();
         return $this->showOne($producto);
     }
