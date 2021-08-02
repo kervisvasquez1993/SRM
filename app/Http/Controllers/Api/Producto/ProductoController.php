@@ -11,6 +11,7 @@ use ErrorException;
 use App\PivotTareaProveeder;
 use Illuminate\Http\Request;
 use Psy\Exception\Exception;
+use App\Exports\ProductosExport;
 use App\Imports\ProductosImport;
 use Google\Service\Vault\Export;
 use Illuminate\Support\Collection;
@@ -195,7 +196,7 @@ class ProductoController extends ApiController
 
     public function exportProduct() 
     {
-        return Excel::download(new Export, 'plantilla.xlsx');
+        return Excel::download(new ProductosExport, 'plantilla.xlsx');
     }
 
 }

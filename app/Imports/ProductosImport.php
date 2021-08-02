@@ -166,6 +166,6 @@ class ProductosImport implements WithStartRow, WithCalculatedFormulas //ToCollec
 
     public function startRow(): int
     {
-        return 22;
+        return 4;
     }
 }
