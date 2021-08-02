@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Producto extends Model
 {
 
-    use SoftDeletes;
+    // use SoftDeletes;
+    
     protected $fillable =
     [
         'pivot_tarea_proveeder_id',
