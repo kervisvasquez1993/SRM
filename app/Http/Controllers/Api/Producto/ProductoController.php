@@ -12,6 +12,7 @@ use App\PivotTareaProveeder;
 use Illuminate\Http\Request;
 use Psy\Exception\Exception;
 use App\Imports\ProductosImport;
+use Google\Service\Vault\Export;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\ApiController;
@@ -91,7 +92,6 @@ class ProductoController extends ApiController
 
         try {
             $excel = Excel::toArray(new ProductosImport($pivot_tarea_proveeder_id->id), $archivo);
-
             $productosAgregados = collect();
 
             foreach ($excel as $hoja) {
@@ -191,4 +191,11 @@ class ProductoController extends ApiController
         $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title));
         return $this->successMensaje('Se Cargaron los Archivo de Forma Correcta', 201);
     }
+    
+
+    public function exportProduct() 
+    {
+        return Excel::download(new Export, 'plantilla.xlsx');
+    }
+
 }

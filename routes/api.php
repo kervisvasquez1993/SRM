@@ -81,6 +81,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/negociacion/{pivot_tarea_proveedor}/productos', 'Api\Producto\ProductoController@store');
     Route::put('/productos/{producto}', 'Api\Producto\ProductoController@update');
     Route::get('/productos/{producto}', 'Api\Producto\ProductoController@show');
+    
     Route::delete('/productos/{producto}', 'Api\Producto\ProductoController@delete');
 
 
@@ -281,3 +282,5 @@ Route::middleware('auth:api')->group(function () {
 
    
 });
+
+Route::get('/export/{producto}', 'Api\Producto\ProductoController@exportProduct');
