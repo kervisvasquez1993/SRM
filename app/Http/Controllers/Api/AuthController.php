@@ -19,7 +19,7 @@ class AuthController extends Controller
         ]);
 
         if (!Auth::attempt($credentials)) {
-            return response()->json(['error' => 'Los Datos Suministrado son incorrectos,'], 401);
+            return response()->json(['error' => 'Los Datos Suministrado son incorrectos :C'], 401);
         }
 
         $user = $request->user();
