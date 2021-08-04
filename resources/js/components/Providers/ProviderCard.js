@@ -85,29 +85,11 @@ const ProviderCard = ({ provider, selectedProvider }) => {
                 className={`card fade-in ${text} ${background} ${focusClassName}`}
                 ref={container}
             >
-                <div className="card-header">
+                <div className="card-header pb-0">
                     <div className="d-flex justify-content-between w-100 flex-wrap">
                         <h3 className="card-title">{nombre}</h3>
-
-                        {enNegociacion ? (
-                            <button className="btn btn-primary btn-round">
-                                Cotizar
-                            </button>
-                        ) : (
-                            !selectedProvider &&
-                            (user.rol == "coordinador" || isMine) && (
-                                <div className="d-flex">
-                                    <button
-                                        className="btn btn btn-outline-primary btn-round"
-                                        onClick={handleNegotiate}
-                                    >
-                                        Iniciar Negociación
-                                    </button>
-                                </div>
-                            )
-                        )}
                     </div>
-                    <hr />
+                    <hr className="mb-0" />
                 </div>
 
                 <div className="card-body">

@@ -1,0 +1,49 @@
+$breakpoint: 991px;
+$separator-border: 4px solid rgb(230, 230, 230);
+
+.tabs-row {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 10px 10px 0 0;
+    @media (min-width: $breakpoint) {
+        display: inline-flex;
+        flex-direction: row;
+    }
+}
+
+.tab {
+    color: $grey-text;
+    background-color: transparent;
+
+    width: 100%;
+    border: none;
+    padding: 10px;
+
+    &:first-of-type {
+        border-radius: 10px 10px 0 0;
+    }
+
+    &:last-of-type {
+        border-bottom: $separator-border;
+    }
+
+    &.active {
+        color: white;
+        background-color: #2196f3;
+        border-bottom: 4px solid #2196f3;
+    }
+
+    @media (min-width: $breakpoint) {
+        border-radius: 10px 10px 0 0;
+        border-bottom: $separator-border;
+    }
+}
+
+.tab-content {
+    background-color: white;
+
+    @media (min-width: $breakpoint) {
+        border-radius: 0 10px 10px;
+    }
+}

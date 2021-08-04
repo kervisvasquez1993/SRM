@@ -124,65 +124,6 @@ const ClaimCard = ({ claim }) => {
             </div>
 
             <div className="card-body py-0 my-0 ml-2">
-                {/* <div className="col-md d-md-flex justify-content-around">
-                        <div className="form-check form-check p-1">
-                            <label
-                                className="form-check-label"
-                                onClick={handleCheckClick}
-                            >
-                                <input
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    id="recepcion_mercancia"
-                                    onChange={handleCheck}
-                                    checked={recepcion_mercancia}
-                                />
-                                Recepción de Mercancía
-                                <span className="form-check-sign">
-                                    <span className="check"></span>
-                                </span>
-                            </label>
-                        </div>
-
-                        <div className="form-check form-check p-1">
-                            <label
-                                className="form-check-label"
-                                onClick={handleCheckClick}
-                            >
-                                <input
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    id="inspeccion_carga"
-                                    onChange={handleCheck}
-                                    checked={inspeccion_carga}
-                                />
-                                Inspección de Carga
-                                <span className="form-check-sign">
-                                    <span className="check"></span>
-                                </span>
-                            </label>
-                        </div>
-
-                        <div className="form-check form-check p-1">
-                            <label
-                                className="form-check-label"
-                                onClick={handleCheckClick}
-                            >
-                                <input
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    id="reclamos_devoluciones"
-                                    onChange={handleCheck}
-                                    checked={reclamos_devoluciones}
-                                />
-                                Reclamos y Devoluciones
-                                <span className="form-check-sign">
-                                    <span className="check"></span>
-                                </span>
-                            </label>
-                        </div>
-                    </div> */}
-
                 <div className="p-2 px-3">
                     <div className="mb-5 d-flex flex-column align-items-center">
                         <div className="progress-container w-100">
@@ -249,25 +190,6 @@ const ClaimCard = ({ claim }) => {
                             Reclamos y Devoluciones
                         </Link>
                     </div>
-
-                    {/* <div className="d-flex justify-content-end align-items-center">
-                        <button
-                            className="btn btn-sm btn-info btn-round"
-                            onClick={handleOpenInfo}
-                        >
-                            <ImInfo className="icon-normal mr-2" />
-                            Información
-                        </button>
-                    </div> */}
-
-                    {/* <div className="d-flex justify-content-end align-items-center">
-                        <button
-                            className="btn btn-sm btn-info"
-                            onClick={handleOpenInfo}
-                        >
-                            <IoInformation className="icon-normal" />
-                        </button>
-                    </div> */}
                 </div>
             </div>
         </div>

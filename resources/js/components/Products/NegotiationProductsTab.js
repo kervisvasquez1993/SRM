@@ -5,7 +5,7 @@ import {
     deleteProduct,
     getProductsFromNegotiation
 } from "../../store/actions/productActions";
-import ProductFormModal from "../Products/ProductFormModal";
+import ProductFormModal from "./ProductFormModal";
 import EmptyList from "../Navigation/EmptyList";
 import { getSum, roundMoneyAmount, useSimpleScrollToId } from "../../utils";
 import { useParams } from "react-router-dom";
@@ -14,7 +14,7 @@ import CreateProductModal from "./CreateProductModal";
 import ProductsResume from "../Widgets/ProductsResume";
 import LoadingScreen from "../Navigation/LoadingScreen";
 
-const ProductsList = () => {
+const NegotiationProductsTab = () => {
     const dispatch = useDispatch();
     // @ts-ignore
     const { id } = useParams();
@@ -68,10 +68,8 @@ const ProductsList = () => {
     }
 
     return (
-        <React.Fragment>
-            <div className="mr-auto text-center py-4" ref={titleRef}>
-                <h2>Productos</h2>
-            </div>
+        <div className="flex flex-column align-items-center">
+            <h2 className="h2 pb-4 text-center">Productos</h2>
 
             {products.length === 0 && <EmptyList />}
 
@@ -227,8 +225,8 @@ const ProductsList = () => {
             )}
 
             <ProductsResume products={products} />
-        </React.Fragment>
+        </div>
     );
 };
 
-export default ProductsList;
+export default NegotiationProductsTab;

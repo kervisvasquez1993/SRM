@@ -6,15 +6,24 @@ import { Link, Redirect, useHistory, useParams } from "react-router-dom";
 import { getProductsFromNegotiation } from "../../store/actions/productActions";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import Error from "../Navigation/Error";
-import PurchaseOrderList from "../Purchases/PurchaseOrderList";
+import NegotiationPurchaseTab from "../Purchases/NegotiationPurchaseTab";
 import {
     getNegotiation,
     startNegotiation
 } from "../../store/actions/negotiationActions";
-import ProductsList from "../Products/ProductList";
+import NegotiationProductsTab from "../Products/NegotiationProductsTab";
 import { Helmet } from "react-helmet-async";
 import GenericFileList from "../Files/GenericFileList";
 import { apiURL } from "../App";
+import { GiCheckMark } from "react-icons/gi";
+import { CgClose } from "react-icons/cg";
+import StatusIcon from "../Widgets/StatusBar/StatusIcon";
+import StatusBar from "../Widgets/StatusBar";
+import Tabs from "../Widgets/Tabs";
+import TabButton from "../Widgets/TabButton";
+import TabContent from "../Widgets/TabContent";
+import TabsRow from "../Widgets/Tabs/TabsRow";
+import Tab from "../Widgets/Tabs/Tab";
 
 const ProviderPurchase = () => {
     const history = useHistory();
@@ -78,39 +87,98 @@ const ProviderPurchase = () => {
         dispatch(startNegotiation(negotiation));
     };
 
+    const percentageCompleted = 100;
+    const state = 0;
+
     return (
-        <div className="container-fluid fade-in">
+        <React.Fragment>
             <Helmet>
                 <title>{`${negotiation.proveedor.nombre} - ${process.env.MIX_APP_NAME}`}</title>
             </Helmet>
 
-            <div className="d-flex justify-content-end align-items-center">
-                <button
-                    className="btn btn-lg btn-success btn-round my-5"
-                    onClick={handleNegotiate}
-                    disabled={negotiation.iniciar_negociacion}
-                >
-                    Iniciar Negociación
-                </button>
+            <div className="d-flex flex-column align-items-center">
+                <h2 className="h2 pb-4">Archivos</h2>
+
+                <GenericFileList
+                    id="negotiation"
+                    getUrl={`${apiURL}/negociacion/${negotiation.id}/file`}
+                    uploadUrl={`${apiURL}/negociacion/${negotiation.id}/file`}
+                    deleteUrl={`${apiURL}/file`}
+                    hideDropzone={!isMine}
+                    allowEditing={isMine}
+                    hideTitle={true}
+                />
+
+                <hr className="my-2 w-100" />
+
+                <h2 className="h2 py-4">Proceso</h2>
+
+                <StatusBar>
+                    <StatusIcon index={0} state={state} description="Cargar" />
+
+                    <StatusIcon
+                        index={1}
+                        state={state}
+                        description="Confirmar"
+                    />
+
+                    <StatusIcon
+                        index={2}
+                        state={state}
+                        description="Selección de proveedor"
+                    />
+
+                    <StatusIcon
+                        index={3}
+                        state={state}
+                        description="Codigos de barra"
+                    />
+
+                    <StatusIcon
+                        index={4}
+                        state={state}
+                        description="Base gráfico"
+                    />
+
+                    <StatusIcon
+                        index={5}
+                        state={state}
+                        description="Orden de compra"
+                    />
+                </StatusBar>
+
+                <div className="py-5"></div>
+
+                <div className="w-100">
+                    <Tabs defaultTab="0" className="flex-grow-1">
+                        <TabsRow>
+                            <Tab name="0">Cargar Productos</Tab>
+
+                            <Tab name="1">Confirmar Productos</Tab>
+
+                            <Tab name="2">Selección de proveedor</Tab>
+
+                            <Tab name="3">Codigos de barra</Tab>
+
+                            <Tab name="4">Base gráfico</Tab>
+
+                            <Tab name="5">Orden de compra</Tab>
+                        </TabsRow>
+
+                        <TabContent name="0">
+                            <NegotiationProductsTab />
+                        </TabContent>
+                        <TabContent name="1">Hola</TabContent>
+                        <TabContent name="2">Hola</TabContent>
+                        <TabContent name="3">Hola</TabContent>
+                        <TabContent name="4">Hola</TabContent>
+                        <TabContent name="5">
+                            <NegotiationPurchaseTab />
+                        </TabContent>
+                    </Tabs>
+                </div>
             </div>
-
-            <div className="mr-auto text-center py-4">
-                <h2 className="h2">Archivos</h2>
-            </div>
-
-            <GenericFileList
-                id="negotiation"
-                getUrl={`${apiURL}/negociacion/${negotiation.id}/file`}
-                uploadUrl={`${apiURL}/negociacion/${negotiation.id}/file`}
-                deleteUrl={`${apiURL}/file`}
-                hideDropzone={!isMine}
-                allowEditing={isMine}
-                hideTitle={true}
-            />
-
-            {!areFilesLoading && <ProductsList />}
-            {!areProductsLoading && <PurchaseOrderList />}
-        </div>
+        </React.Fragment>
     );
 };
 
