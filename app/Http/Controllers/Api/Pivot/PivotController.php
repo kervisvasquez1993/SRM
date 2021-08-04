@@ -98,6 +98,8 @@ class PivotController extends ApiController
     {
         // Actualizar el valor del codigo PO (compra_po)
         $pivot_id->update($request->all());
+        
+
         return $this->showOneResource(new PivotTareaProveederResource($pivot_id));
     }
 
