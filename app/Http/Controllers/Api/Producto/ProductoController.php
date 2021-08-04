@@ -99,7 +99,7 @@ class ProductoController extends ApiController
                 foreach ($hoja as $row) {
                     $product = [
                         /* formulas */
-                        $total_ctn = /* $row[9] / $row[14] */ 0,
+                        $total_ctn =  ( $row[9] == null && $row[14] == null ) ? 2 : $row[9] / $row[14],
                         $total_cbm =  $row[18] * $total_ctn,
                         $total_v_w = $total_ctn * $row[19],
                         $total_g_w = $total_ctn * $row[20],
@@ -142,7 +142,8 @@ class ProductoController extends ApiController
                     ];
 
                     $validator = Validator::make($product, [
-                        'product_name_supplier' => 'required'
+                        'product_name_supplier' => 'required',
+                        'product_code_supplier' => 'required'
                     ]);
 
                     $productosAgregados->add($product);
