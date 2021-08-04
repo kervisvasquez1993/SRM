@@ -77,6 +77,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/negociacion/{pivot_tarea_proveedor}/productos', 'Api\Producto\ProductoController@index');
     /* ruta para importar productos */
     Route::post('/negociacion/{pivot_tarea_proveeder_id}/importar-producto', 'Api\Producto\ProductoController@importProduct');
+    /* exportar productos */
+    Route::get('/export/{producto}', 'Api\Producto\ProductoController@exportProduct');
     /* fin importan producto */
     Route::post('/negociacion/{pivot_tarea_proveedor}/productos', 'Api\Producto\ProductoController@store');
     Route::put('/productos/{producto}', 'Api\Producto\ProductoController@update');
@@ -282,5 +284,7 @@ Route::middleware('auth:api')->group(function () {
 
    
 });
+
+
 
 Route::get('/export/{producto}', 'Api\Producto\ProductoController@exportProduct');

@@ -194,9 +194,10 @@ class ProductoController extends ApiController
     }
     
 
-    public function exportProduct() 
+    public function exportProduct($producto) 
     {
-        return Excel::download(new ProductosExport, 'plantilla.xlsx');
+
+        return Excel::download(new ProductosExport($producto), 'plantilla.xlsx');
     }
 
 }

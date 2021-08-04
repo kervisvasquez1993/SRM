@@ -9,14 +9,12 @@ use Maatwebsite\Excel\Events\BeforeExport;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 
-class ProductosExport implements WithEvents, FromCollection
+class ProductosExport implements WithEvents
 {
-   public function collection()
-   {
-
-      return Producto::all();
-   }
-
+   public function __construct($producto)
+    {
+        $this->producto = $producto; // errro en en linea
+    }
    public function registerEvents(): array
    {
       return [
@@ -27,7 +25,7 @@ class ProductosExport implements WithEvents, FromCollection
 
             $event->writer->getSheetByIndex(0);
 
-            $productos = Producto::all();
+            $productos = Producto::where('pivot_tarea_proveeder_id', $this->producto)->get();
             $indice = 4;
             $numero = 1;
             foreach ($productos as $producto) {
@@ -54,7 +52,7 @@ class ProductosExport implements WithEvents, FromCollection
                   'S' => $producto->cbm,
                   'T' => $producto->n_w_ctn,
                   'U' => $producto->g_w_ctn,
-                  'V' => $producto->total_ctn,
+                  /* 'V' => $producto->total_ctn, */
                   'W' => $producto->corregido_total_pcs,
                   'X' => $producto->total_cbm,
                   'Y' => $producto->total_n_w,
