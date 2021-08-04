@@ -98,6 +98,11 @@ class ProductoController extends ApiController
             foreach ($excel as $hoja) {
                 foreach ($hoja as $row) {
                     $product = [
+                        /* formulas */
+                        $total_ctn =  ( $row[9] == null && $row[14] == null ) ? 0 : $row[9] / $row[14],
+                        $total_cbm =  $row[18] * $total_ctn,
+                        $total_v_w = $total_ctn * $row[19],
+                        $total_g_w = $total_ctn * $row[20],
                         'pivot_tarea_proveeder_id' => $pivot_tarea_proveeder_id->id,
                         'hs_code' => $row[1],
                         'product_code_supplier' => $row[2],
@@ -119,11 +124,11 @@ class ProductoController extends ApiController
                         'cbm' => $row[18],
                         'n_w_ctn' => $row[19],
                         'g_w_ctn' => $row[20],
-                        'total_ctn' => $row[21],
+                        'total_ctn' => $total_ctn,
                         'corregido_total_pcs' => $row[22],
-                        'total_cbm' => $row[23],
-                        'total_n_w' => $row[24],
-                        'total_g_w' => $row[25],
+                        'total_cbm' => $total_cbm,
+                        'total_n_w' => $total_v_w,
+                        'total_g_w' => $total_g_w,
                         'linea' => $row[26],
                         'categoria' => $row[27],
                         'sub_categoria' => $row[28],
@@ -137,7 +142,8 @@ class ProductoController extends ApiController
                     ];
 
                     $validator = Validator::make($product, [
-                        'product_name_supplier' => 'required'
+                        'product_name_supplier' => 'required',
+                        'product_code_supplier' => 'required'
                     ]);
 
                     $productosAgregados->add($product);
@@ -194,9 +200,10 @@ class ProductoController extends ApiController
     }
     
 
-    public function exportProduct() 
+    public function exportProduct($producto) 
     {
-        return Excel::download(new ProductosExport, 'plantilla.xlsx');
+
+        return Excel::download(new ProductosExport($producto), 'plantilla.xlsx');
     }
 
 }

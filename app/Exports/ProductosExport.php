@@ -8,15 +8,14 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\BeforeExport;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ToCollection;
+use Maatwebsite\Excel\Concerns\WithPreCalculateFormulas;
 
-class ProductosExport implements WithEvents, FromCollection
+class ProductosExport implements WithEvents, WithPreCalculateFormulas
 {
-   public function collection()
+   public function __construct($producto)
    {
-
-      return Producto::all();
+      $this->producto = $producto; // errro en en linea
    }
-
    public function registerEvents(): array
    {
       return [
@@ -25,14 +24,19 @@ class ProductosExport implements WithEvents, FromCollection
 
             error_log("hola desde ejecuacion");
 
-            $event->writer->getSheetByIndex(0);
+            $sheet = $event->writer->getSheetByIndex(0);
 
-            $productos = Producto::all();
+            $productos = Producto::where('pivot_tarea_proveeder_id', $this->producto)->orderBy("id", "ASC")->get();
+            $cantidad_productos = $productos->count();
+
+            if ($cantidad_productos > 2) {
+               $cantidadAgregar = $cantidad_productos - 2;
+               $sheet->insertNewRowBefore(5, $cantidadAgregar);
+            }
+
             $indice = 4;
             $numero = 1;
             foreach ($productos as $producto) {
-               error_log("B$indice");
-
                $valores = [
                   'B' => $producto->hs_code,
                   'C' => $producto->product_code_supplier,
@@ -54,11 +58,10 @@ class ProductosExport implements WithEvents, FromCollection
                   'S' => $producto->cbm,
                   'T' => $producto->n_w_ctn,
                   'U' => $producto->g_w_ctn,
-                  'V' => $producto->total_ctn,
                   'W' => $producto->corregido_total_pcs,
-                  'X' => $producto->total_cbm,
+                  /* 'X' => $producto->total_cbm,
                   'Y' => $producto->total_n_w,
-                  'Z' => $producto->total_g_w,
+                  'Z' => $producto->total_g_w, */
                   'AA' => $producto->linea,
                   'AB' => $producto->categoria,
                   'AC' => $producto->sub_categoria,
@@ -71,11 +74,20 @@ class ProductosExport implements WithEvents, FromCollection
                   'AJ' => $producto->codigo_interno_asignado,
                ];
 
-               $event->getWriter()->getSheetByIndex(0)->setCellValue("A$indice", $numero);
+
+
+               $sheet->setCellValue("A$indice", $numero);
 
                foreach ($valores as $letra => $valor) {
-                  $event->getWriter()->getSheetByIndex(0)->setCellValue("$letra$indice", $valor);
+                  error_log($letra . '4');
+                  //$sheet->duplicateStyle($sheet->getStyle($letra . '4'), "$letra$indice");
+                  $sheet->setCellValue("$letra$indice", $valor);
                }
+
+               $sheet->setCellValue('V'.$indice , "=IFERROR(J$indice/O$indice,0)");
+               $sheet->setCellValue('X'.$indice , "=S$indice*V$indice");
+               $sheet->setCellValue('Y'.$indice , "=V$indice*T$indice");
+               $sheet->setCellValue('Z'.$indice , "=V$indice*U$indice");
 
                $indice++;
                $numero++;
