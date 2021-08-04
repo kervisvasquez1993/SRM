@@ -99,7 +99,7 @@ class ProductoController extends ApiController
                 foreach ($hoja as $row) {
                     $product = [
                         /* formulas */
-                        $total_ctn =  ( $row[9] == null && $row[14] == null ) ? 2 : $row[9] / $row[14],
+                        $total_ctn =  ( $row[9] == null && $row[14] == null ) ? 0 : $row[9] / $row[14],
                         $total_cbm =  $row[18] * $total_ctn,
                         $total_v_w = $total_ctn * $row[19],
                         $total_g_w = $total_ctn * $row[20],

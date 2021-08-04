@@ -8,8 +8,9 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\BeforeExport;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ToCollection;
+use Maatwebsite\Excel\Concerns\WithPreCalculateFormulas;
 
-class ProductosExport implements WithEvents
+class ProductosExport implements WithEvents, WithPreCalculateFormulas 
 {
    public function __construct($producto)
     {
@@ -52,11 +53,10 @@ class ProductosExport implements WithEvents
                   'S' => $producto->cbm,
                   'T' => $producto->n_w_ctn,
                   'U' => $producto->g_w_ctn,
-                  /* 'V' => $producto->total_ctn, */
                   'W' => $producto->corregido_total_pcs,
-                  'X' => $producto->total_cbm,
+                  /* 'X' => $producto->total_cbm,
                   'Y' => $producto->total_n_w,
-                  'Z' => $producto->total_g_w,
+                  'Z' => $producto->total_g_w, */
                   'AA' => $producto->linea,
                   'AB' => $producto->categoria,
                   'AC' => $producto->sub_categoria,

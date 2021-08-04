@@ -287,4 +287,4 @@ Route::middleware('auth:api')->group(function () {
 
 
 
-Route::get('/export/{producto}', 'Api\Producto\ProductoController@exportProduct');
+Route::get('negociacion/{producto}/exportar_productos', 'Api\Producto\ProductoController@exportProduct');
