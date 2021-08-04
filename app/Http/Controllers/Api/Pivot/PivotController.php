@@ -29,7 +29,7 @@ class PivotController extends ApiController
 {
     public function index()
     {
-        $pivotPrincipal = PivotTareaProveeder::where('iniciar_negociacion', true);
+        $pivotPrincipal = PivotTareaProveeder::where('productos_cargados', true);
 
         if (!(auth()->user()->rol == 'coordinador' || Auth::user()->rol == 'observador')) {
             $pivotPrincipal = $pivotPrincipal->whereHas('tarea', function (Builder $query) {
@@ -68,7 +68,7 @@ class PivotController extends ApiController
         $pivot = new PivotTareaProveeder();
         $pivot->tarea_id = $tarea->id;
         $pivot->proveedor_id = $proveedor->id;
-        $pivot->iniciar_negociacion = false;
+        $pivot->productos_cargados = false;
         $pivot->iniciar_arte = false;
         $pivot->iniciar_produccion = false;
         $pivot->save();
@@ -96,8 +96,31 @@ class PivotController extends ApiController
 
     public function update(Request $request, PivotTareaProveeder $pivot_id)
     {
+        
+
+        $pivot_id->fill($request->all());
+
+        if($pivot_id->isDirty('productos_cargados'))
+        {
+           $login_user    = auth()->user()->name;
+           $coordinador = User::find($pivot_id->tarea->sender_id);
+           $presidentes = User::where('isPresidente', true)->get();
+           $comprador = $pivot_id->tarea->usuario;
+           $userAll = $presidentes->push($coordinador, $comprador)->unique('id');
+           $proveedorName = Proveedor::findOrFail($pivot_id->proveedor_id)->nombre;
+           $tareaNombre   = Tarea::findOrFail($pivot_id->tarea_id)->nombre;
+           $text = "El usuario: '$login_user' cargo via excel informacion de producto a la empresa '$proveedorName' asociada a la tarea '$tareaNombre'";
+           $link = "/negotiation/$pivot_id->id#products";
+           $type = "cargar_productos";
+           Notification::send($userAll, new GeneralNotification($text, $link, $type)); 
+           $title = "Importacion de Productos";
+           $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title));   
+        }
         // Actualizar el valor del codigo PO (compra_po)
-        $pivot_id->update($request->all());
+        return $pivot_id;
+        $pivot_id->save();
+        
+
         return $this->showOneResource(new PivotTareaProveederResource($pivot_id));
     }
 

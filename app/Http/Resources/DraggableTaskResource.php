@@ -41,7 +41,7 @@ class DraggableTaskResource extends JsonResource
             'cantidad_proveedores' => $tarea->proveedores->count(),
             'descripcion' => $tarea->descripcion,
 
-            'tiene_negociaciones' => !$tarea->pivotTareaProveedor->where('iniciar_negociacion', true)->isEmpty(),
+            'tiene_negociaciones' => !$tarea->pivotTareaProveedor->where('productos_cargados', true)->isEmpty(),
 
             'arte_iniciada' => $arte_iniciada,
             'produccion_iniciada' =>  $produccion_iniciada,

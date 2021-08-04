@@ -18,7 +18,7 @@ class PivotTareaProveederResource extends JsonResource
             'id'                  => $this->id,
             'tarea_id'            => $this->tarea_id,
             'proveedor_id'        => $this->proveedor_id,
-            'iniciar_negociacion' => $this->iniciar_negociacion,
+            'productos_cargados' => $this->productos_cargados,
             'iniciar_arte'        => $this->iniciar_arte,
             'iniciar_produccion'  => $this->iniciar_produccion,
             'proveedor'           => $this->proveedor,

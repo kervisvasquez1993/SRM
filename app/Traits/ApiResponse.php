@@ -32,13 +32,13 @@ trait ApiResponse
 
     protected function showAll(Collection $collection, $code = 200)
     {
-        
-        return $this->successResponse(['data' => $collection], $code);
+         
+        return $this->successResponse(['data' => $collection->sortBy('id')->values()->all()], $code);
     }
     protected function showAllResources(ResourceCollection $collection, $code = 200)
     {
-        $collection = $this->listarId($collection);
-        return $this->successResponse(['data' => $collection], $code);
+        
+        return $this->successResponse(['data' => $collection->sortBy('id')->values()->all()], $code);
     }
     protected function showOne(Model $instace, $code = 200)
     {
@@ -66,10 +66,10 @@ trait ApiResponse
         return $paginated;
     }
 
-    protected function listarId(ResourceCollection $collection)
+   /*  protected function listarId(ResourceCollection $collection)
     {
         return $collection->sortBy('id')->values()->all();
-    }
+    } */
 
     protected function sendNotifications($usuarios, $notificacion)
     {

@@ -16,6 +16,9 @@ class PivotTareaProveeder extends Model
     
     protected $fillable = [
         'compra_po',
+        'productos_cargados',
+        'iniciar_arte',
+        'iniciar_negociacion',
         'payment_terms',
         'hs_code',
         'incoterms',
