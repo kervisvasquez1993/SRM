@@ -125,7 +125,7 @@ class ProveedorController extends ApiController
         $pivotTareaProveedor = new PivotTareaProveeder();
         $pivotTareaProveedor->tarea_id = $tarea_id;
         $pivotTareaProveedor->proveedor_id = $proveedor_id;
-        $pivotTareaProveedor->iniciar_negociacion = false;
+        $pivotTareaProveedor->productos_cargados = false;
         $pivotTareaProveedor->iniciar_arte = false;
         $pivotTareaProveedor->iniciar_produccion = false;
         $pivotTareaProveedor->save();
@@ -182,7 +182,7 @@ class ProveedorController extends ApiController
         
         $pivote = PivotTareaProveeder::where('tarea_id', $tarea_id->id)->where('proveedor_id', $proveedor_id->id)->first();
         // Iniciar negociacion
-        $pivote->iniciar_negociacion = 1;
+        $pivote->productos_cargados = 1;
         $pivote->save();
         $link = "/negotiations?id=$pivote->id";
         /* $recipient =  User::find($tarea->sender_id); */
@@ -191,7 +191,7 @@ class ProveedorController extends ApiController
         $userAll = $presidentes->push($coordinador)->unique('id'); 
         $user_login = auth()->user()->name; 
         $text = "El usuario '$user_login' inicio un proceso de negociación con la empresa: '$proveedor_id->nombre' asociada a la tarea: '$tarea_id->nombre'";
-        $type = "iniciar_negociacion";
+        $type = "productos_cargados";
         Notification::send($userAll, new GeneralNotification($text, $link, $type));
         return $this->successMensaje("La negociacion se inicio exitosamente", Response::HTTP_ACCEPTED);
     }

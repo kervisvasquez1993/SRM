@@ -29,7 +29,7 @@ class PivotController extends ApiController
 {
     public function index()
     {
-        $pivotPrincipal = PivotTareaProveeder::where('iniciar_negociacion', true);
+        $pivotPrincipal = PivotTareaProveeder::where('productos_cargados', true);
 
         if (!(auth()->user()->rol == 'coordinador' || Auth::user()->rol == 'observador')) {
             $pivotPrincipal = $pivotPrincipal->whereHas('tarea', function (Builder $query) {
@@ -68,7 +68,7 @@ class PivotController extends ApiController
         $pivot = new PivotTareaProveeder();
         $pivot->tarea_id = $tarea->id;
         $pivot->proveedor_id = $proveedor->id;
-        $pivot->iniciar_negociacion = false;
+        $pivot->productos_cargados = false;
         $pivot->iniciar_arte = false;
         $pivot->iniciar_produccion = false;
         $pivot->save();
