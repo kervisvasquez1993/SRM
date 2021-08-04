@@ -31,6 +31,8 @@ const NegotiationProductsTab = () => {
 
     const titleRef = useSimpleScrollToId("#products");
 
+    const allowEditing = false;
+
     useEffect(() => {
         dispatch(getProductsFromNegotiation(id));
     }, []);
@@ -77,80 +79,132 @@ const NegotiationProductsTab = () => {
 
             {products.length > 0 && (
                 <div className="table-responsive table-text">
-                    <table className="table table-sm table-hover table-bordered fade-in">
+                    <table className="table table-sm table-hover table-bordered fade-in py-0 text-center">
                         <thead className="thead-dark">
                             <tr>
-                                <th scope="col">Nombre Original</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Marca</th>
-                                <th scope="col">Código</th>
-                                <th scope="col">Código HS</th>
-                                <th scope="col">Descripción</th>
-                                <th scope="col">Vida útil (meses)</th>
-                                <th scope="col">Total de piezas</th>
-                                <th scope="col">Piezas empaque unitario</th>
-                                <th scope="col">Piezas empaque interno</th>
-                                <th scope="col">Piezas carton (cm)</th>
-                                <th scope="col">Largo Carton (cm)</th>
-                                <th scope="col">Alto Carton (cm)</th>
-                                <th scope="col">Ancho Carton (cm)</th>
+                                <th scope="col" colSpan={2}></th>
+
+                                <th scope="col" colSpan={2}>
+                                    SUPPLIER
+                                </th>
+
+                                <th scope="col" colSpan={3}>
+                                    CUSTOMER
+                                </th>
+
+                                <th scope="col" colSpan={5}></th>
+
+                                <th scope="col" colSpan={3}>
+                                    PACKING QUANTITY
+                                </th>
+
+                                <th scope="col" colSpan={11}></th>
+                            </tr>
+                            <tr>
+                                <th scope="col" rowSpan={2}>
+                                    HS CODE
+                                </th>
+                                <th scope="col" rowSpan={2}>
+                                    PRODUCT CODE
+                                </th>
+                                <th scope="col" rowSpan={2}>
+                                    PRODUCT NAME
+                                </th>
+                                <th scope="col" rowSpan={2}>
+                                    BRAND
+                                </th>
+                                <th scope="col" rowSpan={2}>
+                                    SUB-BRAND
+                                </th>
+                                <th scope="col" rowSpan={2}>
+                                    PRODUCT NAME
+                                </th>
+                                <th scope="col" rowSpan={2}>
+                                    DESCRIPTION
+                                </th>
+                                <th scope="col" rowSpan={2}>
+                                    SHELF LIFE (Month*)
+                                </th>
+                                <th scope="col" rowSpan={2}>
+                                    TOTAL PCS
+                                </th>
+                                <th scope="col" rowSpan={2}>
+                                    Unit Price
+                                </th>
+                                <th scope="col" rowSpan={2}>
+                                    Total USD
+                                </th>
+                                <th scope="col">UNIT</th>
+                                <th scope="col">INNER</th>
+                                <th scope="col">OUTER</th>
+                                <th scope="col" colSpan={4}>
+                                    CTN PACKING SIZE
+                                </th>
+                                <th scope="col" rowSpan={2}>
+                                    N.W. (CTN) kgs
+                                </th>
+                                <th scope="col" rowSpan={2}>
+                                    G.W. (CTN) kgs
+                                </th>
+                                <th scope="col" rowSpan={2}>
+                                    TOTAL CTN
+                                </th>
+                                <th scope="col" rowSpan={2}>
+                                    CORREGIR TOTAL PCS
+                                </th>
+                                <th scope="col" rowSpan={2}>
+                                    TOTAL CBM
+                                </th>
+                                <th scope="col" rowSpan={2}>
+                                    TOTAL N.W. kgs
+                                </th>
+                                <th scope="col" rowSpan={2}>
+                                    TOTAL G.W. Kgs
+                                </th>
+                            </tr>
+                            <tr>
+                                <th scope="col">PCS/UNIT</th>
+                                <th scope="col">PCS/INNER BOX</th>
+                                <th scope="col">PCS/CTN</th>
+                                <th scope="col">L(CM)</th>
+                                <th scope="col">W(CM)</th>
+                                <th scope="col">H(CM)</th>
                                 <th scope="col">CBM</th>
-                                <th scope="col">Peso Neto (kg)</th>
-                                <th scope="col">Peso Bruto (kg)</th>
-                                <th scope="col">Total CBM</th>
-                                <th scope="col">Total Peso Neto (kg)</th>
-                                <th scope="col">Total Peso Bruto (kg)</th>
-                                <th scope="col">Total CTN</th>
-                                <th scope="col">Corregido Total PCS</th>
                             </tr>
                         </thead>
                         <tbody>
                             {products.map(product => {
+                                console.log(product);
                                 return (
                                     <tr key={product.id} className="fade-in">
-                                        <th scope="row">
-                                            {product.original_product_name}
-                                        </th>
-                                        <td>{product.product_name}</td>
-                                        <td>{product.brand}</td>
-                                        <td>{product.product_code}</td>
-                                        <td>{product.hs_code}</td>
+                                        <th scope="row">{product.hs_code}</th>
+                                        <td>{product.product_code_supplier}</td>
+                                        <td>{product.product_name_supplier}</td>
+                                        <td>{product.brand_customer}</td>
+                                        <td>{product.sub_brand_customer}</td>
+                                        <td>{product.product_name_customer}</td>
                                         <td>{product.description}</td>
                                         <td>{product.shelf_life}</td>
                                         <td>{product.total_pcs}</td>
-                                        <td>{product.pcs_unit}</td>
-                                        <td>{product.pcs_inner_box}</td>
-                                        <td>{product.pcs_ctn}</td>
+                                        <td>{product.unit_price}</td>
+                                        <td>{product.total_usd}</td>
+                                        <td>{product.pcs_unit_packing}</td>
+                                        <td>{product.pcs_inner_box_paking}</td>
+                                        <td>{product.pcs_ctn_paking}</td>
                                         <td>{product.ctn_packing_size_l}</td>
-                                        <td>{product.ctn_packing_size_h}</td>
                                         <td>{product.ctn_packing_size_w}</td>
+                                        <td>{product.ctn_packing_size_h}</td>
                                         <td>{product.cbm}</td>
                                         <td>{product.n_w_ctn}</td>
                                         <td>{product.g_w_ctn}</td>
-                                        <td>
-                                            {roundMoneyAmount(
-                                                product.total_cbm
-                                            )}
-                                        </td>
-                                        <td>
-                                            {roundMoneyAmount(
-                                                product.total_n_w
-                                            )}
-                                        </td>
-                                        <td>
-                                            {roundMoneyAmount(
-                                                product.total_g_w
-                                            )}
-                                        </td>
-                                        <td>
-                                            {roundMoneyAmount(
-                                                product.total_ctn
-                                            )}
-                                        </td>
+                                        <td>{product.total_ctn}</td>
+                                        <td>{product.corregido_total_pcs}</td>
+                                        <td>{product.total_cbm}</td>
+                                        <td>{product.total_n_w}</td>
                                         <td className="text-right">
                                             <div className="d-inline-flex align-items-center">
-                                                {product.corregido_total_pcs}
-                                                {isMine && (
+                                                {product.total_g_w}
+                                                {isMine && allowEditing && (
                                                     <div className="d-inline-flex justify-content-end flex-grow-1">
                                                         <button
                                                             className="btn btn-success btn-circle ml-3"
