@@ -16,6 +16,7 @@ import TabContent from "../Widgets/TabContent";
 import TabsRow from "../Widgets/Tabs/TabsRow";
 import Tab from "../Widgets/Tabs/Tab";
 import CheckIcon from "../Widgets/CheckIcon";
+import ProductsConfirmationTab from "../Products/ProductsConfirmationTab";
 
 const ProviderPurchase = () => {
     const history = useHistory();
@@ -70,7 +71,8 @@ const ProviderPurchase = () => {
     const state = 0;
     const defaultTab =
         (!negotiation.productos_cargados && "0") ||
-        (negotiation.productos_cargados && "1");
+        (negotiation.productos_cargados && "1") ||
+        (negotiation.confirmacion_productos && "2");
     const percentageCompleted = 100;
 
     return (
@@ -148,7 +150,7 @@ const ProviderPurchase = () => {
                             <Tab name="1">
                                 <div className="d-flex align-items-center">
                                     <CheckIcon
-                                        checked={state > 1}
+                                        checked={negotiation.confirmacion_productos}
                                         className="icon-medium"
                                     />
                                     Confirmar Productos
@@ -199,7 +201,9 @@ const ProviderPurchase = () => {
                         <TabContent name="0">
                             <NegotiationProductsTab />
                         </TabContent>
-                        <TabContent name="1">Hola</TabContent>
+                        <TabContent name="1">
+                            <ProductsConfirmationTab />
+                        </TabContent>
                         <TabContent name="2">Hola</TabContent>
                         <TabContent name="3">Hola</TabContent>
                         <TabContent name="4">Hola</TabContent>

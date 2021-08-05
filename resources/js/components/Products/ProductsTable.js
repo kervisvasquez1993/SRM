@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../store/actions/modalActions";
-import { deleteProduct, getProductsFromNegotiation } from "../../store/actions/productActions";
+import {
+    deleteProduct,
+    getProductsFromNegotiation
+} from "../../store/actions/productActions";
 import { getSum, roundMoneyAmount } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
 import LoadingScreen from "../Navigation/LoadingScreen";
@@ -10,9 +13,9 @@ import ProductsResume from "../Widgets/ProductsResume";
 import CreateProductModal from "./CreateProductModal";
 import ProductFormModal from "./ProductFormModal";
 
-const ProductsTable = () => {
+const ProductsTable = ({ allowEditing = false, showCreateButton = false }) => {
     const dispatch = useDispatch();
-    
+
     // @ts-ignore
     const user = useSelector(state => state.auth.user);
     // @ts-ignore
@@ -23,9 +26,6 @@ const ProductsTable = () => {
     const negotiation = useSelector(state => state.negotiation.negotiation);
 
     const isMine = user.id == negotiation.usuario.id;
-    const showCreateButton = !negotiation.productos_cargados;
-
-    const allowEditing = false;
 
     useEffect(() => {
         dispatch(getProductsFromNegotiation(negotiation.id));
@@ -60,16 +60,22 @@ const ProductsTable = () => {
     };
 
     const handleDelete = product => {
-        dispatch(deleteProduct(product));
+        if (confirm("¿Está seguro?")) {
+            dispatch(deleteProduct(product));
+        }
     };
 
     return (
         <React.Fragment>
             <h2 className="h2 pb-4 text-center">Productos</h2>
 
-            {products.length === 0 && <EmptyList message="Aún no se ha cargado ningún producto." />}
+            {products.length === 0 && (
+                <EmptyList message="Aún no se ha cargado ningún producto." />
+            )}
 
-            {isMine && showCreateButton && <LargeCreateButton onClick={handleCreate} />}
+            {isMine && showCreateButton && (
+                <LargeCreateButton onClick={handleCreate} />
+            )}
 
             {products.length > 0 && (
                 <div className="table-responsive table-text mb-5">
@@ -226,7 +232,7 @@ const ProductsTable = () => {
                                                 {isMine && allowEditing && (
                                                     <div className="d-inline-flex justify-content-end flex-grow-1">
                                                         <button
-                                                            className="btn btn-success btn-circle ml-3"
+                                                            className="btn btn-success btn-circle ml-3 btn-sm"
                                                             type="button"
                                                             onClick={() =>
                                                                 handleEdit(
@@ -239,7 +245,7 @@ const ProductsTable = () => {
                                                             </span>
                                                         </button>
                                                         <button
-                                                            className="btn btn-danger btn-circle"
+                                                            className="btn btn-danger btn-circle btn-sm"
                                                             type="button"
                                                             onClick={() =>
                                                                 handleDelete(
@@ -247,7 +253,7 @@ const ProductsTable = () => {
                                                                 )
                                                             }
                                                         >
-                                                            <span className="material-icons">
+                                                            <span className="material-icons icon-normal">
                                                                 clear
                                                             </span>
                                                         </button>

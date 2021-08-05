@@ -12,7 +12,7 @@ export function getNegotiations() {
         dispatch({ type: "GET_NEGOTIATIONS_REQUEST" });
 
         try {
-            const response = await axios.get(`${apiURL}/pivot`);
+            const response = await axios.get(`${apiURL}/negociacion`);
 
             dispatch({
                 type: "GET_NEGOTIATIONS_SUCCESS",
@@ -31,7 +31,7 @@ export function getNegotiation(id) {
         dispatch({ type: "GET_NEGOTIATION_REQUEST" });
 
         try {
-            const response = await axios.get(`${apiURL}/pivot/${id}`);
+            const response = await axios.get(`${apiURL}/negociacion/${id}`);
 
             dispatch({
                 type: "GET_NEGOTIATION_SUCCESS",
@@ -301,7 +301,7 @@ export function finishProductsStage(negotiation) {
 
         try {
             const response = await axios.put(
-                `${apiURL}/pivot/${negotiation.id}`,
+                `${apiURL}/negociacion/${negotiation.id}`,
                 { productos_cargados: true }
             );
 
@@ -314,6 +314,30 @@ export function finishProductsStage(negotiation) {
         } catch (e) {
             dispatch({
                 type: "FINISH_PRODUCTS_STAGE_FAILURE"
+            });
+        }
+    };
+}
+
+export function finishProductsConfirmationStage(negotiation) {
+    return async (dispatch, getState) => {
+        dispatch({ type: "FINISH_PRODUCTS_CONFIRMATION_STAGE_REQUEST" });
+
+        try {
+            const response = await axios.put(
+                `${apiURL}/negociacion/${negotiation.id}`,
+                { productos_confirmados: true }
+            );
+
+            dispatch({
+                type: "FINISH_PRODUCTS_CONFIRMATION_STAGE_SUCCESS",
+                payload: response.data.data
+            });
+
+            toast.success("✔️ Los productos fueron cargados");
+        } catch (e) {
+            dispatch({
+                type: "FINISH_PRODUCTS_CONFIRMATION_STAGE_FAILURE"
             });
         }
     };

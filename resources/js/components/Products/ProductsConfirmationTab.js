@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { FaCheck } from "react-icons/fa";
 import ProductsTable from "./ProductsTable";
-import { finishProductsStage } from "../../store/actions/negotiationActions";
+import { finishProductsConfirmationStage } from "../../store/actions/negotiationActions";
 
-const NegotiationProductsTab = () => {
+const ProductsConfirmationTab = () => {
     const dispatch = useDispatch();
     // @ts-ignore
     const { id } = useParams();
@@ -21,7 +21,7 @@ const NegotiationProductsTab = () => {
 
     const handleContinue = () => {
         if (confirm("¿Está seguro?")) {
-            dispatch(finishProductsStage(negotiation));
+            dispatch(finishProductsConfirmationStage(negotiation));
         }
     };
 
@@ -33,18 +33,27 @@ const NegotiationProductsTab = () => {
         );
     }
 
+    if (!negotiation.productos_cargados) {
+        return (
+            <p className="text-center text-danger">
+                Complete la etapa anterior para entrar a esta
+            </p>
+        );
+    }
+
     return (
         <div className="d-flex flex-column align-items-center">
             <ProductsTable
                 showCreateButton={
                     user.id == negotiation.usuario.id &&
-                    !negotiation.productos_cargados
+                    !negotiation.confirmacion_productos
                 }
+                allowEditing={true}
             />
 
             <hr className="w-100" />
 
-            {negotiation.productos_cargados ? (
+            {negotiation.confirmacion_productos ? (
                 <p>
                     <FaCheck className="mr-2 icon-normal" /> Etapa completada
                 </p>
@@ -52,7 +61,12 @@ const NegotiationProductsTab = () => {
                 <React.Fragment>
                     <p>
                         Utilize el siguiente botón para pasar a la siguiente
-                        etapa:
+                        etapa:{" "}
+                        {!canContinue && (
+                            <span className="text-danger">
+                                (Necesita cargar productos primero)
+                            </span>
+                        )}
                     </p>
 
                     <button
@@ -69,4 +83,4 @@ const NegotiationProductsTab = () => {
     );
 };
 
-export default NegotiationProductsTab;
+export default ProductsConfirmationTab;
