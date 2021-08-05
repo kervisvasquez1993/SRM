@@ -2,12 +2,14 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { FaCheck } from "react-icons/fa";
-import ProductsTable from "./ProductsTable";
-import { finishProductsStage } from "../../store/actions/negotiationActions";
-import { onlyAssignedBuyer } from "../../appText";
-import OnlyBuyerAllowedMessage from "../Negotiation/Other/OnlyBuyerMessage";
+import { finishProductsConfirmationStage } from "../../../store/actions/negotiationActions";
+import ProductsTable from "../../Products/ProductsTable";
+import StageCompletedMessage from "./Other/StageCompletedMessage";
+import OnlyBuyersAllowedMessage from "./Other/OnlyBuyersAllowedMessage";
+import CompleteLastStageMessage from "./Other/CompleteLastStageMessage";
+import NextStageButton from "./Other/NextStageButton";
 
-const NegotiationProductsTab = () => {
+const ProductsConfirmationTab = () => {
     const dispatch = useDispatch();
     // @ts-ignore
     const { id } = useParams();
@@ -24,28 +26,31 @@ const NegotiationProductsTab = () => {
 
     const handleContinue = () => {
         if (confirm("¿Está seguro?")) {
-            dispatch(finishProductsStage(negotiation));
+            dispatch(finishProductsConfirmationStage(negotiation));
         }
     };
 
     if (user.rol === "logistica") {
-        return (
-            <p className="text-center text-danger">
-                Solo a los compradores les corresponde tener acceso a esta etapa
-            </p>
-        );
+        return <OnlyBuyersAllowedMessage />;
+    }
+
+    if (!negotiation.productos_cargados) {
+        return <CompleteLastStageMessage />;
     }
 
     return (
         <div className="d-flex flex-column align-items-center">
-            <ProductsTable showCreateButton={!negotiation.productos_cargados} />
+            <ProductsTable
+                showCreateButton={true}
+                allowEditing={true}
+                allowExcel={!negotiation.productos_confirmados}
+                canAddSingleProduct={true}
+            />
 
             <hr className="w-100" />
 
-            {negotiation.productos_cargados ? (
-                <p>
-                    <FaCheck className="mr-2 icon-normal" /> Etapa completada
-                </p>
+            {negotiation.productos_confirmados ? (
+                <StageCompletedMessage />
             ) : (
                 <React.Fragment>
                     {isMine ? (
@@ -60,17 +65,13 @@ const NegotiationProductsTab = () => {
                                 )}
                             </p>
 
-                            <button
-                                className="btn btn-info btn-lg"
+                            <NextStageButton
                                 disabled={!canContinue}
                                 onClick={handleContinue}
-                            >
-                                <FaCheck className="mr-2 icon-normal" />
-                                Completar
-                            </button>
+                            />
                         </React.Fragment>
                     ) : (
-                        <OnlyBuyerAllowedMessage />
+                        <OnlyBuyersAllowedMessage />
                     )}
                 </React.Fragment>
             )}
@@ -78,4 +79,4 @@ const NegotiationProductsTab = () => {
     );
 };
 
-export default NegotiationProductsTab;
+export default ProductsConfirmationTab;

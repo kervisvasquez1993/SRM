@@ -1,5 +1,5 @@
 import React from "react";
-import { AiOutlineSelect } from "react-icons/ai";
+import { MdTouchApp } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import {
     startArtWithNegotiation,
@@ -46,7 +46,7 @@ const NegotiationModal = ({ negotiation }) => {
             className="btn btn-info ml-4"
             onClick={handleSelectProvider}
         >
-            <AiOutlineSelect className="icon-normal mr-2" />
+            <MdTouchApp className="icon-normal mr-2" />
             Seleccionar esta empresa
         </button>
     );

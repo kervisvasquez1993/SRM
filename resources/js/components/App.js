@@ -17,7 +17,7 @@ import LoadingScreen from "./Navigation/LoadingScreen";
 import Navbar from "./Navigation/Navbar";
 import Sidebar from "./Navigation/Sidebar";
 import NegotiationList from "./Negotiation/NegotiationList";
-import ProviderPurchase from "./Negotiation/NegotiationDetails";
+import ProviderPurchase from "./Negotiation/Details/NegotiationDetails";
 import TaskDetails from "./Tasks/TaskDetails";
 import TaskList from "./Tasks/TaskList";
 import jwt_decode from "jwt-decode";

@@ -3,20 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 // @ts-ignore
 import { Redirect, useHistory, useParams } from "react-router-dom";
 // @ts-ignore
-import LoadingScreen from "../Navigation/LoadingScreen";
-import Error from "../Navigation/Error";
-import NegotiationPurchaseTab from "../Purchases/NegotiationPurchaseTab";
-import { getNegotiation } from "../../store/actions/negotiationActions";
-import NegotiationProductsTab from "../Products/NegotiationProductsTab";
+import LoadingScreen from "../../Navigation/LoadingScreen";
+import Error from "../../Navigation/Error";
+import NegotiationPurchaseTab from "../../Purchases/NegotiationPurchaseTab";
+import { getNegotiation } from "../../../store/actions/negotiationActions";
+import NegotiationProductsTab from "./NegotiationProductsTab";
 import { Helmet } from "react-helmet-async";
-import GenericFileList from "../Files/GenericFileList";
-import { apiURL } from "../App";
-import Tabs from "../Widgets/Tabs";
-import TabContent from "../Widgets/TabContent";
-import TabsRow from "../Widgets/Tabs/TabsRow";
-import Tab from "../Widgets/Tabs/Tab";
-import CheckIcon from "../Widgets/CheckIcon";
-import ProductsConfirmationTab from "../Products/ProductsConfirmationTab";
+import GenericFileList from "../../Files/GenericFileList";
+import { apiURL } from "../../App";
+import Tabs from "../../Widgets/Tabs";
+import TabContent from "../../Widgets/TabContent";
+import TabsRow from "../../Widgets/Tabs/TabsRow";
+import Tab from "../../Widgets/Tabs/Tab";
+import CheckIcon from "../../Widgets/CheckIcon";
+import ProductsConfirmationTab from "./ProductsConfirmationTab";
 
 const ProviderPurchase = () => {
     const history = useHistory();
