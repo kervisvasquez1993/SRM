@@ -19,6 +19,7 @@ class CreatePivotTareaProveedersTable extends Migration
             $table->foreignId('proveedor_id')->references('id')->on('proveedors')->onDelete('cascade');
             $table->boolean('productos_cargados')->default(false);
             $table->boolean('iniciar_arte')->default(false);
+            $table->boolean('seleccionado')->default(false);
             $table->boolean('iniciar_produccion')->default(false);
             $table->string('compra_po')->nullable()->default(null);
             $table->string('codigo_comprador')->nullable()->default(null);
