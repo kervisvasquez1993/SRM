@@ -297,8 +297,6 @@ export function deleteFile(id) {
 
 export function finishProductsStage(negotiation) {
     return async (dispatch, getState) => {
-        dispatch({ type: "FINISH_PRODUCTS_STAGE_REQUEST" });
-
         try {
             const response = await axios.put(
                 `${apiURL}/negociacion/${negotiation.id}`,
@@ -306,15 +304,13 @@ export function finishProductsStage(negotiation) {
             );
 
             dispatch({
-                type: "FINISH_PRODUCTS_STAGE_SUCCESS",
+                type: "UPDATE_NEGOTIATION_SUCCESS",
                 payload: response.data.data
             });
 
             toast.success("✔️ Los productos fueron cargados");
         } catch (e) {
-            dispatch({
-                type: "FINISH_PRODUCTS_STAGE_FAILURE"
-            });
+            console.log(e);
         }
     };
 }
@@ -330,7 +326,7 @@ export function finishProductsConfirmationStage(negotiation) {
             );
 
             dispatch({
-                type: "FINISH_PRODUCTS_CONFIRMATION_STAGE_SUCCESS",
+                type: "UPDATE_NEGOTIATION_SUCCESS",
                 payload: response.data.data
             });
 

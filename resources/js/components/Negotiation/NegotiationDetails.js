@@ -69,11 +69,10 @@ const ProviderPurchase = () => {
     };
 
     const state = 0;
-    const defaultTab =
+    let defaultTab =
         (!negotiation.productos_cargados && "0") ||
-        (negotiation.productos_cargados && "1") ||
-        (negotiation.confirmacion_productos && "2");
-    const percentageCompleted = 100;
+        (negotiation.productos_confirmados && "2") ||
+        (negotiation.productos_cargados && "1");
 
     return (
         <React.Fragment>
@@ -150,7 +149,9 @@ const ProviderPurchase = () => {
                             <Tab name="1">
                                 <div className="d-flex align-items-center">
                                     <CheckIcon
-                                        checked={negotiation.confirmacion_productos}
+                                        checked={
+                                            negotiation.productos_confirmados
+                                        }
                                         className="icon-medium"
                                     />
                                     Confirmar Productos

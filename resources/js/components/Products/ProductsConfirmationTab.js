@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { FaCheck } from "react-icons/fa";
 import ProductsTable from "./ProductsTable";
 import { finishProductsConfirmationStage } from "../../store/actions/negotiationActions";
+import OnlyBuyerAllowedMessage from "../Negotiation/Other/OnlyBuyerMessage";
 
 const ProductsConfirmationTab = () => {
     const dispatch = useDispatch();
@@ -18,6 +19,7 @@ const ProductsConfirmationTab = () => {
 
     // @ts-ignore
     const user = useSelector(state => state.auth.user);
+    const isMine = user.id == negotiation.usuario.id;
 
     const handleContinue = () => {
         if (confirm("¿Está seguro?")) {
@@ -44,39 +46,44 @@ const ProductsConfirmationTab = () => {
     return (
         <div className="d-flex flex-column align-items-center">
             <ProductsTable
-                showCreateButton={
-                    user.id == negotiation.usuario.id &&
-                    !negotiation.confirmacion_productos
-                }
+                showCreateButton={true}
                 allowEditing={true}
+                allowExcel={!negotiation.productos_confirmados}
+                canAddSingleProduct={true}
             />
 
             <hr className="w-100" />
 
-            {negotiation.confirmacion_productos ? (
+            {negotiation.productos_confirmados ? (
                 <p>
                     <FaCheck className="mr-2 icon-normal" /> Etapa completada
                 </p>
             ) : (
                 <React.Fragment>
-                    <p>
-                        Utilize el siguiente botón para pasar a la siguiente
-                        etapa:{" "}
-                        {!canContinue && (
-                            <span className="text-danger">
-                                (Necesita cargar productos primero)
-                            </span>
-                        )}
-                    </p>
+                    {isMine ? (
+                        <React.Fragment>
+                            <p>
+                                Utilize el siguiente botón para pasar a la
+                                siguiente etapa:{" "}
+                                {!canContinue && (
+                                    <span className="text-danger">
+                                        (Necesita cargar productos primero)
+                                    </span>
+                                )}
+                            </p>
 
-                    <button
-                        className="btn btn-info btn-lg"
-                        disabled={!canContinue}
-                        onClick={handleContinue}
-                    >
-                        <FaCheck className="mr-2 icon-normal" />
-                        Completar
-                    </button>
+                            <button
+                                className="btn btn-info btn-lg"
+                                disabled={!canContinue}
+                                onClick={handleContinue}
+                            >
+                                <FaCheck className="mr-2 icon-normal" />
+                                Completar
+                            </button>
+                        </React.Fragment>
+                    ) : (
+                        <OnlyBuyerAllowedMessage />
+                    )}
                 </React.Fragment>
             )}
         </div>

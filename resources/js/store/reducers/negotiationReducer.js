@@ -164,7 +164,7 @@ const negotiationReducer = (state = defaultState, action) => {
                 )
             };
 
-        case "FINISH_PRODUCTS_STAGE_SUCCESS":
+        case "UPDATE_NEGOTIATION_SUCCESS":
             return {
                 ...state,
                 negotiation: payload

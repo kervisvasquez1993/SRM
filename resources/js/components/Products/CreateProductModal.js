@@ -8,7 +8,11 @@ import { BsCloudDownload, BsUpload } from "react-icons/bs";
 import { uploadProductForNegotiation } from "../../store/actions/productActions";
 import LoadingSpinner from "../Navigation/LoadingSpinner";
 
-const CreateProductModal = ({ negotiation }) => {
+const CreateProductModal = ({
+    negotiation,
+    allowExcel = true,
+    canAddSingleProduct = false
+}) => {
     const dispatch = useDispatch();
 
     const {
@@ -23,8 +27,6 @@ const CreateProductModal = ({ negotiation }) => {
 
     // @ts-ignore
     const isUploading = useSelector(state => state.product.isUploadingFile);
-
-    const canAddSingleProduct = false;
 
     const handleCreate = () => {
         dispatch(
@@ -48,50 +50,63 @@ const CreateProductModal = ({ negotiation }) => {
 
     return (
         <div className="modal-body d-flex flex-column align-items-center pb-5">
-            <h3 className="mb-5">Importar Excel</h3>
+            {allowExcel && (
+                <React.Fragment>
+                    <h3 className="mb-5">Importar Excel</h3>
 
-            <div
-                {...getRootProps({
-                    className: `dropzone rounded mx-5 mb-2 ${
-                        isDragActive ? "drag-active" : ""
-                    }`
-                })}
-            >
-                <input name="import" {...getInputProps()} />
-                {acceptedFiles.length > 0 ? (
-                    <div>
-                        {acceptedFiles[0].name} - {acceptedFiles[0].size} bytes
+                    <div
+                        {...getRootProps({
+                            className: `dropzone rounded mx-5 mb-2 ${
+                                isDragActive ? "drag-active" : ""
+                            }`
+                        })}
+                    >
+                        <input name="import" {...getInputProps()} />
+                        {acceptedFiles.length > 0 ? (
+                            <div>
+                                {acceptedFiles[0].name} -{" "}
+                                {acceptedFiles[0].size} bytes
+                            </div>
+                        ) : (
+                            <span>
+                                Arrastre un archivo excel o haga clic aquí
+                            </span>
+                        )}
                     </div>
-                ) : (
-                    <span>Arrastre un archivo excel o haga clic aquí</span>
-                )}
-            </div>
 
-            <button
-                className="btn btn-lg btn-success btn-round mb-4"
-                onClick={handleImport}
-                disabled={acceptedFiles.length == 0 || isUploading}
-            >
-                {isUploading ? (
-                    <LoadingSpinner />
-                ) : (
-                    <React.Fragment>
-                        "Subir Archivo"
-                        <BsUpload className="ml-2 icon-normal" />
-                    </React.Fragment>
-                )}
-            </button>
+                    <button
+                        className="btn btn-lg btn-success btn-round mb-4"
+                        onClick={handleImport}
+                        disabled={acceptedFiles.length == 0 || isUploading}
+                    >
+                        {isUploading ? (
+                            <LoadingSpinner />
+                        ) : (
+                            <React.Fragment>
+                                "Subir Archivo"
+                                <BsUpload className="ml-2 icon-normal" />
+                            </React.Fragment>
+                        )}
+                    </button>
 
-            <p>Puede descargar una plantilla usando el siguiente botón:</p>
+                    <p>
+                        Puede descargar una plantilla usando el siguiente botón:
+                    </p>
 
-            <a className="btn btn-info" href="/templates/productos.xlsx">
-                Descargar Plantilla
-                <BsCloudDownload className="ml-2 icon-normal" />
-            </a>
+                    <a
+                        className="btn btn-info"
+                        href="/templates/productos.xlsx"
+                    >
+                        Descargar Plantilla
+                        <BsCloudDownload className="ml-2 icon-normal" />
+                    </a>
+
+                    {canAddSingleProduct && <hr className="my-5 w-100" />}
+                </React.Fragment>
+            )}
 
             {canAddSingleProduct && (
                 <React.Fragment>
-                    <hr className="my-5 w-100" />
                     <h3 className="">Agregar producto sin excel</h3>
                     <LargeCreateButton onClick={handleCreate} />
                 </React.Fragment>

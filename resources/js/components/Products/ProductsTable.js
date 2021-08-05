@@ -13,7 +13,12 @@ import ProductsResume from "../Widgets/ProductsResume";
 import CreateProductModal from "./CreateProductModal";
 import ProductFormModal from "./ProductFormModal";
 
-const ProductsTable = ({ allowEditing = false, showCreateButton = false }) => {
+const ProductsTable = ({
+    allowEditing = false,
+    showCreateButton = false,
+    allowExcel = true,
+    canAddSingleProduct = false
+}) => {
     const dispatch = useDispatch();
 
     // @ts-ignore
@@ -39,7 +44,13 @@ const ProductsTable = ({ allowEditing = false, showCreateButton = false }) => {
         dispatch(
             openModal({
                 title: "Agregar Producto",
-                body: <CreateProductModal negotiation={negotiation} />
+                body: (
+                    <CreateProductModal
+                        negotiation={negotiation}
+                        allowExcel={allowExcel}
+                        canAddSingleProduct={canAddSingleProduct}
+                    />
+                )
             })
         );
     };

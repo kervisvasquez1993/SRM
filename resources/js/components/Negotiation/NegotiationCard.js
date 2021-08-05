@@ -108,7 +108,7 @@ const NegotiationCard = ({
                     </div>
 
                     <div className="card-body py-0 my-0 ml-2">
-                        {!negotiation.confirmacion_productos && (
+                        {!negotiation.productos_confirmados && (
                             <p className="card-text d-flex align-items-center">
                                 <span className="material-icons mr-2 text-danger">
                                     warning

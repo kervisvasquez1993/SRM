@@ -19,7 +19,7 @@ const NegotiationModal = ({ negotiation }) => {
         id,
         iniciar_produccion,
         iniciar_arte,
-        confirmacion_productos,
+        productos_confirmados,
         seleccionado
     } = negotiation;
 
@@ -76,8 +76,8 @@ const NegotiationModal = ({ negotiation }) => {
                 </div>
             )}
 
-            {confirmacion_productos && !seleccionado && (
-                <div className="modal-footer bg-danger">{selectionButton}</div>
+            {productos_confirmados && !seleccionado && (
+                <div className="modal-footer">{selectionButton}</div>
             )}
 
             {seleccionado && (
@@ -110,7 +110,7 @@ const NegotiationModal = ({ negotiation }) => {
                 </div>
             )}
 
-            {!confirmacion_productos && (
+            {!productos_confirmados && (
                 <div className="modal-footer bg-danger">
                     <p className="d-flex text-white align-items-center h6">
                         <span className="material-icons mr-2">warning</span>

@@ -17,7 +17,7 @@ class PivotTareaProveeder extends Model
     protected $fillable = [
         'compra_po',
         'productos_cargados',
-        'productos_confirmado',
+        'productos_confirmados',
         'iniciar_arte',
         'iniciar_negociacion',
         'payment_terms',
@@ -27,8 +27,6 @@ class PivotTareaProveeder extends Model
         'codigo_comprador'
     ];
    
-    
-
     public function compras()
     {
         return $this->hasMany(Compra::class);
