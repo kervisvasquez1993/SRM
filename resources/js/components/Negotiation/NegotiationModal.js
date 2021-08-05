@@ -1,4 +1,5 @@
 import React from "react";
+import { AiOutlineSelect } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import {
     startArtWithNegotiation,
@@ -8,22 +9,23 @@ import NegotiationTabs from "./NegotiationTabs";
 
 const NegotiationModal = ({ negotiation }) => {
     const dispatch = useDispatch();
+    // @ts-ignore
     const user = useSelector(state => state.auth.user);
 
+    // @ts-ignore
     const isStarting = useSelector(state => state.negotiation.isStarting);
 
     const {
         id,
         iniciar_produccion,
         iniciar_arte,
-        compra_po: poCode
+        confirmacion_productos,
+        seleccionado
     } = negotiation;
 
-    const isProductListEmpty =
-        negotiation.total_cbm == 0 &&
-        negotiation.total_n_w == 0 &&
-        negotiation.total_g_w == 0 &&
-        negotiation.total_ctn == 0;
+    const handleSelectProvider = () => {
+        console.log("Seleccionar este proveedor")
+    };
 
     const handleStartProduction = () => {
         dispatch(startProductionWithNegotiation(id));
@@ -37,6 +39,17 @@ const NegotiationModal = ({ negotiation }) => {
         handleStartArt();
         handleStartProduction();
     };
+
+    const selectionButton = (
+        <button
+            type="button"
+            className="btn btn-info ml-4"
+            onClick={handleSelectProvider}
+        >
+            <AiOutlineSelect className="icon-normal mr-2" />
+            Seleccionar esta empresa
+        </button>
+    );
 
     return (
         <React.Fragment>
@@ -63,59 +76,48 @@ const NegotiationModal = ({ negotiation }) => {
                 </div>
             )}
 
-            {poCode ? (
-                user.rol === "coordinador" &&
-                (!iniciar_arte || !iniciar_produccion) && (
-                    <div className="modal-footer">
-                        {!iniciar_arte && (
-                            <button
-                                type="button"
-                                className="btn btn-primary flex-grow-1"
-                                onClick={handleStartArt}
-                                disabled={isStarting || iniciar_arte}
-                            >
-                                <span className="material-icons mr-2">
-                                    brush
-                                </span>
-                                Iniciar Arte
-                            </button>
-                        )}
+            {confirmacion_productos && !seleccionado && (
+                <div className="modal-footer bg-danger">{selectionButton}</div>
+            )}
 
-                        {!iniciar_produccion && (
-                            <button
-                                type="button"
-                                className="btn btn-info flex-grow-1"
-                                onClick={handleStartProduction}
-                                disabled={isStarting}
-                            >
-                                <span className="material-icons mr-2">
-                                    precision_manufacturing
-                                </span>
-                                Iniciar Producción
-                            </button>
-                        )}
-                        {!(iniciar_arte || iniciar_produccion) && (
-                            <button
-                                type="button"
-                                className="btn btn-success flex-grow-1"
-                                onClick={handleStartBoth}
-                                disabled={isStarting}
-                            >
-                                <span className="material-icons mr-2">
-                                    task_alt
-                                </span>
-                                Iniciar Arte y Producción
-                            </button>
-                        )}
-                    </div>
-                )
-            ) : (
+            {seleccionado && (
+                <div className="modal-footer">
+                    {!iniciar_arte && (
+                        <button
+                            type="button"
+                            className="btn btn-primary flex-grow-1"
+                            onClick={handleStartArt}
+                            disabled={isStarting || iniciar_arte}
+                        >
+                            <span className="material-icons mr-2">brush</span>
+                            Iniciar Arte
+                        </button>
+                    )}
+
+                    {!iniciar_produccion && (
+                        <button
+                            type="button"
+                            className="btn btn-info flex-grow-1"
+                            onClick={handleStartProduction}
+                            disabled={isStarting}
+                        >
+                            <span className="material-icons mr-2">
+                                precision_manufacturing
+                            </span>
+                            Iniciar Producción
+                        </button>
+                    )}
+                </div>
+            )}
+
+            {!confirmacion_productos && (
                 <div className="modal-footer bg-danger">
                     <p className="d-flex text-white align-items-center h6">
                         <span className="material-icons mr-2">warning</span>
-                        Esta negociación no puede iniciar arte o producción sin
-                        ordenes de compra y un codigo PO
+                        Aún no se han confirmado los productos
                     </p>
+
+                    {selectionButton}
                 </div>
             )}
         </React.Fragment>

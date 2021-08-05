@@ -32,10 +32,10 @@ const NegotiationTabs = ({ negotiation }) => {
                         Productos
                     </TabButton>
 
-                    <TabButton name="purchase">
+                    {/* <TabButton name="purchase">
                         <i className="material-icons">receipt_long</i>
                         Compras
-                    </TabButton>
+                    </TabButton> */}
                 </ul>
 
                 <div className="tab-content tab-space p-2">
@@ -48,9 +48,9 @@ const NegotiationTabs = ({ negotiation }) => {
                     <TabContent name="products">
                         <ProductsTab negotiation={negotiation} />
                     </TabContent>
-                    <TabContent name="purchase">
+                    {/* <TabContent name="purchase">
                         <PurchaseTab negotiation={negotiation} />
-                    </TabContent>
+                    </TabContent> */}
                 </div>
             </Tabs>
         </div>

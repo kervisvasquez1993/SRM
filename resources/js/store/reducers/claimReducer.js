@@ -173,7 +173,6 @@ const claimReducer = (state = defaultState, action) => {
             };
 
         case "DELETE_PRODUCT_CLAIM_SUCCESS":
-            console.log(payload)
             return {
                 ...state,
                 productClaims: state.productClaims.filter(

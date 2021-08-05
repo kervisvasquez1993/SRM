@@ -6,7 +6,6 @@ import {
     getNegotiationModalName,
     getRemainingDaysToFinishTask,
     greenCard,
-    hasNoProducts,
     useSimpleUrlFocus
 } from "../../utils";
 import NegotiationModal from "./NegotiationModal";
@@ -23,9 +22,7 @@ const NegotiationCard = ({
         iniciar_produccion,
         iniciar_arte,
         tarea: task,
-        proveedor,
-        compras_total: totalPurchase,
-        compra_po: poCode
+        proveedor
     } = negotiation;
 
     const [container, focusClassName] = useSimpleUrlFocus(id, "id");
@@ -111,30 +108,14 @@ const NegotiationCard = ({
                     </div>
 
                     <div className="card-body py-0 my-0 ml-2">
-                        {(hasNoProducts(negotiation) && (
+                        {!negotiation.confirmacion_productos && (
                             <p className="card-text d-flex align-items-center">
                                 <span className="material-icons mr-2 text-danger">
                                     warning
                                 </span>
-                                No tiene productos
+                                Aún no se han confirmado los productos
                             </p>
-                        )) ||
-                            (totalPurchase == 0 && (
-                                <p className="card-text d-flex align-items-center">
-                                    <span className="material-icons mr-2 text-danger">
-                                        warning
-                                    </span>
-                                    No tiene una orden de compra
-                                </p>
-                            )) ||
-                            (!poCode && (
-                                <p className="card-text d-flex align-items-center">
-                                    <span className="material-icons mr-2 text-danger">
-                                        warning
-                                    </span>
-                                    No tiene un código PO
-                                </p>
-                            ))}
+                        )}
                     </div>
 
                     {!compare && (
