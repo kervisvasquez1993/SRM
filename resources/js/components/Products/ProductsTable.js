@@ -72,7 +72,7 @@ const ProductsTable = () => {
             {isMine && showCreateButton && <LargeCreateButton onClick={handleCreate} />}
 
             {products.length > 0 && (
-                <div className="table-responsive table-text">
+                <div className="table-responsive table-text mb-5">
                     <table className="table table-sm table-hover table-bordered fade-in py-0 text-center">
                         <thead className="thead-dark">
                             <tr>

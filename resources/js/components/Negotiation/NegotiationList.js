@@ -440,8 +440,6 @@ import { getNegotiations } from "../../store/actions/negotiationActions";
 import { getUsers } from "../../store/actions/userActions";
 import GenericFilter from "../Filters/GenericFilter";
 import NegotiationCard from "./NegotiationCard";
-
-import NegotiationResume from "../Widgets/NegotiationResume";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import { Helmet } from "react-helmet-async";
 import { roundMoneyAmount } from "../../utils";
@@ -637,10 +635,7 @@ const NegotiationList = () => {
                     <React.Fragment>
                         <h2 className="mt-4 h3">Resumen:</h2>
 
-                        {/* <NegotiationResume
-                            negotiations={filteredNegotiations}
-                        /> */}
-                        <ProductsResume negotiation={filteredNegotiations}/>
+                        <ProductsResume negotiation={filteredNegotiations} useCard={true}/>
 
                         {filteredNegotiations.length > 1 && (
                             <div className="mb-5">
