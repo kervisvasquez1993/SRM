@@ -16,6 +16,8 @@ export function getTasks(myTasks = false) {
                 response = await axios.get(`${apiURL}/tarea`);
             }
 
+            console.log(response);
+
             dispatch({
                 type: "GET_TASKS_SUCESS",
                 payload: response.data.data

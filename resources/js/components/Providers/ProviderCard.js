@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
-import { startNegotiation } from "../../store/actions/providerActions";
+// import { startNegotiation } from "../../store/actions/providerActions";
 import {
     blueCard,
     greenCard,
@@ -65,11 +65,11 @@ const ProviderCard = ({ provider, selectedProvider }) => {
 
     const enNegociacion = pivot.iniciar_negociacion;
 
-    const handleNegotiate = e => {
-        e.preventDefault();
+    // const handleNegotiate = e => {
+    //     e.preventDefault();
 
-        dispatch(startNegotiation(taskId, id));
-    };
+    //     dispatch(startNegotiation(taskId, id));
+    // };
 
     const { text, background } = isSelected
         ? greenCard

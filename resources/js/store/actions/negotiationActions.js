@@ -266,30 +266,54 @@ export function deleteFile(id) {
     };
 }
 
-export function startNegotiation(negotiation) {
-    return async (dispatch, getState) => {
-        const taskId = negotiation.tarea.id;
-        const providerId = negotiation.proveedor.id;
+// export function startNegotiation(negotiation) {
+//     return async (dispatch, getState) => {
+//         const taskId = negotiation.tarea.id;
+//         const providerId = negotiation.proveedor.id;
 
-        dispatch({ type: "START_NEGOTIATION_REQUEST" });
+//         dispatch({ type: "START_NEGOTIATION_REQUEST" });
+
+//         try {
+//             await axios.post(
+//                 `${apiURL}/tarea/${taskId}/proveedor/${providerId}/negociar`
+//             );
+
+//             dispatch({
+//                 type: "START_NEGOTIATION_SUCCESS",
+//                 taskId,
+//                 providerId
+//             });
+
+//             dispatch(getNegotiation(negotiation.id));
+
+//             toast.success("✔️ Negociación iniciada");
+//         } catch (e) {
+//             dispatch({
+//                 type: "START_NEGOTIATION_FAILURE"
+//             });
+//         }
+//     };
+// }
+
+export function finishProductsStage(negotiation) {
+    return async (dispatch, getState) => {
+        dispatch({ type: "FINISH_PRODUCTS_STAGE_REQUEST" });
 
         try {
-            await axios.post(
-                `${apiURL}/tarea/${taskId}/proveedor/${providerId}/negociar`
+            const response = await axios.put(
+                `${apiURL}/pivot/${negotiation.id}`,
+                { productos_cargados: true }
             );
 
             dispatch({
-                type: "START_NEGOTIATION_SUCCESS",
-                taskId,
-                providerId
+                type: "FINISH_PRODUCTS_STAGE_SUCCESS",
+                payload: response.data.data
             });
 
-            dispatch(getNegotiation(negotiation.id));
-
-            toast.success("✔️ Negociación iniciada");
+            toast.success("✔️ Los productos fueron cargados");
         } catch (e) {
             dispatch({
-                type: "START_NEGOTIATION_FAILURE"
+                type: "FINISH_PRODUCTS_STAGE_FAILURE"
             });
         }
     };

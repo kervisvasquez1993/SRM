@@ -17,16 +17,19 @@ import TaskModal from "./TaskModal";
 const TaskDetails = () => {
     const dispatch = useDispatch();
     const history = useHistory();
+    // @ts-ignore
     const user = useSelector(state => state.auth.user);
+    // @ts-ignore
     const task = useSelector(state => state.task.task);
-    const providers = useSelector(state => state.provider.providers);
+    // @ts-ignore
     const { id } = useParams();
 
     if (
         !(
             user.rol === "coordinador" ||
             user.rol === "observador" ||
-            user.rol === "comprador"
+            user.rol === "comprador" ||
+            user.rol === "logistica"
         ) ||
         user.rol === "artes"
     ) {

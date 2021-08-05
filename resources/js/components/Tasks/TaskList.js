@@ -21,6 +21,7 @@ const isTaskCompleted = task => {
 };
 
 const isTaskExpired = task => {
+    // @ts-ignore
     const timeToFinish = new Date(task.fecha_fin) - new Date();
     return !isTaskCompleted(task) && timeToFinish < 0;
 };
@@ -41,15 +42,22 @@ const isTaskNotInNegotiation = task => {
 
 const TaskList = ({ myTasks = false }) => {
     const dispatch = useDispatch();
+    // @ts-ignore
     const user = useSelector(state => state.auth.user);
+    // @ts-ignore
     const tasks = useSelector(state => state.task.tasks);
+    // @ts-ignore
     const isLoadingList = useSelector(state => state.task.isLoadingList);
 
     const [postFilterLists, setPostFilterLists] = useState([]);
 
     if (
         (!myTasks &&
-            !(user.rol === "coordinador" || user.rol === "observador")) ||
+            !(
+                user.rol === "coordinador" ||
+                user.rol === "observador" ||
+                user.rol === "logistica"
+            )) ||
         user.rol === "artes"
     ) {
         return <Redirect to="/home" />;

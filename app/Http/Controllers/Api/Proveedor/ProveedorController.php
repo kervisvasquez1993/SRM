@@ -47,11 +47,6 @@ class ProveedorController extends ApiController
         return $this->showAllResources($resources);
     }
 
-    public function __construct()
-    {
-        $this->middleware('comprador');
-    }
-
     public function store(Request $request, $tarea_id)
     {
         // Obtener la tarea

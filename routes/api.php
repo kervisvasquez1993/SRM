@@ -1,16 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\WebNotificationController;
-use App\User;
-use Illuminate\Http\Request;
-use App\Http\Livewire\ShowPosts;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Route;
-use App\Notifications\GeneralNotification;
-use Kreait\Firebase\Messaging\CloudMessage;
-use Kreait\Firebase\Messaging\Notification;
-use Kreait\Firebase\Messaging\WebPushConfig;
 
 
 /*

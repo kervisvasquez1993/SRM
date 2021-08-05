@@ -116,11 +116,9 @@ class PivotController extends ApiController
            $title = "Importacion de Productos";
            $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title));   
         }
-        // Actualizar el valor del codigo PO (compra_po)
-        return $pivot_id;
+
         $pivot_id->save();
         
-
         return $this->showOneResource(new PivotTareaProveederResource($pivot_id));
     }
 

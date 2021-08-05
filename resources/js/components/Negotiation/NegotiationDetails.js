@@ -1,29 +1,21 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // @ts-ignore
-import { Link, Redirect, useHistory, useParams } from "react-router-dom";
+import { Redirect, useHistory, useParams } from "react-router-dom";
 // @ts-ignore
-import { getProductsFromNegotiation } from "../../store/actions/productActions";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import Error from "../Navigation/Error";
 import NegotiationPurchaseTab from "../Purchases/NegotiationPurchaseTab";
-import {
-    getNegotiation,
-    startNegotiation
-} from "../../store/actions/negotiationActions";
+import { getNegotiation } from "../../store/actions/negotiationActions";
 import NegotiationProductsTab from "../Products/NegotiationProductsTab";
 import { Helmet } from "react-helmet-async";
 import GenericFileList from "../Files/GenericFileList";
 import { apiURL } from "../App";
-import { GiCheckMark } from "react-icons/gi";
-import { CgClose } from "react-icons/cg";
-import StatusIcon from "../Widgets/StatusBar/StatusIcon";
-import StatusBar from "../Widgets/StatusBar";
 import Tabs from "../Widgets/Tabs";
-import TabButton from "../Widgets/TabButton";
 import TabContent from "../Widgets/TabContent";
 import TabsRow from "../Widgets/Tabs/TabsRow";
 import Tab from "../Widgets/Tabs/Tab";
+import CheckIcon from "../Widgets/CheckIcon";
 
 const ProviderPurchase = () => {
     const history = useHistory();
@@ -39,18 +31,12 @@ const ProviderPurchase = () => {
         state => state.negotiation.negotiationError
     );
 
-    // @ts-ignore
-    const areFilesLoading = useSelector(state => state.fileManager.isLoading);
-    const areProductsLoading = useSelector(
-        // @ts-ignore
-        state => state.product.isLoadingList
-    );
-
     if (
         !(
             user.rol === "coordinador" ||
             user.rol === "observador" ||
-            user.rol === "comprador"
+            user.rol === "comprador" ||
+            user.rol === "logistica"
         )
     ) {
         return <Redirect to="/home" />;
@@ -81,14 +67,11 @@ const ProviderPurchase = () => {
         history.goBack();
     };
 
-    const handleNegotiate = e => {
-        e.preventDefault();
-
-        dispatch(startNegotiation(negotiation));
-    };
-
-    const percentageCompleted = 100;
     const state = 0;
+    const defaultTab =
+        (!negotiation.productos_cargados && "0") ||
+        (negotiation.productos_cargados && "1");
+    const percentageCompleted = 100;
 
     return (
         <React.Fragment>
@@ -113,7 +96,7 @@ const ProviderPurchase = () => {
 
                 <h2 className="h2 py-4">Proceso</h2>
 
-                <StatusBar>
+                {/* <StatusBar>
                     <StatusIcon index={0} state={state} description="Cargar" />
 
                     <StatusIcon
@@ -145,24 +128,72 @@ const ProviderPurchase = () => {
                         state={state}
                         description="Orden de compra"
                     />
-                </StatusBar>
+                </StatusBar> 
 
-                <div className="py-5"></div>
+                <div className="py-5"></div> */}
 
                 <div className="w-100">
-                    <Tabs defaultTab="0" className="flex-grow-1">
+                    <Tabs defaultTab={defaultTab} className="flex-grow-1">
                         <TabsRow>
-                            <Tab name="0">Cargar Productos</Tab>
+                            <Tab name="0">
+                                <div className="d-flex align-items-center">
+                                    <CheckIcon
+                                        checked={negotiation.productos_cargados}
+                                        className="icon-medium"
+                                    />
+                                    Cargar Productos
+                                </div>
+                            </Tab>
 
-                            <Tab name="1">Confirmar Productos</Tab>
+                            <Tab name="1">
+                                <div className="d-flex align-items-center">
+                                    <CheckIcon
+                                        checked={state > 1}
+                                        className="icon-medium"
+                                    />
+                                    Confirmar Productos
+                                </div>
+                            </Tab>
 
-                            <Tab name="2">Selección de proveedor</Tab>
+                            <Tab name="2">
+                                <div className="d-flex align-items-center">
+                                    <CheckIcon
+                                        checked={state > 2}
+                                        className="icon-medium"
+                                    />
+                                    Selección de proveedor
+                                </div>
+                            </Tab>
 
-                            <Tab name="3">Codigos de barra</Tab>
+                            <Tab name="3">
+                                <div className="d-flex align-items-center">
+                                    <CheckIcon
+                                        checked={state > 3}
+                                        className="icon-medium"
+                                    />
+                                    Codigos de barra
+                                </div>
+                            </Tab>
 
-                            <Tab name="4">Base gráfico</Tab>
+                            <Tab name="4">
+                                <div className="d-flex align-items-center">
+                                    <CheckIcon
+                                        checked={state > 4}
+                                        className="icon-medium"
+                                    />
+                                    Base gráfico
+                                </div>
+                            </Tab>
 
-                            <Tab name="5">Orden de compra</Tab>
+                            <Tab name="5">
+                                <div className="d-flex align-items-center">
+                                    <CheckIcon
+                                        checked={state > 5}
+                                        className="icon-medium"
+                                    />
+                                    <span>Orden de compra</span>
+                                </div>
+                            </Tab>
                         </TabsRow>
 
                         <TabContent name="0">

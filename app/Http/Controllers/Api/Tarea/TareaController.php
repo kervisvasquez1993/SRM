@@ -22,7 +22,7 @@ class TareaController extends ApiController
 {
     public function __construct()
     {
-        $this->middleware('comprador');
+        
     }
 
     public function index()

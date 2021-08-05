@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-
+use Illuminate\Http\Response;
 
 class Comprador
 {
@@ -23,6 +23,6 @@ class Comprador
 
         return response()->json([
             'message' => 'Acceso restringido solo a Compradores y Coordinadores'
-        ]);
+        ], Response::HTTP_FORBIDDEN);
     }
 }

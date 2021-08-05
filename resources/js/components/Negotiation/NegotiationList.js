@@ -449,6 +449,7 @@ import { roundMoneyAmount } from "../../utils";
 import { GoGitCompare } from "react-icons/go";
 import { TiCancel } from "react-icons/ti";
 import { BsCardList } from "react-icons/bs";
+import ProductsResume from "../Widgets/ProductsResume";
 
 const NegotiationList = () => {
     const dispatch = useDispatch();
@@ -620,6 +621,7 @@ const NegotiationList = () => {
         return <LoadingScreen>{helmet}</LoadingScreen>;
     }
 
+
     return (
         <React.Fragment>
             {helmet}
@@ -635,9 +637,10 @@ const NegotiationList = () => {
                     <React.Fragment>
                         <h2 className="mt-4 h3">Resumen:</h2>
 
-                        <NegotiationResume
+                        {/* <NegotiationResume
                             negotiations={filteredNegotiations}
-                        />
+                        /> */}
+                        <ProductsResume negotiation={filteredNegotiations}/>
 
                         {filteredNegotiations.length > 1 && (
                             <div className="mb-5">

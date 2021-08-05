@@ -16,7 +16,7 @@ const Tab = ({ name, children, disabled = false }) => {
         <button
             className={`tab ${currentTab === name ? "active" : ""} ${
                 disabled ? "disabled" : ""
-            }`}
+            } d-flex align-items-center`}
             onClick={handleClick}
         >
             {children}

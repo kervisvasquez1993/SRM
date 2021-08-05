@@ -111,19 +111,19 @@ const providerReducer = (state = defaultState, action) => {
                 errors: {},
                 error: null
             };
-        case "START_NEGOTIATION_SUCCESS":
-            const _newProviders = state.providers.map(provider => {
-                if (provider.id === action.providerId) {
-                    provider.pivot.iniciar_negociacion = 1;
-                }
+        // case "START_NEGOTIATION_SUCCESS":
+        //     const _newProviders = state.providers.map(provider => {
+        //         if (provider.id === action.providerId) {
+        //             provider.pivot.iniciar_negociacion = 1;
+        //         }
 
-                return provider;
-            });
+        //         return provider;
+        //     });
 
-            return {
-                ...state,
-                providers: _newProviders
-            };
+        //     return {
+        //         ...state,
+        //         providers: _newProviders
+        //     };
 
         case "CREATE_NEGOTIATION_REQUEST":
             return {

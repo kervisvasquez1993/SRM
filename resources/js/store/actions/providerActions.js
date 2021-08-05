@@ -104,29 +104,29 @@ export function editProviderFromTask(taskId, provider) {
     };
 }
 
-export function startNegotiation(taskId, providerId) {
-    return async (dispatch, getState) => {
-        dispatch({ type: "START_NEGOTIATION_REQUEST" });
+// export function startNegotiation(taskId, providerId) {
+//     return async (dispatch, getState) => {
+//         dispatch({ type: "START_NEGOTIATION_REQUEST" });
 
-        try {
-            await axios.post(
-                `${apiURL}/tarea/${taskId}/proveedor/${providerId}/negociar`
-            );
+//         try {
+//             await axios.post(
+//                 `${apiURL}/tarea/${taskId}/proveedor/${providerId}/negociar`
+//             );
 
-            dispatch({
-                type: "START_NEGOTIATION_SUCCESS",
-                taskId,
-                providerId
-            });
+//             dispatch({
+//                 type: "START_NEGOTIATION_SUCCESS",
+//                 taskId,
+//                 providerId
+//             });
 
-            dispatch(focusOnElementWithId(providerId));
+//             dispatch(focusOnElementWithId(providerId));
 
-            toast.success("✔️ Negociación iniciada");
-        } catch (e) {
-            dispatch({
-                type: "START_NEGOTIATION_FAILURE"
-            });
-        }
-    };
-}
+//             toast.success("✔️ Negociación iniciada");
+//         } catch (e) {
+//             dispatch({
+//                 type: "START_NEGOTIATION_FAILURE"
+//             });
+//         }
+//     };
+// }
 

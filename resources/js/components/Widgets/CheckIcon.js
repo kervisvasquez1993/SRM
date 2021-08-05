@@ -1,12 +1,12 @@
 import React from "react";
 
-const CheckIcon = ({ checked }) => {
+const CheckIcon = ({ checked, className="" }) => {
     return (
         <React.Fragment>
             {checked ? (
-                <span className="material-icons ml-2">done</span>
+                <span className={`material-icons ${className}`}>done</span>
             ) : (
-                <span className="material-icons" style={{ opacity: "0.2" }}>
+                <span className={`material-icons ${className}`} style={{ opacity: "0.2" }}>
                     close
                 </span>
             )}

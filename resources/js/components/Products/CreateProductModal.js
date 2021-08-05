@@ -8,7 +8,7 @@ import { BsCloudDownload, BsUpload } from "react-icons/bs";
 import { uploadProductForNegotiation } from "../../store/actions/productActions";
 import LoadingSpinner from "../Navigation/LoadingSpinner";
 
-const CreateProductModal = ({ pivotId }) => {
+const CreateProductModal = ({ negotiation }) => {
     const dispatch = useDispatch();
 
     const {
@@ -21,16 +21,19 @@ const CreateProductModal = ({ pivotId }) => {
         accept: ".xlsx"
     });
 
+    // @ts-ignore
     const isUploading = useSelector(state => state.product.isUploadingFile);
+
+    const canAddSingleProduct = false;
 
     const handleCreate = () => {
         dispatch(
             openModal({
-                title: "Agregar Producto",
+                title: "Agregar Productos",
                 body: (
                     <ProductFormModal
                         product={emptyProduct}
-                        pivotId={pivotId}
+                        pivotId={negotiation.id}
                     />
                 )
             })
@@ -39,30 +42,13 @@ const CreateProductModal = ({ pivotId }) => {
 
     const handleImport = e => {
         e.preventDefault();
-        dispatch(uploadProductForNegotiation(pivotId, acceptedFiles[0]));
+        dispatch(uploadProductForNegotiation(negotiation.id, acceptedFiles[0]));
         acceptedFiles.length = 0;
     };
 
     return (
-        <div className="modal-body">
-            <h3 className="text-center">Agregar Excel</h3>
-
-            <p>Puede descargar la plantilla desde aquí: </p>
-
-            <div className="text-center mb-4">
-                <a
-                    className="btn btn-info"
-                    href="/templates/productos.xlsx"
-                >
-                    Descargar Plantilla
-                    <BsCloudDownload className="ml-2 icon-normal" />
-                </a>
-            </div>
-
-            <p>
-                Si ya tiene un documento Excel, puede agregarlo usando la
-                siguiente caja:
-            </p>
+        <div className="modal-body d-flex flex-column align-items-center pb-5">
+            <h3 className="mb-5">Importar Excel</h3>
 
             <div
                 {...getRootProps({
@@ -81,27 +67,35 @@ const CreateProductModal = ({ pivotId }) => {
                 )}
             </div>
 
-            <div className="text-center">
-                <button
-                    className="btn btn-lg btn-success btn-round mb-4"
-                    onClick={handleImport}
-                    disabled={acceptedFiles.length == 0 || isUploading}
-                >
-                    {isUploading ? (
-                        <LoadingSpinner />
-                    ) : (
-                        <React.Fragment>
-                            "Subir Archivo"
-                            <BsUpload className="ml-2 icon-normal" />
-                        </React.Fragment>
-                    )}
-                </button>
-            </div>
+            <button
+                className="btn btn-lg btn-success btn-round mb-4"
+                onClick={handleImport}
+                disabled={acceptedFiles.length == 0 || isUploading}
+            >
+                {isUploading ? (
+                    <LoadingSpinner />
+                ) : (
+                    <React.Fragment>
+                        "Subir Archivo"
+                        <BsUpload className="ml-2 icon-normal" />
+                    </React.Fragment>
+                )}
+            </button>
 
-            <hr className="mb-5" />
-            <h3 className="text-center">Agregar Producto Nuevo</h3>
-            <p>O puede crear un producto totalmente desde cero:</p>
-            <LargeCreateButton onClick={handleCreate} />
+            <p>Puede descargar una plantilla usando el siguiente botón:</p>
+
+            <a className="btn btn-info" href="/templates/productos.xlsx">
+                Descargar Plantilla
+                <BsCloudDownload className="ml-2 icon-normal" />
+            </a>
+
+            {canAddSingleProduct && (
+                <React.Fragment>
+                    <hr className="my-5 w-100" />
+                    <h3 className="">Agregar producto sin excel</h3>
+                    <LargeCreateButton onClick={handleCreate} />
+                </React.Fragment>
+            )}
         </div>
     );
 };
