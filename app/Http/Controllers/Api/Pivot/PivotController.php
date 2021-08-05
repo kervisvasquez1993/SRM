@@ -96,54 +96,66 @@ class PivotController extends ApiController
 
     public function update(Request $request, PivotTareaProveeder $pivot_id)
     {
-        
 
+        error_log('=================== hola desde consola =======================================');
         $pivot_id->fill($request->all());
         /* si cambia el valor de productos cargados */
+        $login_user    = auth()->user()->name;
+        $coordinador = User::find($pivot_id->tarea->sender_id);
+        $presidentes = User::where('isPresidente', true)->get();
+        $comprador = $pivot_id->tarea->usuario;
+        $userAll = $presidentes->push($coordinador, $comprador)->unique('id');
+        $proveedorName = Proveedor::findOrFail($pivot_id->proveedor_id)->nombre;
+        $tareaNombre   = Tarea::findOrFail($pivot_id->tarea_id)->nombre;
+        /* comprobar si los productos cambiaron */
         if($pivot_id->isDirty('productos_cargados') && $pivot_id->productos_cargados == true) 
-        {
-            
-           $login_user    = auth()->user()->name;
-           $coordinador = User::find($pivot_id->tarea->sender_id);
-           $presidentes = User::where('isPresidente', true)->get();
-           $comprador = $pivot_id->tarea->usuario;
-           $userAll = $presidentes->push($coordinador, $comprador)->unique('id');
-           $proveedorName = Proveedor::findOrFail($pivot_id->proveedor_id)->nombre;
-           $tareaNombre   = Tarea::findOrFail($pivot_id->tarea_id)->nombre;
+        {  
            $text = "El usuario: '$login_user' cargo via excel informacion de producto a la empresa '$proveedorName' asociada a la tarea '$tareaNombre'";
-           $link = "/negotiation/$pivot_id->id#products";
+           $link = "";
            $type = "cargar_productos";
            $title = "Importacion de Productos";
            $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title));    
-           error_log('productos_cargados');
+
+           
         }
-        if($pivot_id->isDirty('iniciar_arte') && $pivot_id->iniciar_arte == true )
+
+        
+        /* comprobariniciar arte */
+         if($pivot_id->isDirty('iniciar_arte') && $pivot_id->iniciar_arte == true )
         {
-            
-            
-            
             // TODO: Cambiar la forma en que se inicializa el nombre
-            $this->artesCreate($pivot_id->id, $pivot_id->compra_po);
-            $pivotResource = new PivotTareaProveederResource($pivot_id);
-            return $this->showOneResource($pivotResource);
+            $this->artesCreate($pivot_id->id);
+        } 
+
+      
+
+        if($pivot_id->isDirty('productos_confirmados') && $request->productos_confirmados == true)
+        {   
+          error_log('productos confirmado');
+          $text = "El usuario: '$login_user' confirmo los productos pertenecientes a la empresa'$proveedorName' asociada a la tarea '$tareaNombre'";
+          $link = "/negotiation/$pivot_id->id#products";
+          $type = "productos_confirmados";
+          $title = "Productos confirmados";
+          $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title));    
+        }  
+        
+        if( $pivot_id->isDirty('seleccionado') && $request->seleccionado == true)
+        {
+            $text = "La empresa: '$proveedorName' asociada a la tarea '$tareaNombre' fue la seleccionada.";
+            $link = "/negotiation/$pivot_id->id#products";
+            $type = "empresa_seleccionada";
+            $title = "Empresa Seleccionada";
+            $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title));
+            error_log('hola desde la empresa seleecionada');
         }
-        // Actualizar el valor del codigo PO (compra_po)
-        
+       if($pivot_id->isClean())
+       {
+           
+           error_log('errrrroooor');
+       }
+        error_log('ejecutado');
         $pivot_id->save();
-        
-
         return $this->showOneResource(new PivotTareaProveederResource($pivot_id));
-    }
-
-    public function startArte($pivotTareaProveederId)
-    {
-        $pivot = PivotTareaProveeder::findOrFail($pivotTareaProveederId);
-        $pivot->iniciar_arte = 1;
-        $pivot->save();
-        // TODO: Cambiar la forma en que se inicializa el nombre
-        $this->artesCreate($pivot->id, $pivot->compra_po);
-        $pivotResource = new PivotTareaProveederResource($pivot);
-        return $this->showOneResource($pivotResource);
     }
 
     public function startProduccion($pivotTareaProveederId)
