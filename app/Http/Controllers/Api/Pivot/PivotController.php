@@ -97,19 +97,22 @@ class PivotController extends ApiController
     public function update(Request $request, PivotTareaProveeder $pivot_id)
     {
 
-        error_log('=================== hola desde consola =======================================');
+    
         $pivot_id->fill($request->all());
         /* si cambia el valor de productos cargados */
         $login_user    = auth()->user()->name;
         $coordinador = User::find($pivot_id->tarea->sender_id);
         $presidentes = User::where('isPresidente', true)->get();
         $comprador = $pivot_id->tarea->usuario;
-        $userAll = $presidentes->push($coordinador, $comprador)->unique('id');
         $proveedorName = Proveedor::findOrFail($pivot_id->proveedor_id)->nombre;
         $tareaNombre   = Tarea::findOrFail($pivot_id->tarea_id)->nombre;
+        $logistica = User::where('rol', 'logistica')->get()->unique('id');
+
         /* comprobar si los productos cambiaron */
         if($pivot_id->isDirty('productos_cargados') && $pivot_id->productos_cargados == true) 
         {  
+
+           $userAll = $presidentes->push($coordinador, $comprador)->unique('id');
            $text = "El usuario: '$login_user' cargo via excel informacion de producto a la empresa '$proveedorName' asociada a la tarea '$tareaNombre'";
            $link = "";
            $type = "cargar_productos";
@@ -119,11 +122,9 @@ class PivotController extends ApiController
            
         }
 
-        
         /* comprobariniciar arte */
          if($pivot_id->isDirty('iniciar_arte') && $pivot_id->iniciar_arte == true )
         {
-            // TODO: Cambiar la forma en que se inicializa el nombre
             $this->artesCreate($pivot_id->id);
         } 
 
@@ -131,23 +132,53 @@ class PivotController extends ApiController
 
         if($pivot_id->isDirty('productos_confirmados') && $request->productos_confirmados == true)
         {   
-          error_log('productos confirmado');
+          
+          $userAll = $presidentes->push($coordinador, $comprador)->unique('id');
+          $user_with_logistica = $userAll->merge($logistica);       
           $text = "El usuario: '$login_user' confirmo los productos pertenecientes a la empresa'$proveedorName' asociada a la tarea '$tareaNombre'";
           $link = "/negotiation/$pivot_id->id#products";
-          $type = "productos_confirmados";
+          $type =  "productos_confirmados";
           $title = "Productos confirmados";
-          $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title));    
+          $this->sendNotifications($user_with_logistica, new GeneralNotification($text, $link, $type, $title));    
         }  
         
+
         if( $pivot_id->isDirty('seleccionado') && $request->seleccionado == true)
         {
+            
             $text = "La empresa: '$proveedorName' asociada a la tarea '$tareaNombre' fue la seleccionada.";
             $link = "/negotiation/$pivot_id->id#products";
             $type = "empresa_seleccionada";
             $title = "Empresa Seleccionada";
-            $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title));
-            error_log('hola desde la empresa seleecionada');
+            
+
+            if($pivot_id->productos_confirmados == true)
+            {
+                $text = "La empresa: '$proveedorName' asociada a la tarea '$tareaNombre' fue la seleccionada y los productos ya estan seleccionado";
+                $userAll = $presidentes->push($comprador)->unique('id'); 
+                $user_with_logistica = $userAll->merge($logistica);            
+                /* error_log("producto estan confirmado, mandar a crear los codigos de barras para esta empresa"); */
+                $this->sendNotifications($user_with_logistica, new GeneralNotification($text, $link, $type, $title)); 
+                
+            }
+            else
+            {
+                error_log("notificacion al comprador para que confirme los productos y notificacion a logistica para crear codigo de barra");
+                $text = "La empresa: '$proveedorName' asociada a la tarea '$tareaNombre' fue la seleccionada, porfavor confirme los productos para crear los codigos de barra";
+                $userAll = $presidentes->push($comprador)->unique('id');            
+                /* error_log("producto estan confirmado, mandar a crear los codigos de barras para esta empresa"); */
+                $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title)); 
+            }
+
+
+            
+            
+
+            
         }
+
+
+
        if($pivot_id->isClean())
        {
            
@@ -200,6 +231,7 @@ class PivotController extends ApiController
         $type    = "iniciar_arte";
         $title   = "Inicio de Arte";
         /* Notification::send($userUni, new GeneralNotification($body, $link, $type)); */
+        error_log($userAll);
         $this->sendNotifications($userAll, new GeneralNotification($body, $link, $type, $title));
     }
 
