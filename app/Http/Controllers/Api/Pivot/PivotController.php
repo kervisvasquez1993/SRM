@@ -145,7 +145,6 @@ class PivotController extends ApiController
 
         if( $pivot_id->isDirty('seleccionado') && $request->seleccionado == true)
         {
-            
             $text = "La empresa: '$proveedorName' asociada a la tarea '$tareaNombre' fue la seleccionada.";
             $link = "/negotiation/$pivot_id->id#products";
             $type = "empresa_seleccionada";
@@ -155,7 +154,7 @@ class PivotController extends ApiController
             if($pivot_id->productos_confirmados == true)
             {
                 $text = "La empresa: '$proveedorName' asociada a la tarea '$tareaNombre' fue la seleccionada y los productos ya estan seleccionado";
-                $userAll = $presidentes->push($comprador)->unique('id'); 
+                $userAll = $presidentes->push($comprador,$coordinador)->unique('id'); 
                 $user_with_logistica = $userAll->merge($logistica);            
                 /* error_log("producto estan confirmado, mandar a crear los codigos de barras para esta empresa"); */
                 $this->sendNotifications($user_with_logistica, new GeneralNotification($text, $link, $type, $title)); 
@@ -165,16 +164,10 @@ class PivotController extends ApiController
             {
                 error_log("notificacion al comprador para que confirme los productos y notificacion a logistica para crear codigo de barra");
                 $text = "La empresa: '$proveedorName' asociada a la tarea '$tareaNombre' fue la seleccionada, porfavor confirme los productos para crear los codigos de barra";
-                $userAll = $presidentes->push($comprador)->unique('id');            
+                $userAll = $presidentes->push($comprador, $coordinador)->unique('id');            
                 /* error_log("producto estan confirmado, mandar a crear los codigos de barras para esta empresa"); */
                 $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title)); 
-            }
-
-
-            
-            
-
-            
+            }            
         }
 
 
