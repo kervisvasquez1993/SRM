@@ -99,11 +99,8 @@ class PivotController extends ApiController
         
 
         $pivot_id->fill($request->all());
-
-
-
         /* si cambia el valor de productos cargados */
-        if($pivot_id->isDirty('productos_cargados') && $pivot_id->productos_cargados == "true") 
+        if($pivot_id->isDirty('productos_cargados') && $pivot_id->productos_cargados == true) 
         {
             
            $login_user    = auth()->user()->name;
@@ -120,11 +117,11 @@ class PivotController extends ApiController
            $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title));    
            error_log('productos_cargados');
         }
-        if($pivot_id->isDirty('iniciar_arte') && $pivot_id->iniciar_arte == "true" )
+        if($pivot_id->isDirty('iniciar_arte') && $pivot_id->iniciar_arte == true )
         {
-            error_log('hola desde artea');
-            $pivot_id->iniciar_arte = 1;
-            $pivot_id->save();
+            
+            
+            
             // TODO: Cambiar la forma en que se inicializa el nombre
             $this->artesCreate($pivot_id->id, $pivot_id->compra_po);
             $pivotResource = new PivotTareaProveederResource($pivot_id);
