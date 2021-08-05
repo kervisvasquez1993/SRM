@@ -58,15 +58,15 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/tarea/{tarea_id}/proveedor/{proveedor_id}/negociar', 'Api\Proveedor\ProveedorController@iniciarNegociacion');
     // fin de proveedores
     //Pivot 
-    Route::get('/pivot', 'Api\Pivot\PivotController@index');
-    Route::post('/pivot', 'Api\Pivot\PivotController@store');
-    Route::get('/pivot/{pivot_id}', 'Api\Pivot\PivotController@show');
-    Route::put('/pivot/{pivot_id}', 'Api\Pivot\PivotController@update');
+    Route::get( '/negociacion/pivot', 'Api\Pivot\PivotController@index');
+    Route::post('/negociacion/pivot', 'Api\Pivot\PivotController@store');
+    Route::get( '/negociacion/pivot/{pivot_id}', 'Api\Pivot\PivotController@show');
+    Route::put( '/negociacion/pivot/{pivot_id}', 'Api\Pivot\PivotController@update');
 
     //INICIA ARTE y negociacion 
 
-    Route::put('/negociacion/{pivotTareaProveederId}/iniciar-arte', 'Api\Pivot\PivotController@startArte');
-    Route::put('/negociacion/{pivotTareaProveederId}/iniciar-produccion', 'Api\Pivot\PivotController@startProduccion');
+   /*  Route::put('/negociacion/{pivotTareaProveederId}/iniciar-arte', 'Api\Pivot\PivotController@startArte');
+    Route::put('/negociacion/{pivotTareaProveederId}/iniciar-produccion', 'Api\Pivot\PivotController@startProduccion'); */
     /* Route::post('/testProduccion/{id}', 'Api\Pivot\PivotController@artesCreate'); */
 
 

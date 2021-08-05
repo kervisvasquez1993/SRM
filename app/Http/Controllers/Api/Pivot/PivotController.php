@@ -100,8 +100,12 @@ class PivotController extends ApiController
 
         $pivot_id->fill($request->all());
 
-        if($pivot_id->isDirty('productos_cargados'))
+
+
+        /* si cambia el valor de productos cargados */
+        if($pivot_id->isDirty('productos_cargados') && $pivot_id->productos_cargados == "true") 
         {
+            
            $login_user    = auth()->user()->name;
            $coordinador = User::find($pivot_id->tarea->sender_id);
            $presidentes = User::where('isPresidente', true)->get();
@@ -112,12 +116,22 @@ class PivotController extends ApiController
            $text = "El usuario: '$login_user' cargo via excel informacion de producto a la empresa '$proveedorName' asociada a la tarea '$tareaNombre'";
            $link = "/negotiation/$pivot_id->id#products";
            $type = "cargar_productos";
-           Notification::send($userAll, new GeneralNotification($text, $link, $type)); 
            $title = "Importacion de Productos";
-           $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title));   
+           $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title));    
+           error_log('productos_cargados');
+        }
+        if($pivot_id->isDirty('iniciar_arte') && $pivot_id->iniciar_arte == "true" )
+        {
+            error_log('hola desde artea');
+            $pivot_id->iniciar_arte = 1;
+            $pivot_id->save();
+            // TODO: Cambiar la forma en que se inicializa el nombre
+            $this->artesCreate($pivot_id->id, $pivot_id->compra_po);
+            $pivotResource = new PivotTareaProveederResource($pivot_id);
+            return $this->showOneResource($pivotResource);
         }
         // Actualizar el valor del codigo PO (compra_po)
-        return $pivot_id;
+        
         $pivot_id->save();
         
 
