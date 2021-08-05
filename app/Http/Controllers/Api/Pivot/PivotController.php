@@ -130,6 +130,17 @@ class PivotController extends ApiController
             $pivotResource = new PivotTareaProveederResource($pivot_id);
             return $this->showOneResource($pivotResource);
         }
+
+        if($pivot_id->isDirty('seleccionado') && $pivot_id->sleccionado == "true" )
+        {
+           /*  error_log('hola desde artea');
+            $pivot_id->iniciar_arte = 1;
+            $pivot_id->save();
+            // TODO: Cambiar la forma en que se inicializa el nombre
+            $this->artesCreate($pivot_id->id, $pivot_id->compra_po);
+            $pivotResource = new PivotTareaProveederResource($pivot_id);
+            return $this->showOneResource($pivotResource); */
+        }
         // Actualizar el valor del codigo PO (compra_po)
         
         $pivot_id->save();

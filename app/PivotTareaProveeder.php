@@ -17,6 +17,7 @@ class PivotTareaProveeder extends Model
     protected $fillable = [
         'compra_po',
         'productos_cargados',
+        'productos_confirmado',
         'iniciar_arte',
         'iniciar_negociacion',
         'payment_terms',
@@ -25,6 +26,8 @@ class PivotTareaProveeder extends Model
         'delivery_time',
         'codigo_comprador'
     ];
+   
+    
 
     public function compras()
     {
