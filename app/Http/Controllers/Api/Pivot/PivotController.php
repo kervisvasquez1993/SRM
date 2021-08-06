@@ -120,70 +120,88 @@ class PivotController extends ApiController
         }
 
         /* comprobariniciar arte */
-         if($pivot_id->isDirty('iniciar_arte') && $pivot_id->iniciar_arte == true )
-        {
-            
-            if ($pivot_id->compra_po === null) 
-            {
-              return $this->errorResponse("No se puede iniciar Arte sin un codigo PO agrgeado", Response::HTTP_BAD_REQUEST);
-            }
-            else
-            {
+        if ($pivot_id->isDirty('iniciar_arte') && $pivot_id->iniciar_arte == true) {
+
+            if ($pivot_id->compra_po === null) {
+                return $this->errorResponse("No se puede iniciar Arte sin un codigo PO agrgeado", Response::HTTP_BAD_REQUEST);
+            } else {
                 $this->artesCreate($pivot_id->id);
             }
-        } 
-        
+        }
 
-        if($pivot_id->isDirty('iniciar_produccion') && $pivot_id->iniciar_produccion == true)
-        {
-            if ($pivot_id->compra_po === null) 
-            {
-              return $this->errorResponse("No se puede iniciar producción sin un codigo PO", Response::HTTP_BAD_REQUEST);
-            }
-            else
-            {
+
+        if ($pivot_id->isDirty('iniciar_produccion') && $pivot_id->iniciar_produccion == true) {
+            if ($pivot_id->compra_po === null) {
+                return $this->errorResponse("No se puede iniciar producción sin un codigo PO", Response::HTTP_BAD_REQUEST);
+            } else {
                 $this->produccionTransitoCreate($pivot_id->id);
             }
         }
 
-        if ($pivot_id->isDirty('productos_confirmados') && $request->productos_confirmados == true) {
 
+        if ($pivot_id->isDirty('productos_confirmados') && $request->productos_confirmados == true) {
             $userAll = $presidentes->push($coordinador, $comprador)->unique('id');
-            $user_with_logistica = $userAll->merge($logistica);
-            $text = "El usuario: '$login_user' confirmo los productos pertenecientes a la empresa'$proveedorName' asociada a la tarea '$tareaNombre'";
             $link = "/negotiation/$pivot_id->id#products";
             $type =  "productos_confirmados";
             $title = "Productos confirmados";
-            $this->sendNotifications($user_with_logistica, new GeneralNotification($text, $link, $type, $title));
+
+
+            if ($pivot_id->seleccionado == true) {
+                /* TODO: REFACTORIZAR ESTE CODIGO PARA REULITILARLO */
+                $text = "La empresa '$proveedorName' en la tarea '$tareaNombre', fue seleccionada por favor iniciar con el proceso de creacion de codigo de barra";
+                $this->sendNotifications($logistica, new GeneralNotification($text, $link, $type, $title));
+            }
+            $text = "El usuario: '$login_user' confirmo los productos pertenecientes a la empresa'$proveedorName' asociada a la tarea '$tareaNombre'";
+            $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title));
         }
 
         if ($pivot_id->isDirty('seleccionado') && $request->seleccionado == true) {
-            $text = "La empresa: '$proveedorName' asociada a la tarea '$tareaNombre' fue la seleccionada.";
+
             $link = "/negotiation/$pivot_id->id#products";
-            $type = "empresa_seleccionada";
+            $type =  "empresa_seleccionada";
             $title = "Empresa Seleccionada";
 
-
             if ($pivot_id->productos_confirmados == true) {
-                $text = "La empresa: '$proveedorName' asociada a la tarea '$tareaNombre' fue la seleccionada y los productos ya estan seleccionado";
+                /* TODO: REFACTORIZAR ESTE CODIGO PARA REULITILARLO */
+                $text = "La empresa'$proveedorName' en la tarea '$tareaNombre', fue seleccionada por favor iniciar con el proceso de creacion de codigo de barra";
                 $userAll = $presidentes->push($comprador, $coordinador)->unique('id');
-                $user_with_logistica = $userAll->merge($logistica);
-                /* error_log("producto estan confirmado, mandar a crear los codigos de barras para esta empresa"); */
-                $this->sendNotifications($user_with_logistica, new GeneralNotification($text, $link, $type, $title));
+                $this->sendNotifications($logistica, new GeneralNotification($text, $link, $type, $title));
             } else {
-                error_log("notificacion al comprador para que confirme los productos y notificacion a logistica para crear codigo de barra");
-                $text = "La empresa: '$proveedorName' asociada a la tarea '$tareaNombre' fue la seleccionada, porfavor confirme los productos para crear los codigos de barra";
+                $text = "La empresa: '$proveedorName' asociada a la tarea '$tareaNombre' fue la seleccionada, por favor confirme los productos para continuar con la creacion de los codigos de barras";
                 $userAll = $presidentes->push($comprador, $coordinador)->unique('id');
-                /* error_log("producto estan confirmado, mandar a crear los codigos de barras para esta empresa"); */
-                $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title));
+                $this->sendNotifications(collect([$comprador]), new GeneralNotification($text, $link, $type, $title));
             }
+            $text = "La empresa: '$proveedorName' asociada a la tarea '$tareaNombre' fue la seleccionada.";
+            $this->sendNotifications(collect([$coordinador]), new GeneralNotification($text, $link, $type, $title));
+        }
+
+        if ($pivot_id->isDirty('codigo_barra_finalizado') && $pivot_id->codigo_barra_finalizado == true) {
+            $userAll = $presidentes->push($coordinador, $comprador)->unique('id');
+            $user_with_logistica = $userAll->merge($logistica)->unique('id');
+            $text = "El usuario: '$login_user' agrego los codigos de barras pertenecientes a los producto de la empresa: '$proveedorName' asociada a la tarea '$tareaNombre'";
+            $link = "/negotiation/$pivot_id->id#products";
+            $type =  "codigos_barra";
+            $title = "Codigos de barra";
+            $this->sendNotifications($user_with_logistica, new GeneralNotification($text, $link, $type, $title));
+        }
+        if ($pivot_id->isDirty('base_grafico_finalizado') && $pivot_id->base_grafico_finalizado == true) {
+            $userAll = $presidentes->push($coordinador, $comprador)->unique('id');
+            $user_with_logistica = $userAll->merge($logistica)->unique('id');
+            $text = "El usuario: '$login_user' agrego los productos a base grafico pertenecientes a la empresa: '$proveedorName' asociada a la tarea '$tareaNombre'";
+            $link = "/negotiation/$pivot_id->id#products";
+            $type =  "codigos_barra";
+            $title = "Codigos de barra";
+            $this->sendNotifications($user_with_logistica, new GeneralNotification($text, $link, $type, $title));
+        }
+
+        if ($pivot_id->isDirty('orden_compra') && $pivot_id->orden_compra == true) {
+            error_log('codigo de barra finalizado');
         }
 
         if ($pivot_id->isClean()) {
-
-            error_log('errrrroooor');
+            return $this->errorResponse("Debe al menos especificar algun cambio", Response::HTTP_BAD_REQUEST);
         }
-        error_log('ejecutado');
+
         $pivot_id->save();
         return $this->showOneResource(new PivotTareaProveederResource($pivot_id));
     }
