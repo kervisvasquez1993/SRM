@@ -26,7 +26,8 @@ use Symfony\Component\HttpFoundation\Response;
 class ProductoController extends ApiController
 {
     private $validation_rules = [
-        'product_name_supplier' => 'required|unique',
+        'product_code_supplier' => 'required',
+        'product_name_supplier' => 'required',
     ];
 
     private function showError($validatior)

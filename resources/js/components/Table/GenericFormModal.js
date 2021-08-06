@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import GenericForm from "../Form/GenericForm";
-import InputDate from "../Form/InputDate";
-import InputNumber from "../Form/InputNumber";
-import InputText from "../Form/InputText";
 
 const GenericFormModal = props => {
     const { formData, onSubmit } = props;
     const [data, setData] = useState({ ...formData });
 
+    // @ts-ignore
     const isEditing = useSelector(state => state.genericForm.isEditing);
+    // @ts-ignore
     const errors = useSelector(state => state.genericForm.errors);
+    // @ts-ignore
     const error = useSelector(state => state.genericForm.error);
 
     const handleChange = e => {

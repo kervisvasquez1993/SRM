@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { FaFileImport } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
 import {
     deleteProduct,
@@ -71,6 +70,8 @@ const ProductsTable = ({
                         product={product}
                         pivotId={negotiation.id}
                         isEditor={true}
+                        firstColumns={logisticsColumns ? false : true}
+                        buyerColumns={buyerColumns}
                         logisticsColumns={logisticsColumns}
                     />
                 )
