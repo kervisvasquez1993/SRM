@@ -99,6 +99,7 @@ class PivotController extends ApiController
 
     
         $pivot_id->fill($request->all());
+        
         /* si cambia el valor de productos cargados */
         $login_user    = auth()->user()->name;
         $coordinador = User::find($pivot_id->tarea->sender_id);
@@ -126,8 +127,22 @@ class PivotController extends ApiController
          if($pivot_id->isDirty('iniciar_arte') && $pivot_id->iniciar_arte == true )
         {
             $this->artesCreate($pivot_id->id);
+            return $request->all();
         } 
+        
 
+        if($pivot_id->isDirty('iniciar_produccion') && $pivot_id->iniciar_produccion == true)
+        {
+            if ($pivot_id->compra_po === null) 
+            {
+              return $this->errorResponse("No se puede iniciar producción sin un codigo PO", Response::HTTP_BAD_REQUEST);
+            }
+            else
+            {
+                $this->produccionTransitoCreate($pivot_id->id);
+            }
+            
+        }
       
 
         if($pivot_id->isDirty('productos_confirmados') && $request->productos_confirmados == true)
@@ -141,6 +156,7 @@ class PivotController extends ApiController
           $title = "Productos confirmados";
           $this->sendNotifications($user_with_logistica, new GeneralNotification($text, $link, $type, $title));    
         }  
+
         
 
         if( $pivot_id->isDirty('seleccionado') && $request->seleccionado == true)
@@ -182,20 +198,12 @@ class PivotController extends ApiController
         return $this->showOneResource(new PivotTareaProveederResource($pivot_id));
     }
 
-    public function startProduccion($pivotTareaProveederId)
-    {
-        $pivot = PivotTareaProveeder::findOrFail($pivotTareaProveederId);
-        // No se puede iniciar produccion sin un codigo PO
-        if ($pivot->compra_po === null) 
-        {
-            return $this->errorResponse("No se puede iniciar producción sin un codigo PO", Response::HTTP_BAD_REQUEST);
-        }
-        $pivot->iniciar_produccion = 1;
-        $pivot->save();
-        $this->produccionTransitoCreate($pivot->id);
-        $pivotResource = new PivotTareaProveederResource($pivot);
-        return $this->showOneResource($pivotResource);
-    }
+
+
+
+   
+
+
 
     public function artesCreate($id)
     {
@@ -224,17 +232,25 @@ class PivotController extends ApiController
         $type    = "iniciar_arte";
         $title   = "Inicio de Arte";
         /* Notification::send($userUni, new GeneralNotification($body, $link, $type)); */
-        error_log($userAll);
+        
         $this->sendNotifications($userAll, new GeneralNotification($body, $link, $type, $title));
     }
 
+
+
+
+
+
+
     public function produccionTransitoCreate($id)
     {
+        error_log('ejecutado1'); 
         $producionTransito = ProduccionTransito::where('pivot_tarea_proveeder_id', $id)->first();
         if ($producionTransito) 
         {
-            return $this->successMensaje('Ya se Inicializo la produccion con este Proveedor', 201);
+           return  $this->successMensaje('Ya se Inicializo la produccion con este Proveedor', 201);
         }
+        error_log('holaaa');
         $produccionAprobar = new ProduccionTransito();
         $produccionAprobar->pivot_tarea_proveeder_id = $id;
         $produccionAprobar->save(); 
@@ -251,6 +267,7 @@ class PivotController extends ApiController
         $type    = "iniciar_produccion";
         $title   = "Inicio de Produccion";
         /* Notification::send($userUni, new GeneralNotification($body, $link, $type)); */
+        error_log('holaaa');
         $this->sendNotifications($userUni, new GeneralNotification($body, $link, $type, $title));
     }
 }
