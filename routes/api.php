@@ -48,14 +48,14 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/tarea/{tarea_id}/proveedor/{proveedor_id}/negociar', 'Api\Proveedor\ProveedorController@iniciarNegociacion');
     // fin de proveedores
     //Pivot 
-    Route::get( '/negociacion', 'Api\Pivot\PivotController@index');
+    Route::get('/negociacion', 'Api\Pivot\PivotController@index');
     Route::post('/negociacion', 'Api\Pivot\PivotController@store');
-    Route::get( '/negociacion/{pivot_id}', 'Api\Pivot\PivotController@show');
-    Route::put( '/negociacion/{pivot_id}', 'Api\Pivot\PivotController@update');
+    Route::get('/negociacion/{pivot_id}', 'Api\Pivot\PivotController@show');
+    Route::put('/negociacion/{pivot_id}', 'Api\Pivot\PivotController@update');
 
     //INICIA ARTE y negociacion 
 
-   /*  Route::put('/negociacion/{pivotTareaProveederId}/iniciar-arte', 'Api\Pivot\PivotController@startArte');
+    /*  Route::put('/negociacion/{pivotTareaProveederId}/iniciar-arte', 'Api\Pivot\PivotController@startArte');
     Route::put('/negociacion/{pivotTareaProveederId}/iniciar-produccion', 'Api\Pivot\PivotController@startProduccion'); */
     /* Route::post('/testProduccion/{id}', 'Api\Pivot\PivotController@artesCreate'); */
 
@@ -73,7 +73,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/negociacion/{pivot_tarea_proveedor}/productos', 'Api\Producto\ProductoController@store');
     Route::put('/productos/{producto}', 'Api\Producto\ProductoController@update');
     Route::get('/productos/{producto}', 'Api\Producto\ProductoController@show');
-    
+
     Route::delete('/productos/{producto}', 'Api\Producto\ProductoController@delete');
 
 
@@ -271,10 +271,6 @@ Route::middleware('auth:api')->group(function () {
     // Notificaciones
     Route::post('/push-notification', 'Api\WebNotificationController@storeToken');
     Route::delete('/push-notification/{fcmToken}', 'Api\WebNotificationController@deleteToken');
-
-   
 });
-
-
 
 Route::get('negociacion/{producto}/exportar_productos', 'Api\Producto\ProductoController@exportProduct');

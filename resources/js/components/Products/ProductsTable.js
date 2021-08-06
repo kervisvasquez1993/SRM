@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
+import { FaFileImport } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
 import {
     deleteProduct,
@@ -8,13 +10,13 @@ import {
 import { getSum, roundMoneyAmount } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
 import LoadingScreen from "../Navigation/LoadingScreen";
-import LargeCreateButton from "../Widgets/LargeCreateButton";
 import ProductsResume from "../Widgets/ProductsResume";
 import CreateProductModal from "./CreateProductModal";
 import ProductFormModal from "./ProductFormModal";
 
 const ProductsTable = ({
     allowEditing = false,
+    allowDeletion = false,
     showCreateButton = false,
     allowExcel = true,
     canAddSingleProduct = false,
@@ -69,6 +71,7 @@ const ProductsTable = ({
                         product={product}
                         pivotId={negotiation.id}
                         isEditor={true}
+                        logisticsColumns={logisticsColumns}
                     />
                 )
             })
@@ -92,9 +95,33 @@ const ProductsTable = ({
                 </React.Fragment>
             )}
 
-            {isMine && showCreateButton && (
-                <LargeCreateButton onClick={handleCreate} />
-            )}
+            <div
+                className={`w-100 ${
+                    products.length === 0 ? "text-center" : ""
+                }`}
+            >
+                {products.length > 0 && (
+                    <a
+                        className="btn btn-info mb-4"
+                        href={`/api/negociacion/${negotiation.id}/exportar_productos`}
+                    >
+                        <FaFileImport className="mr-2" />
+                        Exportar
+                    </a>
+                )}
+
+                {isMine && showCreateButton && (
+                    <button
+                        className={`btn btn-success mb-4 ${
+                            products.length === 0 ? "btn-lg" : ""
+                        }`}
+                        onClick={handleCreate}
+                    >
+                        <FaFileImport className="mr-2" />
+                        Importar
+                    </button>
+                )}
+            </div>
 
             {products.length > 0 && (
                 <div className="table-responsive table-text mb-5">
@@ -124,9 +151,13 @@ const ProductsTable = ({
                                 )}
 
                                 {logisticsColumns && (
-                                    <React.Fragment>
-                                        <th scope="col" colSpan={10}></th>
-                                    </React.Fragment>
+                                    <th scope="col" colSpan={10}></th>
+                                )}
+
+                                {(allowEditing || allowDeletion) && (
+                                    <th scope="col" rowSpan={3}>
+                                        Acciones
+                                    </th>
                                 )}
                             </tr>
                             <tr>
@@ -312,49 +343,10 @@ const ProductsTable = ({
                                                         )
                                                     )}
                                                 </td>
-                                                <td
-                                                    className={
-                                                        isMine && allowEditing
-                                                            ? "text-left"
-                                                            : ""
-                                                    }
-                                                >
-                                                    <div className="d-inline-flex align-items-center">
-                                                        {roundMoneyAmount(
-                                                            product.total_g_w
-                                                        )}
-                                                        {isMine &&
-                                                            allowEditing && (
-                                                                <div className="d-inline-flex justify-content-end flex-grow-1">
-                                                                    <button
-                                                                        className="btn btn-success btn-circle ml-3 btn-sm"
-                                                                        type="button"
-                                                                        onClick={() =>
-                                                                            handleEdit(
-                                                                                product
-                                                                            )
-                                                                        }
-                                                                    >
-                                                                        <span className="material-icons">
-                                                                            edit
-                                                                        </span>
-                                                                    </button>
-                                                                    <button
-                                                                        className="btn btn-danger btn-circle btn-sm"
-                                                                        type="button"
-                                                                        onClick={() =>
-                                                                            handleDelete(
-                                                                                product
-                                                                            )
-                                                                        }
-                                                                    >
-                                                                        <span className="material-icons icon-normal">
-                                                                            clear
-                                                                        </span>
-                                                                    </button>
-                                                                </div>
-                                                            )}
-                                                    </div>
+                                                <td>
+                                                    {roundMoneyAmount(
+                                                        product.total_g_w
+                                                    )}
                                                 </td>
                                             </React.Fragment>
                                         )}
@@ -394,6 +386,44 @@ const ProductsTable = ({
                                                     }
                                                 </td>
                                             </React.Fragment>
+                                        )}
+
+                                        {(allowEditing || allowDeletion) && (
+                                            <td>
+                                                <div className="d-inline-flex justify-content-end flex-grow-1">
+                                                    {allowEditing && (
+                                                        <button
+                                                            className="btn btn-success btn-circle ml-3 btn-sm"
+                                                            type="button"
+                                                            onClick={() =>
+                                                                handleEdit(
+                                                                    product
+                                                                )
+                                                            }
+                                                        >
+                                                            <span className="material-icons">
+                                                                edit
+                                                            </span>
+                                                        </button>
+                                                    )}
+
+                                                    {allowDeletion && (
+                                                        <button
+                                                            className="btn btn-danger btn-circle btn-sm"
+                                                            type="button"
+                                                            onClick={() =>
+                                                                handleDelete(
+                                                                    product
+                                                                )
+                                                            }
+                                                        >
+                                                            <span className="material-icons icon-normal">
+                                                                clear
+                                                            </span>
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </td>
                                         )}
                                     </tr>
                                 );

@@ -20,10 +20,6 @@ const BarCodeTab = () => {
         return <CompleteLastStageMessage />;
     }
 
-    if (user.rol === "comprador") {
-        return <OnlyLogisticsAllowedMessage />;
-    }
-
     const handleContinue = () => {
         if (confirm("¿Está seguro?")) {
             dispatch(finishStage(negotiation, "codigo_barra_finalizado"));
@@ -34,7 +30,7 @@ const BarCodeTab = () => {
         <div className="d-flex flex-column align-items-center">
             <ProductsTable
                 showCreateButton={user.rol === "logistica"}
-                allowEditing={false}
+                allowEditing={true}
                 allowExcel={true}
                 canAddSingleProduct={false}
                 editableOnlyByOwner={false}

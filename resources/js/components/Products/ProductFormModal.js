@@ -34,7 +34,12 @@ export const emptyProduct = {
     total_g_w: ""
 };
 
-const ProductFormModal = ({ product, isEditor = false, pivotId = null }) => {
+const ProductFormModal = ({
+    product,
+    isEditor = false,
+    pivotId = null,
+    logisticsColumns = false
+}) => {
     const dispatch = useDispatch();
 
     const onSubmit = data => {
