@@ -19,6 +19,7 @@ import CheckIcon from "../../Widgets/CheckIcon";
 import ProductsConfirmationTab from "./ProductsConfirmationTab";
 import ProviderSelectionTab from "./ProviderSelectionTab";
 import BarCodeTab from "./BarCodeTab";
+import BaseGraficoTab from "./BaseGraficoTab";
 
 const ProviderPurchase = () => {
     const history = useHistory();
@@ -73,6 +74,7 @@ const ProviderPurchase = () => {
     const state = 0;
     let defaultTab =
         (!negotiation.productos_cargados && "0") ||
+        (negotiation.base_grafico_finalizado && "5") ||
         (negotiation.codigo_barra_finalizado && "4") ||
         (negotiation.seleccionado &&
             negotiation.productos_confirmados &&
@@ -192,7 +194,9 @@ const ProviderPurchase = () => {
                             <Tab name="4">
                                 <div className="d-flex align-items-center">
                                     <CheckIcon
-                                        checked={state > 4}
+                                        checked={
+                                            negotiation.base_grafico_finalizado
+                                        }
                                         className="icon-medium"
                                     />
                                     Base gráfico
@@ -222,7 +226,9 @@ const ProviderPurchase = () => {
                         <TabContent name="3">
                             <BarCodeTab />
                         </TabContent>
-                        <TabContent name="4">Hola</TabContent>
+                        <TabContent name="4">
+                            <BaseGraficoTab />
+                        </TabContent>
                         <TabContent name="5">
                             <NegotiationPurchaseTab />
                         </TabContent>

@@ -468,6 +468,9 @@ const ProductsTable = ({
                                                 getSum(products, "total_g_w")
                                             )}
                                         </td>
+                                        {(allowEditing || allowDeletion) && (
+                                            <td></td>
+                                        )}
                                     </React.Fragment>
                                 </tr>
                             )}
