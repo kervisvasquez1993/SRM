@@ -30,7 +30,7 @@ const BarCodeTab = () => {
         <div className="d-flex flex-column align-items-center">
             <ProductsTable
                 showCreateButton={user.rol === "logistica"}
-                allowEditing={true}
+                allowEditing={user.rol === "logistica"}
                 allowExcel={true}
                 canAddSingleProduct={false}
                 editableOnlyByOwner={false}
