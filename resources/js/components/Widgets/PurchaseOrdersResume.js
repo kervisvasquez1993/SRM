@@ -6,15 +6,13 @@ import { roundMoneyAmount } from "../../utils";
 const PurchaseOrdersResume = ({ compras_total }) => {
     return (
         <React.Fragment>
-            <div className="card py-4 px-3 px-md-5">
-                <div className="resume-card-body resume-card-body-1">
-                    <SmallCard
-                        label="Total a Pagar"
-                        icon={<MdAttachMoney className="icon-normal" />}
-                    >
-                        {roundMoneyAmount(compras_total)}
-                    </SmallCard>
-                </div>
+            <div className="resume-card-body resume-card-body-1">
+                <SmallCard
+                    label="Total a Pagar"
+                    icon={<MdAttachMoney className="icon-normal" />}
+                >
+                    {roundMoneyAmount(compras_total)}
+                </SmallCard>
             </div>
         </React.Fragment>
     );

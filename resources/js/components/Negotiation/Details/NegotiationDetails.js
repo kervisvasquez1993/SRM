@@ -108,42 +108,6 @@ const ProviderPurchase = () => {
 
                 <h2 className="h2 py-4">Proceso</h2>
 
-                {/* <StatusBar>
-                    <StatusIcon index={0} state={state} description="Cargar" />
-
-                    <StatusIcon
-                        index={1}
-                        state={state}
-                        description="Confirmar"
-                    />
-
-                    <StatusIcon
-                        index={2}
-                        state={state}
-                        description="Selección de proveedor"
-                    />
-
-                    <StatusIcon
-                        index={3}
-                        state={state}
-                        description="Codigos de barra"
-                    />
-
-                    <StatusIcon
-                        index={4}
-                        state={state}
-                        description="Base gráfico"
-                    />
-
-                    <StatusIcon
-                        index={5}
-                        state={state}
-                        description="Orden de compra"
-                    />
-                </StatusBar> 
-
-                <div className="py-5"></div> */}
-
                 <div className="w-100">
                     <Tabs defaultTab={defaultTab} className="flex-grow-1">
                         <TabsRow>
@@ -206,7 +170,7 @@ const ProviderPurchase = () => {
                             <Tab name="5">
                                 <div className="d-flex align-items-center">
                                     <CheckIcon
-                                        checked={state > 5}
+                                        checked={negotiation.orden_compra}
                                         className="icon-medium"
                                     />
                                     <span>Orden de compra</span>

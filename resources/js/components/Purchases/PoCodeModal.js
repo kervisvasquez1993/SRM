@@ -1,13 +1,6 @@
-import axios from "axios";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-    editPoCode,
-    updateNegotiation
-} from "../../store/actions/negotiationActions";
-import { extractError } from "../../utils";
-import { apiURL } from "../App";
-import GenericForm from "../Form/GenericForm";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { updateNegotiation as updateNegotiationPurchaseOrder } from "../../store/actions/negotiationActions";
 import InputDate from "../Form/InputDate";
 import InputText from "../Form/InputText";
 import GenericFormModal from "../Table/GenericFormModal";
@@ -16,8 +9,7 @@ const PoCodeModal = ({ formData }) => {
     const dispatch = useDispatch();
 
     const onSubmit = data => {
-        //axios.put(`${apiURL}/pivot/${formData.id}`, data).then(repsonse => console.log(repsonse));
-        dispatch(updateNegotiation(data));
+        dispatch(updateNegotiationPurchaseOrder(data));
     };
 
     return (

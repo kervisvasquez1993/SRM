@@ -140,7 +140,7 @@ export function editPoCode(data) {
 export function updateNegotiation(data) {
     return dispatch => {
         return genericFormSubmit(dispatch, () =>
-            axios.put(`${apiURL}/pivot/${data.id}`, data)
+            axios.put(`${apiURL}/negociacion/${data.id}`, data)
         ).then(response => {
             dispatch({
                 type: "EDIT_PO_CODE_SUCCESS",
@@ -149,7 +149,7 @@ export function updateNegotiation(data) {
 
             dispatch(closeModal());
 
-            toast.success("✔️ Código PO editado");
+            toast.success("✔️ Orden de compra editada");
         });
     };
 }

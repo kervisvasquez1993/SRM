@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
+import { finishStage } from "../../store/actions/negotiationActions";
 import { getPurchaseOrdersFromNegotiation } from "../../store/actions/purchaseOrderActions";
-import { getSum, roundMoneyAmount, useSimpleScrollToId } from "../../utils";
+import { getSum, roundMoneyAmount } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
 import LoadingScreen from "../Navigation/LoadingScreen";
-// @ts-ignore
-import LargeCreateButton from "../Widgets/LargeCreateButton";
+import NextStageButton from "../Negotiation/Details/Other/NextStageButton";
+import OnlyBuyersAllowedMessage from "../Negotiation/Details/Other/OnlyBuyersAllowedMessage";
+import StageCompletedMessage from "../Negotiation/Details/Other/StageCompletedMessage";
 import PurchaseOrdersResume from "../Widgets/PurchaseOrdersResume";
 import CreatePurchaseOrderModal from "./CreatePurchaseOrderModal";
 import PoCodeModal from "./PoCodeModal";
@@ -33,27 +34,29 @@ const NegotiationPurchaseTab = () => {
     // @ts-ignore
     const user = useSelector(state => state.auth.user);
     // @ts-ignore
-    const products = useSelector(state => state.product.products);
-    // @ts-ignore
     const negotiation = useSelector(state => state.negotiation.negotiation);
 
     const dispatch = useDispatch();
-    // @ts-ignore
-    const { id: pivotId } = useParams();
+
+    const canContinue = purchaseOrders.length > 0 && negotiation.compra_po;
 
     useEffect(() => {
-        dispatch(getPurchaseOrdersFromNegotiation(pivotId));
+        dispatch(getPurchaseOrdersFromNegotiation(negotiation.id));
     }, []);
 
     const isMine = user.id == negotiation.usuario.id;
 
-    const titleRef = useSimpleScrollToId("#purchases");
+    const handleContinue = () => {
+        if (confirm("¿Está seguro?")) {
+            dispatch(finishStage(negotiation, "orden_compra"));
+        }
+    };
 
     const handleCreate = () => {
         dispatch(
             openModal({
                 title: "Agregar Orden de Compra",
-                body: <CreatePurchaseOrderModal pivotId={pivotId} />
+                body: <CreatePurchaseOrderModal pivotId={negotiation.id} />
             })
         );
     };
@@ -67,17 +70,27 @@ const NegotiationPurchaseTab = () => {
         );
     };
 
+    if (user.rol === "logistica") {
+        return <OnlyBuyersAllowedMessage />;
+    }
+
     if (isLoadingList) {
         return <LoadingScreen />;
     }
 
     return (
-        <React.Fragment>
-            <div className="mr-auto text-center py-4" ref={titleRef}>
-                <h2>Orden de Compra</h2>
-            </div>
-
+        <div className="d-flex flex-column align-items-center">
             {purchaseOrders.length == 0 && <EmptyList />}
+
+            {isMine && (
+                <button
+                    className="btn btn-lg btn-success btn-round mb-4"
+                    onClick={handleCreate}
+                >
+                    <span className="material-icons mr-1">add</span>
+                    Agregar Registro
+                </button>
+            )}
 
             {purchaseOrders.length > 0 && (
                 <div className="row mb-4 mb-5">
@@ -87,7 +100,7 @@ const NegotiationPurchaseTab = () => {
                                 <tr>
                                     <th scope="col">Campo</th>
                                     <th scope="col">Valor</th>
-                                    <th scope="col">Acción</th>
+                                    {isMine && <th scope="col">Acción</th>}
                                 </tr>
                             </thead>
                             <tbody>
@@ -107,35 +120,25 @@ const NegotiationPurchaseTab = () => {
                                                     </div>
                                                 )}
                                             </td>
-                                            <td>
-                                                <button
-                                                    className="btn btn-sm btn-success btn-circle ml-3"
-                                                    type="button"
-                                                    onClick={handleEdit}
-                                                >
-                                                    <span className="material-icons">
-                                                        edit
-                                                    </span>
-                                                </button>
-                                            </td>
+                                            {isMine && (
+                                                <td>
+                                                    <button
+                                                        className="btn btn-sm btn-success btn-circle ml-3"
+                                                        type="button"
+                                                        onClick={handleEdit}
+                                                    >
+                                                        <span className="material-icons">
+                                                            edit
+                                                        </span>
+                                                    </button>
+                                                </td>
+                                            )}
                                         </tr>
                                     );
                                 })}
                             </tbody>
                         </table>
                     </div>
-                </div>
-            )}
-
-            {isMine && (
-                <div className="text-center">
-                    <button
-                        className="btn btn-lg btn-success btn-round mb-4"
-                        onClick={handleCreate}
-                    >
-                        <span className="material-icons mr-1">add</span>
-                        Agregar Registro
-                    </button>
                 </div>
             )}
 
@@ -185,7 +188,37 @@ const NegotiationPurchaseTab = () => {
                     />
                 </React.Fragment>
             )}
-        </React.Fragment>
+
+            <hr className="w-100" />
+
+            {negotiation.orden_compra ? (
+                <StageCompletedMessage />
+            ) : (
+                <React.Fragment>
+                    {user.rol === "comprador" ? (
+                        <React.Fragment>
+                            <p>
+                                Utilize el siguiente botón para pasar a la
+                                siguiente etapa:{" "}
+                                {!canContinue && (
+                                    <span className="text-danger">
+                                        (Se necesitan agregar ordenes de compra
+                                        y un codigo PO)
+                                    </span>
+                                )}
+                            </p>
+
+                            <NextStageButton
+                                onClick={handleContinue}
+                                disabled={!canContinue}
+                            />
+                        </React.Fragment>
+                    ) : (
+                        <OnlyBuyersAllowedMessage />
+                    )}
+                </React.Fragment>
+            )}
+        </div>
     );
 };
 
