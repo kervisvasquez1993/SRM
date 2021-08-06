@@ -1,7 +1,5 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { FaCheck } from "react-icons/fa";
 import { finishProductsConfirmationStage } from "../../../store/actions/negotiationActions";
 import ProductsTable from "../../Products/ProductsTable";
 import StageCompletedMessage from "./Other/StageCompletedMessage";

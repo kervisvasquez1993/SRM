@@ -17,7 +17,7 @@ const ProviderSelectionTab = () => {
             {negotiation.seleccionado ? (
                 <StageCompletedMessage />
             ) : (
-                <div className="d-flex align-items-center">
+                <div className="d-flex align-items-center py-4">
                     <span className="material-icons mr-2 text-danger">
                         warning
                     </span>

@@ -36,11 +36,6 @@ const NegotiationModal = ({ negotiation }) => {
         dispatch(startArtWithNegotiation(id));
     };
 
-    const handleStartBoth = () => {
-        handleStartArt();
-        handleStartProduction();
-    };
-
     const selectionButton = (
         <button
             type="button"

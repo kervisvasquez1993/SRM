@@ -339,6 +339,26 @@ export function finishProductsConfirmationStage(negotiation) {
     };
 }
 
+export function finishStage(negotiation, name) {
+    return async (dispatch, getState) => {
+        try {
+            const response = await axios.put(
+                `${apiURL}/negociacion/${negotiation.id}`,
+                { [name]: true }
+            );
+
+            dispatch({
+                type: "UPDATE_NEGOTIATION_SUCCESS",
+                payload: response.data.data
+            });
+
+            toast.success("✔️ Etapa finalizada");
+        } catch (e) {
+            console.log(e.response);
+        }
+    };
+}
+
 export function selectNegotiation(negotiation) {
     return async (dispatch, getState) => {
         try {
@@ -363,7 +383,7 @@ export function selectNegotiation(negotiation) {
 
             toast.success("✔️ Esta empresa fue seleccionada");
         } catch (e) {
-            console.log(e);
+            console.log(e.response);
         }
     };
 }
