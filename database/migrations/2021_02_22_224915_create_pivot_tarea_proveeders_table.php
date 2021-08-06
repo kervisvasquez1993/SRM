@@ -21,6 +21,9 @@ class CreatePivotTareaProveedersTable extends Migration
             $table->boolean('productos_confirmados')->default(false);
             $table->boolean('iniciar_arte')->default(false);
             $table->boolean('seleccionado')->default(false);
+            $table->boolean('orden_compra')->default(false);
+            $table->boolean('codigo_barra_finalizado')->default(false);
+            $table->boolean('base_grafico_finalizado')->default(false);
             $table->boolean('iniciar_produccion')->default(false);
             $table->string('compra_po')->nullable()->default(null);
             $table->string('codigo_comprador')->nullable()->default(null);

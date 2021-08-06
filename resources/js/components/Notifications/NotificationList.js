@@ -32,6 +32,8 @@ const ProductionList = () => {
             <h1 className="text-center my-5">Notificaciones</h1>
 
             <div className="notifications-container">
+                {notifications.length === 0 && <EmptyList />}
+                
                 {notifications.map(item => {
                     let header = null;
                     const epoch = new Date(item.created_at).setHours(
