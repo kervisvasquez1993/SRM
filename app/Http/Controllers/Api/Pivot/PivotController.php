@@ -126,8 +126,15 @@ class PivotController extends ApiController
         /* comprobariniciar arte */
          if($pivot_id->isDirty('iniciar_arte') && $pivot_id->iniciar_arte == true )
         {
-            $this->artesCreate($pivot_id->id);
-            return $request->all();
+            
+            if ($pivot_id->compra_po === null) 
+            {
+              return $this->errorResponse("No se puede iniciar Arte sin un codigo PO agrgeado", Response::HTTP_BAD_REQUEST);
+            }
+            else
+            {
+                $this->artesCreate($pivot_id->id);
+            }
         } 
         
 
