@@ -201,7 +201,7 @@ class PivotController extends ApiController
         {
             $userAll = $presidentes->push($coordinador, $comprador)->unique('id');
             $user_with_logistica = $userAll->merge($logistica)->unique('id');       
-            $text = "El usuario: '$login_user' agrego codigos de barras pertenecientes a los producto de la empresa: '$proveedorName' asociada a la tarea '$tareaNombre'";
+            $text = "El usuario: '$login_user' agrego los codigos de barras pertenecientes a los producto de la empresa: '$proveedorName' asociada a la tarea '$tareaNombre'";
             $link = "/negotiation/$pivot_id->id#products";
             $type =  "codigos_barra";
             $title = "Codigos de barra";
@@ -210,7 +210,13 @@ class PivotController extends ApiController
         }
         if($pivot_id->isDirty('base_grafico_finalizado') && $pivot_id->base_grafico_finalizado == true)
         {
-            error_log('base de garfico finalizado');
+            $userAll = $presidentes->push($coordinador, $comprador)->unique('id');
+            $user_with_logistica = $userAll->merge($logistica)->unique('id');       
+            $text = "El usuario: '$login_user' agrego los productos a base grafico pertenecientes a la empresa: '$proveedorName' asociada a la tarea '$tareaNombre'";
+            $link = "/negotiation/$pivot_id->id#products";
+            $type =  "codigos_barra";
+            $title = "Codigos de barra";
+            $this->sendNotifications($user_with_logistica, new GeneralNotification($text, $link, $type, $title));   
         }
     
         if($pivot_id->isDirty('orden_compra') && $pivot_id->orden_compra == true)

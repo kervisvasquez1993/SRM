@@ -178,6 +178,8 @@ class ProductoController extends ApiController
                         'permiso_sanitario' => $row[29],
                         'cpe' => $row[30],
                         'num_referencia_empaque' => $row[31],
+                        
+                        
                         'codigo_de_barras_unit' => $row[32],
                         'codigo_de_barras_inner' => $row[33],
                         'codigo_de_barras_outer' => $row[34],
