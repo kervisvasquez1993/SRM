@@ -26,7 +26,8 @@ use Symfony\Component\HttpFoundation\Response;
 class ProductoController extends ApiController
 {
     private $validation_rules = [
-        'product_name_supplier' => 'required|unique',
+        'product_name_supplier' => 'required',
+        'product_code_supplier' => 'required',
     ];
 
     private function showError($validatior)
@@ -51,9 +52,12 @@ class ProductoController extends ApiController
         if ($validator->fails()) {
             return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
         }
+
+
+
         $request->merge(["pivot_tarea_proveeder_id" => $pivot_tarea_proveedor->id]);
         $producto = Producto::create($request->all());
-
+        $this->mensaje_notificacion($producto, "CREO el producto: $producto->product_name_supplier");
         return $this->showOne($producto);
     }
 
@@ -76,14 +80,53 @@ class ProductoController extends ApiController
         $producto->update(
             $request->all()
         );
-        $producto->save();
+
+        $this->mensaje_notificacion($producto, "Actualizo el producto: $producto->product_name_supplier");
+
         return $this->showOne($producto);
     }
 
     public function delete(Producto $producto)
     {
         $producto->delete();
+        $this->mensaje_notificacion($producto, "ELIMINO el producto: $producto->product_name_supplier");
         return $this->showOne($producto);
+    }
+    public function mensaje_notificacion($producto, $accion)
+    {
+
+        $pivot = $producto->pivot;
+
+        if($pivot->productos_confirmados == true && $pivot->seleccionado == true)
+        {
+            /* usuarios */
+            $login_user    = auth()->user()->name;
+            $coordinador = User::find($pivot->tarea->sender_id);
+            $presidentes = User::where('isPresidente', true)->get();
+            $comprador = $pivot->tarea->usuario;
+            $logistica = User::where('rol', 'logistica')->get();
+            /* fin de usuarios */
+            /* Nombres tarea proveedor */
+            $proveedorName = Proveedor::findOrFail($pivot->proveedor_id)->nombre;
+            $tareaNombre   = Tarea::findOrFail($pivot->tarea_id)->nombre;
+            /* fin  */
+            
+            $userAll = $presidentes->push($coordinador, $comprador)->merge($logistica)->unique('id');
+            /* $user_with_logistica = $userAll->merge($logistica)->unique('id'); */
+            
+            /* mensaje */
+            
+            $text = "El usuario: '$login_user' $accion, perteneciente a la empresa '$proveedorName' que está asociada a la tarea '$tareaNombre'";
+            $link = "/negotiation/$pivot->id#products";
+            $type =  "codigos_barra";
+            $title = "Codigos de barra";
+            $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title));
+
+
+            /* fin mensaje */
+        }
+
+       
     }
 
     public function importProduct(Request $request, PivotTareaProveeder $pivot_tarea_proveeder_id)
@@ -99,7 +142,7 @@ class ProductoController extends ApiController
                 foreach ($hoja as $row) {
                     $product = [
                         /* formulas */
-                        $total_ctn =  ( $row[9] == null && $row[14] == null ) ? 0 : $row[9] / $row[14],
+                        $total_ctn =  ($row[9] == null && $row[14] == null) ? 0 : $row[9] / $row[14],
                         $total_cbm =  $row[18] * $total_ctn,
                         $total_v_w = $total_ctn * $row[19],
                         $total_g_w = $total_ctn * $row[20],
@@ -181,15 +224,13 @@ class ProductoController extends ApiController
         } catch (\Exception $e) {
             return $this->errorResponse("Formato del Archivo no valido", 413);
         }
-        
+
         return $this->successMensaje('Se Cargaron los Archivo de Forma Correcta', 201);
     }
-    
 
-    public function exportProduct($producto) 
+
+    public function exportProduct($producto)
     {
-
         return Excel::download(new ProductosExport($producto), 'plantilla.xlsx');
     }
-
 }

@@ -154,14 +154,22 @@ class PivotController extends ApiController
 
         if($pivot_id->isDirty('productos_confirmados') && $request->productos_confirmados == true)
         {   
-          
-          $userAll = $presidentes->push($coordinador, $comprador)->unique('id');
-          $user_with_logistica = $userAll->merge($logistica);       
-          $text = "El usuario: '$login_user' confirmo los productos pertenecientes a la empresa'$proveedorName' asociada a la tarea '$tareaNombre'";
-          $link = "/negotiation/$pivot_id->id#products";
-          $type =  "productos_confirmados";
-          $title = "Productos confirmados";
-          $this->sendNotifications($user_with_logistica, new GeneralNotification($text, $link, $type, $title));    
+            $userAll = $presidentes->push($coordinador, $comprador)->unique('id');       
+            $link = "/negotiation/$pivot_id->id#products";
+            $type =  "productos_confirmados";
+            $title = "Productos confirmados";
+            
+
+            if($pivot_id->seleccionado == true)
+            {
+                /* TODO: REFACTORIZAR ESTE CODIGO PARA REULITILARLO */
+                $text = "La empresa '$proveedorName' en la tarea '$tareaNombre', fue seleccionada por favor iniciar con el proceso de creacion de codigo de barra";
+                $this->sendNotifications($logistica, new GeneralNotification($text, $link, $type, $title)); 
+            }   
+            $text = "El usuario: '$login_user' confirmo los productos pertenecientes a la empresa'$proveedorName' asociada a la tarea '$tareaNombre'";
+            $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title)); 
+            
+
         }  
 
         
@@ -170,17 +178,14 @@ class PivotController extends ApiController
         {
             
             $link = "/negotiation/$pivot_id->id#products";
-            $type = "empresa_seleccionada";
+            $type =  "empresa_seleccionada";
             $title = "Empresa Seleccionada";
-            
-
             if($pivot_id->productos_confirmados == true)
             {
+                  /* TODO: REFACTORIZAR ESTE CODIGO PARA REULITILARLO */
                 $text = "La empresa'$proveedorName' en la tarea '$tareaNombre', fue seleccionada por favor iniciar con el proceso de creacion de codigo de barra";
                 $userAll = $presidentes->push($comprador,$coordinador)->unique('id');             
                 $this->sendNotifications($logistica, new GeneralNotification($text, $link, $type, $title)); 
-
-                
             }
             else
             {
@@ -189,18 +194,17 @@ class PivotController extends ApiController
                 $this->sendNotifications(collect([$comprador]), new GeneralNotification($text, $link, $type, $title)); 
             }        
             $text = "La empresa: '$proveedorName' asociada a la tarea '$tareaNombre' fue la seleccionada.";
-
             $this->sendNotifications(collect([$coordinador]), new GeneralNotification($text, $link, $type, $title));
         }
 
         if($pivot_id->isDirty('codigo_barra_finalizado') && $pivot_id->codigo_barra_finalizado == true)
         {
             $userAll = $presidentes->push($coordinador, $comprador)->unique('id');
-            $user_with_logistica = $userAll->merge($logistica);       
+            $user_with_logistica = $userAll->merge($logistica)->unique('id');       
             $text = "El usuario: '$login_user' agrego codigos de barras pertenecientes a los producto de la empresa: '$proveedorName' asociada a la tarea '$tareaNombre'";
             $link = "/negotiation/$pivot_id->id#products";
-            $type =  "codigos";
-            $title = "Productos confirmados";
+            $type =  "codigos_barra";
+            $title = "Codigos de barra";
             $this->sendNotifications($user_with_logistica, new GeneralNotification($text, $link, $type, $title));    
             
         }

@@ -9,6 +9,9 @@ class Tarea extends Model
 {
     use SoftDeletes;
 
+
+
+
     public function draggebleTask()
     {
         return $this->hasMany(DraggebleTask::class);
@@ -26,6 +29,11 @@ class Tarea extends Model
     public function usuarios()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+    /* TODO: ACTUALIZAR CODIGO */
+    public function coordinador()
+    {
+        return $this->hasOne(User::class, 'sender_id');   
     }
 
     public function proveedor()
