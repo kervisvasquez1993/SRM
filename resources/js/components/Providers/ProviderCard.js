@@ -63,8 +63,6 @@ const ProviderCard = ({ provider, selectedProvider }) => {
         );
     };
 
-    const enNegociacion = pivot.iniciar_negociacion;
-
     // const handleNegotiate = e => {
     //     e.preventDefault();
 
@@ -75,8 +73,6 @@ const ProviderCard = ({ provider, selectedProvider }) => {
         ? greenCard
         : selectedProvider
         ? redCard
-        : enNegociacion
-        ? blueCard
         : normalCard;
 
     return (
@@ -86,9 +82,7 @@ const ProviderCard = ({ provider, selectedProvider }) => {
                 ref={container}
             >
                 <div className="card-header pb-0">
-                    <div className="d-flex justify-content-between w-100 flex-wrap">
-                        <h3 className="card-title">{nombre}</h3>
-                    </div>
+                    <h3 className="card-title">{nombre}</h3>
                     <hr className="mb-0" />
                 </div>
 
@@ -165,12 +159,10 @@ const ProviderCard = ({ provider, selectedProvider }) => {
                         </React.Fragment>
                     )}
 
-                    {enNegociacion && (
-                        <ProviderStatus
-                            provider={provider}
-                            selectedProvider={selectedProvider}
-                        />
-                    )}
+                    <ProviderStatus
+                        provider={provider}
+                        selectedProvider={selectedProvider}
+                    />
                 </div>
 
                 {isMine && (

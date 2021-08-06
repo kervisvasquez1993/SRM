@@ -510,25 +510,25 @@ const NegotiationList = () => {
             values: [
                 {
                     id: "processing",
-                    label: "En proceso",
+                    label: "En comparación",
                     filter: (item, filters) =>
                         !(
                             filters["status"]["processing"] === false &&
-                            !item.iniciar_produccion
+                            !item.seleccionado
                         ),
-                    filterPopulator: item => !item.iniciar_produccion
+                    filterPopulator: item => !item.seleccionado
                 },
                 {
                     id: "completed",
-                    label: "Completadas",
+                    label: "Seleccionadas",
                     defaultValue: false,
 
                     filter: (item, filters) =>
                         !(
                             filters["status"]["completed"] === false &&
-                            item.iniciar_produccion
+                            item.seleccionado
                         ),
-                    filterPopulator: item => item.iniciar_produccion
+                    filterPopulator: item => item.seleccionado
                 }
             ]
         },
@@ -582,8 +582,8 @@ const NegotiationList = () => {
 
     const populatorConfig = [
         {
-            header: "Negociaciones en progreso:",
-            filterPopulator: item => !item.iniciar_produccion,
+            header: "Negociaciones en proceso de comparación",
+            filterPopulator: item => !item.seleccionado,
             populator: item => {
                 return (
                     <NegotiationCard
@@ -595,8 +595,8 @@ const NegotiationList = () => {
             }
         },
         {
-            header: "Negociaciones completadas:",
-            filterPopulator: item => item.iniciar_produccion,
+            header: "Negociaciones seleccionadas",
+            filterPopulator: item => item.seleccionado,
             populator: item => {
                 return (
                     <NegotiationCard
@@ -619,7 +619,6 @@ const NegotiationList = () => {
         return <LoadingScreen>{helmet}</LoadingScreen>;
     }
 
-
     return (
         <React.Fragment>
             {helmet}
@@ -635,7 +634,10 @@ const NegotiationList = () => {
                     <React.Fragment>
                         <h2 className="mt-4 h3">Resumen:</h2>
 
-                        <ProductsResume negotiation={filteredNegotiations} useCard={true}/>
+                        <ProductsResume
+                            negotiation={filteredNegotiations}
+                            useCard={true}
+                        />
 
                         {filteredNegotiations.length > 1 && (
                             <div className="mb-5">

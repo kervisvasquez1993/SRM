@@ -1,5 +1,4 @@
 import React from "react";
-import FooterMessage from "../../Widgets/Modal/FooterMessage";
 import TabButton from "../../Widgets/TabButton";
 import TabContent from "../../Widgets/TabContent";
 import Tabs from "../../Widgets/Tabs";

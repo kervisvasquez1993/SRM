@@ -18,6 +18,7 @@ class PivotTareaProveeder extends Model
         'compra_po',
         'productos_cargados',
         'productos_confirmados',
+        'seleccionado',
         'iniciar_arte',
         'iniciar_negociacion',
         'payment_terms',

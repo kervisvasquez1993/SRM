@@ -122,7 +122,7 @@ const TaskList = ({ myTasks = false }) => {
                 },
                 {
                     id: "inNegotiation",
-                    label: "En negociación",
+                    label: "En proceso",
                     filter: (item, filters) =>
                         !(
                             filters["status"]["inNegotiation"] === false &&
@@ -199,22 +199,22 @@ const TaskList = ({ myTasks = false }) => {
 
     const populatorConfig = [
         {
-            header: "Sin negociación :",
+            header: "Sin negociación",
             filterPopulator: item => isTaskNotInNegotiation(item),
             populator: cardCreator
         },
         {
-            header: "En negociación :",
+            header: "En proceso",
             filterPopulator: item => isTaskInNegotiation(item),
             populator: cardCreator
         },
         {
-            header: "Tareas Vencidas :",
+            header: "Tareas Vencidas",
             filterPopulator: item => isTaskExpired(item),
             populator: cardCreator
         },
         {
-            header: "Tareas Completadas :",
+            header: "Tareas Completadas",
             filterPopulator: item => isTaskCompleted(item),
             populator: cardCreator
         }

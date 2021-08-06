@@ -78,10 +78,13 @@ const ProductsTable = ({
 
     return (
         <React.Fragment>
-            <h2 className="h2 pb-4 text-center">Productos</h2>
+            <div className="py-4"></div>
 
             {products.length === 0 && (
-                <EmptyList message="Aún no se ha cargado ningún producto." />
+                <React.Fragment>
+                    <EmptyList message="Aún no se ha cargado ningún producto." />
+                    <div className="py-3"></div>
+                </React.Fragment>
             )}
 
             {isMine && showCreateButton && (

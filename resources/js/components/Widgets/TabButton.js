@@ -10,7 +10,7 @@ const TabButton = props => {
 
     const handleClick = e => {
         e.preventDefault();
-        console.log(disabled);
+        
         if (!disabled) {
             setCurrentTab(name);
         }

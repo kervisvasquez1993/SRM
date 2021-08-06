@@ -338,3 +338,32 @@ export function finishProductsConfirmationStage(negotiation) {
         }
     };
 }
+
+export function selectNegotiation(negotiation) {
+    return async (dispatch, getState) => {
+        try {
+            negotiation.seleccionado = true;
+
+            const response = await axios.put(
+                `${apiURL}/negociacion/${negotiation.id}`,
+                negotiation
+            );
+
+            dispatch({
+                type: "SELECT_NEGOTIATION_SUCCESS",
+                payload: response.data.data
+            });
+
+            dispatch(
+                openModal({
+                    title: negotiation.nombre,
+                    body: <NegotiationModal negotiation={negotiation} />
+                })
+            );
+
+            toast.success("✔️ Esta empresa fue seleccionada");
+        } catch (e) {
+            console.log(e);
+        }
+    };
+}

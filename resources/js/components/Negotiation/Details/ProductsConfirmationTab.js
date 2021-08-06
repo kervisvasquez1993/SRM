@@ -11,8 +11,6 @@ import NextStageButton from "./Other/NextStageButton";
 
 const ProductsConfirmationTab = () => {
     const dispatch = useDispatch();
-    // @ts-ignore
-    const { id } = useParams();
 
     // @ts-ignore
     const products = useSelector(state => state.product.products);

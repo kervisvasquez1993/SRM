@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
 import { getProvidersFromTask } from "../../store/actions/providerActions";
-import { isNegotiationCompleted } from "../../utils";
+import { isNegotiationSelected } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import ProviderCard from "../Providers/ProviderCard";
@@ -27,7 +27,7 @@ const TaskProviderList = () => {
     const { id } = useParams();
 
     const selectedProvider = providers.find(provider =>
-        isNegotiationCompleted(provider.pivot)
+        isNegotiationSelected(provider.pivot)
     );
 
     useEffect(() => {
@@ -36,8 +36,8 @@ const TaskProviderList = () => {
 
     useEffect(() => {
         const ordered = providers.sort((x, y) => {
-            const x1 = x.pivot.iniciar_negociacion;
-            const y1 = y.pivot.iniciar_negociacion;
+            const x1 = x.pivot.seleccionado;
+            const y1 = y.pivot.seleccionado;
 
             if (x == selectedProvider) {
                 return 1;

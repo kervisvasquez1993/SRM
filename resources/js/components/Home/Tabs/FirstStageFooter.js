@@ -9,7 +9,7 @@ const FirstStageFooter = ({ task }) => {
     if (column === 0 && !task.tiene_negociaciones) {
         isEligible = false;
         message =
-            "Esta tarea necesita iniciar una negociación para pasar a la etapa 2";
+            "Se deben cargar productos en alguna de las empresas para pasar a la etapa 2";
     } else if (column === 1 && !task.arte_iniciada) {
         isEligible = false;
         message =

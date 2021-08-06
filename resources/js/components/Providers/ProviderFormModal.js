@@ -1,12 +1,13 @@
+// @ts-ignore
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+// @ts-ignore
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+// @ts-ignore
 import {
     createProviderFromTask,
     editProviderFromTask
 } from "../../store/actions/providerActions";
-import { extractError } from "../../utils";
 import GenericForm from "../Form/GenericForm";
 import InputText from "../Form/InputText";
 import InputTextArea from "../Form/InputTextarea";
@@ -27,10 +28,14 @@ export const emptyProvider = {
 const ProviderFormModal = ({ provider, isEditor = false }) => {
     const dispatch = useDispatch();
     const [data, setData] = useState({ ...provider });
+    // @ts-ignore
     const taskId = useSelector(state => state.task.task).id;
 
+    // @ts-ignore
     const isEditing = useSelector(state => state.provider.isEditing);
+    // @ts-ignore
     const errors = useSelector(state => state.provider.errors);
+    // @ts-ignore
     const error = useSelector(state => state.provider.error);
 
     const handleChange = e => {
@@ -54,6 +59,7 @@ const ProviderFormModal = ({ provider, isEditor = false }) => {
         }
     };
 
+    // @ts-ignore
     const handleReset = e => {
         setData({ ...provider, ...emptyProvider });
     };
@@ -68,23 +74,11 @@ const ProviderFormModal = ({ provider, isEditor = false }) => {
                 errors={errors}
                 setData={setData}
             >
-                <InputText
-                    id="nombre"
-                    label="Nombre"
-                    value={data.nombre}
-                />
+                <InputText id="nombre" label="Nombre" value={data.nombre} />
 
-                <InputText
-                    id="pais"
-                    label="País"
-                    value={data.pais}
-                />
+                <InputText id="pais" label="País" value={data.pais} />
 
-                <InputText
-                    id="ciudad"
-                    label="Ciudad"
-                    value={data.ciudad}
-                />
+                <InputText id="ciudad" label="Ciudad" value={data.ciudad} />
 
                 <InputText
                     id="distrito"
@@ -116,11 +110,7 @@ const ProviderFormModal = ({ provider, isEditor = false }) => {
                     value={data.telefono}
                 />
 
-                <InputText
-                    id="email"
-                    label="Email"
-                    value={data.email}
-                />
+                <InputText id="email" label="Email" value={data.email} />
 
                 {error && (
                     <div className="text-danger">

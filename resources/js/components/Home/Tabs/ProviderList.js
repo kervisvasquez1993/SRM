@@ -3,7 +3,7 @@ import { BiLink } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getProvidersFromTask } from "../../../store/actions/providerActions";
-import { isNegotiationCompleted } from "../../../utils";
+import { isNegotiationSelected } from "../../../utils";
 import EmptyList from "../../Navigation/EmptyList";
 import LoadingScreen from "../../Navigation/LoadingScreen";
 import LoadingSpinner from "../../Navigation/LoadingSpinner";
@@ -19,8 +19,10 @@ const ProviderList = ({ taskId, filterProvidersInNegotiation = false }) => {
 
     const [orderedProviders, setOrderedProviders] = useState([]);
     const selectedProvider = providers.find(provider =>
-        isNegotiationCompleted(provider.pivot)
+        isNegotiationSelected(provider.pivot)
     );
+
+    console.log(providers);
 
     useEffect(() => {
         dispatch(getProvidersFromTask(taskId));
@@ -34,8 +36,8 @@ const ProviderList = ({ taskId, filterProvidersInNegotiation = false }) => {
 
     useEffect(() => {
         let ordered = providers.sort((x, y) => {
-            const x1 = x.pivot.iniciar_negociacion;
-            const y1 = y.pivot.iniciar_negociacion;
+            const x1 = x.pivot.seleccionado;
+            const y1 = y.pivot.seleccionado;
 
             if (x == selectedProvider) {
                 return 1;
@@ -46,9 +48,11 @@ const ProviderList = ({ taskId, filterProvidersInNegotiation = false }) => {
             return x1 === y1 ? 0 : x1 > y1 ? 1 : -1;
         });
 
-        if (filterProvidersInNegotiation) {
-            ordered = providers.filter(item => item.pivot.iniciar_negociacion);
-        }
+        // console.log(providers)
+
+        // if (filterProvidersInNegotiation) {
+        //     ordered = providers.filter(item => item.pivot.seleccionado);
+        // }
 
         setOrderedProviders(ordered);
     }, [providers]);

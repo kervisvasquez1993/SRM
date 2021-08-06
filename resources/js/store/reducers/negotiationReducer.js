@@ -169,6 +169,17 @@ const negotiationReducer = (state = defaultState, action) => {
                 ...state,
                 negotiation: payload
             };
+
+        case "SELECT_NEGOTIATION_SUCCESS":
+            const __newList = state.negotiations.map(negotiation =>
+                negotiation.id === payload.id ? payload : negotiation
+            );
+
+            return {
+                ...state,
+                negotiations: filterNegotiations(__newList),
+                negotiation: payload
+            };
         default:
             return state;
     }

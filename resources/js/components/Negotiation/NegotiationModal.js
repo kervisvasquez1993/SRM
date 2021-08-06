@@ -2,6 +2,7 @@ import React from "react";
 import { MdTouchApp } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import {
+    selectNegotiation,
     startArtWithNegotiation,
     startProductionWithNegotiation
 } from "../../store/actions/negotiationActions";
@@ -24,7 +25,7 @@ const NegotiationModal = ({ negotiation }) => {
     } = negotiation;
 
     const handleSelectProvider = () => {
-        console.log("Seleccionar este proveedor")
+        dispatch(selectNegotiation(negotiation));
     };
 
     const handleStartProduction = () => {
@@ -117,7 +118,7 @@ const NegotiationModal = ({ negotiation }) => {
                         Aún no se han confirmado los productos
                     </p>
 
-                    {selectionButton}
+                    {!seleccionado && selectionButton}
                 </div>
             )}
         </React.Fragment>

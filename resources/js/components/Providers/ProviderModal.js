@@ -3,14 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { IoMdAddCircle } from "react-icons/io";
 import { openModal } from "../../store/actions/modalActions";
 import ProviderFormModal, { emptyProvider } from "./ProviderFormModal";
-import { useParams } from "react-router-dom";
 import { getProviders } from "../../store/actions/providerActions";
 import { createNegotiation } from "../../store/actions/negotiationActions";
 
 const ProviderModal = () => {
     const dispatch = useDispatch();
+    // @ts-ignore
     const taskId = useSelector(state => state.task.task).id;
+    // @ts-ignore
     const taskProviders = useSelector(state => state.provider.providers);
+    // @ts-ignore
     const allProviders = useSelector(state => state.provider.allProviders);
     const [proveedorId, setProveedorId] = useState("");
     const [shownProviders, setShownProviders] = useState(allProviders);
@@ -19,12 +21,7 @@ const ProviderModal = () => {
         dispatch(
             openModal({
                 title: "Agregar Empresa",
-                body: (
-                    <ProviderFormModal
-                        provider={emptyProvider}
-                        taskId={taskId}
-                    />
-                )
+                body: <ProviderFormModal provider={emptyProvider} />
             })
         );
     };
@@ -92,6 +89,7 @@ const ProviderModal = () => {
                                 className="btn btn-success btn-round"
                                 type="submit"
                                 onClick={handleAddProvider}
+                                disabled={proveedorId === ""}
                             >
                                 <IoMdAddCircle className="mr-2" />
                                 Agregar

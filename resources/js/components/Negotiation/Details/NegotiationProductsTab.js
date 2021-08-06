@@ -10,8 +10,6 @@ import NextStageButton from "./Other/NextStageButton";
 
 const NegotiationProductsTab = () => {
     const dispatch = useDispatch();
-    // @ts-ignore
-    const { id } = useParams();
 
     // @ts-ignore
     const products = useSelector(state => state.product.products);

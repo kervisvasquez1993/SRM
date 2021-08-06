@@ -17,6 +17,7 @@ import TabsRow from "../../Widgets/Tabs/TabsRow";
 import Tab from "../../Widgets/Tabs/Tab";
 import CheckIcon from "../../Widgets/CheckIcon";
 import ProductsConfirmationTab from "./ProductsConfirmationTab";
+import ProviderSelectionTab from "./ProviderSelectionTab";
 
 const ProviderPurchase = () => {
     const history = useHistory();
@@ -71,6 +72,12 @@ const ProviderPurchase = () => {
     const state = 0;
     let defaultTab =
         (!negotiation.productos_cargados && "0") ||
+        (negotiation.seleccionado &&
+            negotiation.productos_confirmados &&
+            "3") ||
+        (negotiation.seleccionado &&
+            !negotiation.productos_confirmados &&
+            "1") ||
         (negotiation.productos_confirmados && "2") ||
         (negotiation.productos_cargados && "1");
 
@@ -161,7 +168,7 @@ const ProviderPurchase = () => {
                             <Tab name="2">
                                 <div className="d-flex align-items-center">
                                     <CheckIcon
-                                        checked={state > 2}
+                                        checked={negotiation.seleccionado}
                                         className="icon-medium"
                                     />
                                     Selección de proveedor
@@ -205,7 +212,9 @@ const ProviderPurchase = () => {
                         <TabContent name="1">
                             <ProductsConfirmationTab />
                         </TabContent>
-                        <TabContent name="2">Hola</TabContent>
+                        <TabContent name="2">
+                            <ProviderSelectionTab />
+                        </TabContent>
                         <TabContent name="3">Hola</TabContent>
                         <TabContent name="4">Hola</TabContent>
                         <TabContent name="5">
