@@ -4,10 +4,11 @@ namespace App\Exports;
 
 use App\Producto;
 use Maatwebsite\Excel\Excel;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\BeforeExport;
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ToCollection;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithPreCalculateFormulas;
 
 class ProductosExport implements WithEvents, WithPreCalculateFormulas
@@ -36,7 +37,10 @@ class ProductosExport implements WithEvents, WithPreCalculateFormulas
 
             $indice = 4;
             $numero = 1;
+
+
             foreach ($productos as $producto) {
+               $rol = Auth::user()->rol;
                $valores = [
                   'B' => $producto->hs_code,
                   'C' => $producto->product_code_supplier,
@@ -45,35 +49,54 @@ class ProductosExport implements WithEvents, WithPreCalculateFormulas
                   'F' => $producto->sub_brand_customer,
                   'G' => $producto->product_name_customer,
                   'H' => $producto->description,
-                  'I' => $producto->shelf_life,
-                  'J' => $producto->total_pcs,
-                  'K' => $producto->unit_price,
-                  'L' => $producto->total_usd,
-                  'M' => $producto->pcs_unit_packing,
-                  'N' => $producto->pcs_inner_box_paking,
-                  'O' => $producto->pcs_ctn_paking,
-                  'P' => $producto->ctn_packing_size_l,
-                  'Q' => $producto->ctn_packing_size_w,
-                  'R' => $producto->ctn_packing_size_h,
-                  'S' => $producto->cbm,
-                  'T' => $producto->n_w_ctn,
-                  'U' => $producto->g_w_ctn,
-                  'W' => $producto->corregido_total_pcs,
-                  /* 'X' => $producto->total_cbm,
-                  'Y' => $producto->total_n_w,
-                  'Z' => $producto->total_g_w, */
                   'AA' => $producto->linea,
                   'AB' => $producto->categoria,
                   'AC' => $producto->sub_categoria,
                   'AD' => $producto->permiso_sanitario,
-                  'AE' => $producto->cpe,
-                  'AF' => $producto->num_referencia_empaque,
-                  'AG' => $producto->codigo_de_barras_unit,
-                  'AH' => $producto->codigo_de_barras_inner,
-                  'AI' => $producto->codigo_de_barras_outer,
-                  'AJ' => $producto->codigo_interno_asignado,
                ];
+                 
+                  
+                if ($rol == "logistica" || $rol = 'coordinador') {
+                   $valores = array_merge([
+                   
+                     'AE' => $producto->cpe,
+                     'AF' => $producto->num_referencia_empaque,
+                     'AG' => $producto->codigo_de_barras_unit,
+                     'AH' => $producto->codigo_de_barras_inner,
+                     'AI' => $producto->codigo_de_barras_outer,
+                     'AJ' => $producto->codigo_interno_asignado,
+                  ], $valores);
+               }
+               
+               if ($rol == "comprador" || $rol = 'coordinador') 
+               {
 
+
+                  $valores = array_merge($valores,[
+                     'I' => $producto->shelf_life,
+                     'J' => $producto->total_pcs,
+                     'K' => $producto->unit_price,
+                     'L' => $producto->total_usd,
+                     'M' => $producto->pcs_unit_packing,
+                     'N' => $producto->pcs_inner_box_paking,
+                     'O' => $producto->pcs_ctn_paking,
+                     'P' => $producto->ctn_packing_size_l,
+                     'Q' => $producto->ctn_packing_size_w,
+                     'R' => $producto->ctn_packing_size_h,
+                     'S' => $producto->cbm,
+                     'T' => $producto->n_w_ctn,
+                     'U' => $producto->g_w_ctn,
+                     'W' => $producto->corregido_total_pcs,
+                     'AA' => $producto->linea,
+                     'AB' => $producto->categoria,
+                     'AC' => $producto->sub_categoria,
+                     'AD' => $producto->permiso_sanitario,
+                     'AE' => $producto->cpe,
+
+
+                  ]);
+               }
+              
 
 
                $sheet->setCellValue("A$indice", $numero);
@@ -84,10 +107,10 @@ class ProductosExport implements WithEvents, WithPreCalculateFormulas
                   $sheet->setCellValue("$letra$indice", $valor);
                }
 
-               $sheet->setCellValue('V'.$indice , "=IFERROR(J$indice/O$indice,0)");
-               $sheet->setCellValue('X'.$indice , "=S$indice*V$indice");
-               $sheet->setCellValue('Y'.$indice , "=V$indice*T$indice");
-               $sheet->setCellValue('Z'.$indice , "=V$indice*U$indice");
+               $sheet->setCellValue('V' . $indice, "=IFERROR(J$indice/O$indice,0)");
+               $sheet->setCellValue('X' . $indice, "=S$indice*V$indice");
+               $sheet->setCellValue('Y' . $indice, "=V$indice*T$indice");
+               $sheet->setCellValue('Z' . $indice, "=V$indice*U$indice");
 
                $indice++;
                $numero++;
