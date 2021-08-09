@@ -234,7 +234,7 @@ class PivotController extends ApiController
         $userLogin = Auth::user()->name;
         $userAll = User::where('rol', 'artes')->orWhere('isPresidente', true)->get();
         $userUni =  $userAll->push($comprador, $coordinador)->unique('id');
-        $body    = "El usuario $userLogin inicio Arte con la empresa $nombreEmpresa";
+        $body    = "El usuario $userLogin inició arte con la empresa $nombreEmpresa";
         $link    = "/arts?id=$arte->id";
         $type    = "iniciar_arte";
         $title   = "Inicio de Arte";

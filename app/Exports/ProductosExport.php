@@ -21,9 +21,7 @@ class ProductosExport implements WithEvents, WithPreCalculateFormulas
    {
       return [
          BeforeExport::class => function (BeforeExport $event) {
-            $event->writer->reopen(new \Maatwebsite\Excel\Files\LocalTemporaryFile(storage_path('plantilla.xlsx')), Excel::XLSX);
-
-            error_log("hola desde ejecuacion");
+            $event->writer->reopen(new \Maatwebsite\Excel\Files\LocalTemporaryFile(public_path('templates/productos.xlsx')), Excel::XLSX);
 
             $sheet = $event->writer->getSheetByIndex(0);
 

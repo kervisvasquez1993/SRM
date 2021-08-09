@@ -29,6 +29,7 @@
     "dependencies": {
         "device-uuid": "^1.0.4",
         "filterizr": "^2.2.4",
+        "js-file-download": "^0.4.12",
         "jwt-decode": "^3.1.2",
         "query-string": "^7.0.1",
         "react-beautiful-dnd": "^13.1.0",

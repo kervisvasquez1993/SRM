@@ -1,3 +1,5 @@
+import axios from "axios";
+import fileDownload from "js-file-download";
 import React, { useEffect } from "react";
 import { FaFileImport } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +9,7 @@ import {
     getProductsFromNegotiation
 } from "../../store/actions/productActions";
 import { getSum, roundMoneyAmount } from "../../utils";
+import { apiURL } from "../App";
 import EmptyList from "../Navigation/EmptyList";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import ProductsResume from "../Widgets/ProductsResume";
@@ -41,6 +44,16 @@ const ProductsTable = ({
     useEffect(() => {
         dispatch(getProductsFromNegotiation(negotiation.id));
     }, []);
+
+    const exportProducts = async () => {
+        axios({
+            url: `${apiURL}/negociacion/${negotiation.id}/exportar_productos`,
+            method: "GET",
+            responseType: "blob" // Important
+        }).then(response => {
+            fileDownload(response.data, "Productos.xlsx");
+        });
+    };
 
     if (isLoadingList) {
         return <LoadingScreen />;
@@ -102,13 +115,13 @@ const ProductsTable = ({
                 }`}
             >
                 {products.length > 0 && (
-                    <a
+                    <button
                         className="btn btn-info mb-4"
-                        href={`/api/negociacion/${negotiation.id}/exportar_productos`}
+                        onClick={exportProducts}
                     >
                         <FaFileImport className="mr-2" />
                         Exportar
-                    </a>
+                    </button>
                 )}
 
                 {isMine && showCreateButton && (
