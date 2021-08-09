@@ -51,26 +51,16 @@ class ProductosExport implements WithEvents, WithPreCalculateFormulas
                   'AB' => $producto->categoria,
                   'AC' => $producto->sub_categoria,
                   'AD' => $producto->permiso_sanitario,
+                  'AE' => $producto->cpe,
+                  'AF' => $producto->num_referencia_empaque,
+                  'AG' => $producto->codigo_de_barras_unit,
+                  'AH' => $producto->codigo_de_barras_inner,
+                  'AI' => $producto->codigo_de_barras_outer,
+                  'AJ' => $producto->codigo_interno_asignado
                ];
-                 
-                  
-                if ($rol == "logistica" || $rol = 'coordinador') {
-                   $valores = array_merge([
-                   
-                     'AE' => $producto->cpe,
-                     'AF' => $producto->num_referencia_empaque,
-                     'AG' => $producto->codigo_de_barras_unit,
-                     'AH' => $producto->codigo_de_barras_inner,
-                     'AI' => $producto->codigo_de_barras_outer,
-                     'AJ' => $producto->codigo_interno_asignado,
-                  ], $valores);
-               }
-               
-               if ($rol == "comprador" || $rol = 'coordinador') 
-               {
 
-
-                  $valores = array_merge($valores,[
+               if ($rol != "logistica") {
+                  $valores = array_merge($valores, [
                      'I' => $producto->shelf_life,
                      'J' => $producto->total_pcs,
                      'K' => $producto->unit_price,
@@ -90,12 +80,8 @@ class ProductosExport implements WithEvents, WithPreCalculateFormulas
                      'AC' => $producto->sub_categoria,
                      'AD' => $producto->permiso_sanitario,
                      'AE' => $producto->cpe,
-
-
                   ]);
                }
-              
-
 
                $sheet->setCellValue("A$indice", $numero);
 
