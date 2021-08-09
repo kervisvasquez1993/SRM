@@ -116,6 +116,29 @@ const NegotiationCard = ({
                                 Aún no se han confirmado los productos
                             </p>
                         )}
+
+                        {negotiation.productos_confirmados &&
+                            negotiation.seleccionado && (
+                                <React.Fragment>
+                                    {!negotiation.iniciar_produccion && (
+                                        <p className="card-text d-flex align-items-center">
+                                            <span className="material-icons mr-2 text-danger">
+                                                warning
+                                            </span>
+                                            Aún no se ha iniciado producción
+                                        </p>
+                                    )}
+
+                                    {!negotiation.iniciar_arte && (
+                                        <p className="card-text d-flex align-items-center">
+                                            <span className="material-icons mr-2 text-danger">
+                                                warning
+                                            </span>
+                                            Aún no se ha iniciado arte
+                                        </p>
+                                    )}
+                                </React.Fragment>
+                            )}
                     </div>
 
                     {!compare && (

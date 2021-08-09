@@ -3,6 +3,7 @@ import React from "react";
 import { toast } from "react-toastify";
 import { apiURL } from "../../components/App";
 import NegotiationModal from "../../components/Negotiation/NegotiationModal";
+import { getNegotiationModalName } from "../../utils";
 import { focusOnElementWithId } from "./focusActions";
 import { genericFormSubmit } from "./genericFormActions";
 import { closeModal, openModal } from "./modalActions";
@@ -40,71 +41,6 @@ export function getNegotiation(id) {
         } catch (e) {
             dispatch({
                 type: "GET_NEGOTIATION_FAILURE"
-            });
-        }
-    };
-}
-
-export function startProductionWithNegotiation(negotiationIndex) {
-    return async (dispatch, getState) => {
-        dispatch({ type: "START_PRODUCTION_REQUEST" });
-
-        try {
-            const response = await axios.put(
-                `${apiURL}/negociacion/${negotiationIndex}/iniciar-produccion`
-            );
-
-            const negotiation = response.data.data;
-
-            dispatch({
-                type: "START_PRODUCTION_SUCCESS",
-                payload: response.data.data
-            });
-
-            dispatch(
-                openModal({
-                    title: negotiation.nombre,
-                    body: <NegotiationModal negotiation={negotiation} />
-                })
-            );
-
-            toast.success("✔️ Producción iniciada");
-        } catch (e) {
-            console.log(e);
-            dispatch({
-                type: "START_PRODUCTION_FAILURE"
-            });
-        }
-    };
-}
-
-export function startArtWithNegotiation(negotiationIndex) {
-    return async (dispatch, getState) => {
-        dispatch({ type: "START_ART_REQUEST" });
-
-        try {
-            const response = await axios.put(
-                `${apiURL}/negociacion/${negotiationIndex}/iniciar-arte`
-            );
-
-            const negotiation = response.data.data;
-
-            dispatch({
-                type: "START_ART_SUCCESS",
-                payload: negotiation
-            });
-
-            dispatch(
-                openModal({
-                    title: negotiation.nombre,
-                    body: <NegotiationModal negotiation={negotiation} />
-                })
-            );
-
-            toast.success("✔️ Arte iniciada");
-        } catch (e) {
-            dispatch({
-                type: "START_ART_FAILURE"
             });
         }
     };
@@ -160,7 +96,7 @@ export function createNegotiation(data) {
 
         try {
             // Create the pivot
-            const response = await axios.post(`${apiURL}/pivot`, data);
+            const response = await axios.post(`${apiURL}/negociacion`, data);
 
             // Get the provider resource
             const providerResponse = await axios.get(
@@ -362,11 +298,9 @@ export function finishStage(negotiation, name) {
 export function selectNegotiation(negotiation) {
     return async (dispatch, getState) => {
         try {
-            negotiation.seleccionado = true;
-
             const response = await axios.put(
                 `${apiURL}/negociacion/${negotiation.id}`,
-                negotiation
+                { ...negotiation, seleccionado: true }
             );
 
             dispatch({
@@ -384,6 +318,73 @@ export function selectNegotiation(negotiation) {
             toast.success("✔️ Esta empresa fue seleccionada");
         } catch (e) {
             console.log(e.response);
+        }
+    };
+}
+
+export function startProductionWithNegotiation(negotiation) {
+    return async (dispatch, getState) => {
+        dispatch({ type: "START_PRODUCTION_REQUEST" });
+
+        try {
+            const response = await axios.put(
+                `${apiURL}/negociacion/${negotiation.id}`,
+                { ...negotiation, iniciar_produccion: true }
+            );
+
+            negotiation = response.data.data;
+
+            dispatch({
+                type: "START_PRODUCTION_SUCCESS",
+                payload: negotiation
+            });
+
+            dispatch(
+                openModal({
+                    title: getNegotiationModalName(negotiation),
+                    body: <NegotiationModal negotiation={negotiation} />
+                })
+            );
+
+            toast.success("✔️ Producción iniciada");
+        } catch (e) {
+            console.log(e.response);
+            dispatch({
+                type: "START_PRODUCTION_FAILURE"
+            });
+        }
+    };
+}
+
+export function startArtWithNegotiation(negotiation) {
+    return async (dispatch, getState) => {
+        dispatch({ type: "START_ART_REQUEST" });
+
+        try {
+            const response = await axios.put(
+                `${apiURL}/negociacion/${negotiation.id}`,
+                { ...negotiation, iniciar_arte: true }
+            );
+
+            negotiation = response.data.data;
+
+            dispatch({
+                type: "START_ART_SUCCESS",
+                payload: negotiation
+            });
+
+            dispatch(
+                openModal({
+                    title: getNegotiationModalName(negotiation),
+                    body: <NegotiationModal negotiation={negotiation} />
+                })
+            );
+
+            toast.success("✔️ Arte iniciada");
+        } catch (e) {
+            dispatch({
+                type: "START_ART_FAILURE"
+            });
         }
     };
 }

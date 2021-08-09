@@ -29,11 +29,11 @@ const NegotiationModal = ({ negotiation }) => {
     };
 
     const handleStartProduction = () => {
-        dispatch(startProductionWithNegotiation(id));
+        dispatch(startProductionWithNegotiation(negotiation));
     };
 
     const handleStartArt = () => {
-        dispatch(startArtWithNegotiation(id));
+        dispatch(startArtWithNegotiation(negotiation));
     };
 
     const selectionButton = (
@@ -76,7 +76,7 @@ const NegotiationModal = ({ negotiation }) => {
                 <div className="modal-footer">{selectionButton}</div>
             )}
 
-            {seleccionado && (
+            {seleccionado && (!iniciar_arte || !iniciar_produccion) && (
                 <div className="modal-footer">
                     {!iniciar_arte && (
                         <button

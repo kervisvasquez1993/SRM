@@ -171,16 +171,21 @@ export function isNegotiationSelected(negotiation) {
 // If a negotiation has started production and arts, then the rest of the providers of the same task
 // must not been shown
 export function filterNegotiations(negotiations) {
+    let result = [...negotiations];
+
     negotiations.forEach(i => {
         if (isNegotiationSelected(i)) {
-            negotiations = negotiations.filter(j => {
-                if (j.tarea.id === i.tarea.id && i != j) return false;
+            result = result.filter(j => {
+                if (j.tarea.id === i.tarea.id && i != j) {
+                    return false;
+                }
+
                 return true;
             });
         }
     });
 
-    return negotiations;
+    return result;
 }
 
 export function getPaymentsInfoFromProduction(production) {

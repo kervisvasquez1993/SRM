@@ -449,6 +449,18 @@ import { TiCancel } from "react-icons/ti";
 import { BsCardList } from "react-icons/bs";
 import ProductsResume from "../Widgets/ProductsResume";
 
+const isNegotiationInProgress = negotiation => {
+    return !negotiation.seleccionado;
+};
+
+const isNegotiationSelected = negotiation => {
+    return negotiation.seleccionado && !isNegotiationCompleted(negotiation);
+};
+
+const isNegotiationCompleted = negotiation => {
+    return negotiation.iniciar_produccion && negotiation.iniciar_arte;
+};
+
 const NegotiationList = () => {
     const dispatch = useDispatch();
     // @ts-ignore
@@ -514,21 +526,33 @@ const NegotiationList = () => {
                     filter: (item, filters) =>
                         !(
                             filters["status"]["processing"] === false &&
-                            !item.seleccionado
+                            isNegotiationInProgress(item)
                         ),
-                    filterPopulator: item => !item.seleccionado
+                    filterPopulator: item => isNegotiationInProgress(item)
+                },
+                {
+                    id: "selected",
+                    label: "Seleccionadas",
+                    defaultValue: true,
+
+                    filter: (item, filters) =>
+                        !(
+                            filters["status"]["selected"] === false &&
+                            isNegotiationSelected(item)
+                        ),
+                    filterPopulator: item => isNegotiationSelected(item)
                 },
                 {
                     id: "completed",
-                    label: "Seleccionadas",
+                    label: "Completadas",
                     defaultValue: false,
 
                     filter: (item, filters) =>
                         !(
                             filters["status"]["completed"] === false &&
-                            item.seleccionado
+                            isNegotiationCompleted(item)
                         ),
-                    filterPopulator: item => item.seleccionado
+                    filterPopulator: item => isNegotiationCompleted(item)
                 }
             ]
         },
@@ -582,8 +606,8 @@ const NegotiationList = () => {
 
     const populatorConfig = [
         {
-            header: "Negociaciones en proceso de comparación",
-            filterPopulator: item => !item.seleccionado,
+            header: "En proceso de comparación",
+            filterPopulator: item => isNegotiationInProgress(item),
             populator: item => {
                 return (
                     <NegotiationCard
@@ -595,8 +619,21 @@ const NegotiationList = () => {
             }
         },
         {
-            header: "Negociaciones seleccionadas",
-            filterPopulator: item => item.seleccionado,
+            header: "Seleccionadas",
+            filterPopulator: item => isNegotiationSelected(item),
+            populator: item => {
+                return (
+                    <NegotiationCard
+                        key={item.id}
+                        negotiation={item}
+                        {...{ toggleCheckbox, selectedNegotiations, compare }}
+                    />
+                );
+            }
+        },
+        {
+            header: "Completadas",
+            filterPopulator: item => isNegotiationCompleted(item),
             populator: item => {
                 return (
                     <NegotiationCard
