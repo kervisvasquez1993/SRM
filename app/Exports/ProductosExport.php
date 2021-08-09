@@ -91,6 +91,7 @@ class ProductosExport implements WithEvents, WithPreCalculateFormulas
                   $sheet->setCellValue("$letra$indice", $valor);
                }
 
+               $sheet->setCellValue('L' . $indice, "=J$indice*K$indice");
                $sheet->setCellValue('V' . $indice, "=IFERROR(J$indice/O$indice,0)");
                $sheet->setCellValue('X' . $indice, "=S$indice*V$indice");
                $sheet->setCellValue('Y' . $indice, "=V$indice*T$indice");

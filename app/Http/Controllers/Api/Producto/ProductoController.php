@@ -157,9 +157,14 @@ class ProductoController extends ApiController
                             $producto->update($product);
                         }
                     } else {
+                        try {
+
+                            $total_ctn = $row[9] / $row[14];
+                        } catch (\Throwable $th) {
+                            $total_ctn = 0;
+                        }
+
                         $product = [
-                            /* formulas */
-                            $total_ctn =  ($row[9] == "" && $row[14] == "") ? 0 : $row[9] / $row[14],
                             $total_cbm =  $row[18] * $total_ctn,
                             $total_v_w = $total_ctn * $row[19],
                             $total_g_w = $total_ctn * $row[20],
