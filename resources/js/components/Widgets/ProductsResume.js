@@ -13,10 +13,11 @@ const ProductsResume = ({
 }) => {
     const listToUse = negotiation || products;
 
+    const total_usd = getSum(listToUse, "total_usd");
+    const total_ctn = getSum(listToUse, "total_ctn");
     const total_cbm = getSum(listToUse, "total_cbm");
     const total_n_w = getSum(listToUse, "total_n_w");
     const total_g_w = getSum(listToUse, "total_g_w");
-    const total_ctn = getSum(listToUse, "total_ctn");
 
     const content = (
         <div className="resume-card-body">
@@ -25,7 +26,7 @@ const ProductsResume = ({
                 materialIcon="account_balance_wallet"
                 backgroundClass="bg-success"
             >
-                {roundMoneyAmount(total_cbm)}
+                {roundMoneyAmount(total_usd)}
             </SmallCard>
 
             <SmallCard
