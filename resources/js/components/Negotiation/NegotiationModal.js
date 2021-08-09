@@ -1,6 +1,7 @@
 import React from "react";
 import { MdTouchApp } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import { confirmDelete } from "../../appText";
 import {
     selectNegotiation,
     startArtWithNegotiation,
@@ -25,15 +26,21 @@ const NegotiationModal = ({ negotiation }) => {
     } = negotiation;
 
     const handleSelectProvider = () => {
-        dispatch(selectNegotiation(negotiation));
+        if (confirm(confirmDelete)) {
+            dispatch(selectNegotiation(negotiation));
+        }
     };
 
     const handleStartProduction = () => {
-        dispatch(startProductionWithNegotiation(negotiation));
+        if (confirm(confirmDelete)) {
+            dispatch(startProductionWithNegotiation(negotiation));
+        }
     };
 
     const handleStartArt = () => {
-        dispatch(startArtWithNegotiation(negotiation));
+        if (confirm(confirmDelete)) {
+            dispatch(startArtWithNegotiation(negotiation));
+        }
     };
 
     const selectionButton = (

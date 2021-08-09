@@ -303,9 +303,11 @@ export function selectNegotiation(negotiation) {
                 { ...negotiation, seleccionado: true }
             );
 
+            negotiation = response.data.data;
+
             dispatch({
                 type: "SELECT_NEGOTIATION_SUCCESS",
-                payload: response.data.data
+                payload: negotiation
             });
 
             dispatch(
@@ -349,6 +351,7 @@ export function startProductionWithNegotiation(negotiation) {
             toast.success("✔️ Producción iniciada");
         } catch (e) {
             console.log(e.response);
+            toast.error(e.response.data.error);
             dispatch({
                 type: "START_PRODUCTION_FAILURE"
             });
@@ -382,6 +385,8 @@ export function startArtWithNegotiation(negotiation) {
 
             toast.success("✔️ Arte iniciada");
         } catch (e) {
+            console.log(e.response);
+            toast.error(e.response.data.error);
             dispatch({
                 type: "START_ART_FAILURE"
             });

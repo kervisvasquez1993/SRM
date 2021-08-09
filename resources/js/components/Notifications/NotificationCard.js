@@ -5,8 +5,9 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { markAsRead } from "../../store/actions/notificationActions";
 import { getElapsedTimeString } from "../../utils";
-import { AiFillWarning } from "react-icons/ai";
+import { AiFillWarning, AiOutlineBarcode } from "react-icons/ai";
 import {
+    FcAcceptDatabase,
     FcAssistant,
     FcComments,
     FcFactoryBreakdown,
@@ -18,6 +19,7 @@ import {
     FcTodoList,
     FcUpload
 } from "react-icons/fc";
+import { VscGraph } from "react-icons/vsc";
 
 const iconClassName = "text-dark icon-large mr-3 flex-shrink-0";
 const dangerIconClassName = "text-danger icon-large mr-3 flex-shrink-0";
@@ -63,13 +65,29 @@ const titles = {
         title: "Salida de Puerto Origen",
         icon: <FcInTransit className={iconClassName} />
     },
-    iniciar_negociacion: {
-        title: "Negociación Iniciada",
-        icon: <FaRegHandshake className={iconClassName} />
-    },
-    cargar_productos: {
+    // iniciar_negociacion: {
+    //     title: "Negociación Iniciada",
+    //     icon: <FaRegHandshake className={iconClassName} />
+    // },
+    productos_cargados: {
         title: "Productos Cargados",
         icon: <FcUpload className={iconClassName} />
+    },
+    productos_confirmados: {
+        title: "Productos Confirmados",
+        icon: <FcAcceptDatabase className={iconClassName} />
+    },
+    empresa_seleccionada: {
+        title: "Empresa Seleccionada",
+        icon: <FaRegHandshake className={iconClassName} />
+    },
+    codigos_barra_finalizado: {
+        title: "Códigos de Barra Listos",
+        icon: <AiOutlineBarcode className={iconClassName} />
+    },
+    base_grafico_finalizado: {
+        title: "Base Gráfico Listo",
+        icon: <VscGraph className={iconClassName} />
     },
     cargar_compras: {
         title: "Órdenes de Compra Cargadas",
