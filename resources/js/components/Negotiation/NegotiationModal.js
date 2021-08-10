@@ -22,7 +22,8 @@ const NegotiationModal = ({ negotiation }) => {
         iniciar_produccion,
         iniciar_arte,
         productos_confirmados,
-        seleccionado
+        seleccionado,
+        compra_po
     } = negotiation;
 
     const handleSelectProvider = () => {
@@ -54,63 +55,76 @@ const NegotiationModal = ({ negotiation }) => {
         </button>
     );
 
+    console.log(seleccionado && !compra_po);
+
     return (
         <React.Fragment>
             <NegotiationTabs negotiation={negotiation} />
 
-            {(iniciar_arte || iniciar_produccion) && (
-                <div className="modal-footer bg-success flex-column align-items-start pl-4">
-                    {iniciar_produccion && (
-                        <p className="d-flex text-white align-items-center h6 pl-4">
-                            <span className="material-icons mr-2">
-                                check_circle
-                            </span>
-                            Producción iniciada
-                        </p>
-                    )}
-                    {iniciar_arte && (
-                        <p className="d-flex text-white align-items-center h6 pl-4">
-                            <span className="material-icons mr-2">
-                                check_circle
-                            </span>
-                            Arte iniciada
-                        </p>
-                    )}
+            {seleccionado && compra_po && (
+                <div className="modal-footer d-flex flex-row justify-content-between flex-nowrap">
+                    <div className="flex-grow-1 w-100">
+                        {iniciar_produccion && (
+                            <p className="d-flex align-items-center h6 pl-4">
+                                <span className="material-icons mr-2 text-success">
+                                    check_circle
+                                </span>
+                                Producción iniciada
+                            </p>
+                        )}
+                        {iniciar_arte && (
+                            <p className="d-flex align-items-center h6 pl-4">
+                                <span className="material-icons mr-2 text-success">
+                                    check_circle
+                                </span>
+                                Arte iniciada
+                            </p>
+                        )}
+                    </div>
+
+                    <div>
+                        {!iniciar_arte && (
+                            <button
+                                type="button"
+                                className="btn btn-primary flex-grow-1 w-100"
+                                onClick={handleStartArt}
+                                disabled={isStarting || iniciar_arte}
+                            >
+                                <span className="material-icons mr-2">
+                                    brush
+                                </span>
+                                Iniciar Arte
+                            </button>
+                        )}
+
+                        {!iniciar_produccion && (
+                            <button
+                                type="button"
+                                className="btn btn-info flex-grow-1 w-100"
+                                onClick={handleStartProduction}
+                                disabled={isStarting}
+                            >
+                                <span className="material-icons mr-2">
+                                    precision_manufacturing
+                                </span>
+                                Iniciar Producción
+                            </button>
+                        )}
+                    </div>
                 </div>
             )}
 
-            {productos_confirmados && !seleccionado && (
+            {seleccionado && !compra_po && (
+                <div className="modal-footer bg-danger">
+                    <p className="d-flex text-white align-items-center h6">
+                        <span className="material-icons mr-2">warning</span>
+                        Se necesita un codigo PO para iniciar arte o producción
+                    </p>
+                </div>
+            )}
+
+            {!seleccionado && productos_confirmados && (
                 <div className="modal-footer">{selectionButton}</div>
-            )}
-
-            {seleccionado && (!iniciar_arte || !iniciar_produccion) && (
-                <div className="modal-footer">
-                    {!iniciar_arte && (
-                        <button
-                            type="button"
-                            className="btn btn-primary flex-grow-1"
-                            onClick={handleStartArt}
-                            disabled={isStarting || iniciar_arte}
-                        >
-                            <span className="material-icons mr-2">brush</span>
-                            Iniciar Arte
-                        </button>
-                    )}
-
-                    {!iniciar_produccion && (
-                        <button
-                            type="button"
-                            className="btn btn-info flex-grow-1"
-                            onClick={handleStartProduction}
-                            disabled={isStarting}
-                        >
-                            <span className="material-icons mr-2">
-                                precision_manufacturing
-                            </span>
-                            Iniciar Producción
-                        </button>
-                    )}
-                </div>
             )}
 
             {!productos_confirmados && (
