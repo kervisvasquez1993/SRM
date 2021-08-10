@@ -305,3 +305,31 @@ table,
 .cursor-pointer {
     cursor: pointer;
 }
+
+th {
+    font-weight: bold !important;
+}
+
+.table {
+    & .green {
+        background-color: #96e0a6;
+    }
+
+    & .blue {
+        background-color: #96d0e0;
+    }
+
+    & .red {
+        background-color: #ffa09e;
+    }
+}
+
+
+.btn-primary, .bg-primary {
+    background-color: #f44336 !important;
+}
+
+.btn-outline-primary {
+    color: #f44336 !important;
+    border-color: #f44336 !important;
+}

@@ -435,7 +435,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { getNegotiations } from "../../store/actions/negotiationActions";
 import { getUsers } from "../../store/actions/userActions";
 import GenericFilter from "../Filters/GenericFilter";
@@ -473,7 +473,7 @@ const NegotiationList = () => {
 
     const [compare, setCompare] = useState(false);
     const [selectedNegotiations, setSelectedNegotiations] = useState([]);
-    const [results, setResults] = useState([]);
+    // const [results, setResults] = useState([]);
 
     if (!(user.rol == "coordinador" || user.rol == "observador")) {
         return <Redirect to="/home" />;
@@ -499,19 +499,32 @@ const NegotiationList = () => {
         const value = !compare;
 
         if (!value) {
-            setResults([]);
+            // setResults([]);
             setSelectedNegotiations([]);
         }
 
         setCompare(value);
     };
 
+    const history = useHistory();
+
     const handleShowResults = () => {
-        setResults(
-            selectedNegotiations.map(id =>
-                negotiations.find(item => item.id == id)
-            )
-        );
+        // @ts-ignore
+        // const params = new URLSearchParams({
+        //     negotiations: selectedNegotiations
+        // });
+
+        let params = "";
+        selectedNegotiations.forEach(param => {
+            params += `id=${param}&`;
+        });
+
+        history.push(`/negotiations/comparator?${params.toString()}`);
+        // setResults(
+        //     selectedNegotiations.map(id =>
+        //         negotiations.find(item => item.id == id)
+        //     )
+        // );
     };
 
     const filterConfig = [
@@ -680,7 +693,7 @@ const NegotiationList = () => {
                             <div className="mb-5">
                                 <h2 className="mt-5 h3">Comparación:</h2>
 
-                                {results.length > 0 && (
+                                {/* {results.length > 0 && (
                                     <div className="table-responsive">
                                         <table className="table table-sm table-hover table-bordered fade-in">
                                             <thead className="thead-dark">
@@ -753,7 +766,7 @@ const NegotiationList = () => {
                                             </tbody>
                                         </table>
                                     </div>
-                                )}
+                                )} */}
 
                                 <button
                                     className="btn btn-primary"
@@ -762,7 +775,7 @@ const NegotiationList = () => {
                                     {compare ? (
                                         <React.Fragment>
                                             <TiCancel className="icon-normal mr-2" />
-                                            Dejar de Comparar
+                                            Cancelar
                                         </React.Fragment>
                                     ) : (
                                         <React.Fragment>
@@ -781,7 +794,7 @@ const NegotiationList = () => {
                                         onClick={handleShowResults}
                                     >
                                         <BsCardList className="icon-normal mr-2" />
-                                        Mostrar Resultados
+                                        Aceptar
                                     </button>
                                 )}
                             </div>

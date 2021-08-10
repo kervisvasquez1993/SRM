@@ -44,6 +44,7 @@ import { Helmet } from "react-helmet-async";
 import ReceptionPage from "./Claims/Reception/ReceptionPage";
 import InspectionPage from "./Claims/Inspection/InspectionPage";
 import ProductClaimPage from "./Claims/Claims/ProductClaimPage";
+import NegotiationComparator from "./Negotiation/Comparator/NegotiationComparator";
 
 // const messaging = firebase.messaging();
 
@@ -242,8 +243,11 @@ const App = () => {
                             <Route path="/negotiation/:id">
                                 <ProviderPurchase />
                             </Route>
-                            <Route path="/negotiations">
+                            <Route exact path="/negotiations">
                                 <NegotiationList />
+                            </Route>
+                            <Route exact path="/negotiations/comparator">
+                                <NegotiationComparator />
                             </Route>
                             <Route path="/productions">
                                 <ProductionList />

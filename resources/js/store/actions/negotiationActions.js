@@ -8,12 +8,14 @@ import { focusOnElementWithId } from "./focusActions";
 import { genericFormSubmit } from "./genericFormActions";
 import { closeModal, openModal } from "./modalActions";
 
-export function getNegotiations() {
+export function getNegotiations(params) {
     return async (dispatch, getState) => {
         dispatch({ type: "GET_NEGOTIATIONS_REQUEST" });
 
         try {
-            const response = await axios.get(`${apiURL}/negociacion`);
+            const response = await axios.get(`${apiURL}/negociacion`, {
+                params: params
+            });
 
             dispatch({
                 type: "GET_NEGOTIATIONS_SUCCESS",

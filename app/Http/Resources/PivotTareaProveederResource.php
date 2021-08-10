@@ -14,6 +14,8 @@ class PivotTareaProveederResource extends JsonResource
      */
     public function toArray($request)
     {
+        $productos = $this->productos;
+
         return [
             'id'                  => $this->id,
             'tarea_id'            => $this->tarea_id,
@@ -29,17 +31,19 @@ class PivotTareaProveederResource extends JsonResource
             'proveedor'           => $this->proveedor,
             'tarea'               => $this->tarea,
             'usuario'             => $this->tarea->usuarios,
-            'total_usd'           => $this->productos->sum('total_usd'),
-            'total_ctn'           => $this->productos->sum('total_ctn'),
-            'total_cbm'           => $this->productos->sum('total_cbm'),
-            'total_n_w'           => $this->productos->sum('total_n_w'),
-            'total_g_w'           => $this->productos->sum('total_g_w'),
+            'total_usd'           => $productos->sum('total_usd'),
+            'total_ctn'           => $productos->sum('total_ctn'),
+            'total_cbm'           => $productos->sum('total_cbm'),
+            'total_n_w'           => $productos->sum('total_n_w'),
+            'total_g_w'           => $productos->sum('total_g_w'),
+            'productos' => $this->when($request->productos, $productos),
             'compras_total'       => $this->compras->sum('total'),
             'compra_po'           => $this->compra_po,
             'payment_terms'       => $this->payment_terms,
             'hs_code'             => $this->hs_code,
             'incoterms'           => $this->incoterms,
             'delivery_time'       => $this->delivery_time,
+
         ];
     }
 }

@@ -61,7 +61,7 @@ const GenericFormModal = props => {
                             <span className="sr-only">Loading...</span>
                         </div>
                     ) : (
-                        "Enviar"
+                        props.submitButtonText || "Enviar"
                     )}
                 </button>
             </div>

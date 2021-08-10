@@ -168,7 +168,10 @@ const NegotiationCard = ({
                                         ))}
                                 </div>
 
-                                <button className="btn btn-sm btn-info btn-round">
+                                <button
+                                    className="btn btn-sm btn-round"
+                                    style={{ backgroundColor: "black" }}
+                                >
                                     Ver Detalles
                                 </button>
                             </div>
