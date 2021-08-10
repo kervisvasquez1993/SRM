@@ -14,7 +14,7 @@ export default ({ negotiations, formData, isEditor = false }) => {
         if (isEditor) {
             return formData.productIds;
         }
-        
+
         return Array.from({ length: negotiations.length }, (v, i) => null);
     });
 
@@ -28,7 +28,7 @@ export default ({ negotiations, formData, isEditor = false }) => {
             };
 
             if (isEditor) {
-                dispatch(editComparision(comparision));
+                dispatch(editComparision(comparision, formData.productName));
             } else {
                 dispatch(addComparision(comparision));
             }
