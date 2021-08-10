@@ -10,13 +10,7 @@ import LoadingScreen from "../../Navigation/LoadingScreen";
 import AddComparisionModal from "./AddComparisionModal";
 
 const fields = ["total_usd"];
-const colors = [
-    "green",
-    "blue",
-    "red",
-    "bg-warning",
-    "table-dark"
-];
+const colors = ["green", "blue", "red", "bg-warning", "table-dark"];
 
 const getColor = index => {
     return colors[index];
@@ -24,7 +18,7 @@ const getColor = index => {
 
 export default () => {
     const dispatch = useDispatch();
-    
+
     // @ts-ignore
     const negotiations = useSelector(state => state.negotiation.negotiations);
     // @ts-ignore
@@ -104,6 +98,7 @@ export default () => {
                                 <th scope="col" rowSpan={2}></th>
 
                                 {selectedNegotiations.map((item, index) => {
+                                    console.log(item);
                                     const background = getColor(index);
 
                                     return (

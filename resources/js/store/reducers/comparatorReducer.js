@@ -30,6 +30,13 @@ const comparatorReducer = (state = defaultState, action) => {
         };
     }
 
+    if (type === "CHANGE_HISTORY") {
+        return {
+            ...state,
+            comparisions: []
+        };
+    }
+
     return state;
 };
 
