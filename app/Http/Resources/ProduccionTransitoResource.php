@@ -14,14 +14,16 @@ class ProduccionTransitoResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id,
-            'pivot' => new PivotTareaProveederResource($this->pivotTable),
-            'pagos' => $this->pagos,
-            'inicio_produccion' => $this->inicio_produccion,
-            'fin_produccion' => $this->fin_produccion,
-            'transito_nacionalizacion' => $this->transito_nacionalizacion,
-            'salida_puero_origen' => $this->salida_puero_origen,
+        return 
+        [
+          'id' => $this->id,
+          'pivot' => new PivotTareaProveederResource($this->pivotTable),
+          'pagos' => $this->pagos,
+          'inicio_produccion' => $this->inicio_produccion,
+          'fin_produccion' => $this->fin_produccion,
+          'salida_puero_origen' => $this->salida_puero_origen,
+          'transito' => $this->transito,
+          'nacionalizacion' => $this->nacionalizacion,
         ];
 
     }

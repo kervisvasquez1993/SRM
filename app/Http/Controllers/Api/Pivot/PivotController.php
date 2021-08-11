@@ -243,20 +243,14 @@ class PivotController extends ApiController
         $this->sendNotifications($userAll, new GeneralNotification($body, $link, $type, $title));
     }
 
-
-
-
-
-
-
     public function produccionTransitoCreate($id)
     {
-        error_log('ejecutado1');
+        
         $producionTransito = ProduccionTransito::where('pivot_tarea_proveeder_id', $id)->first();
         if ($producionTransito) {
             return  $this->successMensaje('Ya se Inicializo la produccion con este Proveedor', 201);
         }
-        error_log('holaaa');
+        
         $produccionAprobar = new ProduccionTransito();
         $produccionAprobar->pivot_tarea_proveeder_id = $id;
         $produccionAprobar->save();
