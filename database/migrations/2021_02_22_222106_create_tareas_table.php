@@ -17,9 +17,9 @@ class CreateTareasTable extends Migration
             $table->id();
             $table->unsignedBigInteger('sender_id');
             $table->foreignId('user_id')->references('id')->on('users');
-            $table->string('nombre');
-            $table->text('descripcion');
-            $table->date('fecha_fin');
+            $table->string('nombre')->default('Sin Definir');
+            $table->text('descripcion')->default('Sin Descripción');
+            $table->date('fecha_fin')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

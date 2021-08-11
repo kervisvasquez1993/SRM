@@ -9,7 +9,13 @@ class Tarea extends Model
 {
     use SoftDeletes;
 
-
+    protected $fillable = [
+        'sender_id',
+        'user_id',
+        'nombre',
+        'descripcion',
+        'fecha_fin'
+    ];
 
 
     public function draggebleTask()

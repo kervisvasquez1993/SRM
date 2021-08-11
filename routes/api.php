@@ -52,15 +52,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/negociacion', 'Api\Pivot\PivotController@store');
     Route::get('/negociacion/{pivot_id}', 'Api\Pivot\PivotController@show');
     Route::put('/negociacion/{pivot_id}', 'Api\Pivot\PivotController@update');
-
-    //INICIA ARTE y negociacion 
-
-    /*  Route::put('/negociacion/{pivotTareaProveederId}/iniciar-arte', 'Api\Pivot\PivotController@startArte');
-    Route::put('/negociacion/{pivotTareaProveederId}/iniciar-produccion', 'Api\Pivot\PivotController@startProduccion'); */
-    /* Route::post('/testProduccion/{id}', 'Api\Pivot\PivotController@artesCreate'); */
-
-
-
+    Route::post('creacion_onden_compra/{proveedor}', 'Api\Pivot\PivotController@creacionOrdenCompra');
     //productos
 
 
