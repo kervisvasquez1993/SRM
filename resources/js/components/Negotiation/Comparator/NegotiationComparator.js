@@ -8,6 +8,7 @@ import { openModal } from "../../../store/actions/modalActions";
 import { getNegotiations } from "../../../store/actions/negotiationActions";
 import LoadingScreen from "../../Navigation/LoadingScreen";
 import AddComparisionModal from "./AddComparisionModal";
+import ComparatorTable from "./ComparatorTable";
 
 const fields = ["total_usd"];
 const colors = ["green", "blue", "red", "bg-warning", "table-dark"];
@@ -249,6 +250,16 @@ export default () => {
                         </tr>
                     </tbody>
                 </table>
+
+                <ComparatorTable />
+
+                <button
+                    className="btn btn-success mb-4"
+                    onClick={handleOpenModal}
+                >
+                    <MdAddCircle className="mr-2" />
+                    Agregar Comparación
+                </button>
             </div>
         </div>
     );

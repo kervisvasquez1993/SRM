@@ -368,3 +368,73 @@ export const isTouchDevice = () => {
         navigator.msMaxTouchPoints > 0
     );
 };
+
+export const extractToken = (template, url, token) => {
+    var sReg = "[A-z]",
+        xyzReg = "[0-9]+",
+        tokenMapping = {
+            "{s}": sReg,
+            "{x}": xyzReg,
+            "{y}": xyzReg,
+            "{z}": xyzReg
+        },
+        tokenList = [];
+
+    var regexpTemplate = template.replace(".", "\\.");
+
+    // Find the order of your tokens
+    var i, tokenIndex, tokenEntry;
+    for (var m in tokenMapping) {
+        tokenIndex = template.indexOf(m);
+
+        // Token found
+        if (tokenIndex > -1) {
+            regexpTemplate = regexpTemplate.replace(
+                m,
+                "(" + tokenMapping[m] + ")"
+            );
+            tokenEntry = {
+                index: tokenIndex,
+                token: m
+            };
+
+            for (
+                i = 0;
+                i < tokenList.length && tokenList[i].index < tokenIndex;
+                i++
+            );
+
+            // Insert it at index i
+            if (i < tokenList.length) {
+                tokenList.splice(i, 0, tokenEntry);
+            }
+            // Or push it at the end
+            else {
+                tokenList.push(tokenEntry);
+            }
+        }
+    }
+
+    var match = new RegExp(regexpTemplate).exec(url);
+
+    // Find your token entry
+    for (i = 0; i < tokenList.length; i++) {
+        if (tokenList[i].token === token) {
+            return match[i + 1];
+        }
+    }
+
+    return null;
+};
+
+
+export const extractStringBetween = (text, a, b) => {
+    const indexA = text.indexOf(a);
+    const indexB = text.indexOf(b);
+    return text.substring(indexA + a.length, indexB);
+}
+
+export const extractStringAfter = (text, a) => {
+    const indexA = text.indexOf(a);
+    return text.substring(indexA + a.length);
+}
