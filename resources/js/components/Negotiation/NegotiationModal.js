@@ -61,7 +61,7 @@ const NegotiationModal = ({ negotiation }) => {
         <React.Fragment>
             <NegotiationTabs negotiation={negotiation} />
 
-            {seleccionado && compra_po && (
+            {seleccionado && user.rol == "coordinador" && compra_po && (
                 <div className="modal-footer d-flex flex-row justify-content-between flex-nowrap">
                     <div className="flex-grow-1 w-100">
                         {iniciar_produccion && (
@@ -123,9 +123,11 @@ const NegotiationModal = ({ negotiation }) => {
                 </div>
             )}
 
-            {!seleccionado && productos_confirmados && (
-                <div className="modal-footer">{selectionButton}</div>
-            )}
+            {!seleccionado &&
+                productos_confirmados &&
+                user.rol == "coordinador" && (
+                    <div className="modal-footer">{selectionButton}</div>
+                )}
 
             {!productos_confirmados && (
                 <div className="modal-footer bg-danger">
@@ -134,7 +136,9 @@ const NegotiationModal = ({ negotiation }) => {
                         Aún no se han confirmado los productos
                     </p>
 
-                    {!seleccionado && selectionButton}
+                    {!seleccionado &&
+                        user.rol == "coordinador" &&
+                        selectionButton}
                 </div>
             )}
         </React.Fragment>

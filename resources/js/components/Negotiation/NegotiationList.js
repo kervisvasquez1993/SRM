@@ -442,7 +442,6 @@ import GenericFilter from "../Filters/GenericFilter";
 import NegotiationCard from "./NegotiationCard";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import { Helmet } from "react-helmet-async";
-import { roundMoneyAmount } from "../../utils";
 
 import { GoGitCompare } from "react-icons/go";
 import { TiCancel } from "react-icons/ti";
@@ -475,7 +474,13 @@ const NegotiationList = () => {
     const [selectedNegotiations, setSelectedNegotiations] = useState([]);
     // const [results, setResults] = useState([]);
 
-    if (!(user.rol == "coordinador" || user.rol == "observador")) {
+    if (
+        !(
+            user.rol == "coordinador" ||
+            user.rol == "observador" ||
+            user.rol == "comprador"
+        )
+    ) {
         return <Redirect to="/home" />;
     }
 
