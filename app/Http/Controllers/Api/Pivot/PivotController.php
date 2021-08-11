@@ -271,8 +271,6 @@ class PivotController extends ApiController
         $tarea->sender_id = auth()->user()->id;
         $tarea->user_id = auth()->user()->id;
         $tarea->save();
-
-        return $proveedor;
         $pivot = new PivotTareaProveeder();
         $pivot->tarea_id = $tarea->id;
         $pivot->proveedor_id = $proveedor->id;
@@ -280,6 +278,7 @@ class PivotController extends ApiController
         $pivot->iniciar_arte = false;
         $pivot->iniciar_produccion = false;
         $pivot->orden_compra_flash = true;
+        $pivot->save();
         return $this->showOneResource(new PivotTareaProveederResource($pivot));
     }
 }
