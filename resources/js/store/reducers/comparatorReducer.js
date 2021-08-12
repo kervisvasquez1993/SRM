@@ -27,7 +27,7 @@ const comparatorReducer = (state = defaultState, action) => {
         return {
             ...state,
             comparisions: state.comparisions.map(item =>
-                item.productName === payload.productName ? payload : item
+                item.id === payload.id ? payload : item
             )
         };
     }

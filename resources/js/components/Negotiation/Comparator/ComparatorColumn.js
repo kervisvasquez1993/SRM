@@ -33,11 +33,11 @@ export default ({ rowIndex, colIndex, column }) => {
                     className={`column-dropable ${snapshot.isDraggingOver &&
                         "drag-over"}`}
                 >
-                    {column.map((product, productIndex) => (
+                    {column.map((productId, productIndex) => (
                         <ComparedProductCard
-                            productId={product.id}
+                            productId={productId}
                             index={productIndex}
-                            key={product.id}
+                            key={productId}
                         />
                     ))}
                     {provided.placeholder}

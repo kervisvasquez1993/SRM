@@ -12,6 +12,7 @@ $row-background: lightgrey;
     flex-direction: column;
     max-width: max-content;
     width: max-content;
+    margin-bottom: 2rem;
 }
 
 .comparision-draggable {
@@ -19,9 +20,11 @@ $row-background: lightgrey;
     display: flex;
     align-items: stretch;
     width: 100%;
-    // border-color: rgb(133, 133, 133);
-    // border-style: solid;
-    // border-width: 2px 0 2px 0;
+    user-select: none;
+    border-color: rgb(160, 160, 160);
+    border-style: solid;
+    border-width: 2px 0 2px 0;
+    // padding: 0 0;
 
 }
 

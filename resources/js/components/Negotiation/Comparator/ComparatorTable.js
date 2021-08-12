@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { BiEditAlt } from "react-icons/bi";
 import { RiDeleteBin2Fill } from "react-icons/ri";
@@ -88,27 +88,68 @@ export default ({ negotiations, comparision }) => {
     //     }
     // ]);
 
-    const [state, setState] = useState(() => {
-        const columns = comparision.productIds.map((list, columnIndex) => {
-            return [
-                ...list.map(productId => {
-                    return {
-                        id: `${productId}`,
-                        content: `${productId}`,
-                        type: `${columnIndex}`
-                    };
-                })
-            ];
-        });
+    const [state, setState] = useState([]);
 
-        return [
-            {
-                id: v4(),
-                type: "row-container",
-                columns: columns
+    useEffect(() => {
+        setState(oldState => {
+            // console.log(oldState);
+            // console.log(comparision);
+            const newState = [...oldState];
+
+            // Create a new row if it doesn't exist
+            if (oldState.length === 0) {
+                newState.push({
+                    id: v4(),
+                    type: "row-container",
+                    columns: comparision.productIds.map(list => [...list])
+                });
             }
-        ];
-    });
+
+            if (oldState.length > 0) {
+                const newProducts = comparision.productIds.flat();
+
+                // Delete products that doesn't exit anymore in the new list
+                for (const row of oldState) {
+                    for (const column of row.columns) {
+                        for (const productId of [...column]) {
+                            if (!newProducts.includes(productId)) {
+                                column.splice(column.indexOf(productId), 1);
+                            }
+                        }
+                    }
+                }
+
+                // Add new products that weren't there
+                for (const [
+                    colIndex,
+                    colProducts
+                ] of comparision.productIds.entries()) {
+                    for (const newProductId of colProducts) {
+                        let toAdd = true;
+
+                        for (const row of oldState) {
+                            for (const column of row.columns) {
+                                for (const productId of column) {
+                                    if (productId === newProductId) {
+                                        toAdd = false;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        if (toAdd) {
+                            oldState[oldState.length - 1].columns[
+                                colIndex
+                            ].push(newProductId);
+                        }
+                    }
+                }
+            }
+
+            return newState;
+        });
+    }, [comparision]);
 
     const onDragEnd = result => {
         const { source, destination, type } = result;

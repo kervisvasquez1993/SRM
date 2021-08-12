@@ -9,7 +9,7 @@ export default ({ productId, index }) => {
     const product = products.find(product => product.id == productId);
 
     return (
-        <Draggable draggableId={productId} index={index}>
+        <Draggable draggableId={`${productId}`} index={index}>
             {(provided, snapshot) => (
                 <div
                     ref={provided.innerRef}

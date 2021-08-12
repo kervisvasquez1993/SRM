@@ -21,11 +21,9 @@ export default ({ formData, isEditor = false }) => {
     });
 
     const onSubmit = data => {
-        const { productName } = data;
-
-        if (productName) {
+        if (data.productName) {
             const comparision = {
-                productName,
+                ...data,
                 productIds
             };
 

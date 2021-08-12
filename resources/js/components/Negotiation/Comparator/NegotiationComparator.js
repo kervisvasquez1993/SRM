@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { MdAddCircle } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { ArrayParam, useQueryParam } from "use-query-params";
+import { v4 } from "uuid";
 import {
     deleteComparision,
     setNegotiations
@@ -59,20 +60,23 @@ export default () => {
                 title: "Agregar Comparación",
                 body: (
                     <AddComparisionModal
-                        formData={{ productName: "Ejemplo", productIds: [] }}
-                        negotiations={selectedNegotiations}
+                        formData={{
+                            id: v4(),
+                            productName: "Ejemplo",
+                            productIds: []
+                        }}
                     />
                 )
             })
         );
     };
-    
+
     if (isLoadingList) {
         return <LoadingScreen>{helmet}</LoadingScreen>;
     }
 
     return (
-        <div>
+        <React.Fragment>
             {helmet}
             <div className="table-responsive">
                 {/* <table className="table table-sm table-bordered fade-in py-0 text-center bg-white">
@@ -256,6 +260,6 @@ export default () => {
                     Agregar Comparación
                 </button>
             </div>
-        </div>
+        </React.Fragment>
     );
 };
