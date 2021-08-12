@@ -1,5 +1,5 @@
 import React from "react";
-import { Draggable, Droppable } from "react-beautiful-dnd";
+import { Droppable } from "react-beautiful-dnd";
 import ComparedProductCard from "./ComparedProductCard";
 
 const grid = 8;

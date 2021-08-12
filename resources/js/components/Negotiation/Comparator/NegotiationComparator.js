@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { MdAddCircle } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { ArrayParam, useQueryParam } from "use-query-params";
 import { v4 } from "uuid";
-import {
-    deleteComparision,
-    setNegotiations
-} from "../../../store/actions/comparatorActions";
+import { setNegotiations } from "../../../store/actions/comparatorActions";
 import { openModal } from "../../../store/actions/modalActions";
 import { getNegotiations } from "../../../store/actions/negotiationActions";
 import LoadingScreen from "../../Navigation/LoadingScreen";

@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { BiBorderNone } from "react-icons/bi";
+import { MdSelectAll } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import {
     addComparision,
@@ -62,6 +64,20 @@ export default ({ formData, isEditor = false }) => {
     const stopPropagation = e => {
         e.preventDefault();
         e.stopPropagation();
+    };
+
+    const handleSelectAll = index => {
+        const productos = negotiations[index].productos;
+
+        const newProducts = [...productIds];
+        newProducts[index] = productos.map(item => item.id);
+        setProductIds(newProducts);
+    };
+
+    const handleUnselectAll = index => {
+        const newProducts = [...productIds];
+        newProducts[index] = [];
+        setProductIds(newProducts);
     };
 
     return (
@@ -161,6 +177,29 @@ export default ({ formData, isEditor = false }) => {
                                         })}
                                     </tbody>
                                 </table>
+                            </div>
+
+                            <div>
+                                <button
+                                    className="btn btn-info mb-4"
+                                    onClick={() =>
+                                        handleSelectAll(negotiationIndex)
+                                    }
+                                    type="button"
+                                >
+                                    <MdSelectAll className="mr-2 icon-normal" />
+                                    Seleccionar Todo
+                                </button>
+                                <button
+                                    className="btn btn-danger mb-4"
+                                    onClick={() =>
+                                        handleUnselectAll(negotiationIndex)
+                                    }
+                                    type="button"
+                                >
+                                    <BiBorderNone className="mr-2 icon-normal" />
+                                    Deseleccionar Todo
+                                </button>
                             </div>
                         </div>
                     );
