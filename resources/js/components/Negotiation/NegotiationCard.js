@@ -1,5 +1,7 @@
 import React from "react";
+import { BiGitCompare } from "react-icons/bi";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
 import {
     getColorsForTask,
@@ -168,12 +170,23 @@ const NegotiationCard = ({
                                         ))}
                                 </div>
 
-                                <button
-                                    className="btn btn-sm btn-round"
-                                    style={{ backgroundColor: "black" }}
-                                >
-                                    Ver Detalles
-                                </button>
+                                <div>
+                                    <Link
+                                        to={`/tasks/${task.id}/comparator`}
+                                        className="btn btn-sm btn-round"
+                                        style={{ backgroundColor: "black" }}
+                                    >
+                                        <BiGitCompare />
+                                        Comparar
+                                    </Link>
+
+                                    <button
+                                        className="btn btn-sm btn-round"
+                                        style={{ backgroundColor: "black" }}
+                                    >
+                                        Ver Detalles
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     )}

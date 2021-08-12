@@ -12,7 +12,8 @@ import GenericFormModal from "../../Table/GenericFormModal";
 export default ({ formData, isEditor = false }) => {
     const dispatch = useDispatch();
     // @ts-ignore
-    const negotiations = useSelector(state => state.comparator.negotiations);
+    // const negotiations = useSelector(state => state.comparator.negotiations);
+    const negotiations = useSelector(state => state.task.task).negociaciones;
 
     const [productIds, setProductIds] = useState(() => {
         if (isEditor) {

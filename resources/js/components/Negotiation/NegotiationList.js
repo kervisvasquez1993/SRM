@@ -470,8 +470,8 @@ const NegotiationList = () => {
     const isLoadingList = useSelector(state => state.negotiation.isLoadingList);
     const [filteredNegotiations, setFilteredNegotiations] = useState([]);
 
-    const [compare, setCompare] = useState(false);
-    const [selectedNegotiations, setSelectedNegotiations] = useState([]);
+    // const [compare, setCompare] = useState(false);
+    // const [selectedNegotiations, setSelectedNegotiations] = useState([]);
     // const [results, setResults] = useState([]);
 
     if (
@@ -489,48 +489,48 @@ const NegotiationList = () => {
         dispatch(getUsers());
     }, []);
 
-    const toggleCheckbox = id => {
-        const newSelected = [...selectedNegotiations];
+    // const toggleCheckbox = id => {
+    //     const newSelected = [...selectedNegotiations];
 
-        if (newSelected.includes(id)) {
-            newSelected.splice(selectedNegotiations.indexOf(id), 1);
-        } else {
-            newSelected.push(id);
-        }
-        setSelectedNegotiations(newSelected);
-    };
+    //     if (newSelected.includes(id)) {
+    //         newSelected.splice(selectedNegotiations.indexOf(id), 1);
+    //     } else {
+    //         newSelected.push(id);
+    //     }
+    //     setSelectedNegotiations(newSelected);
+    // };
 
-    const handleCompare = () => {
-        const value = !compare;
+    // const handleCompare = () => {
+    //     const value = !compare;
 
-        if (!value) {
-            // setResults([]);
-            setSelectedNegotiations([]);
-        }
+    //     if (!value) {
+    //         // setResults([]);
+    //         setSelectedNegotiations([]);
+    //     }
 
-        setCompare(value);
-    };
+    //     setCompare(value);
+    // };
 
     const history = useHistory();
 
-    const handleShowResults = () => {
-        // @ts-ignore
-        // const params = new URLSearchParams({
-        //     negotiations: selectedNegotiations
-        // });
+    // const handleShowResults = () => {
+    //     // @ts-ignore
+    //     // const params = new URLSearchParams({
+    //     //     negotiations: selectedNegotiations
+    //     // });
 
-        let params = "";
-        selectedNegotiations.forEach(param => {
-            params += `id=${param}&`;
-        });
+    //     let params = "";
+    //     selectedNegotiations.forEach(param => {
+    //         params += `id=${param}&`;
+    //     });
 
-        history.push(`/negotiations/comparator?${params.toString()}`);
-        // setResults(
-        //     selectedNegotiations.map(id =>
-        //         negotiations.find(item => item.id == id)
-        //     )
-        // );
-    };
+    //     history.push(`/negotiations/comparator?${params.toString()}`);
+    //     // setResults(
+    //     //     selectedNegotiations.map(id =>
+    //     //         negotiations.find(item => item.id == id)
+    //     //     )
+    //     // );
+    // };
 
     const filterConfig = [
         {
@@ -622,44 +622,51 @@ const NegotiationList = () => {
         }
     ];
 
+    const localNegotiationCard = item => (
+        <NegotiationCard key={item.id} negotiation={item} />
+    );
+
     const populatorConfig = [
         {
             header: "En proceso de comparación",
             filterPopulator: item => isNegotiationInProgress(item),
             populator: item => {
-                return (
-                    <NegotiationCard
-                        key={item.id}
-                        negotiation={item}
-                        {...{ toggleCheckbox, selectedNegotiations, compare }}
-                    />
-                );
+                return localNegotiationCard(item);
+                // return (
+                //     <NegotiationCard
+                //         key={item.id}
+                //         negotiation={item}
+                //         {...{ toggleCheckbox, selectedNegotiations, compare }}
+                //     />
+                // );
             }
         },
         {
             header: "Seleccionadas",
             filterPopulator: item => isNegotiationSelected(item),
             populator: item => {
-                return (
-                    <NegotiationCard
-                        key={item.id}
-                        negotiation={item}
-                        {...{ toggleCheckbox, selectedNegotiations, compare }}
-                    />
-                );
+                return localNegotiationCard(item);
+                // return (
+                //     <NegotiationCard
+                //         key={item.id}
+                //         negotiation={item}
+                //         {...{ toggleCheckbox, selectedNegotiations, compare }}
+                //     />
+                // );
             }
         },
         {
             header: "Completadas",
             filterPopulator: item => isNegotiationCompleted(item),
             populator: item => {
-                return (
-                    <NegotiationCard
-                        key={item.id}
-                        negotiation={item}
-                        {...{ toggleCheckbox, selectedNegotiations, compare }}
-                    />
-                );
+                return localNegotiationCard(item);
+                // return (
+                //     <NegotiationCard
+                //         key={item.id}
+                //         negotiation={item}
+                //         {...{ toggleCheckbox, selectedNegotiations, compare }}
+                //     />
+                // );
             }
         }
     ];
@@ -694,84 +701,9 @@ const NegotiationList = () => {
                             useCard={true}
                         />
 
-                        {filteredNegotiations.length > 1 && (
+                        {/* {filteredNegotiations.length > 1 && (
                             <div className="mb-5">
                                 <h2 className="mt-5 h3">Comparación:</h2>
-
-                                {/* {results.length > 0 && (
-                                    <div className="table-responsive">
-                                        <table className="table table-sm table-hover table-bordered fade-in">
-                                            <thead className="thead-dark">
-                                                <tr>
-                                                    <th scope="col">Empresa</th>
-                                                    <th scope="col">
-                                                        Total CBM
-                                                    </th>
-                                                    <th scope="col">
-                                                        Total Peso Neto (kg)
-                                                    </th>
-                                                    <th scope="col">
-                                                        Total Peso Bruto (kg)
-                                                    </th>
-                                                    <th scope="col">
-                                                        Total CTN
-                                                    </th>
-                                                    <th scope="col">
-                                                        Total a Pagar
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {results.length > 0 &&
-                                                    results.map(item => {
-                                                        const {
-                                                            proveedor: {
-                                                                nombre
-                                                            },
-                                                            total_cbm,
-                                                            total_n_w,
-                                                            total_g_w,
-                                                            total_ctn,
-                                                            compras_total
-                                                        } = item;
-
-                                                        return (
-                                                            <tr key={item.id}>
-                                                                <th scope="row">
-                                                                    {nombre}
-                                                                </th>
-                                                                <td>
-                                                                    {roundMoneyAmount(
-                                                                        total_cbm
-                                                                    )}
-                                                                </td>
-                                                                <td>
-                                                                    {roundMoneyAmount(
-                                                                        total_n_w
-                                                                    )}
-                                                                </td>
-                                                                <td>
-                                                                    {roundMoneyAmount(
-                                                                        total_g_w
-                                                                    )}
-                                                                </td>
-                                                                <td>
-                                                                    {roundMoneyAmount(
-                                                                        total_ctn
-                                                                    )}
-                                                                </td>
-                                                                <td>
-                                                                    {roundMoneyAmount(
-                                                                        compras_total
-                                                                    )}
-                                                                </td>
-                                                            </tr>
-                                                        );
-                                                    })}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                )} */}
 
                                 <button
                                     className="btn btn-primary"
@@ -803,7 +735,7 @@ const NegotiationList = () => {
                                     </button>
                                 )}
                             </div>
-                        )}
+                        )} */}
                     </React.Fragment>
                 )}
             </GenericFilter>

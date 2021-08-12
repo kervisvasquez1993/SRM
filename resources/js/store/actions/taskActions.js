@@ -46,7 +46,7 @@ export function createTask(task) {
 
             toast.success("✔️ Tarea creada");
         } catch (e) {
-            console.log(e.response)
+            console.log(e.response);
             dispatch({
                 type: "CREATE_TASK_FAILURE",
                 errors: e.response.data
@@ -81,18 +81,38 @@ export function editTask(id, task) {
     };
 }
 
-export function getTask(id) {
+export function getTask(id, params = {}) {
     return async (dispatch, getState) => {
         dispatch({ type: "GET_TASK_REQUEST" });
 
         try {
-            const response = await axios.get(`${apiURL}/tarea/${id}`);
+            const response = await axios.get(`${apiURL}/tarea/${id}`, {
+                params
+            });
+
+            if (params.productos && params.negociaciones) {
+                // Filtrar las negociaciones que solo tengan productos cargados
+                response.data.data.negociaciones = response.data.data.negociaciones.filter(
+                    item => item.productos_cargados
+                );
+
+                // Obtener un arreglo de todos los productos de las negociaciones filtradas
+                const products = response.data.data.negociaciones
+                    .map(item => item.productos)
+                    .flat();
+
+                dispatch({
+                    type: "SET_SELECTED_NEGOTIATIONS_FOR_COMPARISON",
+                    payload: { products }
+                });
+            }
 
             dispatch({
                 type: "GET_TASK_SUCCESS",
                 payload: response.data.data
             });
         } catch (e) {
+            console.log(e);
             dispatch({
                 type: "GET_TASK_FAILURE"
             });

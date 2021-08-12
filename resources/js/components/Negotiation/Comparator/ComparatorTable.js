@@ -30,64 +30,6 @@ const extractIndices = id => {
 export default ({ negotiations, comparision }) => {
     const dispatch = useDispatch();
 
-    const columnCount = negotiations.length;
-
-    // const fakeColumns = Array.from(Array(columnCount), () => []);
-    // fakeColumns[0] = [
-    //     {
-    //         id: "1",
-    //         content: "item",
-    //         type: "1"
-    //     },
-    //     {
-    //         id: "2",
-    //         content: "item",
-    //         type: "1"
-    //     },
-    //     {
-    //         id: "3",
-    //         content: "item",
-    //         type: "1"
-    //     }
-    // ];
-
-    // fakeColumns[1] = [
-    //     {
-    //         id: `4`,
-    //         content: `item`,
-    //         type: "2"
-    //     },
-    //     {
-    //         id: `5`,
-    //         content: `item`,
-    //         type: "2"
-    //     }
-    // ];
-
-    // fakeColumns[2] = [
-    //     {
-    //         id: `6`,
-    //         content: `item 3`,
-    //         type: "3"
-    //     }
-    // ];
-
-    // fakeColumns[3] = [
-    //     {
-    //         id: `7`,
-    //         content: `item 4`,
-    //         type: "4"
-    //     }
-    // ];
-
-    // const [state, setState] = useState([
-    //     {
-    //         id: "row-1",
-    //         type: "row-container",
-    //         columns: [...fakeColumns]
-    //     }
-    // ]);
-
     const [state, setState] = useState([]);
 
     useEffect(() => {
@@ -309,7 +251,7 @@ export default ({ negotiations, comparision }) => {
                                                     id: `row-${v4()}`,
                                                     type: "row-container",
                                                     columns: Array.from(
-                                                        Array(columnCount),
+                                                        Array(negotiations.length),
                                                         () => []
                                                     )
                                                 }

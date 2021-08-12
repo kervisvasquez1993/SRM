@@ -231,8 +231,11 @@ const App = () => {
                             <Route exact path="/tasks">
                                 <TaskList />
                             </Route>
-                            <Route path="/tasks/:id">
+                            <Route exact path="/tasks/:id">
                                 <TaskDetails />
+                            </Route>
+                            <Route exact path="/tasks/:id/comparator">
+                                <NegotiationComparator />
                             </Route>
                             <Route path="/me/tasks">
                                 <TaskList
@@ -245,9 +248,6 @@ const App = () => {
                             </Route>
                             <Route exact path="/negotiations">
                                 <NegotiationList />
-                            </Route>
-                            <Route exact path="/negotiations/comparator">
-                                <NegotiationComparator />
                             </Route>
                             <Route path="/productions">
                                 <ProductionList />

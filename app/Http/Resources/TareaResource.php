@@ -18,7 +18,8 @@ class TareaResource extends JsonResource
             'created_at' => $this->created_at,
             'completada' => !$this->pivotTareaProveedor->where('iniciar_produccion', true)->where('iniciar_arte', true)->isEmpty(),
             'tiene_negociacion' => !$this->pivotTareaProveedor->where('productos_cargados', true)->isEmpty(),
-            'cantidad_proveedores' => $this->proveedores->count()
+            'cantidad_proveedores' => $this->proveedores->count(),
+            'negociaciones' => $this->when($request->negociaciones, PivotTareaProveederResource::collection($this->pivotTareaProveedor))
         ];
 
         return parent::toArray($request);
