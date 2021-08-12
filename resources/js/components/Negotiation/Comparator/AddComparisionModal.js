@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
     addComparision,
     editComparision
@@ -7,15 +7,17 @@ import {
 import InputText from "../../Form/InputText";
 import GenericFormModal from "../../Table/GenericFormModal";
 
-export default ({ negotiations, formData, isEditor = false }) => {
+export default ({ formData, isEditor = false }) => {
     const dispatch = useDispatch();
+    // @ts-ignore
+    const negotiations = useSelector(state => state.comparator.negotiations);
 
     const [productIds, setProductIds] = useState(() => {
         if (isEditor) {
             return formData.productIds;
         }
 
-        return Array.from({ length: negotiations.length }, (v, i) => null);
+        return Array.from({ length: negotiations.length }, (v, i) => []);
     });
 
     const onSubmit = data => {
@@ -41,14 +43,19 @@ export default ({ negotiations, formData, isEditor = false }) => {
             e.stopPropagation();
         }
 
-        console.log(negotiationIndex, value);
-
         const newValues = [...productIds];
 
-        if (newValues[negotiationIndex] === value) {
-            newValues[negotiationIndex] = null;
+        const list = newValues[negotiationIndex];
+
+        // if (newValues[negotiationIndex] === value) {
+        //     newValues[negotiationIndex] = null;
+        // } else {
+        //     newValues[negotiationIndex] = value;
+        // }
+        if (list.includes(value)) {
+            list.splice(list.indexOf(value), 1);
         } else {
-            newValues[negotiationIndex] = value;
+            list.push(value);
         }
 
         setProductIds(newValues);
@@ -86,7 +93,7 @@ export default ({ negotiations, formData, isEditor = false }) => {
                                 <table className="table table-sm table-hover fade-in py-0 text-center">
                                     <thead>
                                         <tr>
-                                            <th scope="col">PRODUCT NAME</th>
+                                            <th scope="col">SUPPLIER NAME</th>
                                             <th scope="col">DESCRIPTION</th>
                                             <th scope="col">TOTAL PCS</th>
                                             <th scope="col">Unit Price</th>
@@ -107,38 +114,36 @@ export default ({ negotiations, formData, isEditor = false }) => {
                                                     }
                                                 >
                                                     <td>
-                                                        <div className="form-check form-check-radio">
-                                                            <label className="form-check-label">
-                                                                <input
-                                                                    className="form-check-input"
-                                                                    type="radio"
-                                                                    name={
-                                                                        negotiation.id
-                                                                    }
-                                                                    id={
-                                                                        producto.id
-                                                                    }
-                                                                    value={
-                                                                        producto.id
-                                                                    }
-                                                                    checked={
-                                                                        productIds[
-                                                                            negotiationIndex
-                                                                        ] ==
-                                                                        producto.id
-                                                                    }
-                                                                    onClick={
-                                                                        stopPropagation
-                                                                    }
-                                                                    readOnly
-                                                                />
+                                                        <div className="d-flex">
+                                                            <div className="form-check form-check-radio">
+                                                                <div className="form-check">
+                                                                    <label className="form-check-label">
+                                                                        <input
+                                                                            className="form-check-input"
+                                                                            type="checkbox"
+                                                                            value=""
+                                                                            checked={productIds[
+                                                                                negotiationIndex
+                                                                            ].includes(
+                                                                                producto.id
+                                                                            )}
+                                                                            onClick={
+                                                                                stopPropagation
+                                                                            }
+                                                                            readOnly
+                                                                        />
+
+                                                                        <span className="form-check-sign">
+                                                                            <span className="check"></span>
+                                                                        </span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div className="w-100">
                                                                 {
-                                                                    producto.product_name_customer
+                                                                    producto.product_name_supplier
                                                                 }
-                                                                <span className="circle">
-                                                                    <span className="check"></span>
-                                                                </span>
-                                                            </label>
+                                                            </div>
                                                         </div>
                                                     </td>
                                                     <td>

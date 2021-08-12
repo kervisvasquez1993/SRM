@@ -59,3 +59,14 @@ export function editComparision(data, originalName) {
         }
     };
 }
+
+export function setNegotiations(negotiations) {
+    return async (dispatch, _getState) => {
+        const products = negotiations.map(item => item.productos).flat();
+
+        dispatch({
+            type: "SET_SELECTED_NEGOTIATIONS_FOR_COMPARISON",
+            payload: { negotiations, products }
+        });
+    };
+}

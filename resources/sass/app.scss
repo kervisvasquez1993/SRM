@@ -31,6 +31,8 @@
 
 @import "tabs";
 
+@import "comparator";
+
 body {
     overflow: hidden;
 }
@@ -306,7 +308,7 @@ table,
     cursor: pointer;
 }
 
-th {
+.table th {
     font-weight: bold !important;
 }
 
@@ -324,8 +326,8 @@ th {
     }
 }
 
-
-.btn-primary, .bg-primary {
+.btn-primary,
+.bg-primary {
     background-color: #f44336 !important;
 }
 

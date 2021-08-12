@@ -3,14 +3,16 @@ import { Helmet } from "react-helmet-async";
 import { MdAddCircle } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { ArrayParam, useQueryParam } from "use-query-params";
-import { deleteComparision } from "../../../store/actions/comparatorActions";
+import {
+    deleteComparision,
+    setNegotiations
+} from "../../../store/actions/comparatorActions";
 import { openModal } from "../../../store/actions/modalActions";
 import { getNegotiations } from "../../../store/actions/negotiationActions";
 import LoadingScreen from "../../Navigation/LoadingScreen";
 import AddComparisionModal from "./AddComparisionModal";
 import ComparatorTable from "./ComparatorTable";
 
-const fields = ["total_usd"];
 const colors = ["green", "blue", "red", "bg-warning", "table-dark"];
 
 const getColor = index => {
@@ -26,9 +28,10 @@ export default () => {
     const isLoadingList = useSelector(state => state.negotiation.isLoadingList);
 
     const [selectedNegotiationsId] = useQueryParam("id", ArrayParam);
-    const [selectedNegotiations, setSelectedNegotiations] = useState([]);
-    const [products, setProducts] = useState([]);
-
+    const selectedNegotiations = useSelector(
+        // @ts-ignore
+        state => state.comparator.negotiations
+    );
     // @ts-ignore
     const comparisions = useSelector(state => state.comparator.comparisions);
 
@@ -39,17 +42,16 @@ export default () => {
     );
 
     useEffect(() => {
+        dispatch(getNegotiations({ productos: true }));
+    }, []);
+
+    useEffect(() => {
         const selected = negotiations.filter(item =>
             selectedNegotiationsId.find(subitem => subitem == item.id)
         );
 
-        setSelectedNegotiations(selected);
-        setProducts(selected.map(item => item.productos).flat());
+        dispatch(setNegotiations(selected));
     }, [negotiations]);
-
-    useEffect(() => {
-        dispatch(getNegotiations({ productos: true }));
-    }, []);
 
     const handleOpenModal = () => {
         dispatch(
@@ -64,26 +66,7 @@ export default () => {
             })
         );
     };
-
-    const handleEdit = comparision => {
-        dispatch(
-            openModal({
-                title: "Editar Comparación",
-                body: (
-                    <AddComparisionModal
-                        formData={comparision}
-                        negotiations={selectedNegotiations}
-                        isEditor={true}
-                    />
-                )
-            })
-        );
-    };
-
-    const handleDelete = comparision => {
-        dispatch(deleteComparision(comparision.productName));
-    };
-
+    
     if (isLoadingList) {
         return <LoadingScreen>{helmet}</LoadingScreen>;
     }
@@ -92,7 +75,7 @@ export default () => {
         <div>
             {helmet}
             <div className="table-responsive">
-                <table className="table table-sm table-bordered fade-in py-0 text-center bg-white">
+                {/* <table className="table table-sm table-bordered fade-in py-0 text-center bg-white">
                     {comparisions.length > 0 && (
                         <thead>
                             <tr className="fw-bold">
@@ -249,10 +232,22 @@ export default () => {
                             </td>
                         </tr>
                     </tbody>
-                </table>
+                </table> */}
+            </div>
 
-                <ComparatorTable />
+            {comparisions.map(item => {
+                return (
+                    <ComparatorTable
+                        negotiations={selectedNegotiations}
+                        comparision={item}
+                        key={item.productName}
+                    />
+                );
+            })}
 
+            {comparisions.length > 0 && <hr className="my-5" />}
+
+            <div className="text-center">
                 <button
                     className="btn btn-success mb-4"
                     onClick={handleOpenModal}

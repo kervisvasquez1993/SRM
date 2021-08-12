@@ -1,5 +1,7 @@
 const defaultState = {
-    comparisions: []
+    comparisions: [],
+    negotiations: [],
+    products: []
 };
 
 const comparatorReducer = (state = defaultState, action) => {
@@ -34,6 +36,14 @@ const comparatorReducer = (state = defaultState, action) => {
         return {
             ...state,
             comparisions: []
+        };
+    }
+
+    if (type === "SET_SELECTED_NEGOTIATIONS_FOR_COMPARISON") {
+        return {
+            ...state,
+            negotiations: payload.negotiations,
+            products: payload.products
         };
     }
 
