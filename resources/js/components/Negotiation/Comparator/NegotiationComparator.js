@@ -1,9 +1,10 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
+import { FaFileImport } from "react-icons/fa";
 import { MdAddCircle } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { v4 } from "uuid";
 import { getTask } from "../../../store/actions/comparatorActions";
 import { openModal } from "../../../store/actions/modalActions";
@@ -89,13 +90,18 @@ export default () => {
             {comparisions.length > 0 && <hr className="my-5" />}
 
             <div className="text-center">
-                <button
-                    className="btn btn-success mb-4"
-                    onClick={handleOpenModal}
-                >
+                <button className="btn btn-success" onClick={handleOpenModal}>
                     <MdAddCircle className="mr-2" />
                     Agregar Comparación
                 </button>
+
+                <a
+                    href={`${apiURL}/tarea/${taskId}/exportar-comparativa`}
+                    className="btn btn-info"
+                >
+                    <FaFileImport className="mr-2" />
+                    Exportar Excel
+                </a>
             </div>
         </React.Fragment>
     );
