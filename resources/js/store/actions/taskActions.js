@@ -82,35 +82,12 @@ export function editTask(id, task) {
     };
 }
 
-export function getTask(id, params = {}) {
+export function getTask(id) {
     return async (dispatch, getState) => {
         dispatch({ type: "GET_TASK_REQUEST" });
 
         try {
-            const response = await axios.get(`${apiURL}/tarea/${id}`, {
-                params
-            });
-
-            if (params.productos && params.negociaciones) {
-                // Filtrar las negociaciones que solo tengan productos cargados
-                response.data.data.negociaciones = response.data.data.negociaciones.filter(
-                    item => item.productos_cargados
-                );
-
-                // Obtener un arreglo de todos los productos de las negociaciones filtradas
-                const products = response.data.data.negociaciones
-                    .map(item => item.productos)
-                    .flat();
-
-                response.data.data.comparaciones = JSON.parse(
-                    response.data.data.comparaciones
-                );
-
-                dispatch({
-                    type: "SET_SELECTED_NEGOTIATIONS_FOR_COMPARISON",
-                    payload: { products }
-                });
-            }
+            const response = await axios.get(`${apiURL}/tarea/${id}`);
 
             dispatch({
                 type: "GET_TASK_SUCCESS",

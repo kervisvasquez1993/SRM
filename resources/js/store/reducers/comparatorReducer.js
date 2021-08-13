@@ -103,15 +103,7 @@ const comparatorReducer = (state = defaultState, action) => {
     if (type === "CHANGE_HISTORY") {
         return {
             ...state,
-            comparisions: []
-        };
-    }
-
-    if (type === "SET_SELECTED_NEGOTIATIONS_FOR_COMPARISON") {
-        return {
-            ...state,
-            negotiations: payload.negotiations,
-            products: payload.products
+            task: null
         };
     }
 
