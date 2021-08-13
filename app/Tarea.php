@@ -18,6 +18,10 @@ class Tarea extends Model
         'comparaciones'
     ];
 
+    protected $attributes = [
+        'comparaciones' => '[]'
+    ];
+
     public function draggebleTask()
     {
         return $this->hasMany(DraggebleTask::class);
