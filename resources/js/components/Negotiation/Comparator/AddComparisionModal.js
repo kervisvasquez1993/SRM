@@ -54,6 +54,7 @@ export default ({ formData, isEditor = false }) => {
         // } else {
         //     newValues[negotiationIndex] = value;
         // }
+        
         if (list.includes(value)) {
             list.splice(list.indexOf(value), 1);
         } else {
@@ -118,6 +119,13 @@ export default ({ formData, isEditor = false }) => {
                                     </thead>
                                     <tbody>
                                         {negotiation.productos.map(producto => {
+                                            const checked =
+                                                (productIds[negotiationIndex] &&
+                                                    productIds[
+                                                        negotiationIndex
+                                                    ].includes(producto.id)) ||
+                                                false;
+
                                             return (
                                                 <tr
                                                     key={producto.id}
@@ -138,11 +146,9 @@ export default ({ formData, isEditor = false }) => {
                                                                             className="form-check-input"
                                                                             type="checkbox"
                                                                             value=""
-                                                                            checked={productIds[
-                                                                                negotiationIndex
-                                                                            ].includes(
-                                                                                producto.id
-                                                                            )}
+                                                                            checked={
+                                                                                checked
+                                                                            }
                                                                             onClick={
                                                                                 stopPropagation
                                                                             }

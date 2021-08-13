@@ -1,3 +1,5 @@
+import { resize } from "../../utils";
+
 const defaultState = {
     task: null,
 
@@ -10,6 +12,24 @@ const comparatorReducer = (state = defaultState, action) => {
     const { type, payload } = action;
 
     if (type === "GET_TASK_FOR_COMPARISION_SUCCESS") {
+        // Convertir el string de comparaciones en un objeto
+        const comparaciones = JSON.parse(payload.comparaciones);
+
+        // Es necesario redimensionar los arreglos en caso de que una empresa sea agregada
+        const negotiationCount = payload.negociaciones.length;
+        comparaciones.forEach(comparacion => {
+            comparacion.productIds = resize(
+                comparacion.productIds,
+                negotiationCount,
+                []
+            );
+
+            // Se debe redimensionar el arreglo de columnas de cda comparacion
+            comparacion.rows.forEach(row => {
+                row.columns = resize(row.columns, negotiationCount, []);
+            });
+        });
+
         // Obtener un arreglo de todos los productos de las negociaciones filtradas
         const products = payload.negociaciones
             .map(item => item.productos)
@@ -17,7 +37,7 @@ const comparatorReducer = (state = defaultState, action) => {
 
         const newTask = {
             ...payload,
-            comparaciones: JSON.parse(payload.comparaciones)
+            comparaciones
         };
 
         return {

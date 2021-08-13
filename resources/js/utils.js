@@ -427,14 +427,29 @@ export const extractToken = (template, url, token) => {
     return null;
 };
 
-
 export const extractStringBetween = (text, a, b) => {
     const indexA = text.indexOf(a);
     const indexB = text.indexOf(b);
     return text.substring(indexA + a.length, indexB);
-}
+};
 
 export const extractStringAfter = (text, a) => {
     const indexA = text.indexOf(a);
     return text.substring(indexA + a.length);
-}
+};
+
+export const resize = (array, newSize, defaultValue = undefined) => {
+    // Crear una copia del arreglo para devolver
+    const result = [...array];
+    // Copiar el tamaño original
+    const oldSize = array.length;
+    // Redimensionar el arreglo
+    result.length = newSize;
+    // En caso de que el arreglo sea más grande que el original,
+    // rellenar los espacios nuevos con "defaultValue"
+    if (newSize > oldSize) {
+        result.fill(defaultValue, oldSize);
+    }
+
+    return result;
+};
