@@ -9,8 +9,14 @@ class Tarea extends Model
 {
     use SoftDeletes;
 
-
-
+    protected $fillable =
+    [
+        'nombre',
+        'user_id',
+        'descripcion',
+        'fecha_fin',
+        'comparaciones'
+    ];
 
     public function draggebleTask()
     {
@@ -33,17 +39,17 @@ class Tarea extends Model
     /* TODO: ACTUALIZAR CODIGO */
     public function coordinador()
     {
-        return $this->hasOne(User::class, 'sender_id');   
+        return $this->hasOne(User::class, 'sender_id');
     }
 
     public function proveedor()
     {
-        return $this->belongsToMany(Proveedor::class, 'pivot_tarea_proveeders', 'tarea_id', 'proveedor_id' );
+        return $this->belongsToMany(Proveedor::class, 'pivot_tarea_proveeders', 'tarea_id', 'proveedor_id');
     }
 
     public function proveedores()
     {
-        return $this->belongsToMany(Proveedor::class, 'pivot_tarea_proveeders', 'tarea_id', 'proveedor_id' );
+        return $this->belongsToMany(Proveedor::class, 'pivot_tarea_proveeders', 'tarea_id', 'proveedor_id');
     }
 
     public function usuario()

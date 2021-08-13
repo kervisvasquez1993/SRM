@@ -1,4 +1,6 @@
 const defaultState = {
+    task: null,
+
     comparisions: [],
     negotiations: [],
     products: []
@@ -7,28 +9,74 @@ const defaultState = {
 const comparatorReducer = (state = defaultState, action) => {
     const { type, payload } = action;
 
+    if (type === "GET_TASK_FOR_COMPARISION_SUCCESS") {
+        // Obtener un arreglo de todos los productos de las negociaciones filtradas
+        const products = payload.negociaciones
+            .map(item => item.productos)
+            .flat();
+
+        const newTask = {
+            ...payload,
+            comparaciones: JSON.parse(payload.comparaciones)
+        };
+
+        return {
+            ...state,
+            task: newTask,
+            products
+        };
+    }
+
     if (type === "ADD_NEGOTIATION_COMPARATOR") {
         return {
             ...state,
-            comparisions: [...state.comparisions, payload]
+            task: {
+                ...state.task,
+                comparaciones: [...state.task.comparaciones, payload]
+            }
+            //comparisions: [...state.comparisions, payload]
+        };
+    }
+
+    if (type === "UPDATE_COMPARISION_ROWS") {
+        const newTask = {
+            ...state.task,
+            comparaciones: state.task.comparaciones.map(item =>
+                item.id === payload.id ? { ...item, ...payload } : item
+            )
+        };
+
+        return {
+            ...state,
+            task: newTask
         };
     }
 
     if (type === "DELETE_NEGOTIATION_COMPARATOR") {
+        const newTask = {
+            ...state.task,
+            comparaciones: state.task.comparaciones.filter(
+                item => item.id != payload
+            )
+        };
+
         return {
             ...state,
-            comparisions: state.comparisions.filter(
-                item => item.productName != payload
-            )
+            task: newTask
         };
     }
 
     if (type === "EDIT_NEGOTIATION_COMPARATOR") {
-        return {
-            ...state,
-            comparisions: state.comparisions.map(item =>
+        const newTask = {
+            ...state.task,
+            comparaciones: state.task.comparaciones.map(item =>
                 item.id === payload.id ? payload : item
             )
+        };
+
+        return {
+            ...state,
+            task: newTask
         };
     }
 

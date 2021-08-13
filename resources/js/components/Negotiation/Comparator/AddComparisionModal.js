@@ -13,7 +13,8 @@ export default ({ formData, isEditor = false }) => {
     const dispatch = useDispatch();
     // @ts-ignore
     // const negotiations = useSelector(state => state.comparator.negotiations);
-    const negotiations = useSelector(state => state.task.task).negociaciones;
+    const negotiations = useSelector(state => state.comparator.task)
+        .negociaciones;
 
     const [productIds, setProductIds] = useState(() => {
         if (isEditor) {
@@ -31,7 +32,7 @@ export default ({ formData, isEditor = false }) => {
             };
 
             if (isEditor) {
-                dispatch(editComparision(comparision, formData.productName));
+                dispatch(editComparision(comparision));
             } else {
                 dispatch(addComparision(comparision));
             }

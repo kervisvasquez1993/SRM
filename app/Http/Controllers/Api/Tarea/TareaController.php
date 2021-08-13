@@ -97,12 +97,8 @@ class TareaController extends ApiController
         if ($validator->fails()) {
             return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
         }
-
-        $tarea->nombre = $request->nombre;
-        $tarea->user_id = $request->user_id;
-        $tarea->descripcion = $request->descripcion;
-        $tarea->fecha_fin = $request->fecha_fin;
-        $tarea->save();
+        
+        $tarea->update($request->all());
 
         return $this->showOneResource(new TareaResource($tarea));
     }

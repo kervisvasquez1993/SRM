@@ -73,6 +73,7 @@ export function editTask(id, task) {
 
             toast.success("✔️ Tarea editada");
         } catch (e) {
+            console.log(e.response);
             dispatch({
                 type: "EDIT_TASK_FAILURE",
                 errors: e.response.data
@@ -100,6 +101,10 @@ export function getTask(id, params = {}) {
                 const products = response.data.data.negociaciones
                     .map(item => item.productos)
                     .flat();
+
+                response.data.data.comparaciones = JSON.parse(
+                    response.data.data.comparaciones
+                );
 
                 dispatch({
                     type: "SET_SELECTED_NEGOTIATIONS_FOR_COMPARISON",

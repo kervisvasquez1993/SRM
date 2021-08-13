@@ -11,6 +11,7 @@ class TareaResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'user_id' => $this->user_id,
             'usuario' => $this->usuarios,
             'nombre' => $this->nombre,
             'descripcion' => $this->descripcion,
@@ -19,7 +20,8 @@ class TareaResource extends JsonResource
             'completada' => !$this->pivotTareaProveedor->where('iniciar_produccion', true)->where('iniciar_arte', true)->isEmpty(),
             'tiene_negociacion' => !$this->pivotTareaProveedor->where('productos_cargados', true)->isEmpty(),
             'cantidad_proveedores' => $this->proveedores->count(),
-            'negociaciones' => $this->when($request->negociaciones, PivotTareaProveederResource::collection($this->pivotTareaProveedor))
+            'negociaciones' => $this->when($request->negociaciones, PivotTareaProveederResource::collection($this->pivotTareaProveedor)),
+            'comparaciones' => $this->comparaciones,
         ];
 
         return parent::toArray($request);

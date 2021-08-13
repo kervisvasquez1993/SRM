@@ -1,11 +1,13 @@
+import axios from "axios";
 import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { MdAddCircle } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { v4 } from "uuid";
+import { getTask } from "../../../store/actions/comparatorActions";
 import { openModal } from "../../../store/actions/modalActions";
-import { getTask } from "../../../store/actions/taskActions";
+import { apiURL } from "../../App";
 import LoadingScreen from "../../Navigation/LoadingScreen";
 import AddComparisionModal from "./AddComparisionModal";
 import ComparatorTable from "./ComparatorTable";
@@ -22,9 +24,10 @@ export default () => {
     const { id: taskId } = useParams();
 
     // @ts-ignore
-    const task = useSelector(state => state.task.task);
+    const task = useSelector(state => state.comparator.task);
+
     // @ts-ignore
-    const comparisions = useSelector(state => state.comparator.comparisions);
+    // const comparisions = useSelector(state => state.comparator.comparisions);
 
     const helmet = (
         <Helmet>
@@ -33,8 +36,17 @@ export default () => {
     );
 
     useEffect(() => {
-        dispatch(getTask(taskId, { negociaciones: true, productos: true }));
+        // dispatch(getTask(taskId, { negociaciones: true, productos: true }));
+        dispatch(getTask(taskId));
     }, []);
+
+    useEffect(() => {
+        try {
+            axios.put(`${apiURL}/tarea/${task.id}`, task);
+        } catch (error) {
+            console.log("Couldn't upload new cells to the server");
+        }
+    }, [task]);
 
     const handleOpenModal = () => {
         dispatch(
@@ -45,7 +57,8 @@ export default () => {
                         formData={{
                             id: v4(),
                             productName: "Ejemplo",
-                            productIds: []
+                            productIds: [],
+                            rows: []
                         }}
                     />
                 )
@@ -57,6 +70,8 @@ export default () => {
         return <LoadingScreen>{helmet}</LoadingScreen>;
     }
 
+    const comparisions = task.comparaciones;
+
     return (
         <React.Fragment>
             {helmet}
@@ -66,7 +81,7 @@ export default () => {
                     <ComparatorTable
                         negotiations={task.negociaciones}
                         comparision={item}
-                        key={item.productName}
+                        key={item.id}
                     />
                 );
             })}

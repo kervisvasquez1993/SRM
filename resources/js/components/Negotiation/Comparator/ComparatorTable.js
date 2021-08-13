@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { BiEditAlt } from "react-icons/bi";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 import { MdAddCircle } from "react-icons/md";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { v4 } from "uuid";
 import { confirmDelete } from "../../../appText";
-import { deleteComparision } from "../../../store/actions/comparatorActions";
+import {
+    deleteComparision,
+    updateComparisionRows
+} from "../../../store/actions/comparatorActions";
 import { extractStringAfter, extractStringBetween } from "../../../utils";
 import ComparatorRow from "./ComparatorRow";
 import { openModal } from "../../../store/actions/modalActions";
@@ -30,68 +33,125 @@ const extractIndices = id => {
 export default ({ negotiations, comparision }) => {
     const dispatch = useDispatch();
 
-    const [state, setState] = useState([]);
+    // const [state, setState] = useState([]);
+    const state = comparision.rows;
+
+    // @ts-ignore
+    const task = useSelector(state => state.task.task);
+    // @ts-ignore
+    const comparisions = useSelector(state => state.comparator.comparisions);
 
     useEffect(() => {
-        setState(oldState => {
-            // console.log(oldState);
-            // console.log(comparision);
-            const newState = [...oldState];
+        // setState(oldState => {
+        //     const newState = [...oldState];
 
-            // Create a new row if it doesn't exist
-            if (oldState.length === 0) {
-                newState.push({
-                    id: v4(),
-                    type: "row-container",
-                    columns: comparision.productIds.map(list => [...list])
-                });
-            }
+        //     // Create a new row if it doesn't exist
+        //     if (oldState.length === 0) {
+        //         newState.push({
+        //             id: v4(),
+        //             columns: comparision.productIds.map(list => [...list])
+        //         });
+        //     }
 
-            if (oldState.length > 0) {
-                const newProducts = comparision.productIds.flat();
+        //     if (oldState.length > 0) {
+        //         const newProducts = comparision.productIds.flat();
 
-                // Delete products that doesn't exit anymore in the new list
-                for (const row of oldState) {
-                    for (const column of row.columns) {
-                        for (const productId of [...column]) {
-                            if (!newProducts.includes(productId)) {
-                                column.splice(column.indexOf(productId), 1);
-                            }
+        //         // Delete products that doesn't exit anymore in the new list
+        //         for (const row of oldState) {
+        //             for (const column of row.columns) {
+        //                 for (const productId of [...column]) {
+        //                     if (!newProducts.includes(productId)) {
+        //                         column.splice(column.indexOf(productId), 1);
+        //                     }
+        //                 }
+        //             }
+        //         }
+
+        //         // Add new products that weren't there
+        //         for (const [
+        //             colIndex,
+        //             colProducts
+        //         ] of comparision.productIds.entries()) {
+        //             for (const newProductId of colProducts) {
+        //                 let toAdd = true;
+
+        //                 for (const row of oldState) {
+        //                     for (const column of row.columns) {
+        //                         for (const productId of column) {
+        //                             if (productId === newProductId) {
+        //                                 toAdd = false;
+        //                                 break;
+        //                             }
+        //                         }
+        //                     }
+        //                 }
+
+        //                 if (toAdd) {
+        //                     oldState[oldState.length - 1].columns[
+        //                         colIndex
+        //                     ].push(newProductId);
+        //                 }
+        //             }
+        //         }
+        //     }
+
+        //     return newState;
+        // });
+
+        const newState = [...state];
+
+        // Create a new row if it doesn't exist
+        if (state.length === 0) {
+            newState.push({
+                id: v4(),
+                columns: comparision.productIds.map(list => [...list])
+            });
+        }
+
+        if (state.length > 0) {
+            const newProducts = comparision.productIds.flat();
+
+            // Delete products that doesn't exit anymore in the new list
+            for (const row of state) {
+                for (const column of row.columns) {
+                    for (const productId of [...column]) {
+                        if (!newProducts.includes(productId)) {
+                            column.splice(column.indexOf(productId), 1);
                         }
                     }
                 }
+            }
 
-                // Add new products that weren't there
-                for (const [
-                    colIndex,
-                    colProducts
-                ] of comparision.productIds.entries()) {
-                    for (const newProductId of colProducts) {
-                        let toAdd = true;
+            // Add new products that weren't there
+            for (const [
+                colIndex,
+                colProducts
+            ] of comparision.productIds.entries()) {
+                for (const newProductId of colProducts) {
+                    let toAdd = true;
 
-                        for (const row of oldState) {
-                            for (const column of row.columns) {
-                                for (const productId of column) {
-                                    if (productId === newProductId) {
-                                        toAdd = false;
-                                        break;
-                                    }
+                    for (const row of state) {
+                        for (const column of row.columns) {
+                            for (const productId of column) {
+                                if (productId === newProductId) {
+                                    toAdd = false;
+                                    break;
                                 }
                             }
                         }
+                    }
 
-                        if (toAdd) {
-                            oldState[oldState.length - 1].columns[
-                                colIndex
-                            ].push(newProductId);
-                        }
+                    if (toAdd) {
+                        state[state.length - 1].columns[colIndex].push(
+                            newProductId
+                        );
                     }
                 }
             }
+        }
 
-            return newState;
-        });
-    }, [comparision]);
+        dispatch(updateComparisionRows(comparision.id, newState));
+    }, [comparision.productIds]);
 
     const onDragEnd = result => {
         const { source, destination, type } = result;
@@ -106,9 +166,14 @@ export default ({ negotiations, comparision }) => {
 
         if (type === "rowsParent") {
             if (sourceDropableId === destinationDropableId) {
-                const items = reorder(state, source.index, destination.index);
+                const newState = reorder(
+                    state,
+                    source.index,
+                    destination.index
+                );
 
-                setState(items);
+                // setState(items);
+                dispatch(updateComparisionRows(comparision.id, newState));
             }
         } else {
             const [sourceRow, sourceColumn] = extractIndices(sourceDropableId);
@@ -131,19 +196,42 @@ export default ({ negotiations, comparision }) => {
                 removed
             );
 
-            setState(newState);
+            // setState(newState);
+            dispatch(updateComparisionRows(comparision.id, newState));
         }
     };
 
     const deleteRow = rowIndex => {
         const newState = [...state];
         newState.splice(rowIndex, 1);
-        setState(newState);
+        // setState(newState);
+
+        dispatch(updateComparisionRows(comparision.id, newState));
+    };
+
+    const addEmptyRow = () => {
+        // setState([
+        //     ...state,
+        //     {
+        //         id: v4(),
+        //         columns: Array.from(Array(negotiations.length), () => [])
+        //     }
+        // ]);
+
+        const newState = [
+            ...state,
+            {
+                id: v4(),
+                columns: Array.from(Array(negotiations.length), () => [])
+            }
+        ];
+
+        dispatch(updateComparisionRows(comparision.id, newState));
     };
 
     const handleDelete = () => {
         if (confirm(confirmDelete)) {
-            dispatch(deleteComparision(comparision.productName));
+            dispatch(deleteComparision(comparision.id));
         }
     };
 
@@ -244,19 +332,7 @@ export default ({ negotiations, comparision }) => {
                                 <span className="sticky-left">
                                     <button
                                         className="btn btn-success mb-4"
-                                        onClick={() => {
-                                            setState([
-                                                ...state,
-                                                {
-                                                    id: `row-${v4()}`,
-                                                    type: "row-container",
-                                                    columns: Array.from(
-                                                        Array(negotiations.length),
-                                                        () => []
-                                                    )
-                                                }
-                                            ]);
-                                        }}
+                                        onClick={addEmptyRow}
                                     >
                                         <MdAddCircle className="mr-2" />
                                         Agregar Fila
@@ -270,191 +346,3 @@ export default ({ negotiations, comparision }) => {
         </div>
     );
 };
-
-// import React, { useState } from "react";
-// import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
-// const reorder = (list, startIndex, endIndex) => {
-//     const result = Array.from(list);
-//     const [removed] = result.splice(startIndex, 1);
-//     result.splice(endIndex, 0, removed);
-
-//     return result;
-// };
-
-// /**
-//  * Moves an item from one list to another list.
-//  */
-// const move = (source, destination, droppableSource, droppableDestination) => {
-//     const sourceClone = Array.from(source);
-//     const destClone = Array.from(destination);
-//     const [removed] = sourceClone.splice(droppableSource.index, 1);
-
-//     destClone.splice(droppableDestination.index, 0, removed);
-
-//     const result = {};
-//     result[droppableSource.droppableId] = sourceClone;
-//     result[droppableDestination.droppableId] = destClone;
-
-//     return result;
-// };
-// const grid = 8;
-
-// const getItemStyle = (isDragging, draggableStyle) => ({
-//     // some basic styles to make the items look a bit nicer
-//     userSelect: "none",
-//     padding: grid * 2,
-//     margin: `0 0 ${grid}px 0`,
-
-//     // change background colour if dragging
-//     background: isDragging ? "lightgreen" : "grey",
-
-//     // styles we need to apply on draggables
-//     ...draggableStyle
-// });
-// const getListStyle = isDraggingOver => ({
-//     background: isDraggingOver ? "lightblue" : "lightgrey",
-//     padding: grid,
-//     width: 250
-// });
-
-// export default () => {
-//     const [state, setState] = useState([
-//         [
-//             {
-//                 id: "1",
-//                 content: "item",
-//                 type: "1"
-//             },
-//             {
-//                 id: "2",
-//                 content: "item",
-//                 type: "1"
-//             },
-//             {
-//                 id: "3",
-//                 content: "item",
-//                 type: "1"
-//             }
-//         ],
-//         [
-//             {
-//                 id: `4`,
-//                 content: `item`,
-//                 type: "2"
-//             },
-//             {
-//                 id: `5`,
-//                 content: `item`,
-//                 type: "2"
-//             }
-//         ],
-//         [
-//             {
-//                 id: `6`,
-//                 content: `item 3`,
-//                 type: "3"
-//             }
-//         ],
-//         [
-//             {
-//                 id: `7`,
-//                 content: `item 4`,
-//                 type: "4"
-//             }
-//         ]
-//     ]);
-
-//     function onDragEnd(result) {
-//         const { source, destination } = result;
-
-//         // dropped outside the list
-//         if (!destination) {
-//             return;
-//         }
-
-//         const sourceDropableId = +source.droppableId;
-//         const destinationDropableId = +destination.droppableId;
-
-//         if (sourceDropableId === destinationDropableId) {
-//             const items = reorder(
-//                 state[sourceDropableId],
-//                 source.index,
-//                 destination.index
-//             );
-
-//             const newState = [...state];
-//             newState[sourceDropableId] = items;
-//             setState(newState);
-//         }
-
-//         // if (sourceDropableId === destinationDropableId) {
-//         //     const items = reorder(state[sourceDropableId], source.index, destination.index);
-//         //     const newState = [...state];
-//         //     newState[sourceDropableId] = items;
-//         //     setState(newState);
-//         // } else {
-//         //     const result = move(state[sourceDropableId], state[destinationDropableId], source, destination);
-//         //     const newState = [...state];
-//         //     newState[sourceDropableId] = result[sourceDropableId];
-//         //     newState[destinationDropableId] = result[destinationDropableId];
-
-//         //     setState(newState);
-//         // }
-//     }
-
-//     return (
-//         <div>
-//             <div style={{ display: "flex" }}>
-//                 <DragDropContext onDragEnd={onDragEnd}>
-//                     {state.map((column, colIndex) => {
-//                         return (
-//                             <Droppable
-//                                 key={colIndex}
-//                                 droppableId={`${colIndex}`}
-//                                 type={colIndex.toString()}
-//                             >
-//                                 {(provided, snapshot) => (
-//                                     <div
-//                                         ref={provided.innerRef}
-//                                         style={getListStyle(
-//                                             snapshot.isDraggingOver
-//                                         )}
-//                                         {...provided.droppableProps}
-//                                     >
-//                                         {column.map((item, index) => (
-//                                             <Draggable
-//                                                 key={item.id}
-//                                                 draggableId={item.id}
-//                                                 index={index}
-//                                             >
-//                                                 {(provided, snapshot) => (
-//                                                     <div
-//                                                         ref={provided.innerRef}
-//                                                         {...provided.draggableProps}
-//                                                         {...provided.dragHandleProps}
-//                                                         style={getItemStyle(
-//                                                             snapshot.isDragging,
-//                                                             provided
-//                                                                 .draggableProps
-//                                                                 .style
-//                                                         )}
-//                                                     >
-//                                                         <div>
-//                                                             {item.content}
-//                                                         </div>
-//                                                     </div>
-//                                                 )}
-//                                             </Draggable>
-//                                         ))}
-//                                         {provided.placeholder}
-//                                     </div>
-//                                 )}
-//                             </Droppable>
-//                         );
-//                     })}
-//                 </DragDropContext>
-//             </div>
-//         </div>
-//     );
-// };
