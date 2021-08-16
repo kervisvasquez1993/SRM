@@ -4,14 +4,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { logout } from "../../store/actions/authActions";
 import { closeSidebar } from "../../store/actions/sidebarActions";
+import useWindowDimensions from "../../utils";
+import { sidebarBreakpoint } from "../App";
 import PageLogo from "../Widgets/PageLogo";
 
 const Sidebar = () => {
     const dispatch = useDispatch();
+    // @ts-ignore
     const user = useSelector(state => state.auth.user);
 
+    const { width } = useWindowDimensions();
+
     const closeMenu = () => {
-        dispatch(closeSidebar());
+        if (width < sidebarBreakpoint) {
+            dispatch(closeSidebar());
+        }
     };
 
     const handleLogout = e => {

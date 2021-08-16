@@ -41,10 +41,12 @@ export default () => {
     }, []);
 
     useEffect(() => {
-        try {
-            axios.put(`${apiURL}/tarea/${task.id}`, task);
-        } catch (error) {
-            console.log("Couldn't upload new cells to the server");
+        if (task) {
+            try {
+                axios.put(`${apiURL}/tarea/${task.id}`, task);
+            } catch (error) {
+                console.log("Couldn't upload new cells to the server");
+            }
         }
     }, [task]);
 

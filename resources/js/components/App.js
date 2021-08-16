@@ -37,7 +37,7 @@ import {
 import { useSwipeable } from "react-swipeable";
 import { NumberParam, useQueryParam } from "use-query-params";
 import { filtersGlobalOptions } from "./Filters/GenericFilter";
-import { removeSlash } from "../utils";
+import useWindowDimensions, { removeSlash } from "../utils";
 
 import "react-quill/dist/quill.snow.css";
 import { Helmet } from "react-helmet-async";
@@ -78,6 +78,8 @@ axios.interceptors.response.use(
 
 export const apiURL = process.env.MIX_APP_API_URL || "/api";
 
+export const sidebarBreakpoint = 1100;
+
 axios.interceptors.request.use(config => {
     const token = localStorage.getItem("auth");
 
@@ -96,6 +98,8 @@ const App = () => {
     const user = useSelector(state => state.auth.user);
     // @ts-ignore
     const isLoadingUser = useSelector(state => state.auth.isLoadingUser);
+
+    const { width } = useWindowDimensions();
 
     const handlers = useSwipeable({
         onSwiped: event => {
@@ -190,7 +194,7 @@ const App = () => {
     }
 
     const handleClick = () => {
-        if (isSidebarOpen) {
+        if (isSidebarOpen && width < sidebarBreakpoint) {
             dispatch(closeSidebar());
         }
     };

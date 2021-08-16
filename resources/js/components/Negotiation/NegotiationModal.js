@@ -55,8 +55,6 @@ const NegotiationModal = ({ negotiation }) => {
         </button>
     );
 
-    console.log(seleccionado && !compra_po);
-
     return (
         <React.Fragment>
             <NegotiationTabs negotiation={negotiation} />

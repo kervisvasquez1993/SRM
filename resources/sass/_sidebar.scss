@@ -14,7 +14,6 @@ $highlight-text-color: white;
 
 .content {
     padding: 2rem 1rem;
-    max-width: 1700px;
     margin: 0 auto;
     min-height: 100%;
 }
@@ -81,7 +80,8 @@ $highlight-text-color: white;
         transition: transform 0.2s;
     }
 
-    &:hover, &.active {
+    &:hover,
+    &.active {
         background-color: rgb(65, 65, 65);
         color: $highlight-text-color !important;
         text-decoration: none;
@@ -109,22 +109,28 @@ $highlight-text-color: white;
 }
 
 @media (min-width: $sidebar-break-point) {
-    .menu {
+    // .menu {
+    //     left: 0;
+    //     box-shadow: $sidebar-shadow;
+    // }
+
+    // .page-wrapper {
+    //     left: $sidebar-ancho;
+    //     width: calc(100vw - #{$sidebar-ancho});
+    // }
+
+    .menu-wrapper .page-wrapper {
         left: 0;
-        box-shadow: $sidebar-shadow;
+        width: 100%;
     }
 
-    .page-wrapper {
+    .menu-wrapper.mostrar .page-wrapper {
         left: $sidebar-ancho;
         width: calc(100vw - #{$sidebar-ancho});
     }
 
     .content {
         padding: 2rem 3rem;
-    }
-
-    #botonSidebar {
-        display: none;
     }
 
     .menu-link {

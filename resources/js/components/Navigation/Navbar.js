@@ -9,6 +9,7 @@ import { toggleSidebar } from "../../store/actions/sidebarActions";
 
 const Navbar = () => {
     const dispatch = useDispatch();
+    // @ts-ignore
     const user = useSelector(state => state.auth.user);
     const unreadNotificationsCount = useSelector(
         // @ts-ignore
@@ -28,7 +29,6 @@ const Navbar = () => {
     }, []);
 
     const history = useHistory();
-    const location = useLocation();
 
     return (
         <nav className="navbar-dashboard">
