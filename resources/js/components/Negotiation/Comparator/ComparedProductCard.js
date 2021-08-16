@@ -2,14 +2,13 @@ import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { useSelector } from "react-redux";
 
-export default ({ productId, index }) => {
+export default ({ data, index }) => {
     // @ts-ignore
     const products = useSelector(state => state.comparator.products);
-
-    const product = products.find(product => product.id == productId);
+    const product = products.find(product => product.id == data.id);
 
     return (
-        <Draggable draggableId={`${productId}`} index={index}>
+        <Draggable draggableId={`${data.id}`} index={index}>
             {(provided, snapshot) => (
                 <div
                     ref={provided.innerRef}

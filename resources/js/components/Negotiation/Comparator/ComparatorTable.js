@@ -36,75 +36,18 @@ export default ({ negotiations, comparision }) => {
     // const [state, setState] = useState([]);
     const state = comparision.rows;
 
-    // @ts-ignore
-    const task = useSelector(state => state.task.task);
-    // @ts-ignore
-    const comparisions = useSelector(state => state.comparator.comparisions);
-
     useEffect(() => {
-        // setState(oldState => {
-        //     const newState = [...oldState];
-
-        //     // Create a new row if it doesn't exist
-        //     if (oldState.length === 0) {
-        //         newState.push({
-        //             id: v4(),
-        //             columns: comparision.productIds.map(list => [...list])
-        //         });
-        //     }
-
-        //     if (oldState.length > 0) {
-        //         const newProducts = comparision.productIds.flat();
-
-        //         // Delete products that doesn't exit anymore in the new list
-        //         for (const row of oldState) {
-        //             for (const column of row.columns) {
-        //                 for (const productId of [...column]) {
-        //                     if (!newProducts.includes(productId)) {
-        //                         column.splice(column.indexOf(productId), 1);
-        //                     }
-        //                 }
-        //             }
-        //         }
-
-        //         // Add new products that weren't there
-        //         for (const [
-        //             colIndex,
-        //             colProducts
-        //         ] of comparision.productIds.entries()) {
-        //             for (const newProductId of colProducts) {
-        //                 let toAdd = true;
-
-        //                 for (const row of oldState) {
-        //                     for (const column of row.columns) {
-        //                         for (const productId of column) {
-        //                             if (productId === newProductId) {
-        //                                 toAdd = false;
-        //                                 break;
-        //                             }
-        //                         }
-        //                     }
-        //                 }
-
-        //                 if (toAdd) {
-        //                     oldState[oldState.length - 1].columns[
-        //                         colIndex
-        //                     ].push(newProductId);
-        //                 }
-        //             }
-        //         }
-        //     }
-
-        //     return newState;
-        // });
-
         const newState = [...state];
 
         // Create a new row if it doesn't exist
         if (state.length === 0) {
             newState.push({
                 id: v4(),
-                columns: comparision.productIds.map(list => [...list])
+                columns: comparision.productIds.map(idList =>
+                    idList.map(id => {
+                        return { id };
+                    })
+                )
             });
         }
 
@@ -114,15 +57,15 @@ export default ({ negotiations, comparision }) => {
             // Delete products that doesn't exit anymore in the new list
             for (const row of state) {
                 for (const column of row.columns) {
-                    for (const productId of [...column]) {
-                        if (!newProducts.includes(productId)) {
-                            column.splice(column.indexOf(productId), 1);
+                    for (const product of [...column]) {
+                        if (!newProducts.includes(product.id)) {
+                            column.splice(column.indexOf(product.id), 1);
                         }
                     }
                 }
             }
 
-            // Add new products that weren't there
+            // // Add new products that weren't there
             for (const [
                 colIndex,
                 colProducts
@@ -132,8 +75,8 @@ export default ({ negotiations, comparision }) => {
 
                     for (const row of state) {
                         for (const column of row.columns) {
-                            for (const productId of column) {
-                                if (productId === newProductId) {
+                            for (const product of column) {
+                                if (product.id === newProductId) {
                                     toAdd = false;
                                     break;
                                 }
@@ -142,9 +85,9 @@ export default ({ negotiations, comparision }) => {
                     }
 
                     if (toAdd) {
-                        state[state.length - 1].columns[colIndex].push(
-                            newProductId
-                        );
+                        state[state.length - 1].columns[colIndex].push({
+                            id: newProductId
+                        });
                     }
                 }
             }

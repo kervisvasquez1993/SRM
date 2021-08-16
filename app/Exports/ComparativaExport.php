@@ -167,8 +167,8 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                         foreach ($fila->columns as $columnaIndice => $columna) {
                             $productosAgregados = 0;
 
-                            foreach ($columna as $productoIndice => $productoId) {
-                                $producto = Producto::find($productoId);
+                            foreach ($columna as $productoIndice => $producto) {
+                                $producto = Producto::find($producto->id);
 
                                 if ($producto) {
 
@@ -226,7 +226,7 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                 // foreach($sheet->getRowDimensions() as $rd) {
                 //     $rd->setRowHeight(509);
                 // }
-                
+
                 // Congelar los headers antes de la celda B3
                 $sheet->freezePane("B3");
 
