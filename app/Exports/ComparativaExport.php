@@ -2,14 +2,16 @@
 
 namespace App\Exports;
 
-use App\Tarea;
 use App\Producto;
-use Maatwebsite\Excel\Excel;
+use App\Tarea;
 use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Concerns\WithPreCalculateFormulas;
 use Maatwebsite\Excel\Events\BeforeExport;
+use Maatwebsite\Excel\Excel;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
-use Maatwebsite\Excel\Concerns\WithPreCalculateFormulas;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 function getCoordinate($col, $row)
 {
@@ -36,6 +38,22 @@ function cellsToMergeByColsRow($start = -1, $end = -1, $row = -1)
 
 class ComparativaExport implements WithEvents, WithPreCalculateFormulas
 {
+    public $encabezadoEstilos = [
+        'borders' => [
+            'outline' => [
+                'borderStyle' => Border::BORDER_HAIR,
+                'color' => ['argb' => '00000000'],
+            ],
+        ],
+        'fill' => [
+            'fillType' => Fill::FILL_SOLID,
+            'startColor' => ['argb' => 'FF4F81BD'],
+        ],
+        'font' => [
+            'color' => ['rgb' => 'ffffff'],
+            'bold' => true,
+        ]];
+
     public function __construct(Tarea $tarea)
     {
         $this->tarea = $tarea;
@@ -54,7 +72,6 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
 
                 $sheet = $writer->getSheetByIndex(0);
 
-                $sheet->getDefaultRowDimension()->setRowHeight(200);
                 $sheet->getDefaultRowDimension()->setRowHeight(-1);
 
                 // Habilitar el salto de texto dentro de una celdas
@@ -62,7 +79,6 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                 // Centrar el texto por defecto
                 $writer->getDefaultStyle()->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $writer->getDefaultStyle()->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
-
 
                 $filaIndice = 1;
 
@@ -79,14 +95,19 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                     $sheet->setCellValue($coordenada, $negociacion->proveedor->nombre);
                     // Combinar las celdas del titulo de la empresa
                     $sheet->mergeCells(cellsToMergeByColsRow($columna_inicio, $columna_final, $filaIndice));
+
+                    // Ajustar el color
+                    $columnaColorInicial = getColumn($columna_inicio);
+                    $columnaColorFinal = getColumn($columna_final);
+                    $sheet->getStyle("$columnaColorInicial" . "1:$columnaColorFinal" . "1")->applyFromArray($this->encabezadoEstilos);
                 }
 
                 // AJustar el ancho de la primera columna
-                $sheet->getColumnDimension("A")->setWidth(20);
+                $sheet->getColumnDimension("A")->setWidth(30);
 
                 $filaIndice++;
 
-                // Definir el alto de la primera fila de encabezados
+                // Definir el alto de la segunda fila de encabezados
                 $sheet->getRowDimension($filaIndice)->setRowHeight(35);
 
                 // Crear los encabezados de las caracteristicas de los productos
@@ -96,26 +117,31 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                     $coordenada = getCoordinate($columna_inicio, $filaIndice);
                     $sheet->setCellValue($coordenada, 'SUPPLIER NAME');
                     $sheet->getColumnDimension(getColumn($columna_inicio))->setWidth(20);
+                    $sheet->getStyle($coordenada)->applyFromArray($this->encabezadoEstilos);
                     $columna_inicio++;
 
                     $coordenada = getCoordinate($columna_inicio, $filaIndice);
                     $sheet->setCellValue($coordenada, 'DESCRIPTION');
                     $sheet->getColumnDimension(getColumn($columna_inicio))->setWidth(25);
+                    $sheet->getStyle($coordenada)->applyFromArray($this->encabezadoEstilos);
                     $columna_inicio++;
 
                     $coordenada = getCoordinate($columna_inicio, $filaIndice);
                     $sheet->setCellValue($coordenada, 'TOTAL PCS');
                     $sheet->getColumnDimension(getColumn($columna_inicio))->setWidth(15);
+                    $sheet->getStyle($coordenada)->applyFromArray($this->encabezadoEstilos);
                     $columna_inicio++;
 
                     $coordenada = getCoordinate($columna_inicio, $filaIndice);
                     $sheet->setCellValue($coordenada, 'Unit Price');
                     $sheet->getColumnDimension(getColumn($columna_inicio))->setWidth(15);
+                    $sheet->getStyle($coordenada)->applyFromArray($this->encabezadoEstilos);
                     $columna_inicio++;
 
                     $coordenada = getCoordinate($columna_inicio, $filaIndice);
                     $sheet->setCellValue($coordenada, 'Total USD');
                     $sheet->getColumnDimension(getColumn($columna_inicio))->setWidth(15);
+                    $sheet->getStyle($coordenada)->applyFromArray($this->encabezadoEstilos);
                     $columna_inicio++;
                 }
 
@@ -125,10 +151,14 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
 
                 foreach ($comparaciones as $comparacionIndice => $comparacion) {
                     $columna_inicio = 1;
+                    $filasPorComparacion = 1;
 
                     $coordenada = getCoordinate($columna_inicio, $filaIndice);
                     $sheet->setCellValue($coordenada, $comparacion->productName);
                     $columna_inicio++;
+
+                    $filaInicioComparacion = $filaIndice;
+                    $filasPorComparacion = 1;
 
                     foreach ($comparacion->rows as $filaIndiceIndice => $fila) {
                         // $filaIndice++;
@@ -141,13 +171,19 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                                 $producto = Producto::find($productoId);
 
                                 if ($producto) {
-                                    
-                                    $filaProducto =$filaIndice + $productoIndice;
+
+                                    $filaProducto = $filaIndice + $productoIndice;
 
                                     $columna_inicio = 2 + ($columnaIndice * $producto_columnas);
 
                                     $coordenada = getCoordinate($columna_inicio, $filaProducto);
                                     $sheet->setCellValue($coordenada, $producto->product_name_supplier);
+
+                                    // Ajustar el color
+                                    $columnaColorInicial = getColumn($columna_inicio);
+                                    $columnaColorFinal = getColumn($columna_inicio + $producto_columnas);
+                                    // $sheet->getStyle("$columnaColorInicial" . "".":$columnaColorFinal" . "1")->applyFromArray($encabezadoEstilos);
+
                                     $columna_inicio++;
 
                                     $coordenada = getCoordinate($columna_inicio, $filaProducto);
@@ -172,21 +208,27 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                                     $productosAgregados++;
                                 }
 
-                                 // $filaIndice += 1;
+                                // $filaIndice += 1;
                             }
 
                             if ($productosAgregados > $filasParaAgregar) {
                                 $filasParaAgregar = $productosAgregados;
                             }
                         }
-
                         $filaIndice += $filasParaAgregar;
+                        $filasPorComparacion += $filasParaAgregar;
                     }
+
+                    // Ajustar el color
+                    $sheet->getStyle("A$filaInicioComparacion" . ":A" . ($filaInicioComparacion + $filasPorComparacion - 2))->applyFromArray($this->encabezadoEstilos);
                 }
 
-                // foreach($sheet->getRowDimensions() as $rd) { 
-                //     $rd->setRowHeight(509); 
+                // foreach($sheet->getRowDimensions() as $rd) {
+                //     $rd->setRowHeight(509);
                 // }
+                
+                // Congelar los headers antes de la celda B3
+                $sheet->freezePane("B3");
 
                 return $sheet;
             },
