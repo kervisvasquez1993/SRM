@@ -33,7 +33,7 @@ $row-background: lightgrey;
 
     flex-shrink: 0;
     background-color: $row-background;
-    min-height: $cell-height;
+    min-height: $cell-height + 20px;
 
     &.drag-over {
         background-color: rgb(235, 235, 235);

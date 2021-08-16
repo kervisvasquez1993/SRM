@@ -42,7 +42,7 @@ const comparatorReducer = (state = defaultState, action) => {
 
         return {
             ...state,
-            task: newTask,
+            task: JSON.parse(JSON.stringify(newTask)),
             products
         };
     }
