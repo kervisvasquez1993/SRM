@@ -42,7 +42,7 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
         'borders' => [
             'outline' => [
                 'borderStyle' => Border::BORDER_HAIR,
-                'color' => ['argb' => '00000000'],
+                'color' => ['rgb' => '000000'],
             ],
         ],
         'fill' => [
@@ -53,6 +53,19 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
             'color' => ['rgb' => 'ffffff'],
             'bold' => true,
         ]];
+
+    public $celdaEstilos = [
+        'fill' => [
+            'fillType' => Fill::FILL_SOLID,
+            'startColor' => ['rgb' => 'ffffff'],
+        ],
+        'borders' => [
+            'allBorders' => [
+                'borderStyle' => Border::BORDER_HAIR,
+                'color' => ['rgb' => '000000'],
+            ],
+        ],
+    ];
 
     public function __construct(Tarea $tarea)
     {
@@ -167,14 +180,25 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                         foreach ($fila->columns as $columnaIndice => $columna) {
                             $productosAgregados = 0;
 
-                            foreach ($columna as $productoIndice => $producto) {
-                                $producto = Producto::find($producto->id);
+                            foreach ($columna as $productoIndice => $celdaProducto) {
+                                $producto = Producto::find($celdaProducto->id);
 
                                 if ($producto) {
 
                                     $filaProducto = $filaIndice + $productoIndice;
 
                                     $columna_inicio = 2 + ($columnaIndice * $producto_columnas);
+
+                                    // Fondo
+                                    $columnaColorInicial = getColumn($columna_inicio);
+                                    $columnaColorFinal = getColumn($columna_inicio + $producto_columnas - 1);
+                                    if (property_exists($celdaProducto, 'backgroundColor')) {
+                                        $this->celdaEstilos["fill"]["startColor"]["rgb"] = $celdaProducto->backgroundColor;
+                                    } else {
+                                        $this->celdaEstilos["fill"]["startColor"]["rgb"] = "ffffff";
+                                    }
+                                    $sheet->getStyle($columnaColorInicial . $filaProducto . ":" . $columnaColorFinal . $filaProducto)
+                                        ->applyFromArray($this->celdaEstilos);
 
                                     $coordenada = getCoordinate($columna_inicio, $filaProducto);
                                     $sheet->setCellValue($coordenada, $producto->product_name_supplier);

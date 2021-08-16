@@ -30,7 +30,7 @@ const extractIndices = id => {
     ];
 };
 
-export default ({ negotiations, comparision }) => {
+export default ({ negotiations, comparision, comparisonIndex }) => {
     const dispatch = useDispatch();
 
     // const [state, setState] = useState([]);
@@ -147,20 +147,11 @@ export default ({ negotiations, comparision }) => {
     const deleteRow = rowIndex => {
         const newState = [...state];
         newState.splice(rowIndex, 1);
-        // setState(newState);
 
         dispatch(updateComparisionRows(comparision.id, newState));
     };
 
     const addEmptyRow = () => {
-        // setState([
-        //     ...state,
-        //     {
-        //         id: v4(),
-        //         columns: Array.from(Array(negotiations.length), () => [])
-        //     }
-        // ]);
-
         const newState = [
             ...state,
             {
@@ -264,7 +255,7 @@ export default ({ negotiations, comparision }) => {
                             {state.map((row, rowIndex) => {
                                 return (
                                     <ComparatorRow
-                                        {...{ row, rowIndex }}
+                                        {...{ row, rowIndex, comparisonIndex }}
                                         key={row.id}
                                         deleteRow={deleteRow}
                                     />

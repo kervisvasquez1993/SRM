@@ -107,6 +107,21 @@ const comparatorReducer = (state = defaultState, action) => {
         };
     }
 
+    if (type === "UPDATE_COMPARATOR_CELL") {
+        const newTask = {
+            ...state.task
+        };
+
+        newTask.comparaciones[payload.comparisonIndex].rows[
+            payload.rowIndex
+        ].columns[payload.columnIndex][payload.cellIndex] = payload.data;
+
+        return {
+            ...state,
+            task: newTask
+        };
+    }
+
     return state;
 };
 

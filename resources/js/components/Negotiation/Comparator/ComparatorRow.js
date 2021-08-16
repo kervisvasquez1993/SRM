@@ -4,7 +4,7 @@ import { FaGripVertical } from "react-icons/fa";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 import ComparatorColumn from "./ComparatorColumn";
 
-export default ({ row, rowIndex, deleteRow }) => {
+export default ({ row, rowIndex, deleteRow, comparisonIndex }) => {
     let isEmpty = true;
 
     for (let column of row.columns) {
@@ -39,7 +39,7 @@ export default ({ row, rowIndex, deleteRow }) => {
                         {row.columns.map((column, colIndex) => {
                             return (
                                 <ComparatorColumn
-                                    {...{ rowIndex, column, colIndex }}
+                                    {...{ rowIndex, column, colIndex, comparisonIndex }}
                                     key={colIndex}
                                 />
                             );

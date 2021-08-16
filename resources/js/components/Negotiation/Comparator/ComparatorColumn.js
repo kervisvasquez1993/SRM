@@ -2,7 +2,7 @@ import React from "react";
 import { Droppable } from "react-beautiful-dnd";
 import ComparedProductCard from "./ComparedProductCard";
 
-export default ({ rowIndex, colIndex, column }) => {
+export default ({ rowIndex, colIndex, column, comparisonIndex }) => {
     const id = `row-${rowIndex}-col-${colIndex}`;
 
     return (
@@ -23,6 +23,9 @@ export default ({ rowIndex, colIndex, column }) => {
                             data={product}
                             index={productIndex}
                             key={product.id}
+                            rowIndex={rowIndex}
+                            colIndex={colIndex}
+                            comparisonIndex={comparisonIndex}
                         />
                     ))}
                     {provided.placeholder}

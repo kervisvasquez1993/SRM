@@ -37,7 +37,6 @@ export default () => {
     );
 
     useEffect(() => {
-        // dispatch(getTask(taskId, { negociaciones: true, productos: true }));
         dispatch(getTask(taskId));
     }, []);
 
@@ -77,12 +76,13 @@ export default () => {
         <React.Fragment>
             {helmet}
 
-            {comparisions.map(item => {
+            {comparisions.map((comparison, comparisonIndex) => {
                 return (
                     <ComparatorTable
                         negotiations={task.negociaciones}
-                        comparision={item}
-                        key={item.id}
+                        comparision={comparison}
+                        comparisonIndex={comparisonIndex}
+                        key={comparison.id}
                     />
                 );
             })}

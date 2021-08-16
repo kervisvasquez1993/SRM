@@ -109,6 +109,15 @@ export function editComparision(data) {
     };
 }
 
+export function updateCell(data, comparisonIndex, rowIndex, columnIndex, cellIndex) {
+    return async (dispatch, _getState) => {
+        dispatch({
+            type: "UPDATE_COMPARATOR_CELL",
+            payload: { data, comparisonIndex, rowIndex, columnIndex, cellIndex }
+        });
+    };
+}
+
 // export function updateTask(task) {
 //     return async (dispatch, _getState) => {
 //         try {
