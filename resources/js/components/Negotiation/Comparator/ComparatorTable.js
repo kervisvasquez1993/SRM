@@ -218,7 +218,7 @@ export default ({ negotiations, comparision, comparisonIndex }) => {
                                         <tr>
                                             {negotiations.map((item, index) => (
                                                 <th
-                                                    colSpan={5}
+                                                    colSpan={6}
                                                     key={index}
                                                     className="provider-column"
                                                 >
@@ -230,6 +230,7 @@ export default ({ negotiations, comparision, comparisonIndex }) => {
                                         <tr>
                                             {negotiations.map((item, index) => (
                                                 <React.Fragment key={index}>
+                                                    
                                                     <th className="product-attribute-column">
                                                         SUPPLIER NAME
                                                     </th>
@@ -245,6 +246,10 @@ export default ({ negotiations, comparision, comparisonIndex }) => {
                                                     <th className="product-attribute-column">
                                                         Total USD
                                                     </th>
+                                                    <th className="product-attribute-column">
+                                                        Imagen
+                                                    </th>
+                                                    
                                                 </React.Fragment>
                                             ))}
                                         </tr>

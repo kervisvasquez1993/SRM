@@ -1,5 +1,5 @@
 $cell-height: 100px;
-$cell-width: 450px;
+$cell-width: 500px;
 $cell-header-background: #32383e;
 $row-background: lightgrey;
 
@@ -44,10 +44,6 @@ $row-background: lightgrey;
     width: 100%;
     background-color: white;
     height: $cell-height;
-
-    &.isDragging {
-        height: $cell-height * 0.6 !important;
-    }
 }
 
 .comparision-table {

@@ -3,26 +3,23 @@
 namespace App\Http\Controllers\Api\Producto;
 
 /* use auth; */
-use Error;
-use App\User;
-use App\Tarea;
+use App\Exports\ProductosExport;
+use App\Http\Controllers\ApiController;
+use App\Imports\ProductosImport;
+use App\Notifications\GeneralNotification;
+use App\PivotTareaProveeder;
 use App\Producto;
 use App\Proveedor;
-use ErrorException;
-use App\PivotTareaProveeder;
+use App\Tarea;
+use App\User;
 use Illuminate\Http\Request;
-use Psy\Exception\Exception;
-use App\Exports\ProductosExport;
-use App\Imports\ProductosImport;
-use Google\Service\Vault\Export;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Http\Controllers\ApiController;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use App\Notifications\GeneralNotification;
-use Illuminate\Support\Facades\Notification;
-use Carbon\Exceptions\BadMethodCallException;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProductoController extends ApiController
@@ -54,8 +51,6 @@ class ProductoController extends ApiController
         if ($validator->fails()) {
             return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
         }
-
-
 
         $request->merge(["pivot_tarea_proveeder_id" => $pivot_tarea_proveedor->id]);
         $producto = Producto::create($request->all());
@@ -101,7 +96,7 @@ class ProductoController extends ApiController
 
         if ($pivot->productos_confirmados == true && $pivot->seleccionado == true) {
             /* usuarios */
-            $login_user    = auth()->user()->name;
+            $login_user = auth()->user()->name;
             $coordinador = User::find($pivot->tarea->sender_id);
             $presidentes = User::where('isPresidente', true)->get();
             $comprador = $pivot->tarea->usuario;
@@ -109,7 +104,7 @@ class ProductoController extends ApiController
             /* fin de usuarios */
             /* Nombres tarea proveedor */
             $proveedorName = Proveedor::findOrFail($pivot->proveedor_id)->nombre;
-            $tareaNombre   = Tarea::findOrFail($pivot->tarea_id)->nombre;
+            $tareaNombre = Tarea::findOrFail($pivot->tarea_id)->nombre;
             /* fin  */
 
             $userAll = $presidentes->push($coordinador, $comprador)->merge($logistica)->unique('id');
@@ -119,10 +114,9 @@ class ProductoController extends ApiController
 
             $text = "El usuario: '$login_user' $accion, perteneciente a la empresa '$proveedorName' que está asociada a la tarea '$tareaNombre'";
             $link = "/negotiation/$pivot->id#products";
-            $type =  "codigos_barra";
+            $type = "codigos_barra";
             $title = "Codigos de barra";
             $this->sendNotifications($userAll, new GeneralNotification($text, $link, $type, $title));
-
 
             /* fin mensaje */
         }
@@ -134,8 +128,12 @@ class ProductoController extends ApiController
         // $pivot_tarea_proveeder_id->productos()->delete();
 
         try {
-            $excel = Excel::toArray(new ProductosImport($pivot_tarea_proveeder_id->id), $archivo);
+            $import = new ProductosImport($request);
+
+            $excel = Excel::toArray($import, $archivo);
             $productosAgregados = collect();
+
+            $import->importarImagenes();
 
             foreach ($excel as $hoja) {
                 foreach ($hoja as $row) {
@@ -145,10 +143,10 @@ class ProductoController extends ApiController
                             'codigo_de_barras_unit' => $row[32],
                             'codigo_de_barras_inner' => $row[33],
                             'codigo_de_barras_outer' => $row[34],
-                            'codigo_interno_asignado' => $row[35]
+                            'codigo_interno_asignado' => $row[35],
                         ];
 
-                        $producto =  $pivot_tarea_proveeder_id->productos
+                        $producto = $pivot_tarea_proveeder_id->productos
                             ->where('product_name_supplier', $row[3])
                             ->where('product_code_supplier', $row[2])
                             ->first();
@@ -160,12 +158,12 @@ class ProductoController extends ApiController
                         try {
 
                             $total_ctn = $row[9] / $row[14];
-                        } catch (\Throwable $th) {
+                        } catch (\Throwable$th) {
                             $total_ctn = 0;
                         }
 
                         $product = [
-                            $total_cbm =  $row[18] * $total_ctn,
+                            $total_cbm = $row[18] * $total_ctn,
                             $total_v_w = $total_ctn * $row[19],
                             $total_g_w = $total_ctn * $row[20],
                             'pivot_tarea_proveeder_id' => $pivot_tarea_proveeder_id->id,
@@ -204,22 +202,20 @@ class ProductoController extends ApiController
 
                         $validator = Validator::make($product, [
                             'product_name_supplier' => 'required',
-                            'product_code_supplier' => 'required'
+                            'product_code_supplier' => 'required',
                         ]);
 
                         $productosAgregados->add($product);
 
                         if (!$validator->fails()) {
-                            $producto =  $pivot_tarea_proveeder_id->productos
+                            $producto = $pivot_tarea_proveeder_id->productos
                                 ->where('product_name_supplier', $product['product_name_supplier'])
                                 ->where('product_code_supplier', $product['product_code_supplier'])
                                 ->first();
 
                             if ($producto) {
-                                error_log("actualizado");
                                 $producto->update($product);
                             } else {
-                                error_log("creado");
                                 Producto::create($product);
                             }
                         }
@@ -227,8 +223,8 @@ class ProductoController extends ApiController
                 }
             }
 
-            if (auth()->user()->rol == 'comprador' || auth()->user()->rol == 'coordinador' ) {
-                $productos =  $pivot_tarea_proveeder_id->productos;
+            if (auth()->user()->rol == 'comprador' || auth()->user()->rol == 'coordinador') {
+                $productos = $pivot_tarea_proveeder_id->productos;
 
                 foreach ($productos as $producto) {
                     $coincidencia = $productosAgregados
@@ -237,23 +233,61 @@ class ProductoController extends ApiController
                         ->first();
 
                     if (!($coincidencia)) {
-                        error_log("eliminado");
                         $producto->delete();
                     }
                 }
             }
-        } catch (\Exception $e) {
+
+            // Cargar imagenes
+            $excel = IOFactory::load($request->file('import'));
+            $sheet = $excel->getActiveSheet();
+
+            $drawings = $sheet->getDrawingCollection();
+
+            // Recorrer todas las imagenes
+            foreach ($drawings as $drawing) {
+                //check if it is instance of drawing
+                if ($drawing instanceof Drawing) {
+                    // Obtener las coordenadas
+                    $coordenada = $drawing->getCoordinates();
+                    $coordenadas = Coordinate::indexesFromString($coordenada);
+
+                    // Obtener el producto correspondiente
+                    $productCode = $sheet->getCellByColumnAndRow(3, $coordenadas[1])->getValue();
+                    $productName = $sheet->getCellByColumnAndRow(4, $coordenadas[1])->getValue();
+                    $producto = $pivot_tarea_proveeder_id->productos()
+                        ->where('product_name_supplier', $productName)
+                        ->where('product_code_supplier', $productCode)
+                        ->first();
+
+                    // Si existe el producto entonces se guardara la imagen
+                    if ($producto) {
+                        // Eliminar el archivo viejo
+                        Storage::disk('s3')->delete($producto->imagen);
+                        // Crear nombre del archivo
+                        $file_name = "productos/" . $producto->id . "." . $drawing->getExtension();
+                        Storage::disk('s3')->put($file_name, file_get_contents($drawing->getPath()), 'public');
+                        // Guardarlo
+                        $producto->imagen = $file_name;
+                        error_log($producto->imagen);
+                        $producto->save();
+                    }
+                }
+            }
+
+        } catch (\Exception$e) {
             error_log($e);
             return $this->errorResponse("Formato del Archivo no valido", 413);
         }
 
+        error_log("productos importados");
+
         return $this->successMensaje('Se Cargaron los Archivo de Forma Correcta', 201);
     }
 
-
     public function exportProduct($producto)
     {
-        
+
         return Excel::download(new ProductosExport($producto), 'plantilla.xlsx');
     }
 }

@@ -51,6 +51,7 @@ class CreateProductosTable extends Migration
             $table->string('codigo_de_barras_inner')->nullable();
             $table->string('codigo_de_barras_outer')->nullable();
             $table->string('codigo_interno_asignado')->nullable();
+            $table->string('imagen')->nullable();
             // $table->softDeletes();
             $table->timestamps();
         });

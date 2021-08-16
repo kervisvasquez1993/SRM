@@ -1,5 +1,6 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
+import { RiFileUnknowFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCell } from "../../../store/actions/comparatorActions";
 
@@ -40,6 +41,8 @@ export default ({ data, index, comparisonIndex, rowIndex, colIndex }) => {
         console.log("used", data.backgroundColor);
     }
 
+    console.log(product);
+
     return (
         <Draggable draggableId={`${data.id}`} index={index}>
             {(provided, snapshot) => (
@@ -65,6 +68,14 @@ export default ({ data, index, comparisonIndex, rowIndex, colIndex }) => {
                                 <td>{product.total_pcs}</td>
                                 <td>{product.unit_price}$</td>
                                 <td>{product.total_usd}$</td>
+                                <td>
+                                    {product.imagen && (
+                                        <img
+                                            style={{ width: "100%" }}
+                                            src={`https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/${product.imagen}`}
+                                        />
+                                    )}
+                                </td>
                             </tr>
                         </tbody>
                     </table>
