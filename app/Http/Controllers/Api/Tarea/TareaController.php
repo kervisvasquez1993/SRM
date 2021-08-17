@@ -13,6 +13,7 @@ use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Validator;
 use App\Notifications\GeneralNotification;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Resources\PivotTareaProveederResource;
 
 class TareaController extends ApiController
 {
@@ -113,5 +114,9 @@ class TareaController extends ApiController
     public function exportarComparativa(Tarea $tarea)
     {
         return Excel::download(new ComparativaExport($tarea), 'comparativa.xlsx');
+    }
+
+    public function obtenerNegociaciones(Tarea $tarea) {
+        return $this->showAllResources(PivotTareaProveederResource::collection($tarea->pivotTareaProveedor));
     }
 }

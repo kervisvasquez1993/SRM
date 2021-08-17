@@ -142,7 +142,8 @@ class ProductoController extends ApiController
                             'codigo_interno_asignado' => $row[35],
                         ];
 
-                        $producto = $pivot_tarea_proveeder_id->productos
+                        $producto = $pivot_tarea_proveeder_id
+                            ->productos()
                             ->where('product_name_supplier', $row[3])
                             ->where('product_code_supplier', $row[2])
                             ->first();
@@ -200,8 +201,11 @@ class ProductoController extends ApiController
 
                         $productosAgregados->add($product);
 
+                        // Si se pasa la validación entonces se determinara si se editara un producto y si
+                        // se creara uno nuevo
                         if (!$validator->fails()) {
-                            $producto = $pivot_tarea_proveeder_id->productos
+                            $producto = $pivot_tarea_proveeder_id
+                                ->productos()
                                 ->where('product_name_supplier', $product['product_name_supplier'])
                                 ->where('product_code_supplier', $product['product_code_supplier'])
                                 ->first();
@@ -216,25 +220,10 @@ class ProductoController extends ApiController
                 }
             }
 
-            if (auth()->user()->rol == 'comprador' || auth()->user()->rol == 'coordinador') {
-                $productos = $pivot_tarea_proveeder_id->productos;
-
-                foreach ($productos as $producto) {
-                    $coincidencia = $productosAgregados
-                        ->where('product_name_supplier', $producto['product_name_supplier'])
-                        ->where('product_code_supplier', $producto['product_code_supplier'])
-                        ->first();
-
-                    if (!($coincidencia)) {
-                        $producto->delete();
-                    }
-                }
-            }
-
             // Cargar imagenes
+            $idProductosConImagenes = collect();
             $excel = IOFactory::load($request->file('import'));
             $sheet = $excel->getActiveSheet();
-
             $drawings = $sheet->getDrawingCollection();
 
             // Recorrer todas las imagenes
@@ -263,10 +252,36 @@ class ProductoController extends ApiController
                         Storage::disk('s3')->put($file_name, file_get_contents($drawing->getPath()), 'public');
                         $producto->imagen = $file_name;
                         $producto->save();
+
+                        $idProductosConImagenes->add($producto->id);
                     }
                 }
             }
 
+            // Eliminar los productos que no están en el excel subido
+            if (auth()->user()->rol == 'comprador' || auth()->user()->rol == 'coordinador') {
+                $productos = $pivot_tarea_proveeder_id->productos;
+
+                foreach ($productos as $producto) {
+                    $coincidencia = $productosAgregados
+                        ->where('product_name_supplier', $producto['product_name_supplier'])
+                        ->where('product_code_supplier', $producto['product_code_supplier'])
+                        ->first();
+
+                    // Si el producto no está en los productos cargados, se aliminara
+                    // de lo contrario se determinara si su imagen fue eliminada del excel
+                    if (!$coincidencia) {
+                        $producto->delete();
+                    } else {
+                        if ($producto->imagen && !$idProductosConImagenes->contains($producto->id)) {
+                            // Eliminar la imagen
+                            Storage::disk('s3')->delete($producto->imagen);
+                            $producto->imagen = null;
+                            $producto->save();
+                        }
+                    }
+                }
+            }
         } catch (\Exception$e) {
             error_log($e);
             return $this->errorResponse("Formato del Archivo no valido", 413);
