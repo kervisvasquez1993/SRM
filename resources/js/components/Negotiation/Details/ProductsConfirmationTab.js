@@ -40,7 +40,7 @@ const ProductsConfirmationTab = () => {
                 showCreateButton={true}
                 allowEditing={true}
                 allowDeletion={true}
-                allowExcel={!negotiation.productos_confirmados}
+                allowExcel={!(negotiation.productos_confirmados && negotiation.seleccionado)}
                 canAddSingleProduct={true}
             />
 
