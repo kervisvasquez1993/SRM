@@ -171,14 +171,19 @@ const NegotiationCard = ({
                                 </div>
 
                                 <div>
-                                    <Link
-                                        to={`/tasks/${task.id}/comparator`}
-                                        className="btn btn-sm btn-round"
-                                        style={{ backgroundColor: "black" }}
-                                    >
-                                        <BiGitCompare />
-                                        Comparar
-                                    </Link>
+                                    {negotiation.tarea.cantidad_negociaciones >
+                                        1 && (
+                                        <Link
+                                            to={`/tasks/${task.id}/comparator`}
+                                            className="btn btn-sm btn-round"
+                                            style={{
+                                                backgroundColor: "black"
+                                            }}
+                                        >
+                                            <BiGitCompare />
+                                            Comparar
+                                        </Link>
+                                    )}
 
                                     <button
                                         className="btn btn-sm btn-round"

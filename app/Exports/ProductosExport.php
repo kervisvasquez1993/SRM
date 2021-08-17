@@ -96,8 +96,6 @@ class ProductosExport implements WithEvents, WithPreCalculateFormulas
                     $sheet->setCellValue("A$indice", $numero);
 
                     foreach ($valores as $letra => $valor) {
-                        error_log($letra . '4');
-                        //$sheet->duplicateStyle($sheet->getStyle($letra . '4'), "$letra$indice");
                         $sheet->setCellValue("$letra$indice", $valor);
                     }
 

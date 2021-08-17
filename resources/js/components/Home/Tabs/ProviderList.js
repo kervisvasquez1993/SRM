@@ -22,8 +22,6 @@ const ProviderList = ({ taskId, filterProvidersInNegotiation = false }) => {
         isNegotiationSelected(provider.pivot)
     );
 
-    console.log(providers);
-
     useEffect(() => {
         dispatch(getProvidersFromTask(taskId));
 
