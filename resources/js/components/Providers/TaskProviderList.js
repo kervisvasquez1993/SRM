@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { BiGitCompare } from "react-icons/bi";
 import { IoMdAddCircle } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
 import { getProvidersFromTask } from "../../store/actions/providerActions";
 import { isNegotiationSelected } from "../../utils";
@@ -23,15 +24,13 @@ const TaskProviderList = () => {
     const task = useSelector(state => state.task.task);
 
     const [orderedProviders, setOrderedProviders] = useState([]);
-    // @ts-ignore
-    const { id } = useParams();
 
     const selectedProvider = providers.find(provider =>
         isNegotiationSelected(provider.pivot)
     );
 
     useEffect(() => {
-        dispatch(getProvidersFromTask(id));
+        dispatch(getProvidersFromTask(task.id));
     }, []);
 
     useEffect(() => {
@@ -78,6 +77,16 @@ const TaskProviderList = () => {
                         <IoMdAddCircle className="mr-2" />
                         Agregar Empresa
                     </button>
+                )}
+
+                {providers.length > 1 && (
+                    <Link
+                        to={`/tasks/${task.id}/comparator`}
+                        className="btn btn-lg btn-round btn-info"
+                    >
+                        <BiGitCompare className="icon-normal" />
+                        Comparar
+                    </Link>
                 )}
             </div>
 

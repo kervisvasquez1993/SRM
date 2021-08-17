@@ -31,7 +31,7 @@ class PivotTareaProveeder extends Model
         'codigo_comprador',
     ];
 
-    protected $appends = array('cantidad_productos');
+    protected $appends = ['cantidad_productos'];
 
     public function getCantidadProductosAttribute()
     {

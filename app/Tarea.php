@@ -22,6 +22,13 @@ class Tarea extends Model
         'comparaciones' => '[]'
     ];
 
+    protected $appends = ['cantidad_negociaciones'];
+
+    public function getCantidadNegociacionesAttribute()
+    {
+        return $this->pivotTareaProveedor()->count();
+    }
+
     public function draggebleTask()
     {
         return $this->hasMany(DraggebleTask::class);

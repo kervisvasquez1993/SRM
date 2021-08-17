@@ -42,8 +42,6 @@ export default ({ data, index, comparisonIndex, rowIndex, colIndex }) => {
         console.log("used", data.backgroundColor);
     }
 
-    console.log(product);
-
     return (
         <Draggable draggableId={`${data.id}`} index={index}>
             {(provided, snapshot) => (
