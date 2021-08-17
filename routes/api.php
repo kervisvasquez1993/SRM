@@ -46,6 +46,9 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/tarea/{tarea_id}/proveedor', 'Api\Proveedor\ProveedorController@store');
     Route::post('/tarea/{tarea_id}/proveedor/{proveedor_id}/negociar', 'Api\Proveedor\ProveedorController@iniciarNegociacion');
     // fin de proveedores
+
+    Route::get('/tarea/{tarea}/negociaciones', 'Api\Tarea\TareaController@obtenerNegociaciones');
+
     //Pivot
     Route::get('/negociacion', 'Api\Pivot\PivotController@index');
     Route::post('/negociacion', 'Api\Pivot\PivotController@store');

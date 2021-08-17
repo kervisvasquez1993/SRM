@@ -11,6 +11,7 @@ import {
     useSimpleUrlFocus,
     useUser
 } from "../../utils";
+import CheckIcon from "../Widgets/CheckIcon";
 import ProviderFormModal from "./ProviderFormModal";
 import ProviderStatus from "./ProviderStatus";
 
@@ -82,7 +83,14 @@ const ProviderCard = ({ provider, selectedProvider }) => {
                 ref={container}
             >
                 <div className="card-header pb-0">
-                    <h3 className="card-title">{nombre}</h3>
+                    <div className="d-flex justify-content-between flex-wrap">
+                        <h3 className="card-title">{nombre}</h3>
+                        <p className="card-text text-muted">
+                            Productos cargados :{" "}
+                            {provider.pivot.cantidad_productos}
+                        </p>
+                    </div>
+
                     <hr className="mb-0" />
                 </div>
 

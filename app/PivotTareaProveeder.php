@@ -3,17 +3,16 @@
 namespace App;
 
 use App\Arte;
-use App\Tarea;
-use App\Proveedor;
 use App\ProduccionTransito;
-use Illuminate\Support\Facades\DB;
+use App\Proveedor;
+use App\Tarea;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PivotTareaProveeder extends Model
 {
     use SoftDeletes;
-    
+
     protected $fillable = [
         'compra_po',
         'productos_cargados',
@@ -29,18 +28,25 @@ class PivotTareaProveeder extends Model
         'hs_code',
         'incoterms',
         'delivery_time',
-        'codigo_comprador'
+        'codigo_comprador',
     ];
-   
+
+    protected $appends = array('cantidad_productos');
+
+    public function getCantidadProductosAttribute()
+    {
+        return $this->productos()->count();
+    }
+
     public function compras()
     {
         return $this->hasMany(Compra::class);
     }
 
     public function productos()
-     {
-         return $this->hasMany(Producto::class);
-     }
+    {
+        return $this->hasMany(Producto::class);
+    }
     public function tarea()
     {
         return $this->belongsTo(Tarea::class, 'tarea_id');
@@ -60,14 +66,14 @@ class PivotTareaProveeder extends Model
     {
         return $this->hasOne(Arte::class);
     }
-    
+
     public function produccionTransito()
     {
         return $this->hasOne(ProduccionTransito::class);
     }
 
-   public function pivotFile()
-   {
-       return $this->hasMany(PivotFile::class);
-   }
+    public function pivotFile()
+    {
+        return $this->hasMany(PivotFile::class);
+    }
 }

@@ -395,3 +395,22 @@ export function startArtWithNegotiation(negotiation) {
         }
     };
 }
+
+export function getNegotiationsFromTask(taskId) {
+    return async (dispatch, getState) => {
+        try {
+            const response = await axios.get(
+                `${apiURL}/tarea/${taskId}/negociaciones`
+            );
+
+            dispatch({
+                type: "GET_NEGOTIATIONS_SUCCESS",
+                payload: response.data.data
+            });
+        } catch (e) {
+            dispatch({
+                type: "GET_NEGOTIATIONS_FAILURE"
+            });
+        }
+    };
+}
