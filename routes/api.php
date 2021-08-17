@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -12,21 +11,22 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/
+ */
 
 Route::get('/proveedor', 'Api\ProveedorController@index');
 Route::get('/filter', 'Api\FilterProduccionTransitoController@index');
 
 Route::post('login', 'Api\AuthController@login');
 
+Route::get('/tarea/{tarea}/exportar-comparativa', 'Api\Tarea\TareaController@exportarComparativa');
 
 Route::middleware('auth:api')->group(function () {
-
 
     Route::get('me', 'Api\AuthController@me');
     Route::post('logout', 'Api\AuthController@logout');
     //tareas
     Route::apiResource('tarea', 'Api\Tarea\TareaController');
+
     //fin de tarea
 
     Route::apiResource('draggable_task', 'Api\DraggableTaskController')->except(['destroy', 'show', 'store']);
@@ -38,7 +38,6 @@ Route::middleware('auth:api')->group(function () {
     /* insertar nuevo proveedor con notificacion */
     Route::post('/tarea/{tarea_id}/proveedor', 'Api\Proveedor\ProveedorController@store');
 
-
     Route::apiResource('proveedor', 'Api\Proveedor\ProveedorController')->except('destroy', 'store');
 
     //proveedores
@@ -47,14 +46,20 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/tarea/{tarea_id}/proveedor', 'Api\Proveedor\ProveedorController@store');
     Route::post('/tarea/{tarea_id}/proveedor/{proveedor_id}/negociar', 'Api\Proveedor\ProveedorController@iniciarNegociacion');
     // fin de proveedores
-    //Pivot 
+    //Pivot
     Route::get('/negociacion', 'Api\Pivot\PivotController@index');
     Route::post('/negociacion', 'Api\Pivot\PivotController@store');
     Route::get('/negociacion/{pivot_id}', 'Api\Pivot\PivotController@show');
     Route::put('/negociacion/{pivot_id}', 'Api\Pivot\PivotController@update');
     Route::post('creacion_onden_compra/{proveedor}/proveedor', 'Api\Pivot\PivotController@creacionOrdenCompra');
-    //productos
 
+    //INICIA ARTE y negociacion
+
+    /*  Route::put('/negociacion/{pivotTareaProveederId}/iniciar-arte', 'Api\Pivot\PivotController@startArte');
+    Route::put('/negociacion/{pivotTareaProveederId}/iniciar-produccion', 'Api\Pivot\PivotController@startProduccion'); */
+    /* Route::post('/testProduccion/{id}', 'Api\Pivot\PivotController@artesCreate'); */
+
+    //productos
 
     Route::get('/negociacion/{pivot_tarea_proveedor}/productos', 'Api\Producto\ProductoController@index');
     /* ruta para importar productos */
@@ -68,10 +73,9 @@ Route::middleware('auth:api')->group(function () {
 
     Route::delete('/productos/{producto}', 'Api\Producto\ProductoController@delete');
 
-
     //fin de productos
 
-    //orden de compra 
+    //orden de compra
     Route::post('/negociaciones/{negociacion_id}/compras', 'Api\Pivot\PivotCompraController@store');
     Route::post('/negociaciones/{negociacion}/importCompra', 'Api\Pivot\PivotCompraController@importCompra');
     Route::get('/negociaciones/{negociacion}/importCompra', 'Api\Pivot\PivotCompraController@exportCompra');
@@ -91,21 +95,19 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/negociacion/{negociacion_id}/file', 'Api\Pivot\PivotFilesController@store');
     Route::get('/file/{file_id}', 'Api\Pivot\PivotFilesController@show');
     Route::delete('/file/{file}', 'Api\Pivot\PivotFilesController@destroy');
-    //produccion y transito 
+    //produccion y transito
 
     Route::get('/produccion_transito', 'Api\ProduccionTransito\ProduccionTransitoController@index');
     Route::get('/produccion_transito/{produccionTransito}', 'Api\ProduccionTransito\ProduccionTransitoController@show');
     Route::put('/produccion_transito/{produccionTransito}', 'Api\ProduccionTransito\ProduccionTransitoController@update');
     /* Route::post('/reclamos/{id}', 'Api\ProduccionTransito\ProduccionTransitoController@reclamosDevolucion'); */
 
-    //inicio de produccion 
+    //inicio de produccion
 
     Route::get('/produccion_transito/{produccion_transito}/inicio_produccion', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@index');
     Route::post('/produccion_transito/{produccion_transito}/inicio_produccion', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@store');
     Route::put('/inicio_produccion/{inicio_produccion}', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@update');
     Route::delete('/inicio_produccion/{inicio_produccion}', 'Api\ProduccionTransito\ProduccionTransitoInicioProduccion@destroy');
-
-
 
     //PAGOS
     Route::get('produccion_transito/{produccion_transito_id}/pago', 'Api\ProduccionTransito\ProduccionTransitoPagoController@index');
@@ -115,7 +117,6 @@ Route::middleware('auth:api')->group(function () {
     // Route::post('pago/{pago}/archivo', 'Api\ProduccionTransito\ProduccionTransitoPagoController@actualizarArchivo');
     Route::delete('pago/{pago}', 'Api\ProduccionTransito\ProduccionTransitoPagoController@destroy');
 
-
     // incidencia transitosNacionalizacion
     Route::get('produccion_transito/{produccion_transito}/incidencias_transito', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@index');
     Route::post('produccion_transito/{produccion_transito}/incidencias_transito', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@store');
@@ -123,7 +124,7 @@ Route::middleware('auth:api')->group(function () {
     Route::put('incidencias_transito/{incidencia_transito}', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@update');
     Route::delete('incidencias_transito/{incidencia_transito}', 'Api\ProduccionTransito\ProduccionTransitoNacionalizacionController@destroy');
 
-    // incidencia fin de produccion 
+    // incidencia fin de produccion
 
     Route::get('produccion_transito/{produccion_transito}/fin_produccion', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@index');
     Route::post('produccion_transito/{produccion_transito}/fin_produccion', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@store');
@@ -132,8 +133,6 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('fin_produccion/{fin_produccion}', 'Api\ProduccionTransito\ProduccionTransitoFinProduccion@destroy');
 
     // fin de incidencia de fin de produccion
-
-
 
     //fin d earte
 
@@ -144,8 +143,6 @@ Route::middleware('auth:api')->group(function () {
     Route::put('compra/{compra_id}', 'Api\Pivot\PivotCompraController@update');
     Route::delete('compra/{compra_id}', 'Api\Pivot\PivotCompraController@destroy');
     Route::post('createUser', 'Api\UserController@register')->name('register');
-
-
 
     //Arte Api
     Route::get('artes', 'Api\Arte\ArteController@index');
@@ -160,7 +157,7 @@ Route::middleware('auth:api')->group(function () {
     Route::put('ficha/{ficha}', 'Api\Arte\ArteFichaController@update');
     Route::delete('ficha/{ficha}', 'Api\Arte\ArteFichaController@destroy');
     //fin de ficha
-    // arte validacion Ficha 
+    // arte validacion Ficha
     Route::get('arte/{arte}/validacion_ficha', 'Api\Arte\ArteValidacionFichaController@index');
     Route::post('arte/{arte}/validacion_ficha', 'Api\Arte\ArteValidacionFichaController@store');
     Route::get('validacion_ficha/{validacion_ficha}', 'Api\Arte\ArteValidacionFichaController@show');
@@ -168,7 +165,7 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('validacion_ficha/{validacion_ficha}', 'Api\Arte\ArteValidacionFichaController@destroy');
     // fin arte validacion Ficha
 
-    //boceto 
+    //boceto
     Route::get('arte/{arte}/boceto', 'Api\Arte\ArteBocetoController@index');
     Route::post('arte/{arte}/boceto', 'Api\Arte\ArteBocetoController@store');
     Route::get('boceto/{boceto}', 'Api\Arte\ArteBocetoController@show');
@@ -196,14 +193,12 @@ Route::middleware('auth:api')->group(function () {
     Route::get('notificacion/count', 'Api\Notification\NotificationController@count');
     Route::patch('/notificacion/{id}', 'Api\Notification\NotificationController@read');
 
-
     /* Recepcion reclamos y devoluciones */
     Route::get('/reclamos_devoluciones', 'Api\ReclamoDevolucion\ReclamoDevolucionController@index');
     Route::get('/reclamos_devoluciones/{reclamos_devolucion}', 'Api\ReclamoDevolucion\ReclamoDevolucionController@show');
     Route::get('/reclamos_devoluciones/{reclamos_devolucione}', 'Api\ReclamoDevolucion\ReclamoDevolucionController@show');
     Route::put('/reclamos_devoluciones/{reclamos_devolucione}', 'Api\ReclamoDevolucion\ReclamoDevolucionController@update');
     /* fin de reclamos y devoluciones */
-
 
     /* show de productos de recepcion reclamo devoucion */
     /* productos en recepcion */
@@ -236,7 +231,6 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/incidencia_recepcion/{incidencia_recepcion_id}', 'Api\ReclamoDevolucion\IncidenciaRecepcion@destroy');
     /* FIN incidencias de Recepción  */
 
-
     /* incidencias de inspeccion */
     Route::get('/reclamos_devoluciones/{reclamos_devolucione}/inspeccion_carga', 'Api\ReclamoDevolucion\IncidenciaInspeccionController@index');
     Route::post('/reclamos_devoluciones/{reclamos_devolucione}/inspeccion_carga', 'Api\ReclamoDevolucion\IncidenciaInspeccionController@store');
@@ -266,5 +260,3 @@ Route::middleware('auth:api')->group(function () {
     /* export */
     Route::get('negociacion/{producto}/exportar_productos', 'Api\Producto\ProductoController@exportProduct');
 });
-
-

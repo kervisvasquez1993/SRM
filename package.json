@@ -29,6 +29,7 @@
     "dependencies": {
         "device-uuid": "^1.0.4",
         "filterizr": "^2.2.4",
+        "js-file-download": "^0.4.12",
         "jwt-decode": "^3.1.2",
         "query-string": "^7.0.1",
         "react-beautiful-dnd": "^13.1.0",
@@ -43,6 +44,7 @@
         "redux": "^4.1.0",
         "redux-thunk": "^2.3.0",
         "use-query-params": "^1.2.2",
+        "uuid": "^8.3.2",
         "vue-laravel-data": "^1.0.3",
         "vue-sweetalert2": "^4.2.0",
         "vuejs-datepicker": "^1.6.2"

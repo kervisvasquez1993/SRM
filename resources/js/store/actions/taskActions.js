@@ -46,7 +46,7 @@ export function createTask(task) {
 
             toast.success("✔️ Tarea creada");
         } catch (e) {
-            console.log(e.response)
+            console.log(e.response);
             dispatch({
                 type: "CREATE_TASK_FAILURE",
                 errors: e.response.data
@@ -73,6 +73,7 @@ export function editTask(id, task) {
 
             toast.success("✔️ Tarea editada");
         } catch (e) {
+            console.log(e.response);
             dispatch({
                 type: "EDIT_TASK_FAILURE",
                 errors: e.response.data
@@ -93,6 +94,7 @@ export function getTask(id) {
                 payload: response.data.data
             });
         } catch (e) {
+            console.log(e);
             dispatch({
                 type: "GET_TASK_FAILURE"
             });

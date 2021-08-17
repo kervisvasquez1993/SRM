@@ -1,5 +1,7 @@
 import React from "react";
+import { BiGitCompare } from "react-icons/bi";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
 import {
     getColorsForTask,
@@ -116,6 +118,29 @@ const NegotiationCard = ({
                                 Aún no se han confirmado los productos
                             </p>
                         )}
+
+                        {negotiation.productos_confirmados &&
+                            negotiation.seleccionado && (
+                                <React.Fragment>
+                                    {!negotiation.iniciar_produccion && (
+                                        <p className="card-text d-flex align-items-center">
+                                            <span className="material-icons mr-2 text-danger">
+                                                warning
+                                            </span>
+                                            Aún no se ha iniciado producción
+                                        </p>
+                                    )}
+
+                                    {!negotiation.iniciar_arte && (
+                                        <p className="card-text d-flex align-items-center">
+                                            <span className="material-icons mr-2 text-danger">
+                                                warning
+                                            </span>
+                                            Aún no se ha iniciado arte
+                                        </p>
+                                    )}
+                                </React.Fragment>
+                            )}
                     </div>
 
                     {!compare && (
@@ -145,9 +170,23 @@ const NegotiationCard = ({
                                         ))}
                                 </div>
 
-                                <button className="btn btn-sm btn-info btn-round">
-                                    Ver Detalles
-                                </button>
+                                <div>
+                                    <Link
+                                        to={`/tasks/${task.id}/comparator`}
+                                        className="btn btn-sm btn-round"
+                                        style={{ backgroundColor: "black" }}
+                                    >
+                                        <BiGitCompare />
+                                        Comparar
+                                    </Link>
+
+                                    <button
+                                        className="btn btn-sm btn-round"
+                                        style={{ backgroundColor: "black" }}
+                                    >
+                                        Ver Detalles
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     )}

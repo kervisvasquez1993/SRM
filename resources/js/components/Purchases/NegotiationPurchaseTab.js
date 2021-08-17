@@ -6,6 +6,7 @@ import { getPurchaseOrdersFromNegotiation } from "../../store/actions/purchaseOr
 import { getSum, roundMoneyAmount } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
 import LoadingScreen from "../Navigation/LoadingScreen";
+import CompleteLastStageMessage from "../Negotiation/Details/Other/CompleteLastStageMessage";
 import NextStageButton from "../Negotiation/Details/Other/NextStageButton";
 import OnlyBuyersAllowedMessage from "../Negotiation/Details/Other/OnlyBuyersAllowedMessage";
 import StageCompletedMessage from "../Negotiation/Details/Other/StageCompletedMessage";
@@ -69,6 +70,10 @@ const NegotiationPurchaseTab = () => {
             })
         );
     };
+
+    if (!negotiation.base_grafico_finalizado) {
+        return <CompleteLastStageMessage />;
+    }
 
     if (user.rol === "logistica") {
         return <OnlyBuyersAllowedMessage />;

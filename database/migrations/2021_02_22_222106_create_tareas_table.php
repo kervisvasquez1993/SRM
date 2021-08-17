@@ -20,6 +20,7 @@ class CreateTareasTable extends Migration
             $table->string('nombre')->default('Sin Definir');
             $table->text('descripcion')->default('Sin Descripción');
             $table->date('fecha_fin')->nullable();
+            $table->json('comparaciones')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

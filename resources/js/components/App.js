@@ -37,13 +37,14 @@ import {
 import { useSwipeable } from "react-swipeable";
 import { NumberParam, useQueryParam } from "use-query-params";
 import { filtersGlobalOptions } from "./Filters/GenericFilter";
-import { removeSlash } from "../utils";
+import useWindowDimensions, { removeSlash } from "../utils";
 
 import "react-quill/dist/quill.snow.css";
 import { Helmet } from "react-helmet-async";
 import ReceptionPage from "./Claims/Reception/ReceptionPage";
 import InspectionPage from "./Claims/Inspection/InspectionPage";
 import ProductClaimPage from "./Claims/Claims/ProductClaimPage";
+import NegotiationComparator from "./Negotiation/Comparator/NegotiationComparator";
 
 // const messaging = firebase.messaging();
 
@@ -76,6 +77,9 @@ axios.interceptors.response.use(
 );
 
 export const apiURL = process.env.MIX_APP_API_URL || "/api";
+export const amazonS3Url = "https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/";
+
+export const sidebarBreakpoint = 1100;
 
 axios.interceptors.request.use(config => {
     const token = localStorage.getItem("auth");
@@ -95,6 +99,8 @@ const App = () => {
     const user = useSelector(state => state.auth.user);
     // @ts-ignore
     const isLoadingUser = useSelector(state => state.auth.isLoadingUser);
+
+    const { width } = useWindowDimensions();
 
     const handlers = useSwipeable({
         onSwiped: event => {
@@ -189,7 +195,7 @@ const App = () => {
     }
 
     const handleClick = () => {
-        if (isSidebarOpen) {
+        if (isSidebarOpen && width < sidebarBreakpoint) {
             dispatch(closeSidebar());
         }
     };
@@ -230,8 +236,11 @@ const App = () => {
                             <Route exact path="/tasks">
                                 <TaskList />
                             </Route>
-                            <Route path="/tasks/:id">
+                            <Route exact path="/tasks/:id">
                                 <TaskDetails />
+                            </Route>
+                            <Route exact path="/tasks/:id/comparator">
+                                <NegotiationComparator />
                             </Route>
                             <Route path="/me/tasks">
                                 <TaskList
@@ -242,7 +251,7 @@ const App = () => {
                             <Route path="/negotiation/:id">
                                 <ProviderPurchase />
                             </Route>
-                            <Route path="/negotiations">
+                            <Route exact path="/negotiations">
                                 <NegotiationList />
                             </Route>
                             <Route path="/productions">

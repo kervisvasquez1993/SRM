@@ -171,16 +171,21 @@ export function isNegotiationSelected(negotiation) {
 // If a negotiation has started production and arts, then the rest of the providers of the same task
 // must not been shown
 export function filterNegotiations(negotiations) {
+    let result = [...negotiations];
+
     negotiations.forEach(i => {
         if (isNegotiationSelected(i)) {
-            negotiations = negotiations.filter(j => {
-                if (j.tarea.id === i.tarea.id && i != j) return false;
+            result = result.filter(j => {
+                if (j.tarea.id === i.tarea.id && i != j) {
+                    return false;
+                }
+
                 return true;
             });
         }
     });
 
-    return negotiations;
+    return result;
 }
 
 export function getPaymentsInfoFromProduction(production) {
@@ -363,3 +368,113 @@ export const isTouchDevice = () => {
         navigator.msMaxTouchPoints > 0
     );
 };
+
+export const extractToken = (template, url, token) => {
+    var sReg = "[A-z]",
+        xyzReg = "[0-9]+",
+        tokenMapping = {
+            "{s}": sReg,
+            "{x}": xyzReg,
+            "{y}": xyzReg,
+            "{z}": xyzReg
+        },
+        tokenList = [];
+
+    var regexpTemplate = template.replace(".", "\\.");
+
+    // Find the order of your tokens
+    var i, tokenIndex, tokenEntry;
+    for (var m in tokenMapping) {
+        tokenIndex = template.indexOf(m);
+
+        // Token found
+        if (tokenIndex > -1) {
+            regexpTemplate = regexpTemplate.replace(
+                m,
+                "(" + tokenMapping[m] + ")"
+            );
+            tokenEntry = {
+                index: tokenIndex,
+                token: m
+            };
+
+            for (
+                i = 0;
+                i < tokenList.length && tokenList[i].index < tokenIndex;
+                i++
+            );
+
+            // Insert it at index i
+            if (i < tokenList.length) {
+                tokenList.splice(i, 0, tokenEntry);
+            }
+            // Or push it at the end
+            else {
+                tokenList.push(tokenEntry);
+            }
+        }
+    }
+
+    var match = new RegExp(regexpTemplate).exec(url);
+
+    // Find your token entry
+    for (i = 0; i < tokenList.length; i++) {
+        if (tokenList[i].token === token) {
+            return match[i + 1];
+        }
+    }
+
+    return null;
+};
+
+export const extractStringBetween = (text, a, b) => {
+    const indexA = text.indexOf(a);
+    const indexB = text.indexOf(b);
+    return text.substring(indexA + a.length, indexB);
+};
+
+export const extractStringAfter = (text, a) => {
+    const indexA = text.indexOf(a);
+    return text.substring(indexA + a.length);
+};
+
+export const resize = (array, newSize, defaultValue = undefined) => {
+    // Crear una copia del arreglo para devolver
+    const result = [...array];
+    // Copiar el tamaño original
+    const oldSize = array.length;
+    // Redimensionar el arreglo
+    result.length = newSize;
+    // En caso de que el arreglo sea más grande que el original,
+    // rellenar los espacios nuevos con "defaultValue"
+    if (newSize > oldSize) {
+        result.fill(defaultValue, oldSize);
+    }
+
+    return result;
+};
+
+function getWindowDimensions() {
+    const { innerWidth: width, innerHeight: height } = window;
+    return {
+        width,
+        height
+    };
+}
+
+export default function useWindowDimensions() {
+    const [windowDimensions, setWindowDimensions] = useState(
+        getWindowDimensions()
+    );
+
+    useEffect(() => {
+        function handleResize() {
+            setWindowDimensions(getWindowDimensions());
+        }
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    return windowDimensions;
+}

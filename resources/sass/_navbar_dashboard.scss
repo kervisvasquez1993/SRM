@@ -14,9 +14,19 @@
 }
 
 @media (min-width: $sidebar-break-point) {
-    .navbar-dashboard {
+    // .navbar-dashboard {
+    //     left: $sidebar-ancho;
+    //     width: calc(100% - #{$sidebar-ancho});
+    // }
+
+    .menu-wrapper .navbar-dashboard {
+        left: 0;
+        width: 100%;
+    }
+
+    .menu-wrapper.mostrar .navbar-dashboard {
         left: $sidebar-ancho;
-        width: calc(100% - #{$sidebar-ancho});
+        width: calc(100vw - #{$sidebar-ancho});
     }
 }
 
@@ -67,6 +77,8 @@
 
 .navbar-inicio {
     flex-grow: 1;
+    display: flex;
+    align-items: center;
 }
 
 #botonSidebar {
@@ -108,10 +120,6 @@
 @media (min-width: $sidebar-break-point) {
     .cerrar-sesion-dashboard {
         display: inherit !important;
-    }
-
-    #botonSidebar {
-        display: none;
     }
 
     .navigation-buttons {

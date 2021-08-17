@@ -92,23 +92,9 @@ const ProviderPurchase = () => {
             </Helmet>
 
             <div className="d-flex flex-column align-items-center">
-                <h2 className="h2 pb-4">Archivos</h2>
-
-                <GenericFileList
-                    id="negotiation"
-                    getUrl={`${apiURL}/negociacion/${negotiation.id}/file`}
-                    uploadUrl={`${apiURL}/negociacion/${negotiation.id}/file`}
-                    deleteUrl={`${apiURL}/file`}
-                    hideDropzone={!isMine}
-                    allowEditing={isMine}
-                    hideTitle={true}
-                />
-
-                <hr className="my-2 w-100" />
-
                 <h2 className="h2 py-4">Proceso</h2>
 
-                <div className="w-100">
+                <div className="w-100 mb-5">
                     <Tabs defaultTab={defaultTab} className="flex-grow-1">
                         <TabsRow>
                             <Tab name="0">
@@ -198,6 +184,18 @@ const ProviderPurchase = () => {
                         </TabContent>
                     </Tabs>
                 </div>
+
+                <h2 className="h2 pb-4">Archivos</h2>
+
+                <GenericFileList
+                    id="negotiation"
+                    getUrl={`${apiURL}/negociacion/${negotiation.id}/file`}
+                    uploadUrl={`${apiURL}/negociacion/${negotiation.id}/file`}
+                    deleteUrl={`${apiURL}/file`}
+                    hideDropzone={!isMine}
+                    allowEditing={isMine}
+                    hideTitle={true}
+                />
             </div>
         </React.Fragment>
     );

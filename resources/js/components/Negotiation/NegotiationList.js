@@ -435,19 +435,30 @@
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { getNegotiations } from "../../store/actions/negotiationActions";
 import { getUsers } from "../../store/actions/userActions";
 import GenericFilter from "../Filters/GenericFilter";
 import NegotiationCard from "./NegotiationCard";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import { Helmet } from "react-helmet-async";
-import { roundMoneyAmount } from "../../utils";
 
 import { GoGitCompare } from "react-icons/go";
 import { TiCancel } from "react-icons/ti";
 import { BsCardList } from "react-icons/bs";
 import ProductsResume from "../Widgets/ProductsResume";
+
+const isNegotiationInProgress = negotiation => {
+    return !negotiation.seleccionado;
+};
+
+const isNegotiationSelected = negotiation => {
+    return negotiation.seleccionado && !isNegotiationCompleted(negotiation);
+};
+
+const isNegotiationCompleted = negotiation => {
+    return negotiation.iniciar_produccion && negotiation.iniciar_arte;
+};
 
 const NegotiationList = () => {
     const dispatch = useDispatch();
@@ -459,11 +470,17 @@ const NegotiationList = () => {
     const isLoadingList = useSelector(state => state.negotiation.isLoadingList);
     const [filteredNegotiations, setFilteredNegotiations] = useState([]);
 
-    const [compare, setCompare] = useState(false);
-    const [selectedNegotiations, setSelectedNegotiations] = useState([]);
-    const [results, setResults] = useState([]);
+    // const [compare, setCompare] = useState(false);
+    // const [selectedNegotiations, setSelectedNegotiations] = useState([]);
+    // const [results, setResults] = useState([]);
 
-    if (!(user.rol == "coordinador" || user.rol == "observador")) {
+    if (
+        !(
+            user.rol == "coordinador" ||
+            user.rol == "observador" ||
+            user.rol == "comprador"
+        )
+    ) {
         return <Redirect to="/home" />;
     }
 
@@ -472,35 +489,48 @@ const NegotiationList = () => {
         dispatch(getUsers());
     }, []);
 
-    const toggleCheckbox = id => {
-        const newSelected = [...selectedNegotiations];
+    // const toggleCheckbox = id => {
+    //     const newSelected = [...selectedNegotiations];
 
-        if (newSelected.includes(id)) {
-            newSelected.splice(selectedNegotiations.indexOf(id), 1);
-        } else {
-            newSelected.push(id);
-        }
-        setSelectedNegotiations(newSelected);
-    };
+    //     if (newSelected.includes(id)) {
+    //         newSelected.splice(selectedNegotiations.indexOf(id), 1);
+    //     } else {
+    //         newSelected.push(id);
+    //     }
+    //     setSelectedNegotiations(newSelected);
+    // };
 
-    const handleCompare = () => {
-        const value = !compare;
+    // const handleCompare = () => {
+    //     const value = !compare;
 
-        if (!value) {
-            setResults([]);
-            setSelectedNegotiations([]);
-        }
+    //     if (!value) {
+    //         // setResults([]);
+    //         setSelectedNegotiations([]);
+    //     }
 
-        setCompare(value);
-    };
+    //     setCompare(value);
+    // };
 
-    const handleShowResults = () => {
-        setResults(
-            selectedNegotiations.map(id =>
-                negotiations.find(item => item.id == id)
-            )
-        );
-    };
+    const history = useHistory();
+
+    // const handleShowResults = () => {
+    //     // @ts-ignore
+    //     // const params = new URLSearchParams({
+    //     //     negotiations: selectedNegotiations
+    //     // });
+
+    //     let params = "";
+    //     selectedNegotiations.forEach(param => {
+    //         params += `id=${param}&`;
+    //     });
+
+    //     history.push(`/negotiations/comparator?${params.toString()}`);
+    //     // setResults(
+    //     //     selectedNegotiations.map(id =>
+    //     //         negotiations.find(item => item.id == id)
+    //     //     )
+    //     // );
+    // };
 
     const filterConfig = [
         {
@@ -514,21 +544,33 @@ const NegotiationList = () => {
                     filter: (item, filters) =>
                         !(
                             filters["status"]["processing"] === false &&
-                            !item.seleccionado
+                            isNegotiationInProgress(item)
                         ),
-                    filterPopulator: item => !item.seleccionado
+                    filterPopulator: item => isNegotiationInProgress(item)
+                },
+                {
+                    id: "selected",
+                    label: "Seleccionadas",
+                    defaultValue: true,
+
+                    filter: (item, filters) =>
+                        !(
+                            filters["status"]["selected"] === false &&
+                            isNegotiationSelected(item)
+                        ),
+                    filterPopulator: item => isNegotiationSelected(item)
                 },
                 {
                     id: "completed",
-                    label: "Seleccionadas",
+                    label: "Completadas",
                     defaultValue: false,
 
                     filter: (item, filters) =>
                         !(
                             filters["status"]["completed"] === false &&
-                            item.seleccionado
+                            isNegotiationCompleted(item)
                         ),
-                    filterPopulator: item => item.seleccionado
+                    filterPopulator: item => isNegotiationCompleted(item)
                 }
             ]
         },
@@ -580,31 +622,51 @@ const NegotiationList = () => {
         }
     ];
 
+    const localNegotiationCard = item => (
+        <NegotiationCard key={item.id} negotiation={item} />
+    );
+
     const populatorConfig = [
         {
-            header: "Negociaciones en proceso de comparación",
-            filterPopulator: item => !item.seleccionado,
+            header: "En proceso de comparación",
+            filterPopulator: item => isNegotiationInProgress(item),
             populator: item => {
-                return (
-                    <NegotiationCard
-                        key={item.id}
-                        negotiation={item}
-                        {...{ toggleCheckbox, selectedNegotiations, compare }}
-                    />
-                );
+                return localNegotiationCard(item);
+                // return (
+                //     <NegotiationCard
+                //         key={item.id}
+                //         negotiation={item}
+                //         {...{ toggleCheckbox, selectedNegotiations, compare }}
+                //     />
+                // );
             }
         },
         {
-            header: "Negociaciones seleccionadas",
-            filterPopulator: item => item.seleccionado,
+            header: "Seleccionadas",
+            filterPopulator: item => isNegotiationSelected(item),
             populator: item => {
-                return (
-                    <NegotiationCard
-                        key={item.id}
-                        negotiation={item}
-                        {...{ toggleCheckbox, selectedNegotiations, compare }}
-                    />
-                );
+                return localNegotiationCard(item);
+                // return (
+                //     <NegotiationCard
+                //         key={item.id}
+                //         negotiation={item}
+                //         {...{ toggleCheckbox, selectedNegotiations, compare }}
+                //     />
+                // );
+            }
+        },
+        {
+            header: "Completadas",
+            filterPopulator: item => isNegotiationCompleted(item),
+            populator: item => {
+                return localNegotiationCard(item);
+                // return (
+                //     <NegotiationCard
+                //         key={item.id}
+                //         negotiation={item}
+                //         {...{ toggleCheckbox, selectedNegotiations, compare }}
+                //     />
+                // );
             }
         }
     ];
@@ -639,84 +701,9 @@ const NegotiationList = () => {
                             useCard={true}
                         />
 
-                        {filteredNegotiations.length > 1 && (
+                        {/* {filteredNegotiations.length > 1 && (
                             <div className="mb-5">
                                 <h2 className="mt-5 h3">Comparación:</h2>
-
-                                {results.length > 0 && (
-                                    <div className="table-responsive">
-                                        <table className="table table-sm table-hover table-bordered fade-in">
-                                            <thead className="thead-dark">
-                                                <tr>
-                                                    <th scope="col">Empresa</th>
-                                                    <th scope="col">
-                                                        Total CBM
-                                                    </th>
-                                                    <th scope="col">
-                                                        Total Peso Neto (kg)
-                                                    </th>
-                                                    <th scope="col">
-                                                        Total Peso Bruto (kg)
-                                                    </th>
-                                                    <th scope="col">
-                                                        Total CTN
-                                                    </th>
-                                                    <th scope="col">
-                                                        Total a Pagar
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {results.length > 0 &&
-                                                    results.map(item => {
-                                                        const {
-                                                            proveedor: {
-                                                                nombre
-                                                            },
-                                                            total_cbm,
-                                                            total_n_w,
-                                                            total_g_w,
-                                                            total_ctn,
-                                                            compras_total
-                                                        } = item;
-
-                                                        return (
-                                                            <tr key={item.id}>
-                                                                <th scope="row">
-                                                                    {nombre}
-                                                                </th>
-                                                                <td>
-                                                                    {roundMoneyAmount(
-                                                                        total_cbm
-                                                                    )}
-                                                                </td>
-                                                                <td>
-                                                                    {roundMoneyAmount(
-                                                                        total_n_w
-                                                                    )}
-                                                                </td>
-                                                                <td>
-                                                                    {roundMoneyAmount(
-                                                                        total_g_w
-                                                                    )}
-                                                                </td>
-                                                                <td>
-                                                                    {roundMoneyAmount(
-                                                                        total_ctn
-                                                                    )}
-                                                                </td>
-                                                                <td>
-                                                                    {roundMoneyAmount(
-                                                                        compras_total
-                                                                    )}
-                                                                </td>
-                                                            </tr>
-                                                        );
-                                                    })}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                )}
 
                                 <button
                                     className="btn btn-primary"
@@ -725,7 +712,7 @@ const NegotiationList = () => {
                                     {compare ? (
                                         <React.Fragment>
                                             <TiCancel className="icon-normal mr-2" />
-                                            Dejar de Comparar
+                                            Cancelar
                                         </React.Fragment>
                                     ) : (
                                         <React.Fragment>
@@ -744,11 +731,11 @@ const NegotiationList = () => {
                                         onClick={handleShowResults}
                                     >
                                         <BsCardList className="icon-normal mr-2" />
-                                        Mostrar Resultados
+                                        Aceptar
                                     </button>
                                 )}
                             </div>
-                        )}
+                        )} */}
                     </React.Fragment>
                 )}
             </GenericFilter>
