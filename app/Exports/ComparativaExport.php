@@ -167,8 +167,7 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                 }
 
                 $filaIndice++;
-
-                $comparaciones = json_decode($tarea->comparaciones);
+                $comparaciones = $tarea->comparaciones;
 
                 foreach ($comparaciones as $comparacionIndice => $comparacion) {
                     $columna_inicio = 1;
