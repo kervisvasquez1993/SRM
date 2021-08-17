@@ -23,6 +23,7 @@ class CreateProductosTable extends Migration
             $table->string('sub_brand_customer')->nullable();
             $table->string('product_name_customer')->nullable();
             $table->string('description')->nullable();
+            $table->string('imagen')->nullable();
             $table->double('shelf_life')->nullable();
             $table->double('total_pcs')->nullable();
             $table->double('unit_price')->nullable();
@@ -57,7 +58,7 @@ class CreateProductosTable extends Migration
             $table->string('codigo_de_barras_outer')->nullable();
             $table->string('codigo_interno_asignado')->nullable();
             $table->string('descripcion_asignada_sistema')->nullable();
-            $table->string('imagen')->nullable();
+            
             // $table->softDeletes();
             $table->timestamps();
         });
