@@ -153,15 +153,12 @@ class ProductoController extends ApiController
                     } else {
                         try {
 
-                            $total_ctn = $row[9] / $row[14];
+                            $total_ctn = $row[10] / $row[15];
                         } catch (\Throwable$th) {
                             $total_ctn = 0;
                         }
 
                         $product = [
-                            $total_cbm = $row[18] * $total_ctn,
-                            $total_v_w = $total_ctn * $row[19],
-                            $total_g_w = $total_ctn * $row[20],
                             'pivot_tarea_proveeder_id' => $pivot_tarea_proveeder_id->id,
                             'hs_code' => $row[1],
                             'product_code_supplier' => $row[2],
@@ -170,30 +167,30 @@ class ProductoController extends ApiController
                             'sub_brand_customer' => $row[5],
                             'product_name_customer' => $row[6],
                             'description' => $row[7],
-                            'shelf_life' => $row[8],
-                            'total_pcs' => $row[9],
-                            'unit_price' => $row[10],
-                            'total_usd' => $row[11],
-                            'pcs_unit_packing' => $row[12],
-                            'pcs_inner_box_paking' => $row[13],
-                            'pcs_ctn_paking' => $row[14],
-                            'ctn_packing_size_l' => $row[15],
-                            'ctn_packing_size_w' => $row[16],
-                            'ctn_packing_size_h' => $row[17],
-                            'cbm' => $row[18],
-                            'n_w_ctn' => $row[19],
-                            'g_w_ctn' => $row[20],
+                            'shelf_life' => $row[9],
+                            'total_pcs' => $row[10],
+                            'unit_price' => $row[11],
+                            'total_usd' => $row[12],
+                            'pcs_unit_packing' => $row[13],
+                            'pcs_inner_box_paking' => $row[14],
+                            'pcs_ctn_paking' => $row[15],
+                            'ctn_packing_size_l' => $row[16],
+                            'ctn_packing_size_w' => $row[17],
+                            'ctn_packing_size_h' => $row[18],
+                            'cbm' => $row[19],
+                            'n_w_ctn' => $row[20],
+                            'g_w_ctn' => $row[21],
                             'total_ctn' => $total_ctn,
-                            'corregido_total_pcs' => $row[22],
-                            'total_cbm' => $total_cbm,
-                            'total_n_w' => $total_v_w,
-                            'total_g_w' => $total_g_w,
-                            'linea' => $row[26],
-                            'categoria' => $row[27],
-                            'sub_categoria' => $row[28],
-                            'permiso_sanitario' => $row[29],
-                            'cpe' => $row[30],
-                            'num_referencia_empaque' => $row[31],
+                            'corregido_total_pcs' => $row[23],
+                            'total_cbm' => $row[19] * $total_ctn,
+                            'total_n_w' => $total_ctn * $row[20],
+                            'total_g_w' => $total_ctn * $row[21],
+                            'linea' => $row[27],
+                            'categoria' => $row[28],
+                            'sub_categoria' => $row[29],
+                            'permiso_sanitario' => $row[30],
+                            'cpe' => $row[31],
+                            'num_referencia_empaque' => $row[32],
                         ];
 
                         $validator = Validator::make($product, [

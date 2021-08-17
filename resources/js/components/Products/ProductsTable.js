@@ -9,7 +9,7 @@ import {
     getProductsFromNegotiation
 } from "../../store/actions/productActions";
 import { getSum, roundMoneyAmount } from "../../utils";
-import { apiURL } from "../App";
+import { amazonS3Url, apiURL } from "../App";
 import EmptyList from "../Navigation/EmptyList";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import ProductsResume from "../Widgets/ProductsResume";
@@ -142,7 +142,7 @@ const ProductsTable = ({
                     <table className="table table-sm table-hover table-bordered fade-in py-0 text-center">
                         <thead className="thead-dark">
                             <tr>
-                                <th scope="col" colSpan={3}></th>
+                                <th scope="col" colSpan={2}></th>
 
                                 <th scope="col" colSpan={2}>
                                     SUPPLIER
@@ -152,7 +152,7 @@ const ProductsTable = ({
                                     CUSTOMER
                                 </th>
 
-                                <th scope="col"></th>
+                                <th scope="col" colSpan={3}></th>
 
                                 {buyerColumns && (
                                     <React.Fragment>
@@ -164,8 +164,10 @@ const ProductsTable = ({
                                     </React.Fragment>
                                 )}
 
+                                <th scope="col" colSpan={5}></th>
+
                                 {logisticsColumns && (
-                                    <th scope="col" colSpan={10}></th>
+                                    <th scope="col" colSpan={5}></th>
                                 )}
 
                                 {(allowEditing || allowDeletion) && (
@@ -198,6 +200,9 @@ const ProductsTable = ({
                                 </th>
                                 <th scope="col" rowSpan={2}>
                                     DESCRIPTION
+                                </th>
+                                <th scope="col" rowSpan={2}>
+                                    Imagen
                                 </th>
                                 <th scope="col" rowSpan={2}>
                                     SHELF LIFE (Month*)
@@ -245,23 +250,24 @@ const ProductsTable = ({
                                     </React.Fragment>
                                 )}
 
+                                <th scope="col" rowSpan={2}>
+                                    LINEA
+                                </th>
+                                <th scope="col" rowSpan={2}>
+                                    CATEGORIA
+                                </th>
+                                <th scope="col" rowSpan={2}>
+                                    SUB-CATEGORIA
+                                </th>
+                                <th scope="col" rowSpan={2}>
+                                    PERMISO SANITARIO
+                                </th>
+                                <th scope="col" rowSpan={2}>
+                                    CPE
+                                </th>
+
                                 {logisticsColumns === true && (
                                     <React.Fragment>
-                                        <th scope="col" rowSpan={2}>
-                                            LINEA
-                                        </th>
-                                        <th scope="col" rowSpan={2}>
-                                            CATEGORIA
-                                        </th>
-                                        <th scope="col" rowSpan={2}>
-                                            SUB-CATEGORIA
-                                        </th>
-                                        <th scope="col" rowSpan={2}>
-                                            PERMISO SANITARIO
-                                        </th>
-                                        <th scope="col" rowSpan={2}>
-                                            CPE
-                                        </th>
                                         <th scope="col" rowSpan={2}>
                                             NUM REFERENCIA EMPAQUE
                                         </th>
@@ -306,6 +312,17 @@ const ProductsTable = ({
                                         <td>{product.sub_brand_customer}</td>
                                         <td>{product.product_name_customer}</td>
                                         <td>{product.description}</td>
+                                        <td>
+                                            {product.imagen && (
+                                                <img
+                                                    style={{ width: "100px" }}
+                                                    src={
+                                                        amazonS3Url +
+                                                        product.imagen
+                                                    }
+                                                />
+                                            )}
+                                        </td>
                                         <td>{product.shelf_life}</td>
                                         {buyerColumns && (
                                             <React.Fragment>
@@ -365,15 +382,14 @@ const ProductsTable = ({
                                             </React.Fragment>
                                         )}
 
+                                        <td>{product.linea}</td>
+                                        <td>{product.categoria}</td>
+                                        <td>{product.sub_categoria}</td>
+                                        <td>{product.permiso_sanitario}</td>
+                                        <td>{product.cpe}</td>
+
                                         {logisticsColumns && (
                                             <React.Fragment>
-                                                <td>{product.linea}</td>
-                                                <td>{product.categoria}</td>
-                                                <td>{product.sub_categoria}</td>
-                                                <td>
-                                                    {product.permiso_sanitario}
-                                                </td>
-                                                <td>{product.cpe}</td>
                                                 <td>
                                                     {
                                                         product.num_referencia_empaque

@@ -16,7 +16,6 @@ const ProductFormModal = ({
     pivotId = null,
     firstColumns = true,
     buyerColumns = true,
-
     logisticsColumns = false
 }) => {
     const dispatch = useDispatch();
@@ -137,11 +136,7 @@ const ProductFormModal = ({
                                 label="TOTAL G.W. Kgs"
                             />
                         </div>
-                    </React.Fragment>
-                )}
 
-                {logisticsColumns && (
-                    <React.Fragment>
                         <div className="form-row">
                             <InputText id="linea" label="LINEA" />
                         </div>
@@ -159,6 +154,11 @@ const ProductFormModal = ({
                             />
                             <InputText id="cpe" label="CPE" />
                         </div>
+                    </React.Fragment>
+                )}
+
+                {logisticsColumns && (
+                    <React.Fragment>
                         <div className="form-row">
                             <InputText
                                 id="num_referencia_empaque"

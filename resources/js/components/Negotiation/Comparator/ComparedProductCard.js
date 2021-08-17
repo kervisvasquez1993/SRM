@@ -3,6 +3,7 @@ import { Draggable } from "react-beautiful-dnd";
 import { RiFileUnknowFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCell } from "../../../store/actions/comparatorActions";
+import { amazonS3Url } from "../../App";
 
 const white = "ffffff";
 const green = "7dc472";
@@ -72,7 +73,7 @@ export default ({ data, index, comparisonIndex, rowIndex, colIndex }) => {
                                     {product.imagen && (
                                         <img
                                             style={{ width: "100%" }}
-                                            src={`https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/${product.imagen}`}
+                                            src={amazonS3Url + product.imagen}
                                         />
                                     )}
                                 </td>

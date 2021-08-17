@@ -77,6 +77,7 @@ axios.interceptors.response.use(
 );
 
 export const apiURL = process.env.MIX_APP_API_URL || "/api";
+export const amazonS3Url = "https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/";
 
 export const sidebarBreakpoint = 1100;
 
