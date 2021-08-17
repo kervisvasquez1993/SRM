@@ -13,7 +13,11 @@ import {
 import SupplierFormModal from "./SupplierFormModal";
 import SupplierCardStatus from "./SupplierCardStatus";
 
-const SupplierCard = ({ provider, selectedProvider }) => {
+const SupplierCard = ({
+    provider,
+    selectedProvider = undefined,
+    haveNegotiation = true
+}) => {
     const dispatch = useDispatch();
     const user = useUser();
 
@@ -39,7 +43,7 @@ const SupplierCard = ({ provider, selectedProvider }) => {
         pivot
     } = provider;
 
-    const isMine = user.id == task.usuario.id;
+    const isMine = !haveNegotiation || (task && user.id == task.usuario.id);
 
     const handleEdit = e => {
         e.preventDefault();
@@ -71,123 +75,139 @@ const SupplierCard = ({ provider, selectedProvider }) => {
         ? redCard
         : normalCard;
 
-    return (
-        <Link to={`/negotiation/${pivot.id}`} style={{ cursor: "pointer" }}>
-            <div
-                className={`card fade-in ${text} ${background} ${focusClassName}`}
-                ref={container}
-            >
-                <div className="card-header pb-0">
-                    <div className="d-flex justify-content-between flex-wrap">
-                        <h3 className="card-title">{nombre}</h3>
-                        {!selectedProvider && (
-                            <p className="card-text text-muted">
-                                Productos cargados :{" "}
-                                {provider.pivot.cantidad_productos}
-                            </p>
-                        )}
-                    </div>
+    const content = (
+        <div
+            className={`card supplier-card fade-in ${text} ${background} ${focusClassName}`}
+            ref={container}
+        >
+            <div className="card-header pb-0">
+                <div className="d-flex justify-content-between flex-wrap">
+                    <h3 className="card-title">{nombre}</h3>
 
-                    <hr className="mb-0" />
+                    {provider.pivot && !selectedProvider && (
+                        <p className="card-text text-muted">
+                            Productos cargados :{" "}
+                            {provider.pivot.cantidad_productos}
+                        </p>
+                    )}
                 </div>
 
-                <div className="card-body">
-                    <div
-                        className="card-text rich-text"
-                        dangerouslySetInnerHTML={{ __html: descripcion }}
-                    ></div>
+                <hr className="mb-0" />
+            </div>
 
-                    {(pais || ciudad || distrito) && (
-                        <React.Fragment>
-                            <h3 className="card-title mb-2">Ubicación</h3>
+            <div className="card-body">
+                <div
+                    className="card-text rich-text"
+                    dangerouslySetInnerHTML={{ __html: descripcion }}
+                ></div>
 
-                            {pais && (
-                                <p className="card-text text-capitalize">
-                                    <strong>País : </strong>
-                                    {pais.toLowerCase()}
-                                </p>
-                            )}
+                {(pais || ciudad || distrito) && (
+                    <React.Fragment>
+                        <h3 className="card-title mb-2">Ubicación</h3>
 
-                            {ciudad && (
-                                <p className="card-text">
-                                    <strong>Ciudad : </strong>
-                                    {ciudad}
-                                </p>
-                            )}
+                        {pais && (
+                            <p className="card-text text-capitalize">
+                                <strong>País : </strong>
+                                {pais.toLowerCase()}
+                            </p>
+                        )}
 
-                            {distrito && (
-                                <p className="card-text">
-                                    <strong>Distrito : </strong>
-                                    {distrito}
-                                </p>
-                            )}
-                        </React.Fragment>
-                    )}
+                        {ciudad && (
+                            <p className="card-text">
+                                <strong>Ciudad : </strong>
+                                {ciudad}
+                            </p>
+                        )}
 
-                    {(address || telefono || contacto || email) && (
-                        <React.Fragment>
-                            <h3 className="card-title mb-2">Contacto</h3>
+                        {distrito && (
+                            <p className="card-text">
+                                <strong>Distrito : </strong>
+                                {distrito}
+                            </p>
+                        )}
+                    </React.Fragment>
+                )}
 
-                            {address && (
-                                <p className="card-text">
-                                    <strong>Direccion : </strong>
-                                    {address}
-                                </p>
-                            )}
+                {(address || telefono || contacto || email) && (
+                    <React.Fragment>
+                        <h3 className="card-title mb-2">Contacto</h3>
 
-                            {telefono && (
-                                <p className="card-text">
-                                    <strong>Teléfono : </strong>
-                                    {telefono}
-                                </p>
-                            )}
-                            {contacto && (
-                                <p className="card-text">
-                                    <strong>Contacto : </strong>
-                                    {contacto}
-                                </p>
-                            )}
+                        {address && (
+                            <p className="card-text">
+                                <strong>Direccion : </strong>
+                                {address}
+                            </p>
+                        )}
 
-                            {email && (
-                                <p className="card-text">
-                                    <strong>Email : </strong>
-                                    {email}
-                                </p>
-                            )}
+                        {telefono && (
+                            <p className="card-text">
+                                <strong>Teléfono : </strong>
+                                {telefono}
+                            </p>
+                        )}
+                        {contacto && (
+                            <p className="card-text">
+                                <strong>Contacto : </strong>
+                                {contacto}
+                            </p>
+                        )}
 
-                            {contacto && (
-                                <p className="card-text">
-                                    <strong>Contacto : </strong>
-                                    {contacto}
-                                </p>
-                            )}
-                        </React.Fragment>
-                    )}
+                        {email && (
+                            <p className="card-text">
+                                <strong>Email : </strong>
+                                {email}
+                            </p>
+                        )}
 
+                        {contacto && (
+                            <p className="card-text">
+                                <strong>Contacto : </strong>
+                                {contacto}
+                            </p>
+                        )}
+                    </React.Fragment>
+                )}
+
+                {haveNegotiation && (
                     <SupplierCardStatus
                         provider={provider}
                         selectedProvider={selectedProvider}
                     />
-                </div>
-
-                {isMine && (
-                    <div className="card-footer">
-                        <div className="d-flex justify-content-end w-100">
-                            <div className="d-flex">
-                                <button
-                                    className="btn btn-primary btn-round mr-2"
-                                    onClick={handleEdit}
-                                >
-                                    <span className="material-icons">edit</span>
-                                    Editar
-                                </button>
-                            </div>
-                        </div>
-                        <hr />
-                    </div>
                 )}
             </div>
-        </Link>
+
+            {isMine && (
+                <div className="card-footer">
+                    <div className="d-flex justify-content-end w-100">
+                        <div className="d-flex">
+                            <button
+                                className="btn btn-primary btn-round mr-2"
+                                onClick={handleEdit}
+                            >
+                                <span className="material-icons">edit</span>
+                                Editar
+                            </button>
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+            )}
+        </div>
+    );
+
+    return (
+        <React.Fragment>
+            {haveNegotiation ? (
+                <Link
+                    to={`/negotiation/${pivot.id}`}
+                    style={{ cursor: "pointer" }}
+                >
+                    {content}
+                </Link>
+            ) : (
+                content
+            )}
+        </React.Fragment>
     );
 };
 

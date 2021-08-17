@@ -2,9 +2,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { apiURL } from "../../components/App";
 import { focusOnElementWithId } from "./focusActions";
+import { genericFormSubmit } from "./genericFormActions";
 import { closeModal } from "./modalActions";
 
-export function getProviders() {
+export function getSuppliers() {
     return async (dispatch, getState) => {
         dispatch({ type: "GET_PROVIDERS_REQUEST" });
 
@@ -104,6 +105,25 @@ export function editProviderFromTask(taskId, provider) {
     };
 }
 
+export function updateSupplier(supplier) {
+    return dispatch => {
+        return genericFormSubmit(dispatch, () =>
+            axios.put(
+                `${apiURL}/proveedor/${supplier.id}`,
+                supplier
+            )
+        ).then(response => {
+            console.log(response);
+            dispatch({
+                type: "EDIT_PROVIDER_SUCCESS",
+                payload: response
+            });
+
+            dispatch(closeModal());
+        });
+    };
+}
+
 // export function startNegotiation(taskId, providerId) {
 //     return async (dispatch, getState) => {
 //         dispatch({ type: "START_NEGOTIATION_REQUEST" });
@@ -129,4 +149,3 @@ export function editProviderFromTask(taskId, provider) {
 //         }
 //     };
 // }
-

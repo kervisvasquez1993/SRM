@@ -99,7 +99,8 @@ $highlight-text-color: white;
         color: $text-color;
     }
 
-    & .material-icons {
+    & .material-icons,
+    & svg {
         margin-right: 1rem;
     }
 }

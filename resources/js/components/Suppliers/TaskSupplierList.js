@@ -15,7 +15,7 @@ const TaskSupplierList = () => {
     const dispatch = useDispatch();
 
     // @ts-ignore
-    const providers = useSelector(state => state.provider.providers);
+    const suppliers = useSelector(state => state.provider.list);
     // @ts-ignore
     const isLoading = useSelector(state => state.provider.isLoadingList);
     // @ts-ignore
@@ -25,7 +25,7 @@ const TaskSupplierList = () => {
 
     const [orderedProviders, setOrderedProviders] = useState([]);
 
-    const selectedProvider = providers.find(provider =>
+    const selectedProvider = suppliers.find(provider =>
         isNegotiationSelected(provider.pivot)
     );
 
@@ -34,7 +34,7 @@ const TaskSupplierList = () => {
     }, []);
 
     useEffect(() => {
-        const ordered = providers.sort((x, y) => {
+        const ordered = suppliers.sort((x, y) => {
             const x1 = x.pivot.seleccionado;
             const y1 = y.pivot.seleccionado;
 
@@ -48,7 +48,7 @@ const TaskSupplierList = () => {
         });
 
         setOrderedProviders(ordered);
-    }, [providers]);
+    }, [suppliers]);
 
     const handleCreateProvider = () => {
         dispatch(
@@ -79,7 +79,7 @@ const TaskSupplierList = () => {
                     </button>
                 )}
 
-                {providers.length > 1 && (
+                {suppliers.length > 1 && (
                     <Link
                         to={`/tasks/${task.id}/comparator`}
                         className="btn btn-lg btn-round btn-info"
@@ -92,17 +92,13 @@ const TaskSupplierList = () => {
 
             {orderedProviders.length > 0 ? (
                 <div className="d-flex flex-column-reverse">
-                    {orderedProviders.map(provider => {
-                        return (
-                            <SupplierCard
-                                key={provider.id}
-                                // @ts-ignore
-                                taskId={task.id}
-                                provider={provider}
-                                selectedProvider={selectedProvider}
-                            />
-                        );
-                    })}
+                    {orderedProviders.map(provider => (
+                        <SupplierCard
+                            key={provider.id}
+                            provider={provider}
+                            selectedProvider={selectedProvider}
+                        />
+                    ))}
                 </div>
             ) : (
                 <EmptyList />

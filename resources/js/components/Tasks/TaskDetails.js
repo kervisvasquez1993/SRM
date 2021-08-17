@@ -36,10 +36,6 @@ const TaskDetails = () => {
         return <Redirect to="/home" />;
     }
 
-    const handleGoBack = () => {
-        history.goBack();
-    };
-
     useEffect(() => {
         document.querySelector("#wrapper").scrollTo(0, 0);
         dispatch(getTask(id));
@@ -74,21 +70,6 @@ const TaskDetails = () => {
             <Helmet>
                 <title>{`${task.nombre} - ${process.env.MIX_APP_NAME}`}</title>
             </Helmet>
-
-            <div className="container-fluid d-flex justify-content-between mb-4">
-                <div>
-                    <Link
-                        to="/home"
-                        className="btn btn-outline-primary btn-round"
-                        onClick={handleGoBack}
-                    >
-                        <span className="material-icons mr-2">
-                            keyboard_backspace
-                        </span>
-                        Atras
-                    </Link>
-                </div>
-            </div>
 
             <div className="mr-auto text-center py-4">
                 <h1 className="h2">Tarea : {task.nombre}</h1>

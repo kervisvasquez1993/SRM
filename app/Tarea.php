@@ -22,6 +22,10 @@ class Tarea extends Model
         'comparaciones' => '[]'
     ];
 
+    protected $casts = [
+        'comparaciones' => 'object'
+    ];
+
     protected $appends = ['cantidad_negociaciones'];
 
     public function getCantidadNegociacionesAttribute()

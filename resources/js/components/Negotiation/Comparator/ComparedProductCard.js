@@ -38,9 +38,6 @@ export default ({ data, index, comparisonIndex, rowIndex, colIndex }) => {
             updateCell(newData, comparisonIndex, rowIndex, colIndex, index)
         );
     };
-    if (data.id === 31) {
-        console.log("used", data.backgroundColor);
-    }
 
     return (
         <Draggable draggableId={`${data.id}`} index={index}>

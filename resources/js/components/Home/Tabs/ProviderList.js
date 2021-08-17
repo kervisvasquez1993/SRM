@@ -12,12 +12,12 @@ const ProviderList = ({ taskId }) => {
     const dispatch = useDispatch();
 
     // @ts-ignore
-    const providers = useSelector(state => state.provider.providers);
+    const suppliers = useSelector(state => state.provider.list);
     // @ts-ignore
     const isLoading = useSelector(state => state.provider.isLoadingList);
 
     const [orderedProviders, setOrderedProviders] = useState([]);
-    const selectedProvider = providers.find(provider =>
+    const selectedProvider = suppliers.find(provider =>
         isNegotiationSelected(provider.pivot)
     );
 
@@ -32,7 +32,7 @@ const ProviderList = ({ taskId }) => {
     }, []);
 
     useEffect(() => {
-        let ordered = providers.sort((x, y) => {
+        let ordered = suppliers.sort((x, y) => {
             const x1 = x.pivot.seleccionado;
             const y1 = y.pivot.seleccionado;
 
@@ -52,7 +52,7 @@ const ProviderList = ({ taskId }) => {
         // }
 
         setOrderedProviders(ordered);
-    }, [providers]);
+    }, [suppliers]);
 
     if (isLoading) {
         return <LoadingScreen />;
