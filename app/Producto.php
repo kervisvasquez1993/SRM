@@ -25,7 +25,8 @@ class Producto extends Model
         'unit_price',
         'total_usd',
         'pcs_unit_packing',
-        'pcs_inner_box_paking',
+        'pcs_inner1_box_paking',
+        'pcs_inner2_box_paking',
         'pcs_ctn_paking',
         'ctn_packing_size_l',
         'ctn_packing_size_w',
@@ -44,11 +45,15 @@ class Producto extends Model
         'permiso_sanitario',
         'cpe',
         'num_referencia_empaque',
-        'codigo_de_barra_unit',
+        'u_m_unit',
         'codigo_de_barras_unit',
-        'codigo_de_barras_inner',
+        'u_m_inner_1',
+        'codigo_de_barras_inner_1',
+        'u_m_inner_2',
+        'codigo_barra_inner_2',
         'codigo_de_barras_outer',
         'codigo_interno_asignado',
+        'descripcion_asignada_sistema'
         
     ];
 

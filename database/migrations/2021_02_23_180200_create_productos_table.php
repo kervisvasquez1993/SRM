@@ -22,7 +22,7 @@ class CreateProductosTable extends Migration
             $table->string('brand_customer')->nullable();
             $table->string('sub_brand_customer')->nullable();
             $table->string('product_name_customer')->nullable();
-            $table->string ('description')->nullable();
+            $table->string('description')->nullable();
             $table->double('shelf_life')->nullable();
             $table->double('total_pcs')->nullable();
             $table->double('unit_price')->nullable();
