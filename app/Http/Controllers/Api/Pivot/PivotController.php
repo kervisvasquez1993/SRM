@@ -206,13 +206,6 @@ class PivotController extends ApiController
         return $this->showOneResource(new PivotTareaProveederResource($pivot_id));
     }
 
-
-
-
-
-
-
-
     public function artesCreate($id)
     {
         $artesCreate = Arte::where('pivot_tarea_proveeder_id', $id)->first();
@@ -243,20 +236,14 @@ class PivotController extends ApiController
         $this->sendNotifications($userAll, new GeneralNotification($body, $link, $type, $title));
     }
 
-
-
-
-
-
-
     public function produccionTransitoCreate($id)
     {
-        error_log('ejecutado1');
+        
         $producionTransito = ProduccionTransito::where('pivot_tarea_proveeder_id', $id)->first();
         if ($producionTransito) {
             return  $this->successMensaje('Ya se Inicializo la produccion con este Proveedor', 201);
         }
-        error_log('holaaa');
+        
         $produccionAprobar = new ProduccionTransito();
         $produccionAprobar->pivot_tarea_proveeder_id = $id;
         $produccionAprobar->save();
@@ -275,5 +262,23 @@ class PivotController extends ApiController
         /* Notification::send($userUni, new GeneralNotification($body, $link, $type)); */
         error_log('holaaa');
         $this->sendNotifications($userUni, new GeneralNotification($body, $link, $type, $title));
+    }
+
+
+    public function creacionOrdenCompra(Proveedor $proveedor)
+    {
+        $tarea = new Tarea();
+        $tarea->sender_id = auth()->user()->id;
+        $tarea->user_id = auth()->user()->id;
+        $tarea->save();
+        $pivot = new PivotTareaProveeder();
+        $pivot->tarea_id = $tarea->id;
+        $pivot->proveedor_id = $proveedor->id;
+        $pivot->productos_cargados = false;
+        $pivot->iniciar_arte = false;
+        $pivot->iniciar_produccion = false;
+        $pivot->orden_compra_flash = true;
+        $pivot->save();
+        return $this->showOneResource(new PivotTareaProveederResource($pivot));
     }
 }

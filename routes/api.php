@@ -54,6 +54,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/negociacion', 'Api\Pivot\PivotController@store');
     Route::get('/negociacion/{pivot_id}', 'Api\Pivot\PivotController@show');
     Route::put('/negociacion/{pivot_id}', 'Api\Pivot\PivotController@update');
+    Route::post('creacion_onden_compra/{proveedor}/proveedor', 'Api\Pivot\PivotController@creacionOrdenCompra');
 
     //INICIA ARTE y negociacion
 

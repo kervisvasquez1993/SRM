@@ -16,7 +16,8 @@ class ProduccionTransito extends Model
         'inicio_produccion',
         'fin_produccion',
         'pago_balance',
-        'transito_nacionalizacion',
+        'transito',
+        'nacionalizacion',
         'fin_produccion_transito',
         'salida_puero_origen',
 

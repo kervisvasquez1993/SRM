@@ -18,8 +18,9 @@ class CreateProduccionTransitosTable extends Migration
             $table->foreignId('pivot_tarea_proveeder_id')->references('id')->on('pivot_tarea_proveeders');
             $table->boolean('inicio_produccion')->default(false);
             $table->boolean('fin_produccion')->default(false);
-            $table->boolean('transito_nacionalizacion')->default(false);
             $table->boolean('salida_puero_origen')->default(false);
+            $table->boolean('transito')->default(false);
+            $table->boolean('nacionalizacion')->default(false);          
             $table->softDeletes();
             $table->timestamps();
         });

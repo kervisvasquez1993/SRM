@@ -51,15 +51,12 @@ class ProveedorController extends ApiController
     {
         // Obtener la tarea
         $tarea = Tarea::findOrFail($tarea_id);
-
         // Crear el validador
         $validator = Validator::make($request->all(), [
             'nombre' => 'required',
             'pais'   => 'required',
             'ciudad' =>  'required',
-            'distrito' =>  'required',
         ]);
-
         // Comprobar la validacion
         if ($validator->fails()) {
             return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
@@ -174,7 +171,6 @@ class ProveedorController extends ApiController
     public function iniciarNegociacion(Request $request, Tarea $tarea_id, Proveedor $proveedor_id)
     {
         // Obtener la tarea
-        
         $pivote = PivotTareaProveeder::where('tarea_id', $tarea_id->id)->where('proveedor_id', $proveedor_id->id)->first();
         // Iniciar negociacion
         $pivote->productos_cargados = 1;

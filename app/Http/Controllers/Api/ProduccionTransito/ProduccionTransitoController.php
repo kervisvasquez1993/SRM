@@ -54,16 +54,7 @@ class ProduccionTransitoController extends ApiController
             return $this->errorResponse('Debe agregar antes un pago anticipado  pago de balance', Response::HTTP_BAD_REQUEST);
         }
 
-        if (
-            $request->salida_puero_origen == 1
-            && $produccionTransito->pagos_anticipados == 0
-            && $produccionTransito->inicio_produccion == 0
-            && $produccionTransito->fin_produccion == 0
-            && $produccionTransito->pago_balance == 0
-            && $produccionTransito->transito_nacionalizacion == 0
-        ) {
-            return $this->errorResponse('Debe tener todos los servicios finalizado', Response::HTTP_BAD_REQUEST);
-        }
+      
 
         $produccionTransito->fill($request->all());
 
@@ -74,6 +65,8 @@ class ProduccionTransitoController extends ApiController
         $nombreTarea   = $produccionTransito->pivotTable->tarea->nombre;
         $user          = $user_all->push($coordinador, $comprador_asignado)->unique('id');
         $link = "/productions?id=$produccionTransito->id";
+
+
         if ($produccionTransito->isDirty('inicio_produccion') && $produccionTransito->inicio_produccion == 1) {
 
             $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea inicio producción.";
@@ -83,6 +76,8 @@ class ProduccionTransitoController extends ApiController
             $title = "Inicio de Produccion";
             $this->sendNotifications($user, new GeneralNotification($body, $link, $tipoNotify, $title));
         }
+
+        
         if ($produccionTransito->isDirty('fin_produccion') && $produccionTransito->fin_produccion == 1) {
 
             $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea finalizó producción.";
@@ -92,9 +87,18 @@ class ProduccionTransitoController extends ApiController
             $this->sendNotifications($user, new GeneralNotification($body, $link, $tipoNotify, $title));
         }
 
-        if ($produccionTransito->isDirty('transito_nacionalizacion') && $produccionTransito->transito_nacionalizacion == 1) {
+        if ($produccionTransito->isDirty('transito') && $produccionTransito->transito== 1) {
 
-            $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea finalizó la seccion de transito y nacionalizacion.";
+            $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea finalizó la el proceso de transito.";
+            $tipoNotify = "transito_nacionalizacion";
+            /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
+            $title = "Transito Nacionalizacion";
+            $this->sendNotifications($user, new GeneralNotification($body, $link, $tipoNotify, $title));
+        }
+
+        if ($produccionTransito->isDirty('nacionalizacion') && $produccionTransito->nacionalizacion == 1) {
+
+            $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea finalizó la proceso de nacionalizacion.";
             $tipoNotify = "transito_nacionalizacion";
             /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
             $title = "Transito Nacionalizacion";
@@ -103,16 +107,17 @@ class ProduccionTransitoController extends ApiController
 
 
         $produccionTransito->save();
-        if ($request->salida_puero_origen == 1) {
+
+        if ($request->salida_puero_origen == 1) 
+        {
             $almacen = User::where('rol', 'almacen')->get();
             $nuevo_user = $almacen->merge($user);
-            $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea salio del puerto de origen.";
+            $body = "La empresa $nombreEmpresa salio del puerto de origen.";
             $link = "/claims/?id=$produccionTransito->id";
             $tipoNotify = "salida_puerto_origen";
             /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
             $title = "Salida de Puero de Origen";
             $this->sendNotifications($nuevo_user, new GeneralNotification($body, $link, $tipoNotify, $title));
-
             /* crear Nuevo Reclamos y devoluciones */
             $this->reclamosDevolucion($produccionTransito->id);
         }

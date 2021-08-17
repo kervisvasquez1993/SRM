@@ -37,23 +37,30 @@ class ProductosExport implements WithEvents, WithPreCalculateFormulas
                 foreach ($productos as $producto) {
                     $rol = Auth::user()->rol;
                     $valores = [
-                        'B' => $producto->hs_code,
-                        'C' => $producto->product_code_supplier,
-                        'D' => $producto->product_name_supplier,
-                        'E' => $producto->brand_customer,
-                        'F' => $producto->sub_brand_customer,
-                        'G' => $producto->product_name_customer,
-                        'H' => $producto->description,
-                        'AB' => $producto->linea,
-                        'AC' => $producto->categoria,
-                        'AD' => $producto->sub_categoria,
-                        'AE' => $producto->permiso_sanitario,
-                        'AF' => $producto->cpe,
-                        'AG' => $producto->num_referencia_empaque,
-                        'AH' => $producto->codigo_de_barras_unit,
-                        'AI' => $producto->codigo_de_barras_inner,
-                        'AJ' => $producto->codigo_de_barras_outer,
-                        'AK' => $producto->codigo_interno_asignado,
+                        'B' =>  $producto->hs_code,
+                        'C' =>  $producto->product_code_supplier,
+                        'D' =>  $producto->product_name_supplier,
+                        'E' =>  $producto->brand_customer,
+                        'F' =>  $producto->sub_brand_customer,
+                        'G' =>  $producto->product_name_customer,
+                        'H' =>  $producto->description,
+                        'AC' => $producto->linea,
+                        'AD' => $producto->categoria,
+                        'AE' => $producto->sub_categoria,
+                        'AF' => $producto->permiso_sanitario,
+                        'AG' => $producto->cpe,
+                        'AH' => $producto->num_referencia_empaque,
+                        'AI' => $producto->u_m_unit,
+                        'AJ' => $producto->codigo_de_barras_unit,
+                        'AK' => $producto->u_m_inner_1,
+                        'AL' => $producto->codigo_de_barras_inner_1,
+                        'AM' => $producto->u_m_inner_2,
+                        'AN' => $producto->codigo_barra_inner_2,
+                        'AO' => $producto->u_m_outer,
+                        'AP' => $producto->codigo_de_barras_outer,
+                        'AQ' => $producto->codigo_interno_asignado,
+                        'AR' => $producto->descripcion_asignada_sistema,
+
                     ];
 
                     if ($rol != "logistica") {
@@ -63,20 +70,25 @@ class ProductosExport implements WithEvents, WithPreCalculateFormulas
                             'L' => $producto->unit_price,
                             'M' => $producto->total_usd,
                             'N' => $producto->pcs_unit_packing,
-                            'O' => $producto->pcs_inner_box_paking,
-                            'P' => $producto->pcs_ctn_paking,
-                            'Q' => $producto->ctn_packing_size_l,
-                            'R' => $producto->ctn_packing_size_w,
-                            'S' => $producto->ctn_packing_size_h,
-                            'T' => $producto->cbm,
-                            'U' => $producto->n_w_ctn,
-                            'V' => $producto->g_w_ctn,
+                            'O' => $producto->pcs_inner1_box_paking,
+                            'P' => $producto->pcs_inner2_box_paking,
+                            'Q' => $producto->pcs_ctn_paking,
+                            'R' => $producto->ctn_packing_size_l,
+                            'S' => $producto->ctn_packing_size_w,
+                            'T' => $producto->ctn_packing_size_h,
+                            'U' => $producto->cbm,
+                            'V' => $producto->n_w_ctn,
+                            'W' => $producto->g_w_ctn,
+                            'X' => $producto->total_ctn,
                             'X' => $producto->corregido_total_pcs,
-                            'AB' => $producto->linea,
-                            'AC' => $producto->categoria,
-                            'AD' => $producto->sub_categoria,
-                            'AE' => $producto->permiso_sanitario,
-                            'AF' => $producto->cpe,
+                            'X' => $producto->total_cbm,
+                            'X' => $producto->total_n_w,
+                            'X' => $producto->total_g_w,
+                          /*   '' => $producto->linea,
+                            '' => $producto->categoria,
+                            '' => $producto->sub_categoria,
+                            '' => $producto->permiso_sanitario,
+                            '' => $producto->cpe, */
                         ]);
                     }
 
@@ -86,11 +98,11 @@ class ProductosExport implements WithEvents, WithPreCalculateFormulas
                         $sheet->setCellValue("$letra$indice", $valor);
                     }
 
-                    $sheet->setCellValue('M' . $indice, "=K$indice*L$indice");
-                    $sheet->setCellValue('W' . $indice, "=IFERROR(K$indice/P$indice,0)");
-                    $sheet->setCellValue('Y' . $indice, "=T$indice*W$indice");
-                    $sheet->setCellValue('Z' . $indice, "=U$indice*W$indice");
-                    $sheet->setCellValue('AA' . $indice, "=V$indice*W$indice");
+                    $sheet->setCellValue('M' . $indice, "=J$indice*K$indice");
+                    $sheet->setCellValue('X' . $indice, "=IFERROR(J$indice/O$indice,0)");
+                    $sheet->setCellValue('Z' . $indice, "=S$indice*V$indice");
+                    $sheet->setCellValue('AA' . $indice, "=V$indice*T$indice");
+                    $sheet->setCellValue('AB' . $indice, "=V$indice*U$indice");
 
                     $indice++;
                     $numero++;
