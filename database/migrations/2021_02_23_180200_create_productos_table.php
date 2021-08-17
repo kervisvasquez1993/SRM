@@ -55,6 +55,7 @@ class CreateProductosTable extends Migration
             $table->string('codigo_de_barras_inner_1')->nullable();
             $table->string('u_m_inner_2')->nullable();
             $table->string('codigo_barra_inner_2')->nullable();
+            $table->string('u_m_outer')->nullable();
             $table->string('codigo_de_barras_outer')->nullable();
             $table->string('codigo_interno_asignado')->nullable();
             $table->string('descripcion_asignada_sistema')->nullable();

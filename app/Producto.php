@@ -20,6 +20,7 @@ class Producto extends Model
         'sub_brand_customer',
         'product_name_customer',
         'description',
+        'imagen',
         'shelf_life',
         'total_pcs',
         'unit_price',
@@ -51,6 +52,7 @@ class Producto extends Model
         'codigo_de_barras_inner_1',
         'u_m_inner_2',
         'codigo_barra_inner_2',
+        'u_m_outer',
         'codigo_de_barras_outer',
         'codigo_interno_asignado',
         'descripcion_asignada_sistema'
