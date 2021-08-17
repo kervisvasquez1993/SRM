@@ -135,11 +135,19 @@ class ProductoController extends ApiController
                 foreach ($hoja as $row) {
                     if (auth()->user()->rol == 'logistica') {
                         $product = [
-                            'codigo_de_barras_unit' => $row[32],
-                            'codigo_de_barras_unit' => $row[32],
-                            'codigo_de_barras_inner' => $row[33],
-                            'codigo_de_barras_outer' => $row[34],
-                            'codigo_interno_asignado' => $row[35],
+                            'product_name_customer' => $row[7],
+                            'num_referencia_empaque' =>  $row[33],
+                            'u_m_unit' =>  $row[34],
+                            'codigo_de_barras_unit' =>  $row[35],
+                            'u_m_inner_1' =>  $row[36],
+                            'codigo_de_barras_inner_1' =>  $row[37],
+                            'u_m_inner_2' =>  $row[38],
+                            'codigo_barra_inner_2' =>  $row[39],
+                            'u_m_outer' =>  $row[40],
+                            'codigo_de_barras_outer' =>  $row[41],
+                            'codigo_interno_asignado' =>  $row[42],
+                            'descripcion_asignada_sistema' =>  $row[43]
+                             
                         ];
 
                         $producto = $pivot_tarea_proveeder_id
@@ -173,25 +181,26 @@ class ProductoController extends ApiController
                             'unit_price' => $row[11],
                             'total_usd' => $row[12],
                             'pcs_unit_packing' => $row[13],
-                            'pcs_inner_box_paking' => $row[14],
-                            'pcs_ctn_paking' => $row[15],
-                            'ctn_packing_size_l' => $row[16],
-                            'ctn_packing_size_w' => $row[17],
-                            'ctn_packing_size_h' => $row[18],
-                            'cbm' => $row[19],
-                            'n_w_ctn' => $row[20],
-                            'g_w_ctn' => $row[21],
-                            'total_ctn' => $total_ctn,
-                            'corregido_total_pcs' => $row[23],
-                            'total_cbm' => $row[19] * $total_ctn,
-                            'total_n_w' => $total_ctn * $row[20],
-                            'total_g_w' => $total_ctn * $row[21],
-                            'linea' => $row[27],
-                            'categoria' => $row[28],
-                            'sub_categoria' => $row[29],
-                            'permiso_sanitario' => $row[30],
-                            'cpe' => $row[31],
-                            'num_referencia_empaque' => $row[32],
+                            'pcs_inner1_box_paking' => $row[14],
+                            'pcs_inner2_box_paking' => $row[15],
+                            'pcs_ctn_paking' => $row[16],
+                            'ctn_packing_size_l' => $row[17],
+                            'ctn_packing_size_w' => $row[18],
+                            'ctn_packing_size_h' => $row[19],
+                            'cbm' => $row[20],
+                            'n_w_ctn' => $row[21],
+                            'g_w_ctn' => $row[22],
+                            'total_ctn' => $row[23],
+                            'corregido_total_pcs' => $row[24],
+                            'total_cbm' => $row[25],
+                            'total_n_w' => $row[26],
+                            'total_g_w' => $row[27],
+                            'linea' => $row[28],
+                            'categoria' => $row[29],
+                            'sub_categoria' => $row[30],
+                            'permiso_sanitario' => $row[31],
+                            'cpe' => $row[32],
+                            'num_referencia_empaque' => $row[33]
                         ];
 
                         $validator = Validator::make($product, [
@@ -234,6 +243,8 @@ class ProductoController extends ApiController
                     $coordenada = $drawing->getCoordinates();
                     $coordenadas = Coordinate::indexesFromString($coordenada);
 
+                    
+
                     // Obtener el producto correspondiente
                     $productCode = $sheet->getCellByColumnAndRow(3, $coordenadas[1])->getValue();
                     $productName = $sheet->getCellByColumnAndRow(4, $coordenadas[1])->getValue();
@@ -241,6 +252,10 @@ class ProductoController extends ApiController
                         ->where('product_name_supplier', $productName)
                         ->where('product_code_supplier', $productCode)
                         ->first();
+
+                        error_log($productName);
+                        error_log($productCode);
+                        error_log($coordenada);
 
                     // Si existe el producto entonces se guardara la imagen
                     if ($producto) {

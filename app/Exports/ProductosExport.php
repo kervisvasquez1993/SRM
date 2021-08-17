@@ -37,14 +37,13 @@ class ProductosExport implements WithEvents, WithPreCalculateFormulas
                 foreach ($productos as $producto) {
                     $rol = Auth::user()->rol;
                     $valores = [
-                        'B' => $producto->hs_code,
-                        'C' => $producto->product_code_supplier,
-                        'D' => $producto->product_name_supplier,
-                        'E' => $producto->brand_customer,
-                        'F' => $producto->sub_brand_customer,
-                        'G' => $producto->product_name_customer,
-                        'H' => $producto->description,
-                        'I' => $producto->imagen,
+                        'B' =>  $producto->hs_code,
+                        'C' =>  $producto->product_code_supplier,
+                        'D' =>  $producto->product_name_supplier,
+                        'E' =>  $producto->brand_customer,
+                        'F' =>  $producto->sub_brand_customer,
+                        'G' =>  $producto->product_name_customer,
+                        'H' =>  $producto->description,
                         'AC' => $producto->linea,
                         'AD' => $producto->categoria,
                         'AE' => $producto->sub_categoria,
