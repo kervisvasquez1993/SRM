@@ -128,12 +128,8 @@ class ProductoController extends ApiController
         // $pivot_tarea_proveeder_id->productos()->delete();
 
         try {
-            $import = new ProductosImport($request);
-
-            $excel = Excel::toArray($import, $archivo);
+            $excel = Excel::toArray(new ProductosImport, $archivo);
             $productosAgregados = collect();
-
-            $import->importarImagenes();
 
             foreach ($excel as $hoja) {
                 foreach ($hoja as $row) {
@@ -266,10 +262,9 @@ class ProductoController extends ApiController
                         Storage::disk('s3')->delete($producto->imagen);
                         // Crear nombre del archivo
                         $file_name = "productos/" . $producto->id . "." . $drawing->getExtension();
+                        // Almacenarlo
                         Storage::disk('s3')->put($file_name, file_get_contents($drawing->getPath()), 'public');
-                        // Guardarlo
                         $producto->imagen = $file_name;
-                        error_log($producto->imagen);
                         $producto->save();
                     }
                 }

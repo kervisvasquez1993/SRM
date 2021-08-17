@@ -8,10 +8,12 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithPreCalculateFormulas;
 use Maatwebsite\Excel\Events\BeforeExport;
 use Maatwebsite\Excel\Excel;
+use Maatwebsite\Excel\Files\LocalTemporaryFile;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing;
 
 function getCoordinate($col, $row)
 {
@@ -77,10 +79,10 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
         return [
             BeforeExport::class => function (BeforeExport $event) {
                 $tarea = $this->tarea;
-                $producto_columnas = 5;
+                $producto_columnas = 6;
 
                 $writer = $event->getWriter();
-                $writer->reopen(new \Maatwebsite\Excel\Files\LocalTemporaryFile(public_path('templates/vacio.xlsx')), Excel::XLSX);
+                $writer->reopen(new LocalTemporaryFile(public_path('templates/vacio.xlsx')), Excel::XLSX);
                 $negociaciones = $this->tarea->pivotTareaProveedor()->orderBy('id')->get();
 
                 $sheet = $writer->getSheetByIndex(0);
@@ -156,6 +158,12 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                     $sheet->getColumnDimension(getColumn($columna_inicio))->setWidth(15);
                     $sheet->getStyle($coordenada)->applyFromArray($this->encabezadoEstilos);
                     $columna_inicio++;
+
+                    $coordenada = getCoordinate($columna_inicio, $filaIndice);
+                    $sheet->setCellValue($coordenada, 'Imagen');
+                    $sheet->getColumnDimension(getColumn($columna_inicio))->setWidth(20);
+                    $sheet->getStyle($coordenada)->applyFromArray($this->encabezadoEstilos);
+                    $columna_inicio++;
                 }
 
                 $filaIndice++;
@@ -227,6 +235,36 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                                     $columna_inicio++;
 
                                     $sheet->getRowDimension($filaProducto)->setRowHeight(100);
+
+                                    //      Agregar la imagen
+                                    if ($producto->imagen) {
+                                        $url = "https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/{$producto->imagen}";
+
+                                        $imagen = file_get_contents($url);
+                                        $imagen = imagecreatefromstring($imagen);
+                                        $ancho = imagesx($imagen);
+                                        $alto = imagesy($imagen);
+
+                                        // Insertarla en el excel
+                                        $coordenada = getCoordinate($columna_inicio, $filaProducto);
+                                        $drawing = new MemoryDrawing();
+                                        $drawing->setResizeProportional(true);
+                                        $drawing->setImageResource($imagen);
+                                        $drawing->setRenderingFunction(\PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing::RENDERING_JPEG);
+                                        $drawing->setMimeType(\PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing::MIMETYPE_DEFAULT);
+                                        $drawing->setCoordinates($coordenada);
+
+                                        if ($ancho > $alto) {
+                                            $drawing->setWidth(145);
+                                        } else {
+                                            
+                                            $drawing->setHeight(130);
+                                        }
+                                        
+                                        $drawing->setWorksheet($writer->getActiveSheet());
+
+                                        error_log($url);
+                                    }
 
                                     // $filaIndice += 1;
                                     $productosAgregados++;
