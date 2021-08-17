@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IoMdAddCircle } from "react-icons/io";
 import { openModal } from "../../store/actions/modalActions";
-import ProviderFormModal, { emptyProvider } from "./ProviderFormModal";
+import SupplierFormModal, { emptyProvider } from "./SupplierFormModal";
 import { getProviders } from "../../store/actions/providerActions";
 import { createNegotiation } from "../../store/actions/negotiationActions";
 
-const ProviderModal = () => {
+const SupplierModal = () => {
     const dispatch = useDispatch();
     // @ts-ignore
     const taskId = useSelector(state => state.task.task).id;
@@ -21,7 +21,7 @@ const ProviderModal = () => {
         dispatch(
             openModal({
                 title: "Agregar Empresa",
-                body: <ProviderFormModal provider={emptyProvider} />
+                body: <SupplierFormModal provider={emptyProvider} />
             })
         );
     };
@@ -114,4 +114,4 @@ const ProviderModal = () => {
     );
 };
 
-export default ProviderModal;
+export default SupplierModal;

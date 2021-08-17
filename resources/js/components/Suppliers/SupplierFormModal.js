@@ -1,9 +1,5 @@
-// @ts-ignore
-import axios from "axios";
-// @ts-ignore
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// @ts-ignore
 import {
     createProviderFromTask,
     editProviderFromTask
@@ -25,7 +21,7 @@ export const emptyProvider = {
     email: null
 };
 
-const ProviderFormModal = ({ provider, isEditor = false }) => {
+const SupplierFormModal = ({ provider, isEditor = false }) => {
     const dispatch = useDispatch();
     const [data, setData] = useState({ ...provider });
     // @ts-ignore
@@ -122,4 +118,4 @@ const ProviderFormModal = ({ provider, isEditor = false }) => {
     );
 };
 
-export default ProviderFormModal;
+export default SupplierFormModal;

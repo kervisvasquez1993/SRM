@@ -4,22 +4,18 @@ import { useParams, Link } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
 // import { startNegotiation } from "../../store/actions/providerActions";
 import {
-    blueCard,
     greenCard,
     normalCard,
     redCard,
     useSimpleUrlFocus,
     useUser
 } from "../../utils";
-import CheckIcon from "../Widgets/CheckIcon";
-import ProviderFormModal from "./ProviderFormModal";
-import ProviderStatus from "./ProviderStatus";
+import SupplierFormModal from "./SupplierFormModal";
+import SupplierCardStatus from "./SupplierCardStatus";
 
-const ProviderCard = ({ provider, selectedProvider }) => {
+const SupplierCard = ({ provider, selectedProvider }) => {
     const dispatch = useDispatch();
     const user = useUser();
-    // @ts-ignore
-    const { id: taskId } = useParams();
 
     // @ts-ignore
     const task = useSelector(state => state.task.task);
@@ -31,7 +27,6 @@ const ProviderCard = ({ provider, selectedProvider }) => {
     );
 
     const {
-        id,
         address,
         ciudad,
         contacto,
@@ -55,7 +50,7 @@ const ProviderCard = ({ provider, selectedProvider }) => {
             openModal({
                 title: "Editar Empresa",
                 body: (
-                    <ProviderFormModal
+                    <SupplierFormModal
                         provider={providerToEdit}
                         isEditor={true}
                     />
@@ -169,7 +164,7 @@ const ProviderCard = ({ provider, selectedProvider }) => {
                         </React.Fragment>
                     )}
 
-                    <ProviderStatus
+                    <SupplierCardStatus
                         provider={provider}
                         selectedProvider={selectedProvider}
                     />
@@ -196,4 +191,4 @@ const ProviderCard = ({ provider, selectedProvider }) => {
     );
 };
 
-export default ProviderCard;
+export default SupplierCard;

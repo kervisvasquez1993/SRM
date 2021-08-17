@@ -1,10 +1,9 @@
 import React from "react";
-import { BiLink } from "react-icons/bi";
 import { Link } from "react-router-dom";
-import { blueCard, greenCard, normalCard, redCard } from "../../utils";
-import ProviderStatus from "../Providers/ProviderStatus";
+import { greenCard, normalCard, redCard } from "../../utils";
+import SupplierCardStatus from "../Suppliers/SupplierCardStatus";
 
-const SimpleProviderCard = ({ provider, taskId, selectedProvider }) => {
+const MiniSupplierCard = ({ provider, taskId, selectedProvider }) => {
     const isSelected = selectedProvider === provider;
 
     const { id, nombre, pivot } = provider;
@@ -31,7 +30,7 @@ const SimpleProviderCard = ({ provider, taskId, selectedProvider }) => {
                 </div>
 
                 <div className="card-body pt-0">
-                    <ProviderStatus
+                    <SupplierCardStatus
                         provider={provider}
                         selectedProvider={selectedProvider}
                     />
@@ -41,4 +40,4 @@ const SimpleProviderCard = ({ provider, taskId, selectedProvider }) => {
     );
 };
 
-export default SimpleProviderCard;
+export default MiniSupplierCard;

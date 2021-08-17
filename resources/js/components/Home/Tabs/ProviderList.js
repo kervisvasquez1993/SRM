@@ -6,10 +6,9 @@ import { getProvidersFromTask } from "../../../store/actions/providerActions";
 import { isNegotiationSelected } from "../../../utils";
 import EmptyList from "../../Navigation/EmptyList";
 import LoadingScreen from "../../Navigation/LoadingScreen";
-import LoadingSpinner from "../../Navigation/LoadingSpinner";
-import SimpleProviderCard from "../SimpleProviderCard";
+import MiniSupplierCard from "../MiniSupplierCard";
 
-const ProviderList = ({ taskId, filterProvidersInNegotiation = false }) => {
+const ProviderList = ({ taskId }) => {
     const dispatch = useDispatch();
 
     // @ts-ignore
@@ -65,7 +64,7 @@ const ProviderList = ({ taskId, filterProvidersInNegotiation = false }) => {
                 <div className="d-flex flex-column-reverse">
                     {orderedProviders.map(provider => {
                         return (
-                            <SimpleProviderCard
+                            <MiniSupplierCard
                                 key={provider.id}
                                 taskId={taskId}
                                 provider={provider}

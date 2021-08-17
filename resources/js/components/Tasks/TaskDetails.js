@@ -11,7 +11,7 @@ import {
     getColorsForTask
 } from "../../utils";
 import LoadingScreen from "../Navigation/LoadingScreen";
-import TaskProviderList from "../Providers/TaskProviderList";
+import TaskSupplierList from "../Suppliers/TaskSupplierList";
 import TaskModal from "./TaskModal";
 
 const TaskDetails = () => {
@@ -161,7 +161,7 @@ const TaskDetails = () => {
                 </div>
             )}
 
-            <TaskProviderList />
+            <TaskSupplierList />
         </div>
     );
 };

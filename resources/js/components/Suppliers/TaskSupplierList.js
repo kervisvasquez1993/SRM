@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import { BiGitCompare } from "react-icons/bi";
 import { IoMdAddCircle } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
 import { getProvidersFromTask } from "../../store/actions/providerActions";
 import { isNegotiationSelected } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
 import LoadingScreen from "../Navigation/LoadingScreen";
-import ProviderCard from "../Providers/ProviderCard";
-import NewProviderModal from "./ProviderModal";
+import SupplierCard from "./SupplierCard";
+import NewProviderModal from "./SupplierModal";
 
-const TaskProviderList = () => {
+const TaskSupplierList = () => {
     const dispatch = useDispatch();
 
     // @ts-ignore
@@ -94,7 +94,7 @@ const TaskProviderList = () => {
                 <div className="d-flex flex-column-reverse">
                     {orderedProviders.map(provider => {
                         return (
-                            <ProviderCard
+                            <SupplierCard
                                 key={provider.id}
                                 // @ts-ignore
                                 taskId={task.id}
@@ -111,4 +111,4 @@ const TaskProviderList = () => {
     );
 };
 
-export default TaskProviderList;
+export default TaskSupplierList;
