@@ -3,11 +3,12 @@
 namespace App\Exports;
 
 use App\Producto;
+use Maatwebsite\Excel\Excel;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\WithEvents;
-use Maatwebsite\Excel\Concerns\WithPreCalculateFormulas;
 use Maatwebsite\Excel\Events\BeforeExport;
-use Maatwebsite\Excel\Excel;
+use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing;
+use Maatwebsite\Excel\Concerns\WithPreCalculateFormulas;
 
 class ProductosExport implements WithEvents, WithPreCalculateFormulas
 {
@@ -21,7 +22,8 @@ class ProductosExport implements WithEvents, WithPreCalculateFormulas
             BeforeExport::class => function (BeforeExport $event) {
                 $event->writer->reopen(new \Maatwebsite\Excel\Files\LocalTemporaryFile(public_path('templates/productos.xlsx')), Excel::XLSX);
 
-                $sheet = $event->writer->getSheetByIndex(0);
+                $writer = $event->getWriter();
+                $sheet = $writer->getSheetByIndex(0);
 
                 $productos = Producto::where('pivot_tarea_proveeder_id', $this->producto)->orderBy("id", "ASC")->get();
                 $cantidad_productos = $productos->count();
@@ -34,16 +36,19 @@ class ProductosExport implements WithEvents, WithPreCalculateFormulas
                 $indice = 4;
                 $numero = 1;
 
+                // Ajustar el ancho de la columna de la imagen
+                $sheet->getColumnDimension("I")->setWidth(15);
+
                 foreach ($productos as $producto) {
                     $rol = Auth::user()->rol;
                     $valores = [
-                        'B' =>  $producto->hs_code,
-                        'C' =>  $producto->product_code_supplier,
-                        'D' =>  $producto->product_name_supplier,
-                        'E' =>  $producto->brand_customer,
-                        'F' =>  $producto->sub_brand_customer,
-                        'G' =>  $producto->product_name_customer,
-                        'H' =>  $producto->description,
+                        'B' => $producto->hs_code,
+                        'C' => $producto->product_code_supplier,
+                        'D' => $producto->product_name_supplier,
+                        'E' => $producto->brand_customer,
+                        'F' => $producto->sub_brand_customer,
+                        'G' => $producto->product_name_customer,
+                        'H' => $producto->description,
                         'AC' => $producto->linea,
                         'AD' => $producto->categoria,
                         'AE' => $producto->sub_categoria,
@@ -60,7 +65,6 @@ class ProductosExport implements WithEvents, WithPreCalculateFormulas
                         'AP' => $producto->codigo_de_barras_outer,
                         'AQ' => $producto->codigo_interno_asignado,
                         'AR' => $producto->descripcion_asignada_sistema,
-
                     ];
 
                     if ($rol != "logistica") {
@@ -84,11 +88,11 @@ class ProductosExport implements WithEvents, WithPreCalculateFormulas
                             'X' => $producto->total_cbm,
                             'X' => $producto->total_n_w,
                             'X' => $producto->total_g_w,
-                          /*   '' => $producto->linea,
-                            '' => $producto->categoria,
-                            '' => $producto->sub_categoria,
-                            '' => $producto->permiso_sanitario,
-                            '' => $producto->cpe, */
+                            /*   '' => $producto->linea,
+                        '' => $producto->categoria,
+                        '' => $producto->sub_categoria,
+                        '' => $producto->permiso_sanitario,
+                        '' => $producto->cpe, */
                         ]);
                     }
 
@@ -103,6 +107,32 @@ class ProductosExport implements WithEvents, WithPreCalculateFormulas
                     $sheet->setCellValue('Z' . $indice, "=S$indice*V$indice");
                     $sheet->setCellValue('AA' . $indice, "=V$indice*T$indice");
                     $sheet->setCellValue('AB' . $indice, "=V$indice*U$indice");
+
+                    // Insertar imagen
+                    if ($producto->imagen) {
+                        $url = "https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/{$producto->imagen}";
+
+                        $imagen = file_get_contents($url);
+                        $imagen = imagecreatefromstring($imagen);
+                        $ancho = imagesx($imagen);
+                        $alto = imagesy($imagen);
+
+                        // Insertarla en el excel
+                        $drawing = new MemoryDrawing();
+                        $drawing->setResizeProportional(true);
+                        $drawing->setImageResource($imagen);
+                        $drawing->setRenderingFunction(\PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing::RENDERING_JPEG);
+                        $drawing->setMimeType(\PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing::MIMETYPE_DEFAULT);
+                        $drawing->setCoordinates("I$indice");
+
+                        if ($ancho > $alto) {
+                            $drawing->setWidth(109);
+                        } else {
+                            $drawing->setHeight(109);
+                        }
+
+                        $drawing->setWorksheet($writer->getActiveSheet());
+                    }
 
                     $indice++;
                     $numero++;

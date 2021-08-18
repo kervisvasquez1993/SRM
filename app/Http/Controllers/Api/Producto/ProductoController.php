@@ -136,18 +136,18 @@ class ProductoController extends ApiController
                     if (auth()->user()->rol == 'logistica') {
                         $product = [
                             'product_name_customer' => $row[7],
-                            'num_referencia_empaque' =>  $row[33],
-                            'u_m_unit' =>  $row[34],
-                            'codigo_de_barras_unit' =>  $row[35],
-                            'u_m_inner_1' =>  $row[36],
-                            'codigo_de_barras_inner_1' =>  $row[37],
-                            'u_m_inner_2' =>  $row[38],
-                            'codigo_barra_inner_2' =>  $row[39],
-                            'u_m_outer' =>  $row[40],
-                            'codigo_de_barras_outer' =>  $row[41],
-                            'codigo_interno_asignado' =>  $row[42],
-                            'descripcion_asignada_sistema' =>  $row[43]
-                             
+                            'num_referencia_empaque' => $row[33],
+                            'u_m_unit' => $row[34],
+                            'codigo_de_barras_unit' => $row[35],
+                            'u_m_inner_1' => $row[36],
+                            'codigo_de_barras_inner_1' => $row[37],
+                            'u_m_inner_2' => $row[38],
+                            'codigo_barra_inner_2' => $row[39],
+                            'u_m_outer' => $row[40],
+                            'codigo_de_barras_outer' => $row[41],
+                            'codigo_interno_asignado' => $row[42],
+                            'descripcion_asignada_sistema' => $row[43],
+
                         ];
 
                         $producto = $pivot_tarea_proveeder_id
@@ -200,7 +200,7 @@ class ProductoController extends ApiController
                             'sub_categoria' => $row[30],
                             'permiso_sanitario' => $row[31],
                             'cpe' => $row[32],
-                            'num_referencia_empaque' => $row[33]
+                            'num_referencia_empaque' => $row[33],
                         ];
 
                         $validator = Validator::make($product, [
@@ -243,8 +243,6 @@ class ProductoController extends ApiController
                     $coordenada = $drawing->getCoordinates();
                     $coordenadas = Coordinate::indexesFromString($coordenada);
 
-                    
-
                     // Obtener el producto correspondiente
                     $productCode = $sheet->getCellByColumnAndRow(3, $coordenadas[1])->getValue();
                     $productName = $sheet->getCellByColumnAndRow(4, $coordenadas[1])->getValue();
@@ -253,9 +251,9 @@ class ProductoController extends ApiController
                         ->where('product_code_supplier', $productCode)
                         ->first();
 
-                        error_log($productName);
-                        error_log($productCode);
-                        error_log($coordenada);
+                    error_log($productName);
+                    error_log($productCode);
+                    error_log($coordenada);
 
                     // Si existe el producto entonces se guardara la imagen
                     if ($producto) {
@@ -286,8 +284,15 @@ class ProductoController extends ApiController
                     // Si el producto no está en los productos cargados, se aliminara
                     // de lo contrario se determinara si su imagen fue eliminada del excel
                     if (!$coincidencia) {
+                        // Eliminar la imagen
+                        if ($producto->imagen) {
+                            Storage::disk('s3')->delete($producto->imagen);
+                        }
+
                         $producto->delete();
                     } else {
+                        error_log($producto->imagen);
+
                         if ($producto->imagen && !$idProductosConImagenes->contains($producto->id)) {
                             // Eliminar la imagen
                             Storage::disk('s3')->delete($producto->imagen);
