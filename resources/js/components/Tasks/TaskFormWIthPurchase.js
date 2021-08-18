@@ -1,23 +1,19 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { getSuppliers } from "../../store/actions/providerActions";
 import { createTask, editTask } from "../../store/actions/taskActions";
 import InputSelect from "../Form/InputSelect";
 import InputText from "../Form/InputText";
-import InputDate from "../Form/InputDate";
 import InputTextArea from "../Form/InputTextarea";
 import GenericFormModal from "../Table/GenericFormModal";
-import { getUsers } from "../../store/actions/userActions";
 
-const TaskFormModal = ({ task = {}, isEditor = false }) => {
+const TaskFormWIthPurchase = ({ task = {}, isEditor = false }) => {
     const dispatch = useDispatch();
     // @ts-ignore
-    const users = useSelector(state => state.user.users);
-    const filteredUsers = users.filter(
-        user => user.rol === "coordinador" || user.rol === "comprador"
-    );
+    const suppliers = useSelector(state => state.provider.fullList);
 
     useEffect(() => {
-        dispatch(getUsers());
+        dispatch(getSuppliers());
     }, []);
 
     const handleSubmit = data => {
@@ -35,26 +31,26 @@ const TaskFormModal = ({ task = {}, isEditor = false }) => {
             </div>
 
             <div className="form-row">
-                <InputSelect id="user_id" label="Comprador">
-                    {filteredUsers.map(user => {
+                <InputTextArea id="descripcion" label="Descripción" />
+            </div>
+
+            <div className="form-row">
+                <InputSelect
+                    id="proveedor_id"
+                    label="Empresa"
+                    includeDefaultOption={false}
+                >
+                    {suppliers.map(supplier => {
                         return (
-                            <option key={user.id} value={user.id}>
-                                {user.name}
+                            <option key={supplier.id} value={supplier.id}>
+                                {`${supplier.nombre} - País: ${supplier.pais} - Ciudad: ${supplier.ciudad}`}
                             </option>
                         );
                     })}
                 </InputSelect>
             </div>
-
-            <div className="form-row">
-                <InputDate id="fecha_fin" label="Fecha Finalizacion" />
-            </div>
-
-            <div className="form-row">
-                <InputTextArea id="descripcion" label="Descripción" />
-            </div>
         </GenericFormModal>
     );
 };
 
-export default TaskFormModal;
+export default TaskFormWIthPurchase;

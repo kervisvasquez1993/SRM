@@ -8,6 +8,7 @@ import { Redirect } from "react-router-dom";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import { Helmet } from "react-helmet-async";
 import GenericFilter from "../Filters/GenericFilter";
+import TaskFormWIthPurchase from "./TaskFormWIthPurchase";
 
 const cardCreator = item => {
     return <TaskCard key={item.id} task={item} />;
@@ -76,8 +77,8 @@ const TaskList = ({ myTasks = false }) => {
     const handleCreateWithPurchase = () => {
         dispatch(
             openModal({
-                title: "Agregar Tarea",
-                body: <TaskFormModal />
+                title: "Agregar Tarea con Orden de Compra",
+                body: <TaskFormWIthPurchase />
             })
         );
     };
@@ -244,19 +245,8 @@ const TaskList = ({ myTasks = false }) => {
                 {myTasks ? "Mis Tareas" : "Tareas"}
             </h1>
 
-            {!myTasks && user.rol === "coordinador" && (
-                <div className="container text-center">
-                    <button
-                        className="btn btn-lg btn-outline-primary btn-round"
-                        onClick={handleCreate}
-                    >
-                        <i className="fa fa-plus fa-2x mr-2"></i>Agregar Tarea
-                    </button>
-                </div>
-            )}
-
-            {myTasks && (
-                <div className="container text-right">
+            <div className="container text-center">
+                {myTasks ? (
                     <button
                         className="btn btn-lg btn-outline-info btn-round"
                         onClick={handleCreateWithPurchase}
@@ -264,8 +254,18 @@ const TaskList = ({ myTasks = false }) => {
                         <i className="fa fa-plus fa-2x mr-2"></i>Crear con
                         Compra
                     </button>
-                </div>
-            )}
+                ) : (
+                    user.rol === "coordinador" && (
+                        <button
+                            className="btn btn-lg btn-outline-primary btn-round"
+                            onClick={handleCreate}
+                        >
+                            <i className="fa fa-plus fa-2x mr-2"></i>Agregar
+                            Tarea
+                        </button>
+                    )
+                )}
+            </div>
 
             <GenericFilter
                 config={filterConfig}

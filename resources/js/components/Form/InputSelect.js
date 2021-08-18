@@ -2,8 +2,14 @@ import React, { useContext } from "react";
 import { extractError } from "../../utils";
 import { FormContext } from "./GenericForm";
 
-const InputSelect = props => {
-    const { id, label, value = "", className = "" } = props;
+const InputSelect = ({
+    id,
+    label,
+    value = "",
+    className = "",
+    children,
+    includeDefaultOption = true
+}) => {
     const { onChange, values, errors } = useContext(FormContext);
 
     const error = extractError(errors, id);
@@ -19,8 +25,11 @@ const InputSelect = props => {
                 onChange={onChange}
                 value={(values && values[id]) || value || ""}
             >
-                <option value="">Selecciona...</option>
-                {props.children}
+                {includeDefaultOption && (
+                    <option value="">Selecciona...</option>
+                )}
+
+                {children}
             </select>
 
             {error && (
