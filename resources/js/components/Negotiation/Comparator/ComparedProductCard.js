@@ -64,10 +64,10 @@ export default ({ data, index, comparisonIndex, rowIndex, colIndex }) => {
                                 <td>{product.total_pcs}</td>
                                 <td>{product.unit_price}$</td>
                                 <td>{product.total_usd}$</td>
-                                <td>
+                                <td className="product-image-cell">
                                     {product.imagen && (
                                         <img
-                                            style={{ width: "100%" }}
+                                            className="product-image"
                                             src={amazonS3Url + product.imagen}
                                         />
                                     )}
