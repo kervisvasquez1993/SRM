@@ -5,7 +5,7 @@ import { Redirect, useHistory, useParams } from "react-router-dom";
 // @ts-ignore
 import LoadingScreen from "../../Navigation/LoadingScreen";
 import Error from "../../Navigation/Error";
-import NegotiationPurchaseTab from "../../Purchases/NegotiationPurchaseTab";
+import NegotiationPurchaseTab from "./NegotiationPurchaseTab";
 import { getNegotiation } from "../../../store/actions/negotiationActions";
 import NegotiationProductsTab from "./NegotiationProductsTab";
 import { Helmet } from "react-helmet-async";
@@ -66,13 +66,11 @@ const ProviderPurchase = () => {
         return <Redirect to="/home" />;
     }
 
-    // @ts-ignore
-    const handleGoBack = () => {
-        history.goBack();
-    };
+    console.log(negotiation)
 
     const state = 0;
     let defaultTab =
+        (negotiation.orden_compra_directa && "5") ||
         (!negotiation.productos_cargados && "0") ||
         (negotiation.base_grafico_finalizado && "5") ||
         (negotiation.codigo_barra_finalizado && "4") ||

@@ -7,7 +7,10 @@ import InputText from "../Form/InputText";
 import InputTextArea from "../Form/InputTextarea";
 import GenericFormModal from "../Table/GenericFormModal";
 
-const TaskFormWIthPurchase = ({ task = {}, isEditor = false }) => {
+const TaskFormWIthPurchase = ({
+    task = { proveedor_id: -1 },
+    isEditor = false
+}) => {
     const dispatch = useDispatch();
     // @ts-ignore
     const suppliers = useSelector(state => state.provider.fullList);
@@ -35,11 +38,7 @@ const TaskFormWIthPurchase = ({ task = {}, isEditor = false }) => {
             </div>
 
             <div className="form-row">
-                <InputSelect
-                    id="proveedor_id"
-                    label="Empresa"
-                    includeDefaultOption={false}
-                >
+                <InputSelect id="proveedor_id" label="Empresa">
                     {suppliers.map(supplier => {
                         return (
                             <option key={supplier.id} value={supplier.id}>

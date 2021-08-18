@@ -1,19 +1,19 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { openModal } from "../../store/actions/modalActions";
-import { finishStage } from "../../store/actions/negotiationActions";
-import { getPurchaseOrdersFromNegotiation } from "../../store/actions/purchaseOrderActions";
-import { getSum, roundMoneyAmount } from "../../utils";
-import EmptyList from "../Navigation/EmptyList";
-import LoadingScreen from "../Navigation/LoadingScreen";
-import CompleteLastStageMessage from "../Negotiation/Details/Other/CompleteLastStageMessage";
-import NextStageButton from "../Negotiation/Details/Other/NextStageButton";
-import OnlyBuyersAllowedMessage from "../Negotiation/Details/Other/OnlyBuyersAllowedMessage";
-import StageCompletedMessage from "../Negotiation/Details/Other/StageCompletedMessage";
-import PurchaseOrdersResume from "../Widgets/PurchaseOrdersResume";
-import CreatePurchaseOrderModal from "./CreatePurchaseOrderModal";
-import PoCodeModal from "./PoCodeModal";
-import PurchaseOrder from "./PurchaseOrder";
+import { openModal } from "../../../store/actions/modalActions";
+import { finishStage } from "../../../store/actions/negotiationActions";
+import { getPurchaseOrdersFromNegotiation } from "../../../store/actions/purchaseOrderActions";
+import { getSum, roundMoneyAmount } from "../../../utils";
+import EmptyList from "../../Navigation/EmptyList";
+import LoadingScreen from "../../Navigation/LoadingScreen";
+import CompleteLastStageMessage from "./Other/CompleteLastStageMessage";
+import NextStageButton from "./Other/NextStageButton";
+import OnlyBuyersAllowedMessage from "./Other/OnlyBuyersAllowedMessage";
+import StageCompletedMessage from "./Other/StageCompletedMessage";
+import PurchaseOrdersResume from "../../Widgets/PurchaseOrdersResume";
+import CreatePurchaseOrderModal from "../../Purchases/CreatePurchaseOrderModal";
+import PoCodeModal from "../../Purchases/PoCodeModal";
+import PurchaseOrder from "../../Purchases/PurchaseOrder";
 
 const campos = [
     { name: "compra_po", label: "Código PO" },
@@ -71,7 +71,7 @@ const NegotiationPurchaseTab = () => {
         );
     };
 
-    if (!negotiation.base_grafico_finalizado) {
+    if (!negotiation.base_grafico_finalizado && !negotiation.orden_compra_directa) {
         return <CompleteLastStageMessage />;
     }
 
@@ -200,7 +200,7 @@ const NegotiationPurchaseTab = () => {
                 <StageCompletedMessage />
             ) : (
                 <React.Fragment>
-                    {user.rol === "comprador" ? (
+                    {isMine ? (
                         <React.Fragment>
                             <p>
                                 Utilize el siguiente botón para pasar a la
