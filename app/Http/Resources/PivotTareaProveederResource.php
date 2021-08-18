@@ -43,6 +43,8 @@ class PivotTareaProveederResource extends JsonResource
             'hs_code'             => $this->hs_code,
             'incoterms'           => $this->incoterms,
             'delivery_time'       => $this->delivery_time,
+            'nombre_archivo_orden_compra' => $this->nombre_archivo_orden_compra,
+            'archivo_orden_compra' => $this->archivo_orden_compra
 
         ];
     }

@@ -15,8 +15,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ApiController;
 use App\Notifications\ArteNotification;
 use function PHPUnit\Framework\isEmpty;
-use App\Notifications\NegociacionEmpresa;
+use Illuminate\Support\Facades\Storage;
 
+use App\Notifications\NegociacionEmpresa;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Validator;
 use App\Notifications\GeneralNotification;
@@ -29,7 +30,7 @@ class PivotController extends ApiController
 {
     public function index()
     {
-        $pivotPrincipal = PivotTareaProveeder::where('productos_cargados', true);
+        $pivotPrincipal = PivotTareaProveeder::where('productos_cargados', true)->OrWhere('seleccionado', true);
 
         if (!(auth()->user()->rol == 'coordinador' || Auth::user()->rol == 'observador')) {
             $pivotPrincipal = $pivotPrincipal->whereHas('tarea', function (Builder $query) {
@@ -277,6 +278,19 @@ class PivotController extends ApiController
         $pivot->iniciar_arte = false;
         $pivot->iniciar_produccion = false;
         $pivot->orden_compra_flash = true;
+        $pivot->save();
+        return $this->showOneResource(new PivotTareaProveederResource($pivot));
+    }
+
+    public function subirArchivoOrdenCompra(Request $request, PivotTareaProveeder $pivot)
+    {
+        $request->validate([
+            'file' => 'max:10000',
+        ]);
+        $file = $request->file('file');
+        Storage::disk('s3')->delete($pivot->archivo_orden_compra);
+        $pivot->archivo_orden_compra = Storage::disk('s3')->put("negociacion_archivos",  $file, 'public');
+        $pivot->nombre_archivo_orden_compra =  $file->getClientOriginalName();
         $pivot->save();
         return $this->showOneResource(new PivotTareaProveederResource($pivot));
     }

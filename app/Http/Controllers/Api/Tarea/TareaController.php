@@ -68,8 +68,9 @@ class TareaController extends ApiController
             error_log($proveedor);
             $pivot = new PivotTareaProveeder();
             $pivot->tarea_id = $tarea->id;
-            $pivot->proveedor_id = $proveedor;
+            $pivot->proveedor_id = $proveedor->id;
             $pivot->orden_compra_directa = true;
+            $pivot->seleccionado = true;
             $pivot->save();
 
             return $pivot;
