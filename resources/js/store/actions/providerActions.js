@@ -45,81 +45,73 @@ export function getProvidersFromTask(taskId) {
     };
 }
 
-export function createProviderFromTask(taskId, provider) {
-    return async (dispatch, getState) => {
-        dispatch({ type: "CREATE_TASK_PROVIDER_REQUEST" });
-
-        try {
-            const response = await axios.post(
-                `${apiURL}/tarea/${taskId}/proveedor`,
-                provider
-            );
-
+export function createSupplierForTask(taskId, supplier) {
+    return dispatch => {
+        return genericFormSubmit(dispatch, () =>
+            axios.post(`${apiURL}/tarea/${taskId}/proveedor`, supplier)
+        ).then(response => {
             dispatch({
                 type: "CREATE_TASK_PROVIDER_SUCCESS",
-                payload: response.data.data
+                payload: response
             });
 
             dispatch(closeModal());
-
-            dispatch(focusOnElementWithId(response.data.data.id));
-
+            dispatch(focusOnElementWithId(response.id));
             toast.success("✔️ Empresa creada");
-        } catch (e) {
-            dispatch({
-                type: "CREATE_TASK_PROVIDER_FAILURE",
-                error: e.response.data.error || null,
-                errors: e.response.data
-            });
-        }
+        });
     };
 }
 
-export function editProviderFromTask(taskId, provider) {
-    return async (dispatch, getState) => {
-        dispatch({ type: "EDIT_PROVIDER_REQUEST" });
-
-        try {
-            const response = await axios.put(
-                `${apiURL}/tarea/${taskId}/proveedor/${provider.id}`,
-                provider
-            );
-
+export function editProviderFromTask(taskId, supplier) {
+    return dispatch => {
+        return genericFormSubmit(dispatch, () =>
+            axios.put(
+                `${apiURL}/tarea/${taskId}/proveedor/${supplier.id}`,
+                supplier
+            )
+        ).then(response => {
             dispatch({
-                type: "EDIT_PROVIDER_SUCCESS",
-                payload: response.data.data
+                type: "EDIT_TASK_PROVIDER_SUCCESS",
+                payload: response
             });
 
             dispatch(closeModal());
-
-            dispatch(focusOnElementWithId(provider.id));
-
+            dispatch(focusOnElementWithId(supplier.id));
             toast.success("✔️ Empresa editada");
-        } catch (e) {
-            dispatch({
-                type: "CREATE_TASK_PROVIDER_FAILURE",
-                error: e.response.data.error || null,
-                errors: e.response.data
-            });
-        }
+        });
     };
 }
 
 export function updateSupplier(supplier) {
     return dispatch => {
         return genericFormSubmit(dispatch, () =>
-            axios.put(
-                `${apiURL}/proveedor/${supplier.id}`,
-                supplier
-            )
+            axios.put(`${apiURL}/proveedor/${supplier.id}`, supplier)
         ).then(response => {
-            console.log(response);
             dispatch({
-                type: "EDIT_PROVIDER_SUCCESS",
+                type: "EDIT_SUPPLIER_SUCCESS",
                 payload: response
             });
 
             dispatch(closeModal());
+            dispatch(focusOnElementWithId(response.id));
+            toast.success("✔️ Empresa editada");
+        });
+    };
+}
+
+export function createSupplier(supplier) {
+    return dispatch => {
+        return genericFormSubmit(dispatch, () =>
+            axios.post(`${apiURL}/proveedor`, supplier)
+        ).then(response => {
+            dispatch({
+                type: "CREATE_SUPPLIER_SUCCESS",
+                payload: response
+            });
+
+            dispatch(closeModal());
+            dispatch(focusOnElementWithId(response.id));
+            toast.success("✔️ Empresa creada");
         });
     };
 }

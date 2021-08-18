@@ -50,17 +50,10 @@ const providerReducer = (state = defaultState, action) => {
                 isLoadingList: false
             };
 
-        case "EDIT_PROVIDER_REQUEST":
-            return {
-                ...state
-            };
-        case "EDIT_PROVIDER_SUCCESS":
+        case "EDIT_TASK_PROVIDER_SUCCESS":
             return {
                 ...state,
                 list: state.list.map(item =>
-                    item.id == payload.id ? payload : item
-                ),
-                fullList: state.fullList.map(item =>
                     item.id == payload.id ? payload : item
                 )
             };
@@ -71,6 +64,19 @@ const providerReducer = (state = defaultState, action) => {
                 list: [...state.list, payload]
             };
 
+        case "CREATE_SUPPLIER_SUCCESS":
+            return {
+                ...state,
+                fullList: [...state.fullList, payload]
+            };
+        case "EDIT_SUPPLIER_SUCCESS":
+            return {
+                ...state,
+                fullList: state.fullList.map(item =>
+                    item.id == payload.id ? payload : item
+                )
+            };
+
         case "CREATE_NEGOTIATION_REQUEST":
             return {
                 ...state
@@ -78,7 +84,7 @@ const providerReducer = (state = defaultState, action) => {
         case "CREATE_NEGOTIATION_SUCCESS":
             return {
                 ...state,
-                providers: [...state.list, payload]
+                list: [...state.list, payload]
             };
         case "CREATE_NEGOTIATION_FAILURE":
             return {

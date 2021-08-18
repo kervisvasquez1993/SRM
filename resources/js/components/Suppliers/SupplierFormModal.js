@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    createProviderFromTask,
+    createSupplierForTask,
+    createSupplier,
     editProviderFromTask,
     updateSupplier
 } from "../../store/actions/providerActions";
@@ -38,9 +39,9 @@ const SupplierFormModal = ({ provider, isEditor = false }) => {
             }
         } else {
             if (task) {
-                dispatch(createProviderFromTask(task.id, data));
+                dispatch(createSupplierForTask(task.id, data));
             } else {
-                dispatch(updateSupplier(data));
+                dispatch(createSupplier(data));
             }
         }
     };
