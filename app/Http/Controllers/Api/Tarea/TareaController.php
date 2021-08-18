@@ -73,7 +73,7 @@ class TareaController extends ApiController
             $pivot->seleccionado = true;
             $pivot->save();
 
-            return $pivot;
+
             
 
         } else 

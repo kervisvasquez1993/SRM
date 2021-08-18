@@ -285,11 +285,11 @@ class PivotController extends ApiController
     public function subirArchivoOrdenCompra(Request $request, PivotTareaProveeder $pivot)
     {
         $request->validate([
-            'file' => 'max:10000',
+            'file' => 'required | max:10000',
         ]);
         $file = $request->file('file');
         Storage::disk('s3')->delete($pivot->archivo_orden_compra);
-        $pivot->archivo_orden_compra = Storage::disk('s3')->put("negociacion_archivos",  $file, 'public');
+        $pivot->archivo_orden_compra = Storage::disk('s3')->put("ordenes_compra",  $file, 'public');
         $pivot->nombre_archivo_orden_compra =  $file->getClientOriginalName();
         $pivot->save();
         return $this->showOneResource(new PivotTareaProveederResource($pivot));
