@@ -2,6 +2,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { apiURL } from "../../components/App";
 import { focusOnElementWithId } from "./focusActions";
+import { genericFormSubmit } from "./genericFormActions";
 import { closeModal } from "./modalActions";
 
 export function getTasks(myTasks = false) {
@@ -29,6 +30,21 @@ export function getTasks(myTasks = false) {
 }
 
 export function createTask(task) {
+    return dispatch => {
+        return genericFormSubmit(dispatch, () =>
+            axios.post(`${apiURL}/tarea`, task)
+        ).then(response => {
+            dispatch({
+                type: "CREATE_TASK_SUCCESS",
+                payload: response
+            });
+
+            dispatch(closeModal());
+            dispatch(focusOnElementWithId(response.id));
+            toast.success("✔️ Tarea creada");
+        });
+    };
+
     return async (dispatch, getState) => {
         dispatch({ type: "CREATE_TASK_REQUEST" });
 
@@ -55,30 +71,20 @@ export function createTask(task) {
     };
 }
 
-export function editTask(id, task) {
-    return async (dispatch, getState) => {
-        dispatch({ type: "EDIT_TASK_REQUEST" });
-
-        try {
-            const response = await axios.put(`${apiURL}/tarea/${id}`, task);
-
+export function editTask(task) {
+    return dispatch => {
+        return genericFormSubmit(dispatch, () =>
+            axios.put(`${apiURL}/tarea/${task.id}`, task)
+        ).then(response => {
             dispatch({
                 type: "EDIT_TASK_SUCCESS",
-                payload: response.data.data
+                payload: response
             });
 
             dispatch(closeModal());
-
-            dispatch(focusOnElementWithId(id));
-
+            dispatch(focusOnElementWithId(response.id));
             toast.success("✔️ Tarea editada");
-        } catch (e) {
-            console.log(e.response);
-            dispatch({
-                type: "EDIT_TASK_FAILURE",
-                errors: e.response.data
-            });
-        }
+        });
     };
 }
 

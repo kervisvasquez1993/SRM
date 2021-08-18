@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Redirect, useHistory, useParams } from "react-router-dom";
+import { Redirect, useHistory, useParams } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
 import { getTask } from "../../store/actions/taskActions";
 import {
@@ -12,7 +12,7 @@ import {
 } from "../../utils";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import TaskSupplierList from "../Suppliers/TaskSupplierList";
-import TaskModal from "./TaskModal";
+import TaskFormModal from "./TaskFormModal";
 
 const TaskDetails = () => {
     const dispatch = useDispatch();
@@ -58,7 +58,7 @@ const TaskDetails = () => {
         dispatch(
             openModal({
                 title: "Editar Tarea",
-                body: <TaskModal task={taskToEdit} isEditor={true} />
+                body: <TaskFormModal task={taskToEdit} isEditor={true} />
             })
         );
     };
