@@ -8,28 +8,12 @@ import InputText from "../Form/InputText";
 import InputDate from "../Form/InputDate";
 import InputTextArea from "../Form/InputTextarea";
 import { apiURL } from "../App";
+import GenericFormModal from "../Table/GenericFormModal";
 
-function extractError(errors, error) {
-    if (errors[error]) {
-        return errors[error][0];
-    }
-}
-
-export const emptyTask = {
-    nombre: "",
-    user_id: "",
-    fecha_fin: "",
-    descripcion: ""
-};
-
-const TaskModal = ({ task, isEditor = false }) => {
+const TaskFormModal = ({ task = {}, isEditor = false }) => {
     const dispatch = useDispatch();
 
     const [users, setUsers] = useState([]);
-    const [data, setData] = useState({ ...task });
-
-    const isEditing = useSelector(state => state.task.isEditing);
-    const errors = useSelector(state => state.task.errors);
 
     useEffect(() => {
         axios.get(`${apiURL}/user`).then(response => {
@@ -41,44 +25,21 @@ const TaskModal = ({ task, isEditor = false }) => {
         });
     }, []);
 
-    const handleChange = e => {
-        const { id, value } = e.target;
-
-        setData(data => {
-            return {
-                ...data,
-                [id]: value
-            };
-        });
-    };
-
-    const handleSubmit = e => {
-        e.preventDefault();
-
+    const handleSubmit = data => {
         if (isEditor) {
-            dispatch(editTask(task.id, data));
+            dispatch(editTask(data));
         } else {
             dispatch(createTask(data));
         }
     };
 
-    const handleReset = e => {
-        setData({ ...emptyTask });
-    };
-
     return (
-        <div className="modal-body">
-            <GenericForm
-                handleSubmit={handleSubmit}
-                disableSubmit={isEditing}
-                handleReset={handleReset}
-                onChange={handleChange}
-                values={data}
-                errors={errors}
-                setData={setData}
-            >
+        <GenericFormModal formData={task} onSubmit={handleSubmit}>
+            <div className="form-row">
                 <InputText id="nombre" label="Titulo de la Tarea" />
+            </div>
 
+            <div className="form-row">
                 <InputSelect id="user_id" label="Comprador">
                     {users.map(user => {
                         return (
@@ -88,13 +49,17 @@ const TaskModal = ({ task, isEditor = false }) => {
                         );
                     })}
                 </InputSelect>
+            </div>
 
+            <div className="form-row">
                 <InputDate id="fecha_fin" label="Fecha Finalizacion" />
+            </div>
 
+            <div className="form-row">
                 <InputTextArea id="descripcion" label="Descripción" />
-            </GenericForm>
-        </div>
+            </div>
+        </GenericFormModal>
     );
 };
 
-export default TaskModal;
+export default TaskFormModal;

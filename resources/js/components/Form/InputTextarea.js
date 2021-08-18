@@ -3,8 +3,8 @@ import ReactQuill from "react-quill";
 import { extractError } from "../../utils";
 import { FormContext } from "./GenericForm";
 
-const InputTextArea = ({ id, label, value = "" }) => {
-    const { setData, onChange, values, errors } = useContext(FormContext);
+const InputTextArea = ({ id, label, value = "", className = "" }) => {
+    const { setData, values, errors } = useContext(FormContext);
 
     const error = extractError(errors, id);
 
@@ -22,7 +22,7 @@ const InputTextArea = ({ id, label, value = "" }) => {
     };
 
     return (
-        <div className="form-group">
+        <div className={`form-group col ${className}`}>
             <label htmlFor={id}>{label}</label>
 
             {/* <textarea

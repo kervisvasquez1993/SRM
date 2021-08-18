@@ -1,12 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../store/actions/modalActions";
 import { getTasks } from "../../store/actions/taskActions";
-import FilterGroup from "../Filters/FilterGroup";
 import TaskCard from "./TaskCard";
-import TaskModal, { emptyTask } from "./TaskModal";
-import SliderFilter from "../Filters/SliderFilter";
-import { getDaysToFinishTask } from "../../utils";
+import TaskFormModal from "./TaskFormModal";
 import { Redirect } from "react-router-dom";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import { Helmet } from "react-helmet-async";
@@ -49,7 +46,7 @@ const TaskList = ({ myTasks = false }) => {
     // @ts-ignore
     const isLoadingList = useSelector(state => state.task.isLoadingList);
 
-    const [postFilterLists, setPostFilterLists] = useState([]);
+    // const [postFilterLists, setPostFilterLists] = useState([]);
 
     if (
         (!myTasks &&
@@ -71,38 +68,47 @@ const TaskList = ({ myTasks = false }) => {
         dispatch(
             openModal({
                 title: "Agregar Tarea",
-                body: <TaskModal task={emptyTask} />
+                body: <TaskFormModal />
             })
         );
     };
 
-    const getMaxDays = useCallback(() => {
-        if ("user" in postFilterLists) {
-            const dias = postFilterLists["user"].map(task =>
-                getDaysToFinishTask(task)
-            );
+    const handleCreateWithPurchase = () => {
+        dispatch(
+            openModal({
+                title: "Agregar Tarea",
+                body: <TaskFormModal />
+            })
+        );
+    };
 
-            return Math.max(...dias, 0);
-        }
+    // const getMaxDays = useCallback(() => {
+    //     if ("user" in postFilterLists) {
+    //         const dias = postFilterLists["user"].map(task =>
+    //             getDaysToFinishTask(task)
+    //         );
 
-        return 1;
-    }, [postFilterLists]);
+    //         return Math.max(...dias, 0);
+    //     }
 
-    const getMinDays = useCallback(() => {
-        if ("user" in postFilterLists) {
-            const dias = postFilterLists["user"].map(task =>
-                isTaskExpired(task) || isTaskCompleted(task)
-                    ? Infinity
-                    : getDaysToFinishTask(task)
-            );
+    //     return 1;
+    // }, [postFilterLists]);
 
-            return Math.max(Math.min(...dias));
-        }
-        return 0;
-    }, [postFilterLists]);
+    // const getMinDays = useCallback(() => {
+    //     if ("user" in postFilterLists) {
+    //         const dias = postFilterLists["user"].map(task =>
+    //             isTaskExpired(task) || isTaskCompleted(task)
+    //                 ? Infinity
+    //                 : getDaysToFinishTask(task)
+    //         );
 
-    const minDays = getMinDays();
-    const maxDays = getMaxDays();
+    //         return Math.max(Math.min(...dias));
+    //     }
+    //     return 0;
+    // }, [postFilterLists]);
+
+    // const minDays = getMinDays();
+    // const maxDays = getMaxDays();
 
     const filterConfig = [
         {
@@ -244,8 +250,19 @@ const TaskList = ({ myTasks = false }) => {
                         className="btn btn-lg btn-outline-primary btn-round"
                         onClick={handleCreate}
                     >
-                        <i className="fa fa-plus fa-2x"></i>&nbsp;&nbsp;Agregar
-                        Tarea
+                        <i className="fa fa-plus fa-2x mr-2"></i>Agregar Tarea
+                    </button>
+                </div>
+            )}
+
+            {myTasks && (
+                <div className="container text-right">
+                    <button
+                        className="btn btn-lg btn-outline-info btn-round"
+                        onClick={handleCreateWithPurchase}
+                    >
+                        <i className="fa fa-plus fa-2x mr-2"></i>Crear con
+                        Compra
                     </button>
                 </div>
             )}
@@ -254,7 +271,7 @@ const TaskList = ({ myTasks = false }) => {
                 config={filterConfig}
                 unfilteredData={tasks}
                 populatorConfig={populatorConfig}
-                setPostFilterLists={setPostFilterLists}
+                // setPostFilterLists={setPostFilterLists}
             ></GenericFilter>
         </React.Fragment>
     );

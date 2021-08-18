@@ -9,11 +9,12 @@ import {
     greenCard,
     useSimpleUrlFocus
 } from "../../utils";
-import TaskModal from "./TaskModal";
+import TaskFormModal from "./TaskFormModal";
 
 const TaskCard = ({ task }) => {
     const dispatch = useDispatch();
-    const { id, nombre, descripcion, usuario, fecha_fin, completada } = task;
+    const { id, nombre, usuario, fecha_fin, completada } = task;
+    // @ts-ignore
     const user = useSelector(state => state.auth.user);
 
     const [container, focusClassName] = useSimpleUrlFocus(id, "id");
@@ -29,7 +30,7 @@ const TaskCard = ({ task }) => {
         dispatch(
             openModal({
                 title: "Agregar Tarea",
-                body: <TaskModal task={taskToEdit} isEditor={true} />
+                body: <TaskFormModal task={taskToEdit} isEditor={true} />
             })
         );
     };
