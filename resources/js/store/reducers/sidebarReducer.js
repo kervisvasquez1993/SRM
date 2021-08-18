@@ -1,5 +1,7 @@
+import { sidebarBreakpoint } from "../../components/App";
+
 const defaultState = {
-    isOpen: false
+    isOpen: window.innerWidth > sidebarBreakpoint
 };
 
 const sidebarReducer = (state = defaultState, action) => {

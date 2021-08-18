@@ -94,10 +94,6 @@ export function uploadProductForNegotiation(pivotId, file) {
             dispatch(closeModal());
             dispatch(getProductsFromNegotiation(pivotId));
 
-            document
-                .querySelector("#wrapper")
-                .scrollTo(0, 10000000000000000000);
-
             toast.success("✔️ Productos importados");
         } catch (e) {
             toast.error(`🚨 ${e.response.data.error}`);

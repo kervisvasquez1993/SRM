@@ -11,7 +11,7 @@ import {
     getColorsForTask
 } from "../../utils";
 import LoadingScreen from "../Navigation/LoadingScreen";
-import TaskProviderList from "../Providers/TaskProviderList";
+import TaskSupplierList from "../Suppliers/TaskSupplierList";
 import TaskModal from "./TaskModal";
 
 const TaskDetails = () => {
@@ -35,10 +35,6 @@ const TaskDetails = () => {
     ) {
         return <Redirect to="/home" />;
     }
-
-    const handleGoBack = () => {
-        history.goBack();
-    };
 
     useEffect(() => {
         document.querySelector("#wrapper").scrollTo(0, 0);
@@ -74,21 +70,6 @@ const TaskDetails = () => {
             <Helmet>
                 <title>{`${task.nombre} - ${process.env.MIX_APP_NAME}`}</title>
             </Helmet>
-
-            <div className="container-fluid d-flex justify-content-between mb-4">
-                <div>
-                    <Link
-                        to="/home"
-                        className="btn btn-outline-primary btn-round"
-                        onClick={handleGoBack}
-                    >
-                        <span className="material-icons mr-2">
-                            keyboard_backspace
-                        </span>
-                        Atras
-                    </Link>
-                </div>
-            </div>
 
             <div className="mr-auto text-center py-4">
                 <h1 className="h2">Tarea : {task.nombre}</h1>
@@ -161,7 +142,7 @@ const TaskDetails = () => {
                 </div>
             )}
 
-            <TaskProviderList />
+            <TaskSupplierList />
         </div>
     );
 };

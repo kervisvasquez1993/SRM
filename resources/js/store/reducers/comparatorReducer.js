@@ -13,7 +13,7 @@ const comparatorReducer = (state = defaultState, action) => {
 
     if (type === "GET_TASK_FOR_COMPARISION_SUCCESS") {
         // Convertir el string de comparaciones en un objeto
-        const comparaciones = JSON.parse(payload.comparaciones);
+        const comparaciones = payload.comparaciones;
 
         // Es necesario redimensionar los arreglos en caso de que una empresa sea agregada
         const negotiationCount = payload.negociaciones.length;
@@ -36,8 +36,7 @@ const comparatorReducer = (state = defaultState, action) => {
             .flat();
 
         const newTask = {
-            ...payload,
-            comparaciones
+            ...payload
         };
 
         return {

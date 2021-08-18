@@ -26,8 +26,12 @@ class ProveedorResource extends JsonResource
             'contacto' => $this->contacto,
             'telefono' => $this->telefono,
             'email' => $this->email,
-            //'pivot' => $this->pivotTareaProveedor,
-            'pivot' => $this->when($request->tarea_id, $this->pivotTareaProveedor->where('tarea_id', $request->tarea_id)->first())
+            'pivot' => $this->when($request->tarea || $request->tarea_id, function () use ($request) {
+                if ($request->tarea_id) {
+                    return $this->pivotTareaProveedor()->where('tarea_id', $request->tarea_id)->first();
+                }
+                return $this->pivotTareaProveedor()->where('tarea_id', $request->tarea->id)->first();
+            })
         ];
     }
 }

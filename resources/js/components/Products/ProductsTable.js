@@ -157,7 +157,7 @@ const ProductsTable = ({
                                 {buyerColumns && (
                                     <React.Fragment>
                                         <th scope="col" colSpan={3}></th>
-                                        <th scope="col" colSpan={3}>
+                                        <th scope="col" colSpan={4}>
                                             PACKING QUANTITY
                                         </th>
                                         <th scope="col" colSpan={11}></th>
@@ -167,7 +167,7 @@ const ProductsTable = ({
                                 <th scope="col" colSpan={5}></th>
 
                                 {logisticsColumns && (
-                                    <th scope="col" colSpan={5}></th>
+                                    <th scope="col" colSpan={11}></th>
                                 )}
 
                                 {(allowEditing || allowDeletion) && (
@@ -220,7 +220,8 @@ const ProductsTable = ({
                                             Total USD
                                         </th>
                                         <th scope="col">UNIT</th>
-                                        <th scope="col">INNER</th>
+                                        <th scope="col">INNER 1</th>
+                                        <th scope="col">INNER 2</th>
                                         <th scope="col">OUTER</th>
                                         <th scope="col" colSpan={4}>
                                             CTN PACKING SIZE
@@ -272,16 +273,34 @@ const ProductsTable = ({
                                             NUM REFERENCIA EMPAQUE
                                         </th>
                                         <th scope="col" rowSpan={2}>
+                                            U/M UNIT
+                                        </th>
+                                        <th scope="col" rowSpan={2}>
                                             CÓDIGO DE BARRAS UNIT
                                         </th>
                                         <th scope="col" rowSpan={2}>
-                                            CÓDIGO DE BARRAS INNER
+                                            U/M INNER 1
+                                        </th>
+                                        <th scope="col" rowSpan={2}>
+                                            CÓDIGO DE BARRAS INNER 1
+                                        </th>
+                                        <th scope="col" rowSpan={2}>
+                                            U/M INNER 2
+                                        </th>
+                                        <th scope="col" rowSpan={2}>
+                                            CÓDIGO DE BARRAS INNER 2
+                                        </th>
+                                        <th scope="col" rowSpan={2}>
+                                            U/M OUTER
                                         </th>
                                         <th scope="col" rowSpan={2}>
                                             CÓDIGO DE BARRAS OUTER
                                         </th>
                                         <th scope="col" rowSpan={2}>
                                             CÓDIGO INTERNO ASIGNADO
+                                        </th>
+                                        <th scope="col" rowSpan={2}>
+                                            DESCRIPCION ASIGNADA SISTEMA
                                         </th>
                                     </React.Fragment>
                                 )}
@@ -290,7 +309,8 @@ const ProductsTable = ({
                                 {buyerColumns && (
                                     <React.Fragment>
                                         <th scope="col">PCS/UNIT</th>
-                                        <th scope="col">PCS/INNER BOX</th>
+                                        <th scope="col">PCS/INNER BOX 1</th>
+                                        <th scope="col">PCS/INNER BOX 2</th>
                                         <th scope="col">PCS/CTN</th>
                                         <th scope="col">L(CM)</th>
                                         <th scope="col">W(CM)</th>
@@ -334,7 +354,12 @@ const ProductsTable = ({
                                                 </td>
                                                 <td>
                                                     {
-                                                        product.pcs_inner_box_paking
+                                                        product.pcs_inner1_box_paking
+                                                    }
+                                                </td>
+                                                <td>
+                                                    {
+                                                        product.pcs_inner2_box_paking
                                                     }
                                                 </td>
                                                 <td>
@@ -395,16 +420,25 @@ const ProductsTable = ({
                                                         product.num_referencia_empaque
                                                     }
                                                 </td>
+                                                <td>{product.u_m_unit}</td>
                                                 <td>
                                                     {
                                                         product.codigo_de_barras_unit
                                                     }
                                                 </td>
+                                                <td>{product.u_m_inner_1}</td>
                                                 <td>
                                                     {
-                                                        product.codigo_de_barras_inner
+                                                        product.codigo_de_barras_inner_1
                                                     }
                                                 </td>
+                                                <td>{product.u_m_inner_2}</td>
+                                                <td>
+                                                    {
+                                                        product.codigo_barra_inner_2
+                                                    }
+                                                </td>
+                                                <td>{product.u_m_outer}</td>
                                                 <td>
                                                     {
                                                         product.codigo_de_barras_outer
@@ -413,6 +447,11 @@ const ProductsTable = ({
                                                 <td>
                                                     {
                                                         product.codigo_interno_asignado
+                                                    }
+                                                </td>
+                                                <td>
+                                                    {
+                                                        product.descripcion_asignada_sistema
                                                     }
                                                 </td>
                                             </React.Fragment>

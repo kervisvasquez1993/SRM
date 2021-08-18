@@ -1,7 +1,6 @@
 import React from "react";
 import ProductsTab from "../Products/ProductsTab";
-import ProviderTab from "../Providers/ProviderTab";
-import PurchaseTab from "../Purchases/PurchaseTab";
+import SupplierTab from "../Suppliers/SupplierTab";
 import TaskTab from "../Tasks/TaskTab";
 import TabButton from "../Widgets/TabButton";
 import TabContent from "../Widgets/TabContent";
@@ -43,7 +42,7 @@ const NegotiationTabs = ({ negotiation }) => {
                         <TaskTab task={tarea} user={usuario} />
                     </TabContent>
                     <TabContent name="business">
-                        <ProviderTab provider={proveedor} />
+                        <SupplierTab provider={proveedor} />
                     </TabContent>
                     <TabContent name="products">
                         <ProductsTab negotiation={negotiation} />

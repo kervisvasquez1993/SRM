@@ -1,4 +1,5 @@
 import React from "react";
+import { BsBuilding } from "react-icons/bs";
 import { FaRegHandshake } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
@@ -58,6 +59,20 @@ const Sidebar = () => {
                         <div className="link-container">
                             <i className="material-icons">person</i>
                             <p>Usuarios</p>
+                        </div>
+                    </NavLink>
+                )}
+
+                {(user.rol === "coordinador" || user.rol === "observador") && (
+                    <NavLink
+                        className="menu-link"
+                        to="/suppliers"
+                        onClick={closeMenu}
+                        activeClassName="active"
+                    >
+                        <div className="link-container">
+                            <BsBuilding className="icon-normal" />
+                            <p>Empresas</p>
                         </div>
                     </NavLink>
                 )}

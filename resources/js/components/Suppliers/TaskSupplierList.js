@@ -2,20 +2,20 @@ import React, { useEffect, useState } from "react";
 import { BiGitCompare } from "react-icons/bi";
 import { IoMdAddCircle } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
 import { getProvidersFromTask } from "../../store/actions/providerActions";
 import { isNegotiationSelected } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
 import LoadingScreen from "../Navigation/LoadingScreen";
-import ProviderCard from "../Providers/ProviderCard";
-import NewProviderModal from "./ProviderModal";
+import SupplierCard from "./SupplierCard";
+import NewProviderModal from "./SupplierModal";
 
-const TaskProviderList = () => {
+const TaskSupplierList = () => {
     const dispatch = useDispatch();
 
     // @ts-ignore
-    const providers = useSelector(state => state.provider.providers);
+    const suppliers = useSelector(state => state.provider.list);
     // @ts-ignore
     const isLoading = useSelector(state => state.provider.isLoadingList);
     // @ts-ignore
@@ -25,7 +25,7 @@ const TaskProviderList = () => {
 
     const [orderedProviders, setOrderedProviders] = useState([]);
 
-    const selectedProvider = providers.find(provider =>
+    const selectedProvider = suppliers.find(provider =>
         isNegotiationSelected(provider.pivot)
     );
 
@@ -34,7 +34,7 @@ const TaskProviderList = () => {
     }, []);
 
     useEffect(() => {
-        const ordered = providers.sort((x, y) => {
+        const ordered = suppliers.sort((x, y) => {
             const x1 = x.pivot.seleccionado;
             const y1 = y.pivot.seleccionado;
 
@@ -48,7 +48,7 @@ const TaskProviderList = () => {
         });
 
         setOrderedProviders(ordered);
-    }, [providers]);
+    }, [suppliers]);
 
     const handleCreateProvider = () => {
         dispatch(
@@ -79,7 +79,7 @@ const TaskProviderList = () => {
                     </button>
                 )}
 
-                {providers.length > 1 && (
+                {suppliers.length > 1 && (
                     <Link
                         to={`/tasks/${task.id}/comparator`}
                         className="btn btn-lg btn-round btn-info"
@@ -92,17 +92,13 @@ const TaskProviderList = () => {
 
             {orderedProviders.length > 0 ? (
                 <div className="d-flex flex-column-reverse">
-                    {orderedProviders.map(provider => {
-                        return (
-                            <ProviderCard
-                                key={provider.id}
-                                // @ts-ignore
-                                taskId={task.id}
-                                provider={provider}
-                                selectedProvider={selectedProvider}
-                            />
-                        );
-                    })}
+                    {orderedProviders.map(provider => (
+                        <SupplierCard
+                            key={provider.id}
+                            provider={provider}
+                            selectedProvider={selectedProvider}
+                        />
+                    ))}
                 </div>
             ) : (
                 <EmptyList />
@@ -111,4 +107,4 @@ const TaskProviderList = () => {
     );
 };
 
-export default TaskProviderList;
+export default TaskSupplierList;

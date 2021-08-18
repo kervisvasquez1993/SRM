@@ -35,16 +35,13 @@ Route::middleware('auth:api')->group(function () {
 
     Route::apiResource('user', 'Api\User\UserController')->except(['destroy']);
 
-    /* insertar nuevo proveedor con notificacion */
-    Route::post('/tarea/{tarea_id}/proveedor', 'Api\Proveedor\ProveedorController@store');
-
-    Route::apiResource('proveedor', 'Api\Proveedor\ProveedorController')->except('destroy', 'store');
+    Route::apiResource('proveedor', 'Api\Proveedor\ProveedorController')->except('destroy');
 
     //proveedores
-    Route::put('/tarea/{tarea_id}/proveedor/{proveedor_id}', 'Api\Proveedor\ProveedorController@updateFromTask');
-    Route::get('/tarea/{tarea_id}/proveedor', 'Api\Proveedor\ProveedorController@indexTareaProveedor');
-    Route::post('/tarea/{tarea_id}/proveedor', 'Api\Proveedor\ProveedorController@store');
-    Route::post('/tarea/{tarea_id}/proveedor/{proveedor_id}/negociar', 'Api\Proveedor\ProveedorController@iniciarNegociacion');
+    Route::put('/tarea/{tarea}/proveedor/{proveedor}', 'Api\Proveedor\ProveedorController@updateFromTask');
+    Route::get('/tarea/{tarea}/proveedor', 'Api\Proveedor\ProveedorController@indexTareaProveedor');
+    Route::post('/tarea/{tarea}/proveedor', 'Api\Proveedor\ProveedorController@crearParaTarea');
+    Route::post('/tarea/{tarea}/proveedor/{proveedor_id}/negociar', 'Api\Proveedor\ProveedorController@iniciarNegociacion');
     // fin de proveedores
 
     Route::get('/tarea/{tarea}/negociaciones', 'Api\Tarea\TareaController@obtenerNegociaciones');

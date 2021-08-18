@@ -1,7 +1,8 @@
 const defaultState = {
-    providers: [],
+    list: [],
     isLoadingList: false,
-    errors: {},
+    fullList: [],
+    isLoadingFullList: false,
     isEditing: false,
     allProviders: []
 };
@@ -13,45 +14,34 @@ const providerReducer = (state = defaultState, action) => {
         case "CHANGE_HISTORY":
             return {
                 ...state,
-                providers: [],
-                isLoadingList: true
+                list: [],
+                isLoadingList: true,
+                fullList: [],
+                isLoadingFullList: true
             };
-
         case "OPEN_MODAL":
             return {
                 ...state
             };
 
-        case "GET_PROVIDERS_REQUEST":
-            return {
-                ...state
-            };
         case "GET_PROVIDERS_SUCCESS":
             return {
                 ...state,
-                allProviders: payload
-            };
-        case "GET_PROVIDERS_FAILURE":
-            return {
-                ...state
+                fullList: payload,
+                isLoadingFullList: false
             };
 
         case "CLEAR_PROVIDERS":
             return {
                 ...state,
-                providers: [],
+                list: [],
                 isLoadingList: true
             };
 
-        case "GET_TASK_PROVIDERS_REQUEST":
-            return {
-                ...state,
-                isLoadingList: true
-            };
         case "GET_TASKS_PROVIDERS_SUCCESS":
             return {
                 ...state,
-                providers: payload,
+                list: payload,
                 isLoadingList: false
             };
         case "GET_TASKS_PROVIDERS_FAILURE":
@@ -60,70 +50,32 @@ const providerReducer = (state = defaultState, action) => {
                 isLoadingList: false
             };
 
-        case "EDIT_PROVIDER_REQUEST":
+        case "EDIT_TASK_PROVIDER_SUCCESS":
             return {
                 ...state,
-                isEditing: true
-            };
-        case "EDIT_PROVIDER_SUCCESS":
-            const newProviders = state.providers.map(provider => {
-                if (provider.id == payload.id) return payload;
-
-                return provider;
-            });
-
-            return {
-                ...state,
-                providers: newProviders,
-                errors: {},
-                isEditing: false
+                list: state.list.map(item =>
+                    item.id == payload.id ? payload : item
+                )
             };
 
-        case "EDIT_PROVIDER_FAILURE":
-            return {
-                ...state,
-                errors: action.errors || {},
-                error: action.error || "",
-                isEditing: false
-            };
-        case "CREATE_TASK_PROVIDER_REQUEST":
-            return {
-                ...state,
-                isEditing: true
-            };
         case "CREATE_TASK_PROVIDER_SUCCESS":
             return {
                 ...state,
-                providers: [...state.providers, payload],
-                errors: {},
-                isEditing: false
+                list: [...state.list, payload]
             };
-        case "CREATE_TASK_PROVIDER_FAILURE":
+
+        case "CREATE_SUPPLIER_SUCCESS":
             return {
                 ...state,
-                errors: action.errors || {},
-                error: action.error || null,
-                isEditing: false
+                fullList: [...state.fullList, payload]
             };
-        case "CLOSE_MODAL":
+        case "EDIT_SUPPLIER_SUCCESS":
             return {
                 ...state,
-                errors: {},
-                error: null
+                fullList: state.fullList.map(item =>
+                    item.id == payload.id ? payload : item
+                )
             };
-        // case "START_NEGOTIATION_SUCCESS":
-        //     const _newProviders = state.providers.map(provider => {
-        //         if (provider.id === action.providerId) {
-        //             provider.pivot.iniciar_negociacion = 1;
-        //         }
-
-        //         return provider;
-        //     });
-
-        //     return {
-        //         ...state,
-        //         providers: _newProviders
-        //     };
 
         case "CREATE_NEGOTIATION_REQUEST":
             return {
@@ -132,7 +84,7 @@ const providerReducer = (state = defaultState, action) => {
         case "CREATE_NEGOTIATION_SUCCESS":
             return {
                 ...state,
-                providers: [...state.providers, payload]
+                list: [...state.list, payload]
             };
         case "CREATE_NEGOTIATION_FAILURE":
             return {

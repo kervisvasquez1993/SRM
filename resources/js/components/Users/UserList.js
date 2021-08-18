@@ -21,7 +21,9 @@ const emptyUser = {
 const UserList = () => {
     const dispatch = useDispatch();
     const user = useUser();
+    // @ts-ignore
     const users = useSelector(state => state.user.users);
+    // @ts-ignore
     const isLoadingList = useSelector(state => state.user.isLoadingList);
 
     if (user.rol !== "coordinador") {
@@ -46,7 +48,7 @@ const UserList = () => {
         dispatch(
             openModal({
                 title: "Crear Usuario",
-                body: <UserModal formData={emptyUser} />
+                body: <UserModal formData={emptyUser} isEditor={false} />
             })
         );
     };

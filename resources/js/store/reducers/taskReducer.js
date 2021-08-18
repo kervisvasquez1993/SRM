@@ -93,6 +93,7 @@ const taskReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 task: null,
+                tasks: [],
                 isLoadingList: true
             };
 

@@ -98,7 +98,7 @@ export function createNegotiation(data) {
 
         try {
             // Create the pivot
-            const response = await axios.post(`${apiURL}/negociacion`, data);
+            await axios.post(`${apiURL}/negociacion`, data);
 
             // Get the provider resource
             const providerResponse = await axios.get(

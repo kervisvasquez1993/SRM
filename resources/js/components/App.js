@@ -45,6 +45,7 @@ import ReceptionPage from "./Claims/Reception/ReceptionPage";
 import InspectionPage from "./Claims/Inspection/InspectionPage";
 import ProductClaimPage from "./Claims/Claims/ProductClaimPage";
 import NegotiationComparator from "./Negotiation/Comparator/NegotiationComparator";
+import SupplierList from "./Suppliers/SupplierList";
 
 // const messaging = firebase.messaging();
 
@@ -77,7 +78,8 @@ axios.interceptors.response.use(
 );
 
 export const apiURL = process.env.MIX_APP_API_URL || "/api";
-export const amazonS3Url = "https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/";
+export const amazonS3Url =
+    "https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/";
 
 export const sidebarBreakpoint = 1100;
 
@@ -232,6 +234,9 @@ const App = () => {
                             </Route>
                             <Route path="/users">
                                 <UserList />
+                            </Route>
+                            <Route path="/suppliers">
+                                <SupplierList />
                             </Route>
                             <Route exact path="/tasks">
                                 <TaskList />

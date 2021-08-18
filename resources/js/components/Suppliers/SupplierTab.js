@@ -1,6 +1,6 @@
 import React from "react";
 
-const ProviderTab = ({ provider }) => {
+const SupplierTab = ({ provider }) => {
     return (
         <React.Fragment>
             <p>
@@ -93,4 +93,4 @@ const ProviderTab = ({ provider }) => {
     );
 };
 
-export default ProviderTab;
+export default SupplierTab;

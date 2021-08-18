@@ -1,7 +1,7 @@
 import React from "react";
 import CheckIcon from "../Widgets/CheckIcon";
 
-const ProviderStatus = ({ provider, selectedProvider }) => {
+const SupplierCardStatus = ({ provider, selectedProvider }) => {
     const isSelected = selectedProvider === provider;
 
     return (
@@ -80,4 +80,4 @@ const ProviderStatus = ({ provider, selectedProvider }) => {
     );
 };
 
-export default ProviderStatus;
+export default SupplierCardStatus;

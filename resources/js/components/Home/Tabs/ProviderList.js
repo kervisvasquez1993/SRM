@@ -6,19 +6,18 @@ import { getProvidersFromTask } from "../../../store/actions/providerActions";
 import { isNegotiationSelected } from "../../../utils";
 import EmptyList from "../../Navigation/EmptyList";
 import LoadingScreen from "../../Navigation/LoadingScreen";
-import LoadingSpinner from "../../Navigation/LoadingSpinner";
-import SimpleProviderCard from "../SimpleProviderCard";
+import MiniSupplierCard from "../MiniSupplierCard";
 
-const ProviderList = ({ taskId, filterProvidersInNegotiation = false }) => {
+const ProviderList = ({ taskId }) => {
     const dispatch = useDispatch();
 
     // @ts-ignore
-    const providers = useSelector(state => state.provider.providers);
+    const suppliers = useSelector(state => state.provider.list);
     // @ts-ignore
     const isLoading = useSelector(state => state.provider.isLoadingList);
 
     const [orderedProviders, setOrderedProviders] = useState([]);
-    const selectedProvider = providers.find(provider =>
+    const selectedProvider = suppliers.find(provider =>
         isNegotiationSelected(provider.pivot)
     );
 
@@ -33,7 +32,7 @@ const ProviderList = ({ taskId, filterProvidersInNegotiation = false }) => {
     }, []);
 
     useEffect(() => {
-        let ordered = providers.sort((x, y) => {
+        let ordered = suppliers.sort((x, y) => {
             const x1 = x.pivot.seleccionado;
             const y1 = y.pivot.seleccionado;
 
@@ -53,7 +52,7 @@ const ProviderList = ({ taskId, filterProvidersInNegotiation = false }) => {
         // }
 
         setOrderedProviders(ordered);
-    }, [providers]);
+    }, [suppliers]);
 
     if (isLoading) {
         return <LoadingScreen />;
@@ -65,7 +64,7 @@ const ProviderList = ({ taskId, filterProvidersInNegotiation = false }) => {
                 <div className="d-flex flex-column-reverse">
                     {orderedProviders.map(provider => {
                         return (
-                            <SimpleProviderCard
+                            <MiniSupplierCard
                                 key={provider.id}
                                 taskId={taskId}
                                 provider={provider}

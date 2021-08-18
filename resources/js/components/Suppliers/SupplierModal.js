@@ -2,18 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IoMdAddCircle } from "react-icons/io";
 import { openModal } from "../../store/actions/modalActions";
-import ProviderFormModal, { emptyProvider } from "./ProviderFormModal";
-import { getProviders } from "../../store/actions/providerActions";
+import SupplierFormModal, { emptyProvider } from "./SupplierFormModal";
+import { getSuppliers } from "../../store/actions/providerActions";
 import { createNegotiation } from "../../store/actions/negotiationActions";
 
-const ProviderModal = () => {
+const SupplierModal = () => {
     const dispatch = useDispatch();
     // @ts-ignore
     const taskId = useSelector(state => state.task.task).id;
     // @ts-ignore
-    const taskProviders = useSelector(state => state.provider.providers);
+    const taskSuppliers = useSelector(state => state.provider.list);
     // @ts-ignore
-    const allProviders = useSelector(state => state.provider.allProviders);
+    const allProviders = useSelector(state => state.provider.fullList);
     const [proveedorId, setProveedorId] = useState("");
     const [shownProviders, setShownProviders] = useState(allProviders);
 
@@ -21,19 +21,19 @@ const ProviderModal = () => {
         dispatch(
             openModal({
                 title: "Agregar Empresa",
-                body: <ProviderFormModal provider={emptyProvider} />
+                body: <SupplierFormModal provider={emptyProvider} />
             })
         );
     };
 
     useEffect(() => {
-        dispatch(getProviders());
+        dispatch(getSuppliers());
     }, []);
 
     useEffect(() => {
         // Filter the provider list to remove the providers added to the same task
         const newProviders = allProviders.filter(
-            i => !taskProviders.find(j => j.id === i.id)
+            i => !taskSuppliers.find(j => j.id === i.id)
         );
 
         // Set the new list for the form
@@ -114,4 +114,4 @@ const ProviderModal = () => {
     );
 };
 
-export default ProviderModal;
+export default SupplierModal;
