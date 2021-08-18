@@ -88,9 +88,15 @@ const ProductFormModal = ({
                                 label="PCS/UNIT"
                             />
                             <InputNumber
-                                id="pcs_inner_box_paking"
-                                label="PCS/INNER BOX"
+                                id="pcs_inner1_box_paking"
+                                label="PCS/INNER BOX 1"
                             />
+                            <InputNumber
+                                id="pcs_inner2_box_paking"
+                                label="PCS/INNER BOX 2"
+                            />
+                        </div>
+                        <div className="form-row">
                             <InputNumber id="pcs_ctn_paking" label="PCS/CTN" />
                         </div>
 
@@ -164,6 +170,12 @@ const ProductFormModal = ({
                                 id="num_referencia_empaque"
                                 label="NUM REFERENCIA EMPAQUE"
                             />
+                        </div>
+                        <div className="form-row">
+                            <InputText
+                                id="u_m_unit"
+                                label="U/M UNIT"
+                            />
                             <InputText
                                 id="codigo_de_barras_unit"
                                 label="CÓDIGO DE BARRAS UNIT"
@@ -171,8 +183,28 @@ const ProductFormModal = ({
                         </div>
                         <div className="form-row">
                             <InputText
-                                id="codigo_de_barras_inner"
-                                label="CÓDIGO DE BARRAS INNER"
+                                id="u_m_inner_1"
+                                label="U/M INNER 1"
+                            />
+                            <InputText
+                                id="codigo_de_barras_inner_1"
+                                label="CÓDIGO DE BARRAS INNER 1"
+                            />
+                        </div>
+                        <div className="form-row">
+                            <InputText
+                                id="u_m_inner_2"
+                                label="U/M INNER 2"
+                            />
+                            <InputText
+                                id="codigo_barra_inner_2"
+                                label="CÓDIGO DE BARRAS INNER 2"
+                            />
+                        </div>
+                        <div className="form-row">
+                            <InputText
+                                id="u_m_outer"
+                                label="U/M OUTER"
                             />
                             <InputText
                                 id="codigo_de_barras_outer"
@@ -183,6 +215,12 @@ const ProductFormModal = ({
                             <InputText
                                 id="codigo_interno_asignado"
                                 label="CÓDIGO INTERNO ASIGNADO"
+                            />
+                        </div>
+                        <div className="form-row">
+                            <InputText
+                                id="descripcion_asignada_sistema"
+                                label="DESCRIPCION ASIGNADA SISTEMA"
                             />
                         </div>
                     </React.Fragment>

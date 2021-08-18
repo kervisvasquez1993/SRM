@@ -65,7 +65,7 @@ class ProductoController extends ApiController
 
     public function update(Request $request, Producto $producto)
     {
-        if (!(auth()->user()->rol == 'coordinador') && !(auth()->user()->rol == 'comprador')) {
+        if (!(auth()->user()->rol == 'comprador' || auth()->user()->rol == 'coordinador' || auth()->user()->rol == 'logistica')) {
             return $this->errorResponse('No Tiene permiso para realizar esta accion', Response::HTTP_FORBIDDEN);
         }
 
