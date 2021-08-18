@@ -29,6 +29,7 @@ class PivotTareaProveeder extends Model
         'incoterms',
         'delivery_time',
         'codigo_comprador',
+        'orden_compra_directa'
     ];
 
     protected $appends = ['cantidad_productos'];

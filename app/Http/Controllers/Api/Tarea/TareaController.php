@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Api\Tarea;
 
 use App\User;
 use App\Tarea;
+use App\Proveedor;
 use App\DraggableTask;
+use App\PivotTareaProveeder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Exports\ComparativaExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Resources\TareaResource;
@@ -19,7 +22,6 @@ class TareaController extends ApiController
 {
     public function __construct()
     {
-
     }
 
     public function index()
@@ -30,12 +32,19 @@ class TareaController extends ApiController
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $proveedor = $request->proveedor_id; 
+        $rules =
+        [
             'nombre' => 'required',
-            'user_id' => 'required',
             'descripcion' => 'required ',
+        ];
+        
+        $validator = Validator::make($request->all(),
+        $proveedor ?  $rules: array_merge($rules, [
+            'user_id' => 'required',
             'fecha_fin' => 'required | date | after: 0 days',
-        ]);
+        ]));
+
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
@@ -43,11 +52,40 @@ class TareaController extends ApiController
 
         $tarea = new Tarea();
         $tarea->nombre = $request->nombre;
-        $tarea->user_id = $request->user_id;
-        $tarea->sender_id = auth()->id();
         $tarea->descripcion = $request->descripcion;
-        $tarea->fecha_fin = $request->fecha_fin;
-        $tarea->save();
+        $tarea->sender_id = auth()->id();
+        
+
+        if ($proveedor) 
+        {
+            
+            $tarea->user_id = auth()->id();
+            $tarea->fecha_fin = Carbon::now()->addDays(30);
+            $tarea->save();
+            /* tarea creada */
+            error_log($tarea);
+            $proveedor = Proveedor::findOrFail($proveedor);
+            error_log($proveedor);
+            $pivot = new PivotTareaProveeder();
+            $pivot->tarea_id = $tarea->id;
+            $pivot->proveedor_id = $proveedor;
+            $pivot->orden_compra_directa = true;
+            $pivot->save();
+
+            return $pivot;
+            
+
+        } else 
+        {
+            /* crear tarea sin orden de compra */
+            $tarea->user_id = $request->user_id;
+            $tarea->fecha_fin = $request->fecha_fin;
+            $tarea->save();
+            
+        }
+        
+
+
 
         /* seccion para las notificaciones */
         $comprador = User::find($tarea->user_id);
@@ -116,7 +154,8 @@ class TareaController extends ApiController
         return Excel::download(new ComparativaExport($tarea), 'comparativa.xlsx');
     }
 
-    public function obtenerNegociaciones(Tarea $tarea) {
+    public function obtenerNegociaciones(Tarea $tarea)
+    {
         return $this->showAllResources(PivotTareaProveederResource::collection($tarea->pivotTareaProveedor));
     }
 }

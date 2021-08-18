@@ -260,7 +260,6 @@ class PivotController extends ApiController
         $type    = "iniciar_produccion";
         $title   = "Inicio de Produccion";
         /* Notification::send($userUni, new GeneralNotification($body, $link, $type)); */
-        error_log('holaaa');
         $this->sendNotifications($userUni, new GeneralNotification($body, $link, $type, $title));
     }
 
