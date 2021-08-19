@@ -30,6 +30,7 @@ $description-width: 200px;
 }
 
 .column-dropable {
+    width: $name-width * 3 + $description-width + $cell-base-width * 3;
     flex-shrink: 0;
     background-color: $row-background;
     min-height: $cell-height + 20px;
@@ -107,7 +108,7 @@ $description-width: 200px;
         min-width: $name-width;
         max-width: $name-width;
     }
-    
+
     .provider-column {
         min-width: $cell-base-width;
         max-width: $cell-base-width;
