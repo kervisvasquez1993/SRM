@@ -252,8 +252,8 @@ Route::middleware('auth:api')->group(function () {
      /* incidencias de tareas */
      Route::get('/tarea_comentario/{tarea_id}/tarea', 'Api\Tarea\IncidenciaTareaController@index');
      Route::post('/tarea_comentario/{tarea_id}/tarea', 'Api\Tarea\IncidenciaTareaController@store');
-     Route::put('/tarea_comentario/{tarea_comentario_id}', 'Api\Tarea\IncidenciaTareaController@update');
-     Route::delete('/tarea_comentario/{tarea_comentario_id}', 'Api\Tarea\IncidenciaTareaController@destroy');
+     Route::put('/tarea_comentario/{tarea_comentario}', 'Api\Tarea\IncidenciaTareaController@update');
+     Route::delete('/tarea_comentario/{tarea_comentario}', 'Api\Tarea\IncidenciaTareaController@destroy');
      /* FIN incidencias de Inspeccion  */
 
     /* Archivados */
