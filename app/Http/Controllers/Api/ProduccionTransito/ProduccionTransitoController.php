@@ -92,7 +92,7 @@ class ProduccionTransitoController extends ApiController
             $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea finalizó la el proceso de transito.";
             $tipoNotify = "transito_nacionalizacion";
             /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
-            $title = "Transito Nacionalizacion";
+            $title = "Transito";
             $this->sendNotifications($user, new GeneralNotification($body, $link, $tipoNotify, $title));
         }
 
@@ -101,7 +101,7 @@ class ProduccionTransitoController extends ApiController
             $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea finalizó la proceso de nacionalizacion.";
             $tipoNotify = "transito_nacionalizacion";
             /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
-            $title = "Transito Nacionalizacion";
+            $title = "Nacionalizacion";
             $this->sendNotifications($user, new GeneralNotification($body, $link, $tipoNotify, $title));
         }
 

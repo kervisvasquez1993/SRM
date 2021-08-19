@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Producto;
 
 /* use auth; */
+
 use App\Exports\ProductosExport;
 use App\Http\Controllers\ApiController;
 use App\Imports\ProductosImport;
@@ -132,100 +133,110 @@ class ProductoController extends ApiController
             $productosAgregados = collect();
 
             foreach ($excel as $hoja) {
+                $contador = 4;
                 foreach ($hoja as $row) {
-                    if (auth()->user()->rol == 'logistica') {
-                        $product = [
-                            'product_name_customer' => $row[7],
-                            'num_referencia_empaque' => $row[33],
-                            'u_m_unit' => $row[34],
-                            'codigo_de_barras_unit' => $row[35],
-                            'u_m_inner_1' => $row[36],
-                            'codigo_de_barras_inner_1' => $row[37],
-                            'u_m_inner_2' => $row[38],
-                            'codigo_barra_inner_2' => $row[39],
-                            'u_m_outer' => $row[40],
-                            'codigo_de_barras_outer' => $row[41],
-                            'codigo_interno_asignado' => $row[42],
-                            'descripcion_asignada_sistema' => $row[43],
+                    try {
+                        //code..
 
-                        ];
+                        if (auth()->user()->rol == 'logistica') {
+                            $product = [
+                                'product_name_customer' => $row[7],
+                                'num_referencia_empaque' => $row[33],
+                                'u_m_unit' => $row[34],
+                                'codigo_de_barras_unit' => $row[35],
+                                'u_m_inner_1' => $row[36],
+                                'codigo_de_barras_inner_1' => $row[37],
+                                'u_m_inner_2' => $row[38],
+                                'codigo_barra_inner_2' => $row[39],
+                                'u_m_outer' => $row[40],
+                                'codigo_de_barras_outer' => $row[41],
+                                'codigo_interno_asignado' => $row[42],
+                                'descripcion_asignada_sistema' => $row[43],
 
-                        $producto = $pivot_tarea_proveeder_id
-                            ->productos()
-                            ->where('product_name_supplier', $row[3])
-                            ->where('product_code_supplier', $row[2])
-                            ->first();
+                            ];
 
-                        if ($producto) {
-                            $producto->update($product);
-                        }
-                    } else {
-                        try {
-
-                            $total_ctn = $row[10] / $row[15];
-                        } catch (\Throwable$th) {
-                            $total_ctn = 0;
-                        }
-
-                        $product = [
-                            'pivot_tarea_proveeder_id' => $pivot_tarea_proveeder_id->id,
-                            'hs_code' => $row[1],
-                            'product_code_supplier' => $row[2],
-                            'product_name_supplier' => $row[3],
-                            'brand_customer' => $row[4],
-                            'sub_brand_customer' => $row[5],
-                            'product_name_customer' => $row[6],
-                            'description' => $row[7],
-                            'shelf_life' => $row[9],
-                            'total_pcs' => $row[10],
-                            'unit_price' => $row[11],
-                            'total_usd' => $row[12],
-                            'pcs_unit_packing' => $row[13],
-                            'pcs_inner1_box_paking' => $row[14],
-                            'pcs_inner2_box_paking' => $row[15],
-                            'pcs_ctn_paking' => $row[16],
-                            'ctn_packing_size_l' => $row[17],
-                            'ctn_packing_size_w' => $row[18],
-                            'ctn_packing_size_h' => $row[19],
-                            'cbm' => $row[20],
-                            'n_w_ctn' => $row[21],
-                            'g_w_ctn' => $row[22],
-                            'total_ctn' => $row[23],
-                            'corregido_total_pcs' => $row[24],
-                            'total_cbm' => $row[25],
-                            'total_n_w' => $row[26],
-                            'total_g_w' => $row[27],
-                            'linea' => $row[28],
-                            'categoria' => $row[29],
-                            'sub_categoria' => $row[30],
-                            'permiso_sanitario' => $row[31],
-                            'cpe' => $row[32],
-                            'num_referencia_empaque' => $row[33],
-                        ];
-
-                        $validator = Validator::make($product, [
-                            'product_name_supplier' => 'required',
-                            'product_code_supplier' => 'required',
-                        ]);
-
-                        $productosAgregados->add($product);
-
-                        // Si se pasa la validación entonces se determinara si se editara un producto y si
-                        // se creara uno nuevo
-                        if (!$validator->fails()) {
                             $producto = $pivot_tarea_proveeder_id
                                 ->productos()
-                                ->where('product_name_supplier', $product['product_name_supplier'])
-                                ->where('product_code_supplier', $product['product_code_supplier'])
+                                ->where('product_name_supplier', $row[3])
+                                ->where('product_code_supplier', $row[2])
                                 ->first();
 
                             if ($producto) {
                                 $producto->update($product);
-                            } else {
-                                Producto::create($product);
+                            }
+                        } else {
+                            try {
+
+                                $total_ctn = $row[10] / $row[15];
+                            } catch (\Throwable $th) {
+                                $total_ctn = 0;
+                            }
+
+                            $product = [
+                                'pivot_tarea_proveeder_id' => $pivot_tarea_proveeder_id->id,
+                                'hs_code' => $row[1],
+                                'product_code_supplier' => $row[2],
+                                'product_name_supplier' => $row[3],
+                                'brand_customer' => $row[4],
+                                'sub_brand_customer' => $row[5],
+                                'product_name_customer' => $row[6],
+                                'description' => $row[7],
+                                'shelf_life' => $row[9],
+                                'total_pcs' => $row[10],
+                                'unit_price' => $row[11],
+                                'total_usd' => $row[12],
+                                'pcs_unit_packing' => $row[13],
+                                'pcs_inner1_box_paking' => $row[14],
+                                'pcs_inner2_box_paking' => $row[15],
+                                'pcs_ctn_paking' => $row[16],
+                                'ctn_packing_size_l' => $row[17],
+                                'ctn_packing_size_w' => $row[18],
+                                'ctn_packing_size_h' => $row[19],
+                                'cbm' => $row[20],
+                                'n_w_ctn' => $row[21],
+                                'g_w_ctn' => $row[22],
+                                'total_ctn' => $row[23],
+                                'corregido_total_pcs' => $row[24],
+                                'total_cbm' => $row[25],
+                                'total_n_w' => $row[26],
+                                'total_g_w' => $row[27],
+                                'linea' => $row[28],
+                                'categoria' => $row[29],
+                                'sub_categoria' => $row[30],
+                                'permiso_sanitario' => $row[31],
+                                'cpe' => $row[32],
+                                'num_referencia_empaque' => $row[33],
+                            ];
+
+                            $validator = Validator::make($product, [
+                                'product_name_supplier' => 'required',
+                                'product_code_supplier' => 'required',
+                            ]);
+
+                            $productosAgregados->add($product);
+
+                            // Si se pasa la validación entonces se determinara si se editara un producto y si
+                            // se creara uno nuevo
+                            if (!$validator->fails()) {
+                                $producto = $pivot_tarea_proveeder_id
+                                    ->productos()
+                                    ->where('product_name_supplier', $product['product_name_supplier'])
+                                    ->where('product_code_supplier', $product['product_code_supplier'])
+                                    ->first();
+
+                                if ($producto) {
+                                    $producto->update($product);
+                                } else {
+                                    Producto::create($product);
+                                }
                             }
                         }
+                    } catch (\Throwable $th) {
+                        error_log($th);
+                        return $this->errorResponse("Existe un error en la linea $contador del excel", 413);
+                        // TODO:AGREGAR UN TRY CATCH PARA CADA COLUMNA
                     }
+                    $contador++;
                 }
             }
 
@@ -250,10 +261,6 @@ class ProductoController extends ApiController
                         ->where('product_name_supplier', $productName)
                         ->where('product_code_supplier', $productCode)
                         ->first();
-
-                    error_log($productName);
-                    error_log($productCode);
-                    error_log($coordenada);
 
                     // Si existe el producto entonces se guardara la imagen
                     if ($producto) {
@@ -302,7 +309,7 @@ class ProductoController extends ApiController
                     }
                 }
             }
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
             error_log($e);
             return $this->errorResponse("Formato del Archivo no valido", 413);
         }
