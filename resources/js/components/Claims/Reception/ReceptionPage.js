@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { Helmet } from "react-helmet-async";
-import { BsUpload } from "react-icons/bs";
+import { BsCloudDownload, BsUpload } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useParams } from "react-router-dom";
 import {
@@ -146,7 +146,7 @@ const ReceptionPage = () => {
 
                     <div className="text-center">
                         <button
-                            className="btn btn-lg btn-success btn-round mb-4"
+                            className="btn btn-success"
                             onClick={handleUpload}
                             disabled={
                                 acceptedFiles.length == 0 || isUploadingFile
@@ -161,6 +161,14 @@ const ReceptionPage = () => {
                                 </React.Fragment>
                             )}
                         </button>
+
+                        <a
+                            className="btn btn-info"
+                            href="/templates/recepcion_mercancia.xlsx"
+                        >
+                            Descargar Plantilla
+                            <BsCloudDownload className="ml-2 icon-normal" />
+                        </a>
                     </div>
                 </React.Fragment>
             )}

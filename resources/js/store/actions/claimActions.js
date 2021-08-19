@@ -85,7 +85,7 @@ export function importExcel(id, file) {
                 type: "UPLOADING_CLAIMS_SUCCESS"
             });
 
-            dispatch(getReceptionItems(id));
+            dispatch(getClaim(id));
 
             toast.success("✔️ Excel importado");
         } catch (e) {
