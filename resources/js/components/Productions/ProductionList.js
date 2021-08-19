@@ -47,9 +47,9 @@ const ProductionList = () => {
                     filter: (item, filters) =>
                         !(
                             filters["status"]["processing"] === false &&
-                            !item.salida_puero_origen
+                            !item.nacionalizacion
                         ),
-                    filterPopulator: item => !item.salida_puero_origen
+                    filterPopulator: item => !item.nacionalizacion
                 },
                 {
                     id: "completed",
@@ -59,9 +59,9 @@ const ProductionList = () => {
                     filter: (item, filters) =>
                         !(
                             filters["status"]["completed"] === false &&
-                            item.salida_puero_origen
+                            item.nacionalizacion
                         ),
-                    filterPopulator: item => item.salida_puero_origen
+                    filterPopulator: item => item.nacionalizacion
                 }
             ]
         },
@@ -109,14 +109,14 @@ const ProductionList = () => {
     const populatorConfig = [
         {
             header: "En proceso",
-            filterPopulator: item => !item.salida_puero_origen,
+            filterPopulator: item => !item.nacionalizacion,
             populator: item => {
                 return <ProductionCard key={item.id} production={item} />;
             }
         },
         {
             header: "Completadas",
-            filterPopulator: item => item.salida_puero_origen,
+            filterPopulator: item => item.nacionalizacion,
             populator: item => {
                 return <ProductionCard key={item.id} production={item} />;
             }

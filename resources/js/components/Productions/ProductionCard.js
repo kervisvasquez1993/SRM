@@ -30,13 +30,18 @@ export const categories = [
         value: "inicio_produccion",
         label: "Fin de Producción"
     },
-    {
-        value: "inicio_produccion",
-        label: "Transito Nacionalización"
-    },
+
     {
         value: "inicio_produccion",
         label: "Salida Puerto Origen"
+    },
+    {
+        value: "inicio_produccion",
+        label: "Transito"
+    },
+    {
+        value: "inicio_produccion",
+        label: "Nacionalización"
     }
 ];
 
@@ -86,7 +91,9 @@ const ProductionCard = ({ production }) => {
         inicio_produccion,
         fin_produccion,
         transito_nacionalizacion,
-        salida_puero_origen
+        salida_puero_origen,
+        transito,
+        nacionalizacion
     } = production;
 
     const handleCheck = e => {
@@ -118,14 +125,11 @@ const ProductionCard = ({ production }) => {
         salida_puero_origen ||
         !(user.rol === "coordinador" || user.rol === "comprador");
 
-    const disableTransit = salida_puero_origen;
-
     const disablePortDeparture =
-        !inicio_produccion ||
-        !fin_produccion ||
-        !transito_nacionalizacion ||
-        !isPrepaymentDone ||
-        salida_puero_origen;
+        !inicio_produccion || !fin_produccion || salida_puero_origen;
+
+    const disableTransit = transito || !salida_puero_origen;
+    const disableNationalisation = nacionalizacion || !transito;
 
     return (
         <div
@@ -234,12 +238,12 @@ const ProductionCard = ({ production }) => {
                         <input
                             className="form-check-input"
                             type="checkbox"
-                            id="transito_nacionalizacion"
+                            id="salida_puero_origen"
                             onChange={handleCheck}
-                            disabled={disableTransit}
-                            checked={transito_nacionalizacion}
+                            disabled={disablePortDeparture}
+                            checked={salida_puero_origen}
                         />
-                        Transito Nacionalización
+                        Salida Puerto Origen
                         <span className="form-check-sign">
                             <span className="check"></span>
                         </span>
@@ -254,12 +258,32 @@ const ProductionCard = ({ production }) => {
                         <input
                             className="form-check-input"
                             type="checkbox"
-                            id="salida_puero_origen"
+                            id="transito"
                             onChange={handleCheck}
-                            disabled={disablePortDeparture}
-                            checked={salida_puero_origen}
+                            disabled={disableTransit}
+                            checked={transito}
                         />
-                        Salida Puerto Origen
+                        Transito
+                        <span className="form-check-sign">
+                            <span className="check"></span>
+                        </span>
+                    </label>
+                </div>
+
+                <div className="form-check form-check p-1">
+                    <label
+                        className="form-check-label"
+                        onClick={handleCheckClick}
+                    >
+                        <input
+                            className="form-check-input"
+                            type="checkbox"
+                            id="nacionalizacion"
+                            onChange={handleCheck}
+                            disabled={disableNationalisation}
+                            checked={nacionalizacion}
+                        />
+                        Nacionalización
                         <span className="form-check-sign">
                             <span className="check"></span>
                         </span>

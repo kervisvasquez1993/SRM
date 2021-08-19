@@ -33,6 +33,10 @@ class PivotTareaProveeder extends Model
         'total_pagar',
     ];
 
+    protected $casts = [
+        'total_pagar' => 'double',
+    ];
+
     protected $appends = ['cantidad_productos'];
 
     public function getCantidadProductosAttribute()
