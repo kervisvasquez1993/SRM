@@ -1,17 +1,16 @@
 import React from "react";
-import {BiLink } from "react-icons/bi";
+import { BiLink } from "react-icons/bi";
 import { Link } from "react-router-dom";
-import { hasNoProducts, roundMoneyAmount } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
 import ProductsResume from "../Widgets/ProductsResume";
 
 const ProductsTab = ({ negotiation }) => {
     return (
         <div className="my-3">
-            {hasNoProducts(negotiation) ? (
-                <EmptyList message="No hay productos registrados" />
-            ) : (
+            {negotiation.cantidad_productos ? (
                 <ProductsResume negotiation={[negotiation]} />
+            ) : (
+                <EmptyList message="No hay productos registrados" />
             )}
             <div className="text-center">
                 <Link
