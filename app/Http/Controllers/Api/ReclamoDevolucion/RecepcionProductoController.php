@@ -37,16 +37,13 @@ class RecepcionProductoController extends ApiController
         
         try
         {
-            Excel::import(new RecepcionProductoImport($reclamos_devoluciones_id->id), $archivo);
+            Excel::import(new RecepcionProductoImport($reclamos_devoluciones_id), $archivo);
         }
         catch(\Exception $e  )
         {
+            error_log($e);
             return $this->errorResponse("Formato del Archivo no valido", 413);
         }
-        
-
-
-
 
 
         /* notificacion */
