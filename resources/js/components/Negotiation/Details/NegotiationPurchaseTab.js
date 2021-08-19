@@ -2,44 +2,61 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../../store/actions/modalActions";
 import { finishStage } from "../../../store/actions/negotiationActions";
-import { getPurchaseOrdersFromNegotiation } from "../../../store/actions/purchaseOrderActions";
-import { getSum, roundMoneyAmount } from "../../../utils";
-import EmptyList from "../../Navigation/EmptyList";
-import LoadingScreen from "../../Navigation/LoadingScreen";
+import {
+    getPurchaseOrdersFromNegotiation,
+    uploadPurchaseOrderFile
+} from "../../../store/actions/purchaseOrderActions";
 import CompleteLastStageMessage from "./Other/CompleteLastStageMessage";
 import NextStageButton from "./Other/NextStageButton";
 import OnlyBuyersAllowedMessage from "./Other/OnlyBuyersAllowedMessage";
 import StageCompletedMessage from "./Other/StageCompletedMessage";
-import PurchaseOrdersResume from "../../Widgets/PurchaseOrdersResume";
-import CreatePurchaseOrderModal from "../../Purchases/CreatePurchaseOrderModal";
 import PoCodeModal from "../../Purchases/PoCodeModal";
-import PurchaseOrder from "../../Purchases/PurchaseOrder";
+import { useDropzone } from "react-dropzone";
+import { BsUpload } from "react-icons/bs";
+import GenericFileCard from "../../Files/GenericFileCard";
+import { amazonS3Url } from "../../App";
+import LoadingSpinner from "../../Navigation/LoadingSpinner";
 
 const campos = [
     { name: "compra_po", label: "Código PO" },
-    { name: "payment_terms", label: "Términos de Pago" },
-    { name: "hs_code", label: "Código HS" },
-    { name: "incoterms", label: "Incoterms" },
-    { name: "delivery_time", label: "Tiempo de Entrega" }
+    { name: "total_pagar", label: "Total a Pagar" }
+    // { name: "payment_terms", label: "Términos de Pago" },
+    // { name: "hs_code", label: "Código HS" },
+    // { name: "incoterms", label: "Incoterms" },
+    // { name: "delivery_time", label: "Tiempo de Entrega" }
 ];
 
 const NegotiationPurchaseTab = () => {
-    // @ts-ignore
-    const purchaseOrders = useSelector(state => state.purchaseOrder.orders);
-    // @ts-ignore
-    const isLoadingList = useSelector(
-        // @ts-ignore
-        state => state.purchaseOrder.isLoadingList
-    );
+    // // @ts-ignore
+    // const purchaseOrders = useSelector(state => state.purchaseOrder.orders);
+    // // @ts-ignore
+    // const isLoadingList = useSelector(
+    //     // @ts-ignore
+    //     state => state.purchaseOrder.isLoadingList
+    // );
 
     // @ts-ignore
     const user = useSelector(state => state.auth.user);
     // @ts-ignore
     const negotiation = useSelector(state => state.negotiation.negotiation);
+    const isUploading = useSelector(
+        // @ts-ignore
+        state => state.purchaseOrder.isUploadingFile
+    );
 
     const dispatch = useDispatch();
 
-    const canContinue = purchaseOrders.length > 0 && negotiation.compra_po;
+    // const canContinue = purchaseOrders.length > 0 && negotiation.compra_po;
+    const canContinue = negotiation.compra_po && negotiation.total_pagar;
+
+    const {
+        acceptedFiles,
+        getRootProps,
+        getInputProps,
+        isDragActive
+    } = useDropzone({
+        maxFiles: 1
+    });
 
     useEffect(() => {
         dispatch(getPurchaseOrdersFromNegotiation(negotiation.id));
@@ -53,14 +70,14 @@ const NegotiationPurchaseTab = () => {
         }
     };
 
-    const handleCreate = () => {
-        dispatch(
-            openModal({
-                title: "Agregar Orden de Compra",
-                body: <CreatePurchaseOrderModal pivotId={negotiation.id} />
-            })
-        );
-    };
+    // const handleCreate = () => {
+    //     dispatch(
+    //         openModal({
+    //             title: "Agregar Orden de Compra",
+    //             body: <CreatePurchaseOrderModal pivotId={negotiation.id} />
+    //         })
+    //     );
+    // };
 
     const handleEdit = () => {
         dispatch(
@@ -71,7 +88,19 @@ const NegotiationPurchaseTab = () => {
         );
     };
 
-    if (!negotiation.base_grafico_finalizado && !negotiation.orden_compra_directa) {
+    const handleUploadOrder = e => {
+        e.preventDefault();
+
+        dispatch(uploadPurchaseOrderFile(negotiation.id, acceptedFiles[0]));
+        acceptedFiles.length = 0;
+    };
+
+    const handleDeletePurchase = () => {};
+
+    if (
+        !negotiation.base_grafico_finalizado &&
+        !negotiation.orden_compra_directa
+    ) {
         return <CompleteLastStageMessage />;
     }
 
@@ -79,13 +108,13 @@ const NegotiationPurchaseTab = () => {
         return <OnlyBuyersAllowedMessage />;
     }
 
-    if (isLoadingList) {
-        return <LoadingScreen />;
-    }
+    // if (isLoadingList) {
+    //     return <LoadingScreen />;
+    // }
 
     return (
         <div className="d-flex flex-column align-items-center">
-            {purchaseOrders.length == 0 && <EmptyList />}
+            {/* {purchaseOrders.length == 0 && <EmptyList />}
 
             {isMine && (
                 <button
@@ -95,59 +124,56 @@ const NegotiationPurchaseTab = () => {
                     <span className="material-icons mr-1">add</span>
                     Agregar Registro
                 </button>
-            )}
+            )} */}
 
-            {purchaseOrders.length > 0 && (
-                <div className="row mb-4 mb-5">
-                    <div className="table-responsive">
-                        <table className="table table-sm table-hover table-bordered fade-in">
-                            <thead className="thead-dark">
-                                <tr>
-                                    <th scope="col">Campo</th>
-                                    <th scope="col">Valor</th>
-                                    {isMine && <th scope="col">Acción</th>}
+            <div className="table-responsive mb-5">
+                <table className="table table-sm table-hover table-bordered fade-in">
+                    <thead className="thead-dark">
+                        <tr>
+                            <th scope="col">Campo</th>
+                            <th scope="col">Valor</th>
+                            {isMine && <th scope="col">Acción</th>}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {campos.map(item => {
+                            const { name, label } = item;
+                            return (
+                                <tr key={name}>
+                                    <th scope="row">{label}</th>
+                                    <td>
+                                        {negotiation[name] || (
+                                            <div className="no-result d-flex align-items-center">
+                                                <span className="material-icons mr-2">
+                                                    search_off
+                                                </span>
+                                                No hay registros para mostrar
+                                            </div>
+                                        )}
+                                    </td>
+                                    {isMine && (
+                                        <td>
+                                            <button
+                                                className="btn btn-sm btn-success btn-circle ml-3"
+                                                type="button"
+                                                onClick={handleEdit}
+                                            >
+                                                <span className="material-icons">
+                                                    edit
+                                                </span>
+                                            </button>
+                                        </td>
+                                    )}
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {campos.map(item => {
-                                    const { name, label } = item;
-                                    return (
-                                        <tr key={name}>
-                                            <th scope="row">{label}</th>
-                                            <td>
-                                                {negotiation[name] || (
-                                                    <div className="no-result d-flex align-items-center">
-                                                        <span className="material-icons mr-2">
-                                                            search_off
-                                                        </span>
-                                                        No hay registros para
-                                                        mostrar
-                                                    </div>
-                                                )}
-                                            </td>
-                                            {isMine && (
-                                                <td>
-                                                    <button
-                                                        className="btn btn-sm btn-success btn-circle ml-3"
-                                                        type="button"
-                                                        onClick={handleEdit}
-                                                    >
-                                                        <span className="material-icons">
-                                                            edit
-                                                        </span>
-                                                    </button>
-                                                </td>
-                                            )}
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            )}
+                            );
+                        })}
+                    </tbody>
+                </table>
+            </div>
 
-            {purchaseOrders.length > 0 && (
+            <h2>Archivo</h2>
+
+            {/* {purchaseOrders.length > 0 && (
                 <div className="row mb-4">
                     <div className="table-responsive">
                         <table className="table table-sm table-hover table-bordered fade-in">
@@ -192,7 +218,53 @@ const NegotiationPurchaseTab = () => {
                         compras_total={getSum(purchaseOrders, "total")}
                     />
                 </React.Fragment>
+            )} */}
+
+            {negotiation.archivo_orden_compra && (
+                <GenericFileCard
+                    data={{
+                        id: 1,
+                        name: negotiation.nombre_archivo_orden_compra,
+                        url: `${amazonS3Url}${negotiation.archivo_orden_compra}`
+                    }}
+                    allowEditing={false}
+                />
             )}
+
+            <div className="d-flex flex-wrap justify-content-center mb-5">
+                <div
+                    {...getRootProps({
+                        className: `dropzone rounded mx-5 mb-2 ${
+                            isDragActive ? "drag-active" : ""
+                        }`
+                    })}
+                >
+                    <input name="import" {...getInputProps()} />
+                    {acceptedFiles.length > 0 ? (
+                        <div>
+                            {acceptedFiles[0].name} - {acceptedFiles[0].size}{" "}
+                            bytes
+                        </div>
+                    ) : (
+                        <span>Arrastre un archivo excel o haga clic aquí</span>
+                    )}
+                </div>
+
+                <button
+                    className="btn btn-lg btn-success btn-round"
+                    onClick={handleUploadOrder}
+                    disabled={acceptedFiles.length == 0}
+                >
+                    {isUploading ? (
+                        <LoadingSpinner />
+                    ) : (
+                        <React.Fragment>
+                            Subir Archivo
+                            <BsUpload className="ml-2 icon-normal" />
+                        </React.Fragment>
+                    )}
+                </button>
+            </div>
 
             <hr className="w-100" />
 
@@ -207,8 +279,8 @@ const NegotiationPurchaseTab = () => {
                                 siguiente etapa:{" "}
                                 {!canContinue && (
                                     <span className="text-danger">
-                                        (Se necesitan agregar ordenes de compra
-                                        y un codigo PO)
+                                        (Se necesitan rellenar los campos de la
+                                        orden de compra)
                                     </span>
                                 )}
                             </p>

@@ -66,8 +66,6 @@ const ProviderPurchase = () => {
         return <Redirect to="/home" />;
     }
 
-    console.log(negotiation)
-
     const state = 0;
     let defaultTab =
         (negotiation.orden_compra_directa && "5") ||

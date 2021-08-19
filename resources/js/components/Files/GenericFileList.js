@@ -190,7 +190,7 @@ const GenericFileList = ({
                         onClick={handleImport}
                         disabled={acceptedFiles.length == 0}
                     >
-                        "Subir Archivo"
+                        Subir Archivo
                         <BsUpload className="ml-2 icon-normal" />
                     </button>
                 </div>

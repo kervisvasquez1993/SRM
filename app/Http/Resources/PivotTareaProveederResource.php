@@ -46,7 +46,7 @@ class PivotTareaProveederResource extends JsonResource
             'nombre_archivo_orden_compra' => $this->nombre_archivo_orden_compra,
             'archivo_orden_compra' => $this->archivo_orden_compra,
             'orden_compra_directa' => $this->orden_compra_directa,
-
+            'total_pagar' => $this->total_pagar,
         ];
     }
 }

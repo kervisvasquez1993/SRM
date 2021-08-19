@@ -13,7 +13,8 @@ const GenericFileCard = ({
     data,
     deleteUrl = null,
     managerId = null,
-    allowEditing
+    allowEditing,
+    onDelete = null
 }) => {
     const { id, name, dummy, url } = data;
 
@@ -21,14 +22,20 @@ const GenericFileCard = ({
 
     // @ts-ignore
     const fileStates = useSelector(state => state.fileManager.states);
-    const deletingFileId = fileStates[managerId].deletingFileId;
+    const deletingFileId = managerId && fileStates[managerId].deletingFileId;
 
     const handleDelete = e => {
         e.preventDefault();
         e.stopPropagation();
 
         if (confirm(confirmDelete)) {
-            dispatch(deleteFile(managerId, data.id, deleteUrl));
+            if (managerId) {
+                dispatch(deleteFile(managerId, data.id, deleteUrl));
+            }
+
+            if (onDelete) {
+                onDelete();
+            }
         }
     };
 

@@ -34,19 +34,14 @@ const PurchaseOrderModal = ({ purchase, isEditor = false, pivotId = null }) => {
     };
 
     return (
-        <div className="modal-body">
-            <GenericFormModal formData={purchase} onSubmit={onSubmit}>
-                <InputText id="item" label="Item" />
-                <InputTextarea id="descripcion" label="Descripción" />
-                <InputText id="registro_salud" label="Registro Salud" />
-                <InputNumber
-                    id="cantidad_ctns"
-                    label="Cantidad Cantidad (CTNS)"
-                />
-                <InputNumber id="price" label="Precio" />
-                <InputNumber id="total" label="Total" />
-            </GenericFormModal>
-        </div>
+        <GenericFormModal formData={purchase} onSubmit={onSubmit}>
+            <InputText id="item" label="Item" />
+            <InputTextarea id="descripcion" label="Descripción" />
+            <InputText id="registro_salud" label="Registro Salud" />
+            <InputNumber id="cantidad_ctns" label="Cantidad Cantidad (CTNS)" />
+            <InputNumber id="price" label="Precio" />
+            <InputNumber id="total" label="Total" />
+        </GenericFormModal>
     );
 };
 

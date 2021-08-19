@@ -112,3 +112,38 @@ export function uploadPurchaseOrders(pivotId, file) {
         }
     };
 }
+
+export function uploadPurchaseOrderFile(pivotId, file) {
+    return async (dispatch, getState) => {
+        dispatch({
+            type: "UPLOAD_PURCHASE_ORDER_REQUEST"
+        });
+
+        try {
+            let formData = new FormData();
+            formData.append("file", file);
+
+            const response = await axios.post(
+                `${apiURL}/negociacion/${pivotId}/orden_compra`,
+                formData
+            );
+
+            dispatch({
+                type: "UPLOAD_PURCHASE_ORDER_SUCCESS"
+            });
+
+            dispatch({
+                type: "UPDATE_NEGOTIATION_SUCCESS",
+                payload: response.data.data
+            });
+
+            toast.success("✔️ Archivo cargado");
+        } catch (e) {
+            console.log(e);
+            console.log(e.response);
+            dispatch({
+                type: "UPLOAD_PURCHASE_ORDER_FAILURE"
+            });
+        }
+    };
+}

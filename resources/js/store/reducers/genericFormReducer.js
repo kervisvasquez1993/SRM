@@ -38,6 +38,7 @@ const genericFormReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 errors: {},
+                error: null,
                 isEditing: false
             };
 

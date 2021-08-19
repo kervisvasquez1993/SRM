@@ -34,6 +34,7 @@ class CreatePivotTareaProveedersTable extends Migration
             $table->boolean('orden_compra_directa')->default(false);
             $table->string('archivo_orden_compra')->nullable();
             $table->string('nombre_archivo_orden_compra')->nullable();
+            $table->double('total_pagar')->default(0)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

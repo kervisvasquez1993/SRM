@@ -29,7 +29,8 @@ const purcharseOrderReducer = (state = defaultState, action) => {
         case "CHANGE_HISTORY":
             return {
                 ...state,
-                orders: []
+                orders: [],
+                isUploadingFile: false
             };
         case "GET_PURCHASE_ORDERS_REQUEST":
             return {
@@ -107,6 +108,23 @@ const purcharseOrderReducer = (state = defaultState, action) => {
                 ...state,
                 isUploadingFile: false
             };
+
+        case "UPLOAD_PURCHASE_ORDER_REQUEST":
+            return {
+                ...state,
+                isUploadingFile: true
+            };
+        case "UPLOAD_PURCHASE_ORDER_SUCCESS":
+            return {
+                ...state,
+                isUploadingFile: false
+            };
+            case "UPLOAD_PURCHASE_ORDER_FAILURE":
+            return {
+                ...state,
+                isUploadingFile: false
+            };
+
         default:
             return state;
     }

@@ -76,7 +76,7 @@ const CreatePurchaseOrderModal = ({ pivotId }) => {
                     <LoadingSpinner />
                 ) : (
                     <React.Fragment>
-                        "Subir Archivo"
+                        Subir Archivo
                         <BsUpload className="ml-2 icon-normal" />
                     </React.Fragment>
                 )}
