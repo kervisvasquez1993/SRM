@@ -284,9 +284,9 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                     $sheet->getStyle("A$filaInicioComparacion" . ":A" . ($filaInicioComparacion + $filasPorComparacion - 2))->applyFromArray($this->encabezadoEstilos);
                 }
 
-                // foreach($sheet->getRowDimensions() as $rd) {
-                //     $rd->setRowHeight(509);
-                // }
+                foreach($sheet->getRowDimensions() as $rd) {
+                    $rd->setRowHeight(-1);
+                }
 
                 // Congelar los headers antes de la celda B3
                 $sheet->freezePane("B3");

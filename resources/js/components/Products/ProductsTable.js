@@ -139,7 +139,7 @@ const ProductsTable = ({
 
             {products.length > 0 && (
                 <div className="table-responsive table-text mb-5">
-                    <table className="table table-sm table-hover table-bordered fade-in py-0 text-center">
+                    <table className="table table-sm table-hover table-bordered fade-in py-0 text-center product-table">
                         <thead className="thead-dark">
                             <tr>
                                 <th scope="col" colSpan={2}></th>
@@ -331,11 +331,13 @@ const ProductsTable = ({
                                         <td>{product.brand_customer}</td>
                                         <td>{product.sub_brand_customer}</td>
                                         <td>{product.product_name_customer}</td>
-                                        <td>{product.description}</td>
-                                        <td>
+                                        <td className="description-cell">
+                                            {product.description}
+                                        </td>
+                                        <td className="image-cell-parent">
                                             {product.imagen && (
                                                 <img
-                                                    style={{ width: "100px" }}
+                                                    className="image-cell"
                                                     src={
                                                         amazonS3Url +
                                                         product.imagen

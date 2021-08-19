@@ -218,7 +218,7 @@ export default ({ negotiations, comparision, comparisonIndex }) => {
                                         <tr>
                                             {negotiations.map((item, index) => (
                                                 <th
-                                                    colSpan={6}
+                                                    colSpan={7}
                                                     key={index}
                                                     className="provider-column"
                                                 >
@@ -230,10 +230,13 @@ export default ({ negotiations, comparision, comparisonIndex }) => {
                                         <tr>
                                             {negotiations.map((item, index) => (
                                                 <React.Fragment key={index}>
-                                                    <th className="product-attribute-column">
+                                                     <th className="product-name">
+                                                        SUPPLIER CODE
+                                                    </th>
+                                                    <th className="product-name">
                                                         SUPPLIER NAME
                                                     </th>
-                                                    <th className="product-attribute-column">
+                                                    <th className="product-attribute-column product-description-header">
                                                         DESCRIPTION
                                                     </th>
                                                     <th className="product-attribute-column">
@@ -245,7 +248,7 @@ export default ({ negotiations, comparision, comparisonIndex }) => {
                                                     <th className="product-attribute-column">
                                                         Total USD
                                                     </th>
-                                                    <th className="product-attribute-column">
+                                                    <th className="product-name">
                                                         Imagen
                                                     </th>
                                                 </React.Fragment>
