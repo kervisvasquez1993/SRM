@@ -7,11 +7,13 @@ import InputDate from "../Form/InputDate";
 import InputTextArea from "../Form/InputTextarea";
 import GenericFormModal from "../Table/GenericFormModal";
 import { getUsers } from "../../store/actions/userActions";
+import { useUser } from "../../utils";
 
 const TaskFormModal = ({ task = {}, isEditor = false }) => {
     const dispatch = useDispatch();
     // @ts-ignore
     const users = useSelector(state => state.user.users);
+    const user = useUser();
     const filteredUsers = users.filter(
         user => user.rol === "coordinador" || user.rol === "comprador"
     );
@@ -34,21 +36,25 @@ const TaskFormModal = ({ task = {}, isEditor = false }) => {
                 <InputText id="nombre" label="Titulo de la Tarea" />
             </div>
 
-            <div className="form-row">
-                <InputSelect id="user_id" label="Comprador">
-                    {filteredUsers.map(user => {
-                        return (
-                            <option key={user.id} value={user.id}>
-                                {user.name}
-                            </option>
-                        );
-                    })}
-                </InputSelect>
-            </div>
+            {user.rol === "coordinador" && (
+                <React.Fragment>
+                    <div className="form-row">
+                        <InputSelect id="user_id" label="Comprador">
+                            {filteredUsers.map(user => {
+                                return (
+                                    <option key={user.id} value={user.id}>
+                                        {user.name}
+                                    </option>
+                                );
+                            })}
+                        </InputSelect>
+                    </div>
 
-            <div className="form-row">
-                <InputDate id="fecha_fin" label="Fecha Finalizacion" />
-            </div>
+                    <div className="form-row">
+                        <InputDate id="fecha_fin" label="Fecha Finalizacion" />
+                    </div>
+                </React.Fragment>
+            )}
 
             <div className="form-row">
                 <InputTextArea id="descripcion" label="Descripción" />

@@ -124,7 +124,7 @@ const TaskDetails = () => {
                 dangerouslySetInnerHTML={{ __html: task.descripcion }}
             ></div>
 
-            {user.rol === "coordinador" && (
+            {(user.rol === "coordinador" || user.rol === "comprador") && (
                 <div className="mr-auto text-center py-2 mb-5">
                     <button
                         className="btn btn-outline-warning btn-round ml-1"

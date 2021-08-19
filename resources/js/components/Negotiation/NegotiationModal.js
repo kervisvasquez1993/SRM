@@ -55,11 +55,13 @@ const NegotiationModal = ({ negotiation }) => {
         </button>
     );
 
+    const allowEditing = user.rol == "coordinador" || user.rol == "comprador";
+
     return (
         <React.Fragment>
             <NegotiationTabs negotiation={negotiation} />
 
-            {seleccionado && user.rol == "coordinador" && compra_po && (
+            {seleccionado && allowEditing && compra_po && (
                 <div className="modal-footer d-flex flex-row justify-content-between flex-nowrap">
                     <div className="flex-grow-1 w-100">
                         {iniciar_produccion && (
@@ -123,7 +125,7 @@ const NegotiationModal = ({ negotiation }) => {
 
             {!seleccionado &&
                 productos_confirmados &&
-                user.rol == "coordinador" && (
+                user.rol == allowEditing && (
                     <div className="modal-footer">{selectionButton}</div>
                 )}
 
@@ -134,9 +136,7 @@ const NegotiationModal = ({ negotiation }) => {
                         Aún no se han confirmado los productos
                     </p>
 
-                    {!seleccionado &&
-                        user.rol == "coordinador" &&
-                        selectionButton}
+                    {!seleccionado && allowEditing && selectionButton}
                 </div>
             )}
         </React.Fragment>
