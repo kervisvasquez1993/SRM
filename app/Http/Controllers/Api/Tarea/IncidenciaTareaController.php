@@ -6,6 +6,7 @@ use App\IncidenciaTarea;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\IncidenciaResource;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -13,7 +14,8 @@ class IncidenciaTareaController extends ApiController
 {
     public function index( Tarea $tarea_id)
     {
-        return $tarea_id->incidenciaTarea;
+        $cometarios = IncidenciaResource::collection($tarea_id->incidenciaTarea);
+        return $this->showAllResources($cometarios); 
     }
     public function store(Request $request,   Tarea $tarea_id)
     {
@@ -30,7 +32,7 @@ class IncidenciaTareaController extends ApiController
 
         $request->merge(["tarea_id" => $tarea_id->id, "user_id" => auth()->user()->id]);
         $comentario_tarea = IncidenciaTarea::create($request->all());
-        return $comentario_tarea;
+        return $this->showOneResource(new IncidenciaResource($comentario_tarea)); 
     }
     public function update(Request $request, IncidenciaTarea $tarea_comentario)
     {
@@ -46,13 +48,15 @@ class IncidenciaTareaController extends ApiController
 
         $tarea_comentario->update($request->all());
 
-        return $tarea_comentario;
+        return $this->showOneResource(new IncidenciaResource($tarea_comentario));
+
         
 
 
     }
-    public function destroy()
+    public function destroy(IncidenciaTarea $tarea_comentario)
     {
-        return "desde destroy de comentario de tarea";
+        $tarea_comentario->delete();
+        return $this->showOneResource(new IncidenciaResource($tarea_comentario));
     }
 }
