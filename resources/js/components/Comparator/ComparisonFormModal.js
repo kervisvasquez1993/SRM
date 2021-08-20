@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import {
     addComparision,
     editComparision
-} from "../../../store/actions/comparatorActions";
-import InputText from "../../Form/InputText";
-import GenericFormModal from "../../Table/GenericFormModal";
+} from "../../store/actions/comparatorActions";
+import InputText from "../Form/InputText";
+import GenericFormModal from "../Table/GenericFormModal";
 
 export default ({ formData, isEditor = false }) => {
     const dispatch = useDispatch();

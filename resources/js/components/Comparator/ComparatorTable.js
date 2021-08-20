@@ -5,15 +5,15 @@ import { RiDeleteBin2Fill } from "react-icons/ri";
 import { MdAddCircle } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 } from "uuid";
-import { confirmDelete } from "../../../appText";
+import { confirmDelete } from "../../appText";
 import {
     deleteComparision,
     updateComparisionRows
-} from "../../../store/actions/comparatorActions";
-import { extractStringAfter, extractStringBetween } from "../../../utils";
+} from "../../store/actions/comparatorActions";
+import { extractStringAfter, extractStringBetween } from "../../utils";
 import ComparatorRow from "./ComparatorRow";
-import { openModal } from "../../../store/actions/modalActions";
-import AddComparisionModal from "./AddComparisionModal";
+import { openModal } from "../../store/actions/modalActions";
+import AddComparisionModal from "./ComparisonFormModal";
 
 const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);

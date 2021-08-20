@@ -6,11 +6,11 @@ import { MdAddCircle } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { v4 } from "uuid";
-import { getTask } from "../../../store/actions/comparatorActions";
-import { openModal } from "../../../store/actions/modalActions";
-import { apiURL } from "../../App";
-import LoadingScreen from "../../Navigation/LoadingScreen";
-import AddComparisionModal from "./AddComparisionModal";
+import { getTask } from "../../store/actions/comparatorActions";
+import { openModal } from "../../store/actions/modalActions";
+import { apiURL } from "../App";
+import LoadingScreen from "../Navigation/LoadingScreen";
+import AddComparisionModal from "./ComparisonFormModal";
 import ComparatorTable from "./ComparatorTable";
 
 // const colors = ["green", "blue", "red", "bg-warning", "table-dark"];

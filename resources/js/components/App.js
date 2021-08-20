@@ -44,7 +44,7 @@ import { Helmet } from "react-helmet-async";
 import ReceptionPage from "./Claims/Reception/ReceptionPage";
 import InspectionPage from "./Claims/Inspection/InspectionPage";
 import ProductClaimPage from "./Claims/Claims/ProductClaimPage";
-import NegotiationComparator from "./Negotiation/Comparator/NegotiationComparator";
+import NegotiationComparator from "./Comparator/NegotiationComparator";
 import SupplierList from "./Suppliers/SupplierList";
 
 // const messaging = firebase.messaging();

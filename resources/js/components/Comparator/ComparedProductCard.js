@@ -2,8 +2,8 @@ import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { RiFileUnknowFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-import { updateCell } from "../../../store/actions/comparatorActions";
-import { amazonS3Url } from "../../App";
+import { updateCell } from "../../store/actions/comparatorActions";
+import { amazonS3Url } from "../App";
 
 const white = "ffffff";
 const green = "7dc472";
