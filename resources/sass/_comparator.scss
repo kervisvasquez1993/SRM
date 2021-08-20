@@ -62,6 +62,10 @@ $description-width: 200px;
     table {
         height: 100%;
     }
+
+    tr {
+        border: solid 4px rgb(172, 172, 172);
+    }
 }
 
 .comparision-table-header {
