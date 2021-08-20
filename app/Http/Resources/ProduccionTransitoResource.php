@@ -24,7 +24,7 @@ class ProduccionTransitoResource extends JsonResource
           'salida_puero_origen' => $this->salida_puero_origen,
           'transito' => $this->transito,
           'nacionalizacion' => $this->nacionalizacion,
-        ];
+        ]; 
 
     }
 }

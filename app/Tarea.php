@@ -51,6 +51,12 @@ class Tarea extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function incidenciaTarea()
+    {
+        return $this->hasMany(IncidenciaTarea::class);
+    }
+    
     /* TODO: ACTUALIZAR CODIGO */
     public function coordinador()
     {

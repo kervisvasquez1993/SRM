@@ -248,6 +248,14 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/reclamos_devolucion/{reclamos_devolucion_id}', 'Api\ReclamoDevolucion\IncidenciaReclamoController@destroy');
     /* FIN incidencias de Inspeccion  */
 
+
+     /* incidencias de tareas */
+     Route::get('/tarea_comentario/{tarea_id}/tarea', 'Api\Tarea\IncidenciaTareaController@index');
+     Route::post('/tarea_comentario/{tarea_id}/tarea', 'Api\Tarea\IncidenciaTareaController@store');
+     Route::put('/tarea_comentario/{tarea_comentario}', 'Api\Tarea\IncidenciaTareaController@update');
+     Route::delete('/tarea_comentario/{tarea_comentario}', 'Api\Tarea\IncidenciaTareaController@destroy');
+     /* FIN incidencias de Inspeccion  */
+
     /* Archivados */
     Route::get('/archivado', 'Api\Archivado\ArchivadoController@index');
     Route::get('/archivado/{/archivado_id}', 'Api\Archivado\ArchivadoController@show');
