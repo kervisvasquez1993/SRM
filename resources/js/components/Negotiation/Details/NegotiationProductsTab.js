@@ -1,12 +1,11 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { FaCheck } from "react-icons/fa";
 import ProductsTable from "../../Products/ProductsTable";
 import { finishProductsStage } from "../../../store/actions/negotiationActions";
 import StageCompletedMessage from "./Other/StageCompletedMessage";
 import OnlyBuyersAllowedMessage from "./Other/OnlyBuyersAllowedMessage";
 import NextStageButton from "./Other/NextStageButton";
+import SmallWarningIcon from "../../Widgets/Icons/SmallWarningIcon";
 
 const NegotiationProductsTab = () => {
     const dispatch = useDispatch();
@@ -45,18 +44,20 @@ const NegotiationProductsTab = () => {
                         <React.Fragment>
                             <p>
                                 Utilize el siguiente botón para pasar a la
-                                siguiente etapa:{" "}
-                                {!canContinue && (
-                                    <span className="text-danger">
-                                        (Necesita cargar productos primero)
-                                    </span>
-                                )}
+                                siguiente etapa:
                             </p>
 
                             <NextStageButton
                                 disabled={!canContinue}
                                 onClick={handleContinue}
                             />
+
+                            {!canContinue && (
+                                <p className="text-center text-danger">
+                                    <SmallWarningIcon /> Se necesita cargar
+                                    productos primero
+                                </p>
+                            )}
                         </React.Fragment>
                     ) : (
                         <OnlyBuyersAllowedMessage />

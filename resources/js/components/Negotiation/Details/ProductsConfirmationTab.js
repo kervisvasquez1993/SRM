@@ -6,6 +6,7 @@ import StageCompletedMessage from "./Other/StageCompletedMessage";
 import OnlyBuyersAllowedMessage from "./Other/OnlyBuyersAllowedMessage";
 import CompleteLastStageMessage from "./Other/CompleteLastStageMessage";
 import NextStageButton from "./Other/NextStageButton";
+import SmallWarningIcon from "../../Widgets/Icons/SmallWarningIcon";
 
 const ProductsConfirmationTab = () => {
     const dispatch = useDispatch();
@@ -40,7 +41,12 @@ const ProductsConfirmationTab = () => {
                 showCreateButton={true}
                 allowEditing={true}
                 allowDeletion={true}
-                allowExcel={!(negotiation.productos_confirmados && negotiation.seleccionado)}
+                allowExcel={
+                    !(
+                        negotiation.productos_confirmados &&
+                        negotiation.seleccionado
+                    )
+                }
                 canAddSingleProduct={true}
             />
 
@@ -54,18 +60,20 @@ const ProductsConfirmationTab = () => {
                         <React.Fragment>
                             <p>
                                 Utilize el siguiente botón para pasar a la
-                                siguiente etapa:{" "}
-                                {!canContinue && (
-                                    <span className="text-danger">
-                                        (Necesita cargar productos primero)
-                                    </span>
-                                )}
+                                siguiente etapa:
                             </p>
 
                             <NextStageButton
                                 disabled={!canContinue}
                                 onClick={handleContinue}
                             />
+
+                            {!canContinue && (
+                                <p className="text-center text-danger">
+                                    <SmallWarningIcon /> Se necesita cargar
+                                    productos primero
+                                </p>
+                            )}
                         </React.Fragment>
                     ) : (
                         <OnlyBuyersAllowedMessage />

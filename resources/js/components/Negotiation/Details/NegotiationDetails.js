@@ -17,7 +17,7 @@ import TabsRow from "../../Widgets/Tabs/TabsRow";
 import Tab from "../../Widgets/Tabs/Tab";
 import CheckIcon from "../../Widgets/CheckIcon";
 import ProductsConfirmationTab from "./ProductsConfirmationTab";
-import ProviderSelectionTab from "./ProviderSelectionTab";
+import SupplierSelectionTab from "./SupplierSelectionTab";
 import BarCodeTab from "./BarCodeTab";
 import BaseGraficoTab from "./BaseGraficoTab";
 
@@ -167,7 +167,7 @@ const ProviderPurchase = () => {
                             <ProductsConfirmationTab />
                         </TabContent>
                         <TabContent name="2">
-                            <ProviderSelectionTab />
+                            <SupplierSelectionTab />
                         </TabContent>
                         <TabContent name="3">
                             <BarCodeTab />

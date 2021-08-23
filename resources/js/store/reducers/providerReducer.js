@@ -90,6 +90,19 @@ const providerReducer = (state = defaultState, action) => {
             return {
                 ...state
             };
+
+        case "SELECT_SUPPLIER_SUCCESS":
+            const __newList = state.list.map(item => {
+                if (item.pivot.id === payload.id) {
+                    return { ...item, pivot: payload };
+                }
+                return item;
+            });
+
+            return {
+                ...state,
+                list: __newList
+            };
         default:
             return state;
     }

@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { openModal } from "../../store/actions/modalActions";
 // import { startNegotiation } from "../../store/actions/providerActions";
 import {
@@ -12,9 +12,13 @@ import {
 } from "../../utils";
 import SupplierFormModal from "./SupplierFormModal";
 import SupplierCardStatus from "./SupplierCardStatus";
+import { MdTouchApp } from "react-icons/md";
+import { FaRegEdit } from "react-icons/fa";
+import { confirmDelete } from "../../appText";
+import { selectSupplierWithNegotiation } from "../../store/actions/providerActions";
 
 const SupplierCard = ({
-    provider,
+    supplier,
     selectedProvider = undefined,
     haveNegotiation = true
 }) => {
@@ -23,10 +27,10 @@ const SupplierCard = ({
 
     // @ts-ignore
     const task = useSelector(state => state.task.task);
-    const isSelected = selectedProvider === provider;
+    const isSelected = selectedProvider === supplier;
 
     const [container, focusClassName] = useSimpleUrlFocus(
-        provider.id,
+        supplier.id,
         "providerId"
     );
 
@@ -41,14 +45,14 @@ const SupplierCard = ({
         pais,
         telefono,
         pivot
-    } = provider;
+    } = supplier;
 
-    const isMine = !haveNegotiation || (task && user.id == task.usuario.id);
+    const isMine = haveNegotiation ? task && user.id == task.usuario.id : false;
 
     const handleEdit = e => {
         e.preventDefault();
 
-        const providerToEdit = { ...provider };
+        const providerToEdit = { ...supplier };
 
         dispatch(
             openModal({
@@ -63,11 +67,13 @@ const SupplierCard = ({
         );
     };
 
-    // const handleNegotiate = e => {
-    //     e.preventDefault();
+    const handleSelectSupplier = e => {
+        e.preventDefault();
 
-    //     dispatch(startNegotiation(taskId, id));
-    // };
+        if (confirm(confirmDelete)) {
+            dispatch(selectSupplierWithNegotiation(supplier));
+        }
+    };
 
     const { text, background } = isSelected
         ? greenCard
@@ -84,10 +90,10 @@ const SupplierCard = ({
                 <div className="d-flex justify-content-between flex-wrap">
                     <h3 className="card-title">{nombre}</h3>
 
-                    {provider.pivot && !selectedProvider && (
+                    {supplier.pivot && !selectedProvider && (
                         <p className="card-text text-muted">
                             Productos cargados :{" "}
-                            {provider.pivot.cantidad_productos}
+                            {supplier.pivot.cantidad_productos}
                         </p>
                     )}
                 </div>
@@ -170,28 +176,31 @@ const SupplierCard = ({
 
                 {haveNegotiation && (
                     <SupplierCardStatus
-                        provider={provider}
+                        provider={supplier}
                         selectedProvider={selectedProvider}
                     />
                 )}
             </div>
 
-            {isMine && (
-                <div className="card-footer">
-                    <div className="d-flex justify-content-end w-100">
-                        <div className="d-flex">
-                            <button
-                                className="btn btn-primary btn-round mr-2"
-                                onClick={handleEdit}
-                            >
-                                <span className="material-icons">edit</span>
-                                Editar
-                            </button>
-                        </div>
-                    </div>
-                    <hr />
-                </div>
-            )}
+            <div className="card-footer d-flex flex-wrap justify-content-end">
+                <button
+                    className="btn btn-primary btn-sm mr-2"
+                    onClick={handleEdit}
+                >
+                    <FaRegEdit className="icon-normal mr-2" />
+                    Editar
+                </button>
+                {isMine && !selectedProvider && (
+                    <button
+                        type="button"
+                        className="btn btn-info btn-sm"
+                        onClick={handleSelectSupplier}
+                    >
+                        <MdTouchApp className="icon-normal mr-2" />
+                        Seleccionar esta empresa
+                    </button>
+                )}
+            </div>
         </div>
     );
 

@@ -1,9 +1,7 @@
 import React from "react";
-import { MdTouchApp } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { confirmDelete } from "../../appText";
 import {
-    selectNegotiation,
     startArtWithNegotiation,
     startProductionWithNegotiation
 } from "../../store/actions/negotiationActions";
@@ -18,19 +16,11 @@ const NegotiationModal = ({ negotiation }) => {
     const isStarting = useSelector(state => state.negotiation.isStarting);
 
     const {
-        id,
         iniciar_produccion,
         iniciar_arte,
         productos_confirmados,
-        seleccionado,
         compra_po
     } = negotiation;
-
-    const handleSelectProvider = () => {
-        if (confirm(confirmDelete)) {
-            dispatch(selectNegotiation(negotiation));
-        }
-    };
 
     const handleStartProduction = () => {
         if (confirm(confirmDelete)) {
@@ -44,24 +34,13 @@ const NegotiationModal = ({ negotiation }) => {
         }
     };
 
-    const selectionButton = (
-        <button
-            type="button"
-            className="btn btn-info ml-4"
-            onClick={handleSelectProvider}
-        >
-            <MdTouchApp className="icon-normal mr-2" />
-            Seleccionar esta empresa
-        </button>
-    );
-
     const allowEditing = user.rol == "coordinador" || user.rol == "comprador";
 
     return (
         <React.Fragment>
             <NegotiationTabs negotiation={negotiation} />
 
-            {seleccionado && allowEditing && compra_po && (
+            {allowEditing && compra_po && (
                 <div className="modal-footer d-flex flex-row justify-content-between flex-nowrap">
                     <div className="flex-grow-1 w-100">
                         {iniciar_produccion && (
@@ -114,7 +93,7 @@ const NegotiationModal = ({ negotiation }) => {
                 </div>
             )}
 
-            {seleccionado && !compra_po && (
+            {!compra_po && (
                 <div className="modal-footer bg-danger">
                     <p className="d-flex text-white align-items-center h6">
                         <span className="material-icons mr-2">warning</span>
@@ -123,20 +102,12 @@ const NegotiationModal = ({ negotiation }) => {
                 </div>
             )}
 
-            {!seleccionado &&
-                productos_confirmados &&
-                user.rol == allowEditing && (
-                    <div className="modal-footer">{selectionButton}</div>
-                )}
-
             {!productos_confirmados && (
                 <div className="modal-footer bg-danger">
                     <p className="d-flex text-white align-items-center h6">
                         <span className="material-icons mr-2">warning</span>
                         Aún no se han confirmado los productos
                     </p>
-
-                    {!seleccionado && allowEditing && selectionButton}
                 </div>
             )}
         </React.Fragment>

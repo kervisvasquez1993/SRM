@@ -50,7 +50,7 @@ export default () => {
             <div className="user-cards">
                 {suppliers.map(item => (
                     <SupplierCard
-                        provider={item}
+                        supplier={item}
                         key={item.id}
                         haveNegotiation={false}
                     />
