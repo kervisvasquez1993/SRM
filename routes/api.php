@@ -268,4 +268,12 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/push-notification/{fcmToken}', 'Api\WebNotificationController@deleteToken');
     /* export */
     Route::get('negociacion/{producto}/exportar_productos', 'Api\Producto\ProductoController@exportProduct');
+
+
+    // COmparaciones
+    Route::get('/tarea/{tarea}/comparacion', 'Api\ComparacionController@index');
+    Route::post('/tarea/{tarea}/comparacion', 'Api\ComparacionController@store');
+    Route::get('/comparacion/{comparacion}', 'Api\ComparacionController@show');
+    Route::put('/comparacion/{comparacion}', 'Api\ComparacionController@update');
+    Route::delete('/comparacion/{comparacion}', 'Api\ComparacionController@destroy');
 });

@@ -93,6 +93,8 @@ export default ({ negotiations, comparision, comparisonIndex }) => {
             }
         }
 
+        console.log(newState);
+
         dispatch(updateComparisionRows(comparision.id, newState));
     }, [comparision.productIds]);
 
@@ -230,7 +232,7 @@ export default ({ negotiations, comparision, comparisonIndex }) => {
                                         <tr>
                                             {negotiations.map((item, index) => (
                                                 <React.Fragment key={index}>
-                                                     <th className="product-name">
+                                                    <th className="product-name">
                                                         SUPPLIER CODE
                                                     </th>
                                                     <th className="product-name">

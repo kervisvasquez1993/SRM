@@ -82,4 +82,9 @@ class Tarea extends Model
     {
         return  $this->belongsTo(User::class, 'sender_id');
     }
+
+    public function comparaciones()
+    {
+        return $this->hasMany(Comparacion::class);
+    }
 }
