@@ -43,7 +43,7 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
     public $encabezadoEstilos = [
         'borders' => [
             'outline' => [
-                'borderStyle' => Border::BORDER_HAIR,
+                'borderStyle' => Border::BORDER_THIN,
                 'color' => ['rgb' => '000000'],
             ],
         ],
@@ -54,7 +54,8 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
         'font' => [
             'color' => ['rgb' => 'ffffff'],
             'bold' => true,
-        ]];
+        ]
+    ];
 
     public $celdaEstilos = [
         'fill' => [
@@ -63,7 +64,7 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
         ],
         'borders' => [
             'allBorders' => [
-                'borderStyle' => Border::BORDER_HAIR,
+                'borderStyle' => Border::BORDER_THIN,
                 'color' => ['rgb' => '000000'],
             ],
         ],
@@ -220,6 +221,9 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                                     $coordenada = getCoordinate($columna_inicio, $filaProducto);
                                     $sheet->setCellValue($coordenada, $producto->description);
                                     $columna_inicio++;
+                                    // Alinear la descripcion
+                                    $sheet->getStyle($coordenada)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                                    $sheet->getStyle($coordenada)->getAlignment()->setVertical(Alignment::VERTICAL_TOP);
 
                                     $coordenada = getCoordinate($columna_inicio, $filaProducto);
                                     $sheet->setCellValue($coordenada, $producto->total_pcs);
@@ -249,17 +253,16 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                                         $drawing = new MemoryDrawing();
                                         $drawing->setResizeProportional(true);
                                         $drawing->setImageResource($imagen);
-                                        $drawing->setRenderingFunction(\PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing::RENDERING_JPEG);
-                                        $drawing->setMimeType(\PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing::MIMETYPE_DEFAULT);
                                         $drawing->setCoordinates($coordenada);
+                                        $drawing->setOffsetX(2);
+                                        $drawing->setOffsetY(2);
 
                                         if ($ancho > $alto) {
-                                            $drawing->setWidth(145);
+                                            $drawing->setWidth(120);
                                         } else {
-                                            
-                                            $drawing->setHeight(130);
+                                            $drawing->setHeight(120);
                                         }
-                                        
+
                                         $drawing->setWorksheet($writer->getActiveSheet());
 
                                         error_log($url);
@@ -284,8 +287,8 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                     $sheet->getStyle("A$filaInicioComparacion" . ":A" . ($filaInicioComparacion + $filasPorComparacion - 2))->applyFromArray($this->encabezadoEstilos);
                 }
 
-                // foreach($sheet->getRowDimensions() as $rd) {
-                //     $rd->setRowHeight(509);
+                // foreach ($sheet->getRowDimensions() as $rd) {
+                //     $rd->setRowHeight(-1);
                 // }
 
                 // Congelar los headers antes de la celda B3

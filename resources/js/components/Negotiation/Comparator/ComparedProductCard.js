@@ -104,12 +104,21 @@ export default ({ data, index, comparisonIndex, rowIndex, colIndex }) => {
                             }}
                         >
                             <tr>
-                                <td>{product.product_name_supplier}</td>
-                                <td>{product.description}</td>
+                                <td className="product-name">
+                                    {product.product_code_supplier}
+                                </td>
+                                <td className="product-name">
+                                    {product.product_name_supplier}
+                                </td>
+                                <td className="product-description">
+                                    <div className="product-description-text">
+                                        {product.description}
+                                    </div>
+                                </td>
                                 <td>{product.total_pcs}</td>
                                 <td>{product.unit_price}$</td>
                                 <td>{product.total_usd}$</td>
-                                <td className="product-image-cell">
+                                <td className="product-image-parent product-name">
                                     {product.imagen && (
                                         <img
                                             className="product-image"

@@ -20,6 +20,7 @@ class ReclamoDevolucionResource extends JsonResource
             'hora_salida_contenedor' => $this->hora_salida_contenedor,
             'numero_precinto' => $this->numero_precinto,
             'numero_oc' => $this->numero_oc,
+            'numero_factura' => $this->numero_factura,
             'comprador' => $this->comprador,
             'importador' => $this->importador,
             'elaborado_por' => $this->elaborado_por,

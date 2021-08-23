@@ -63,7 +63,9 @@ const Sidebar = () => {
                     </NavLink>
                 )}
 
-                {(user.rol === "coordinador" || user.rol === "observador") && (
+                {(user.rol === "coordinador" ||
+                    user.rol === "observador" ||
+                    user.rol === "comprador") && (
                     <NavLink
                         className="menu-link"
                         to="/suppliers"

@@ -42,6 +42,8 @@ body {
 
 @import "suppliers";
 
+@import "products";
+
 html,
 body,
 h1,
@@ -243,7 +245,7 @@ table,
         & td,
         th {
             font-size: 0.7rem !important;
-            padding: 0.5rem 0.2rem !important;
+            padding: 0.5rem 0.2rem;
         }
 
         & th {

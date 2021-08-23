@@ -17,7 +17,6 @@ import PaymentModal, { emptyPayment } from "./PaymentModal";
 import PaymentRow from "./PaymentRow";
 
 const PaymentsTab = ({ production }) => {
-    const user = useUser();
     const dispatch = useDispatch();
     // @ts-ignore
     const payments = useSelector(state => state.production.payments);
@@ -80,14 +79,6 @@ const PaymentsTab = ({ production }) => {
                             </SmallCard>
 
                             <SmallCard
-                                label="Pago Restante"
-                                materialIcon="production_quantity_limits"
-                                backgroundClass="bg-danger"
-                            >
-                                {remainingPayment} ({remainingPercentage}%)
-                            </SmallCard>
-
-                            <SmallCard
                                 label="Pago Anticipado"
                                 materialIcon="savings"
                                 backgroundClass="bg-info"
@@ -95,6 +86,14 @@ const PaymentsTab = ({ production }) => {
                                 {prepayment > 0
                                     ? `${prepayment} (${prepaymentPercentage} %)`
                                     : 0}
+                            </SmallCard>
+
+                            <SmallCard
+                                label="Pago Restante"
+                                materialIcon="production_quantity_limits"
+                                backgroundClass="bg-danger"
+                            >
+                                {remainingPayment} ({remainingPercentage}%)
                             </SmallCard>
 
                             <SmallCard
