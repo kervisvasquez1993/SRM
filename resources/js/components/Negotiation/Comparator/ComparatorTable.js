@@ -13,7 +13,7 @@ import {
 import { extractStringAfter, extractStringBetween } from "../../../utils";
 import ComparatorRow from "./ComparatorRow";
 import { openModal } from "../../../store/actions/modalActions";
-import AddComparisionModal from "./AddComparisionModal";
+import AddComparisionModal from "./ComparisonFormModal";
 
 const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);

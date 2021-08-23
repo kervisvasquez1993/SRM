@@ -43,6 +43,7 @@ $row-background: lightgrey;
     width: 100%;
     background-color: white;
     height: $cell-height;
+    position: relative;
 }
 
 .comparision-table {

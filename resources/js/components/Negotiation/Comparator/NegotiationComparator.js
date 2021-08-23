@@ -10,7 +10,7 @@ import { getTask } from "../../../store/actions/comparatorActions";
 import { openModal } from "../../../store/actions/modalActions";
 import { apiURL } from "../../App";
 import LoadingScreen from "../../Navigation/LoadingScreen";
-import AddComparisionModal from "./AddComparisionModal";
+import AddComparisionModal from "./ComparisonFormModal";
 import ComparatorTable from "./ComparatorTable";
 
 // const colors = ["green", "blue", "red", "bg-warning", "table-dark"];

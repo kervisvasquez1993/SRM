@@ -124,6 +124,20 @@ export function updateCell(
     };
 }
 
+export function deleteCell(
+    comparisonIndex,
+    rowIndex,
+    columnIndex,
+    cellIndex
+) {
+    return async (dispatch, _getState) => {
+        dispatch({
+            type: "DELETE_COMPARATOR_CELL",
+            payload: { comparisonIndex, rowIndex, columnIndex, cellIndex }
+        });
+    };
+}
+
 // export function updateTask(task) {
 //     return async (dispatch, _getState) => {
 //         try {
