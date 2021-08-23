@@ -71,7 +71,7 @@ export function createTask(task) {
     };
 }
 
-export function editTask(task) {
+export function editTask(task, focusEnabled = true) {
     return dispatch => {
         return genericFormSubmit(dispatch, () =>
             axios.put(`${apiURL}/tarea/${task.id}`, task)
@@ -82,7 +82,10 @@ export function editTask(task) {
             });
 
             dispatch(closeModal());
-            dispatch(focusOnElementWithId(response.id));
+            if (focusEnabled) {
+                dispatch(focusOnElementWithId(response.id));
+            }
+
             toast.success("✔️ Tarea editada");
         });
     };

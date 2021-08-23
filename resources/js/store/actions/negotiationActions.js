@@ -396,10 +396,12 @@ export function selectNegotiation(negotiation) {
                 newNegotiation
             );
 
-            dispatch({
-                type: "SELECT_CURRENT_NEGOTIATION_SUCCESS",
-                payload: newNegotiation
-            });
+            // dispatch({
+            //     type: "SELECT_CURRENT_NEGOTIATION_SUCCESS",
+            //     payload: newNegotiation
+            // });
+
+            location.reload();
 
             toast.success("✔️ Esta empresa fue seleccionada");
         } catch (e) {

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { BiEditAlt } from "react-icons/bi";
 import { RiDeleteBin2Fill } from "react-icons/ri";
-import { MdAddCircle } from "react-icons/md";
+import { MdAddCircle, MdDone, MdTouchApp } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 } from "uuid";
 import { confirmDelete } from "../../../appText";
@@ -14,6 +14,7 @@ import { extractStringAfter, extractStringBetween } from "../../../utils";
 import ComparatorRow from "./ComparatorRow";
 import { openModal } from "../../../store/actions/modalActions";
 import AddComparisionModal from "./ComparisonFormModal";
+import { selectNegotiation } from "../../../store/actions/negotiationActions";
 
 const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
@@ -33,8 +34,9 @@ const extractIndices = id => {
 export default ({ negotiations, comparision, comparisonIndex }) => {
     const dispatch = useDispatch();
 
-    // const [state, setState] = useState([]);
     const state = comparision.rows;
+
+    const selectedNegotiation = negotiations.find(item => item.seleccionado);
 
     useEffect(() => {
         const newState = [...state];
@@ -183,6 +185,12 @@ export default ({ negotiations, comparision, comparisonIndex }) => {
         );
     };
 
+    const handleSelectNegotiation = negotiation => {
+        if (confirm(confirmDelete)) {
+            dispatch(selectNegotiation(negotiation));
+        }
+    };
+
     return (
         <div className="rows-parent">
             <h2 className="sticky-left">
@@ -222,7 +230,35 @@ export default ({ negotiations, comparision, comparisonIndex }) => {
                                                     key={index}
                                                     className="provider-column"
                                                 >
-                                                    {item.proveedor.nombre}
+                                                    <div className="d-flex justify-content-between w-100">
+                                                        <span className="flex-grow-1">
+                                                            {
+                                                                item.proveedor
+                                                                    .nombre.toUpperCase()
+                                                            }
+
+                                                            {selectedNegotiation ===
+                                                                item && (
+                                                                <MdDone className="icon-large text-success ml-2" />
+                                                            )}
+                                                        </span>
+
+                                                        {!selectedNegotiation && (
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-info btn-sm mr-2"
+                                                                onClick={() =>
+                                                                    handleSelectNegotiation(
+                                                                        item
+                                                                    )
+                                                                }
+                                                            >
+                                                                <MdTouchApp className="icon-normal mr-2" />
+                                                                Seleccionar
+                                                                empresa
+                                                            </button>
+                                                        )}
+                                                    </div>
                                                 </th>
                                             ))}
                                         </tr>
@@ -230,7 +266,7 @@ export default ({ negotiations, comparision, comparisonIndex }) => {
                                         <tr>
                                             {negotiations.map((item, index) => (
                                                 <React.Fragment key={index}>
-                                                     <th className="product-name">
+                                                    <th className="product-name">
                                                         SUPPLIER CODE
                                                     </th>
                                                     <th className="product-name">

@@ -12,12 +12,7 @@ import { apiURL } from "../../App";
 import LoadingScreen from "../../Navigation/LoadingScreen";
 import AddComparisionModal from "./ComparisonFormModal";
 import ComparatorTable from "./ComparatorTable";
-
-// const colors = ["green", "blue", "red", "bg-warning", "table-dark"];
-
-// const getColor = index => {
-//     return colors[index];
-// };
+import IncidentsTab from "../../Incidents/IncidentsTab";
 
 export default () => {
     const dispatch = useDispatch();
@@ -26,9 +21,6 @@ export default () => {
 
     // @ts-ignore
     const task = useSelector(state => state.comparator.task);
-
-    // @ts-ignore
-    // const comparisions = useSelector(state => state.comparator.comparisions);
 
     const helmet = (
         <Helmet>
@@ -88,6 +80,14 @@ export default () => {
                     />
                 );
             })}
+
+            <IncidentsTab
+                stateName="task"
+                url1="tarea"
+                url2="comentarios_comparacion"
+                title="Comentarios"
+                parentId={task.id}
+            ></IncidentsTab>
 
             {comparisions.length > 0 && <hr className="my-5" />}
 

@@ -2,7 +2,8 @@ const defaultState = {
     isEditing: false,
     errors: {},
     incidents: [],
-    areIncidentsLoading: false
+    areIncidentsLoading: false,
+    parentId: null
 };
 
 const incidentReducer = (state = defaultState, action) => {
@@ -18,7 +19,8 @@ const incidentReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 incidents: payload,
-                areIncidentsLoading: false
+                areIncidentsLoading: false,
+                parentId: action.parentId
             };
         case "GET_INCIDENTS_FAILURE":
             return {

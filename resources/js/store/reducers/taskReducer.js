@@ -4,7 +4,7 @@ const defaultState = {
     errors: {},
     isEditing: false,
     createdTask: null,
-    task: null
+    current: null
 };
 
 const taskReducer = (state = defaultState, action) => {
@@ -62,10 +62,10 @@ const taskReducer = (state = defaultState, action) => {
                 isEditing: true
             };
         case "EDIT_TASK_SUCCESS":
-            if (state.task) {
+            if (state.current) {
                 return {
                     ...state,
-                    task: payload,
+                    current: payload,
                     errors: {},
                     isEditing: false
                 };
@@ -92,7 +92,7 @@ const taskReducer = (state = defaultState, action) => {
         case "CHANGE_HISTORY":
             return {
                 ...state,
-                task: null,
+                current: null,
                 tasks: [],
                 isLoadingList: true
             };
@@ -104,7 +104,7 @@ const taskReducer = (state = defaultState, action) => {
         case "GET_TASK_SUCCESS":
             return {
                 ...state,
-                task: payload
+                current: payload
             };
         case "GET_TASK_FAILURE":
             return {
@@ -114,7 +114,7 @@ const taskReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 tasks: [],
-                task: null,
+                current: null,
                 isEditing: false
             };
         default:

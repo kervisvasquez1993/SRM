@@ -26,7 +26,7 @@ const SupplierCard = ({
     const user = useUser();
 
     // @ts-ignore
-    const task = useSelector(state => state.task.task);
+    const task = useSelector(state => state.task.current);
     const isSelected = selectedProvider === supplier;
 
     const [container, focusClassName] = useSimpleUrlFocus(

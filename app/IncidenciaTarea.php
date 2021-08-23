@@ -4,21 +4,20 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class IncidenciaTarea extends Model
 {
     use SoftDeletes;
-   
-    protected   $table    = "incidencia_tareas";
-    protected $fillable =  
-    [   
+
+    protected $table = "incidencia_tareas";
+    protected $fillable =
+        [
         'tarea_id',
         'user_id',
         'titulo',
-        'descripcion'
+        'descripcion',
     ];
-   
+
     public function tarea()
     {
         return $this->belongsTo(Tarea::class, 'tarea_id');
@@ -28,6 +27,5 @@ class IncidenciaTarea extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-
 
 }

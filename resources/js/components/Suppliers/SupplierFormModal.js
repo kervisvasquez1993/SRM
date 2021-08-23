@@ -28,7 +28,7 @@ const SupplierFormModal = ({ provider, isEditor = false }) => {
     const dispatch = useDispatch();
     const [data, setData] = useState({ ...provider });
     // @ts-ignore
-    const task = useSelector(state => state.task.task);
+    const task = useSelector(state => state.task.current);
 
     const handleSubmit = data => {
         if (isEditor) {

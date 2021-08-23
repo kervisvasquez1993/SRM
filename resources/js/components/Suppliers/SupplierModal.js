@@ -9,7 +9,7 @@ import { createNegotiation } from "../../store/actions/negotiationActions";
 const SupplierModal = () => {
     const dispatch = useDispatch();
     // @ts-ignore
-    const taskId = useSelector(state => state.task.task).id;
+    const taskId = useSelector(state => state.task.current).id;
     // @ts-ignore
     const taskSuppliers = useSelector(state => state.provider.list);
     // @ts-ignore

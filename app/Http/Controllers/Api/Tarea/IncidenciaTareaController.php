@@ -1,57 +1,35 @@
 <?php
 
 namespace App\Http\Controllers\Api\Tarea;
-use App\Tarea;
-use App\IncidenciaTarea;
-use Illuminate\Http\Request;
-use App\Http\Controllers\ApiController;
-use Illuminate\Support\Facades\Validator;
-use App\Http\Resources\IncidenciaResource;
-use Symfony\Component\HttpFoundation\Response;
 
+use App\Http\Controllers\ApiController;
+use App\Http\Requests\IncidenciaValidacion;
+use App\Http\Resources\IncidenciaResource;
+use App\IncidenciaTarea;
+use App\Tarea;
 
 class IncidenciaTareaController extends ApiController
 {
-    public function index( Tarea $tarea_id)
+    public function index(Tarea $tarea_id)
     {
         $cometarios = IncidenciaResource::collection($tarea_id->incidenciaTarea);
-        return $this->showAllResources($cometarios); 
+        return $this->showAllResources($cometarios);
     }
-    public function store(Request $request,   Tarea $tarea_id)
+    public function store(IncidenciaValidacion $request, Tarea $tarea_id)
     {
-        
-        $rules =
-        [
-            'titulo' => 'required',
-            'descripcion' => 'required ',
-        ];
-        $validator = Validator::make($request->all(),  $rules);
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
-        }
+        $request->validated();
 
         $request->merge(["tarea_id" => $tarea_id->id, "user_id" => auth()->user()->id]);
         $comentario_tarea = IncidenciaTarea::create($request->all());
-        return $this->showOneResource(new IncidenciaResource($comentario_tarea)); 
+        return $this->showOneResource(new IncidenciaResource($comentario_tarea));
     }
-    public function update(Request $request, IncidenciaTarea $tarea_comentario)
+    public function update(IncidenciaValidacion $request, IncidenciaTarea $tarea_comentario)
     {
-        $rules =
-        [
-            'titulo' => 'required',
-            'descripcion' => 'required ',
-        ];
-        $validator = Validator::make($request->all(),  $rules);
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
-        }
+        $request->validated();
 
         $tarea_comentario->update($request->all());
 
         return $this->showOneResource(new IncidenciaResource($tarea_comentario));
-
-        
-
 
     }
     public function destroy(IncidenciaTarea $tarea_comentario)

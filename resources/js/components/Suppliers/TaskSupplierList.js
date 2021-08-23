@@ -21,7 +21,7 @@ const TaskSupplierList = () => {
     // @ts-ignore
     const user = useSelector(state => state.auth.user);
     // @ts-ignore
-    const task = useSelector(state => state.task.task);
+    const task = useSelector(state => state.task.current);
 
     const [orderedProviders, setOrderedProviders] = useState([]);
 

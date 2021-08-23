@@ -5,15 +5,10 @@ namespace App\Http\Controllers\Api\ProduccionTransito;
 use App\User;
 use App\InicioProduccion;
 use App\ProduccionTransito;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
-use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\IncidenciaResource;
 use App\Notifications\GeneralNotification;
 use App\Http\Requests\IncidenciaValidacion;
-use Illuminate\Support\Facades\Notification;
-use Symfony\Component\HttpFoundation\Response;
 
 class ProduccionTransitoInicioProduccion extends ApiController
 {
