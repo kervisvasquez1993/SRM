@@ -9,7 +9,7 @@ const TabContent = props => {
         <React.Fragment>
             {currentTab === name && (
                 // <div className="tab-pane active">{props.children}</div>
-                <div className="tab-content p-4">{props.children}</div>
+                <div className="tab-content tab-space p-4">{props.children}</div>
             )}
         </React.Fragment>
     );

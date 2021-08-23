@@ -74,15 +74,6 @@ const TaskList = ({ myTasks = false }) => {
         );
     };
 
-    const handleCreateWithPurchase = () => {
-        dispatch(
-            openModal({
-                title: "Agregar Tarea con Orden de Compra",
-                body: <TaskFormWIthPurchase />
-            })
-        );
-    };
-
     // const getMaxDays = useCallback(() => {
     //     if ("user" in postFilterLists) {
     //         const dias = postFilterLists["user"].map(task =>
@@ -246,25 +237,12 @@ const TaskList = ({ myTasks = false }) => {
             </h1>
 
             <div className="container text-center">
-                {myTasks ? (
-                    <button
-                        className="btn btn-lg btn-outline-info btn-round"
-                        onClick={handleCreateWithPurchase}
-                    >
-                        <i className="fa fa-plus fa-2x mr-2"></i>Crear con
-                        Compra
-                    </button>
-                ) : (
-                    user.rol === "coordinador" && (
-                        <button
-                            className="btn btn-lg btn-outline-primary btn-round"
-                            onClick={handleCreate}
-                        >
-                            <i className="fa fa-plus fa-2x mr-2"></i>Agregar
-                            Tarea
-                        </button>
-                    )
-                )}
+                <button
+                    className="btn btn-lg btn-outline-primary btn-round"
+                    onClick={handleCreate}
+                >
+                    <i className="fa fa-plus fa-2x mr-2"></i>Agregar Tarea
+                </button>
             </div>
 
             <GenericFilter

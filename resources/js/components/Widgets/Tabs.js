@@ -1,16 +1,17 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 
 export const TabContext = createContext(null);
 
 const Tabs = props => {
-    const { defaultTab } = props;
+    const { defaultTab, onChangeTab } = props;
 
     const [currentTab, setCurrentTab] = useState(defaultTab);
 
-    const handleClickTab = (e, name) => {
-        e.preventDefault();
-        setCurrentTab(name);
-    };
+    useEffect(() => {
+        if (onChangeTab) {
+            onChangeTab(currentTab);
+        }
+    }, [currentTab]);
 
     return (
         <TabContext.Provider value={{ ...props, currentTab, setCurrentTab }}>
