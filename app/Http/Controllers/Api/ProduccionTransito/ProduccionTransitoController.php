@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\ProduccionTransito;
 
 use App\User;
+use Carbon\Carbon;
 use App\ProduccionTransito;
 use App\ReclamosDevolucione;
 use Illuminate\Http\Request;
@@ -66,18 +67,23 @@ class ProduccionTransitoController extends ApiController
         $user          = $user_all->push($coordinador, $comprador_asignado)->unique('id');
         $link = "/productions?id=$produccionTransito->id";
 
-
+        
         if ($produccionTransito->isDirty('inicio_produccion') && $produccionTransito->inicio_produccion == 1) {
 
             $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea inicio producción.";
+            /*logica para fecha de inicio de produccion*/
+            $produccionTransito->fecha_fin_produccion = Carbon::now()->addDays($produccionTransito->pivotTable->delivery_time);
 
+            /* fin de logica */
             $tipoNotify = "inicio_produccion";
             /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
             $title = "Inicio de Produccion";
             $this->sendNotifications($user, new GeneralNotification($body, $link, $tipoNotify, $title));
         }
 
+      
         
+
         if ($produccionTransito->isDirty('fin_produccion') && $produccionTransito->fin_produccion == 1) {
 
             $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea finalizó producción.";
