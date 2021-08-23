@@ -32,7 +32,8 @@ class PivotController extends ApiController
     {
         $pivotPrincipal = PivotTareaProveeder::Where('seleccionado', true);
 
-        if (!(auth()->user()->rol == 'coordinador' || Auth::user()->rol == 'observador')) {
+        if (!(auth()->user()->rol == 'coordinador' || Auth::user()->rol == 'observador')) 
+        {
             $pivotPrincipal = $pivotPrincipal->whereHas('tarea', function (Builder $query) {
                 $query->where('user_id', auth()->user()->id);
             });
