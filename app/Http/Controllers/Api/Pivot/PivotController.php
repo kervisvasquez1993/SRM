@@ -30,9 +30,10 @@ class PivotController extends ApiController
 {
     public function index()
     {
-        $pivotPrincipal = PivotTareaProveeder::where('productos_cargados', true)->OrWhere('seleccionado', true);
+        $pivotPrincipal = PivotTareaProveeder::Where('seleccionado', true);
 
-        if (!(auth()->user()->rol == 'coordinador' || Auth::user()->rol == 'observador')) {
+        if (!(auth()->user()->rol == 'coordinador' || Auth::user()->rol == 'observador')) 
+        {
             $pivotPrincipal = $pivotPrincipal->whereHas('tarea', function (Builder $query) {
                 $query->where('user_id', auth()->user()->id);
             });
