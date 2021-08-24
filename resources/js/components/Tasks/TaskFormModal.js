@@ -71,78 +71,86 @@ const TaskFormModal = ({ task = {}, isEditor = false }) => {
         }
     };
 
+    const fullForm = (
+        <React.Fragment>
+            <div className="form-row">
+                <InputText id="nombre" label="Titulo de la Tarea" />
+            </div>
+
+            {user.rol === "coordinador" && (
+                <React.Fragment>
+                    {!arePersonalTasks && userList}
+
+                    <div className="form-row">
+                        <InputDate id="fecha_fin" label="Fecha Finalizacion" />
+                    </div>
+                </React.Fragment>
+            )}
+
+            <div className="form-row">
+                <InputTextArea id="descripcion" label="Descripción" />
+            </div>
+        </React.Fragment>
+    );
+
     return (
         <GenericFormModal
             formData={task}
             onSubmit={handleSubmit}
             methods={genericFormMethods}
         >
-            <Tabs defaultTab="normal" onChangeTab={handleTabChange}>
-                <ul
-                    className="nav nav-pills d-flex flex-column flex-lg-row justify-content-center mb-4"
-                    role="tablist"
-                >
-                    <TabButton name="normal">
-                        <BiTask className="icon-normal mr-2" />
-                        Tarea
-                    </TabButton>
+            {isEditor ? (
+                fullForm
+            ) : (
+                <Tabs defaultTab="normal" onChangeTab={handleTabChange}>
+                    <ul
+                        className="nav nav-pills d-flex flex-column flex-lg-row justify-content-center mb-4"
+                        role="tablist"
+                    >
+                        <TabButton name="normal">
+                            <BiTask className="icon-normal mr-2" />
+                            Tarea
+                        </TabButton>
 
-                    <TabButton name="purchase">
-                        <BiPurchaseTagAlt className="icon-normal mr-2" />
-                        Con orden de compra
-                    </TabButton>
-                </ul>
+                        <TabButton name="purchase">
+                            <BiPurchaseTagAlt className="icon-normal mr-2" />
+                            Con orden de compra
+                        </TabButton>
+                    </ul>
 
-                <TabContent name="normal">
-                    <div className="form-row">
-                        <InputText id="nombre" label="Titulo de la Tarea" />
-                    </div>
+                    <TabContent name="normal">{fullForm}</TabContent>
 
-                    {user.rol === "coordinador" && (
-                        <React.Fragment>
-                            {!arePersonalTasks && userList}
+                    <TabContent name="purchase">
+                        <div className="form-row">
+                            <InputText id="nombre" label="Titulo de la Tarea" />
+                        </div>
 
-                            <div className="form-row">
-                                <InputDate
-                                    id="fecha_fin"
-                                    label="Fecha Finalizacion"
-                                />
-                            </div>
-                        </React.Fragment>
-                    )}
+                        {!arePersonalTasks && userList}
 
-                    <div className="form-row">
-                        <InputTextArea id="descripcion" label="Descripción" />
-                    </div>
-                </TabContent>
+                        <div className="form-row">
+                            <InputTextArea
+                                id="descripcion"
+                                label="Descripción"
+                            />
+                        </div>
 
-                <TabContent name="purchase">
-                    <div className="form-row">
-                        <InputText id="nombre" label="Titulo de la Tarea" />
-                    </div>
-
-                    {!arePersonalTasks && userList}
-
-                    <div className="form-row">
-                        <InputTextArea id="descripcion" label="Descripción" />
-                    </div>
-
-                    <div className="form-row">
-                        <InputSelect id="proveedor_id" label="Empresa">
-                            {suppliers.map(supplier => {
-                                return (
-                                    <option
-                                        key={supplier.id}
-                                        value={supplier.id}
-                                    >
-                                        {`${supplier.nombre} - País: ${supplier.pais} - Ciudad: ${supplier.ciudad}`}
-                                    </option>
-                                );
-                            })}
-                        </InputSelect>
-                    </div>
-                </TabContent>
-            </Tabs>
+                        <div className="form-row">
+                            <InputSelect id="proveedor_id" label="Empresa">
+                                {suppliers.map(supplier => {
+                                    return (
+                                        <option
+                                            key={supplier.id}
+                                            value={supplier.id}
+                                        >
+                                            {`${supplier.nombre} - País: ${supplier.pais} - Ciudad: ${supplier.ciudad}`}
+                                        </option>
+                                    );
+                                })}
+                            </InputSelect>
+                        </div>
+                    </TabContent>
+                </Tabs>
+            )}
         </GenericFormModal>
     );
 };

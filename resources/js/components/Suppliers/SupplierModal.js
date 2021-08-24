@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IoMdAddCircle } from "react-icons/io";
 import { openModal } from "../../store/actions/modalActions";
-import SupplierFormModal, { emptyProvider } from "./SupplierFormModal";
+import SupplierFormModal from "./SupplierFormModal";
 import { getSuppliers } from "../../store/actions/providerActions";
 import { createNegotiation } from "../../store/actions/negotiationActions";
 
@@ -21,7 +21,7 @@ const SupplierModal = () => {
         dispatch(
             openModal({
                 title: "Agregar Empresa",
-                body: <SupplierFormModal provider={emptyProvider} />
+                body: <SupplierFormModal />
             })
         );
     };

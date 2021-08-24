@@ -8,7 +8,6 @@ import { Redirect } from "react-router-dom";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import { Helmet } from "react-helmet-async";
 import GenericFilter from "../Filters/GenericFilter";
-import TaskFormWIthPurchase from "./TaskFormWIthPurchase";
 
 const cardCreator = item => {
     return <TaskCard key={item.id} task={item} />;
