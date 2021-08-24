@@ -77,15 +77,13 @@ const TaskFormModal = ({ task = {}, isEditor = false }) => {
                 <InputText id="nombre" label="Titulo de la Tarea" />
             </div>
 
-            {user.rol === "coordinador" && (
-                <React.Fragment>
-                    {!arePersonalTasks && userList}
+            <React.Fragment>
+                {!arePersonalTasks && userList}
 
-                    <div className="form-row">
-                        <InputDate id="fecha_fin" label="Fecha Finalizacion" />
-                    </div>
-                </React.Fragment>
-            )}
+                <div className="form-row">
+                    <InputDate id="fecha_fin" label="Fecha Finalizacion" />
+                </div>
+            </React.Fragment>
 
             <div className="form-row">
                 <InputTextArea id="descripcion" label="Descripción" />
