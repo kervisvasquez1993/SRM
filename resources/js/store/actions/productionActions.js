@@ -1,9 +1,7 @@
 import axios from "axios";
-import React from "react";
+import { toast } from "react-toastify";
 import { apiURL } from "../../components/App";
-import ProductionManagementModal from "../../components/Productions/ProductionManagementModal";
 import { genericFormSubmit } from "./genericFormActions";
-import { closeModal, openModal } from "./modalActions";
 
 export function getProductions() {
     return async (dispatch, _getState) => {
@@ -56,6 +54,7 @@ export function updateProduction(data) {
                 `${apiURL}/produccion_transito/${data.id}`,
                 data
             );
+
             dispatch({
                 type: "UPDATE_PRODUCTION_SUCCESS",
                 payload: response.data.data
@@ -66,6 +65,21 @@ export function updateProduction(data) {
                 type: "UPDATE_PRODUCTION_FAILURE"
             });
         }
+    };
+}
+
+export function updateProductionDeliveryTime(data) {
+    return dispatch => {
+        return genericFormSubmit(dispatch, () =>
+            axios.put(`${apiURL}/produccion_transito/${data.id}`, data)
+        ).then(response => {
+            dispatch({
+                type: "UPDATE_PRODUCTION_SUCCESS",
+                payload: response
+            });
+
+            toast.success("✔️ Fecha editada");
+        });
     };
 }
 

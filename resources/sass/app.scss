@@ -87,15 +87,6 @@ strong {
     background-color: $blue !important;
 }
 
-.btn-circle.btn-xl {
-    width: 70px !important;
-    height: 70px !important;
-    padding: 10px 16px !important;
-    border-radius: 35px !important;
-    font-size: 24px !important;
-    line-height: 1.33 !important;
-}
-
 .btn-circle {
     width: 50px !important;
     height: 50px !important;
@@ -104,11 +95,21 @@ strong {
     display: inline-flex !important;
     justify-content: center !important;
     align-items: center !important;
-}
+    flex-shrink: 0;
 
-.btn-circle.btn-sm {
-    width: 40px !important;
-    height: 40px !important;
+    &.btn-sm {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    &.btn-xl {
+        width: 70px !important;
+        height: 70px !important;
+        padding: 10px 16px !important;
+        border-radius: 35px !important;
+        font-size: 24px !important;
+        line-height: 1.33 !important;
+    }
 }
 
 .card-icon {
