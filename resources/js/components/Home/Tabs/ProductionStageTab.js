@@ -3,7 +3,7 @@ import { BiLink } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getProduction } from "../../../store/actions/productionActions";
-import { getPaymentsInfoFromProduction } from "../../../utils";
+import { getPaymentInfoFromProduction } from "../../../utils";
 import EmptyList from "../../Navigation/EmptyList";
 import LoadingScreen from "../../Navigation/LoadingScreen";
 import CheckIcon from "../../Widgets/CheckIcon";
@@ -32,7 +32,7 @@ const ProductionStageTab = ({ productionId }) => {
     const {
         prepaymentPercentage,
         isCompletelyPaid
-    } = getPaymentsInfoFromProduction(production);
+    } = getPaymentInfoFromProduction(production);
 
     return (
         <React.Fragment>

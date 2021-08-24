@@ -6,14 +6,16 @@ import { getProductions } from "../../store/actions/productionActions";
 import { useUser } from "../../utils";
 import GenericFilter from "../Filters/GenericFilter";
 import LoadingScreen from "../Navigation/LoadingScreen";
-import NegotiationResume from "../Widgets/NegotiationResume";
+import ProductionsResume from "../Widgets/ProductionsResume";
 import ProductionCard from "./ProductionCard";
 
 const ProductionList = () => {
     const dispatch = useDispatch();
     const user = useUser();
+    // @ts-ignore
     const productions = useSelector(state => state.production.list);
-    const [filteredNegotiations, setFilteredNegotiations] = useState([]);
+    const [filteredProductions, setFilteredProductions] = useState([]);
+    // @ts-ignore
     const isLoadingList = useSelector(state => state.production.isLoadingList);
 
     if (
@@ -28,7 +30,7 @@ const ProductionList = () => {
     }
 
     const onChange = filteredList => {
-        setFilteredNegotiations(filteredList.map(item => item.pivot));
+        setFilteredProductions(filteredList);
     };
 
     useEffect(() => {
@@ -144,7 +146,12 @@ const ProductionList = () => {
                 populatorConfig={populatorConfig}
                 onChange={onChange}
             >
-                <NegotiationResume negotiations={filteredNegotiations} />
+                {filteredProductions.length > 0 && (
+                    <React.Fragment>
+                        <h2 className="mt-4 h3">Resumen:</h2>
+                        <ProductionsResume productions={filteredProductions} />
+                    </React.Fragment>
+                )}
             </GenericFilter>
         </React.Fragment>
     );
