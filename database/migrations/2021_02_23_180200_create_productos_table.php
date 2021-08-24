@@ -24,7 +24,7 @@ class CreateProductosTable extends Migration
             $table->string('product_name_customer')->nullable();
             $table->text('description')->nullable();
             $table->string('imagen')->nullable();
-            $table->double('shelf_life')->nullable();
+            $table->string('shelf_life')->nullable();
             $table->double('total_pcs')->nullable();
             $table->double('unit_price')->nullable();
             $table->double('total_usd')->nullable();
