@@ -81,16 +81,6 @@ export default () => {
                 );
             })}
 
-            <IncidentsTab
-                stateName="task"
-                url1="tarea"
-                url2="comentarios_comparacion"
-                title="Comentarios"
-                parentId={task.id}
-            ></IncidentsTab>
-
-            {comparisions.length > 0 && <hr className="my-5" />}
-
             <div className="text-center">
                 <button className="btn btn-success" onClick={handleOpenModal}>
                     <MdAddCircle className="mr-2" />
@@ -105,6 +95,16 @@ export default () => {
                     Exportar Excel
                 </a>
             </div>
+
+            <hr className="my-2" />
+
+            <IncidentsTab
+                stateName="task"
+                url1="tarea"
+                url2="comentarios_comparacion"
+                title="Comentarios"
+                parentId={task.id}
+            ></IncidentsTab>
         </React.Fragment>
     );
 };

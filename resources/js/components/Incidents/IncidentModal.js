@@ -14,7 +14,7 @@ const IncidentModal = ({
     url2,
     formData,
     isEditor,
-    parentId
+    parentId = undefined
 }) => {
     if (!parentId) {
         parent = useSelector(state => state[stateName].current);

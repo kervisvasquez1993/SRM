@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteIncident } from "../../store/actions/incidentActions";
 import { openModal } from "../../store/actions/modalActions";
 import { dateToShortString, useUser } from "../../utils";
-import SeeMoreText from "../Widgets/SeeMoreText";
 import IncidentModal from "./IncidentModal";
 
 const IncidentCard = ({ stateName, url1, url2, incident }) => {
     const dispatch = useDispatch();
     const user = useUser();
 
+    // @ts-ignore
     const modal = useSelector(store => store.modal);
 
     const handleEdit = () => {

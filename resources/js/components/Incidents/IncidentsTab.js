@@ -22,7 +22,7 @@ const IncidentsTab = ({
     const dispatch = useDispatch();
 
     if (!parentId) {
-        parent = useSelector(state => state[stateName].current);
+        parentId = useSelector(state => state[stateName].current).id;
     }
 
     // @ts-ignore
