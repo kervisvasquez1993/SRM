@@ -19,12 +19,12 @@ function Home() {
             // Agrupar las tareas por usuario
             const groups = items.reduce((result, task) => {
                 let list = result.find(
-                    item => item.user.id === task.usuario.id
+                    item => item.user.id === task.tarea.usuario.id
                 );
 
                 if (!list) {
                     list = {
-                        user: task.usuario,
+                        user: task.tarea.usuario,
                         tasks: []
                     };
                     result.push(list);

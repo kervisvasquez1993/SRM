@@ -49,7 +49,7 @@ export default ({ tasks, user, index }) => {
                 newState[columnIndex].push({
                     id: item.id,
                     content: item.id,
-                    task: item
+                    data: item
                 })
             );
         });
@@ -58,7 +58,7 @@ export default ({ tasks, user, index }) => {
     }, []);
 
     const findTask = useCallback(
-        source => state[+source.droppableId][source.index].task,
+        source => state[+source.droppableId][source.index].data,
         [state]
     );
 
@@ -80,7 +80,7 @@ export default ({ tasks, user, index }) => {
             const destinationDroppableInd = +destination.droppableId;
 
             // Informar al servidor del movimiento que se hizo
-            const movedTask = state[sourceDroppableInd][source.index].task;
+            const movedTask = state[sourceDroppableInd][source.index].data;
             const column = +destination.droppableId;
             const row = +destination.index;
             movedTask.column = column;
@@ -129,30 +129,39 @@ export default ({ tasks, user, index }) => {
             const toDisable = [];
 
             // La tarea asociada al card que se va a arrastrar
-            const movedTask = findTask(source);
+            const data = findTask(source);
+            const tieneProductos = data.tiene_productos;
+            const negociacion_seleccionada = data.negociacion_seleccionada;
+            const arte =
+                negociacion_seleccionada && negociacion_seleccionada.arte;
 
-            // Se debe bloquear determinadas columnas dependiendo de la tarea que se está arrastrando
-            if (!movedTask.tiene_negociaciones) {
-                // Bloquear la columna 2 cuando la tarea no tiene negociaciones
+            const produccion_transito =
+                negociacion_seleccionada &&
+                negociacion_seleccionada.produccion_transito;
+
+            const recepcion_reclamo_devolucion =
+                produccion_transito &&
+                produccion_transito.recepcion_reclamo_devolucion;
+
+            //      Se debe bloquear determinadas columnas dependiendo de la tarea que se está arrastrando
+
+            // Bloquear la columna 2 cuando la tarea no tiene negociaciones
+            if (!tieneProductos) {
                 toDisable.push(1, 2, 3, 4);
             }
 
-            if (!movedTask.arte_iniciada) {
-                // Bloquear la columna 3 cuando la tarea no ha iniciado arte
+            // Bloquear la columna 3 cuando la tarea no ha iniciado arte
+            if (!arte) {
                 toDisable.push(2);
             }
 
-            if (!movedTask.produccion_iniciada) {
-                // Bloquear la columna 3 cuando la tarea no ha iniciado produccion
+            // Bloquear la columna 3 cuando la tarea no ha iniciado produccion
+            if (!produccion_transito) {
                 toDisable.push(3);
             }
 
-            if (
-                !movedTask.produccion_iniciada ||
-                (movedTask.produccion_iniciada &&
-                    !movedTask.produccion_iniciada.recepcion_reclamo_devolucion)
-            ) {
-                // Bloquear etapa 5 si no se ha iniciado reclamos y devoluciones
+            // Bloquear etapa 5 si no se ha iniciado reclamos y devoluciones
+            if (!recepcion_reclamo_devolucion) {
                 toDisable.push(4);
             }
 
@@ -226,7 +235,7 @@ export default ({ tasks, user, index }) => {
                                         )}
                                         {el.map((item, index) => {
                                             const isMine =
-                                                item.task.usuario.id ===
+                                                item.data.tarea.usuario.id ===
                                                 loggedUser.id;
 
                                             return (

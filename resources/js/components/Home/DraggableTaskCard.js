@@ -1,5 +1,7 @@
 import React from "react";
 import { AiOutlineBarcode } from "react-icons/ai";
+import { BiTimeFive } from "react-icons/bi";
+import { BsBuilding } from "react-icons/bs";
 import { IoArrowRedoSharp } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../store/actions/modalActions";
@@ -14,38 +16,68 @@ import DraggableTaskModal from "./Tabs/DraggableTaskModal";
 function DraggableTaskCard({ draggableTask, column, invalidDrop, snapshot }) {
     const dispatch = useDispatch();
     const loggedUser = useUser();
-    const isMine = draggableTask.task.usuario.id === loggedUser.id;
 
-    const task = draggableTask.task;
-    const { nombre, produccion_iniciada, usuario } = draggableTask.task;
+    const data = draggableTask.data;
+    const task = data.tarea;
+    const isMine = data.tarea.usuario.id === loggedUser.id;
 
     let { text, background } =
-        column >= 2 || produccion_iniciada ? blueCard : getColorsForTask(task);
+        column >= 2 || data.produccion_o_arte
+            ? blueCard
+            : getColorsForTask(data);
 
-    const remainingDays = getRemainingDaysToFinishTask(task);
+    const remainingDays = getRemainingDaysToFinishTask(data);
 
-    let canBeMovedToNextStage = true;
+    // let canBeMovedToNextStage = true;
 
-    if (column === 0 && !task.tiene_negociaciones) {
+    // if (column === 0 && (!data.tiene_productos || !data.produccion_o_arte)) {
+    //     canBeMovedToNextStage = false;
+    // } else if (column === 1 && !data.arte_iniciada) {
+    //     canBeMovedToNextStage = false;
+    // } else if (column === 2 && !data.produccion_iniciada) {
+    //     canBeMovedToNextStage = false;
+    // } else if (
+    //     column === 3 &&
+    //     data.produccion_iniciada &&
+    //     !data.produccion_iniciada.recepcion_reclamo_devolucion
+    // ) {
+    //     canBeMovedToNextStage = false;
+    // } else if (column === 4) {
+    //     canBeMovedToNextStage = false;
+    // }
+
+    let canBeMovedToNextStage = column != 4;
+
+    const tieneProductos = data.tiene_productos;
+    const negociacion_seleccionada = data.negociacion_seleccionada;
+    const arte = negociacion_seleccionada && negociacion_seleccionada.arte;
+    const produccion_transito =
+        negociacion_seleccionada &&
+        negociacion_seleccionada.produccion_transito;
+
+    const recepcion_reclamo_devolucion =
+        produccion_transito && produccion_transito.recepcion_reclamo_devolucion;
+
+    if (column === 0 && !tieneProductos) {
         canBeMovedToNextStage = false;
-    } else if (column === 1 && !task.arte_iniciada) {
+    }
+
+    if (column === 1 && !arte) {
         canBeMovedToNextStage = false;
-    } else if (column === 2 && !task.produccion_iniciada) {
+    }
+
+    if (column === 2 && !produccion_transito) {
         canBeMovedToNextStage = false;
-    } else if (
-        column === 3 &&
-        task.produccion_iniciada &&
-        !task.produccion_iniciada.recepcion_reclamo_devolucion
-    ) {
-        canBeMovedToNextStage = false;
-    } else if (column === 4) {
+    }
+
+    if (column === 3 && !recepcion_reclamo_devolucion) {
         canBeMovedToNextStage = false;
     }
 
     const handleClick = () => {
         dispatch(
             openModal({
-                title: nombre,
+                title: task.nombre,
                 body: (
                     <DraggableTaskModal
                         draggableTask={draggableTask}
@@ -75,39 +107,26 @@ function DraggableTaskCard({ draggableTask, column, invalidDrop, snapshot }) {
                     onClick={handleClick}
                 >
                     <div className="card-header">
-                        <h3 className="tarea h4">{nombre}</h3>
+                        <h3 className="tarea h4">{task.nombre}</h3>
+
+                        <hr className="mb-1" />
 
                         {column >= 2 && (
                             <div className="d-flex align-items-center">
                                 <AiOutlineBarcode className="icon-small mr-1" />
-                                {task.codigo_po ? (
-                                    <span>{task.codigo_po}</span>
-                                ) : (
-                                    <span className="my-2">Sin Codigo PO</span>
-                                )}
+                                <span>
+                                    {negociacion_seleccionada.compra_po}
+                                </span>
                             </div>
-                        )}
-
-                        <div className="d-flex align-items-center">
-                            <span className="material-icons icon-small mr-1">
-                                person
-                            </span>
-                            <span>{usuario.name}</span>
-                        </div>
-
-                        {column < 2 && !produccion_iniciada && (
-                            <hr className="mb-1" />
                         )}
 
                         {column < 2 && (
                             <div className="d-flex justify-content-between">
-                                {produccion_iniciada ? (
+                                {background === "bg-blue" ? (
                                     <div></div>
                                 ) : (
                                     <div className="d-flex align-items-center">
-                                        <span className="material-icons md-18 mr-1">
-                                            access_time
-                                        </span>
+                                        <BiTimeFive className="icon-small mr-1" />
                                         <span>
                                             {remainingDays > 0
                                                 ? `${remainingDays} días`
@@ -115,11 +134,10 @@ function DraggableTaskCard({ draggableTask, column, invalidDrop, snapshot }) {
                                         </span>
                                     </div>
                                 )}
+
                                 {column === 0 && (
                                     <div className="d-flex align-items-center">
-                                        <span className="material-icons md-18 mr-1">
-                                            business
-                                        </span>
+                                        <BsBuilding className="icon-small mr-1" />
                                         <span>{task.cantidad_proveedores}</span>
                                     </div>
                                 )}

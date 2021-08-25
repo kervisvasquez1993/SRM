@@ -66,10 +66,8 @@ const ProviderPurchase = () => {
         return <Redirect to="/home" />;
     }
 
-    const state = 0;
     let defaultTab =
         (negotiation.orden_compra_directa && "5") ||
-        (!negotiation.productos_cargados && "0") ||
         (negotiation.base_grafico_finalizado && "5") ||
         (negotiation.codigo_barra_finalizado && "4") ||
         (negotiation.seleccionado &&
@@ -79,7 +77,8 @@ const ProviderPurchase = () => {
             !negotiation.productos_confirmados &&
             "1") ||
         (negotiation.productos_confirmados && "2") ||
-        (negotiation.productos_cargados && "1");
+        (negotiation.productos_cargados && "1") ||
+        (!negotiation.productos_cargados && "0");
 
     return (
         <React.Fragment>

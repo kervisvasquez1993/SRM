@@ -10,7 +10,7 @@ import NegotiationStageTab from "./NegotiationStageTab";
 import ProductionStageTab from "./ProductionStageTab";
 
 const DraggableTaskModal = ({ draggableTask, defaultTab }) => {
-    const task = draggableTask.task;
+    const data = draggableTask.data;
 
     return (
         <React.Fragment>
@@ -25,28 +25,28 @@ const DraggableTaskModal = ({ draggableTask, defaultTab }) => {
                             Etapa 1 - Busqueda de Proveedor
                         </TabButton>
 
-                        {task.column > 0 && (
+                        {data.column > 0 && (
                             <TabButton name={1}>
                                 <i className="material-icons">business</i>
                                 Etapa 2 - Selección de Proveedor
                             </TabButton>
                         )}
 
-                        {task.column > 1 && (
+                        {data.column > 1 && (
                             <TabButton name={2}>
                                 <i className="material-icons">inventory_2</i>
                                 Etapa 3 - Elaboración de Artes
                             </TabButton>
                         )}
 
-                        {task.column > 2 && (
+                        {data.column > 2 && (
                             <TabButton name={3}>
                                 <i className="material-icons">receipt_long</i>
                                 Etapa 4 - Producción y Transito
                             </TabButton>
                         )}
 
-                        {task.column > 3 && (
+                        {data.column > 3 && (
                             <TabButton name={4}>
                                 <i className="material-icons">receipt_long</i>
                                 Etapa 5 - Reclamos y Devoluciones
@@ -55,34 +55,40 @@ const DraggableTaskModal = ({ draggableTask, defaultTab }) => {
                     </ul>
 
                     <TabContent name={0}>
-                        <FirstStageTab task={task} />
+                        <FirstStageTab task={data.tarea} />
                     </TabContent>
 
-                    {task.column > 0 && (
+                    {data.column > 0 && (
                         <TabContent name={1}>
-                            <NegotiationStageTab taskId={task.tarea_id} />
+                            <NegotiationStageTab taskId={data.tarea.id} />
                         </TabContent>
                     )}
 
-                    {task.column > 1 && (
+                    {data.column > 1 && (
                         <TabContent name={2}>
-                            <ArtStageTab art={task.arte_iniciada} />
-                        </TabContent>
-                    )}
-
-                    {task.column > 2 && (
-                        <TabContent name={3}>
-                            <ProductionStageTab
-                                productionId={task.produccion_iniciada.id}
+                            <ArtStageTab
+                                art={data.negociacion_seleccionada.arte}
                             />
                         </TabContent>
                     )}
 
-                    {task.column > 3 && (
+                    {data.column > 2 && (
+                        <TabContent name={3}>
+                            <ProductionStageTab
+                                productionId={
+                                    data.negociacion_seleccionada
+                                        .produccion_transito.id
+                                }
+                            />
+                        </TabContent>
+                    )}
+
+                    {data.column > 3 && (
                         <TabContent name={4}>
                             <ClaimStageTab
                                 claim={
-                                    task.produccion_iniciada
+                                    data.negociacion_seleccionada
+                                        .produccion_transito
                                         .recepcion_reclamo_devolucion
                                 }
                             />
@@ -91,7 +97,7 @@ const DraggableTaskModal = ({ draggableTask, defaultTab }) => {
                 </Tabs>
             </div>
 
-            <FirstStageFooter task={task} />
+            <FirstStageFooter task={data} />
         </React.Fragment>
     );
 };

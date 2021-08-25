@@ -62,17 +62,20 @@ const ProductionStageTab = ({ productionId }) => {
                         </li>
 
                         <li className="list-group-item d-flex align-items-center">
-                            <strong>Transito Nacionalización</strong>
-                            <CheckIcon
-                                checked={production.transito_nacionalizacion}
-                            />
-                        </li>
-
-                        <li className="list-group-item d-flex align-items-center">
                             <strong>Salida Puerto Origen</strong>
                             <CheckIcon
                                 checked={production.salida_puero_origen}
                             />
+                        </li>
+
+                        <li className="list-group-item d-flex align-items-center">
+                            <strong>Tránsito</strong>
+                            <CheckIcon checked={production.transito} />
+                        </li>
+
+                        <li className="list-group-item d-flex align-items-center">
+                            <strong>Nacionalización</strong>
+                            <CheckIcon checked={production.nacionalizacion} />
                         </li>
                     </ul>
 

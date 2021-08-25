@@ -26,11 +26,16 @@ class Tarea extends Model
         'comparaciones' => 'object'
     ];
 
-    protected $appends = ['cantidad_negociaciones'];
+    protected $appends = ['cantidad_negociaciones', 'cantidad_proveedores'];
 
     public function getCantidadNegociacionesAttribute()
     {
         return $this->pivotTareaProveedor()->count();
+    }
+
+    public function getCantidadProveedoresAttribute()
+    {
+        return $this->proveedores->count();
     }
 
     public function draggableTasks()

@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class DraggableTaskResource extends JsonResource
@@ -11,44 +10,43 @@ class DraggableTaskResource extends JsonResource
     {
         $tarea = $this->tarea;
 
-        $codigo_po = null;
+        // La negociación seleccionada, incluyendo la información de producción y recepción
+        $negociacion_seleccionada = $tarea
+            ->pivotTareaProveedor()
+            ->where('seleccionado', true)
+            ->with('arte')
+            ->with('produccionTransito')
+            ->with('produccionTransito.recepcionReclamoDevolucion')
+            ->first();
 
-        $arte_iniciada = null;
-        $negociacion_arte = $tarea->pivotTareaProveedor->where('iniciar_arte', true)->first();
-        if ($negociacion_arte) {
-            $codigo_po = $negociacion_arte->compra_po;
-            $arte_iniciada = $negociacion_arte->arte;
-        }
+        // Esconder ciertos campos de la tarea
+        $tarea->makeHidden(['pivotTareaProveedor', 'proveedores']);
 
-        $negociacion_produccion =  $tarea->pivotTareaProveedor->where('iniciar_produccion', true)->first();
-        $produccion_iniciada = null;
-        if ($negociacion_produccion) {
-            $codigo_po = $negociacion_produccion->compra_po;
-            $produccion_iniciada =  $negociacion_produccion->produccionTransito;
-            $produccion_iniciada->recepcionReclamoDevolucion;
-        }
+        // Cargar el usuario de la tarea
+        $tarea->usuario;
 
         $array = [
             'id' => $this->id,
-            'row' =>  $this->row,
-            'column' =>  $this->column,
-            'tarea_id' =>  $this->tarea_id,
+            'row' => $this->row,
+            'column' => $this->column,
 
-            'usuario' => $tarea->usuario,
-            'nombre' => $tarea->nombre,
-            'fecha_fin' => $tarea->fecha_fin,
-            'created_at' => $tarea->created_at,
-            'cantidad_proveedores' => $tarea->proveedores->count(),
-            'descripcion' => $tarea->descripcion,
+            // Informacion de la tarea
+            'tarea' => $tarea,
 
-            'tiene_negociaciones' => !$tarea->pivotTareaProveedor->where('productos_cargados', true)->isEmpty(),
+            // ¿La tarea tiene alguna negociacion con productos?
+            'tiene_productos' => !$tarea->pivotTareaProveedor->where('productos_cargados', true)->isEmpty(),
 
-            'arte_iniciada' => $arte_iniciada,
-            'produccion_iniciada' =>  $produccion_iniciada,
+            // ¿La tarea tiene algun pivot donde se haya iniciado producción o arte?
+            'produccion_o_arte' => $tarea->pivotTareaProveedor()->where(function ($query) {
+                return $query->where('iniciar_produccion', true)->orWhere('iniciar_arte', true);
+            })->count() > 0,
 
-            'codigo_po' => $codigo_po
+            // La negociación seleccionada
+            'negociacion_seleccionada' => $this->when($negociacion_seleccionada, function () use ($negociacion_seleccionada) {
+                return $negociacion_seleccionada;
+            }),
         ];
 
-        return  $array;
+        return $array;
     }
 }

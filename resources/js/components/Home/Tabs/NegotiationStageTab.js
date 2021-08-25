@@ -8,7 +8,7 @@ const NegotiationStageTab = ({ taskId }) => {
         <React.Fragment>
             <h3 className="text-center">Empresas en Negociación</h3>
 
-            <ProviderList taskId={taskId} filterProvidersInNegotiation />
+            <ProviderList taskId={taskId} />
 
             <div className="text-center my-3">
                 <Link
