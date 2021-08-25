@@ -33,10 +33,11 @@ class Tarea extends Model
         return $this->pivotTareaProveedor()->count();
     }
 
-    public function draggebleTask()
+    public function draggableTasks()
     {
-        return $this->hasMany(DraggebleTask::class);
+        return $this->hasMany(DraggableTask::class);
     }
+    
     public function principalPivot()
     {
         return $this->hasMany(PivotTareaProveeder::class);

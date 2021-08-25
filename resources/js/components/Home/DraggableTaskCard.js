@@ -6,12 +6,15 @@ import { openModal } from "../../store/actions/modalActions";
 import {
     blueCard,
     getColorsForTask,
-    getRemainingDaysToFinishTask
+    getRemainingDaysToFinishTask,
+    useUser
 } from "../../utils";
 import DraggableTaskModal from "./Tabs/DraggableTaskModal";
 
 function DraggableTaskCard({ draggableTask, column, invalidDrop, snapshot }) {
     const dispatch = useDispatch();
+    const loggedUser = useUser();
+    const isMine = draggableTask.task.usuario.id === loggedUser.id;
 
     const task = draggableTask.task;
     const { nombre, produccion_iniciada, usuario } = draggableTask.task;
@@ -124,7 +127,7 @@ function DraggableTaskCard({ draggableTask, column, invalidDrop, snapshot }) {
                         )}
                     </div>
 
-                    {canBeMovedToNextStage && (
+                    {isMine && canBeMovedToNextStage && (
                         <div className="move-next-stage-icon">
                             <IoArrowRedoSharp />
                         </div>
