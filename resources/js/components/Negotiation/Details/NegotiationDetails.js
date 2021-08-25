@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // @ts-ignore
-import { Redirect, useHistory, useParams } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 // @ts-ignore
 import LoadingScreen from "../../Navigation/LoadingScreen";
 import Error from "../../Navigation/Error";
@@ -20,14 +20,13 @@ import ProductsConfirmationTab from "./ProductsConfirmationTab";
 import SupplierSelectionTab from "./SupplierSelectionTab";
 import BarCodeTab from "./BarCodeTab";
 import BaseGraficoTab from "./BaseGraficoTab";
+import { useUser } from "../../../utils";
 
 const ProviderPurchase = () => {
-    const history = useHistory();
+    const user = useUser();
     const dispatch = useDispatch();
     // @ts-ignore
     const { id } = useParams();
-    // @ts-ignore
-    const user = useSelector(state => state.auth.user);
     // @ts-ignore
     const negotiation = useSelector(state => state.negotiation.negotiation);
     const negotiationError = useSelector(
@@ -180,17 +179,20 @@ const ProviderPurchase = () => {
                     </Tabs>
                 </div>
 
-                <h2 className="h2 pb-4">Archivos</h2>
-
-                <GenericFileList
-                    id="negotiation"
-                    getUrl={`${apiURL}/negociacion/${negotiation.id}/file`}
-                    uploadUrl={`${apiURL}/negociacion/${negotiation.id}/file`}
-                    deleteUrl={`${apiURL}/file`}
-                    hideDropzone={!isMine}
-                    allowEditing={isMine}
-                    hideTitle={true}
-                />
+                {user.rol !== "logistica" && (
+                    <React.Fragment>
+                        <h2 className="h2 pb-4">Archivos</h2>
+                        <GenericFileList
+                            id="negotiation"
+                            getUrl={`${apiURL}/negociacion/${negotiation.id}/file`}
+                            uploadUrl={`${apiURL}/negociacion/${negotiation.id}/file`}
+                            deleteUrl={`${apiURL}/file`}
+                            hideDropzone={!isMine}
+                            allowEditing={isMine}
+                            hideTitle={true}
+                        />
+                    </React.Fragment>
+                )}
             </div>
         </React.Fragment>
     );
