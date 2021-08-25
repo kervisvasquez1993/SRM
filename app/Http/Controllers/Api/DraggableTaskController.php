@@ -13,9 +13,7 @@ class DraggableTaskController extends Controller
     public function index()
     {
         $user = Auth::user();
-        if ($user->rol === "coordinador") {
-            $tareas = DraggableTask::all();
-        } else {
+        if ($user->rol === "comprador") {
             $tareas = Auth::user()
                 ->tareas()
                 ->has('draggableTasks')
@@ -23,6 +21,8 @@ class DraggableTaskController extends Controller
                 ->get()
                 ->pluck('draggableTasks')
                 ->collapse();
+        } else {
+            $tareas = DraggableTask::all();
         }
 
         return DraggableTaskResource::collection($tareas);

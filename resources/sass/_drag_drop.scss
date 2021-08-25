@@ -1,10 +1,40 @@
+$divider-color: rgb(170, 170, 170);
+
+.draggable-task-container {
+    border-radius: 0.5rem;
+    background: lightgrey;
+    width: min-content;
+    margin: auto;
+    padding: 1rem 1rem;
+
+    .user-title {
+        margin-left: 4rem;
+        border-radius: 0.5rem;
+        font-size: 1.2rem;
+        max-width: 50rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin: 1rem 0 1rem 1rem;
+    }
+}
+
 .droppable-column-parent {
     display: flex;
     flex-direction: column;
-    width: 400px;
-    min-width: 200px;
-    background: lightgrey;
-    padding: 1rem 0 1rem 0;
+    width: 200px;
+
+    padding: 1rem 0;
+
+    &:not(:last-child) {
+        border-right: 2px solid $divider-color;
+    }
+
+    .column-title {
+        text-align: center;
+        height: 35px;
+        margin-bottom: 1rem;
+        padding: 0 0.5rem;
+    }
 }
 
 .droppable-column {

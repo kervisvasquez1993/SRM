@@ -2,6 +2,7 @@ import axios from "axios";
 import _ from "lodash";
 import React, { useCallback, useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { BsFillPersonFill } from "react-icons/bs";
 import { useUser } from "../../utils";
 import { apiURL } from "../App";
 import EmptyList from "../Navigation/EmptyList";
@@ -29,8 +30,8 @@ const move = (source, destination, droppableSource, droppableDestination) => {
     return result;
 };
 
-export default ({ tasks }) => {
-    const user = useUser();
+export default ({ tasks, user, index }) => {
+    const loggedUser = useUser();
     const [state, setState] = useState([]);
     const [disabledDroppables, setDisabledDroppables] = useState([]);
     const [invalidDrop, setInvalidDrop] = useState(false);
@@ -166,79 +167,116 @@ export default ({ tasks }) => {
         setInvalidDrop(!destination);
     }, []);
 
-    return (
-        <div style={{ display: "flex" }} className="ignore-swipe">
-            <DragDropContext
-                onDragEnd={onDragEnd}
-                onDragUpdate={onDragUpdate}
-                onDragStart={onDragStart}
-            >
-                {state.map((el, ind) => (
-                    <div className="droppable-column-parent" key={ind}>
-                        <h2 className="text-center">Etapa {ind + 1}</h2>
-                        <Droppable
-                            key={ind}
-                            droppableId={`${ind}`}
-                            isDropDisabled={disabledDroppables.includes(ind)}
-                        >
-                            {(provided, snapshot) => (
-                                <div
-                                    ref={provided.innerRef}
-                                    {...provided.droppableProps}
-                                    className={`droppable-column ${snapshot.isDraggingOver &&
-                                        "drag-over"}`}
-                                >
-                                    {el.length === 0 && (
-                                        <EmptyList
-                                            message="Sin tareas"
-                                            className="no-result d-flex justify-content-center align-items-center my-5 mx-3"
-                                        />
-                                    )}
-                                    {el.map((item, index) => {
-                                        const isMine =
-                                            item.task.usuario.id === user.id;
+    const getTitle = index => {
+        switch (index) {
+            case 1:
+                return "Selección de proveedor";
+            case 2:
+                return "Elaboración de Artes";
+            case 3:
+                return "Producción y Tránsito";
+            case 4:
+                return "Recepción, Reclamos y Devoluciones";
 
-                                        return (
-                                            <Draggable
-                                                key={item.id}
-                                                draggableId={`${item.id}`}
-                                                index={index}
-                                                isDragDisabled={!isMine}
-                                            >
-                                                {(provided, snapshot) => (
-                                                    <div
-                                                        ref={provided.innerRef}
-                                                        {...provided.draggableProps}
-                                                        {...provided.dragHandleProps}
-                                                        style={
-                                                            provided
-                                                                .draggableProps
-                                                                .style
-                                                        }
-                                                        className={`draggable-card ${(snapshot.isDragging ||
-                                                            snapshot.draggingOver) &&
-                                                            "dragging"}`}
-                                                    >
-                                                        <DraggableTaskCard
-                                                            draggableTask={item}
-                                                            column={ind}
-                                                            invalidDrop={
-                                                                invalidDrop
+            default:
+                return "Búsqueda de proveedores";
+        }
+    };
+
+    return (
+        <div>
+            {index !== 0 && <hr />}
+
+            <h2 className="user-title">
+                <BsFillPersonFill /> Tareas de {user.name}
+            </h2>
+
+            <div
+                style={{ display: "flex" }}
+                className="draggable-task-container ignore-swipe mb-5"
+            >
+                <DragDropContext
+                    onDragEnd={onDragEnd}
+                    onDragUpdate={onDragUpdate}
+                    onDragStart={onDragStart}
+                >
+                    {state.map((el, ind) => (
+                        <div className="droppable-column-parent" key={ind}>
+                            <h2 className="column-title h4">{getTitle(ind)}</h2>
+
+                            <Droppable
+                                key={ind}
+                                droppableId={`${ind}`}
+                                isDropDisabled={disabledDroppables.includes(
+                                    ind
+                                )}
+                            >
+                                {(provided, snapshot) => (
+                                    <div
+                                        ref={provided.innerRef}
+                                        {...provided.droppableProps}
+                                        className={`droppable-column ${snapshot.isDraggingOver &&
+                                            "drag-over"}`}
+                                    >
+                                        {el.length === 0 && (
+                                            <EmptyList
+                                                message="Sin tareas"
+                                                className="no-result d-flex justify-content-center align-items-center my-5 mx-3"
+                                            />
+                                        )}
+                                        {el.map((item, index) => {
+                                            const isMine =
+                                                item.task.usuario.id ===
+                                                loggedUser.id;
+
+                                            return (
+                                                <Draggable
+                                                    key={item.id}
+                                                    draggableId={`${item.id}`}
+                                                    index={index}
+                                                    isDragDisabled={!isMine}
+                                                >
+                                                    {(provided, snapshot) => (
+                                                        <div
+                                                            ref={
+                                                                provided.innerRef
                                                             }
-                                                            snapshot={snapshot}
-                                                        />
-                                                    </div>
-                                                )}
-                                            </Draggable>
-                                        );
-                                    })}
-                                    {provided.placeholder}
-                                </div>
-                            )}
-                        </Droppable>
-                    </div>
-                ))}
-            </DragDropContext>
+                                                            {...provided.draggableProps}
+                                                            {...provided.dragHandleProps}
+                                                            style={
+                                                                provided
+                                                                    .draggableProps
+                                                                    .style
+                                                            }
+                                                            className={`draggable-card ${(snapshot.isDragging ||
+                                                                snapshot.draggingOver) &&
+                                                                "dragging"}`}
+                                                        >
+                                                            <DraggableTaskCard
+                                                                draggableTask={
+                                                                    item
+                                                                }
+                                                                column={ind}
+                                                                invalidDrop={
+                                                                    invalidDrop
+                                                                }
+                                                                snapshot={
+                                                                    snapshot
+                                                                }
+                                                            />
+                                                        </div>
+                                                    )}
+                                                </Draggable>
+                                            );
+                                        })}
+                                        {provided.placeholder}
+                                    </div>
+                                )}
+                            </Droppable>
+                        </div>
+                    ))}
+                </DragDropContext>
+            </div>
         </div>
     );
 };
