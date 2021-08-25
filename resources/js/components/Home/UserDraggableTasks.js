@@ -194,7 +194,6 @@ export default ({ tasks, user, index }) => {
 
     return (
         <div>
-            {index !== 0 && <hr />}
 
             <h2 className="user-title">
                 <BsFillPersonFill /> Tareas de {user.name}
@@ -202,7 +201,7 @@ export default ({ tasks, user, index }) => {
 
             <div
                 style={{ display: "flex" }}
-                className="draggable-task-container ignore-swipe mb-5"
+                className="draggable-task-container ignore-swipe mb-2"
             >
                 <DragDropContext
                     onDragEnd={onDragEnd}
@@ -211,7 +210,16 @@ export default ({ tasks, user, index }) => {
                 >
                     {state.map((el, ind) => (
                         <div className="droppable-column-parent" key={ind}>
-                            <h2 className="column-title h4">{getTitle(ind)}</h2>
+                            <div className="title-container">
+                                <h2 className="stage-index h4">
+                                    Etapa {ind + 1}
+                                </h2>
+                                <h2 className="stage-name h4">
+                                    {getTitle(ind)}
+                                </h2>
+                            </div>
+
+                            <hr />
 
                             <Droppable
                                 key={ind}

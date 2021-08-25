@@ -29,11 +29,18 @@ $divider-color: rgb(170, 170, 170);
         border-right: 2px solid $divider-color;
     }
 
-    .column-title {
+    .title-container {
         text-align: center;
-        height: 35px;
-        margin-bottom: 1rem;
+        height: 5rem;
         padding: 0 0.5rem;
+
+        & .stage-name {
+            
+        }
+
+        & .stage-index {
+            font-weight: bold;
+        }
     }
 }
 
