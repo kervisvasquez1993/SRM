@@ -83,6 +83,18 @@ class ProduccionTransitoController extends ApiController
             $title = "Fin de Produccion";
             $this->sendNotifications($user, new GeneralNotification($body, $link, $tipoNotify, $title));
         }
+        if ( $produccionTransito->isDirty('salida_puero_origen') && $request->salida_puero_origen == 1) {
+            $almacen = User::where('rol', 'almacen')->get();
+            $nuevo_user = $almacen->merge($user);
+            $body = "La empresa $nombreEmpresa salio del puerto de origen.";
+            $link = "/claims/?id=$produccionTransito->id";
+            $tipoNotify = "salida_puerto_origen";
+            /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
+            $title = "Salida de Puero de Origen";
+            $this->sendNotifications($nuevo_user, new GeneralNotification($body, $link, $tipoNotify, $title));
+            /* crear Nuevo Reclamos y devoluciones */
+           
+        }
 
         if ($produccionTransito->isDirty('transito') && $produccionTransito->transito == 1) {
 
@@ -100,19 +112,9 @@ class ProduccionTransitoController extends ApiController
             /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
             $title = "Nacionalizacion";
             $this->sendNotifications($user, new GeneralNotification($body, $link, $tipoNotify, $title));
-        }
-        if ( $produccionTransito->isDirty('salida_puero_origen') && $request->salida_puero_origen == 1) {
-            $almacen = User::where('rol', 'almacen')->get();
-            $nuevo_user = $almacen->merge($user);
-            $body = "La empresa $nombreEmpresa salio del puerto de origen.";
-            $link = "/claims/?id=$produccionTransito->id";
-            $tipoNotify = "salida_puerto_origen";
-            /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
-            $title = "Salida de Puero de Origen";
-            $this->sendNotifications($nuevo_user, new GeneralNotification($body, $link, $tipoNotify, $title));
-            /* crear Nuevo Reclamos y devoluciones */
             $this->reclamosDevolucion($produccionTransito->id);
         }
+        
 
         $produccionTransito->save();
 
