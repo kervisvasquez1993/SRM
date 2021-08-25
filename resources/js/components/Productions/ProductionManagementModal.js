@@ -10,7 +10,9 @@ import PaymentsTab from "./Payments/PaymentsTab";
 
 const ProductionManagementModal = ({ productionId }) => {
     const dispatch = useDispatch();
+    // @ts-ignore
     const production = useSelector(state => state.production.current);
+    // @ts-ignore
     const tabToUse = useSelector(state => state.modal.defaultTab) || "payments";
 
     useEffect(() => {

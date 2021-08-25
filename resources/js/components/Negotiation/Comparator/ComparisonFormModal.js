@@ -114,9 +114,24 @@ export default ({ formData, isEditor = false }) => {
                                             <thead>
                                                 <tr>
                                                     <th scope="col">
+                                                        SUPPLIER CODE
+                                                    </th>
+                                                    <th
+                                                        scope="col"
+                                                        style={{
+                                                            width: "20%",
+                                                            minWidth: "120px"
+                                                        }}
+                                                    >
                                                         SUPPLIER NAME
                                                     </th>
-                                                    <th scope="col">
+                                                    <th
+                                                        scope="col"
+                                                        style={{
+                                                            width: "50%",
+                                                            minWidth: "150px"
+                                                        }}
+                                                    >
                                                         DESCRIPTION
                                                     </th>
                                                     <th scope="col">
@@ -183,12 +198,23 @@ export default ({ formData, isEditor = false }) => {
                                                                         </div>
                                                                         <div className="w-100">
                                                                             {
-                                                                                producto.product_name_supplier
+                                                                                producto.product_code_supplier
                                                                             }
                                                                         </div>
                                                                     </div>
                                                                 </td>
                                                                 <td>
+                                                                    {
+                                                                        producto.product_name_supplier
+                                                                    }
+                                                                </td>
+                                                                <td
+                                                                    className="keep-line-breaks"
+                                                                    style={{
+                                                                        textAlign:
+                                                                            "left"
+                                                                    }}
+                                                                >
                                                                     {
                                                                         producto.description
                                                                     }

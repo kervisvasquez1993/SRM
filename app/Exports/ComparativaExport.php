@@ -80,7 +80,7 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
         return [
             BeforeExport::class => function (BeforeExport $event) {
                 $tarea = $this->tarea;
-                $producto_columnas = 6;
+                $producto_columnas = 7;
 
                 $writer = $event->getWriter();
                 $writer->reopen(new LocalTemporaryFile(public_path('templates/vacio.xlsx')), Excel::XLSX);
@@ -129,6 +129,12 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                 // Crear los encabezados de las caracteristicas de los productos
                 foreach ($negociaciones as $i => $negociacion) {
                     $columna_inicio = $i * $producto_columnas + 2;
+
+                    $coordenada = getCoordinate($columna_inicio, $filaIndice);
+                    $sheet->setCellValue($coordenada, 'SUPPLIER CODE');
+                    $sheet->getColumnDimension(getColumn($columna_inicio))->setWidth(20);
+                    $sheet->getStyle($coordenada)->applyFromArray($this->encabezadoEstilos);
+                    $columna_inicio++;
 
                     $coordenada = getCoordinate($columna_inicio, $filaIndice);
                     $sheet->setCellValue($coordenada, 'SUPPLIER NAME');
@@ -208,14 +214,14 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                                     $sheet->getStyle($columnaColorInicial . $filaProducto . ":" . $columnaColorFinal . $filaProducto)
                                         ->applyFromArray($this->celdaEstilos);
 
+                                    // Codigo
+                                    $coordenada = getCoordinate($columna_inicio, $filaProducto);
+                                    $sheet->setCellValue($coordenada, $producto->product_code_supplier);
+                                    $columna_inicio++;
+
+                                    // Nombre
                                     $coordenada = getCoordinate($columna_inicio, $filaProducto);
                                     $sheet->setCellValue($coordenada, $producto->product_name_supplier);
-
-                                    // Ajustar el color
-                                    $columnaColorInicial = getColumn($columna_inicio);
-                                    $columnaColorFinal = getColumn($columna_inicio + $producto_columnas);
-                                    // $sheet->getStyle("$columnaColorInicial" . "".":$columnaColorFinal" . "1")->applyFromArray($encabezadoEstilos);
-
                                     $columna_inicio++;
 
                                     $coordenada = getCoordinate($columna_inicio, $filaProducto);
