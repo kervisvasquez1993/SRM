@@ -193,6 +193,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('notificacion', 'Api\Notification\NotificationController@index');
     Route::get('notificacion/count', 'Api\Notification\NotificationController@count');
     Route::patch('/notificacion/{id}', 'Api\Notification\NotificationController@read');
+    Route::post('notificacion/marcar_como_leidas', 'Api\Notification\NotificationController@marcarComoLeidas');
 
     /* Recepcion reclamos y devoluciones */
     Route::get('/reclamos_devoluciones', 'Api\ReclamoDevolucion\ReclamoDevolucionController@index');

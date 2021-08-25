@@ -1,6 +1,11 @@
 import React, { useEffect } from "react";
+import { MdDoneAll } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { getNotifications } from "../../store/actions/notificationActions";
+import { confirmDelete } from "../../appText";
+import {
+    getNotifications,
+    markAllAsRead
+} from "../../store/actions/notificationActions";
 import { dateToString } from "../../utils";
 import EmptyList from "../Navigation/EmptyList";
 import LoadingScreen from "../Navigation/LoadingScreen";
@@ -25,6 +30,12 @@ const ProductionList = () => {
         return <LoadingScreen />;
     }
 
+    const handleMarkAllAsRead = () => {
+        if (confirm(confirmDelete)) {
+            dispatch(markAllAsRead());
+        }
+    };
+
     let lastEpoch = null;
 
     return (
@@ -32,8 +43,18 @@ const ProductionList = () => {
             <h1 className="text-center my-5">Notificaciones</h1>
 
             <div className="notifications-container">
+                <div className="text-right">
+                    <button
+                        className="btn btn-info"
+                        onClick={handleMarkAllAsRead}
+                    >
+                        <MdDoneAll className="icon-normal" /> Marcar todas como
+                        leidas
+                    </button>
+                </div>
+
                 {notifications.length === 0 && <EmptyList />}
-                
+
                 {notifications.map(item => {
                     let header = null;
                     const epoch = new Date(item.created_at).setHours(

@@ -37,6 +37,13 @@ const notificationReducer = (state = defaultState, action) => {
                 unreadCount: payload
             };
 
+        case "MARK_ALL_AS_READ_SUCCESS":
+            return {
+                ...state,
+                list: payload,
+                unreadCount: 0
+            };
+
         default:
             return state;
     }

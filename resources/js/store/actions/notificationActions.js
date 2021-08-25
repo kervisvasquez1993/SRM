@@ -60,3 +60,24 @@ export function markAsRead(id) {
         }
     };
 }
+
+export function markAllAsRead() {
+    return async (dispatch, _getState) => {
+        dispatch({ type: "MARK_ALL_AS_READ_REQUEST" });
+
+        try {
+            const response = await axios.post(
+                `${apiURL}/notificacion/marcar_como_leidas`
+            );
+
+            dispatch({
+                type: "MARK_ALL_AS_READ_SUCCESS",
+                payload: response.data.data
+            });
+        } catch (e) {
+            dispatch({
+                type: "MARK_ALL_AS_READ_FAILURE"
+            });
+        }
+    };
+}
