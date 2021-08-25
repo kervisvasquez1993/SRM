@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet-async";
 import { BsCloudDownload, BsUpload } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useParams } from "react-router-dom";
+import { confirmDelete } from "../../../appText";
 import {
     getClaim,
     importExcel,
@@ -80,12 +81,14 @@ const ReceptionPage = () => {
     };
 
     const handleCheck = e => {
-        const data = {
-            ...claim,
-            [e.target.id]: !Boolean(claim[e.target.id])
-        };
+        if (confirm(confirmDelete)) {
+            const data = {
+                ...claim,
+                [e.target.id]: !Boolean(claim[e.target.id])
+            };
 
-        dispatch(updateClaim(data));
+            dispatch(updateClaim(data));
+        }
     };
 
     return (

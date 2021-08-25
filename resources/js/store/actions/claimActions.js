@@ -59,6 +59,8 @@ export function updateClaim(data) {
                 payload: response.data.data
             });
         } catch (e) {
+            console.log(e);
+            console.log(e.response);
             dispatch({
                 type: "UPDATE_CLAIM_FAILURE"
             });
