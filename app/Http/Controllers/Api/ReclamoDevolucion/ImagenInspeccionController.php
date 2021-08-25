@@ -25,7 +25,7 @@ class ImagenInspeccionController extends ApiController
     {
 
         $request->validate([
-            'file' => 'max:10000',
+            'file' => 'max:500000',
         ]);
 
         $file = $request->file('file');
