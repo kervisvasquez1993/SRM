@@ -83,28 +83,7 @@ class ProduccionTransitoController extends ApiController
             $title = "Fin de Produccion";
             $this->sendNotifications($user, new GeneralNotification($body, $link, $tipoNotify, $title));
         }
-
-        if ($produccionTransito->isDirty('transito') && $produccionTransito->transito == 1) {
-
-            $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea finalizó la el proceso de transito.";
-            $tipoNotify = "transito_nacionalizacion";
-            /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
-            $title = "Transito";
-            $this->sendNotifications($user, new GeneralNotification($body, $link, $tipoNotify, $title));
-        }
-
-        if ($produccionTransito->isDirty('nacionalizacion') && $produccionTransito->nacionalizacion == 1) {
-
-            $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea finalizó la proceso de nacionalizacion.";
-            $tipoNotify = "transito_nacionalizacion";
-            /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
-            $title = "Nacionalizacion";
-            $this->sendNotifications($user, new GeneralNotification($body, $link, $tipoNotify, $title));
-        }
-
-        $produccionTransito->save();
-
-        if ($request->salida_puero_origen == 1) {
+        if ( $produccionTransito->isDirty('salida_puero_origen') && $request->salida_puero_origen == 1) {
             $almacen = User::where('rol', 'almacen')->get();
             $nuevo_user = $almacen->merge($user);
             $body = "La empresa $nombreEmpresa salio del puerto de origen.";
@@ -114,8 +93,32 @@ class ProduccionTransitoController extends ApiController
             $title = "Salida de Puero de Origen";
             $this->sendNotifications($nuevo_user, new GeneralNotification($body, $link, $tipoNotify, $title));
             /* crear Nuevo Reclamos y devoluciones */
+           
+        }
+
+        if ($produccionTransito->isDirty('transito') && $produccionTransito->transito == 1) {
+
+            $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea finalizó la el proceso de transito.";
+            $tipoNotify = "transito";
+            /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
+            $title = "Transito";
+            $this->sendNotifications($user, new GeneralNotification($body, $link, $tipoNotify, $title));
+        }
+
+        if ($produccionTransito->isDirty('nacionalizacion') && $produccionTransito->nacionalizacion == 1) {
+
+            $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea finalizó la proceso de nacionalizacion.";
+            $tipoNotify = "nacionalizacion";
+            /* Notification::send($user, new GeneralNotification($body, $link, $tipoNotify)); */
+            $title = "Nacionalizacion";
+            $this->sendNotifications($user, new GeneralNotification($body, $link, $tipoNotify, $title));
             $this->reclamosDevolucion($produccionTransito->id);
         }
+        
+
+        $produccionTransito->save();
+
+        
 
         return $this->showOneResource(new ProduccionTransitoResource($produccionTransito));
     }
