@@ -442,10 +442,6 @@ import GenericFilter from "../Filters/GenericFilter";
 import NegotiationCard from "./NegotiationCard";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import { Helmet } from "react-helmet-async";
-
-import { GoGitCompare } from "react-icons/go";
-import { TiCancel } from "react-icons/ti";
-import { BsCardList } from "react-icons/bs";
 import ProductsResume from "../Widgets/ProductsResume";
 
 const isNegotiationInProgress = negotiation => {

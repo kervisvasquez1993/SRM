@@ -188,11 +188,44 @@ export function isNegotiationSelected(negotiation) {
 //     return result;
 // }
 
-export function getPaymentsInfoFromProduction(production) {
+export function getPaymentInfoFromProduction(production) {
     const {
         pivot: { compras_total: totalToPay },
         pagos: payments
     } = production;
+
+    const totalPaid = getSum(payments, "monto");
+    const paidPercentage = (totalPaid / totalToPay) * 100;
+    const prepayment = totalPaid > 0 ? payments[0].monto : 0;
+    const prepaymentPercentage = (prepayment / totalToPay) * 100;
+    const remainingPayment = totalToPay - totalPaid;
+    const remainingPercentage = (remainingPayment / totalToPay) * 100;
+
+    const isPrepaymentDone = payments.length > 0;
+    const isCompletelyPaid = paidPercentage >= 100;
+
+    return {
+        totalToPay: roundMoneyAmount(totalToPay),
+        totalPaid: roundMoneyAmount(totalPaid),
+        paidPercentage: roundMoneyAmount(paidPercentage),
+        prepayment: roundMoneyAmount(prepayment),
+        prepaymentPercentage: roundMoneyAmount(prepaymentPercentage),
+        remainingPayment: roundMoneyAmount(remainingPayment),
+        remainingPercentage: roundMoneyAmount(remainingPercentage),
+        isPrepaymentDone,
+        isCompletelyPaid
+    };
+}
+
+export function getPaymentInfoFromProductions(productions) {
+    // const {
+    //     pivot: { compras_total: totalToPay },
+    //     pagos: payments
+    // } = production;
+    const payments = productions.map(item => item.pagos).flat();
+    const totalToPay = productions.reduce((sum, production) => {
+        return sum + production.pivot.compras_total;
+    }, 0);
 
     const totalPaid = getSum(payments, "monto");
     const paidPercentage = (totalPaid / totalToPay) * 100;

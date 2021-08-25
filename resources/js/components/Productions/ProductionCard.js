@@ -10,7 +10,7 @@ import { updateProduction } from "../../store/actions/productionActions";
 import {
     dateToString,
     getNegotiationModalName,
-    getPaymentsInfoFromProduction,
+    getPaymentInfoFromProduction,
     useSimpleUrlFocus,
     useUser
 } from "../../utils";
@@ -127,11 +127,12 @@ const ProductionCard = ({ production }) => {
     };
 
     const {
-        paidPercentage,
+        remainingPayment,
+        remainingPercentage,
         prepaymentPercentage,
         isPrepaymentDone,
         isCompletelyPaid
-    } = getPaymentsInfoFromProduction(production);
+    } = getPaymentInfoFromProduction(production);
 
     const disableProductionStarted =
         fin_produccion ||
@@ -199,9 +200,7 @@ const ProductionCard = ({ production }) => {
                                 disabled
                             />
                             Pago Anticipado
-                            {prepaymentPercentage > 0
-                                ? ` (${prepaymentPercentage}%)`
-                                : ""}
+                            {` (${prepaymentPercentage}%)`}
                             <span className="form-check-sign">
                                 <span className="check"></span>
                             </span>
@@ -221,7 +220,7 @@ const ProductionCard = ({ production }) => {
                                 disabled
                             />
                             Pago Balance
-                            {paidPercentage > 0 ? ` (${paidPercentage}%)` : ""}
+                            {` (${remainingPercentage}%)`}
                             <span className="form-check-sign">
                                 <span className="check"></span>
                             </span>
