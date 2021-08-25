@@ -11,6 +11,7 @@ import {
     FcAssistant,
     FcBinoculars,
     FcComments,
+    FcDeployment,
     FcFactoryBreakdown,
     FcFinePrint,
     FcInTransit,
@@ -161,9 +162,14 @@ const titles = {
             </div>
         )
     },
-    transito_nacionalizacion: {
-        title: "Transito Nacionalización Finalizado",
+    // Notificaciones de los cards de recepción, reclamos y devoluciones
+    transito_finalizado: {
+        title: "Tránsito Finalizado",
         icon: <FcSurvey className={iconClassName} />
+    },
+    recepcion_iniciada: {
+        title: "Recepción Iniciada",
+        icon: <FcDeployment className={iconClassName} />
     },
 
     recepcion_carga: {

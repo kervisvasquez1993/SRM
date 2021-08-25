@@ -96,17 +96,16 @@ class ProduccionTransitoController extends ApiController
         }
 
         if ($produccionTransito->isDirty('transito') && $produccionTransito->transito == 1) {
-
-            $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea finalizó el proceso de transito";
-            $tipoNotify = "transito";
-            $title = "Transito";
+            $body = "La empresa $nombreEmpresa asociada a la tarea $nombreTarea finalizó el proceso de tránsito";
+            $tipoNotify = "transito_finalizado";
+            $title = "Tránsito Finalizado";
             $this->sendNotifications($user, new GeneralNotification($body, $link, $tipoNotify, $title));
         }
 
         if ($produccionTransito->isDirty('nacionalizacion') && $produccionTransito->nacionalizacion == 1) {
             $codigo_po = $produccionTransito->pivotTable->compra_po;
             $body = "La empresa $nombreEmpresa con el código de orden de compra $codigo_po finalizó el proceso de nacionalizacion y entró en el proceso de recepción";
-            $tipoNotify = "nacionalizacion";
+            $tipoNotify = "recepcion_iniciada";
             $link = "/claims/?id=$produccionTransito->id";
             $title = "Recepción Iniciada";
             $this->sendNotifications($user, new GeneralNotification($body, $link, $tipoNotify, $title));

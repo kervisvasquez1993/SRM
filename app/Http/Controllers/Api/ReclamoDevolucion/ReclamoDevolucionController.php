@@ -61,7 +61,7 @@ class ReclamoDevolucionController extends ApiController
             $this->sendNotifications($usuarios, new GeneralNotification($body, $link, $type, $title));
         }
 
-        if ($reclamos_devolucione->isDirty('inspeccion_carga') && $reclamos_devolucione->recepcion_mercancia == 1) {
+        if ($reclamos_devolucione->isDirty('inspeccion_carga') && $reclamos_devolucione->inspeccion_carga == 1) {
             $body = "Se completó la etapa de inspección de carga de la empresa '$nombre_empresa' con el código de orden de compra $codigo_po";
             $link = "/claims/$reclamos_devolucione->id/inspection";
             $type = "inspeccion_carga_finalizada";

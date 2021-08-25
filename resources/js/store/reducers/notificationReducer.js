@@ -27,7 +27,8 @@ const notificationReducer = (state = defaultState, action) => {
         case "CHANGE_HISTORY":
             return {
                 ...state,
-                isLoadingList: true
+                isLoadingList: true,
+                list: []
             };
 
         case "GET_UNREAD_NOTIFICATIONS_COUNT_SUCCESS":
