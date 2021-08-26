@@ -4,6 +4,7 @@ import axios from "axios";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import UserDraggableTasks from "./UserDraggableTasks";
 import { useUser } from "../../utils";
+import EmptyList from "../Navigation/EmptyList";
 
 function Home() {
     const user = useUser();
@@ -52,18 +53,22 @@ function Home() {
     return (
         <React.Fragment>
             <h1 className="text-center my-5">Inicio</h1>
-            <div className="draggable-task-container">
-                {groups.map((group, index) => {
-                    return (
-                        <UserDraggableTasks
-                            tasks={group.tasks}
-                            key={group.user.id}
-                            index={index}
-                            user={group.user}
-                        />
-                    );
-                })}
-            </div>
+            {groups.length === 0 ? (
+                <EmptyList message="No hay tareas para mostrar" />
+            ) : (
+                <div className="draggable-task-container">
+                    {groups.map((group, index) => {
+                        return (
+                            <UserDraggableTasks
+                                tasks={group.tasks}
+                                key={group.user.id}
+                                index={index}
+                                user={group.user}
+                            />
+                        );
+                    })}
+                </div>
+            )}
         </React.Fragment>
     );
 }
