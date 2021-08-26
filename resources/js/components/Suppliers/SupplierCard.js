@@ -107,7 +107,7 @@ const SupplierCard = ({
                     dangerouslySetInnerHTML={{ __html: descripcion }}
                 ></div>
 
-                {(pais || ciudad || distrito) && (
+                {(pais || ciudad || distrito || address) && (
                     <React.Fragment>
                         <h3 className="card-title mb-2">Ubicación</h3>
 
@@ -131,12 +131,6 @@ const SupplierCard = ({
                                 {distrito}
                             </p>
                         )}
-                    </React.Fragment>
-                )}
-
-                {(address || telefono || contacto || email) && (
-                    <React.Fragment>
-                        <h3 className="card-title mb-2">Contacto</h3>
 
                         {address && (
                             <p className="card-text">
@@ -144,17 +138,24 @@ const SupplierCard = ({
                                 {address}
                             </p>
                         )}
+                    </React.Fragment>
+                )}
 
-                        {telefono && (
-                            <p className="card-text">
-                                <strong>Teléfono : </strong>
-                                {telefono}
-                            </p>
-                        )}
+                {(contacto || telefono || email) && (
+                    <React.Fragment>
+                        <h3 className="card-title mb-2">Contacto</h3>
+
                         {contacto && (
                             <p className="card-text">
                                 <strong>Contacto : </strong>
                                 {contacto}
+                            </p>
+                        )}
+
+                        {telefono && (
+                            <p className="card-text">
+                                <strong>Telefono : </strong>
+                                {telefono}
                             </p>
                         )}
 
@@ -162,13 +163,6 @@ const SupplierCard = ({
                             <p className="card-text">
                                 <strong>Email : </strong>
                                 {email}
-                            </p>
-                        )}
-
-                        {contacto && (
-                            <p className="card-text">
-                                <strong>Contacto : </strong>
-                                {contacto}
                             </p>
                         )}
                     </React.Fragment>
