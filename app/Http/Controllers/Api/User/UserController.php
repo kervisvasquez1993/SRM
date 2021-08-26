@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers\Api\User;
 
+use App\Http\Controllers\ApiController;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,7 +13,7 @@ class UserController extends ApiController
 {
     public function __construct()
     {
-        $this->middleware('coordinador', ['only' => ['update']]);
+        $this->middleware('coordinador', ['except' => ['update', 'index']]);
     }
 
     public function index()
@@ -47,7 +44,6 @@ class UserController extends ApiController
         return $this->showOne($usuario);
     }
 
-
     public function show(User $user)
     {
         return $this->showOne($user);
@@ -75,14 +71,13 @@ class UserController extends ApiController
 
         // Crear el hash de la contraseña nueva
         $request->merge([
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
         ]);
 
         $user->update($request->all());
 
         return $this->showOne($user);
     }
-
 
     public function destroy(User $user)
     {

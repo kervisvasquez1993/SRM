@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
@@ -20,19 +21,24 @@ const emptyUser = {
 
 const UserList = () => {
     const dispatch = useDispatch();
-    const user = useUser();
+    const loggedUser = useUser();
     // @ts-ignore
     const users = useSelector(state => state.user.users);
     // @ts-ignore
     const isLoadingList = useSelector(state => state.user.isLoadingList);
 
-    if (user.rol !== "coordinador") {
-        return <Redirect to="/home" />;
-    }
+    const [orderedUsers, setOrderedUsers] = useState([]);
 
     useEffect(() => {
         dispatch(getUsers());
     }, []);
+
+    useEffect(() => {
+        // Ordenar la lista de usuarios para que el usuario salga de primer lugar
+        const newList = users.sort((a, b) => (a.id === loggedUser.id ? -1 : 1));
+
+        setOrderedUsers(newList);
+    }, [users]);
 
     const helmet = (
         <Helmet>
@@ -57,10 +63,15 @@ const UserList = () => {
         <React.Fragment>
             {helmet}
             <h1 className="text-center my-5">Usuarios</h1>
-            {users.length === 0 && <EmptyList />}
-            <LargeCreateButton onClick={handleCreate} />
+
+            {orderedUsers.length === 0 && <EmptyList />}
+
+            {loggedUser.rol === "coordinador" && (
+                <LargeCreateButton onClick={handleCreate} />
+            )}
+
             <div className="user-cards">
-                {users.map(item => {
+                {orderedUsers.map(item => {
                     return <UserCard key={item.id} user={item} />;
                 })}
             </div>

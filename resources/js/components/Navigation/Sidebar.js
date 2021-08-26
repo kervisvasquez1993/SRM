@@ -48,20 +48,18 @@ const Sidebar = () => {
                         <p>Inicio</p>
                     </div>
                 </NavLink>
-
-                {user.rol === "coordinador" && (
-                    <NavLink
-                        className="menu-link"
-                        to="/users"
-                        onClick={closeMenu}
-                        activeClassName="active"
-                    >
-                        <div className="link-container">
-                            <i className="material-icons">person</i>
-                            <p>Usuarios</p>
-                        </div>
-                    </NavLink>
-                )}
+                
+                <NavLink
+                    className="menu-link"
+                    to="/users"
+                    onClick={closeMenu}
+                    activeClassName="active"
+                >
+                    <div className="link-container">
+                        <i className="material-icons">person</i>
+                        <p>Usuarios</p>
+                    </div>
+                </NavLink>
 
                 {(user.rol === "coordinador" ||
                     user.rol === "observador" ||

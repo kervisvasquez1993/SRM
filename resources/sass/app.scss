@@ -223,7 +223,6 @@ table,
 .user-cards {
     display: flex;
     flex-wrap: wrap;
-    flex-direction: row-reverse;
 
     & .card {
         flex-basis: 220px;
