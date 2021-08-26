@@ -25,7 +25,10 @@ const ProductionStageTab = ({ productionId }) => {
         };
     }, []);
 
-    if (isLoading) {
+    // AVISO: cuando se cierra el modal, en pocos casos puede que state.production.isLoading siga siendo false
+    // por lo tanto puede que este if no se cumpla si no se ha cargado la producción y puede provocar que el modla
+    // crashee la aplicación
+    if (isLoading || !production || production.id != productionId) {
         return <LoadingScreen />;
     }
 
