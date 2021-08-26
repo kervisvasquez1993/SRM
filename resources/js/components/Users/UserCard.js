@@ -2,10 +2,11 @@ import { capitalize } from "lodash";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../store/actions/modalActions";
-import { dateToString } from "../../utils";
+import { dateToString, useUser } from "../../utils";
 import UserModal from "./UserModal";
 
 const UserCard = ({ user }) => {
+    const loggedUser = useUser();
     const { name, email, created_at, rol } = user;
 
     const dispatch = useDispatch();
@@ -50,15 +51,18 @@ const UserCard = ({ user }) => {
                 </p>
             </div>
 
-            <div className="card-footer justify-content-end">
-                <button
-                    className="btn btn-sm btn-success btn-circle ml-3"
-                    type="button"
-                    onClick={handleEdit}
-                >
-                    <span className="material-icons">edit</span>
-                </button>
-            </div>
+            {(loggedUser.rol === "coordinador" ||
+                loggedUser.id === user.id) && (
+                <div className="card-footer justify-content-end">
+                    <button
+                        className="btn btn-sm btn-success btn-circle ml-3"
+                        type="button"
+                        onClick={handleEdit}
+                    >
+                        <span className="material-icons">edit</span>
+                    </button>
+                </div>
+            )}
         </div>
     );
 };
