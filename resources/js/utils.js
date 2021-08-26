@@ -2,10 +2,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 // @ts-ignore
-import { NumberParam, StringParam, useQueryParam } from "use-query-params";
+import { NumberParam, useQueryParam } from "use-query-params";
 import { store } from "./components/Index";
-// @ts-ignore
-import { openArtModal } from "./store/actions/artActions";
 import { clearFocus, focusOnElementWithId } from "./store/actions/focusActions";
 
 export const milisecondsInMinute = 1000 * 60;
@@ -170,29 +168,62 @@ export function isNegotiationSelected(negotiation) {
 
 // If a negotiation has started production and arts, then the rest of the providers of the same task
 // must not been shown
-export function filterNegotiations(negotiations) {
-    let result = [...negotiations];
+// export function filterNegotiations(negotiations) {
+//     let result = [...negotiations];
 
-    negotiations.forEach(i => {
-        if (isNegotiationSelected(i)) {
-            result = result.filter(j => {
-                if (j.tarea.id === i.tarea.id && i != j) {
-                    return false;
-                }
+//     negotiations.forEach(i => {
+//         if (isNegotiationSelected(i)) {
+//             result = result.filter(j => {
+//                 if (j.tarea.id === i.tarea.id && i != j) {
+//                     return false;
+//                 }
 
-                return true;
-            });
-        }
-    });
+//                 return true;
+//             });
+//         }
+//     });
 
-    return result;
-}
+//     return result;
+// }
 
-export function getPaymentsInfoFromProduction(production) {
+export function getPaymentInfoFromProduction(production) {
     const {
         pivot: { compras_total: totalToPay },
         pagos: payments
     } = production;
+
+    const totalPaid = getSum(payments, "monto");
+    const paidPercentage = (totalPaid / totalToPay) * 100;
+    const prepayment = totalPaid > 0 ? payments[0].monto : 0;
+    const prepaymentPercentage = (prepayment / totalToPay) * 100;
+    const remainingPayment = totalToPay - totalPaid;
+    const remainingPercentage = (remainingPayment / totalToPay) * 100;
+
+    const isPrepaymentDone = payments.length > 0;
+    const isCompletelyPaid = paidPercentage >= 100;
+
+    return {
+        totalToPay: roundMoneyAmount(totalToPay),
+        totalPaid: roundMoneyAmount(totalPaid),
+        paidPercentage: roundMoneyAmount(paidPercentage),
+        prepayment: roundMoneyAmount(prepayment),
+        prepaymentPercentage: roundMoneyAmount(prepaymentPercentage),
+        remainingPayment: roundMoneyAmount(remainingPayment),
+        remainingPercentage: roundMoneyAmount(remainingPercentage),
+        isPrepaymentDone,
+        isCompletelyPaid
+    };
+}
+
+export function getPaymentInfoFromProductions(productions) {
+    // const {
+    //     pivot: { compras_total: totalToPay },
+    //     pagos: payments
+    // } = production;
+    const payments = productions.map(item => item.pagos).flat();
+    const totalToPay = productions.reduce((sum, production) => {
+        return sum + production.pivot.compras_total;
+    }, 0);
 
     const totalPaid = getSum(payments, "monto");
     const paidPercentage = (totalPaid / totalToPay) * 100;
@@ -342,8 +373,8 @@ export const removeSlash = text => {
     return text;
 };
 
-export const maxUploadSize = 10000000;
-export const maxUploadSizeText = "10 MB";
+export const maxUploadSize = 500000000;
+export const maxUploadSizeText = "500 MB";
 
 export const isRepeatedValidator = (
     file,

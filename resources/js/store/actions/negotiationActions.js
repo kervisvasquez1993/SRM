@@ -297,35 +297,6 @@ export function finishStage(negotiation, name) {
     };
 }
 
-export function selectNegotiation(negotiation) {
-    return async (dispatch, getState) => {
-        try {
-            const response = await axios.put(
-                `${apiURL}/negociacion/${negotiation.id}`,
-                { ...negotiation, seleccionado: true }
-            );
-
-            negotiation = response.data.data;
-
-            dispatch({
-                type: "SELECT_NEGOTIATION_SUCCESS",
-                payload: negotiation
-            });
-
-            dispatch(
-                openModal({
-                    title: negotiation.nombre,
-                    body: <NegotiationModal negotiation={negotiation} />
-                })
-            );
-
-            toast.success("✔️ Esta empresa fue seleccionada");
-        } catch (e) {
-            console.log(e.response);
-        }
-    };
-}
-
 export function startProductionWithNegotiation(negotiation) {
     return async (dispatch, getState) => {
         dispatch({ type: "START_PRODUCTION_REQUEST" });
@@ -411,6 +382,30 @@ export function getNegotiationsFromTask(taskId) {
             dispatch({
                 type: "GET_NEGOTIATIONS_FAILURE"
             });
+        }
+    };
+}
+
+export function selectNegotiation(negotiation) {
+    return async (dispatch, getState) => {
+        try {
+            const newNegotiation = { ...negotiation, seleccionado: true };
+            
+            await axios.put(
+                `${apiURL}/negociacion/${newNegotiation.id}`,
+                newNegotiation
+            );
+
+            // dispatch({
+            //     type: "SELECT_CURRENT_NEGOTIATION_SUCCESS",
+            //     payload: newNegotiation
+            // });
+
+            location.reload();
+
+            toast.success("✔️ Esta empresa fue seleccionada");
+        } catch (e) {
+            console.log(e.response);
         }
     };
 }

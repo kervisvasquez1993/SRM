@@ -3,7 +3,7 @@ import { BiLink } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getProduction } from "../../../store/actions/productionActions";
-import { getPaymentsInfoFromProduction } from "../../../utils";
+import { getPaymentInfoFromProduction } from "../../../utils";
 import EmptyList from "../../Navigation/EmptyList";
 import LoadingScreen from "../../Navigation/LoadingScreen";
 import CheckIcon from "../../Widgets/CheckIcon";
@@ -32,7 +32,7 @@ const ProductionStageTab = ({ productionId }) => {
     const {
         prepaymentPercentage,
         isCompletelyPaid
-    } = getPaymentsInfoFromProduction(production);
+    } = getPaymentInfoFromProduction(production);
 
     return (
         <React.Fragment>
@@ -62,17 +62,20 @@ const ProductionStageTab = ({ productionId }) => {
                         </li>
 
                         <li className="list-group-item d-flex align-items-center">
-                            <strong>Transito Nacionalización</strong>
-                            <CheckIcon
-                                checked={production.transito_nacionalizacion}
-                            />
-                        </li>
-
-                        <li className="list-group-item d-flex align-items-center">
                             <strong>Salida Puerto Origen</strong>
                             <CheckIcon
                                 checked={production.salida_puero_origen}
                             />
+                        </li>
+
+                        <li className="list-group-item d-flex align-items-center">
+                            <strong>Tránsito</strong>
+                            <CheckIcon checked={production.transito} />
+                        </li>
+
+                        <li className="list-group-item d-flex align-items-center">
+                            <strong>Nacionalización</strong>
+                            <CheckIcon checked={production.nacionalizacion} />
                         </li>
                     </ul>
 

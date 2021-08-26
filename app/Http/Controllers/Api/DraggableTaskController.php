@@ -3,15 +3,29 @@
 namespace App\Http\Controllers\Api;
 
 use App\DraggableTask;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DraggableTaskResource;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DraggableTaskController extends Controller
 {
     public function index()
     {
-        return DraggableTaskResource::collection(DraggableTask::all());
+        $user = Auth::user();
+        if ($user->rol === "comprador") {
+            $tareas = Auth::user()
+                ->tareas()
+                ->has('draggableTasks')
+                ->with('draggableTasks')
+                ->get()
+                ->pluck('draggableTasks')
+                ->collapse();
+        } else {
+            $tareas = DraggableTask::all();
+        }
+
+        return DraggableTaskResource::collection($tareas);
     }
 
     public function store(Request $request)
@@ -30,14 +44,14 @@ class DraggableTaskController extends Controller
         $filaActual = $draggableTask->row;
         $columnaActual = $draggableTask->column;
         // La columna destino
-        $columnaNueva = min((int)$request->column, 4);
+        $columnaNueva = min((int) $request->column, 4);
         $columnaNueva = max(0, $columnaNueva);
 
         // Contar cuantas filas hay para limitar el indice de la fila nueva
         $totalFilas = DraggableTask::where('column', $columnaNueva)->count();
 
         // La fila destino
-        $filaNueva = min((int)$request->row, $totalFilas);
+        $filaNueva = min((int) $request->row, $totalFilas);
         $filaNueva = max(0, $filaNueva);
 
         if ($columnaActual == $columnaNueva) {
@@ -48,7 +62,7 @@ class DraggableTaskController extends Controller
 
             // Obtener el valor minimo y maximo
             $min = min($filaNueva, $filaActual);
-            $max =  max($filaNueva, $filaActual);
+            $max = max($filaNueva, $filaActual);
 
             // Obtener todas las tareas comprendidas entre la fila nueva y la destino
             $cards = DraggableTask::where('column', $columnaNueva)
@@ -61,10 +75,10 @@ class DraggableTaskController extends Controller
 
                     if ($arriba) {
                         // Si el movimiento es hacia arriba, las tareas de en medio deben moverse una fila hacia abajo
-                        $card->row =  $card->row - 1;
+                        $card->row = $card->row - 1;
                     } else {
                         // Si el movimiento es hacia abajo, deben subir una fila
-                        $card->row =  $card->row + 1;
+                        $card->row = $card->row + 1;
                     }
 
                     $card->save();
@@ -78,18 +92,18 @@ class DraggableTaskController extends Controller
 
             foreach ($cardsOrigen as $card) {+
                 // Cada una de ellas se debe moverse una fila hacia abajo
-                $card->row =  $card->row - 1;
+                $card->row = $card->row - 1;
                 $card->save();
             }
 
             // Obtener las tareas debajo de la fila destino (incluyendo la propia fila destino)
             $cardsDestino = DraggableTask::where('column', $columnaNueva)
-                ->where('row', '>=',  $filaNueva)
+                ->where('row', '>=', $filaNueva)
                 ->get();
 
             foreach ($cardsDestino as $card) {
                 // Cada una de ellas se debe moverse una fila hacia arriba
-                $card->row =  $card->row + 1;
+                $card->row = $card->row + 1;
                 $card->save();
             }
         }
@@ -101,7 +115,7 @@ class DraggableTaskController extends Controller
 
         return new DraggableTaskResource($draggableTask);
     }
-    
+
     public function destroy($id)
     {
         //

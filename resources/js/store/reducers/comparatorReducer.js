@@ -121,6 +121,35 @@ const comparatorReducer = (state = defaultState, action) => {
         };
     }
 
+    if (type === "DELETE_COMPARATOR_CELL") {
+        const newTask = {
+            ...state.task
+        };
+
+        // Informacion que se necesitara
+        const comparacion = newTask.comparaciones[payload.comparisonIndex];
+        newTask.comparaciones[payload.comparisonIndex];
+        const array =
+            comparacion.rows[payload.rowIndex].columns[payload.columnIndex];
+
+        // Informacion de la celda
+        const data = array[payload.cellIndex];
+        const productId = data.id;
+
+        // Primero se debe eliminar la celda
+        array.splice(payload.cellIndex, 1);
+
+        // Ahora se debe eliminar el id de la lista de productos
+        comparacion.productIds[payload.columnIndex] = comparacion.productIds[
+            payload.columnIndex
+        ].filter(item => item != productId);
+
+        return {
+            ...state,
+            task: newTask
+        };
+    }
+
     return state;
 };
 

@@ -1,8 +1,8 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
-import { RiFileUnknowFill } from "react-icons/ri";
+import { MdDeleteForever } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { updateCell } from "../../store/actions/comparatorActions";
+import { deleteCell, updateCell } from "../../store/actions/comparatorActions";
 import { amazonS3Url } from "../App";
 
 const white = "ffffff";
@@ -38,6 +38,47 @@ export default ({ data, index, comparisonIndex, rowIndex, colIndex }) => {
             updateCell(newData, comparisonIndex, rowIndex, colIndex, index)
         );
     };
+
+    const handleDelete = e => {
+        e.stopPropagation();
+
+        dispatch(deleteCell(comparisonIndex, rowIndex, colIndex, index));
+    };
+
+    if (!product) {
+        return (
+            <Draggable draggableId={`${data.id}`} index={index}>
+                {(provided, snapshot) => (
+                    <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        style={provided.draggableProps.style}
+                        className={`product-draggable ${
+                            snapshot.isDragging ? "isDragging" : ""
+                        }`}
+                        onClick={handleClick}
+                    >
+                        <table className="table table-sm table-bordered py-0 text-center comparision-table">
+                            <tbody
+                                style={{
+                                    backgroundColor: `#${data.backgroundColor}`
+                                }}
+                            >
+                                <tr>
+                                    <td>Este producto fue eliminado</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <MdDeleteForever
+                            className="delete-icon"
+                            onClick={handleDelete}
+                        />
+                    </div>
+                )}
+            </Draggable>
+        );
+    }
 
     return (
         <Draggable draggableId={`${data.id}`} index={index}>

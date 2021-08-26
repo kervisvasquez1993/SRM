@@ -8,7 +8,6 @@ import { Redirect } from "react-router-dom";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import { Helmet } from "react-helmet-async";
 import GenericFilter from "../Filters/GenericFilter";
-import TaskFormWIthPurchase from "./TaskFormWIthPurchase";
 
 const cardCreator = item => {
     return <TaskCard key={item.id} task={item} />;
@@ -70,15 +69,6 @@ const TaskList = ({ myTasks = false }) => {
             openModal({
                 title: "Agregar Tarea",
                 body: <TaskFormModal />
-            })
-        );
-    };
-
-    const handleCreateWithPurchase = () => {
-        dispatch(
-            openModal({
-                title: "Agregar Tarea con Orden de Compra",
-                body: <TaskFormWIthPurchase />
             })
         );
     };
@@ -246,25 +236,12 @@ const TaskList = ({ myTasks = false }) => {
             </h1>
 
             <div className="container text-center">
-                {myTasks ? (
-                    <button
-                        className="btn btn-lg btn-outline-info btn-round"
-                        onClick={handleCreateWithPurchase}
-                    >
-                        <i className="fa fa-plus fa-2x mr-2"></i>Crear con
-                        Compra
-                    </button>
-                ) : (
-                    user.rol === "coordinador" && (
-                        <button
-                            className="btn btn-lg btn-outline-primary btn-round"
-                            onClick={handleCreate}
-                        >
-                            <i className="fa fa-plus fa-2x mr-2"></i>Agregar
-                            Tarea
-                        </button>
-                    )
-                )}
+                <button
+                    className="btn btn-lg btn-outline-primary btn-round"
+                    onClick={handleCreate}
+                >
+                    <i className="fa fa-plus fa-2x mr-2"></i>Agregar Tarea
+                </button>
             </div>
 
             <GenericFilter

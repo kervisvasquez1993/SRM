@@ -4,10 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../../store/actions/modalActions";
 import { getPayments } from "../../../store/actions/productionActions";
 import {
-    getPaymentsInfoFromProduction,
+    getPaymentInfoFromProduction,
     getSum,
-    roundMoneyAmount,
-    useUser
+    roundMoneyAmount
 } from "../../../utils";
 import EmptyList from "../../Navigation/EmptyList";
 import LoadingScreen from "../../Navigation/LoadingScreen";
@@ -35,7 +34,7 @@ const PaymentsTab = ({ production }) => {
         prepaymentPercentage,
         remainingPayment,
         remainingPercentage
-    } = getPaymentsInfoFromProduction(production);
+    } = getPaymentInfoFromProduction(production);
 
     useEffect(() => {
         dispatch(getPayments(production.id));
@@ -89,7 +88,7 @@ const PaymentsTab = ({ production }) => {
                             </SmallCard>
 
                             <SmallCard
-                                label="Pago Restante"
+                                label="Pago Balance"
                                 materialIcon="production_quantity_limits"
                                 backgroundClass="bg-danger"
                             >

@@ -17,8 +17,6 @@ const ReceptionTable = () => {
         dispatch(getReceptionItems(id));
     }, []);
 
-    console.log(claim);
-
     return (
         <React.Fragment>
             {receptionItems.length === 0 && (

@@ -20,9 +20,12 @@ export function getIncidents(url1, url2, parentId) {
 
             dispatch({
                 type: "GET_INCIDENTS_SUCCESS",
-                payload: response.data.data
+                payload: response.data.data,
+                parentId
             });
         } catch (e) {
+            console.log(e);
+            console.log(e.response);
             dispatch({
                 type: "GET_INCIDENTS_FAILURE"
             });
@@ -40,6 +43,8 @@ export function createIncident(url1, url2, parentId, data) {
                 data
             );
 
+            console.log(response);
+
             dispatch({
                 type: "FORM_SUBMIT_SUCCESS",
                 payload: response.data.data
@@ -54,7 +59,6 @@ export function createIncident(url1, url2, parentId, data) {
 
             toast.success("✔️ Incidencia iniciada");
         } catch (e) {
-            console.log(e.response);
             dispatch({
                 type: "FORM_SUBMIT_FAILURE",
                 errors: e.response.data.error

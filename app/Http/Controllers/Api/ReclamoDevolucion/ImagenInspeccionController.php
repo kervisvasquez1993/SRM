@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\ReclamoDevolucion;
 
+use App\User;
 use App\ImagenInspeccion;
 use Illuminate\Http\Request;
 use App\RecepcionReclamoDevolucion;
@@ -24,7 +25,7 @@ class ImagenInspeccionController extends ApiController
     {
 
         $request->validate([
-            'file' => 'max:10000',
+            'file' => 'max:500000',
         ]);
 
         $file = $request->file('file');
@@ -40,7 +41,10 @@ class ImagenInspeccionController extends ApiController
         $pivot_file->url = Storage::disk('s3')->put("negociacion_archivos",  $file, 'public');
         $pivot_file->name = $file->getClientOriginalName();
         $pivot_file->save();
+        
         return $this->showOneResource(new FileResource($pivot_file));
+        /* inspeccion */
+       
     }
 
     public function show(ImagenInspeccion $imagen_inspeccion_id)

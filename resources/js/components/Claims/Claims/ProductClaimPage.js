@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useParams } from "react-router-dom";
+import { confirmDelete } from "../../../appText";
 import { getClaim, updateClaim } from "../../../store/actions/claimActions";
 import { useUser } from "../../../utils";
 import IncidentsTab from "../../Incidents/IncidentsTab";
@@ -49,12 +50,14 @@ const ProductClaimPage = () => {
     }
 
     const handleCheck = e => {
-        const data = {
-            ...claim,
-            [e.target.id]: !Boolean(claim[e.target.id])
-        };
+        if (confirm(confirmDelete)) {
+            const data = {
+                ...claim,
+                [e.target.id]: !Boolean(claim[e.target.id])
+            };
 
-        dispatch(updateClaim(data));
+            dispatch(updateClaim(data));
+        }
     };
 
     return (

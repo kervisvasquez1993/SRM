@@ -16,14 +16,15 @@ import { BsUpload } from "react-icons/bs";
 import GenericFileCard from "../../Files/GenericFileCard";
 import { amazonS3Url } from "../../App";
 import LoadingSpinner from "../../Navigation/LoadingSpinner";
+import SmallWarningIcon from "../../Widgets/Icons/SmallWarningIcon";
 
 const campos = [
     { name: "compra_po", label: "Código PO" },
-    { name: "total_pagar", label: "Total a Pagar" }
+    { name: "total_pagar", label: "Total a Pagar" },
     // { name: "payment_terms", label: "Términos de Pago" },
     // { name: "hs_code", label: "Código HS" },
     // { name: "incoterms", label: "Incoterms" },
-    // { name: "delivery_time", label: "Tiempo de Entrega" }
+    { name: "delivery_time", label: "Tiempo de Entrega (días)" }
 ];
 
 const NegotiationPurchaseTab = () => {
@@ -47,7 +48,10 @@ const NegotiationPurchaseTab = () => {
     const dispatch = useDispatch();
 
     // const canContinue = purchaseOrders.length > 0 && negotiation.compra_po;
-    const canContinue = negotiation.compra_po && negotiation.total_pagar;
+    const canContinue =
+        negotiation.compra_po &&
+        negotiation.total_pagar &&
+        negotiation.delivery_time;
 
     const {
         acceptedFiles,
@@ -276,14 +280,15 @@ const NegotiationPurchaseTab = () => {
                         <React.Fragment>
                             <p>
                                 Utilize el siguiente botón para pasar a la
-                                siguiente etapa:{" "}
-                                {!canContinue && (
-                                    <span className="text-danger">
-                                        (Se necesitan rellenar los campos de la
-                                        orden de compra)
-                                    </span>
-                                )}
+                                siguiente etapa:
                             </p>
+
+                            {!canContinue && (
+                                <p className="text-center text-danger">
+                                    <SmallWarningIcon /> Se necesitan rellenar
+                                    los campos de la orden de compra
+                                </p>
+                            )}
 
                             <NextStageButton
                                 onClick={handleContinue}

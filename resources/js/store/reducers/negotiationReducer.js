@@ -1,5 +1,3 @@
-import { filterNegotiations } from "../../utils";
-
 const defaultState = {
     negotiations: [],
     isLoadingList: false,
@@ -24,7 +22,7 @@ const negotiationReducer = (state = defaultState, action) => {
         case "GET_NEGOTIATIONS_SUCCESS":
             return {
                 ...state,
-                negotiations: filterNegotiations(payload),
+                negotiations: payload,
                 isLoadingList: false
             };
         case "GET_NEGOTIATIONS_FAILURE":
@@ -76,7 +74,7 @@ const negotiationReducer = (state = defaultState, action) => {
 
             return {
                 ...state,
-                negotiations: filterNegotiations(newList),
+                negotiations: newList,
                 isStarting: false
             };
         case "START_PRODUCTION_FAILURE":
@@ -96,7 +94,7 @@ const negotiationReducer = (state = defaultState, action) => {
 
             return {
                 ...state,
-                negotiations: filterNegotiations(_newList),
+                negotiations: _newList,
                 isStarting: false
             };
         case "START_ART_FAILURE":
@@ -170,16 +168,12 @@ const negotiationReducer = (state = defaultState, action) => {
                 negotiation: payload
             };
 
-        case "SELECT_NEGOTIATION_SUCCESS":
-            const __newList = state.negotiations.map(negotiation =>
-                negotiation.id === payload.id ? payload : negotiation
-            );
-
+        case "SELECT_CURRENT_NEGOTIATION_SUCCESS":
             return {
                 ...state,
-                negotiations: filterNegotiations(__newList),
                 negotiation: payload
             };
+
         default:
             return state;
     }

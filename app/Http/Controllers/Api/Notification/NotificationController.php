@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api\Notification;
 
-use auth;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
 use App\Http\Resources\NotificationResource;
+use auth;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Notifications\DatabaseNotification;
 
 class NotificationController extends ApiController
@@ -15,6 +15,22 @@ class NotificationController extends ApiController
     {
         $user = auth()->user();
         $notificaciones = $user->notifications;
+        $notificaciones = NotificationResource::collection($notificaciones);
+        return $this->showAllResourcesPaginate($notificaciones);
+    }
+
+    public function marcarComoLeidas(Request $request)
+    {
+        $user = auth()->user();
+        $notificaciones = $user->notifications;
+
+        foreach ($notificaciones as $notificacion) {
+            if (!$notificacion->read_at) {
+                $notificacion->read_at = Carbon::now();
+                $notificacion->save();
+            }
+        }
+
         $notificaciones = NotificationResource::collection($notificaciones);
         return $this->showAllResourcesPaginate($notificaciones);
     }

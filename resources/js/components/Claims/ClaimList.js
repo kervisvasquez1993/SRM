@@ -6,13 +6,14 @@ import { getClaims } from "../../store/actions/claimActions";
 import { isClaimCompleted, useUser } from "../../utils";
 import GenericFilter from "../Filters/GenericFilter";
 import LoadingScreen from "../Navigation/LoadingScreen";
-import NegotiationResume from "../Widgets/NegotiationResume";
 import ClaimCard from "./ClaimCard";
 
 const ClaimsList = () => {
     const dispatch = useDispatch();
     const user = useUser();
+    // @ts-ignore
     const claims = useSelector(state => state.claim.list);
+    // @ts-ignore
     const isLoadingList = useSelector(state => state.claim.isLoadingList);
     const [filteredNegotiations, setFilteredNegotiations] = useState([]);
 
@@ -126,16 +127,16 @@ const ClaimsList = () => {
     return (
         <React.Fragment>
             {helmet}
-            <h1 className="text-center my-5">Recepción Reclamos y Devoluciones</h1>
+            <h1 className="text-center my-5">
+                Recepción Reclamos y Devoluciones
+            </h1>
 
             <GenericFilter
                 config={filterConfig}
                 unfilteredData={claims}
                 populatorConfig={populatorConfig}
                 onChange={onChange}
-            >
-                <NegotiationResume negotiations={filteredNegotiations} />
-            </GenericFilter>
+            />
         </React.Fragment>
     );
 };

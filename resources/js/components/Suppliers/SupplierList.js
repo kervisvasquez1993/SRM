@@ -7,7 +7,7 @@ import EmptyList from "../Navigation/EmptyList";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import LargeCreateButton from "../Widgets/LargeCreateButton";
 import SupplierCard from "./SupplierCard";
-import SupplierFormModal, { emptyProvider } from "./SupplierFormModal";
+import SupplierFormModal from "./SupplierFormModal";
 
 export default () => {
     const dispatch = useDispatch();
@@ -37,7 +37,7 @@ export default () => {
         dispatch(
             openModal({
                 title: "Agregar Empresa",
-                body: <SupplierFormModal provider={emptyProvider} />
+                body: <SupplierFormModal />
             })
         );
     };
@@ -50,7 +50,7 @@ export default () => {
             <div className="user-cards">
                 {suppliers.map(item => (
                     <SupplierCard
-                        provider={item}
+                        supplier={item}
                         key={item.id}
                         haveNegotiation={false}
                     />

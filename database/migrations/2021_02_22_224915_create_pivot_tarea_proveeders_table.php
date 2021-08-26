@@ -30,7 +30,7 @@ class CreatePivotTareaProveedersTable extends Migration
             $table->string('payment_terms')->nullable()->default(null);
             $table->string('hs_code')->nullable()->default(null);
             $table->string('incoterms')->nullable()->default(null);
-            $table->date('delivery_time')->nullable()->default(null);
+            $table->integer('delivery_time')->nullable()->default(null);
             $table->boolean('orden_compra_directa')->default(false);
             $table->string('archivo_orden_compra')->nullable();
             $table->string('nombre_archivo_orden_compra')->nullable();

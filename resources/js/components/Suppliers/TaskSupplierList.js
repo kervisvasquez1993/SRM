@@ -21,7 +21,7 @@ const TaskSupplierList = () => {
     // @ts-ignore
     const user = useSelector(state => state.auth.user);
     // @ts-ignore
-    const task = useSelector(state => state.task.task);
+    const task = useSelector(state => state.task.current);
 
     const [orderedProviders, setOrderedProviders] = useState([]);
 
@@ -92,10 +92,10 @@ const TaskSupplierList = () => {
 
             {orderedProviders.length > 0 ? (
                 <div className="d-flex flex-column-reverse">
-                    {orderedProviders.map(provider => (
+                    {orderedProviders.map(item => (
                         <SupplierCard
-                            key={provider.id}
-                            provider={provider}
+                            key={item.id}
+                            supplier={item}
                             selectedProvider={selectedProvider}
                         />
                     ))}

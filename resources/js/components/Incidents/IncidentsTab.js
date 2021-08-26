@@ -11,19 +11,32 @@ import EmptyList from "../Navigation/EmptyList";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import LargeCreateButton from "../Widgets/LargeCreateButton";
 
-const IncidentsTab = ({ stateName, url1, url2, title, useEmptyListMessage = true }) => {
+const IncidentsTab = ({
+    stateName,
+    url1,
+    url2,
+    title,
+    useEmptyListMessage = true,
+    parentId = undefined
+}) => {
     const dispatch = useDispatch();
 
-    const parent = useSelector(state => state[stateName].current);
+    if (!parentId) {
+        parentId = useSelector(state => state[stateName].current).id;
+    }
+
+    // @ts-ignore
     const incidents = useSelector(state => state.incident.incidents);
+    // @ts-ignore
     const modal = useSelector(store => store.modal);
 
     const areIncidentsLoading = useSelector(
+        // @ts-ignore
         state => state.incident.areIncidentsLoading
     );
 
     useEffect(() => {
-        dispatch(getIncidents(url1, url2, parent.id));
+        dispatch(getIncidents(url1, url2, parentId));
     }, []);
 
     const handleCreate = () => {
@@ -37,6 +50,7 @@ const IncidentsTab = ({ stateName, url1, url2, title, useEmptyListMessage = true
                         url2={url2}
                         formData={emptyIncident}
                         isEditor={false}
+                        parentId={parentId}
                     />
                 ),
                 defaultTab: url2,
@@ -56,9 +70,9 @@ const IncidentsTab = ({ stateName, url1, url2, title, useEmptyListMessage = true
                 <LoadingScreen />
             ) : (
                 <React.Fragment>
-                    {
-                        useEmptyListMessage && incidents.length === 0 && <EmptyList />
-                    }
+                    {useEmptyListMessage && incidents.length === 0 && (
+                        <EmptyList />
+                    )}
 
                     <LargeCreateButton onClick={handleCreate} />
                     <div className="d-flex flex-column-reverse">

@@ -8,15 +8,25 @@ import InputText from "../Form/InputText";
 import InputTextArea from "../Form/InputTextarea";
 import GenericFormModal from "../Table/GenericFormModal";
 
-const IncidentModal = ({ stateName, url1, url2, formData, isEditor }) => {
+const IncidentModal = ({
+    stateName,
+    url1,
+    url2,
+    formData,
+    isEditor,
+    parentId = undefined
+}) => {
+    if (!parentId) {
+        parent = useSelector(state => state[stateName].current);
+    }
+
     const dispatch = useDispatch();
-    const art = useSelector(state => state[stateName].current);
 
     const onSubmit = data => {
         if (isEditor) {
             dispatch(editIncident(url2, data));
         } else {
-            dispatch(createIncident(url1, url2, art.id, data));
+            dispatch(createIncident(url1, url2, parentId, data));
         }
     };
 

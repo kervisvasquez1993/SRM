@@ -44,21 +44,21 @@
             width: 100%;
         }
     }
+}
 
-    & .delete-icon {
-        color: red;
-        position: absolute;
-        top: 0;
-        right: 0;
-        font-size: 2rem;
-        padding: 0.1rem;
-        margin: 0.2rem;
-        cursor: pointer;
-        background: rgba(255, 255, 255, 0.85);
-        border-radius: 50%;
+.delete-icon {
+    color: red;
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 2rem;
+    padding: 0.1rem;
+    margin: 0.2rem;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 50%;
 
-        &:hover {
-            transform: scale(1.1);
-        }
+    &:hover {
+        transform: scale(1.1);
     }
 }

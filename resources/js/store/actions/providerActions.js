@@ -116,6 +116,31 @@ export function createSupplier(supplier) {
     };
 }
 
+export function selectSupplierWithNegotiation(supplier) {
+    return async (dispatch, getState) => {
+        try {
+            const negotiation = supplier.pivot;
+            negotiation.seleccionado = true;
+
+            await axios.put(
+                `${apiURL}/negociacion/${negotiation.id}`,
+                negotiation
+            );
+
+            dispatch({
+                type: "SELECT_SUPPLIER_SUCCESS",
+                payload: negotiation
+            });
+
+            dispatch(focusOnElementWithId(supplier.id));
+
+            toast.success("✔️ Esta empresa fue seleccionada");
+        } catch (e) {
+            console.log(e.response);
+        }
+    };
+}
+
 // export function startNegotiation(taskId, providerId) {
 //     return async (dispatch, getState) => {
 //         dispatch({ type: "START_NEGOTIATION_REQUEST" });

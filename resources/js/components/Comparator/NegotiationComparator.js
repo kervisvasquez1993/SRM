@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet-async";
 import { FaFileImport } from "react-icons/fa";
 import { MdAddCircle } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { v4 } from "uuid";
 import { getTask } from "../../store/actions/comparatorActions";
 import { openModal } from "../../store/actions/modalActions";
@@ -12,12 +12,7 @@ import { apiURL } from "../App";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import AddComparisionModal from "./ComparisonFormModal";
 import ComparatorTable from "./ComparatorTable";
-
-// const colors = ["green", "blue", "red", "bg-warning", "table-dark"];
-
-// const getColor = index => {
-//     return colors[index];
-// };
+import IncidentsTab from "../Incidents/IncidentsTab";
 
 export default () => {
     const dispatch = useDispatch();
@@ -26,9 +21,6 @@ export default () => {
 
     // @ts-ignore
     const task = useSelector(state => state.comparator.task);
-
-    // @ts-ignore
-    // const comparisions = useSelector(state => state.comparator.comparisions);
 
     const helmet = (
         <Helmet>
@@ -89,8 +81,6 @@ export default () => {
                 );
             })}
 
-            {comparisions.length > 0 && <hr className="my-5" />}
-
             <div className="text-center">
                 <button className="btn btn-success" onClick={handleOpenModal}>
                     <MdAddCircle className="mr-2" />
@@ -105,6 +95,16 @@ export default () => {
                     Exportar Excel
                 </a>
             </div>
+
+            <hr className="my-2" />
+
+            <IncidentsTab
+                stateName="task"
+                url1="tarea"
+                url2="comentarios_comparacion"
+                title="Comentarios"
+                parentId={task.id}
+            ></IncidentsTab>
         </React.Fragment>
     );
 };

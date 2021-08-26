@@ -9,12 +9,16 @@ import { AiFillWarning, AiOutlineBarcode } from "react-icons/ai";
 import {
     FcAcceptDatabase,
     FcAssistant,
+    FcBinoculars,
     FcComments,
+    FcDeployment,
     FcFactoryBreakdown,
+    FcFinePrint,
     FcInTransit,
     FcMoneyTransfer,
     FcOk,
     FcServices,
+    FcShipped,
     FcSurvey,
     FcTodoList,
     FcUpload
@@ -158,9 +162,14 @@ const titles = {
             </div>
         )
     },
-    transito_nacionalizacion: {
-        title: "Transito Nacionalización Finalizado",
+    // Notificaciones de los cards de recepción, reclamos y devoluciones
+    transito_finalizado: {
+        title: "Tránsito Finalizado",
         icon: <FcSurvey className={iconClassName} />
+    },
+    recepcion_iniciada: {
+        title: "Recepción Iniciada",
+        icon: <FcDeployment className={iconClassName} />
     },
 
     recepcion_carga: {
@@ -174,6 +183,20 @@ const titles = {
     reclamo_devolucion_carga: {
         title: "Comentario en Reclamos y Devoluciones",
         icon: <ClaimIncidentIcon />
+    },
+
+    // Notificaciones de los cards de recepción, reclamos y devoluciones
+    recepcion_mercancia_finalizada: {
+        title: "Recepción de Mercancía Finalizada",
+        icon: <FcShipped className={iconClassName} />
+    },
+    inspeccion_carga_finalizada: {
+        title: "Inspeccion de Carga Finalizada",
+        icon: <FcBinoculars className={iconClassName} />
+    },
+    reclamos_devoluciones_finalizada: {
+        title: "Reclamos y Devoluciones Completos",
+        icon: <FcFinePrint className={iconClassName} />
     },
 
     cambio_creacion_fichas: {
@@ -225,7 +248,7 @@ const NotificationCard = ({
                         <p className="m-0 mb-md-2">{text}</p>
                     </div>
                 </div>
-                <div className="ml-2">
+                <div className="ml-4">
                     {getElapsedTimeString(new Date(created_at))}
                 </div>
             </Link>

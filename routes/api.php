@@ -193,6 +193,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('notificacion', 'Api\Notification\NotificationController@index');
     Route::get('notificacion/count', 'Api\Notification\NotificationController@count');
     Route::patch('/notificacion/{id}', 'Api\Notification\NotificationController@read');
+    Route::post('notificacion/marcar_como_leidas', 'Api\Notification\NotificationController@marcarComoLeidas');
 
     /* Recepcion reclamos y devoluciones */
     Route::get('/reclamos_devoluciones', 'Api\ReclamoDevolucion\ReclamoDevolucionController@index');
@@ -250,10 +251,10 @@ Route::middleware('auth:api')->group(function () {
 
 
      /* incidencias de tareas */
-     Route::get('/tarea_comentario/{tarea_id}/tarea', 'Api\Tarea\IncidenciaTareaController@index');
-     Route::post('/tarea_comentario/{tarea_id}/tarea', 'Api\Tarea\IncidenciaTareaController@store');
-     Route::put('/tarea_comentario/{tarea_comentario}', 'Api\Tarea\IncidenciaTareaController@update');
-     Route::delete('/tarea_comentario/{tarea_comentario}', 'Api\Tarea\IncidenciaTareaController@destroy');
+     Route::get('/tarea/{tarea_id}/comentarios_comparacion', 'Api\Tarea\IncidenciaTareaController@index');
+     Route::post('/tarea/{tarea_id}/comentarios_comparacion', 'Api\Tarea\IncidenciaTareaController@store');
+     Route::put('/comentarios_comparacion/{tarea_comentario}', 'Api\Tarea\IncidenciaTareaController@update');
+     Route::delete('/comentarios_comparacion/{tarea_comentario}', 'Api\Tarea\IncidenciaTareaController@destroy');
      /* FIN incidencias de Inspeccion  */
 
     /* Archivados */

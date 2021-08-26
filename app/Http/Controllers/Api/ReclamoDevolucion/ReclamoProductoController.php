@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers\Api\ReclamoDevolucion;
 
+use App\Http\Controllers\ApiController;
+use App\Http\Requests\IncidenciaValidacion;
+use App\Http\Resources\FileResource;
 use App\ImagenReclamo;
+use App\RecepcionReclamoDevolucion;
 use App\ReclamoProducto;
 use Illuminate\Http\Request;
-use App\RecepcionReclamoDevolucion;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\FileResource;
-use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\IncidenciaValidacion;
 use Symfony\Component\HttpFoundation\Response;
 
 class ReclamoProductoController extends ApiController
@@ -25,12 +24,12 @@ class ReclamoProductoController extends ApiController
     {
         $request->merge(
             [
-                'recepcion_reclamo_devolucion_id' =>  $reclamos_devoluciones_id->id,
+                'recepcion_reclamo_devolucion_id' => $reclamos_devoluciones_id->id,
                 'user_login' => auth()->user()->id,
             ]
         );
 
-        $inspeccion_producto =  ReclamoProducto::create($request->all());
+        $inspeccion_producto = ReclamoProducto::create($request->all());
         return $this->showOne($inspeccion_producto);
     }
 
@@ -48,21 +47,21 @@ class ReclamoProductoController extends ApiController
     public function importarArchivo(Request $request, ReclamoProducto $reclamo_id)
     {
         $request->validate([
-            'file' => 'max:10000',
+            'file' => 'max:500000',
         ]);
 
         $file = $request->file('file');
         $name = $file->getClientOriginalName();
 
         $coincidencia = ImagenReclamo::where('reclamo_producto_id', $reclamo_id->id)->where('name', $name)->first();
-        
+
         if ($coincidencia != null) {
-            return $this->errorResponse("Ya existe un archivo con el mismo nombre",  Response::HTTP_BAD_REQUEST);
+            return $this->errorResponse("Ya existe un archivo con el mismo nombre", Response::HTTP_BAD_REQUEST);
         }
 
         $pivot_file = new ImagenReclamo();
         $pivot_file->reclamo_producto_id = $reclamo_id->id;
-        $pivot_file->url = Storage::disk('s3')->put("negociacion_archivos",  $file, 'public');
+        $pivot_file->url = Storage::disk('s3')->put("negociacion_archivos", $file, 'public');
         $pivot_file->name = $file->getClientOriginalName();
         $pivot_file->save();
 

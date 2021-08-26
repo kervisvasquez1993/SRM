@@ -20,6 +20,7 @@ class ProduccionTransito extends Model
         'nacionalizacion',
         'fin_produccion_transito',
         'salida_puero_origen',
+        'fecha_fin_produccion'
 
 
     ];
