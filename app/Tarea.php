@@ -15,16 +15,16 @@ class Tarea extends Model
         'user_id',
         'descripcion',
         'fecha_fin',
-        'comparaciones'
+        // 'comparaciones'
     ];
 
-    protected $attributes = [
-        'comparaciones' => '[]'
-    ];
+    // protected $attributes = [
+    //     'comparaciones' => '[]'
+    // ];
 
-    protected $casts = [
-        'comparaciones' => 'object'
-    ];
+    // protected $casts = [
+    //     'comparaciones' => 'object'
+    // ];
 
     protected $appends = ['cantidad_negociaciones', 'cantidad_proveedores'];
 
@@ -49,6 +49,11 @@ class Tarea extends Model
     }
 
     public function pivotTareaProveedor()
+    {
+        return $this->hasMany(PivotTareaProveeder::class);
+    }
+
+    public function negociaciones()
     {
         return $this->hasMany(PivotTareaProveeder::class);
     }

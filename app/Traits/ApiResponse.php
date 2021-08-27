@@ -2,9 +2,7 @@
 
 namespace App\Traits;
 
-use App\User;
-use Google\Client;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Response;
 use Illuminate\Database\Eloquent\Model;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification;
@@ -25,19 +23,19 @@ trait ApiResponse
     {
         return response()->json(['data' => $data], $code);
     }
-    protected function errorResponse($message, $code)
+    protected function errorResponse($message, $code = Response::HTTP_BAD_REQUEST)
     {
         return response()->json(['error' => $message, 'code' => $code], $code);
     }
 
     protected function showAll(Collection $collection, $code = 200)
     {
-         
+
         return $this->successResponse(['data' => $collection->sortBy('id')->values()->all()], $code);
     }
     protected function showAllResources(ResourceCollection $collection, $code = 200)
     {
-        
+
         return $this->successResponse(['data' => $collection->sortBy('id')->values()->all()], $code);
     }
     protected function showOne(Model $instace, $code = 200)
@@ -57,7 +55,7 @@ trait ApiResponse
     {
         $page = LengthAwarePaginator::resolveCurrentPage();
         $perPage = 20;
-        $result = $collation->slice(($page - 1 ) * $perPage, $perPage)->values();
+        $result = $collation->slice(($page - 1) * $perPage, $perPage)->values();
         $paginated = new LengthAwarePaginator($result, $collation->count(), $perPage, $page, [
             'path' => LengthAwarePaginator::resolveCurrentPage(),
         ]);
@@ -66,9 +64,9 @@ trait ApiResponse
         return $paginated;
     }
 
-   /*  protected function listarId(ResourceCollection $collection)
+    /*  protected function listarId(ResourceCollection $collection)
     {
-        return $collection->sortBy('id')->values()->all();
+    return $collection->sortBy('id')->values()->all();
     } */
 
     protected function sendNotifications($usuarios, $notificacion)
@@ -82,7 +80,7 @@ trait ApiResponse
         if (count($deviceTokens) === 0) {
             return;
         }
-        
+
         $messaging = app('firebase.messaging');
 
         // La configuración de la notificación web push
@@ -93,7 +91,7 @@ trait ApiResponse
         ]);
 
         // Crear el mensaje de Firebase Messaging
-        $message = CloudMessage::new()
+        $message = CloudMessage::new ()
             ->withNotification(Notification::create($notificacion->title, $notificacion->text))
             ->withHighestPossiblePriority()
             ->withWebPushConfig($config);
@@ -111,5 +109,4 @@ trait ApiResponse
         $messaging->sendMulticast($message, $deviceTokens);
     }
 
-    
 }

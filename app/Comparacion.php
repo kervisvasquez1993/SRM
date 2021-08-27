@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\ComparacionCard;
 use Illuminate\Database\Eloquent\Model;
 
 class Comparacion extends Model
@@ -12,5 +13,10 @@ class Comparacion extends Model
     public function tarea()
     {
         return $this->belongsTo(Tarea::class, 'tarea_id');
+    }
+
+    public function cards()
+    {
+        return $this->hasMany(ComparacionCard::class);
     }
 }

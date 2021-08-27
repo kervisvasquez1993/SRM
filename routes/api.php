@@ -272,9 +272,21 @@ Route::middleware('auth:api')->group(function () {
 
 
     // COmparaciones
-    Route::get('/tarea/{tarea}/comparacion', 'Api\ComparacionController@index');
-    Route::post('/tarea/{tarea}/comparacion', 'Api\ComparacionController@store');
-    Route::get('/comparacion/{comparacion}', 'Api\ComparacionController@show');
-    Route::put('/comparacion/{comparacion}', 'Api\ComparacionController@update');
-    Route::delete('/comparacion/{comparacion}', 'Api\ComparacionController@destroy');
+    // Route::get('/tarea/{tarea}/comparacion', 'Api\ComparacionController@index');
+    // Route::post('/tarea/{tarea}/comparacion', 'Api\ComparacionController@store');
+    // Route::get('/comparacion/{comparacion}', 'Api\ComparacionController@show');
+    // Route::put('/comparacion/{comparacion}', 'Api\ComparacionController@update');
+    // Route::delete('/comparacion/{comparacion}', 'Api\ComparacionController@destroy');
+
+
+    Route::get('/tarea/{tarea}/comparacion', 'Api\Comparaciones\ComparacionController@index');
+    Route::post('/tarea/{tarea}/comparacion', 'Api\Comparaciones\ComparacionController@store');
+    Route::get('/comparacion/{comparacion}', 'Api\Comparaciones\ComparacionController@show');
+    Route::put('/comparacion/{comparacion}', 'Api\Comparaciones\ComparacionController@update');
+    Route::delete('/comparacion/{comparacion}', 'Api\Comparaciones\ComparacionController@destroy');
+
+    Route::get('/comparacion/{comparacion}/card', 'Api\Comparaciones\ComparacionCardsController@index');
+    Route::post('/comparacion/{comparacion}/card', 'Api\Comparaciones\ComparacionCardsController@store');
+    Route::put('/comparacion/{comparacion}/card/{card}', 'Api\Comparaciones\ComparacionCardsController@update');
+    Route::delete('/comparacion/{comparacion}/card/{card}', 'Api\Comparaciones\ComparacionCardsController@destroy');
 });
