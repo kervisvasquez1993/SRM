@@ -16,7 +16,7 @@ class CreateComparacionFilasTable extends Migration
         Schema::create('comparacion_filas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('comparacion_id')->references('id')->on('comparaciones')->onDelete('cascade');
-            $table->timestamps();
+            $table->integer('orden');
         });
     }
 

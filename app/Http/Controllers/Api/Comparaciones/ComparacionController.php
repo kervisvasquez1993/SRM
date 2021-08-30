@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api\Comparaciones;
 
-use App\Tarea;
 use App\Comparacion;
-use Illuminate\Http\Request;
 use App\Http\Controllers\ApiController;
+use App\Http\Resources\ComparacionResource;
+use App\Tarea;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,7 +18,8 @@ class ComparacionController extends ApiController
 
     public function index(Tarea $tarea)
     {
-        return $tarea->comparaciones()->with("cards")->get();
+        $comparaciones = $tarea->comparaciones()->with("filas.celdas")->get();
+        return $this->showAllResources(ComparacionResource::collection($comparaciones));
     }
 
     public function store(Request $request, Tarea $tarea)
@@ -33,23 +35,26 @@ class ComparacionController extends ApiController
         $comparacion->fill($request->all());
         $comparacion->save();
 
-        return $this->showOne($comparacion);
+        // Cargar el arreglo de filas para que se muestre en el resource
+        $comparacion->filas;
+
+        return $this->showOneResource(new ComparacionResource($comparacion));
     }
 
     public function show(Comparacion $comparacion)
     {
-        return $this->showOne($comparacion);
+        return $this->showOneResource(new ComparacionResource($comparacion));
     }
 
     public function update(Request $request, Comparacion $comparacion)
     {
         $comparacion->update($request->all());
-        return $this->showOne($comparacion);
+        return $this->showOneResource(new ComparacionResource($comparacion));
     }
 
     public function destroy(Comparacion $comparacion)
     {
         $comparacion->delete();
-        return $this->showOne($comparacion);
+        return $this->showOneResource(new ComparacionResource($comparacion));
     }
 }

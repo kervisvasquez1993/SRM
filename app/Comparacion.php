@@ -15,8 +15,8 @@ class Comparacion extends Model
         return $this->belongsTo(Tarea::class, 'tarea_id');
     }
 
-    public function cards()
+    public function filas()
     {
-        return $this->hasMany(ComparacionCard::class);
+        return $this->hasMany(ComparacionFila::class);
     }
 }

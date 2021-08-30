@@ -12,16 +12,12 @@ class CreateUsersTable extends Migration
      * @return void
      */
 
-
-     
     public function up()
     {
-       
-       
-       
+
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->enum('rol',['artes', 'coordinador', 'observador', 'comprador', 'logistica', 'presidente', 'almacen']);
+            $table->enum('rol', ['artes', 'coordinador', 'observador', 'comprador', 'logistica', 'presidente', 'almacen']);
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
@@ -41,7 +37,6 @@ class CreateUsersTable extends Migration
             $table->timestamps();
         });
 
-        
     }
 
     /**
@@ -51,7 +46,7 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users','perfils');
+        Schema::dropIfExists('perfils', 'users');
     }
     /* cambio desde develop */
 }
