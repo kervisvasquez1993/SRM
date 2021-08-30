@@ -3,13 +3,86 @@ import { resize } from "../../utils";
 const defaultState = {
     // task: null,
 
-    comparisions: [],
+    comparisons: [],
+    areComparisonsLoading: true,
+
+    products: [],
+    areProductsLoading: true,
+
+    suppliers: [],
+    areSuppliersLoading: true
     // negotiations: [],
     // products: [],
 };
 
 const comparatorReducer = (state = defaultState, action) => {
     const { type, payload } = action;
+
+    if (type === "CHANGE_HISTORY") {
+        return {
+            ...state,
+            comparisons: [],
+            areComparisonsLoading: true,
+
+            products: [],
+            areProductsLoading: true,
+
+            suppliers: [],
+            areSuppliersLoading: true
+            //task: null
+        };
+    }
+
+    if (type === "GET_PRODUCT_LIST_SUCCESS") {
+        return {
+            ...state,
+            products: payload,
+            areProductsLoading: false
+        };
+    }
+
+    if (type === "GET_COMPARISION_LIST_SUCCESS") {
+        const comparisons = payload.map(item => {
+            return { ...item, state: [] };
+        });
+
+        return {
+            ...state,
+            comparisons,
+            areComparisonsLoading: false
+        };
+    }
+
+    if (type === "GET_SUPPLIER_LIST_SUCCESS") {
+        return {
+            ...state,
+            suppliers: payload,
+            areSuppliersLoading: false
+        };
+    }
+
+    if (type === "ADD_COMPARATOR_SUCCESS") {
+        return {
+            ...state,
+            comparisons: [...state.comparisons, { ...payload, state: [] }]
+        };
+    }
+
+    if (type === "UPDATE_COMPARATOR_SUCCESS") {
+        return {
+            ...state,
+            comparisons: state.comparisons.map(item =>
+                item.id === payload.id ? payload : item
+            )
+        };
+    }
+
+    if (type === "DELETE_COMPARATOR_REQUEST") {
+        return {
+            ...state,
+            comparisons: state.comparisons.filter(item => item.id != payload.id)
+        };
+    }
 
     if (type === "GET_TASK_FOR_COMPARISION_SUCCESS") {
         // Convertir el string de comparaciones en un objeto
@@ -96,13 +169,6 @@ const comparatorReducer = (state = defaultState, action) => {
         return {
             ...state,
             task: newTask
-        };
-    }
-
-    if (type === "CHANGE_HISTORY") {
-        return {
-            ...state,
-            task: null
         };
     }
 

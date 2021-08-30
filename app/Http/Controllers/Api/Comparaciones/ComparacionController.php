@@ -16,8 +16,10 @@ class ComparacionController extends ApiController
         'nombre' => 'required',
     ];
 
-    public function productos(Tarea $tarea) {
-        return $tarea->pivotTareaProveedor->pluck("productos")->collapse();
+    public function productos(Tarea $tarea)
+    {
+        $productos = $tarea->pivotTareaProveedor->pluck("productos")->collapse();
+        return $this->showAll($productos);
     }
 
     public function index(Tarea $tarea)

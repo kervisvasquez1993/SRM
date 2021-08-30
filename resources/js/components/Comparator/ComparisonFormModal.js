@@ -1,68 +1,111 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { BiBorderNone } from "react-icons/bi";
 import { MdSelectAll } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    addComparision,
-    editComparision
+    addComparison,
+    updateComparison
 } from "../../store/actions/comparatorActions";
 import InputText from "../Form/InputText";
 import EmptyList from "../Navigation/EmptyList";
 import GenericFormModal from "../Table/GenericFormModal";
 
-export default ({ formData, isEditor = false }) => {
+export default ({ taskId, comparison, isEditor = false }) => {
     const dispatch = useDispatch();
-    // @ts-ignore
-    // const negotiations = useSelector(state => state.comparator.negotiations);
-    const negotiations = useSelector(state => state.comparator.task)
-        .negociaciones;
 
-    const [productIds, setProductIds] = useState(() => {
+    // @ts-ignore
+    const suppliers = useSelector(state => state.comparator.suppliers);
+    // @ts-ignore
+    const products = useSelector(state => state.comparator.products);
+
+    // const negotiations = useSelector(state => state.comparator.task)
+    //     .negociaciones;
+
+    // const [productIds, setProductIds] = useState(() => {
+    //     if (isEditor) {
+    //         return formData.productIds;
+    //     }
+
+    //     return Array.from({ length: negotiations.length }, (v, i) => []);
+    // });
+
+    const [checkedProducts, setCheckedProducts] = useState(() => {
         if (isEditor) {
-            return formData.productIds;
+            // return formData.productIds;
+            return {};
         }
 
-        return Array.from({ length: negotiations.length }, (v, i) => []);
+        // return Array.from({ length: negotiations.length }, (v, i) => []);
+        return {};
     });
 
+    const getProductsFromSupplier = useCallback(
+        supplier => {
+            return products.filter(
+                item => item.pivot_tarea_proveeder_id === supplier.pivot.id
+            );
+        },
+        [products]
+    );
+
     const onSubmit = data => {
-        if (data.productName) {
-            const comparision = {
+        // if (data.productName) {
+        //     const comparision = {
+        //         ...data,
+        //         productIds
+        //     };
+        //     if (isEditor) {
+        //         dispatch(editComparision(comparision));
+        //     } else {
+        //         dispatch(addComparision(comparision));
+        //     }
+        // }
+
+        if (data.nombre) {
+            const comparison = {
                 ...data,
-                productIds
+                checkedProducts
             };
 
             if (isEditor) {
-                dispatch(editComparision(comparision));
+                dispatch(updateComparison(comparison));
             } else {
-                dispatch(addComparision(comparision));
+                console.log(taskId);
+                dispatch(addComparison(taskId, comparison));
             }
         }
     };
 
-    const handleChange = (e, negotiationIndex, value) => {
+    const handleChange = (e, supplierId, productId) => {
+        // if (e) {
+        //     e.preventDefault();
+        //     e.stopPropagation();
+        // }
+        // const newValues = [...productIds];
+        // const list = newValues[negotiationIndex];
+        // if (list.includes(value)) {
+        //     list.splice(list.indexOf(value), 1);
+        // } else {
+        //     list.push(value);
+        // }
+        // setProductIds(newValues);
+
         if (e) {
             e.preventDefault();
             e.stopPropagation();
         }
 
-        const newValues = [...productIds];
+        const newChecked = { ...checkedProducts };
 
-        const list = newValues[negotiationIndex];
+        let list = newChecked[supplierId] || [];
 
-        // if (newValues[negotiationIndex] === value) {
-        //     newValues[negotiationIndex] = null;
-        // } else {
-        //     newValues[negotiationIndex] = value;
-        // }
-
-        if (list.includes(value)) {
-            list.splice(list.indexOf(value), 1);
+        if (list.includes(productId)) {
+            list = list.filter(item => item != productId);
         } else {
-            list.push(value);
+            list = [...list, productId];
         }
 
-        setProductIds(newValues);
+        setCheckedProducts({ ...checkedProducts, [supplierId]: list });
     };
 
     const stopPropagation = e => {
@@ -70,29 +113,41 @@ export default ({ formData, isEditor = false }) => {
         e.stopPropagation();
     };
 
-    const handleSelectAll = index => {
-        const productos = negotiations[index].productos;
+    const handleSelectAll = supplier => {
+        // const productos = negotiations[index].productos;
+        // const newProducts = [...productIds];
+        // newProducts[index] = productos.map(item => item.id);
+        // setProductIds(newProducts);
 
-        const newProducts = [...productIds];
-        newProducts[index] = productos.map(item => item.id);
-        setProductIds(newProducts);
+        const products = getProductsFromSupplier(supplier);
+        const checked = products.map(item => item.id);
+
+        setCheckedProducts({
+            ...checkedProducts,
+            [supplier.id]: checked
+        });
     };
 
-    const handleUnselectAll = index => {
-        const newProducts = [...productIds];
-        newProducts[index] = [];
-        setProductIds(newProducts);
+    const handleUnselectAll = supplier => {
+        // const newProducts = [...productIds];
+        // newProducts[index] = [];
+        // setProductIds(newProducts);
+
+        setCheckedProducts({
+            ...checkedProducts,
+            [supplier.id]: []
+        });
     };
 
     return (
         <GenericFormModal
-            formData={formData}
+            formData={comparison}
             storeName="production"
             onSubmit={onSubmit}
             submitButtonText="Agregar"
         >
             <div className="form-row">
-                <InputText id="productName" label="Nombre" />
+                <InputText id="nombre" label="Nombre" />
             </div>
 
             <p className="mt-5">
@@ -100,14 +155,15 @@ export default ({ formData, isEditor = false }) => {
             </p>
 
             <div className="px-4">
-                {negotiations.map((negotiation, negotiationIndex) => {
-                    return (
-                        <div key={negotiation.id}>
-                            <h2 className="h3">
-                                {negotiation.proveedor.nombre}
-                            </h2>
+                {suppliers.map((supplier, supplierIndex) => {
+                    const supplierProducts = getProductsFromSupplier(supplier);
 
-                            {negotiation.productos.length > 0 ? (
+                    //const
+                    return (
+                        <div key={supplier.id}>
+                            <h2 className="h3">{supplier.nombre}</h2>
+
+                            {supplierProducts.length > 0 ? (
                                 <React.Fragment>
                                     <div className="table-responsive">
                                         <table className="table table-sm table-hover fade-in py-0 text-center">
@@ -146,29 +202,27 @@ export default ({ formData, isEditor = false }) => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {negotiation.productos.map(
-                                                    producto => {
+                                                {supplierProducts.map(
+                                                    product => {
                                                         const checked =
-                                                            (productIds[
-                                                                negotiationIndex
+                                                            (checkedProducts[
+                                                                supplier.id
                                                             ] &&
-                                                                productIds[
-                                                                    negotiationIndex
+                                                                checkedProducts[
+                                                                    supplier.id
                                                                 ].includes(
-                                                                    producto.id
+                                                                    product.id
                                                                 )) ||
                                                             false;
 
                                                         return (
                                                             <tr
-                                                                key={
-                                                                    producto.id
-                                                                }
+                                                                key={product.id}
                                                                 onClick={() =>
                                                                     handleChange(
                                                                         null,
-                                                                        negotiationIndex,
-                                                                        producto.id
+                                                                        supplier.id,
+                                                                        product.id
                                                                     )
                                                                 }
                                                             >
@@ -198,14 +252,14 @@ export default ({ formData, isEditor = false }) => {
                                                                         </div>
                                                                         <div className="w-100">
                                                                             {
-                                                                                producto.product_code_supplier
+                                                                                product.product_code_supplier
                                                                             }
                                                                         </div>
                                                                     </div>
                                                                 </td>
                                                                 <td>
                                                                     {
-                                                                        producto.product_name_supplier
+                                                                        product.product_name_supplier
                                                                     }
                                                                 </td>
                                                                 <td
@@ -216,22 +270,22 @@ export default ({ formData, isEditor = false }) => {
                                                                     }}
                                                                 >
                                                                     {
-                                                                        producto.description
+                                                                        product.description
                                                                     }
                                                                 </td>
                                                                 <td>
                                                                     {
-                                                                        producto.total_pcs
+                                                                        product.total_pcs
                                                                     }
                                                                 </td>
                                                                 <td>
                                                                     {
-                                                                        producto.unit_price
+                                                                        product.unit_price
                                                                     }
                                                                 </td>
                                                                 <td>
                                                                     {
-                                                                        producto.total_usd
+                                                                        product.total_usd
                                                                     }
                                                                 </td>
                                                             </tr>
@@ -246,9 +300,7 @@ export default ({ formData, isEditor = false }) => {
                                         <button
                                             className="btn btn-info mb-4"
                                             onClick={() =>
-                                                handleSelectAll(
-                                                    negotiationIndex
-                                                )
+                                                handleSelectAll(supplier)
                                             }
                                             type="button"
                                         >
@@ -258,9 +310,7 @@ export default ({ formData, isEditor = false }) => {
                                         <button
                                             className="btn btn-danger mb-4"
                                             onClick={() =>
-                                                handleUnselectAll(
-                                                    negotiationIndex
-                                                )
+                                                handleUnselectAll(supplier)
                                             }
                                             type="button"
                                         >

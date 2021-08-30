@@ -7,14 +7,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { v4 } from "uuid";
 import { confirmDelete } from "../../appText";
 import {
-    deleteComparision,
+    deleteComparison,
     updateComparisionRows
 } from "../../store/actions/comparatorActions";
 import { extractStringAfter, extractStringBetween } from "../../utils";
-import ComparatorRow from "./ComparatorRow";
 import { openModal } from "../../store/actions/modalActions";
-import AddComparisionModal from "./ComparisonFormModal";
 import { selectNegotiation } from "../../store/actions/negotiationActions";
+import ComparisonFormModal from "./ComparisonFormModal";
+import { useParams } from "react-router-dom";
 
 const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
@@ -31,74 +31,79 @@ const extractIndices = id => {
     ];
 };
 
-export default ({ negotiations, comparision, comparisonIndex }) => {
+export default ({ comparison, comparisonIndex }) => {
     const dispatch = useDispatch();
 
-    const state = comparision.rows;
+    // @ts-ignore
+    const { id: taskId } = useParams();
 
-    const selectedNegotiation = negotiations.find(item => item.seleccionado);
+    const state = comparison.state;
+    // @ts-ignore
+    const suppliers = useSelector(state => state.comparator.suppliers);
+    const selectedNegotiation = suppliers.find(item => item.pivot.seleccionado);
 
     useEffect(() => {
         const newState = [...state];
 
         // Create a new row if it doesn't exist
-        if (state.length === 0) {
-            newState.push({
-                id: v4(),
-                columns: comparision.productIds.map(idList =>
-                    idList.map(id => {
-                        return { id };
-                    })
-                )
-            });
-        }
 
-        if (state.length > 0) {
-            const newProducts = comparision.productIds.flat();
+        // if (state.length === 0) {
+        //     newState.push({
+        //         id: v4(),
+        //         columns: comparision.productIds.map(idList =>
+        //             idList.map(id => {
+        //                 return { id };
+        //             })
+        //         )
+        //     });
+        // }
 
-            // Delete products that doesn't exit anymore in the new list
-            for (const row of state) {
-                for (const column of row.columns) {
-                    for (const product of [...column]) {
-                        if (!newProducts.includes(product.id)) {
-                            column.splice(column.indexOf(product.id), 1);
-                        }
-                    }
-                }
-            }
+        // if (state.length > 0) {
+        //     const newProducts = comparision.productIds.flat();
 
-            // // Add new products that weren't there
-            for (const [
-                colIndex,
-                colProducts
-            ] of comparision.productIds.entries()) {
-                for (const newProductId of colProducts) {
-                    let toAdd = true;
+        //     // Delete products that doesn't exit anymore in the new list
+        //     for (const row of state) {
+        //         for (const column of row.columns) {
+        //             for (const product of [...column]) {
+        //                 if (!newProducts.includes(product.id)) {
+        //                     column.splice(column.indexOf(product.id), 1);
+        //                 }
+        //             }
+        //         }
+        //     }
 
-                    for (const row of state) {
-                        for (const column of row.columns) {
-                            for (const product of column) {
-                                if (product.id === newProductId) {
-                                    toAdd = false;
-                                    break;
-                                }
-                            }
-                        }
-                    }
+        //     // // Add new products that weren't there
+        //     for (const [
+        //         colIndex,
+        //         colProducts
+        //     ] of comparision.productIds.entries()) {
+        //         for (const newProductId of colProducts) {
+        //             let toAdd = true;
 
-                    if (toAdd) {
-                        state[state.length - 1].columns[colIndex].push({
-                            id: newProductId
-                        });
-                    }
-                }
-            }
-        }
+        //             for (const row of state) {
+        //                 for (const column of row.columns) {
+        //                     for (const product of column) {
+        //                         if (product.id === newProductId) {
+        //                             toAdd = false;
+        //                             break;
+        //                         }
+        //                     }
+        //                 }
+        //             }
 
-        console.log(newState);
+        //             if (toAdd) {
+        //                 state[state.length - 1].columns[colIndex].push({
+        //                     id: newProductId
+        //                 });
+        //             }
+        //         }
+        //     }
+        // }
 
-        dispatch(updateComparisionRows(comparision.id, newState));
-    }, [comparision.productIds]);
+        // console.log(newState);
+
+        // dispatch(updateComparisionRows(comparision.id, newState));
+    }, [comparison.productIds]);
 
     const onDragEnd = result => {
         const { source, destination, type } = result;
@@ -120,7 +125,7 @@ export default ({ negotiations, comparision, comparisonIndex }) => {
                 );
 
                 // setState(items);
-                dispatch(updateComparisionRows(comparision.id, newState));
+                dispatch(updateComparisionRows(comparison.id, newState));
             }
         } else {
             const [sourceRow, sourceColumn] = extractIndices(sourceDropableId);
@@ -144,7 +149,7 @@ export default ({ negotiations, comparision, comparisonIndex }) => {
             );
 
             // setState(newState);
-            dispatch(updateComparisionRows(comparision.id, newState));
+            dispatch(updateComparisionRows(comparison.id, newState));
         }
     };
 
@@ -152,7 +157,7 @@ export default ({ negotiations, comparision, comparisonIndex }) => {
         const newState = [...state];
         newState.splice(rowIndex, 1);
 
-        dispatch(updateComparisionRows(comparision.id, newState));
+        dispatch(updateComparisionRows(comparison.id, newState));
     };
 
     const addEmptyRow = () => {
@@ -160,16 +165,16 @@ export default ({ negotiations, comparision, comparisonIndex }) => {
             ...state,
             {
                 id: v4(),
-                columns: Array.from(Array(negotiations.length), () => [])
+                columns: Array.from(Array(suppliers.length), () => [])
             }
         ];
 
-        dispatch(updateComparisionRows(comparision.id, newState));
+        dispatch(updateComparisionRows(comparison.id, newState));
     };
 
     const handleDelete = () => {
         if (confirm(confirmDelete)) {
-            dispatch(deleteComparision(comparision.id));
+            dispatch(deleteComparison(comparison));
         }
     };
 
@@ -178,8 +183,9 @@ export default ({ negotiations, comparision, comparisonIndex }) => {
             openModal({
                 title: "Editar Comparación",
                 body: (
-                    <AddComparisionModal
-                        formData={comparision}
+                    <ComparisonFormModal
+                        taskId={taskId}
+                        comparison={comparison}
                         isEditor={true}
                     />
                 )
@@ -196,7 +202,7 @@ export default ({ negotiations, comparision, comparisonIndex }) => {
     return (
         <div className="rows-parent">
             <h2 className="sticky-left">
-                {comparision.productName}{" "}
+                {comparison.nombre}{" "}
                 <button className="btn btn-info mb-4" onClick={handleEdit}>
                     <BiEditAlt className="mr-2 icon-normal" />
                     Editar
@@ -226,7 +232,7 @@ export default ({ negotiations, comparision, comparisonIndex }) => {
                                 <table className="comparision-table-header">
                                     <thead>
                                         <tr>
-                                            {negotiations.map((item, index) => (
+                                            {suppliers.map((item, index) => (
                                                 <th
                                                     colSpan={7}
                                                     key={index}
@@ -234,10 +240,7 @@ export default ({ negotiations, comparision, comparisonIndex }) => {
                                                 >
                                                     <div className="d-flex justify-content-between w-100">
                                                         <span className="flex-grow-1">
-                                                            {
-                                                                item.proveedor
-                                                                    .nombre.toUpperCase()
-                                                            }
+                                                            {item.nombre.toUpperCase()}
 
                                                             {selectedNegotiation ===
                                                                 item && (
@@ -266,7 +269,7 @@ export default ({ negotiations, comparision, comparisonIndex }) => {
                                         </tr>
 
                                         <tr>
-                                            {negotiations.map((item, index) => (
+                                            {suppliers.map((item, index) => (
                                                 <React.Fragment key={index}>
                                                     <th className="product-name">
                                                         SUPPLIER CODE
@@ -296,7 +299,7 @@ export default ({ negotiations, comparision, comparisonIndex }) => {
                                 </table>
                             </div>
 
-                            {state.map((row, rowIndex) => {
+                            {/* {state.map((row, rowIndex) => {
                                 return (
                                     <ComparatorRow
                                         {...{ row, rowIndex, comparisonIndex }}
@@ -304,7 +307,7 @@ export default ({ negotiations, comparision, comparisonIndex }) => {
                                         deleteRow={deleteRow}
                                     />
                                 );
-                            })}
+                            })} */}
                             {provided.placeholder}
                             <div className="add-row">
                                 <span className="sticky-left">
