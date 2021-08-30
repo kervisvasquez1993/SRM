@@ -1,11 +1,11 @@
 import { resize } from "../../utils";
 
 const defaultState = {
-    task: null,
+    // task: null,
 
     comparisions: [],
-    negotiations: [],
-    products: []
+    // negotiations: [],
+    // products: [],
 };
 
 const comparatorReducer = (state = defaultState, action) => {

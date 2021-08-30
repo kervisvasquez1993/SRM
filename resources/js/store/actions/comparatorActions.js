@@ -1,26 +1,6 @@
 import axios from "axios";
-import { toast } from "react-toastify";
 import { apiURL } from "../../components/App";
 import { closeModal } from "./modalActions";
-
-const isNameValid = (getState, name, originalName = null) => {
-    // const state = getState();
-
-    // const found = state.comparator.comparisions.find(
-    //     item => item.productName === name
-    // );
-
-    // if (found && (!originalName || originalName != found.productName)) {
-    //     return false;
-    // }
-
-    // return true;
-    return true;
-};
-
-const showInvalidNameToast = () => {
-    toast.error("El nombre del producto está repetido");
-};
 
 export function getTask(id) {
     return async (dispatch, getState) => {
@@ -65,16 +45,12 @@ export function getTask(id) {
 
 export function addComparision(data) {
     return async (dispatch, _getState) => {
-        if (isNameValid(_getState, data.productName)) {
-            dispatch({
-                type: "ADD_NEGOTIATION_COMPARATOR",
-                payload: data
-            });
+        dispatch({
+            type: "ADD_NEGOTIATION_COMPARATOR",
+            payload: data
+        });
 
-            dispatch(closeModal());
-        } else {
-            showInvalidNameToast();
-        }
+        dispatch(closeModal());
     };
 }
 
@@ -124,12 +100,7 @@ export function updateCell(
     };
 }
 
-export function deleteCell(
-    comparisonIndex,
-    rowIndex,
-    columnIndex,
-    cellIndex
-) {
+export function deleteCell(comparisonIndex, rowIndex, columnIndex, cellIndex) {
     return async (dispatch, _getState) => {
         dispatch({
             type: "DELETE_COMPARATOR_CELL",
@@ -162,3 +133,25 @@ export function deleteCell(
 //         });
 //     };
 // }
+
+export function getComparisons(taskId) {
+    return async (dispatch, getState) => {
+        dispatch({ type: "GET_COMPARISION_LIST_REQUEST" });
+
+        try {
+            const response = await axios.get(`${apiURL}/tarea/${taskId}/comparacion`);
+
+            dispatch({
+                type: "GET_COMPARISION_LIST_SUCCESS",
+                payload: response.data.data
+            });
+        } catch (e) {
+            console.log(e);
+            console.log(e.response);
+
+            dispatch({
+                type: "GET_COMPARISION_LIST_FAILURE"
+            });
+        }
+    };
+}

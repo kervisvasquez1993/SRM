@@ -278,7 +278,7 @@ Route::middleware('auth:api')->group(function () {
     // Route::put('/comparacion/{comparacion}', 'Api\ComparacionController@update');
     // Route::delete('/comparacion/{comparacion}', 'Api\ComparacionController@destroy');
 
-
+    Route::get('/tarea/{tarea}/producto', 'Api\Comparaciones\ComparacionController@productos');
     Route::get('/tarea/{tarea}/comparacion', 'Api\Comparaciones\ComparacionController@index');
     Route::post('/tarea/{tarea}/comparacion', 'Api\Comparaciones\ComparacionController@store');
     Route::get('/comparacion/{comparacion}', 'Api\Comparaciones\ComparacionController@show');

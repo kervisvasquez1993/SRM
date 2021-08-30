@@ -28,19 +28,19 @@ export default () => {
         </Helmet>
     );
 
-    useEffect(() => {
-        dispatch(getTask(taskId));
-    }, []);
+    // useEffect(() => {
+    //     dispatch(getTask(taskId));
+    // }, []);
 
-    useEffect(() => {
-        if (task) {
-            try {
-                axios.put(`${apiURL}/tarea/${task.id}`, task);
-            } catch (error) {
-                console.log("Couldn't upload new cells to the server");
-            }
-        }
-    }, [task]);
+    // useEffect(() => {
+    //     if (task) {
+    //         try {
+    //             axios.put(`${apiURL}/tarea/${task.id}`, task);
+    //         } catch (error) {
+    //             console.log("Couldn't upload new cells to the server");
+    //         }
+    //     }
+    // }, [task]);
 
     const handleOpenModal = () => {
         dispatch(

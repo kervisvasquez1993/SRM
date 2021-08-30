@@ -14,4 +14,8 @@ class ComparacionCelda extends Model
         return $this->belongsTo(ComparacionFila::class, 'fila_id');
     }
 
+    public function producto()
+    {
+        return $this->belongsTo(Producto::class, 'producto_id');
+    }
 }

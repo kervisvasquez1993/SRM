@@ -16,10 +16,15 @@ class ComparacionController extends ApiController
         'nombre' => 'required',
     ];
 
+    public function productos(Tarea $tarea) {
+        return $tarea->pivotTareaProveedor->pluck("productos")->collapse();
+    }
+
     public function index(Tarea $tarea)
     {
         $comparaciones = $tarea->comparaciones()->with("filas.celdas")->get();
-        return $this->showAllResources(ComparacionResource::collection($comparaciones));
+        $comparaciones = ComparacionResource::collection($comparaciones);
+        return $this->showAllResources($comparaciones);
     }
 
     public function store(Request $request, Tarea $tarea)
