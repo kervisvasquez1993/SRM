@@ -102,69 +102,6 @@ export default ({ comparison, comparisonIndex }) => {
     //     dispatch(updateComparisionRows(comparision.id, newState));
     // }, [comparison.productIds]);
 
-    useEffect(() => {
-        return;
-        const newState = [...state];
-
-        //Create a new row if it doesn't exist
-        if (state.length === 0) {
-            newState.push({
-                id: v4(),
-                columns: comparision.productIds.map(idList =>
-                    idList.map(id => {
-                        return { id };
-                    })
-                )
-            });
-        }
-
-        if (state.length > 0) {
-            const newProducts = comparision.productIds.flat();
-
-            // Delete products that doesn't exit anymore in the new list
-            for (const row of state) {
-                for (const column of row.columns) {
-                    for (const product of [...column]) {
-                        if (!newProducts.includes(product.id)) {
-                            column.splice(column.indexOf(product.id), 1);
-                        }
-                    }
-                }
-            }
-
-            // // Add new products that weren't there
-            for (const [
-                colIndex,
-                colProducts
-            ] of comparision.productIds.entries()) {
-                for (const newProductId of colProducts) {
-                    let toAdd = true;
-
-                    for (const row of state) {
-                        for (const column of row.columns) {
-                            for (const product of column) {
-                                if (product.id === newProductId) {
-                                    toAdd = false;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
-                    if (toAdd) {
-                        state[state.length - 1].columns[colIndex].push({
-                            id: newProductId
-                        });
-                    }
-                }
-            }
-        }
-
-        console.log(newState);
-
-        dispatch(updateComparisionRows(comparision.id, newState));
-    }, [comparison.state]);
-
     const onDragEnd = result => {
         const { source, destination, type } = result;
 
@@ -191,25 +128,28 @@ export default ({ comparison, comparisonIndex }) => {
             // );
 
             // Extraer coordenadas de la celda origen
-            const [sourceRowIndex] = extractComparatorCellIndices(
-                source.droppableId
-            );
+            const [
+                sourceRowIndex,
+                sourceColumnIndex
+            ] = extractComparatorCellIndices(source.droppableId);
 
             // Extraer coordenadas de la celda destino
             const [destinationRowIndex] = extractComparatorCellIndices(
                 destination.droppableId
             );
 
-            // Celda a mover
-            const sourceCell =
-                comparison.filas[sourceRowIndex].celdas[source.index];
+            // Informacion de la celda que se movera
+            const dragCell =
+                comparison.filas[sourceRowIndex].columns[sourceColumnIndex][
+                    source.index
+                ].cell;
 
             // La id de la fila a donde se movera
             const destinationRowId = comparison.filas[destinationRowIndex].id;
 
             // Información para el servidor
             const newCell = {
-                ...sourceCell,
+                ...dragCell,
                 fila_id: destinationRowId,
                 orden: destination.index
             };

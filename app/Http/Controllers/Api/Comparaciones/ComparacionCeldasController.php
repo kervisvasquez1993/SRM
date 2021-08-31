@@ -80,7 +80,6 @@ class ComparacionCeldasController extends ApiController
         // Fila destino
         error_log($celda->fila->comparacion->filas);
         $filaDestino = $celda->fila->comparacion->filas()->findOrFail($request->fila_id);
-        
 
         // Indice original
         $indiceOriginal = $celda->orden;

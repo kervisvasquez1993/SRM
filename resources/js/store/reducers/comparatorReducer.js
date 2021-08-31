@@ -35,19 +35,34 @@ const constructColumns = (state, comparisons) => {
         comparison.filas.forEach(row => {
             row.columns = Array.from(Array(state.suppliers.length), () => []);
 
-            // Rellenar los productos dentro de cada columna
-            row.celdas.forEach(cell => {
-                // Obtener el indice del proveedor dentro del arreglo de proveedores
-                const supplierIndex = state.suppliers.findIndex(
-                    item => item.id === cell.proveedor_id
-                );
+            // Se deben ordenar de acuerdo al orden y proveedor
+            state.suppliers.forEach((supplier, supplierIndex) => {
+                // Obtener las celdas en esta fila del proveedor actual
+                const celdas = row.celdas
+                    .filter(item => item.proveedor_id === supplier.id)
+                    .sort((x, y) => x.orden - y.orden);
 
-                // Agregar un objeto correspondiente a la celda
-                row.columns[supplierIndex] = [
-                    ...row.columns[supplierIndex],
-                    { id: cell.producto_id, cell: { ...cell } }
-                ];
+                celdas.forEach(cell => {
+                    // Agregar un objeto correspondiente a la celda
+                    row.columns[supplierIndex] = [
+                        ...row.columns[supplierIndex],
+                        { id: cell.producto_id, cell: { ...cell } }
+                    ];
+                });
             });
+
+            // // Rellenar los productos dentro de cada columna
+            // row.celdas.forEach(cell => {
+            //     // Obtener el indice del proveedor dentro del arreglo de proveedores
+            //     const supplierIndex = state.suppliers.findIndex(
+            //         item => item.id === cell.proveedor_id
+            //     );
+            //     // Agregar un objeto correspondiente a la celda
+            //     row.columns[supplierIndex] = [
+            //         ...row.columns[supplierIndex],
+            //         { id: cell.producto_id, cell: { ...cell } }
+            //     ];
+            // });
         });
     });
 
@@ -218,60 +233,74 @@ const comparatorReducer = (state = defaultState, action) => {
         let newComparisons = [...state.comparisons];
 
         // Extraer coordenadas de la celda origen
-        const [sourceRowIndex] = extractComparatorCellIndices(
-            source.droppableId
-        );
+        const [
+            sourceRowIndex,
+            sourceColumnIndex
+        ] = extractComparatorCellIndices(source.droppableId);
 
         // Extraer coordenadas de la celda destino
-        const [destinationRowIndex] = extractComparatorCellIndices(
-            destination.droppableId
-        );
+        const [
+            destinationRowIndex,
+            destinationColumnIndex
+        ] = extractComparatorCellIndices(destination.droppableId);
 
         // Comparison
         comparison = newComparisons.find(item => item.id === comparison.id);
 
         // Celda
-        const cell = comparison.filas[sourceRowIndex].celdas[source.index];
+        const dragCell =
+            comparison.filas[sourceRowIndex].columns[sourceColumnIndex][
+                source.index
+            ].cell;
+
+        const remoteSourceCell = comparison.filas[sourceRowIndex].celdas.find(
+            item => item.id === dragCell.id
+        );
 
         // Fila original
-        const sourceRow = comparison.filas[sourceRowIndex];
+        const remoteSourceRow = comparison.filas[sourceRowIndex];
+        const remoteSourceIndex = remoteSourceRow.celdas.indexOf(
+            remoteSourceCell
+        );
 
         // Fila destino
-        const destinationRow = comparison.filas[destinationRowIndex];
+        const remoteDestinationRow = comparison.filas[destinationRowIndex];
 
-        // // Guardar las celdas debajo de la celda que se movera
-        // const sourceCells = sourceRow.celdas.filter(
-        //     item =>
-        //         item.proveedor_id === cell.proveedor_id &&
-        //         item.orden > source.index
-        // );
-        // // Mover dichos cards hacia arriba
-        // for (let _cell of sourceCells) {
-        //     _cell.orden--;
-        // }
+        // Guardar las celdas debajo de la celda que se movera
+        const sourceCells = remoteSourceRow.celdas.filter(
+            item =>
+                item.proveedor_id === remoteSourceCell.proveedor_id &&
+                item.orden > source.index
+        );
 
-        // // Guardar las celdas debajo de la ubicación a donde se movera
-        // const destinationCells = destinationRow.celdas.filter(
-        //     item =>
-        //         item.proveedor_id === cell.proveedor_id &&
-        //         item.orden >= destination.index
-        // );
-        // // Mover dichos cards hacia abajo
-        // for (let _cell of destinationCells) {
-        //     if (_cell.id != cell.id) {
-        //         _cell.orden++;
-        //     }
-        // }
+        // Mover dichos cards hacia arriba
+        for (let _cell of sourceCells) {
+            _cell.orden--;
+        }
+
+        // Guardar las celdas debajo de la ubicación a donde se movera
+        const destinationCells = remoteDestinationRow.celdas.filter(
+            item =>
+                item.proveedor_id === remoteSourceCell.proveedor_id &&
+                item.orden >= destination.index
+        );
+
+        // Mover dichos cards hacia abajo
+        for (let _cell of destinationCells) {
+            if (_cell.id != remoteSourceCell.id) {
+                _cell.orden++;
+            }
+        }
 
         // Remover la celda que se está moviendo de la fila origen
-        const [removed] = sourceRow.celdas.splice(source.index, 1);
+        const [removed] = remoteSourceRow.celdas.splice(remoteSourceIndex, 1);
 
         // Agregar la celda eliminada en la fila destino
-        destinationRow.celdas.splice(destination.index, 0, removed);
+        remoteDestinationRow.celdas.push(removed);
 
         // Guardar la celda
-        cell.orden = destination.index;
-        cell.fila_id = destinationRow.id;
+        remoteSourceCell.orden = destination.index;
+        remoteSourceCell.fila_id = remoteDestinationRow.id;
 
         // Recrear el attributo columns
         newComparisons = constructColumns(state, newComparisons);

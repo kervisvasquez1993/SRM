@@ -31,12 +31,14 @@ export default ({ taskId, comparison, isEditor = false }) => {
 
     const [checkedProducts, setCheckedProducts] = useState(() => {
         if (isEditor) {
-            // return formData.productIds;
-            return {};
+            const productIds = comparison.filas
+                .map(item => item.celdas)
+                .flat()
+                .map(item => item.producto_id);
+            return productIds;
         }
 
-        // return Array.from({ length: negotiations.length }, (v, i) => []);
-        return {};
+        return [];
     });
 
     const getProductsFromSupplier = useCallback(
@@ -49,22 +51,10 @@ export default ({ taskId, comparison, isEditor = false }) => {
     );
 
     const onSubmit = data => {
-        // if (data.productName) {
-        //     const comparision = {
-        //         ...data,
-        //         productIds
-        //     };
-        //     if (isEditor) {
-        //         dispatch(editComparision(comparision));
-        //     } else {
-        //         dispatch(addComparision(comparision));
-        //     }
-        // }
-
         if (data.nombre) {
             const comparison = {
                 ...data,
-                checkedProducts
+                checked_products: checkedProducts
             };
 
             if (isEditor) {
@@ -75,36 +65,21 @@ export default ({ taskId, comparison, isEditor = false }) => {
         }
     };
 
-    const handleChange = (e, supplierId, productId) => {
-        // if (e) {
-        //     e.preventDefault();
-        //     e.stopPropagation();
-        // }
-        // const newValues = [...productIds];
-        // const list = newValues[negotiationIndex];
-        // if (list.includes(value)) {
-        //     list.splice(list.indexOf(value), 1);
-        // } else {
-        //     list.push(value);
-        // }
-        // setProductIds(newValues);
-
+    const handleChange = (e, productId) => {
         if (e) {
             e.preventDefault();
             e.stopPropagation();
         }
 
-        const newChecked = { ...checkedProducts };
+        let newChecked = [...checkedProducts];
 
-        let list = newChecked[supplierId] || [];
-
-        if (list.includes(productId)) {
-            list = list.filter(item => item != productId);
+        if (newChecked.includes(productId)) {
+            newChecked = newChecked.filter(item => item != productId);
         } else {
-            list = [...list, productId];
+            newChecked = [...newChecked, productId];
         }
 
-        setCheckedProducts({ ...checkedProducts, [supplierId]: list });
+        setCheckedProducts(newChecked);
     };
 
     const stopPropagation = e => {
@@ -113,29 +88,28 @@ export default ({ taskId, comparison, isEditor = false }) => {
     };
 
     const handleSelectAll = supplier => {
-        // const productos = negotiations[index].productos;
-        // const newProducts = [...productIds];
-        // newProducts[index] = productos.map(item => item.id);
-        // setProductIds(newProducts);
+        const supplierProducts = getProductsFromSupplier(supplier).map(
+            item => item.id
+        );
 
-        const products = getProductsFromSupplier(supplier);
-        const checked = products.map(item => item.id);
+        const newChecked = [
+            // @ts-ignore
+            ...new Set([...checkedProducts, ...supplierProducts])
+        ];
 
-        setCheckedProducts({
-            ...checkedProducts,
-            [supplier.id]: checked
-        });
+        setCheckedProducts(newChecked);
     };
 
     const handleUnselectAll = supplier => {
-        // const newProducts = [...productIds];
-        // newProducts[index] = [];
-        // setProductIds(newProducts);
+        const supplierProducts = getProductsFromSupplier(supplier).map(
+            item => item.id
+        );
 
-        setCheckedProducts({
-            ...checkedProducts,
-            [supplier.id]: []
-        });
+        const newChecked = checkedProducts.filter(
+            item => !supplierProducts.includes(item)
+        );
+
+        setCheckedProducts(newChecked);
     };
 
     return (
@@ -203,16 +177,9 @@ export default ({ taskId, comparison, isEditor = false }) => {
                                             <tbody>
                                                 {supplierProducts.map(
                                                     product => {
-                                                        const checked =
-                                                            (checkedProducts[
-                                                                supplier.id
-                                                            ] &&
-                                                                checkedProducts[
-                                                                    supplier.id
-                                                                ].includes(
-                                                                    product.id
-                                                                )) ||
-                                                            false;
+                                                        const checked = checkedProducts.includes(
+                                                            product.id
+                                                        );
 
                                                         return (
                                                             <tr
@@ -220,7 +187,6 @@ export default ({ taskId, comparison, isEditor = false }) => {
                                                                 onClick={() =>
                                                                     handleChange(
                                                                         null,
-                                                                        supplier.id,
                                                                         product.id
                                                                     )
                                                                 }
