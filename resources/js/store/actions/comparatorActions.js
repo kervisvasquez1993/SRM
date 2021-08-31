@@ -88,29 +88,42 @@ export function updateComparisionRows(id, rows) {
 //     };
 // }
 
-export function updateCell(
-    data,
-    comparisonIndex,
-    rowIndex,
-    columnIndex,
-    cellIndex
-) {
+export function updateCell(data) {
     return async (dispatch, _getState) => {
+        axios.put(`${apiURL}/comparacion_celda/${data.id}`, data);
+
         dispatch({
             type: "UPDATE_COMPARATOR_CELL",
-            payload: { data, comparisonIndex, rowIndex, columnIndex, cellIndex }
+            payload: data
         });
     };
 }
 
-export function deleteCell(comparisonIndex, rowIndex, columnIndex, cellIndex) {
-    return async (dispatch, _getState) => {
-        dispatch({
-            type: "DELETE_COMPARATOR_CELL",
-            payload: { comparisonIndex, rowIndex, columnIndex, cellIndex }
-        });
-    };
-}
+// export function updateCell(
+//     data,
+//     comparisonIndex,
+//     rowIndex,
+//     columnIndex,
+//     cellIndex
+// ) {
+//     return async (dispatch, _getState) => {
+//         await axios.put(`${apiURL}/comparacion_celda/${data.id}`, data);
+
+//         dispatch({
+//             type: "UPDATE_COMPARATOR_CELL",
+//             payload: { data, comparisonIndex, rowIndex, columnIndex, cellIndex }
+//         });
+//     };
+// }
+
+// export function deleteCell(comparisonIndex, rowIndex, columnIndex, cellIndex) {
+//     return async (dispatch, _getState) => {
+//         dispatch({
+//             type: "DELETE_COMPARATOR_CELL",
+//             payload: { comparisonIndex, rowIndex, columnIndex, cellIndex }
+//         });
+//     };
+// }
 
 // export function updateTask(task) {
 //     return async (dispatch, _getState) => {

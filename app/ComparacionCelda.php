@@ -7,7 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class ComparacionCelda extends Model
 {
     protected $table = "comparacion_celdas";
+    protected $fillable = ["color"];
     public $timestamps = false;
+
+    protected $appends = ['comparacion_id'];
+
+    public function getComparacionIdAttribute()
+    {
+        return $this->fila->comparacion->id;
+    }
 
     public function fila()
     {

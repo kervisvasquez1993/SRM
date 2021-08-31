@@ -127,6 +127,7 @@ class ComparacionCeldasController extends ApiController
         }
 
         // Guardar la celda
+        $celda->color = $request->color;
         $celda->orden = $indiceDestino;
         $filaDestino->celdas()->save($celda);
 

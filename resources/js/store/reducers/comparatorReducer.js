@@ -361,6 +361,31 @@ const comparatorReducer = (state = defaultState, action) => {
         };
     }
 
+    if (type === "UPDATE_COMPARATOR_CELL") {
+        let newComparisons = [...state.comparisons];
+
+        const comparacion = newComparisons.find(
+            item => item.id === payload.comparacion_id
+        );
+
+        const fila = comparacion.filas.find(
+            item => item.id === payload.fila_id
+        );
+
+        fila.celdas = fila.celdas.map(item =>
+            item.id === payload.id ? payload : item
+        );
+
+        newComparisons = constructColumns(state, newComparisons);
+
+        return {
+            ...state,
+            comparisons: newComparisons
+        };
+    }
+
+    
+
     if (type === "GET_TASK_FOR_COMPARISION_SUCCESS") {
         // Convertir el string de comparaciones en un objeto
         const comparaciones = payload.comparaciones;
@@ -449,20 +474,20 @@ const comparatorReducer = (state = defaultState, action) => {
         };
     }
 
-    if (type === "UPDATE_COMPARATOR_CELL") {
-        const newTask = {
-            ...state.task
-        };
+    // if (type === "UPDATE_COMPARATOR_CELL") {
+    //     const newTask = {
+    //         ...state.task
+    //     };
 
-        newTask.comparaciones[payload.comparisonIndex].rows[
-            payload.rowIndex
-        ].columns[payload.columnIndex][payload.cellIndex] = payload.data;
+    //     newTask.comparaciones[payload.comparisonIndex].rows[
+    //         payload.rowIndex
+    //     ].columns[payload.columnIndex][payload.cellIndex] = payload.data;
 
-        return {
-            ...state,
-            task: newTask
-        };
-    }
+    //     return {
+    //         ...state,
+    //         task: newTask
+    //     };
+    // }
 
     if (type === "DELETE_COMPARATOR_CELL") {
         const newTask = {
