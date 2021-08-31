@@ -1,5 +1,7 @@
 import axios from "axios";
+import { holdReady } from "jquery";
 import { apiURL } from "../../components/App";
+import { extractComparatorCellIndices } from "../../components/Comparator/ComparatorTable";
 import { genericFormSubmit } from "./genericFormActions";
 import { closeModal } from "./modalActions";
 
@@ -199,10 +201,6 @@ export function getSuppliers(taskId) {
         } catch (e) {
             console.log(e);
             console.log(e.response);
-
-            dispatch({
-                type: "GET_SUPPLIER_LIST_FAILURE"
-            });
         }
     };
 }
@@ -216,13 +214,18 @@ export function addComparison(taskId, data) {
                 type: "ADD_COMPARATOR_SUCCESS",
                 payload: response
             });
-
+            dispatch(
+                setCheckedProducts(taskId, {
+                    ...response,
+                    checkedProducts: data.checkedProducts
+                })
+            );
             dispatch(closeModal());
         });
     };
 }
 
-export function updateComparison(data) {
+export function updateComparison(taskId, data) {
     return dispatch => {
         return genericFormSubmit(dispatch, () =>
             axios.put(`${apiURL}/comparacion/${data.id}`, data)
@@ -231,58 +234,169 @@ export function updateComparison(data) {
                 type: "UPDATE_COMPARATOR_SUCCESS",
                 payload: response
             });
-
-            dispatch(closeModal());
-        });
-    };
-
-    return async (dispatch, getState) => {
-        dispatch({
-            type: "UPDATE_COMPARATOR_REQUEST"
-        });
-
-        try {
-            console.log(data);
-            const response = await axios.post(
-                `${apiURL}/tarea/${taskId}/comparacion`,
-                data
+            dispatch(
+                setCheckedProducts(taskId, {
+                    ...response,
+                    checkedProducts: data.checkedProducts
+                })
             );
-
-            dispatch({
-                type: "UPDATE_COMPARATOR_SUCCESS",
-                payload: response.data.data
-            });
-
             dispatch(closeModal());
-        } catch (e) {
-            console.log(e);
-            console.log(e.response);
-            dispatch({
-                type: "UPDATE_COMPARATOR_FAILURE"
-            });
-        }
+        });
     };
 }
 
 export function deleteComparison(comparison) {
     return async (dispatch, getState) => {
-        dispatch({
-            type: "DELETE_COMPARATOR_REQUEST",
-            payload: comparison
-        });
-
         try {
-            await axios.delete(`${apiURL}/comparacion/${comparison.id}`);
+            const response = await axios.delete(
+                `${apiURL}/comparacion/${comparison.id}`
+            );
 
             dispatch({
-                type: "DELETE_COMPARATOR_SUCCESS"
+                type: "DELETE_COMPARATOR_SUCCESS",
+                payload: response.data.data
             });
         } catch (e) {
             console.log(e);
             console.log(e.response);
-            dispatch({
-                type: "DELETE_COMPARATOR_FAILURE"
-            });
         }
     };
+}
+
+export function setCheckedProducts(taskId, { id, checkedProducts }) {
+    return async (dispatch, getState) => {
+        dispatch({ type: "GET_SUPPLIER_LIST_REQUEST" });
+
+        // Acomodar el estado
+        const newState = getState().comparator.state;
+
+        // try {
+        //     const response = await axios.get(
+        //         `${apiURL}/tarea/${taskId}/proveedor`
+        //     );
+
+        //     dispatch({
+        //         type: "GET_SUPPLIER_LIST_SUCCESS",
+        //         payload: response.data.data
+        //     });
+        // } catch (e) {
+        //     console.log(e);
+        //     console.log(e.response);
+        // }
+    };
+}
+
+export function createRow(comparison) {
+    return async (dispatch, getState) => {
+        try {
+            const response = await axios.post(
+                `${apiURL}/comparacion/${comparison.id}/comparacion_fila`
+            );
+
+            dispatch({
+                type: "CREATE_COMPARATOR_ROW_SUCCESS",
+                payload: response.data.data
+            });
+        } catch (e) {
+            console.log(e);
+            console.log(e.response);
+        }
+    };
+}
+
+export function deleteRow(row) {
+    return async (dispatch, getState) => {
+        try {
+            const response = await axios.delete(
+                `${apiURL}/comparacion_fila/${row.id}`
+            );
+
+            dispatch({
+                type: "DELETE_COMPARATOR_ROW_SUCCESS",
+                payload: response.data.data
+            });
+        } catch (e) {
+            console.log(e);
+            console.log(e.response);
+        }
+    };
+}
+
+export function moveRow(row, result) {
+    return async (dispatch, getState) => {
+        const newRow = {
+            ...row,
+            orden: result.destination.index
+        };
+
+        try {
+            // Informar al server del movimiento que se hizo
+            axios.put(`${apiURL}/comparacion_fila/${newRow.id}`, newRow);
+
+            dispatch({
+                type: "MOVE_COMPARATOR_ROW",
+                payload: { row: newRow, result }
+            });
+        } catch (e) {
+            console.log(e);
+            console.log(e.response);
+        }
+    };
+}
+
+export function moveCell(comparison, result) {
+    return async (dispatch, getState) => {
+        try {
+            dispatch({
+                type: "MOVE_COMPARATOR_CELL",
+                payload: {
+                    comparison,
+                    result
+                }
+            });
+        } catch (e) {
+            console.log(e);
+            console.log(e.response);
+        }
+    };
+
+    // return async (dispatch, getState) => {
+    //     const [sourceRowIndex] = extractComparatorCellIndices(
+    //         result.source.droppableId
+    //     );
+    //     const [destinationRowIndex] = extractComparatorCellIndices(
+    //         result.destination.droppableId
+    //     );
+
+    //     const cell =
+    //         comparison.filas[sourceRowIndex].celdas[result.source.index];
+    //     console.log("celda", cell);
+    //     console.log("filas", comparison.filas[sourceRowIndex]);
+
+    //     const destinationRowId = comparison.filas[destinationRowIndex].id;
+
+    //     const newCell = {
+    //         ...cell,
+    //         fila_id: destinationRowId,
+    //         orden: result.destination.index
+    //     };
+
+    //     try {
+    //         // Informar al server del movimiento que se hizo
+    //         axios.put(`${apiURL}/comparacion_celda/${cell.id}`, newCell);
+
+    //         dispatch({
+    //             type: "MOVE_COMPARATOR_CELL",
+    //             payload: {
+    //                 cell,
+    //                 comparison,
+    //                 result,
+    //                 destinationRowId
+    //             }
+    //         });
+    //     } catch (e) {
+    //         console.log(e);
+    //         console.log(e.response);
+    //     }
+    // };
 }

@@ -1,3 +1,4 @@
+import { extractComparatorCellIndices } from "../../components/Comparator/ComparatorTable";
 import { resize } from "../../utils";
 
 const defaultState = {
@@ -13,6 +14,44 @@ const defaultState = {
     areSuppliersLoading: true
     // negotiations: [],
     // products: [],
+};
+
+const reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+
+    return result;
+};
+
+const constructColumns = (state, comparisons) => {
+    const newComparisons = comparisons.map(item => {
+        return { ...item, state: [] };
+    });
+
+    // Recorrer todas las comparaciones
+    comparisons.forEach(comparison => {
+        // Recorrer todas las filas
+        comparison.filas.forEach(row => {
+            row.columns = Array.from(Array(state.suppliers.length), () => []);
+
+            // Rellenar los productos dentro de cada columna
+            row.celdas.forEach(cell => {
+                // Obtener el indice del proveedor dentro del arreglo de proveedores
+                const supplierIndex = state.suppliers.findIndex(
+                    item => item.id === cell.proveedor_id
+                );
+
+                // Agregar un objeto correspondiente a la celda
+                row.columns[supplierIndex] = [
+                    ...row.columns[supplierIndex],
+                    { id: cell.producto_id, cell: { ...cell } }
+                ];
+            });
+        });
+    });
+
+    return newComparisons;
 };
 
 const comparatorReducer = (state = defaultState, action) => {
@@ -42,13 +81,9 @@ const comparatorReducer = (state = defaultState, action) => {
     }
 
     if (type === "GET_COMPARISION_LIST_SUCCESS") {
-        const comparisons = payload.map(item => {
-            return { ...item, state: [] };
-        });
-
         return {
             ...state,
-            comparisons,
+            comparisons: constructColumns(state, payload),
             areComparisonsLoading: false
         };
     }
@@ -62,25 +97,238 @@ const comparatorReducer = (state = defaultState, action) => {
     }
 
     if (type === "ADD_COMPARATOR_SUCCESS") {
+        let newComparisons = [...state.comparisons, { ...payload, state: [] }];
+
+        // Recrear el attributo columns
+        newComparisons = constructColumns(state, newComparisons);
+
         return {
             ...state,
-            comparisons: [...state.comparisons, { ...payload, state: [] }]
+            comparisons: newComparisons
         };
     }
 
     if (type === "UPDATE_COMPARATOR_SUCCESS") {
+        let newComparisons = state.comparisons.map(item =>
+            item.id === payload.id ? payload : item
+        );
+
+        // Recrear el attributo columns
+        newComparisons = constructColumns(state, newComparisons);
+
         return {
             ...state,
-            comparisons: state.comparisons.map(item =>
-                item.id === payload.id ? payload : item
-            )
+            comparisons: newComparisons
         };
     }
 
-    if (type === "DELETE_COMPARATOR_REQUEST") {
+    if (type === "DELETE_COMPARATOR_SUCCESS") {
         return {
             ...state,
             comparisons: state.comparisons.filter(item => item.id != payload.id)
+        };
+    }
+
+    if (type === "CREATE_COMPARATOR_ROW_SUCCESS") {
+        // Construir el atributo state en la fila nueva
+        const newRow = {
+            ...payload,
+            celdas: []
+        };
+
+        // Insertar la fila nueva en la comparación correspondiente
+        let newComparisons = state.comparisons.map(comparison => {
+            if (comparison.id === payload.comparacion_id) {
+                const newComparison = {
+                    ...comparison,
+                    filas: [...comparison.filas, newRow]
+                };
+
+                return newComparison;
+            }
+
+            return comparison;
+        });
+
+        // Recrear el attributo columns
+        newComparisons = constructColumns(state, newComparisons);
+
+        return {
+            ...state,
+            comparisons: newComparisons
+        };
+    }
+
+    if (type === "DELETE_COMPARATOR_ROW_SUCCESS") {
+        // Remover la fila de la comparación correspondiente
+        const newComparisons = state.comparisons.map(comparison => {
+            if (comparison.id === payload.comparacion_id) {
+                return {
+                    ...comparison,
+                    filas: comparison.filas.filter(
+                        item => item.id != payload.id
+                    )
+                };
+            }
+
+            return comparison;
+        });
+
+        return {
+            ...state,
+            comparisons: newComparisons
+        };
+    }
+
+    if (type === "MOVE_COMPARATOR_ROW") {
+        const {
+            row,
+            result: { source, destination }
+        } = payload;
+
+        let newComparisons = [...state.comparisons];
+
+        // Encontrar la comparación correspondiente
+        const targetComparision = newComparisons.find(
+            item => item.id === row.comparacion_id
+        );
+
+        // Reordenar el arreglo de filas
+        targetComparision.filas = reorder(
+            targetComparision.filas,
+            source.index,
+            destination.index
+        );
+
+        // Recrear el attributo columns
+        newComparisons = constructColumns(state, newComparisons);
+
+        return {
+            ...state,
+            comparisons: newComparisons
+        };
+    }
+
+    if (type === "MOVE_COMPARATOR_CELL") {
+        let {
+            comparison,
+            result: { source, destination }
+        } = payload;
+
+        let newComparisons = [...state.comparisons];
+
+        // Extraer coordenadas de la celda origen
+        const [sourceRowIndex] = extractComparatorCellIndices(
+            source.droppableId
+        );
+
+        // Extraer coordenadas de la celda destino
+        const [destinationRowIndex] = extractComparatorCellIndices(
+            destination.droppableId
+        );
+
+        // Comparison
+        comparison = newComparisons.find(item => item.id === comparison.id);
+
+        // Celda
+        const cell = comparison.filas[sourceRowIndex].celdas[source.index];
+
+        // Fila original
+        const sourceRow = comparison.filas[sourceRowIndex];
+
+        // Fila destino
+        const destinationRow = comparison.filas[destinationRowIndex];
+
+        // // Guardar las celdas debajo de la celda que se movera
+        // const sourceCells = sourceRow.celdas.filter(
+        //     item =>
+        //         item.proveedor_id === cell.proveedor_id &&
+        //         item.orden > source.index
+        // );
+        // // Mover dichos cards hacia arriba
+        // for (let _cell of sourceCells) {
+        //     _cell.orden--;
+        // }
+
+        // // Guardar las celdas debajo de la ubicación a donde se movera
+        // const destinationCells = destinationRow.celdas.filter(
+        //     item =>
+        //         item.proveedor_id === cell.proveedor_id &&
+        //         item.orden >= destination.index
+        // );
+        // // Mover dichos cards hacia abajo
+        // for (let _cell of destinationCells) {
+        //     if (_cell.id != cell.id) {
+        //         _cell.orden++;
+        //     }
+        // }
+
+        // Remover la celda que se está moviendo de la fila origen
+        const [removed] = sourceRow.celdas.splice(source.index, 1);
+
+        // Agregar la celda eliminada en la fila destino
+        destinationRow.celdas.splice(destination.index, 0, removed);
+
+        // Guardar la celda
+        cell.orden = destination.index;
+        cell.fila_id = destinationRow.id;
+
+        // Recrear el attributo columns
+        newComparisons = constructColumns(state, newComparisons);
+
+        // const {
+        //     comparison,
+        //     result: { source, destination }
+        // } = payload;
+
+        // const newComparisons = [...state.comparisons];
+
+        // const targetComparision = newComparisons.find(
+        //     item => item.id === comparison.id
+        // );
+
+        // const sourceDropableId = source.droppableId;
+        // const destinationDropableId = destination.droppableId;
+
+        // // Extraer coordenadas de la celda origen
+        // const [
+        //     sourceRowIndex,
+        //     sourceColumnIndex
+        // ] = extractComparatorCellIndices(sourceDropableId);
+
+        // // Extraer coordenadas de la celda destino
+        // const [
+        //     destinationRowIndex,
+        //     destinationColumnIndex
+        // ] = extractComparatorCellIndices(destinationDropableId);
+
+        // // // Encontrar la columna del proveedor
+        // // const supplierIndex = state.suppliers.findIndex(
+        // //     item => item.id === cell.proveedor_id
+        // // );
+
+        // // Encontrar la fila original
+        // const sourceRow = targetComparision.filas[sourceRowIndex];
+
+        // // Encontrar la fila destino
+        // const destinationRow = targetComparision.filas[destinationRowIndex];
+
+        // // Remove the item from the source
+        // const [removed] = sourceRow.columns[sourceColumnIndex].splice(
+        //     source.index,
+        //     1
+        // );
+
+        // // Add the item to the destination column
+        // destinationRow.columns[destinationColumnIndex].splice(
+        //     destination.index,
+        //     0,
+        //     removed
+        // );
+
+        return {
+            ...state,
+            comparisons: newComparisons
         };
     }
 

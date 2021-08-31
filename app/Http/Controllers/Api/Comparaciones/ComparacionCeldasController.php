@@ -40,7 +40,6 @@ class ComparacionCeldasController extends ApiController
         $proveedor = $negociacion->proveedor;
 
         // Determinar si existe el producto
-        // $producto = $negociacion->productos()->findOrFail($request->producto_id);
         $producto = Producto::findOrFail($request->producto_id);
         if ($producto->pivot->tarea->id != $fila->comparacion->tarea->id) {
             return $this->errorResponse("El producto no tiene ninguna relacion con las negociaciones de esta tarea");
@@ -49,21 +48,12 @@ class ComparacionCeldasController extends ApiController
         $filas = $fila->comparacion->filas()->with("celdas")->get();
 
         // No debe existir otro card con el mismo producto en la misma columna de proveedor
-        // if ($comparacion->cards()->where("producto_id", $producto->id)->where("proveedor_id", $proveedor->id)->first()) {
-        //     return $this->errorResponse("Ya existe un card con el mismo producto en la misma columna");
-        // }
         $celdas = $filas->pluck("celdas")->flatten();
         if ($celdas->where("producto_id", $producto->id)->first()) {
             return $this->errorResponse("Ya existe un card con el mismo producto en la misma columna");
         }
-
-        // Determinar cual es la ultima fila para insertar el card allí
-        // $fila = $comparacion->cards()->max("fila") ?? 0;
-        // $fila = $filas->last();
-
         // Determinar la sub fila, sera determinada al sumarle 1 a la sub fila del ultimo card
         // de la misma fila y misma columna de proveedor
-        // $sub_fila = ($comparacion->cards()->where("fila", $fila)->where("proveedor_id", $proveedor->id)->max("sub_fila") ?? -1) + 1;
         $orden = ($fila->celdas()->where("proveedor_id", $proveedor->id)->max("orden") ?? -1) + 1;
 
         // Crear la celda
@@ -84,14 +74,13 @@ class ComparacionCeldasController extends ApiController
             return response()->json($validator->errors());
         }
 
-        // Obtener los cards
-        // $cards = $comparacion->cards()->where("proveedor_id", $card->proveedor_id)->get();
-
         // Fila original
         $filaOriginal = $celda->fila;
 
         // Fila destino
+        error_log($celda->fila->comparacion->filas);
         $filaDestino = $celda->fila->comparacion->filas()->findOrFail($request->fila_id);
+        
 
         // Indice original
         $indiceOriginal = $celda->orden;

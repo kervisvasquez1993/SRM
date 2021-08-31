@@ -16,7 +16,7 @@ class ComparacionFila extends Model
 
     public function celdas()
     {
-        return $this->hasMany(ComparacionCelda::class, "fila_id");
+        return $this->hasMany(ComparacionCelda::class, "fila_id")->orderBy('orden');
     }
 
 }

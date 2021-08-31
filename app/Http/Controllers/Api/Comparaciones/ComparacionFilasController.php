@@ -26,9 +26,9 @@ class ComparacionFilasController extends ApiController
         return $this->showOne($fila);
     }
 
-    public function update(Request $request, Comparacion $comparacion, ComparacionFila $fila)
+    public function update(Request $request, ComparacionFila $fila)
     {
-        $filas = $comparacion->filas;
+        $filas = $fila->comparacion->filas;
         $ultimoIndice = $filas->max("orden") ?? 0;
         
         // Guardar una copia del orden de la fila
@@ -63,10 +63,10 @@ class ComparacionFilasController extends ApiController
         return $this->showOne($fila);
     }
 
-    public function destroy(Comparacion $comparacion, ComparacionFila $fila)
+    public function destroy(ComparacionFila $fila)
     {
         // Mover hacia arriba las filas que esten debajo del orden origen
-        $filasAbajo = $comparacion->filas()->where("orden", ">=", $fila->orden)->get();
+        $filasAbajo = $fila->comparacion->filas()->where("orden", ">=", $fila->orden)->get();
         foreach ($filasAbajo as $_fila) {
             $_fila->orden--;
             $_fila->save();

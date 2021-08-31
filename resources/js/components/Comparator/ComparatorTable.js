@@ -7,7 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { v4 } from "uuid";
 import { confirmDelete } from "../../appText";
 import {
+    createRow,
     deleteComparison,
+    moveCell,
+    moveRow,
     updateComparisionRows
 } from "../../store/actions/comparatorActions";
 import { extractStringAfter, extractStringBetween } from "../../utils";
@@ -15,16 +18,11 @@ import { openModal } from "../../store/actions/modalActions";
 import { selectNegotiation } from "../../store/actions/negotiationActions";
 import ComparisonFormModal from "./ComparisonFormModal";
 import { useParams } from "react-router-dom";
+import ComparatorRow from "./ComparatorRow";
+import axios from "axios";
+import { apiURL } from "../App";
 
-const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-
-    return result;
-};
-
-const extractIndices = id => {
+export const extractComparatorCellIndices = id => {
     return [
         Number(extractStringBetween(id, "row-", "-col")),
         Number(extractStringAfter(id, "col-"))
@@ -42,68 +40,130 @@ export default ({ comparison, comparisonIndex }) => {
     const suppliers = useSelector(state => state.comparator.suppliers);
     const selectedNegotiation = suppliers.find(item => item.pivot.seleccionado);
 
+    // useEffect(() => {
+    //     const newState = [...state];
+
+    //     //Create a new row if it doesn't exist
+    //     if (state.length === 0) {
+    //         newState.push({
+    //             id: v4(),
+    //             columns: comparision.productIds.map(idList =>
+    //                 idList.map(id => {
+    //                     return { id };
+    //                 })
+    //             )
+    //         });
+    //     }
+
+    //     if (state.length > 0) {
+    //         const newProducts = comparision.productIds.flat();
+
+    //         // Delete products that doesn't exit anymore in the new list
+    //         for (const row of state) {
+    //             for (const column of row.columns) {
+    //                 for (const product of [...column]) {
+    //                     if (!newProducts.includes(product.id)) {
+    //                         column.splice(column.indexOf(product.id), 1);
+    //                     }
+    //                 }
+    //             }
+    //         }
+
+    //         // // Add new products that weren't there
+    //         for (const [
+    //             colIndex,
+    //             colProducts
+    //         ] of comparision.productIds.entries()) {
+    //             for (const newProductId of colProducts) {
+    //                 let toAdd = true;
+
+    //                 for (const row of state) {
+    //                     for (const column of row.columns) {
+    //                         for (const product of column) {
+    //                             if (product.id === newProductId) {
+    //                                 toAdd = false;
+    //                                 break;
+    //                             }
+    //                         }
+    //                     }
+    //                 }
+
+    //                 if (toAdd) {
+    //                     state[state.length - 1].columns[colIndex].push({
+    //                         id: newProductId
+    //                     });
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    //     console.log(newState);
+
+    //     dispatch(updateComparisionRows(comparision.id, newState));
+    // }, [comparison.productIds]);
+
     useEffect(() => {
+        return;
         const newState = [...state];
 
-        // Create a new row if it doesn't exist
+        //Create a new row if it doesn't exist
+        if (state.length === 0) {
+            newState.push({
+                id: v4(),
+                columns: comparision.productIds.map(idList =>
+                    idList.map(id => {
+                        return { id };
+                    })
+                )
+            });
+        }
 
-        // if (state.length === 0) {
-        //     newState.push({
-        //         id: v4(),
-        //         columns: comparision.productIds.map(idList =>
-        //             idList.map(id => {
-        //                 return { id };
-        //             })
-        //         )
-        //     });
-        // }
+        if (state.length > 0) {
+            const newProducts = comparision.productIds.flat();
 
-        // if (state.length > 0) {
-        //     const newProducts = comparision.productIds.flat();
+            // Delete products that doesn't exit anymore in the new list
+            for (const row of state) {
+                for (const column of row.columns) {
+                    for (const product of [...column]) {
+                        if (!newProducts.includes(product.id)) {
+                            column.splice(column.indexOf(product.id), 1);
+                        }
+                    }
+                }
+            }
 
-        //     // Delete products that doesn't exit anymore in the new list
-        //     for (const row of state) {
-        //         for (const column of row.columns) {
-        //             for (const product of [...column]) {
-        //                 if (!newProducts.includes(product.id)) {
-        //                     column.splice(column.indexOf(product.id), 1);
-        //                 }
-        //             }
-        //         }
-        //     }
+            // // Add new products that weren't there
+            for (const [
+                colIndex,
+                colProducts
+            ] of comparision.productIds.entries()) {
+                for (const newProductId of colProducts) {
+                    let toAdd = true;
 
-        //     // // Add new products that weren't there
-        //     for (const [
-        //         colIndex,
-        //         colProducts
-        //     ] of comparision.productIds.entries()) {
-        //         for (const newProductId of colProducts) {
-        //             let toAdd = true;
+                    for (const row of state) {
+                        for (const column of row.columns) {
+                            for (const product of column) {
+                                if (product.id === newProductId) {
+                                    toAdd = false;
+                                    break;
+                                }
+                            }
+                        }
+                    }
 
-        //             for (const row of state) {
-        //                 for (const column of row.columns) {
-        //                     for (const product of column) {
-        //                         if (product.id === newProductId) {
-        //                             toAdd = false;
-        //                             break;
-        //                         }
-        //                     }
-        //                 }
-        //             }
+                    if (toAdd) {
+                        state[state.length - 1].columns[colIndex].push({
+                            id: newProductId
+                        });
+                    }
+                }
+            }
+        }
 
-        //             if (toAdd) {
-        //                 state[state.length - 1].columns[colIndex].push({
-        //                     id: newProductId
-        //                 });
-        //             }
-        //         }
-        //     }
-        // }
+        console.log(newState);
 
-        // console.log(newState);
-
-        // dispatch(updateComparisionRows(comparision.id, newState));
-    }, [comparison.productIds]);
+        dispatch(updateComparisionRows(comparision.id, newState));
+    }, [comparison.state]);
 
     const onDragEnd = result => {
         const { source, destination, type } = result;
@@ -116,60 +176,86 @@ export default ({ comparison, comparisonIndex }) => {
         const sourceDropableId = source.droppableId;
         const destinationDropableId = destination.droppableId;
 
+        // Mover una fila o mover una celda
         if (type === "rowsParent") {
             if (sourceDropableId === destinationDropableId) {
-                const newState = reorder(
-                    state,
-                    source.index,
-                    destination.index
-                );
-
-                // setState(items);
-                dispatch(updateComparisionRows(comparison.id, newState));
+                // La acción se encarga de informar al servidor y el reducer se
+                // encarga de reordenar las filas
+                const row = comparison.filas[source.index];
+                dispatch(moveRow(row, result));
             }
         } else {
-            const [sourceRow, sourceColumn] = extractIndices(sourceDropableId);
-            const [destinationRow, destinationColumn] = extractIndices(
-                destinationDropableId
+            // const [sourceRow] = extractComparatorCellIndices(sourceDropableId);
+            // const [destinationRow] = extractComparatorCellIndices(
+            //     destinationDropableId
+            // );
+
+            // Extraer coordenadas de la celda origen
+            const [sourceRowIndex] = extractComparatorCellIndices(
+                source.droppableId
             );
 
-            const newState = [...state];
-
-            // Remove the item from the source
-            const [removed] = newState[sourceRow].columns[sourceColumn].splice(
-                source.index,
-                1
+            // Extraer coordenadas de la celda destino
+            const [destinationRowIndex] = extractComparatorCellIndices(
+                destination.droppableId
             );
 
-            // Add the item to the destination column
-            newState[destinationRow].columns[destinationColumn].splice(
-                destination.index,
-                0,
-                removed
-            );
+            // Celda a mover
+            const sourceCell =
+                comparison.filas[sourceRowIndex].celdas[source.index];
 
-            // setState(newState);
-            dispatch(updateComparisionRows(comparison.id, newState));
+            // La id de la fila a donde se movera
+            const destinationRowId = comparison.filas[destinationRowIndex].id;
+
+            // Información para el servidor
+            const newCell = {
+                ...sourceCell,
+                fila_id: destinationRowId,
+                orden: destination.index
+            };
+
+            // Informar al server del movimiento que se hizo
+            axios.put(`${apiURL}/comparacion_celda/${newCell.id}`, newCell);
+
+            // Actualizar el estado de redux
+            dispatch(moveCell(comparison, result));
+
+            // const [sourceRow, sourceColumn] = extractIndices(sourceDropableId);
+            // const [destinationRow, destinationColumn] = extractIndices(
+            //     destinationDropableId
+            // );
+
+            // const newState = [...state];
+
+            // // Remove the item from the source
+            // const [removed] = newState[sourceRow].columns[sourceColumn].splice(
+            //     source.index,
+            //     1
+            // );
+
+            // // Add the item to the destination column
+            // newState[destinationRow].columns[destinationColumn].splice(
+            //     destination.index,
+            //     0,
+            //     removed
+            // );
+
+            // // setState(newState);
+            // dispatch(updateComparisionRows(comparison.id, newState));
         }
     };
 
-    const deleteRow = rowIndex => {
-        const newState = [...state];
-        newState.splice(rowIndex, 1);
-
-        dispatch(updateComparisionRows(comparison.id, newState));
-    };
-
     const addEmptyRow = () => {
-        const newState = [
-            ...state,
-            {
-                id: v4(),
-                columns: Array.from(Array(suppliers.length), () => [])
-            }
-        ];
+        // const newState = [
+        //     ...state,
+        //     {
+        //         id: v4(),
+        //         columns: Array.from(Array(suppliers.length), () => [])
+        //     }
+        // ];
 
-        dispatch(updateComparisionRows(comparison.id, newState));
+        // dispatch(updateComparisionRows(comparison.id, newState));
+        dispatch(createRow(comparison));
     };
 
     const handleDelete = () => {
@@ -299,15 +385,13 @@ export default ({ comparison, comparisonIndex }) => {
                                 </table>
                             </div>
 
-                            {/* {state.map((row, rowIndex) => {
-                                return (
-                                    <ComparatorRow
-                                        {...{ row, rowIndex, comparisonIndex }}
-                                        key={row.id}
-                                        deleteRow={deleteRow}
-                                    />
-                                );
-                            })} */}
+                            {comparison.filas.map((row, rowIndex) => (
+                                <ComparatorRow
+                                    {...{ row, rowIndex, comparisonIndex }}
+                                    key={row.id}
+                                />
+                            ))}
+
                             {provided.placeholder}
                             <div className="add-row">
                                 <span className="sticky-left">

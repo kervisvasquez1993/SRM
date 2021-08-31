@@ -11,14 +11,7 @@ class ComparacionResource extends JsonResource
         return [
             'id' => $this->id,
             "nombre" => $this->nombre,
-
-            // Incluir un arreglo de productos si las filas fueron cargadas
-            // "productos" => $this->when($this->relationLoaded("filas"), function () {
-            //     return $this->tarea->pivotTareaProveedor->pluck("productos")->collapse();
-            // }),
-
-            // Incluir las filas solo si fueron cargadas
-            "filas" => $this->whenLoaded("filas"),
+            "filas" => $this->filas()->with("celdas")->get(),
         ];
     }
 }

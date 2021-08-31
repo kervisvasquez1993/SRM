@@ -68,9 +68,8 @@ export default ({ taskId, comparison, isEditor = false }) => {
             };
 
             if (isEditor) {
-                dispatch(updateComparison(comparison));
+                dispatch(updateComparison(taskId, comparison));
             } else {
-                console.log(taskId);
                 dispatch(addComparison(taskId, comparison));
             }
         }

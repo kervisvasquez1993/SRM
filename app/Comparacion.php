@@ -17,6 +17,6 @@ class Comparacion extends Model
 
     public function filas()
     {
-        return $this->hasMany(ComparacionFila::class);
+        return $this->hasMany(ComparacionFila::class)->orderBy('orden');
     }
 }

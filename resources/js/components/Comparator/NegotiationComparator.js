@@ -8,7 +8,7 @@ import { v4 } from "uuid";
 import {
     getComparisons,
     getProducts,
-    getSuppliers,
+    getSuppliers
 } from "../../store/actions/comparatorActions";
 import { openModal } from "../../store/actions/modalActions";
 import { apiURL } from "../App";
@@ -51,9 +51,9 @@ export default () => {
     );
 
     useEffect(() => {
+        dispatch(getSuppliers(taskId));
         dispatch(getProducts(taskId));
         dispatch(getComparisons(taskId));
-        dispatch(getSuppliers(taskId));
     }, []);
 
     // useEffect(() => {
