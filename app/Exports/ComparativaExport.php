@@ -275,6 +275,10 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                                     }
 
                                     $drawing->setWorksheet($writer->getActiveSheet());
+
+                                    // Eliminar la memoria de la RAM
+                                    imagedestroy($imagen);
+
                                 }
 
                                 $productosAgregados++;
