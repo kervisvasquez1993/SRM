@@ -54,7 +54,7 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
         'font' => [
             'color' => ['rgb' => 'ffffff'],
             'bold' => true,
-        ]
+        ],
     ];
 
     public $celdaEstilos = [
@@ -181,104 +181,97 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                     $filasPorComparacion = 1;
 
                     $coordenada = getCoordinate($columna_inicio, $filaIndice);
-                    $sheet->setCellValue($coordenada, $comparacion->productName);
+                    $sheet->setCellValue($coordenada, $comparacion->nombre);
                     $columna_inicio++;
 
                     $filaInicioComparacion = $filaIndice;
                     $filasPorComparacion = 1;
 
-                    foreach ($comparacion->rows as $filaIndiceIndice => $fila) {
-                        // $filaIndice++;
+                    foreach ($comparacion->filas as $fila) {
                         $filasParaAgregar = 0;
 
-                        foreach ($fila->columns as $columnaIndice => $columna) {
+                        foreach ($negociaciones as $negociacionIndice => $negociacion) {
                             $productosAgregados = 0;
 
-                            foreach ($columna as $productoIndice => $celdaProducto) {
-                                $producto = Producto::find($celdaProducto->id);
+                            $celdas = $fila->celdas()->where("proveedor_id", $negociacion->proveedor->id)->orderBy("orden")->get();
 
-                                if ($producto) {
+                            foreach ($celdas as $productoIndice => $celdaProducto) {
+                                $producto = Producto::find($celdaProducto->producto_id);
 
-                                    $filaProducto = $filaIndice + $productoIndice;
+                                $filaProducto = $filaIndice + $productoIndice;
 
-                                    $columna_inicio = 2 + ($columnaIndice * $producto_columnas);
+                                $columna_inicio = 2 + ($negociacionIndice * $producto_columnas);
 
-                                    // Fondo
-                                    $columnaColorInicial = getColumn($columna_inicio);
-                                    $columnaColorFinal = getColumn($columna_inicio + $producto_columnas - 1);
-                                    if (property_exists($celdaProducto, 'backgroundColor')) {
-                                        $this->celdaEstilos["fill"]["startColor"]["rgb"] = $celdaProducto->backgroundColor;
+                                // Fondo
+                                $columnaColorInicial = getColumn($columna_inicio);
+                                $columnaColorFinal = getColumn($columna_inicio + $producto_columnas - 1);
+                                if (property_exists($celdaProducto, 'backgroundColor')) {
+                                    $this->celdaEstilos["fill"]["startColor"]["rgb"] = $celdaProducto->backgroundColor;
+                                } else {
+                                    $this->celdaEstilos["fill"]["startColor"]["rgb"] = "ffffff";
+                                }
+                                $sheet->getStyle($columnaColorInicial . $filaProducto . ":" . $columnaColorFinal . $filaProducto)
+                                    ->applyFromArray($this->celdaEstilos);
+
+                                // Codigo
+                                $coordenada = getCoordinate($columna_inicio, $filaProducto);
+                                $sheet->setCellValue($coordenada, $producto->product_code_supplier);
+                                $columna_inicio++;
+
+                                // Nombre
+                                $coordenada = getCoordinate($columna_inicio, $filaProducto);
+                                $sheet->setCellValue($coordenada, $producto->product_name_supplier);
+                                $columna_inicio++;
+
+                                $coordenada = getCoordinate($columna_inicio, $filaProducto);
+                                $sheet->setCellValue($coordenada, $producto->description);
+                                $columna_inicio++;
+                                // Alinear la descripcion
+                                $sheet->getStyle($coordenada)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                                $sheet->getStyle($coordenada)->getAlignment()->setVertical(Alignment::VERTICAL_TOP);
+
+                                $coordenada = getCoordinate($columna_inicio, $filaProducto);
+                                $sheet->setCellValue($coordenada, $producto->total_pcs);
+                                $columna_inicio++;
+
+                                $coordenada = getCoordinate($columna_inicio, $filaProducto);
+                                $sheet->setCellValue($coordenada, $producto->unit_price);
+                                $columna_inicio++;
+
+                                $coordenada = getCoordinate($columna_inicio, $filaProducto);
+                                $sheet->setCellValue($coordenada, $producto->total_usd);
+                                $columna_inicio++;
+
+                                $sheet->getRowDimension($filaProducto)->setRowHeight(100);
+
+                                //      Agregar la imagen
+                                if ($producto->imagen) {
+                                    $url = "https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/{$producto->imagen}";
+
+                                    $imagen = file_get_contents($url);
+                                    $imagen = imagecreatefromstring($imagen);
+                                    $ancho = imagesx($imagen);
+                                    $alto = imagesy($imagen);
+
+                                    // Insertarla en el excel
+                                    $coordenada = getCoordinate($columna_inicio, $filaProducto);
+                                    $drawing = new MemoryDrawing();
+                                    $drawing->setResizeProportional(true);
+                                    $drawing->setImageResource($imagen);
+                                    $drawing->setCoordinates($coordenada);
+                                    $drawing->setOffsetX(2);
+                                    $drawing->setOffsetY(2);
+
+                                    if ($ancho > $alto) {
+                                        $drawing->setWidth(120);
                                     } else {
-                                        $this->celdaEstilos["fill"]["startColor"]["rgb"] = "ffffff";
-                                    }
-                                    $sheet->getStyle($columnaColorInicial . $filaProducto . ":" . $columnaColorFinal . $filaProducto)
-                                        ->applyFromArray($this->celdaEstilos);
-
-                                    // Codigo
-                                    $coordenada = getCoordinate($columna_inicio, $filaProducto);
-                                    $sheet->setCellValue($coordenada, $producto->product_code_supplier);
-                                    $columna_inicio++;
-
-                                    // Nombre
-                                    $coordenada = getCoordinate($columna_inicio, $filaProducto);
-                                    $sheet->setCellValue($coordenada, $producto->product_name_supplier);
-                                    $columna_inicio++;
-
-                                    $coordenada = getCoordinate($columna_inicio, $filaProducto);
-                                    $sheet->setCellValue($coordenada, $producto->description);
-                                    $columna_inicio++;
-                                    // Alinear la descripcion
-                                    $sheet->getStyle($coordenada)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-                                    $sheet->getStyle($coordenada)->getAlignment()->setVertical(Alignment::VERTICAL_TOP);
-
-                                    $coordenada = getCoordinate($columna_inicio, $filaProducto);
-                                    $sheet->setCellValue($coordenada, $producto->total_pcs);
-                                    $columna_inicio++;
-
-                                    $coordenada = getCoordinate($columna_inicio, $filaProducto);
-                                    $sheet->setCellValue($coordenada, $producto->unit_price);
-                                    $columna_inicio++;
-
-                                    $coordenada = getCoordinate($columna_inicio, $filaProducto);
-                                    $sheet->setCellValue($coordenada, $producto->total_usd);
-                                    $columna_inicio++;
-
-                                    $sheet->getRowDimension($filaProducto)->setRowHeight(100);
-
-                                    //      Agregar la imagen
-                                    if ($producto->imagen) {
-                                        $url = "https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/{$producto->imagen}";
-
-                                        $imagen = file_get_contents($url);
-                                        $imagen = imagecreatefromstring($imagen);
-                                        $ancho = imagesx($imagen);
-                                        $alto = imagesy($imagen);
-
-                                        // Insertarla en el excel
-                                        $coordenada = getCoordinate($columna_inicio, $filaProducto);
-                                        $drawing = new MemoryDrawing();
-                                        $drawing->setResizeProportional(true);
-                                        $drawing->setImageResource($imagen);
-                                        $drawing->setCoordinates($coordenada);
-                                        $drawing->setOffsetX(2);
-                                        $drawing->setOffsetY(2);
-
-                                        if ($ancho > $alto) {
-                                            $drawing->setWidth(120);
-                                        } else {
-                                            $drawing->setHeight(120);
-                                        }
-
-                                        $drawing->setWorksheet($writer->getActiveSheet());
-
-                                        error_log($url);
+                                        $drawing->setHeight(120);
                                     }
 
-                                    // $filaIndice += 1;
-                                    $productosAgregados++;
+                                    $drawing->setWorksheet($writer->getActiveSheet());
                                 }
 
-                                // $filaIndice += 1;
+                                $productosAgregados++;
                             }
 
                             if ($productosAgregados > $filasParaAgregar) {
@@ -288,6 +281,108 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                         $filaIndice += $filasParaAgregar;
                         $filasPorComparacion += $filasParaAgregar;
                     }
+
+                    // foreach ($comparacion->rows as $filaIndiceIndice => $fila) {
+                    //     // $filaIndice++;
+                    //     $filasParaAgregar = 0;
+
+                    //     foreach ($fila->columns as $columnaIndice => $columna) {
+                    //         $productosAgregados = 0;
+
+                    //         foreach ($columna as $productoIndice => $celdaProducto) {
+                    //             $producto = Producto::find($celdaProducto->id);
+
+                    //             if ($producto) {
+
+                    //                 $filaProducto = $filaIndice + $productoIndice;
+
+                    //                 $columna_inicio = 2 + ($columnaIndice * $producto_columnas);
+
+                    //                 // Fondo
+                    //                 $columnaColorInicial = getColumn($columna_inicio);
+                    //                 $columnaColorFinal = getColumn($columna_inicio + $producto_columnas - 1);
+                    //                 if (property_exists($celdaProducto, 'backgroundColor')) {
+                    //                     $this->celdaEstilos["fill"]["startColor"]["rgb"] = $celdaProducto->backgroundColor;
+                    //                 } else {
+                    //                     $this->celdaEstilos["fill"]["startColor"]["rgb"] = "ffffff";
+                    //                 }
+                    //                 $sheet->getStyle($columnaColorInicial . $filaProducto . ":" . $columnaColorFinal . $filaProducto)
+                    //                     ->applyFromArray($this->celdaEstilos);
+
+                    //                 // Codigo
+                    //                 $coordenada = getCoordinate($columna_inicio, $filaProducto);
+                    //                 $sheet->setCellValue($coordenada, $producto->product_code_supplier);
+                    //                 $columna_inicio++;
+
+                    //                 // Nombre
+                    //                 $coordenada = getCoordinate($columna_inicio, $filaProducto);
+                    //                 $sheet->setCellValue($coordenada, $producto->product_name_supplier);
+                    //                 $columna_inicio++;
+
+                    //                 $coordenada = getCoordinate($columna_inicio, $filaProducto);
+                    //                 $sheet->setCellValue($coordenada, $producto->description);
+                    //                 $columna_inicio++;
+                    //                 // Alinear la descripcion
+                    //                 $sheet->getStyle($coordenada)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                    //                 $sheet->getStyle($coordenada)->getAlignment()->setVertical(Alignment::VERTICAL_TOP);
+
+                    //                 $coordenada = getCoordinate($columna_inicio, $filaProducto);
+                    //                 $sheet->setCellValue($coordenada, $producto->total_pcs);
+                    //                 $columna_inicio++;
+
+                    //                 $coordenada = getCoordinate($columna_inicio, $filaProducto);
+                    //                 $sheet->setCellValue($coordenada, $producto->unit_price);
+                    //                 $columna_inicio++;
+
+                    //                 $coordenada = getCoordinate($columna_inicio, $filaProducto);
+                    //                 $sheet->setCellValue($coordenada, $producto->total_usd);
+                    //                 $columna_inicio++;
+
+                    //                 $sheet->getRowDimension($filaProducto)->setRowHeight(100);
+
+                    //                 //      Agregar la imagen
+                    //                 if ($producto->imagen) {
+                    //                     $url = "https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/{$producto->imagen}";
+
+                    //                     $imagen = file_get_contents($url);
+                    //                     $imagen = imagecreatefromstring($imagen);
+                    //                     $ancho = imagesx($imagen);
+                    //                     $alto = imagesy($imagen);
+
+                    //                     // Insertarla en el excel
+                    //                     $coordenada = getCoordinate($columna_inicio, $filaProducto);
+                    //                     $drawing = new MemoryDrawing();
+                    //                     $drawing->setResizeProportional(true);
+                    //                     $drawing->setImageResource($imagen);
+                    //                     $drawing->setCoordinates($coordenada);
+                    //                     $drawing->setOffsetX(2);
+                    //                     $drawing->setOffsetY(2);
+
+                    //                     if ($ancho > $alto) {
+                    //                         $drawing->setWidth(120);
+                    //                     } else {
+                    //                         $drawing->setHeight(120);
+                    //                     }
+
+                    //                     $drawing->setWorksheet($writer->getActiveSheet());
+
+                    //                     error_log($url);
+                    //                 }
+
+                    //                 // $filaIndice += 1;
+                    //                 $productosAgregados++;
+                    //             }
+
+                    //             // $filaIndice += 1;
+                    //         }
+
+                    //         if ($productosAgregados > $filasParaAgregar) {
+                    //             $filasParaAgregar = $productosAgregados;
+                    //         }
+                    //     }
+                    //     $filaIndice += $filasParaAgregar;
+                    //     $filasPorComparacion += $filasParaAgregar;
+                    // }
 
                     // Ajustar el color
                     $sheet->getStyle("A$filaInicioComparacion" . ":A" . ($filaInicioComparacion + $filasPorComparacion - 2))->applyFromArray($this->encabezadoEstilos);
