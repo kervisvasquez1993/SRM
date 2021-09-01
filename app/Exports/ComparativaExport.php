@@ -248,12 +248,12 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                                 if ($producto->imagen) {
                                     $url = "https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/{$producto->imagen}";
 
-                                    // $imagen = file_get_contents($url);
-                                    $ch = curl_init();
-                                    curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-                                    curl_setopt($ch, CURLOPT_URL, $url);
-                                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                                    $imagen = curl_exec($ch);
+                                    $imagen = file_get_contents($url);
+                                    // $ch = curl_init();
+                                    // curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+                                    // curl_setopt($ch, CURLOPT_URL, $url);
+                                    // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                    // $imagen = curl_exec($ch);
 
                                     $imagen = imagecreatefromstring($imagen);
                                     $ancho = imagesx($imagen);

@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Facades\Image;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -168,7 +169,7 @@ class ProductoController extends ApiController
                             try {
 
                                 $total_ctn = $row[10] / $row[15];
-                            } catch (\Throwable $th) {
+                            } catch (\Throwable$th) {
                                 $total_ctn = 0;
                             }
 
@@ -231,7 +232,7 @@ class ProductoController extends ApiController
                                 }
                             }
                         }
-                    } catch (\Throwable $th) {
+                    } catch (\Throwable$th) {
                         error_log($th);
                         return $this->errorResponse("Existe un error en la linea $contador del excel", 413);
                         // TODO:AGREGAR UN TRY CATCH PARA CADA COLUMNA
@@ -266,10 +267,20 @@ class ProductoController extends ApiController
                     if ($producto) {
                         // Eliminar el archivo viejo
                         Storage::disk('s3')->delete($producto->imagen);
+
+                        // Cambiar el tamaño del archivo y convertirlo en jpg
+                        $imagen = file_get_contents($drawing->getPath());
+                        $imagen = Image::make($imagen)
+                            ->resize(200, 200, function ($constraint) {
+                                $constraint->aspectRatio();
+                            })
+                            ->encode('jpg', 75);
+
                         // Crear nombre del archivo
-                        $file_name = "productos/" . $producto->id . "." . $drawing->getExtension();
+                        $file_name = "productos/" . $producto->id . ".jpg";
+
                         // Almacenarlo
-                        Storage::disk('s3')->put($file_name, file_get_contents($drawing->getPath()), 'public');
+                        Storage::disk('s3')->put($file_name, $imagen->stream()->__toString(), 'public');
                         $producto->imagen = $file_name;
                         $producto->save();
 
@@ -309,7 +320,7 @@ class ProductoController extends ApiController
                     }
                 }
             }
-        } catch (\Exception $e) {
+        } catch (\Exception$e) {
             error_log($e);
             return $this->errorResponse("Formato del Archivo no valido", 413);
         }

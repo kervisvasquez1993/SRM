@@ -141,11 +141,9 @@ class TareaController extends ApiController
     {
         try {
             return Excel::download(new ComparativaExport($tarea), 'comparativa.xlsx');
-        } catch (\Throwable $th) {
-            error_log($th);
-            return $th;
+        } catch (\Throwable$th) {
+            return $this->errorResponse("Hubo un problema al exportar el excel");
         }
-    
     }
 
     public function obtenerNegociaciones(Tarea $tarea)
