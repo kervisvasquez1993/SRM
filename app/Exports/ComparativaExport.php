@@ -245,37 +245,37 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                                 $sheet->getRowDimension($filaProducto)->setRowHeight(100);
 
                                 //      Agregar la imagen
-                                if ($producto->imagen) {
-                                    $url = "https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/{$producto->imagen}";
+                                // if ($producto->imagen) {
+                                //     $url = "https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/{$producto->imagen}";
 
-                                    $imagen = file_get_contents($url);
-                                    // $ch = curl_init();
-                                    // curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-                                    // curl_setopt($ch, CURLOPT_URL, $url);
-                                    // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                                    // $imagen = curl_exec($ch);
+                                //     $imagen = file_get_contents($url);
+                                //     // $ch = curl_init();
+                                //     // curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+                                //     // curl_setopt($ch, CURLOPT_URL, $url);
+                                //     // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                //     // $imagen = curl_exec($ch);
 
-                                    $imagen = imagecreatefromstring($imagen);
-                                    $ancho = imagesx($imagen);
-                                    $alto = imagesy($imagen);
+                                //     $imagen = imagecreatefromstring($imagen);
+                                //     $ancho = imagesx($imagen);
+                                //     $alto = imagesy($imagen);
 
-                                    // Insertarla en el excel
-                                    $coordenada = getCoordinate($columna_inicio, $filaProducto);
-                                    $drawing = new MemoryDrawing();
-                                    $drawing->setResizeProportional(true);
-                                    $drawing->setImageResource($imagen);
-                                    $drawing->setCoordinates($coordenada);
-                                    $drawing->setOffsetX(2);
-                                    $drawing->setOffsetY(2);
+                                //     // Insertarla en el excel
+                                //     $coordenada = getCoordinate($columna_inicio, $filaProducto);
+                                //     $drawing = new MemoryDrawing();
+                                //     $drawing->setResizeProportional(true);
+                                //     $drawing->setImageResource($imagen);
+                                //     $drawing->setCoordinates($coordenada);
+                                //     $drawing->setOffsetX(2);
+                                //     $drawing->setOffsetY(2);
 
-                                    if ($ancho > $alto) {
-                                        $drawing->setWidth(120);
-                                    } else {
-                                        $drawing->setHeight(120);
-                                    }
+                                //     if ($ancho > $alto) {
+                                //         $drawing->setWidth(120);
+                                //     } else {
+                                //         $drawing->setHeight(120);
+                                //     }
 
-                                    $drawing->setWorksheet($writer->getActiveSheet());
-                                }
+                                //     $drawing->setWorksheet($writer->getActiveSheet());
+                                // }
 
                                 $productosAgregados++;
                             }
