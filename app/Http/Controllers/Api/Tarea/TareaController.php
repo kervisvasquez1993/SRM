@@ -139,7 +139,13 @@ class TareaController extends ApiController
 
     public function exportarComparativa(Tarea $tarea)
     {
-        return Excel::download(new ComparativaExport($tarea), 'comparativa.xlsx');
+        try {
+            return Excel::download(new ComparativaExport($tarea), 'comparativa.xlsx');
+        } catch (\Throwable $th) {
+            error_log($th);
+            return $th;
+        }
+    
     }
 
     public function obtenerNegociaciones(Tarea $tarea)
