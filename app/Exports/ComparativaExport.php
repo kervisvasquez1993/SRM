@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\Producto;
 use App\Tarea;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithPreCalculateFormulas;
 use Maatwebsite\Excel\Events\BeforeExport;
@@ -246,7 +247,9 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
 
                                 //      Agregar la imagen
                                 if ($producto->imagen) {
-                                    $url = "https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/{$producto->imagen}";
+                                    $url = Storage::cloud()->url($producto->imagen);
+
+                                    error_log("Descargando imagen: $url");
 
                                     // $imagen = file_get_contents($url);
                                     $ch = curl_init();

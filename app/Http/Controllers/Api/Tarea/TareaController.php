@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers\Api\Tarea;
 
-use App\User;
-use App\Tarea;
-use App\Proveedor;
 use App\DraggableTask;
+use App\Http\Controllers\ApiController;
+use App\Http\Resources\PivotTareaProveederResource;
+use App\Http\Resources\TareaResource;
+use App\Jobs\ProcessExportarComparacion;
+use App\Notifications\GeneralNotification;
 use App\PivotTareaProveeder;
+use App\Proveedor;
+use App\Tarea;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\TareaResource;
-use App\Http\Controllers\ApiController;
-use App\Jobs\ProcessExportarComparacion;
 use Illuminate\Support\Facades\Validator;
-use App\Notifications\GeneralNotification;
 use Symfony\Component\HttpFoundation\Response;
-use App\Http\Resources\PivotTareaProveederResource;
 
 class TareaController extends ApiController
 {
@@ -139,10 +139,11 @@ class TareaController extends ApiController
 
     public function exportarComparativa(Request $request, Tarea $tarea)
     {
-        error_log($request->user());
+        // Correr la exportación de fondo
         ProcessExportarComparacion::dispatch($request->user(), $tarea);
 
-        return $this->successMensaje("Procesando");
+        // return $this->showOne($tarea);
+        return $this->successMensaje("Exportación de archivo comenzada");
     }
 
     public function obtenerNegociaciones(Tarea $tarea)

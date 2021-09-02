@@ -26,4 +26,13 @@ class ComparacionCelda extends Model
     {
         return $this->belongsTo(Producto::class, 'producto_id');
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        self::saved(function ($model) {
+            $model->fila->comparacion->tarea->actualizarFechaEdicionComparacion();
+        });
+    }
 }

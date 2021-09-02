@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -97,5 +98,11 @@ class Tarea extends Model
     public function comparaciones()
     {
         return $this->hasMany(Comparacion::class);
+    }
+
+    public function actualizarFechaEdicionComparacion()
+    {
+        $this->comparacion_editadas_en = Carbon::now();
+        $this->save();
     }
 }

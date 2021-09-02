@@ -46,7 +46,7 @@ import InspectionPage from "./Claims/Inspection/InspectionPage";
 import ProductClaimPage from "./Claims/Claims/ProductClaimPage";
 import NegotiationComparator from "./Comparator/NegotiationComparator";
 import SupplierList from "./Suppliers/SupplierList";
-import {Echo} from "../utils/Echo";
+import { Echo } from "../utils/Echo";
 
 // const messaging = firebase.messaging();
 
@@ -80,6 +80,7 @@ axios.interceptors.response.use(
 
 export const apiURL = process.env.MIX_APP_API_URL || "/api";
 export const amazonS3Url =
+    process.env.MIX_AMAZON_S3 ||
     "https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/";
 
 export const sidebarBreakpoint = 1100;
@@ -146,7 +147,8 @@ const App = () => {
     }, [id]);
 
     const history = useHistory();
-    const location = useLocation();getMyUser
+    const location = useLocation();
+    getMyUser;
     const previous = useRef(null);
 
     useEffect(() => {
@@ -183,11 +185,14 @@ const App = () => {
     useEffect(() => {
         if (user) {
             console.log("Escuchando");
-            
-            Echo.private(`comparacion.${user.id}`).listen("ArchivoComparacionListo", e => {
-                console.log("Recibido");
-                console.log(e);
-            });
+
+            Echo.private(`comparacion.${user.id}`).listen(
+                "RespuestaArchivoComparacion",
+                e => {
+                    console.log("Recibido");
+                    console.log(e);
+                }
+            );
         }
     }, [user]);
 

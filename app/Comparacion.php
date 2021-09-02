@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\ComparacionCard;
 use Illuminate\Database\Eloquent\Model;
 
 class Comparacion extends Model
@@ -18,5 +17,14 @@ class Comparacion extends Model
     public function filas()
     {
         return $this->hasMany(ComparacionFila::class)->orderBy('orden');
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        self::saved(function ($model) {
+            $model->tarea->actualizarFechaEdicionComparacion();
+        });
     }
 }

@@ -9,26 +9,22 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
-class ArchivoComparacionListo implements ShouldBroadcastNow
+class RespuestaArchivoComparacion implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    protected $tarea;
-    protected $ruta;
+    public $tarea;
 
     public function __construct($usuario, $tarea)
     {
         $this->tarea = $tarea;
         $this->usuario = $usuario;
-
-        error_log("mensaje construido");
     }
 
     public function broadcastOn()
     {
-        error_log("tratando de transmitir");
+        error_log("Tratando de enviar mensaje");
         $nombre = "comparacion.{$this->usuario->id}";
-
         return new PrivateChannel($nombre);
     }
 }
