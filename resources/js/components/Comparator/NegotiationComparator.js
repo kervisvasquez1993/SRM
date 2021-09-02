@@ -53,7 +53,9 @@ export default () => {
 
     const handleExport = () => {
         const funcion = async () => {
-            const response = await axios.get(`${apiURL}/tarea/${taskId}/exportar-comparativa`);
+            const response = await axios.get(
+                `${apiURL}/tarea/${taskId}/exportar-comparativa`
+            );
             console.log(response);
         };
 
@@ -63,8 +65,14 @@ export default () => {
     useEffect(() => {
         dispatch(getSuppliers(taskId));
         dispatch(getProducts(taskId));
-        dispatch(getComparisons(taskId));
     }, []);
+
+    // Solo cargar las comparaciones cuando ya se han cargado los productos y los proveedores
+    useEffect(() => {
+        if (!areProductsLoading && !areSuppliersLoading) {
+            dispatch(getComparisons(taskId));
+        }
+    }, [areProductsLoading, areSuppliersLoading]);
 
     // useEffect(() => {
     //     if (task) {
