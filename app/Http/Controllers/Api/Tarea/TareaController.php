@@ -139,6 +139,7 @@ class TareaController extends ApiController
 
     public function exportarComparativa(Request $request, Tarea $tarea)
     {
+        error_log($tarea->id);
         // Correr la exportación de fondo
         ProcessExportarComparacion::dispatch($request->user(), $tarea);
 

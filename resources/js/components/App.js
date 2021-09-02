@@ -22,7 +22,7 @@ import TaskDetails from "./Tasks/TaskDetails";
 import TaskList from "./Tasks/TaskList";
 import jwt_decode from "jwt-decode";
 import { store } from "./Index";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import ProductionList from "./Productions/ProductionList";
 import ArtList from "./Arts/ArtList";
@@ -47,6 +47,7 @@ import ProductClaimPage from "./Claims/Claims/ProductClaimPage";
 import NegotiationComparator from "./Comparator/NegotiationComparator";
 import SupplierList from "./Suppliers/SupplierList";
 import { Channel } from "../utils/Echo";
+import download from "downloadjs";
 
 // const messaging = firebase.messaging();
 
@@ -185,8 +186,10 @@ const App = () => {
     useEffect(() => {
         if (user) {
             Channel.listen("RespuestaArchivo", e => {
-                console.log("Recibido");
                 console.log(e);
+                toast.success("✔️ Su archivo está listo");
+
+                download(e.archivo);
             });
         }
     }, [user]);

@@ -26,7 +26,7 @@ class ProcessExportarComparacion implements ShouldQueue
         error_log("construyendo");
 
         // Precargar información
-        $tarea = $tarea->with("pivotTareaProveedor", "comparaciones.filas.celdas")->first();
+        // $tarea = $tarea->with("pivotTareaProveedor", "comparaciones.filas.celdas")->first();
 
         // ¿Se tiene que reconstruir el excel de nuevo?
         $fechaEdicion = Carbon::parse($tarea->comparacion_editadas_en);
@@ -41,6 +41,8 @@ class ProcessExportarComparacion implements ShouldQueue
         $tarea->exportando_comparacion = true;
         $tarea->error_exportando = false;
         $tarea->save();
+
+        error_log("Esta tarea tiene id: $tarea->id");
     }
 
     public function handle()

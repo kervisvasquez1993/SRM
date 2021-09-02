@@ -17,6 +17,7 @@ import ComparatorTable from "./ComparatorTable";
 import IncidentsTab from "../Incidents/IncidentsTab";
 import ComparisonFormModal from "./ComparisonFormModal";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export default () => {
     const dispatch = useDispatch();
@@ -56,10 +57,12 @@ export default () => {
             const response = await axios.get(
                 `${apiURL}/tarea/${taskId}/exportar-comparativa`
             );
-            console.log(response);
         };
 
         funcion();
+        toast.info(
+            "El archivo se está procesando. Esto puede llevar tiempo..."
+        );
     };
 
     useEffect(() => {
