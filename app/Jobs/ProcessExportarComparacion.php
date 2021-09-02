@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Events\RespuestaArchivoComparacion;
+use App\Events\RespuestaArchivo;
 use App\Exports\ComparativaExport;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -10,6 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProcessExportarComparacion implements ShouldQueue
@@ -51,11 +52,11 @@ class ProcessExportarComparacion implements ShouldQueue
             error_log("Reconstruyendo archivo");
 
             try {
-                // Guardar el archivo nuevo
-                Excel::store(new ComparativaExport($this->tarea), $ruta, "s3");
+                // Guardar el archivo
+                Excel::store(new ComparativaExport($this->tarea), $ruta, "s3", null, ['visibility' => 'public']);
 
                 // Guardar información en la tarea
-                $this->tarea->archivo_comparacion = $ruta;
+                $this->tarea->archivo_comparacion = Storage::cloud()->url($ruta);
                 $this->tarea->exportando_comparacion = false;
                 $this->tarea->archivo_comparacion_creado_en = Carbon::now();
                 $this->tarea->save();
@@ -76,6 +77,17 @@ class ProcessExportarComparacion implements ShouldQueue
         }
 
         error_log("Enviando respuesta del archivo: $ruta");
-        event(new RespuestaArchivoComparacion($this->usuario, $this->tarea));
+
+        $data = [
+            'tarea' => [
+                'id' => $this->tarea->id,
+                'archivo_comparacion' => $this->tarea->archivo_comparacion,
+                'archivo_comparacion_creado_en' => $this->tarea->archivo_comparacion_creado_en,
+                'error_exportando' => $this->tarea->error_exportando,
+            ],
+        ];
+
+        // Información en
+        event(new RespuestaArchivo($this->usuario, $this->tarea->archivo_comparacion, $data));
     }
 }

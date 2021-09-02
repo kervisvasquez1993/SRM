@@ -46,7 +46,7 @@ import InspectionPage from "./Claims/Inspection/InspectionPage";
 import ProductClaimPage from "./Claims/Claims/ProductClaimPage";
 import NegotiationComparator from "./Comparator/NegotiationComparator";
 import SupplierList from "./Suppliers/SupplierList";
-import { Echo } from "../utils/Echo";
+import { Channel } from "../utils/Echo";
 
 // const messaging = firebase.messaging();
 
@@ -184,15 +184,10 @@ const App = () => {
 
     useEffect(() => {
         if (user) {
-            console.log("Escuchando");
-
-            Echo.private(`comparacion.${user.id}`).listen(
-                "RespuestaArchivoComparacion",
-                e => {
-                    console.log("Recibido");
-                    console.log(e);
-                }
-            );
+            Channel.listen("RespuestaArchivo", e => {
+                console.log("Recibido");
+                console.log(e);
+            });
         }
     }, [user]);
 

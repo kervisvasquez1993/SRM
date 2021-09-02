@@ -56,7 +56,8 @@ export function getMyUser(user) {
             // @ts-ignore
             const response = await axios.get(`${apiURL}/me`, { token });
 
-            registerEcho(token);
+            // Registrar echo
+            registerEcho(token, response.data);
 
             dispatch({
                 type: "MY_USER_SUCESS",
