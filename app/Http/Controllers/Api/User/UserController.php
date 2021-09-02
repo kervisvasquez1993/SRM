@@ -54,8 +54,7 @@ class UserController extends ApiController
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'rol' => 'required',
-            'email' => 'required|email',
-            'password' => 'required',
+            'email' => 'required|email'
         ]);
 
         if ($validator->fails()) {
@@ -70,9 +69,15 @@ class UserController extends ApiController
         }
 
         // Crear el hash de la contraseña nueva
-        $request->merge([
-            'password' => Hash::make($request->password),
-        ]);
+        if ($request->password != "") {
+            $request->merge([
+                'password' => Hash::make($request->password),
+            ]);
+
+            $user->update($request->all());
+        } else {
+            $user->update($request->all(), ["except" => "password"]);
+        }
 
         $user->update($request->all());
 
