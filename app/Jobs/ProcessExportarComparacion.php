@@ -22,10 +22,6 @@ class ProcessExportarComparacion implements ShouldQueue
 
     public function __construct($usuario, $tarea)
     {
-        // Informacion para el job
-        $this->tarea = $tarea;
-        $this->usuario = $usuario;
-
         error_log("construyendo");
 
         // Precargar información
@@ -34,10 +30,15 @@ class ProcessExportarComparacion implements ShouldQueue
         // ¿Se tiene que reconstruir el excel de nuevo?
         $fechaEdicion = Carbon::parse($tarea->comparacion_editadas_en);
         $fechaCreación = Carbon::parse($tarea->archivo_comparacion_creado_en);
-        $this->exportarDeNuevo = $fechaEdicion->gt($fechaCreación);
+        $this->exportarDeNuevo = $tarea->archivo_comparacion_creado_en ? $fechaEdicion->gte($fechaCreación) : true;
 
-        $this->tarea->exportando_comparacion = true;
-        $this->tarea->error_exportando = false;
+        // Informacion para el job
+        $this->tarea = $tarea;
+        $this->usuario = $usuario;
+
+        // Guardar informacion nueva
+        $tarea->exportando_comparacion = true;
+        $tarea->error_exportando = false;
         $tarea->save();
     }
 
@@ -50,7 +51,6 @@ class ProcessExportarComparacion implements ShouldQueue
             error_log("Reconstruyendo archivo");
 
             try {
-
                 // Guardar el archivo nuevo
                 Excel::store(new ComparativaExport($this->tarea), $ruta, "s3");
 
@@ -69,6 +69,10 @@ class ProcessExportarComparacion implements ShouldQueue
             }
         } else {
             error_log("El archivo ya se creo antes");
+
+            // Guardar información en la tarea
+            $this->tarea->exportando_comparacion = false;
+            $this->tarea->save();
         }
 
         error_log("Enviando respuesta del archivo: $ruta");
