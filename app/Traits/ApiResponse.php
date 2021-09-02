@@ -2,16 +2,16 @@
 
 namespace App\Traits;
 
-use Illuminate\Http\Response;
-use Illuminate\Support\Collection;
+use App\Http\Controllers\Api\WebNotificationController;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Response;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification;
 use Kreait\Firebase\Messaging\WebPushConfig;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Resources\Json\ResourceCollection;
-use App\Http\Controllers\Api\WebNotificationController;
 
 trait ApiResponse
 {
@@ -19,10 +19,11 @@ trait ApiResponse
     {
         return response()->json($data, $code);
     }
-    protected function successMensaje($data, $code)
+    protected function successMensaje($data, $code = Response::HTTP_ACCEPTED)
     {
         return response()->json(['data' => $data], $code);
     }
+    
     protected function errorResponse($message, $code = Response::HTTP_BAD_REQUEST)
     {
         return response()->json(['error' => $message, 'code' => $code], $code);

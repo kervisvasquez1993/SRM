@@ -16,6 +16,7 @@ import LoadingScreen from "../Navigation/LoadingScreen";
 import ComparatorTable from "./ComparatorTable";
 import IncidentsTab from "../Incidents/IncidentsTab";
 import ComparisonFormModal from "./ComparisonFormModal";
+import axios from "axios";
 
 export default () => {
     const dispatch = useDispatch();
@@ -49,6 +50,15 @@ export default () => {
             <title>{`Comparación de Empresas - ${process.env.MIX_APP_NAME}`}</title>
         </Helmet>
     );
+
+    const handleExport = () => {
+        const funcion = async () => {
+            const response = await axios.get(`${apiURL}/tarea/${taskId}/exportar-comparativa`);
+            console.log(response);
+        };
+
+        funcion();
+    };
 
     useEffect(() => {
         dispatch(getSuppliers(taskId));
@@ -131,13 +141,10 @@ export default () => {
                     Agregar Comparación
                 </button>
 
-                <a
-                    href={`${apiURL}/tarea/${taskId}/exportar-comparativa`}
-                    className="btn btn-info"
-                >
+                <button className="btn btn-info" onClick={handleExport}>
                     <FaFileImport className="mr-2" />
                     Exportar Excel
-                </a>
+                </button>
             </div>
 
             <hr className="my-2" />

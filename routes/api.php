@@ -18,8 +18,6 @@ Route::get('/filter', 'Api\FilterProduccionTransitoController@index');
 
 Route::post('login', 'Api\AuthController@login');
 
-Route::get('/tarea/{tarea}/exportar-comparativa', 'Api\Tarea\TareaController@exportarComparativa');
-
 Route::middleware('auth:api')->group(function () {
 
     Route::get('me', 'Api\AuthController@me');
@@ -294,4 +292,5 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/comparacion_fila/{fila}/comparacion_celda', 'Api\Comparaciones\ComparacionCeldasController@store');
     Route::put('/comparacion_celda/{celda}', 'Api\Comparaciones\ComparacionCeldasController@update');
     Route::delete('/comparacion_celda/{celda}', 'Api\Comparaciones\ComparacionCeldasController@destroy');
+    Route::get('/tarea/{tarea}/exportar-comparativa', 'Api\Tarea\TareaController@exportarComparativa');
 });

@@ -4,6 +4,7 @@ import {
     removeTokenFromServer,
     sendTokenToServer
 } from "../../components/FirebaseSetup";
+import { registerEcho, unregisterEcho } from "../../utils/Echo";
 
 export function login(user) {
     return async (dispatch, getState) => {
@@ -40,6 +41,7 @@ export function login(user) {
                     error: e.response.data.error,
                     errors: {}
                 });
+                getMyUser;
             }
         }
     };
@@ -50,10 +52,11 @@ export function getMyUser(user) {
         dispatch({ type: "MY_USER_REQUEST" });
 
         try {
-            const token = localStorage.getItem("auth", token);
+            const token = localStorage.getItem("auth");
+            // @ts-ignore
             const response = await axios.get(`${apiURL}/me`, { token });
 
-            console.log(response);
+            registerEcho(token);
 
             dispatch({
                 type: "MY_USER_SUCESS",
@@ -76,6 +79,8 @@ export function logout(user) {
         await removeTokenFromServer();
 
         localStorage.removeItem("auth");
+
+        unregisterEcho();
 
         dispatch({
             type: "LOGOUT"

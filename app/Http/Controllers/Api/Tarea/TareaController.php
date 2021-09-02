@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers\Api\Tarea;
 
-use App\DraggableTask;
-use App\Exports\ComparativaExport;
-use App\Http\Controllers\ApiController;
-use App\Http\Resources\PivotTareaProveederResource;
-use App\Http\Resources\TareaResource;
-use App\Notifications\GeneralNotification;
-use App\PivotTareaProveeder;
-use App\Proveedor;
-use App\Tarea;
 use App\User;
+use App\Tarea;
+use App\Proveedor;
+use App\DraggableTask;
+use App\PivotTareaProveeder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\TareaResource;
+use App\Http\Controllers\ApiController;
+use App\Jobs\ProcessExportarComparacion;
 use Illuminate\Support\Facades\Validator;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Notifications\GeneralNotification;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Resources\PivotTareaProveederResource;
 
 class TareaController extends ApiController
 {
@@ -137,13 +137,12 @@ class TareaController extends ApiController
         return $this->showAllResources(TareaResource::collection($tareas));
     }
 
-    public function exportarComparativa(Tarea $tarea)
+    public function exportarComparativa(Request $request, Tarea $tarea)
     {
-        try {
-            return Excel::download(new ComparativaExport($tarea), 'comparativa.xlsx');
-        } catch (\Throwable$th) {
-            return $this->errorResponse("Hubo un problema al exportar el excel");
-        }
+        error_log($request->user());
+        ProcessExportarComparacion::dispatch($request->user(), $tarea);
+
+        return $this->successMensaje("Procesando");
     }
 
     public function obtenerNegociaciones(Tarea $tarea)
