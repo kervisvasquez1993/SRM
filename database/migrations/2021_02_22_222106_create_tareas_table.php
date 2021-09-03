@@ -24,9 +24,7 @@ class CreateTareasTable extends Migration
             // Exportación de comparaciones
             $table->timestamp('comparacion_editadas_en')->nullable();
             $table->string('archivo_comparacion')->nullable();
-            $table->boolean('exportando_comparacion')->default(false);
             $table->timestamp('archivo_comparacion_creado_en')->nullable();
-            $table->boolean('error_exportando')->default(false);
 
             // Otro
             $table->softDeletes();

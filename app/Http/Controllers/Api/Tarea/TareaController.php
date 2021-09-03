@@ -6,7 +6,7 @@ use App\DraggableTask;
 use App\Http\Controllers\ApiController;
 use App\Http\Resources\PivotTareaProveederResource;
 use App\Http\Resources\TareaResource;
-use App\Jobs\ProcessExportarComparacion;
+use App\Jobs\ExportarComparacionJob;
 use App\Notifications\GeneralNotification;
 use App\PivotTareaProveeder;
 use App\Proveedor;
@@ -140,7 +140,7 @@ class TareaController extends ApiController
     public function exportarComparativa(Request $request, Tarea $tarea)
     {
         // Correr la exportación de fondo
-        $job = new ProcessExportarComparacion($request->user(), $tarea, $request);
+        $job = new ExportarComparacionJob($request->user(), $tarea, $request);
         $this->dispatch($job);
 
         return $this->successMensaje($job->respuestaJson());

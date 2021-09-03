@@ -3,65 +3,33 @@
 namespace App\Jobs;
 
 use App\Exports\ComparativaExport;
-use Illuminate\Support\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 
-class ExportarComparacionJob extends ProcessExportarArchivo
+class ExportarComparacionJob extends ExportarArchivoJob
 {
-    protected $tarea;
+    protected $campoRuta = "archivo_comparacion";
+    protected $campoCreacion = "archivo_comparacion_creado_en";
+    protected $campoEdicion = "comparacion_editadas_en";
 
-    public function antesExportar($tarea)
+    public function antesExportar($modelo)
     {
-        // Precargar información
-        $tarea = $tarea->with("pivotTareaProveedor", "comparaciones.filas.celdas")->first();
-
-        // Guardar informacion nueva
-        $tarea->exportando_comparacion = true;
-        $tarea->error_exportando = false;
-        $tarea->save();
-
-        // Informacion para el job
-        $this->tarea = $tarea;
-    }
-
-    public function ultimaActualizacion()
-    {
-        return Carbon::parse($this->tarea->comparacion_editadas_en);
+        $modelo = $modelo->with("pivotTareaProveedor", "comparaciones.filas.celdas")->first();
     }
 
     protected function almacenarArchivo()
     {
-        $ruta = "comparaciones/{$this->tarea->id}.xlsx";
-        Excel::store(new ComparativaExport($this->tarea), $ruta, "s3", null, ['visibility' => 'public']);
-
+        $ruta = "comparaciones/{$this->modelo->id}.xlsx";
+        Excel::store(new ComparativaExport($this->modelo, $this), $ruta, "s3", null, ['visibility' => 'public']);
         return $ruta;
     }
 
-    protected function construirMensaje()
+    protected function ruta()
     {
-        $data = [
-            'tarea' => [
-                'id' => $this->tarea->id,
-                'archivo_comparacion' => $this->tarea->archivo_comparacion,
-                'archivo_comparacion_creado_en' => $this->tarea->archivo_comparacion_creado_en,
-                'error_exportando' => $this->tarea->error_exportando,
-            ],
-        ];
-
-        return $data;
+        return "comparaciones/{$this->modelo->id}.xlsx";
     }
 
-    protected function despuesExportar()
-    {
-        $data = [
-            'tarea' => [
-                'id' => $this->tarea->id,
-                'archivo_comparacion' => $this->tarea->archivo_comparacion,
-                'archivo_comparacion_creado_en' => $this->tarea->archivo_comparacion_creado_en,
-                'error_exportando' => $this->tarea->error_exportando,
-            ],
-        ];
-
-        return $data;
-    }
+    // protected function respuesta()
+    // {
+    //     return [];
+    // }
 }
