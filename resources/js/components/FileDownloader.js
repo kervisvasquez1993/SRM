@@ -9,11 +9,17 @@ import { apiURL } from "./App";
 export const startDownloadingFile = async (id, data) => {
     const response = await data();
 
+    // Esconder un mensaje en caso de que se encuentra
+    toast.dismiss(id);
+
     // Mostrar mensaje
     toast.info("El archivo se está procesando. Esto puede llevar tiempo...", {
         hideProgressBar: true,
         autoClose: false,
-        toastId: id
+        toastId: id,
+        draggable: false,
+        closeButton: false,
+        closeOnClick: false,
     });
 
     console.log(response);
@@ -39,7 +45,9 @@ export default () => {
                     type: toast.TYPE.SUCCESS,
                     autoClose: 2000,
                     hideProgressBar: false,
-                    pauseOnFocusLoss: false
+                    pauseOnFocusLoss: false,
+                    closeButton: null,
+                    closeOnClick: true,
                 });
 
                 console.log(e);

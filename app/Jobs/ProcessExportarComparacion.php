@@ -26,7 +26,7 @@ class ProcessExportarComparacion implements ShouldQueue
         error_log("construyendo");
 
         // Precargar información
-        // $tarea = $tarea->with("pivotTareaProveedor", "comparaciones.filas.celdas")->first();
+        $tarea = $tarea->load("pivotTareaProveedor", "comparaciones.filas.celdas");
 
         // ¿Se tiene que reconstruir el excel de nuevo?
         $fechaEdicion = Carbon::parse($tarea->comparacion_editadas_en);
