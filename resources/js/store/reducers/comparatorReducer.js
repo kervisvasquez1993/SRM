@@ -138,6 +138,13 @@ const comparatorReducer = (state = defaultState, action) => {
     }
 
     if (type === "DELETE_COMPARATOR_SUCCESS") {
+        let newComparisons = state.comparisons.filter(
+            item => item.id != payload.id
+        );
+
+        // Recrear el attributo columns
+        newComparisons = constructColumns(state, newComparisons);
+
         return {
             ...state,
             comparisons: state.comparisons.filter(item => item.id != payload.id)
@@ -176,7 +183,7 @@ const comparatorReducer = (state = defaultState, action) => {
 
     if (type === "DELETE_COMPARATOR_ROW_SUCCESS") {
         // Remover la fila de la comparación correspondiente
-        const newComparisons = state.comparisons.map(comparison => {
+        let newComparisons = state.comparisons.map(comparison => {
             if (comparison.id === payload.comparacion_id) {
                 return {
                     ...comparison,
@@ -188,6 +195,9 @@ const comparatorReducer = (state = defaultState, action) => {
 
             return comparison;
         });
+
+        // Recrear el attributo columns
+        newComparisons = constructColumns(state, newComparisons);
 
         return {
             ...state,
@@ -383,8 +393,6 @@ const comparatorReducer = (state = defaultState, action) => {
             comparisons: newComparisons
         };
     }
-
-    
 
     if (type === "GET_TASK_FOR_COMPARISION_SUCCESS") {
         // Convertir el string de comparaciones en un objeto

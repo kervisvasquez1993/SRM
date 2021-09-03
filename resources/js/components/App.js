@@ -22,7 +22,7 @@ import TaskDetails from "./Tasks/TaskDetails";
 import TaskList from "./Tasks/TaskList";
 import jwt_decode from "jwt-decode";
 import { store } from "./Index";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import ProductionList from "./Productions/ProductionList";
 import ArtList from "./Arts/ArtList";
@@ -46,7 +46,7 @@ import InspectionPage from "./Claims/Inspection/InspectionPage";
 import ProductClaimPage from "./Claims/Claims/ProductClaimPage";
 import NegotiationComparator from "./Comparator/NegotiationComparator";
 import SupplierList from "./Suppliers/SupplierList";
-import { Channel } from "../utils/Echo";
+import FileDownloader from "./FileDownloader";
 
 // const messaging = firebase.messaging();
 
@@ -182,15 +182,6 @@ const App = () => {
         });
     }, []);
 
-    useEffect(() => {
-        if (user) {
-            Channel.listen("RespuestaArchivo", e => {
-                console.log("Recibido");
-                console.log(e);
-            });
-        }
-    }, [user]);
-
     if (isLoadingUser) {
         return <LoadingScreen></LoadingScreen>;
     }
@@ -219,6 +210,8 @@ const App = () => {
             <Helmet>
                 <title>{process.env.MIX_APP_NAME}</title>
             </Helmet>
+
+            <FileDownloader />
 
             <div
                 className={"menu-wrapper " + (isSidebarOpen && "mostrar")}

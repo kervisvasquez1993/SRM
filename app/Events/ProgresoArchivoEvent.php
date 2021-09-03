@@ -8,33 +8,23 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class RespuestaArchivo implements ShouldBroadcastNow
+class ProgresoArchivoEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    protected $tarea;
-    public $archivo;
+    public $usuario;
+    public $operacion_id;
+    public $progreso;
 
-    public function __construct($usuario, $id, $archivo, $data)
+    public function __construct($usuario, $operacion_id, $progreso)
     {
         $this->usuario = $usuario;
-        $this->id = $id;
-        $this->archivo = $archivo;
-        $this->data = $data;
-    }
-
-    public function broadcastWith()
-    {
-        return [
-            'data' => $this->data,
-            'id' => $this->id,
-            'archivo' => $this->archivo,
-        ];
+        $this->operacion_id = $operacion_id;
+        $this->progreso = $progreso;
     }
 
     public function broadcastOn()
     {
-        error_log("Tratando de enviar mensaje");
         return new PrivateChannel("App.User.{$this->usuario->id}");
     }
 }

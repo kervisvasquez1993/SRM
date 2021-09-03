@@ -17,6 +17,8 @@ import ComparatorTable from "./ComparatorTable";
 import IncidentsTab from "../Incidents/IncidentsTab";
 import ComparisonFormModal from "./ComparisonFormModal";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { startDownloadingFile } from "../FileDownloader";
 
 export default () => {
     const dispatch = useDispatch();
@@ -52,19 +54,22 @@ export default () => {
     );
 
     const handleExport = () => {
-        const funcion = async () => {
-            const response = await axios.get(`${apiURL}/tarea/${taskId}/exportar-comparativa`);
-            console.log(response);
-        };
-
-        funcion();
+        startDownloadingFile(() =>
+            axios.get(`${apiURL}/tarea/${taskId}/exportar-comparativa`)
+        );
     };
 
     useEffect(() => {
         dispatch(getSuppliers(taskId));
         dispatch(getProducts(taskId));
-        dispatch(getComparisons(taskId));
     }, []);
+
+    // Solo cargar las comparaciones cuando ya se han cargado los productos y los proveedores
+    useEffect(() => {
+        if (!areProductsLoading && !areSuppliersLoading) {
+            dispatch(getComparisons(taskId));
+        }
+    }, [areProductsLoading, areSuppliersLoading]);
 
     // useEffect(() => {
     //     if (task) {

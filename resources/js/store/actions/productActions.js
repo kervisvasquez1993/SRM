@@ -35,7 +35,7 @@ export function createProductFromNegotiation(pivotId, data) {
                 payload: response
             });
 
-            toast.success("✔️ Producto creado");
+            toast.success("Producto creado");
         });
     };
 }
@@ -50,7 +50,7 @@ export function editProduct(data) {
                 payload: response
             });
 
-            toast.success("✔️ Producto editado");
+            toast.success("Producto editado");
         });
     };
 }
@@ -65,7 +65,7 @@ export function deleteProduct(data) {
                 payload: data
             });
 
-            toast.success("✔️ Producto eliminado");
+            toast.success("Producto eliminado");
         } catch (e) {
             console.log(e);
         }
@@ -94,7 +94,7 @@ export function uploadProductForNegotiation(pivotId, file) {
             dispatch(closeModal());
             dispatch(getProductsFromNegotiation(pivotId));
 
-            toast.success("✔️ Productos importados");
+            toast.success("Productos importados");
         } catch (e) {
             toast.error(`🚨 ${e.response.data.error}`);
 

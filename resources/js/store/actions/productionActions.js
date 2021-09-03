@@ -78,7 +78,7 @@ export function updateProductionDeliveryTime(data) {
                 payload: response
             });
 
-            toast.success("✔️ Fecha editada");
+            toast.success("Fecha editada");
         });
     };
 }
