@@ -46,8 +46,6 @@ import InspectionPage from "./Claims/Inspection/InspectionPage";
 import ProductClaimPage from "./Claims/Claims/ProductClaimPage";
 import NegotiationComparator from "./Comparator/NegotiationComparator";
 import SupplierList from "./Suppliers/SupplierList";
-import { Channel } from "../utils/Echo";
-import download from "downloadjs";
 import FileDownloader from "./FileDownloader";
 
 // const messaging = firebase.messaging();

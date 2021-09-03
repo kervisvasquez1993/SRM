@@ -28,7 +28,6 @@
     },
     "dependencies": {
         "device-uuid": "^1.0.4",
-        "downloadjs": "^1.4.7",
         "filterizr": "^2.2.4",
         "js-file-download": "^0.4.12",
         "jwt-decode": "^3.1.2",

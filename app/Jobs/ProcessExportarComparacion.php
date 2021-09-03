@@ -47,7 +47,8 @@ class ProcessExportarComparacion implements ShouldQueue
 
     public function handle()
     {
-        $ruta = "comparaciones/{$this->tarea->id}.xlsx";
+        $nombre = "{$this->tarea->id}.xlsx";
+        $ruta = "comparaciones/$nombre";
         error_log("Empezando exportacion del archivo: $ruta");
 
         if ($this->exportarDeNuevo) {
@@ -89,10 +90,20 @@ class ProcessExportarComparacion implements ShouldQueue
             ],
         ];
 
+        $url = $this->tarea->archivo_comparacion;
+
+        // $url = Storage::disk('s3')->temporaryUrl(
+        //     $this->tarea->archivo_comparacion,
+        //     now()->addHours(1),
+        //     [
+        //         'ResponseContentDisposition' => "attachment; filename=comparacion.xlsx",
+        //     ]
+        // );
+
         // Información en
         event(new RespuestaArchivo($this->usuario,
             $this->tarea->id,
-            $this->tarea->archivo_comparacion,
+            $url,
             $data));
     }
 }
