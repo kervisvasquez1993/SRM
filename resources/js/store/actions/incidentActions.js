@@ -57,7 +57,7 @@ export function createIncident(url1, url2, parentId, data) {
 
             dispatch(closeModal());
 
-            toast.success("✔️ Incidencia iniciada");
+            toast.success("Incidencia iniciada");
         } catch (e) {
             dispatch({
                 type: "FORM_SUBMIT_FAILURE",
@@ -89,7 +89,7 @@ export function editIncident(url2, data) {
 
             dispatch(closeModal());
 
-            toast.success("✔️ Incidencia editada");
+            toast.success("Incidencia editada");
         } catch (e) {
             console.log(e.response);
             dispatch({
@@ -110,7 +110,7 @@ export function deleteIncident(url, id) {
                 payload: id
             });
 
-            toast.success("✔️ Incidencia eliminada");
+            toast.success("Incidencia eliminada");
         } catch (e) {}
     };
 }

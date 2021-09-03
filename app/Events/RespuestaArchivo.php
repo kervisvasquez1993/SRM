@@ -15,9 +15,10 @@ class RespuestaArchivo implements ShouldBroadcastNow
     protected $tarea;
     public $archivo;
 
-    public function __construct($usuario, $archivo, $data)
+    public function __construct($usuario, $id, $archivo, $data)
     {
         $this->usuario = $usuario;
+        $this->id = $id;
         $this->archivo = $archivo;
         $this->data = $data;
     }
@@ -26,7 +27,8 @@ class RespuestaArchivo implements ShouldBroadcastNow
     {
         return [
             'data' => $this->data,
-            'archivo' => $this->archivo
+            'id' => $this->id,
+            'archivo' => $this->archivo,
         ];
     }
 

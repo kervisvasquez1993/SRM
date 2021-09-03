@@ -48,6 +48,7 @@ import NegotiationComparator from "./Comparator/NegotiationComparator";
 import SupplierList from "./Suppliers/SupplierList";
 import { Channel } from "../utils/Echo";
 import download from "downloadjs";
+import FileDownloader from "./FileDownloader";
 
 // const messaging = firebase.messaging();
 
@@ -183,17 +184,6 @@ const App = () => {
         });
     }, []);
 
-    useEffect(() => {
-        if (user) {
-            Channel.listen("RespuestaArchivo", e => {
-                console.log(e);
-                toast.success("✔️ Su archivo está listo");
-
-                download(e.archivo);
-            });
-        }
-    }, [user]);
-
     if (isLoadingUser) {
         return <LoadingScreen></LoadingScreen>;
     }
@@ -222,6 +212,8 @@ const App = () => {
             <Helmet>
                 <title>{process.env.MIX_APP_NAME}</title>
             </Helmet>
+
+            <FileDownloader />
 
             <div
                 className={"menu-wrapper " + (isSidebarOpen && "mostrar")}

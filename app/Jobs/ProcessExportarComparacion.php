@@ -90,6 +90,9 @@ class ProcessExportarComparacion implements ShouldQueue
         ];
 
         // Información en
-        event(new RespuestaArchivo($this->usuario, $this->tarea->archivo_comparacion, $data));
+        event(new RespuestaArchivo($this->usuario,
+            $this->tarea->id,
+            $this->tarea->archivo_comparacion,
+            $data));
     }
 }

@@ -65,7 +65,7 @@ export function editPoCode(data) {
 
             dispatch(closeModal());
 
-            toast.success("✔️ Código PO editado");
+            toast.success("Código PO editado");
         } catch (e) {
             dispatch({
                 type: "EDIT_PO_CODE_FAILURE",
@@ -87,7 +87,7 @@ export function updateNegotiation(data) {
 
             dispatch(closeModal());
 
-            toast.success("✔️ Orden de compra editada");
+            toast.success("Orden de compra editada");
         });
     };
 }
@@ -114,7 +114,7 @@ export function createNegotiation(data) {
 
             dispatch(closeModal());
 
-            toast.success("✔️ Empresa agregada");
+            toast.success("Empresa agregada");
         } catch (e) {
             console.log(e.response);
             dispatch({
@@ -170,7 +170,7 @@ export function uploadFile(negotiationId, file) {
 
             dispatch(getFiles(negotiationId, file.name));
 
-            toast.success("✔️ Archivo cargado");
+            toast.success("Archivo cargado");
         } catch (e) {
             toast.error(`🚨 ${e.response.data.error}`);
             console.log(e.response);
@@ -224,7 +224,7 @@ export function deleteFile(id) {
 
 //             dispatch(getNegotiation(negotiation.id));
 
-//             toast.success("✔️ Negociación iniciada");
+//             toast.success("Negociación iniciada");
 //         } catch (e) {
 //             dispatch({
 //                 type: "START_NEGOTIATION_FAILURE"
@@ -246,7 +246,7 @@ export function finishProductsStage(negotiation) {
                 payload: response.data.data
             });
 
-            toast.success("✔️ Los productos fueron cargados");
+            toast.success("Los productos fueron cargados");
         } catch (e) {
             console.log(e);
         }
@@ -268,7 +268,7 @@ export function finishProductsConfirmationStage(negotiation) {
                 payload: response.data.data
             });
 
-            toast.success("✔️ Los productos fueron cargados");
+            toast.success("Los productos fueron cargados");
         } catch (e) {
             dispatch({
                 type: "FINISH_PRODUCTS_CONFIRMATION_STAGE_FAILURE"
@@ -290,7 +290,7 @@ export function finishStage(negotiation, name) {
                 payload: response.data.data
             });
 
-            toast.success("✔️ Etapa finalizada");
+            toast.success("Etapa finalizada");
         } catch (e) {
             console.log(e.response);
         }
@@ -321,7 +321,7 @@ export function startProductionWithNegotiation(negotiation) {
                 })
             );
 
-            toast.success("✔️ Producción iniciada");
+            toast.success("Producción iniciada");
         } catch (e) {
             console.log(e.response);
             toast.error(e.response.data.error);
@@ -356,7 +356,7 @@ export function startArtWithNegotiation(negotiation) {
                 })
             );
 
-            toast.success("✔️ Arte iniciada");
+            toast.success("Arte iniciada");
         } catch (e) {
             console.log(e.response);
             toast.error(e.response.data.error);
@@ -403,7 +403,7 @@ export function selectNegotiation(negotiation) {
 
             location.reload();
 
-            toast.success("✔️ Esta empresa fue seleccionada");
+            toast.success("Esta empresa fue seleccionada");
         } catch (e) {
             console.log(e.response);
         }
