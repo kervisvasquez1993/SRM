@@ -71,9 +71,10 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
         ],
     ];
 
-    public function __construct(Tarea $tarea)
+    public function __construct(Tarea $tarea, $exportador)
     {
         $this->tarea = $tarea;
+        $this->exportador = $exportador;
     }
 
     public function registerEvents(): array
@@ -174,8 +175,17 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                     $columna_inicio++;
                 }
 
-                $filaIndice++;
                 $comparaciones = $tarea->comparaciones;
+
+                // Mandar progreso al usuario
+                $this->exportador->informarProgreso(0);
+
+                // Contar cuantos producto hay
+                $productos = $comparaciones->pluck("filas")->collapse()->pluck("celdas")->collapse();
+                $cantidadProductos = $productos ->count();
+                $productosAgregados = 0;
+
+                $filaIndice++;
 
                 foreach ($comparaciones as $comparacionIndice => $comparacion) {
                     $columna_inicio = 1;
@@ -192,12 +202,12 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                         $filasParaAgregar = 0;
 
                         foreach ($negociaciones as $negociacionIndice => $negociacion) {
-                            $productosAgregados = 0;
+                            $productosAgregadosColumna = 0;
 
                             $celdas = $fila->celdas()->where("proveedor_id", $negociacion->proveedor->id)->orderBy("orden")->get();
 
                             foreach ($celdas as $productoIndice => $celdaProducto) {
-                                $producto = Producto::find($celdaProducto->producto_id);
+                                $producto = $celdaProducto->producto;
 
                                 $filaProducto = $filaIndice + $productoIndice;
 
@@ -281,14 +291,16 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
 
                                     // Eliminar la memoria de la RAM
                                     imagedestroy($imagen);
-
                                 }
 
+                                $this->exportador->informarProgreso($productosAgregados / $cantidadProductos);
+
+                                $productosAgregadosColumna++;
                                 $productosAgregados++;
                             }
 
-                            if ($productosAgregados > $filasParaAgregar) {
-                                $filasParaAgregar = $productosAgregados;
+                            if ($productosAgregadosColumna > $filasParaAgregar) {
+                                $filasParaAgregar = $productosAgregadosColumna;
                             }
                         }
                         $filaIndice += $filasParaAgregar;

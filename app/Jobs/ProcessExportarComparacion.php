@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\ProgresoArchivoEvent;
 use App\Events\RespuestaArchivo;
 use App\Exports\ComparativaExport;
 use Illuminate\Bus\Queueable;
@@ -11,6 +12,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProcessExportarComparacion implements ShouldQueue
@@ -18,6 +20,7 @@ class ProcessExportarComparacion implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $tarea;
+    protected $idOperacion;
     protected $usuario;
     protected $exportarDeNuevo;
 
@@ -26,7 +29,7 @@ class ProcessExportarComparacion implements ShouldQueue
         error_log("construyendo");
 
         // Precargar información
-        $tarea = $tarea->load("pivotTareaProveedor", "comparaciones.filas.celdas");
+        $tarea = $tarea->load("pivotTareaProveedor", "comparaciones.filas.celdas.producto");
 
         // ¿Se tiene que reconstruir el excel de nuevo?
         $fechaEdicion = Carbon::parse($tarea->comparacion_editadas_en);
@@ -35,6 +38,7 @@ class ProcessExportarComparacion implements ShouldQueue
 
         // Informacion para el job
         $this->tarea = $tarea;
+        $this->idOperacion = Str::uuid();
         $this->usuario = $usuario;
 
         // Guardar informacion nueva
@@ -43,6 +47,17 @@ class ProcessExportarComparacion implements ShouldQueue
         $tarea->save();
 
         error_log("Esta tarea tiene id: $tarea->id");
+    }
+
+    public function respuestaJson()
+    {
+        return ["id_operacion" => $this->idOperacion, "mensaje" => "Exportación de archivo comenzada"];
+    }
+
+    public function informarProgreso($progreso)
+    {
+        error_log("Progreso: $progreso");
+        event(new ProgresoArchivoEvent($this->usuario, $this->idOperacion, $progreso));
     }
 
     public function handle()
@@ -56,7 +71,7 @@ class ProcessExportarComparacion implements ShouldQueue
 
             try {
                 // Guardar el archivo
-                Excel::store(new ComparativaExport($this->tarea), $ruta, "s3", null, ['visibility' => 'public']);
+                Excel::store(new ComparativaExport($this->tarea, $this), $ruta, "s3", null, ['visibility' => 'public']);
 
                 // Guardar información en la tarea
                 $this->tarea->archivo_comparacion = Storage::cloud()->url($ruta);
@@ -102,7 +117,7 @@ class ProcessExportarComparacion implements ShouldQueue
 
         // Información en
         event(new RespuestaArchivo($this->usuario,
-            $this->tarea->id,
+            $this->idOperacion,
             $url,
             $data));
     }

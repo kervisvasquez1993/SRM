@@ -54,7 +54,7 @@ export default () => {
     );
 
     const handleExport = () => {
-        startDownloadingFile(taskId, () =>
+        startDownloadingFile(() =>
             axios.get(`${apiURL}/tarea/${taskId}/exportar-comparativa`)
         );
     };

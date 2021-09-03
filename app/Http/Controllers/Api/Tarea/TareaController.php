@@ -139,12 +139,11 @@ class TareaController extends ApiController
 
     public function exportarComparativa(Request $request, Tarea $tarea)
     {
-        error_log($tarea->id);
         // Correr la exportación de fondo
-        ProcessExportarComparacion::dispatch($request->user(), $tarea);
+        $job = new ProcessExportarComparacion($request->user(), $tarea, $request);
+        $this->dispatch($job);
 
-        // return $this->showOne($tarea);
-        return $this->successMensaje("Exportación de archivo comenzada");
+        return $this->successMensaje($job->respuestaJson());
     }
 
     public function obtenerNegociaciones(Tarea $tarea)
