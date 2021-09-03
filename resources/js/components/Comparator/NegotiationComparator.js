@@ -146,7 +146,11 @@ export default () => {
                     Agregar Comparación
                 </button>
 
-                <button className="btn btn-info" onClick={handleExport}>
+                <button
+                    className="btn btn-info"
+                    onClick={handleExport}
+                    disabled={comparisons.length === 0}
+                >
                     <FaFileImport className="mr-2" />
                     Exportar Excel
                 </button>
