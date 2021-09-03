@@ -35,6 +35,12 @@ class CreatePivotTareaProveedersTable extends Migration
             $table->string('archivo_orden_compra')->nullable();
             $table->string('nombre_archivo_orden_compra')->nullable();
             $table->double('total_pagar')->default(0)->nullable();
+
+            // Exportacion de productos
+            $table->timestamp('productos_editados_en')->nullable();
+            $table->string('archivo_productos')->nullable();
+            $table->timestamp('archivo_productos_creado_en')->nullable();
+
             $table->softDeletes();
             $table->timestamps();
         });

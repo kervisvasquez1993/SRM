@@ -25,6 +25,8 @@ abstract class ExportarArchivoJob implements ShouldQueue
     protected $campoCreacion = "creado_en";
     protected $campoEdicion = "actualizado_en";
 
+    private $pasoActual = 0;
+
     public function __construct($usuario, $modelo)
     {
         // Precargar informacion de ser necesario
@@ -41,10 +43,23 @@ abstract class ExportarArchivoJob implements ShouldQueue
         return ["id_operacion" => $this->idOperacion, "mensaje" => "Exportación de archivo comenzada"];
     }
 
-    public function informarProgreso($progreso)
+    public function informarProgreso($progreso, $pasos = null)
     {
         error_log("Progreso: $progreso");
-        event(new ProgresoArchivoEvent($this->usuario, $this->idOperacion, $progreso));
+
+        if ($pasos) {
+            $this->pasoActual++;
+
+            $pasoMinimo = max($pasos / 50, 3);
+
+            if ($this->pasoActual > $pasoMinimo) {
+                event(new ProgresoArchivoEvent($this->usuario, $this->idOperacion, $progreso));
+                $this->pasoActual = 0;
+            }
+        } else {
+            event(new ProgresoArchivoEvent($this->usuario, $this->idOperacion, $progreso));
+        }
+
     }
 
     abstract protected function antesExportar($tarea);
@@ -58,17 +73,15 @@ abstract class ExportarArchivoJob implements ShouldQueue
 
     public function handle()
     {
-        error_log("Empezando exportacion del archivo: ruta");
+        error_log("Empezando exportacion del archivo");
 
         // ¿Se tiene que reconstruir el excel de nuevo?
         $fechaEdicion = Carbon::parse($this->modelo->{$this->campoEdicion});
         $fechaCreación = Carbon::parse($this->modelo->{$this->campoCreacion});
 
-        $existe = ($this->modelo->{$this->campoCreacion}) != null;
+        $sinFecha = ($this->modelo->{$this->campoCreacion}) == null || ($this->modelo->{$this->campoEdicion}) == null;
 
-        $exportarDeNuevo = $existe ? $fechaEdicion->gte($fechaCreación) : true;
-        error_log("exportar de nuevo");
-        error_log($exportarDeNuevo);
+        $exportarDeNuevo = $sinFecha ? true : $fechaEdicion->gte($fechaCreación);
 
         $ruta = $this->modelo->{$this->campoRuta};
 
@@ -78,6 +91,8 @@ abstract class ExportarArchivoJob implements ShouldQueue
             try {
                 // Guardar el archivo nuevo
                 $ruta = $this->almacenarArchivo();
+
+                error_log("Archivo almacenado");
 
                 // Guardar información en la tarea
                 $this->modelo->{$this->campoRuta} = $ruta;

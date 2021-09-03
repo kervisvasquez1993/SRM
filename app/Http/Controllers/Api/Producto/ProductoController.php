@@ -4,25 +4,24 @@ namespace App\Http\Controllers\Api\Producto;
 
 /* use auth; */
 
-use App\Exports\ProductosExport;
-use App\Http\Controllers\ApiController;
-use App\Imports\ProductosImport;
-use App\Notifications\GeneralNotification;
-use App\PivotTareaProveeder;
+use App\User;
+use App\Tarea;
 use App\Producto;
 use App\Proveedor;
-use App\Tarea;
-use App\User;
+use App\PivotTareaProveeder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
-use Intervention\Image\Facades\Image;
+use App\Imports\ProductosImport;
+use App\Jobs\ExportarProductosJob;
 use Maatwebsite\Excel\Facades\Excel;
-use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use Intervention\Image\Facades\Image;
+use App\Http\Controllers\ApiController;
+use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use Illuminate\Support\Facades\Validator;
+use App\Notifications\GeneralNotification;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use Symfony\Component\HttpFoundation\Response;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 class ProductoController extends ApiController
 {
@@ -56,7 +55,12 @@ class ProductoController extends ApiController
 
         $request->merge(["pivot_tarea_proveeder_id" => $pivot_tarea_proveedor->id]);
         $producto = Producto::create($request->all());
+
+        // Notificacion
         $this->mensaje_notificacion($producto, "CREO el producto: $producto->product_name_supplier");
+
+        $pivot_tarea_proveedor->actualizarFechaEdicionProductos();
+
         return $this->showOne($producto);
     }
 
@@ -82,6 +86,8 @@ class ProductoController extends ApiController
 
         $this->mensaje_notificacion($producto, "Actualizo el producto: $producto->product_name_supplier");
 
+        $producto->pivot->actualizarFechaEdicionProductos();
+
         return $this->showOne($producto);
     }
 
@@ -89,11 +95,13 @@ class ProductoController extends ApiController
     {
         $producto->delete();
         $this->mensaje_notificacion($producto, "ELIMINO el producto: $producto->product_name_supplier");
+
+        $producto->pivot->actualizarFechaEdicionProductos();
+
         return $this->showOne($producto);
     }
     public function mensaje_notificacion($producto, $accion)
     {
-
         $pivot = $producto->pivot;
 
         if ($pivot->productos_confirmados == true && $pivot->seleccionado == true) {
@@ -325,14 +333,17 @@ class ProductoController extends ApiController
             return $this->errorResponse("Formato del Archivo no valido", 413);
         }
 
-        error_log("productos importados");
+        $producto->pivot->actualizarFechaEdicionProductos();
 
         return $this->successMensaje('Se Cargaron los Archivo de Forma Correcta', 201);
     }
 
-    public function exportProduct($producto)
+    public function exportProduct(Request $request, PivotTareaProveeder $pivot)
     {
+        // Correr la exportación de fondo
+        $job = new ExportarProductosJob($request->user(), $pivot);
+        $this->dispatch($job);
 
-        return Excel::download(new ProductosExport($producto), 'plantilla.xlsx');
+        return $this->successMensaje($job->respuestaJson());
     }
 }

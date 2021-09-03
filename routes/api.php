@@ -266,7 +266,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/push-notification', 'Api\WebNotificationController@storeToken');
     Route::delete('/push-notification/{fcmToken}', 'Api\WebNotificationController@deleteToken');
     /* export */
-    Route::get('negociacion/{producto}/exportar_productos', 'Api\Producto\ProductoController@exportProduct');
+    Route::get('negociacion/{pivot}/exportar_productos', 'Api\Producto\ProductoController@exportProduct');
 
 
     // COmparaciones

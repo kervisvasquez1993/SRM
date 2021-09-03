@@ -10,6 +10,7 @@ import {
 } from "../../store/actions/productActions";
 import { getSum, roundMoneyAmount } from "../../utils";
 import { amazonS3Url, apiURL } from "../App";
+import { startDownloadingFile } from "../FileDownloader";
 import EmptyList from "../Navigation/EmptyList";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import ProductsResume from "../Widgets/ProductsResume";
@@ -46,13 +47,18 @@ const ProductsTable = ({
     }, []);
 
     const exportProducts = async () => {
-        axios({
-            url: `${apiURL}/negociacion/${negotiation.id}/exportar_productos`,
-            method: "GET",
-            responseType: "blob" // Important
-        }).then(response => {
-            fileDownload(response.data, "Productos.xlsx");
-        });
+        // axios({
+        //     url: `${apiURL}/negociacion/${negotiation.id}/exportar_productos`,
+        //     method: "GET",
+        //     responseType: "blob" // Important
+        // }).then(response => {
+        //     fileDownload(response.data, "Productos.xlsx");
+        // });
+        startDownloadingFile(() =>
+            axios.get(
+                `${apiURL}/negociacion/${negotiation.id}/exportar_productos`
+            )
+        );
     };
 
     if (isLoadingList) {

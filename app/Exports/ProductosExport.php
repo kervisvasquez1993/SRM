@@ -2,20 +2,23 @@
 
 namespace App\Exports;
 
-use App\Producto;
-use Maatwebsite\Excel\Excel;
-use Illuminate\Support\Facades\Auth;
+use App\Jobs\ExportarProductosJob;
+use App\PivotTareaProveeder;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Concerns\WithEvents;
-use Maatwebsite\Excel\Events\BeforeExport;
-use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing;
 use Maatwebsite\Excel\Concerns\WithPreCalculateFormulas;
+use Maatwebsite\Excel\Events\BeforeExport;
+use Maatwebsite\Excel\Excel;
+use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing;
 
 class ProductosExport implements WithEvents, WithPreCalculateFormulas
 {
-    public function __construct($producto)
+    public function __construct(PivotTareaProveeder $pivot, ExportarProductosJob $exportador)
     {
-        $this->producto = $producto; // errro en en linea
+        $this->pivot = $pivot;
+        $this->exportador = $exportador;
     }
+
     public function registerEvents(): array
     {
         return [
@@ -25,7 +28,7 @@ class ProductosExport implements WithEvents, WithPreCalculateFormulas
                 $writer = $event->getWriter();
                 $sheet = $writer->getSheetByIndex(0);
 
-                $productos = Producto::where('pivot_tarea_proveeder_id', $this->producto)->orderBy("id", "ASC")->get();
+                $productos = $this->pivot->productos->sortBy("id");
                 $cantidad_productos = $productos->count();
 
                 if ($cantidad_productos > 2) {
@@ -40,7 +43,6 @@ class ProductosExport implements WithEvents, WithPreCalculateFormulas
                 $sheet->getColumnDimension("I")->setWidth(15);
 
                 foreach ($productos as $producto) {
-                    $rol = Auth::user()->rol;
                     $valores = [
                         'B' => $producto->hs_code,
                         'C' => $producto->product_code_supplier,
@@ -65,36 +67,27 @@ class ProductosExport implements WithEvents, WithPreCalculateFormulas
                         'AP' => $producto->codigo_de_barras_outer,
                         'AQ' => $producto->codigo_interno_asignado,
                         'AR' => $producto->descripcion_asignada_sistema,
-                    ];
 
-                    if ($rol != "logistica") {
-                        $valores = array_merge($valores, [
-                            'J' => $producto->shelf_life,
-                            'K' => $producto->total_pcs,
-                            'L' => $producto->unit_price,
-                            'M' => $producto->total_usd,
-                            'N' => $producto->pcs_unit_packing,
-                            'O' => $producto->pcs_inner1_box_paking,
-                            'P' => $producto->pcs_inner2_box_paking,
-                            'Q' => $producto->pcs_ctn_paking,
-                            'R' => $producto->ctn_packing_size_l,
-                            'S' => $producto->ctn_packing_size_w,
-                            'T' => $producto->ctn_packing_size_h,
-                            'U' => $producto->cbm,
-                            'V' => $producto->n_w_ctn,
-                            'W' => $producto->g_w_ctn,
-                            'X' => $producto->total_ctn,
-                            'X' => $producto->corregido_total_pcs,
-                            'X' => $producto->total_cbm,
-                            'X' => $producto->total_n_w,
-                            'X' => $producto->total_g_w,
-                            /*   '' => $producto->linea,
-                        '' => $producto->categoria,
-                        '' => $producto->sub_categoria,
-                        '' => $producto->permiso_sanitario,
-                        '' => $producto->cpe, */
-                        ]);
-                    }
+                        'J' => $producto->shelf_life,
+                        'K' => $producto->total_pcs,
+                        'L' => $producto->unit_price,
+                        'M' => $producto->total_usd,
+                        'N' => $producto->pcs_unit_packing,
+                        'O' => $producto->pcs_inner1_box_paking,
+                        'P' => $producto->pcs_inner2_box_paking,
+                        'Q' => $producto->pcs_ctn_paking,
+                        'R' => $producto->ctn_packing_size_l,
+                        'S' => $producto->ctn_packing_size_w,
+                        'T' => $producto->ctn_packing_size_h,
+                        'U' => $producto->cbm,
+                        'V' => $producto->n_w_ctn,
+                        'W' => $producto->g_w_ctn,
+                        'X' => $producto->total_ctn,
+                        'X' => $producto->corregido_total_pcs,
+                        'X' => $producto->total_cbm,
+                        'X' => $producto->total_n_w,
+                        'X' => $producto->total_g_w,
+                    ];
 
                     $sheet->setCellValue("A$indice", $numero);
 
@@ -110,9 +103,16 @@ class ProductosExport implements WithEvents, WithPreCalculateFormulas
 
                     // Insertar imagen
                     if ($producto->imagen) {
-                        $url = "https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/{$producto->imagen}";
+                        $url = Storage::cloud()->url($producto->imagen);
+                        error_log("Descargando imagen: $url");
 
-                        $imagen = file_get_contents($url);
+                        // $imagen = file_get_contents($url);
+                        $ch = curl_init();
+                        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+                        curl_setopt($ch, CURLOPT_URL, $url);
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        $imagen = curl_exec($ch);
+
                         $imagen = imagecreatefromstring($imagen);
                         $ancho = imagesx($imagen);
                         $alto = imagesy($imagen);
@@ -132,10 +132,16 @@ class ProductosExport implements WithEvents, WithPreCalculateFormulas
                         }
 
                         $drawing->setWorksheet($writer->getActiveSheet());
+
+                        // Eliminar la memoria de la RAM
+                        imagedestroy($imagen);
                     }
 
                     $indice++;
                     $numero++;
+
+                    // Enviar la cantidad de productos
+                    $this->exportador->informarProgreso(($numero - 1) / $cantidad_productos, $cantidad_productos);
                 }
 
                 return $event->getWriter()->getSheetByIndex(0);

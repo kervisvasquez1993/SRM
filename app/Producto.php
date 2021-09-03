@@ -3,15 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Producto extends Model
 {
-
-    // use SoftDeletes;
-    
-    protected $fillable =
-    [
+    protected $fillable = [
         'pivot_tarea_proveeder_id',
         'hs_code',
         'product_code_supplier',
@@ -55,8 +50,8 @@ class Producto extends Model
         'u_m_outer',
         'codigo_de_barras_outer',
         'codigo_interno_asignado',
-        'descripcion_asignada_sistema'
-        
+        'descripcion_asignada_sistema',
+
     ];
 
     protected $casts = [
@@ -78,7 +73,7 @@ class Producto extends Model
         'corregido_total_pcs' => 'double',
         'total_cbm' => 'double',
         'total_n_w' => 'double',
-        'total_g_w' => 'double'
+        'total_g_w' => 'double',
     ];
 
     public function pivot()
@@ -86,14 +81,15 @@ class Producto extends Model
         return $this->belongsTo(PivotTareaProveeder::class, 'pivot_tarea_proveeder_id');
     }
 
-    public function productOverview()
-    {
-        return $this->belongsTo(ProductOverview::class);
-    }
-    public function scopeFilterProductos($query, $proveedor)
-    {
-        return $query->when(count($proveedor), function ($query) use ($proveedor) {
-            $query->whereIn('proveedor_id', $proveedor);
-        });
-    }
+    // public function productOverview()
+    // {
+    //     return $this->belongsTo(ProductOverview::class);
+    // }
+
+    // public function scopeFilterProductos($query, $proveedor)
+    // {
+    //     return $query->when(count($proveedor), function ($query) use ($proveedor) {
+    //         $query->whereIn('proveedor_id', $proveedor);
+    //     });
+    // }
 }
