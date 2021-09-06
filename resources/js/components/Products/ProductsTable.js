@@ -58,7 +58,9 @@ const ProductsTable = ({
         Channel.listen("ExitoSubiendoArchivoEvent", handleEvent);
 
         return () => {
-            Channel.stopListening("ExitoSubiendoArchivoEvent", handleEvent);
+            if (Channel) {
+                Channel.stopListening("ExitoSubiendoArchivoEvent", handleEvent);
+            }
         };
     }, []);
 

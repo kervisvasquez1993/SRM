@@ -70,6 +70,9 @@ abstract class ExportarArchivoJob implements ShouldQueue
     {
         error_log("Empezando exportacion del archivo");
 
+        $ram = memory_get_usage(true) / 1000;
+        error_log("Memoria ram inicial: $ram");
+
         // ¿Se tiene que reconstruir el excel de nuevo?
         $fechaEdicion = Carbon::parse($this->modelo->{$this->campoEdicion});
         $fechaCreación = Carbon::parse($this->modelo->{$this->campoCreacion});
@@ -101,6 +104,8 @@ abstract class ExportarArchivoJob implements ShouldQueue
         }
 
         error_log("Enviando respuesta del archivo: $ruta");
+        $ram = memory_get_usage(true) / 1000;
+        error_log("Memoria ram final: $ram");
 
         // Información en
         event(new RespuestaArchivo($this->usuario,
