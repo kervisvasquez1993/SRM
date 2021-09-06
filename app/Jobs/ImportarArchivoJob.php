@@ -32,10 +32,11 @@ abstract class ImportarArchivoJob implements ShouldQueue
         $this->modelo = $modelo;
 
         // Guardar el archivo temporalmente
-        $ruta = "temp";
-        $ruta = Storage::put($ruta, $archivo);
-        $this->rutaArchivo = Storage::disk('public')->path($ruta);
-        error_log($ruta);
+        // $ruta = "temp";
+        // $ruta = Storage::put($ruta, $archivo);
+        // $this->rutaArchivo = Storage::disk('public')->path($ruta);
+        $ruta = "productos/temp";
+        $this->rutaArchivo = Storage::disk('s3')->put($ruta, $archivo);
     }
 
     public function respuestaJson()
@@ -69,9 +70,20 @@ abstract class ImportarArchivoJob implements ShouldQueue
     {
         error_log("Empezando el procesado del archivo importado");
 
+        // Obtener el archivo
+        $archivo = Storage::disk("s3")->get($this->rutaArchivo);
+        
+        // Eliminarlo de S3
+        Storage::disk('s3')->delete($this->rutaArchivo);
+
+        // Almacenarlo temporalmente
+        Storage::disk('local')->put($this->rutaArchivo, $archivo);
+        
+        $rutaEnDisco = storage_path("app/{$this->rutaArchivo}");
+
         try {
             // Guardar el archivo nuevo
-            $this->procesar($this->rutaArchivo, $this->usuario, $this->modelo);
+            $this->procesar($rutaEnDisco, $this->usuario, $this->modelo);
 
             error_log("Archivo procesado con exito. Enviando respuesta...");
 
@@ -94,6 +106,7 @@ abstract class ImportarArchivoJob implements ShouldQueue
             );
         }
 
-        Storage::delete($this->rutaArchivo);
+        // Eliminar el archivo temporal
+        Storage::disk("local")->delete($this->rutaArchivo);
     }
 }

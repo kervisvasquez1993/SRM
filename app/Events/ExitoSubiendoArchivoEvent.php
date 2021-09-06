@@ -12,8 +12,6 @@ class ExitoSubiendoArchivoEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    protected $tarea;
-
     public function __construct($usuario, $operacion_id, $data)
     {
         $this->usuario = $usuario;
