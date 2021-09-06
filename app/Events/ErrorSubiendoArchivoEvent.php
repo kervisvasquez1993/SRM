@@ -12,29 +12,23 @@ class ErrorSubiendoArchivoEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    protected $tarea;
-    public $archivo;
-
-    public function __construct($usuario, $id, $archivo, $data)
+    public function __construct($usuario, $operacion_id, $error)
     {
         $this->usuario = $usuario;
-        $this->id = $id;
-        $this->archivo = $archivo;
-        $this->data = $data;
+        $this->operacion_id = $operacion_id;
+        $this->error = $error;
     }
 
     public function broadcastWith()
     {
         return [
-            'data' => $this->data,
-            'id' => $this->id,
-            'archivo' => $this->archivo,
+            'error' => $this->error,
+            'operacion_id' => $this->operacion_id,
         ];
     }
 
     public function broadcastOn()
     {
-        error_log("Tratando de enviar mensaje");
         return new PrivateChannel("App.User.{$this->usuario->id}");
     }
 }

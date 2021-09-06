@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\ErrorSubiendoArchivoEvent;
 use App\Events\ExitoSubiendoArchivoEvent;
 use App\Events\ProgresoArchivoEvent;
 use Illuminate\Bus\Queueable;
@@ -25,9 +26,6 @@ abstract class ImportarArchivoJob implements ShouldQueue
 
     public function __construct($archivo, $usuario, $modelo)
     {
-        // Precargar informacion de ser necesario
-        $this->antesProcesar($modelo);
-
         // Almacenar información para el job
         $this->operacionId = Str::uuid();
         $this->usuario = $usuario;
@@ -63,7 +61,6 @@ abstract class ImportarArchivoJob implements ShouldQueue
         }
     }
 
-    abstract protected function antesProcesar($modelo);
     abstract protected function procesar($archivo, $usuario, $modelo);
 
     abstract protected function respuesta();
@@ -74,23 +71,29 @@ abstract class ImportarArchivoJob implements ShouldQueue
 
         try {
             // Guardar el archivo nuevo
-            $error = $this->procesar($this->rutaArchivo, $this->usuario, $this->modelo);
+            $this->procesar($this->rutaArchivo, $this->usuario, $this->modelo);
 
-            error_log("Archivo procesado");
+            error_log("Archivo procesado con exito. Enviando respuesta...");
+
+            // Información en
+            event(new ExitoSubiendoArchivoEvent(
+                $this->usuario,
+                $this->operacionId,
+                $this->respuesta())
+            );
         } catch (\Throwable$th) {
-            error_log("error");
             error_log($th->getMessage());
+
+            error_log("Hubo un error procesando el archivo. Enviando respuesta...");
+
+            // Información en
+            event(new ErrorSubiendoArchivoEvent(
+                $this->usuario,
+                $this->operacionId,
+                $th->getMessage())
+            );
         }
 
         Storage::delete($this->rutaArchivo);
-
-        error_log("Enviando respuesta");
-
-        // Información en
-        event(new ExitoSubiendoArchivoEvent(
-            $this->usuario,
-            $this->operacionId,
-            $this->respuesta())
-        );
     }
 }

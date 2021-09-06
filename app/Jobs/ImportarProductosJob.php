@@ -15,11 +15,6 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 class ImportarProductosJob extends ImportarArchivoJob
 {
-    public function antesProcesar($modelo)
-    {
-
-    }
-
     protected function procesar($archivo, $usuario, $modelo)
     {
         try {
@@ -30,8 +25,6 @@ class ImportarProductosJob extends ImportarArchivoJob
                 $contador = 4;
                 foreach ($hoja as $row) {
                     try {
-                        //code..
-
                         if ($usuario->rol == 'logistica') {
                             $product = [
                                 'product_name_customer' => $row[7],
@@ -46,7 +39,6 @@ class ImportarProductosJob extends ImportarArchivoJob
                                 'codigo_de_barras_outer' => $row[41],
                                 'codigo_interno_asignado' => $row[42],
                                 'descripcion_asignada_sistema' => $row[43],
-
                             ];
 
                             $producto = $modelo
@@ -59,12 +51,12 @@ class ImportarProductosJob extends ImportarArchivoJob
                                 $producto->update($product);
                             }
                         } else {
-                            try {
+                            // try {
 
-                                $total_ctn = $row[10] / $row[15];
-                            } catch (\Throwable$th) {
-                                $total_ctn = 0;
-                            }
+                            //     $total_ctn = $row[10] / $row[15];
+                            // } catch (\Throwable$th) {
+                            //     $total_ctn = 0;
+                            // }
 
                             $product = [
                                 'pivot_tarea_proveeder_id' => $modelo->id,
@@ -213,7 +205,7 @@ class ImportarProductosJob extends ImportarArchivoJob
                     }
                 }
             }
-        } catch (\Exception$e) {
+        } catch (\Throwable$e) {
             error_log($e);
             throw new Error("El formato del archivo no es valido");
         }
