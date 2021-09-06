@@ -52,7 +52,6 @@ const ProductsTable = ({
         Channel.listen("ExitoSubiendoArchivoEvent", e => {
             if (e.data.negociacion_id == negotiation.id) {
                 dispatch(getProductsFromNegotiation(negotiation.id));
-                toast.success("Productos importados");
             }
         });
 

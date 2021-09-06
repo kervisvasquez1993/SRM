@@ -27,11 +27,15 @@ export default () => {
     useEffect(() => {
         if (user) {
             Channel.listen("ExitoSubiendoArchivoEvent", e => {
-                toast.dismiss(e.id);
+                console.log("Archivo subido con exito:", e);
+                toast.dismiss(e.id_operacion);
+
+                toast.success("¡Importación exitosa!");
             });
 
             Channel.listen("ErrorSubiendoArchivoEvent", e => {
-                toast.dismiss(e.id);
+                toast.dismiss(e.id_operacion);
+                toast.error(e.error);
             });
         }
     }, [user]);

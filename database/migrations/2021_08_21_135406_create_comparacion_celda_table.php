@@ -17,7 +17,7 @@ class CreateComparacionCeldaTable extends Migration
             $table->id();
             $table->foreignId('fila_id')->references('id')->on('comparacion_filas')->onDelete('cascade');
             $table->foreignId('proveedor_id')->references('id')->on('proveedors')->onDelete('cascade');
-            $table->biginteger('producto_id');
+            $table->biginteger('producto_id')->references('id')->on('productos')->onDelete('cascade');
             $table->integer('orden');
             $table->string('color')->nullable();
         });
