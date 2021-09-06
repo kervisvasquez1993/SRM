@@ -10,18 +10,13 @@ use App\Producto;
 use App\Proveedor;
 use App\PivotTareaProveeder;
 use Illuminate\Http\Request;
-use App\Imports\ProductosImport;
 use App\Jobs\ExportarProductosJob;
-use Maatwebsite\Excel\Facades\Excel;
-use Intervention\Image\Facades\Image;
+use App\Jobs\ImportarProductosJob;
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Storage;
-use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\Validator;
 use App\Notifications\GeneralNotification;
-use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use Symfony\Component\HttpFoundation\Response;
-use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 class ProductoController extends ApiController
 {
@@ -134,208 +129,219 @@ class ProductoController extends ApiController
 
     public function importProduct(Request $request, PivotTareaProveeder $pivot_tarea_proveeder_id)
     {
-        $archivo = $request->file('import');
-        // $pivot_tarea_proveeder_id->productos()->delete();
+        // Correr la exportación de fondo
+        $job = new ImportarProductosJob(
+            $request->file('import'),
+            $request->user(),
+            $pivot_tarea_proveeder_id
+        );
 
-        try {
-            $excel = Excel::toArray(new ProductosImport, $archivo);
-            $productosAgregados = collect();
+        $this->dispatch($job);
 
-            foreach ($excel as $hoja) {
-                $contador = 4;
-                foreach ($hoja as $row) {
-                    try {
-                        //code..
+        return $this->successMensaje($job->respuestaJson());
 
-                        if (auth()->user()->rol == 'logistica') {
-                            $product = [
-                                'product_name_customer' => $row[7],
-                                'num_referencia_empaque' => $row[33],
-                                'u_m_unit' => $row[34],
-                                'codigo_de_barras_unit' => $row[35],
-                                'u_m_inner_1' => $row[36],
-                                'codigo_de_barras_inner_1' => $row[37],
-                                'u_m_inner_2' => $row[38],
-                                'codigo_barra_inner_2' => $row[39],
-                                'u_m_outer' => $row[40],
-                                'codigo_de_barras_outer' => $row[41],
-                                'codigo_interno_asignado' => $row[42],
-                                'descripcion_asignada_sistema' => $row[43],
+        // $archivo = $request->file('import');
+        // // $pivot_tarea_proveeder_id->productos()->delete();
 
-                            ];
+        // try {
+        //     $excel = Excel::toArray(new ProductosImport, $archivo);
+        //     $productosAgregados = collect();
 
-                            $producto = $pivot_tarea_proveeder_id
-                                ->productos()
-                                ->where('product_name_supplier', $row[3])
-                                ->where('product_code_supplier', $row[2])
-                                ->first();
+        //     foreach ($excel as $hoja) {
+        //         $contador = 4;
+        //         foreach ($hoja as $row) {
+        //             try {
+        //                 //code..
 
-                            if ($producto) {
-                                $producto->update($product);
-                            }
-                        } else {
-                            try {
+        //                 if (auth()->user()->rol == 'logistica') {
+        //                     $product = [
+        //                         'product_name_customer' => $row[7],
+        //                         'num_referencia_empaque' => $row[33],
+        //                         'u_m_unit' => $row[34],
+        //                         'codigo_de_barras_unit' => $row[35],
+        //                         'u_m_inner_1' => $row[36],
+        //                         'codigo_de_barras_inner_1' => $row[37],
+        //                         'u_m_inner_2' => $row[38],
+        //                         'codigo_barra_inner_2' => $row[39],
+        //                         'u_m_outer' => $row[40],
+        //                         'codigo_de_barras_outer' => $row[41],
+        //                         'codigo_interno_asignado' => $row[42],
+        //                         'descripcion_asignada_sistema' => $row[43],
 
-                                $total_ctn = $row[10] / $row[15];
-                            } catch (\Throwable$th) {
-                                $total_ctn = 0;
-                            }
+        //                     ];
 
-                            $product = [
-                                'pivot_tarea_proveeder_id' => $pivot_tarea_proveeder_id->id,
-                                'hs_code' => $row[1],
-                                'product_code_supplier' => $row[2],
-                                'product_name_supplier' => $row[3],
-                                'brand_customer' => $row[4],
-                                'sub_brand_customer' => $row[5],
-                                'product_name_customer' => $row[6],
-                                'description' => $row[7],
-                                'shelf_life' => $row[9],
-                                'total_pcs' => $row[10],
-                                'unit_price' => $row[11],
-                                'total_usd' => $row[12],
-                                'pcs_unit_packing' => $row[13],
-                                'pcs_inner1_box_paking' => $row[14],
-                                'pcs_inner2_box_paking' => $row[15],
-                                'pcs_ctn_paking' => $row[16],
-                                'ctn_packing_size_l' => $row[17],
-                                'ctn_packing_size_w' => $row[18],
-                                'ctn_packing_size_h' => $row[19],
-                                'cbm' => $row[20],
-                                'n_w_ctn' => $row[21],
-                                'g_w_ctn' => $row[22],
-                                'total_ctn' => $row[23],
-                                'corregido_total_pcs' => $row[24],
-                                'total_cbm' => $row[25],
-                                'total_n_w' => $row[26],
-                                'total_g_w' => $row[27],
-                                'linea' => $row[28],
-                                'categoria' => $row[29],
-                                'sub_categoria' => $row[30],
-                                'permiso_sanitario' => $row[31],
-                                'cpe' => $row[32],
-                                'num_referencia_empaque' => $row[33],
-                            ];
+        //                     $producto = $pivot_tarea_proveeder_id
+        //                         ->productos()
+        //                         ->where('product_name_supplier', $row[3])
+        //                         ->where('product_code_supplier', $row[2])
+        //                         ->first();
 
-                            $validator = Validator::make($product, [
-                                'product_name_supplier' => 'required',
-                                'product_code_supplier' => 'required',
-                            ]);
+        //                     if ($producto) {
+        //                         $producto->update($product);
+        //                     }
+        //                 } else {
+        //                     try {
 
-                            $productosAgregados->add($product);
+        //                         $total_ctn = $row[10] / $row[15];
+        //                     } catch (\Throwable$th) {
+        //                         $total_ctn = 0;
+        //                     }
 
-                            // Si se pasa la validación entonces se determinara si se editara un producto y si
-                            // se creara uno nuevo
-                            if (!$validator->fails()) {
-                                $producto = $pivot_tarea_proveeder_id
-                                    ->productos()
-                                    ->where('product_name_supplier', $product['product_name_supplier'])
-                                    ->where('product_code_supplier', $product['product_code_supplier'])
-                                    ->first();
+        //                     $product = [
+        //                         'pivot_tarea_proveeder_id' => $pivot_tarea_proveeder_id->id,
+        //                         'hs_code' => $row[1],
+        //                         'product_code_supplier' => $row[2],
+        //                         'product_name_supplier' => $row[3],
+        //                         'brand_customer' => $row[4],
+        //                         'sub_brand_customer' => $row[5],
+        //                         'product_name_customer' => $row[6],
+        //                         'description' => $row[7],
+        //                         'shelf_life' => $row[9],
+        //                         'total_pcs' => $row[10],
+        //                         'unit_price' => $row[11],
+        //                         'total_usd' => $row[12],
+        //                         'pcs_unit_packing' => $row[13],
+        //                         'pcs_inner1_box_paking' => $row[14],
+        //                         'pcs_inner2_box_paking' => $row[15],
+        //                         'pcs_ctn_paking' => $row[16],
+        //                         'ctn_packing_size_l' => $row[17],
+        //                         'ctn_packing_size_w' => $row[18],
+        //                         'ctn_packing_size_h' => $row[19],
+        //                         'cbm' => $row[20],
+        //                         'n_w_ctn' => $row[21],
+        //                         'g_w_ctn' => $row[22],
+        //                         'total_ctn' => $row[23],
+        //                         'corregido_total_pcs' => $row[24],
+        //                         'total_cbm' => $row[25],
+        //                         'total_n_w' => $row[26],
+        //                         'total_g_w' => $row[27],
+        //                         'linea' => $row[28],
+        //                         'categoria' => $row[29],
+        //                         'sub_categoria' => $row[30],
+        //                         'permiso_sanitario' => $row[31],
+        //                         'cpe' => $row[32],
+        //                         'num_referencia_empaque' => $row[33],
+        //                     ];
 
-                                if ($producto) {
-                                    $producto->update($product);
-                                } else {
-                                    Producto::create($product);
-                                }
-                            }
-                        }
-                    } catch (\Throwable$th) {
-                        error_log($th);
-                        return $this->errorResponse("Existe un error en la linea $contador del excel", 413);
-                        // TODO:AGREGAR UN TRY CATCH PARA CADA COLUMNA
-                    }
-                    $contador++;
-                }
-            }
+        //                     $validator = Validator::make($product, [
+        //                         'product_name_supplier' => 'required',
+        //                         'product_code_supplier' => 'required',
+        //                     ]);
 
-            // Cargar imagenes
-            $idProductosConImagenes = collect();
-            $excel = IOFactory::load($request->file('import'));
-            $sheet = $excel->getActiveSheet();
-            $drawings = $sheet->getDrawingCollection();
+        //                     $productosAgregados->add($product);
 
-            // Recorrer todas las imagenes
-            foreach ($drawings as $drawing) {
-                //check if it is instance of drawing
-                if ($drawing instanceof Drawing) {
-                    // Obtener las coordenadas
-                    $coordenada = $drawing->getCoordinates();
-                    $coordenadas = Coordinate::indexesFromString($coordenada);
+        //                     // Si se pasa la validación entonces se determinara si se editara un producto y si
+        //                     // se creara uno nuevo
+        //                     if (!$validator->fails()) {
+        //                         $producto = $pivot_tarea_proveeder_id
+        //                             ->productos()
+        //                             ->where('product_name_supplier', $product['product_name_supplier'])
+        //                             ->where('product_code_supplier', $product['product_code_supplier'])
+        //                             ->first();
 
-                    // Obtener el producto correspondiente
-                    $productCode = $sheet->getCellByColumnAndRow(3, $coordenadas[1])->getValue();
-                    $productName = $sheet->getCellByColumnAndRow(4, $coordenadas[1])->getValue();
-                    $producto = $pivot_tarea_proveeder_id->productos()
-                        ->where('product_name_supplier', $productName)
-                        ->where('product_code_supplier', $productCode)
-                        ->first();
+        //                         if ($producto) {
+        //                             $producto->update($product);
+        //                         } else {
+        //                             Producto::create($product);
+        //                         }
+        //                     }
+        //                 }
+        //             } catch (\Throwable$th) {
+        //                 error_log($th);
+        //                 return $this->errorResponse("Existe un error en la linea $contador del excel", 413);
+        //                 // TODO:AGREGAR UN TRY CATCH PARA CADA COLUMNA
+        //             }
+        //             $contador++;
+        //         }
+        //     }
 
-                    // Si existe el producto entonces se guardara la imagen
-                    if ($producto) {
-                        // Eliminar el archivo viejo
-                        Storage::disk('s3')->delete($producto->imagen);
+        //     // Cargar imagenes
+        //     $idProductosConImagenes = collect();
+        //     $excel = IOFactory::load($request->file('import'));
+        //     $sheet = $excel->getActiveSheet();
+        //     $drawings = $sheet->getDrawingCollection();
 
-                        // Cambiar el tamaño del archivo y convertirlo en jpg
-                        $imagen = file_get_contents($drawing->getPath());
-                        $imagen = Image::make($imagen)
-                            ->resize(200, 200, function ($constraint) {
-                                $constraint->aspectRatio();
-                            })
-                            ->encode('jpg', 75);
+        //     // Recorrer todas las imagenes
+        //     foreach ($drawings as $drawing) {
+        //         //check if it is instance of drawing
+        //         if ($drawing instanceof Drawing) {
+        //             // Obtener las coordenadas
+        //             $coordenada = $drawing->getCoordinates();
+        //             $coordenadas = Coordinate::indexesFromString($coordenada);
 
-                        // Crear nombre del archivo
-                        $file_name = "productos/" . $producto->id . ".jpg";
+        //             // Obtener el producto correspondiente
+        //             $productCode = $sheet->getCellByColumnAndRow(3, $coordenadas[1])->getValue();
+        //             $productName = $sheet->getCellByColumnAndRow(4, $coordenadas[1])->getValue();
+        //             $producto = $pivot_tarea_proveeder_id->productos()
+        //                 ->where('product_name_supplier', $productName)
+        //                 ->where('product_code_supplier', $productCode)
+        //                 ->first();
 
-                        // Almacenarlo
-                        Storage::disk('s3')->put($file_name, $imagen->stream()->__toString(), 'public');
-                        $producto->imagen = $file_name;
-                        $producto->save();
+        //             // Si existe el producto entonces se guardara la imagen
+        //             if ($producto) {
+        //                 // Eliminar el archivo viejo
+        //                 Storage::disk('s3')->delete($producto->imagen);
 
-                        $idProductosConImagenes->add($producto->id);
-                    }
-                }
-            }
+        //                 // Cambiar el tamaño del archivo y convertirlo en jpg
+        //                 $imagen = file_get_contents($drawing->getPath());
+        //                 $imagen = Image::make($imagen)
+        //                     ->resize(200, 200, function ($constraint) {
+        //                         $constraint->aspectRatio();
+        //                     })
+        //                     ->encode('jpg', 75);
 
-            // Eliminar los productos que no están en el excel subido
-            if (auth()->user()->rol == 'comprador' || auth()->user()->rol == 'coordinador') {
-                $productos = $pivot_tarea_proveeder_id->productos;
+        //                 // Crear nombre del archivo
+        //                 $file_name = "productos/" . $producto->id . ".jpg";
 
-                foreach ($productos as $producto) {
-                    $coincidencia = $productosAgregados
-                        ->where('product_name_supplier', $producto['product_name_supplier'])
-                        ->where('product_code_supplier', $producto['product_code_supplier'])
-                        ->first();
+        //                 // Almacenarlo
+        //                 Storage::disk('s3')->put($file_name, $imagen->stream()->__toString(), 'public');
+        //                 $producto->imagen = $file_name;
+        //                 $producto->save();
 
-                    // Si el producto no está en los productos cargados, se aliminara
-                    // de lo contrario se determinara si su imagen fue eliminada del excel
-                    if (!$coincidencia) {
-                        // Eliminar la imagen
-                        if ($producto->imagen) {
-                            Storage::disk('s3')->delete($producto->imagen);
-                        }
+        //                 $idProductosConImagenes->add($producto->id);
+        //             }
+        //         }
+        //     }
 
-                        $producto->delete();
-                    } else {
-                        error_log($producto->imagen);
+        //     // Eliminar los productos que no están en el excel subido
+        //     if (auth()->user()->rol == 'comprador' || auth()->user()->rol == 'coordinador') {
+        //         $productos = $pivot_tarea_proveeder_id->productos;
 
-                        if ($producto->imagen && !$idProductosConImagenes->contains($producto->id)) {
-                            // Eliminar la imagen
-                            Storage::disk('s3')->delete($producto->imagen);
-                            $producto->imagen = null;
-                            $producto->save();
-                        }
-                    }
-                }
-            }
-        } catch (\Exception$e) {
-            error_log($e);
-            return $this->errorResponse("Formato del Archivo no valido", 413);
-        }
+        //         foreach ($productos as $producto) {
+        //             $coincidencia = $productosAgregados
+        //                 ->where('product_name_supplier', $producto['product_name_supplier'])
+        //                 ->where('product_code_supplier', $producto['product_code_supplier'])
+        //                 ->first();
 
-        $producto->pivot->actualizarFechaEdicionProductos();
+        //             // Si el producto no está en los productos cargados, se aliminara
+        //             // de lo contrario se determinara si su imagen fue eliminada del excel
+        //             if (!$coincidencia) {
+        //                 // Eliminar la imagen
+        //                 if ($producto->imagen) {
+        //                     Storage::disk('s3')->delete($producto->imagen);
+        //                 }
 
-        return $this->successMensaje('Se Cargaron los Archivo de Forma Correcta', 201);
+        //                 $producto->delete();
+        //             } else {
+        //                 error_log($producto->imagen);
+
+        //                 if ($producto->imagen && !$idProductosConImagenes->contains($producto->id)) {
+        //                     // Eliminar la imagen
+        //                     Storage::disk('s3')->delete($producto->imagen);
+        //                     $producto->imagen = null;
+        //                     $producto->save();
+        //                 }
+        //             }
+        //         }
+        //     }
+        // } catch (\Exception$e) {
+        //     error_log($e);
+        //     return $this->errorResponse("Formato del Archivo no valido", 413);
+        // }
+
+        // $producto->pivot->actualizarFechaEdicionProductos();
+
+        // return $this->successMensaje('Se Cargaron los Archivo de Forma Correcta', 201);
     }
 
     public function exportProduct(Request $request, PivotTareaProveeder $pivot)

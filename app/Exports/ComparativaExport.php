@@ -293,7 +293,7 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                                     imagedestroy($imagen);
                                 }
 
-                                $this->exportador->informarProgreso($productosAgregados / $cantidadProductos);
+                                $this->exportador->informarProgreso($productosAgregados / $cantidadProductos, $cantidadProductos);
 
                                 $productosAgregadosColumna++;
                                 $productosAgregados++;

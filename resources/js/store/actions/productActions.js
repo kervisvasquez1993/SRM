@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import { apiURL } from "../../components/App";
+import { startImportingFile } from "../../components/FileImporter";
 import { genericFormSubmit } from "./genericFormActions";
 import { closeModal } from "./modalActions";
 
@@ -74,33 +75,45 @@ export function deleteProduct(data) {
 
 export function uploadProductForNegotiation(pivotId, file) {
     return async dispatch => {
-        dispatch({
-            type: "UPLOADING_PRODUCT_REQUEST"
-        });
+        let formData = new FormData();
+        formData.append("import", file);
 
-        try {
-            let formData = new FormData();
-            formData.append("import", file);
+        dispatch(closeModal());
 
-            await axios.post(
+        startImportingFile(() =>
+            axios.post(
                 `${apiURL}/negociacion/${pivotId}/importar-producto`,
                 formData
-            );
+            )
+        );
 
-            dispatch({
-                type: "UPLOADING_PRODUCT_SUCCESS"
-            });
+        // dispatch({
+        //     type: "UPLOADING_PRODUCT_REQUEST"
+        // });
 
-            dispatch(closeModal());
-            dispatch(getProductsFromNegotiation(pivotId));
+        // try {
+        //     let formData = new FormData();
+        //     formData.append("import", file);
 
-            toast.success("Productos importados");
-        } catch (e) {
-            toast.error(`🚨 ${e.response.data.error}`);
+        //     await axios.post(
+        //         `${apiURL}/negociacion/${pivotId}/importar-producto`,
+        //         formData
+        //     );
 
-            dispatch({
-                type: "UPLOADING_PRODUCT_FAILURE"
-            });
-        }
+        //     dispatch({
+        //         type: "UPLOADING_PRODUCT_SUCCESS"
+        //     });
+
+        //     dispatch(closeModal());
+        //     dispatch(getProductsFromNegotiation(pivotId));
+
+        //     toast.success("Productos importados");
+        // } catch (e) {
+        //     toast.error(`🚨 ${e.response.data.error}`);
+
+        //     dispatch({
+        //         type: "UPLOADING_PRODUCT_FAILURE"
+        //     });
+        // }
     };
 }

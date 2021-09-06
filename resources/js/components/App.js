@@ -22,7 +22,7 @@ import TaskDetails from "./Tasks/TaskDetails";
 import TaskList from "./Tasks/TaskList";
 import jwt_decode from "jwt-decode";
 import { store } from "./Index";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import ProductionList from "./Productions/ProductionList";
 import ArtList from "./Arts/ArtList";
@@ -47,6 +47,7 @@ import ProductClaimPage from "./Claims/Claims/ProductClaimPage";
 import NegotiationComparator from "./Comparator/NegotiationComparator";
 import SupplierList from "./Suppliers/SupplierList";
 import FileDownloader from "./FileDownloader";
+import FileImporter from "./FileImporter";
 
 // const messaging = firebase.messaging();
 
@@ -212,6 +213,7 @@ const App = () => {
             </Helmet>
 
             <FileDownloader />
+            <FileImporter />
 
             <div
                 className={"menu-wrapper " + (isSidebarOpen && "mostrar")}

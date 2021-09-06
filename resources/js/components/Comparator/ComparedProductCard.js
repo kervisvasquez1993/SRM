@@ -1,6 +1,5 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
-import { MdDeleteForever } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCell } from "../../store/actions/comparatorActions";
 // import { deleteCell, updateCell } from "../../store/actions/comparatorActions";
@@ -38,6 +37,10 @@ export default ({ data, index }) => {
         dispatch(updateCell(newData));
     };
 
+    if (!product) {
+        console.log(data);
+    }
+
     return (
         <Draggable draggableId={`${data.id}`} index={index}>
             {(provided, snapshot) => (
@@ -57,30 +60,34 @@ export default ({ data, index }) => {
                                 backgroundColor: `#${data.cell.color}`
                             }}
                         >
-                            <tr>
-                                <td className="product-name">
-                                    {product.product_code_supplier}
-                                </td>
-                                <td className="product-name">
-                                    {product.product_name_supplier}
-                                </td>
-                                <td className="product-description">
-                                    <div className="product-description-text">
-                                        {product.description}
-                                    </div>
-                                </td>
-                                <td>{product.total_pcs}</td>
-                                <td>{product.unit_price}$</td>
-                                <td>{product.total_usd}$</td>
-                                <td className="product-image-parent product-name">
-                                    {product.imagen && (
-                                        <img
-                                            className="product-image"
-                                            src={amazonS3Url + product.imagen}
-                                        />
-                                    )}
-                                </td>
-                            </tr>
+                            {product && (
+                                <tr>
+                                    <td className="product-name">
+                                        {product.product_code_supplier}
+                                    </td>
+                                    <td className="product-name">
+                                        {product.product_name_supplier}
+                                    </td>
+                                    <td className="product-description">
+                                        <div className="product-description-text">
+                                            {product.description}
+                                        </div>
+                                    </td>
+                                    <td>{product.total_pcs}</td>
+                                    <td>{product.unit_price}$</td>
+                                    <td>{product.total_usd}$</td>
+                                    <td className="product-image-parent product-name">
+                                        {product.imagen && (
+                                            <img
+                                                className="product-image"
+                                                src={
+                                                    amazonS3Url + product.imagen
+                                                }
+                                            />
+                                        )}
+                                    </td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                 </div>

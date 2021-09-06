@@ -1,14 +1,15 @@
 import axios from "axios";
-import fileDownload from "js-file-download";
 import React, { useEffect } from "react";
 import { FaFileImport } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { openModal } from "../../store/actions/modalActions";
 import {
     deleteProduct,
     getProductsFromNegotiation
 } from "../../store/actions/productActions";
 import { getSum, roundMoneyAmount } from "../../utils";
+import { Channel } from "../../utils/Echo";
 import { amazonS3Url, apiURL } from "../App";
 import { startDownloadingFile } from "../FileDownloader";
 import EmptyList from "../Navigation/EmptyList";
@@ -44,6 +45,20 @@ const ProductsTable = ({
 
     useEffect(() => {
         dispatch(getProductsFromNegotiation(negotiation.id));
+    }, []);
+
+    useEffect(() => {
+        // Escuchar para recarga los productos cuando se terminan de importar
+        Channel.listen("ExitoSubiendoArchivoEvent", e => {
+            if (e.data.negociacion_id == negotiation.id) {
+                dispatch(getProductsFromNegotiation(negotiation.id));
+                toast.success("Productos importados");
+            }
+        });
+
+        return () => {
+            Channel.stopListening("ExitoSubiendoArchivoEvent");
+        };
     }, []);
 
     const exportProducts = async () => {
