@@ -48,15 +48,17 @@ const ProductsTable = ({
     }, []);
 
     useEffect(() => {
-        // Escuchar para recarga los productos cuando se terminan de importar
-        Channel.listen("ExitoSubiendoArchivoEvent", e => {
+        const handleEvent = e => {
             if (e.data.negociacion_id == negotiation.id) {
                 dispatch(getProductsFromNegotiation(negotiation.id));
             }
-        });
+        };
+
+        // Escuchar para recarga los productos cuando se terminan de importar
+        Channel.listen("ExitoSubiendoArchivoEvent", handleEvent);
 
         return () => {
-            Channel.stopListening("ExitoSubiendoArchivoEvent");
+            Channel.stopListening("ExitoSubiendoArchivoEvent", handleEvent);
         };
     }, []);
 
