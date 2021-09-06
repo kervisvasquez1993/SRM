@@ -177,9 +177,6 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
 
                 $comparaciones = $tarea->comparaciones;
 
-                // Mandar progreso al usuario
-                $this->exportador->informarProgreso(0);
-
                 // Contar cuantos producto hay
                 $productos = $comparaciones->pluck("filas")->collapse()->pluck("celdas")->collapse();
                 $cantidadProductos = $productos ->count();
@@ -293,7 +290,7 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                                     imagedestroy($imagen);
                                 }
 
-                                $this->exportador->informarProgreso($productosAgregados / $cantidadProductos, $cantidadProductos);
+                                $this->exportador->informarProgreso($productosAgregados / $cantidadProductos);
 
                                 $productosAgregadosColumna++;
                                 $productosAgregados++;

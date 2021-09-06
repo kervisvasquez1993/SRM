@@ -17,7 +17,7 @@ abstract class ExportarArchivoJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $idOperacion;
+    protected $operacionId;
     protected $usuario;
     protected $modelo;
 
@@ -33,33 +33,28 @@ abstract class ExportarArchivoJob implements ShouldQueue
         $this->antesExportar($modelo);
 
         // Almacenar información para el job
-        $this->idOperacion = Str::uuid();
+        $this->operacionId = Str::uuid();
         $this->usuario = $usuario;
         $this->modelo = $modelo;
     }
 
     public function respuestaJson()
     {
-        return ["id_operacion" => $this->idOperacion, "mensaje" => "Exportación de archivo comenzada"];
+        return ["operacion_id" => $this->operacionId, "mensaje" => "Exportación de archivo comenzada"];
     }
 
-    public function informarProgreso($progreso, $pasos = null)
+    public function informarProgreso($progreso, $instantaneo = false)
     {
-        error_log("Progreso: $progreso");
+        $ahora = microtime(true);
 
-        if ($pasos) {
-            $this->pasoActual++;
-
-            $pasoMinimo = max($pasos / 50, 3);
-
-            if ($this->pasoActual > $pasoMinimo) {
-                event(new ProgresoArchivoEvent($this->usuario, $this->idOperacion, $progreso));
-                $this->pasoActual = 0;
-            }
-        } else {
-            event(new ProgresoArchivoEvent($this->usuario, $this->idOperacion, $progreso));
+        if (!property_exists($this, "contador")) {
+            $this->contador = $ahora;
         }
 
+        if ($ahora - $this->contador > 0.4 || $instantaneo) {
+            event(new ProgresoArchivoEvent($this->usuario, $this->operacionId, $progreso));
+            $this->contador = $ahora;
+        }
     }
 
     abstract protected function antesExportar($tarea);
@@ -109,7 +104,7 @@ abstract class ExportarArchivoJob implements ShouldQueue
 
         // Información en
         event(new RespuestaArchivo($this->usuario,
-            $this->idOperacion,
+            $this->operacionId,
             Storage::cloud()->url($ruta),
             $this->respuesta())
         );

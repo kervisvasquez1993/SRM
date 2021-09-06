@@ -6,7 +6,7 @@ import { Channel } from "../utils/Echo";
 export const startImportingFile = async data => {
     const response = await data();
 
-    const id = response.data.data.id_operacion;
+    const id = response.data.data.operacion_id;
 
     console.log("Importando archivo", response.data.data);
 
@@ -28,13 +28,13 @@ export default () => {
         if (user) {
             Channel.listen("ExitoSubiendoArchivoEvent", e => {
                 console.log("Archivo subido con exito:", e);
-                toast.dismiss(e.id_operacion);
+                toast.dismiss(e.operacion_id);
 
                 toast.success("¡Importación exitosa!");
             });
 
             Channel.listen("ErrorSubiendoArchivoEvent", e => {
-                toast.dismiss(e.id_operacion);
+                toast.dismiss(e.operacion_id);
                 toast.error(e.error);
             });
         }

@@ -21,6 +21,17 @@ class ImportarProductosJob extends ImportarArchivoJob
             $excel = Excel::toArray(new ProductosImport, $archivo);
             $productosAgregados = collect();
 
+            $totalProductos = 0;
+            foreach ($excel as $hoja) {
+                $contador = 4;
+                foreach ($hoja as $row) {
+                    $totalProductos++;
+                }
+            }
+            error_log("Se cargaran $totalProductos productos");
+
+            $productosProcesados = 0;
+
             foreach ($excel as $hoja) {
                 $contador = 4;
                 foreach ($hoja as $row) {
@@ -124,14 +135,21 @@ class ImportarProductosJob extends ImportarArchivoJob
                     }
 
                     $contador++;
+                    $productosProcesados++;
+                    $this->informarProgreso($productosProcesados / $totalProductos);
                 }
             }
+
+            $this->informarProgreso(0, true);
 
             // Cargar imagenes
             $idProductosConImagenes = collect();
             $excel = IOFactory::load($archivo);
             $sheet = $excel->getActiveSheet();
             $drawings = $sheet->getDrawingCollection();
+
+            $totalImagenes = count($drawings);
+            $imagenesProcesadas = 0;
 
             // Recorrer todas las imagenes
             foreach ($drawings as $drawing) {
@@ -174,6 +192,9 @@ class ImportarProductosJob extends ImportarArchivoJob
                         $idProductosConImagenes->add($producto->id);
                     }
                 }
+
+                $imagenesProcesadas++;
+                $this->informarProgreso($imagenesProcesadas / $totalImagenes);
             }
 
             // Eliminar los productos que no están en el excel subido

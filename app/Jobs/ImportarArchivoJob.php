@@ -22,8 +22,6 @@ abstract class ImportarArchivoJob implements ShouldQueue
     protected $usuario;
     protected $modelo;
 
-    private $pasoActual = 0;
-
     public function __construct($archivo, $usuario, $modelo)
     {
         // Almacenar información para el job
@@ -44,21 +42,17 @@ abstract class ImportarArchivoJob implements ShouldQueue
         return ["operacion_id" => $this->operacionId, "mensaje" => "Importación de archivo comenzada"];
     }
 
-    public function informarProgreso($progreso, $pasos = null)
+    public function informarProgreso($progreso, $instantaneo = false)
     {
-        error_log("Progreso: $progreso");
+        $ahora = microtime(true);
 
-        if ($pasos) {
-            $this->pasoActual++;
+        if (!property_exists($this, "contador")) {
+            $this->contador = $ahora;
+        }
 
-            $pasoMinimo = max($pasos / 50, 3);
-
-            if ($this->pasoActual > $pasoMinimo) {
-                event(new ProgresoArchivoEvent($this->usuario, $this->operacionId, $progreso));
-                $this->pasoActual = 0;
-            }
-        } else {
+        if ($ahora - $this->contador > 0.4 || $instantaneo) {
             event(new ProgresoArchivoEvent($this->usuario, $this->operacionId, $progreso));
+            $this->contador = $ahora;
         }
     }
 
@@ -72,13 +66,13 @@ abstract class ImportarArchivoJob implements ShouldQueue
 
         // Obtener el archivo
         $archivo = Storage::disk("s3")->get($this->rutaArchivo);
-        
+
         // Eliminarlo de S3
         Storage::disk('s3')->delete($this->rutaArchivo);
 
         // Almacenarlo temporalmente
         Storage::disk('local')->put($this->rutaArchivo, $archivo);
-        
+
         $rutaEnDisco = storage_path("app/{$this->rutaArchivo}");
 
         try {

@@ -141,7 +141,7 @@ class ProductosExport implements WithEvents, WithPreCalculateFormulas
                     $numero++;
 
                     // Enviar la cantidad de productos
-                    $this->exportador->informarProgreso(($numero - 1) / $cantidad_productos, $cantidad_productos);
+                    $this->exportador->informarProgreso(($numero - 1) / $cantidad_productos);
                 }
 
                 return $event->getWriter()->getSheetByIndex(0);

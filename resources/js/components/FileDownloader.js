@@ -8,7 +8,7 @@ import { Channel } from "../utils/Echo";
 export const startDownloadingFile = async data => {
     const response = await data();
 
-    const id = response.data.data.id_operacion;
+    const id = response.data.data.operacion_id;
 
     console.log("Procesando archivo", response.data.data);
 
@@ -91,7 +91,8 @@ export default () => {
 
             Channel.listen("ProgresoArchivoEvent", e => {
                 // Mostrar mensaje
-                console.log("Progreso ", e.progreso);
+                console.log(`Progreso ${e.progreso}`);
+                console.log(e.operacion_id);
 
                 toast.update(e.operacion_id, {
                     hideProgressBar: false,

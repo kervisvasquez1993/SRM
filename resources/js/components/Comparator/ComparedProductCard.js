@@ -36,11 +36,7 @@ export default ({ data, index }) => {
 
         dispatch(updateCell(newData));
     };
-
-    if (!product) {
-        console.log(data);
-    }
-
+    
     return (
         <Draggable draggableId={`${data.id}`} index={index}>
             {(provided, snapshot) => (

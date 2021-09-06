@@ -25,7 +25,6 @@ const PurchaseOrderModal = ({ purchase, isEditor = false, pivotId = null }) => {
     const dispatch = useDispatch();
 
     const onSubmit = data => {
-        console.log(data);
         if (isEditor) {
             dispatch(editPurchaseOrder(data));
         } else {
