@@ -13,6 +13,7 @@ class ExportarComparacionJob extends ExportarArchivoJob
 
     public function antesExportar($modelo)
     {
+        $this->archivoNombre = "Comparativa {$modelo->nombre}.xlsx";
         $modelo = $modelo->with("pivotTareaProveedor", "comparaciones.filas.celdas")->first();
     }
 

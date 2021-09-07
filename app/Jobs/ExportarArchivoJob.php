@@ -2,16 +2,16 @@
 
 namespace App\Jobs;
 
-use App\Events\ProgresoArchivoEvent;
-use App\Events\RespuestaArchivo;
+use Illuminate\Support\Str;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Carbon;
+use App\Events\ProgresoArchivoEvent;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Queue\InteractsWithQueue;
+use App\Events\ExitoExportandoArchivoEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 abstract class ExportarArchivoJob implements ShouldQueue
 {
@@ -24,6 +24,7 @@ abstract class ExportarArchivoJob implements ShouldQueue
     protected $campoRuta = "archivo";
     protected $campoCreacion = "creado_en";
     protected $campoEdicion = "actualizado_en";
+    protected $archivoNombre = "Ejemplo";
 
     private $pasoActual = 0;
 
@@ -108,8 +109,9 @@ abstract class ExportarArchivoJob implements ShouldQueue
         error_log("Memoria ram final: $ram");
 
         // Información en
-        event(new RespuestaArchivo($this->usuario,
+        event(new ExitoExportandoArchivoEvent($this->usuario,
             $this->operacionId,
+            $this->archivoNombre,
             Storage::cloud()->url($ruta),
             $this->respuesta())
         );

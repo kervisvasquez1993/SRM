@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { FaFileImport } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import { openModal } from "../../store/actions/modalActions";
 import {
     deleteProduct,
@@ -11,7 +10,7 @@ import {
 import { getSum, roundMoneyAmount } from "../../utils";
 import { Channel } from "../../utils/Echo";
 import { amazonS3Url, apiURL } from "../App";
-import { startDownloadingFile } from "../FileDownloader";
+import { startExportingFile } from "../FIleExporter";
 import EmptyList from "../Navigation/EmptyList";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import ProductsResume from "../Widgets/ProductsResume";
@@ -72,7 +71,7 @@ const ProductsTable = ({
         // }).then(response => {
         //     fileDownload(response.data, "Productos.xlsx");
         // });
-        startDownloadingFile(() =>
+        startExportingFile(() =>
             axios.get(
                 `${apiURL}/negociacion/${negotiation.id}/exportar_productos`
             )

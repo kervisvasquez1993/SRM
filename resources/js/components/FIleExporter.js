@@ -1,11 +1,10 @@
-import axios from "axios";
 import fileDownload from "js-file-download";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { useUser } from "../utils";
 import { Channel } from "../utils/Echo";
 
-export const startDownloadingFile = async data => {
+export const startExportingFile = async data => {
     const response = await data();
 
     const id = response.data.data.operacion_id;
@@ -28,15 +27,13 @@ export default () => {
 
     useEffect(() => {
         if (user) {
-            Channel.listen("RespuestaArchivo", e => {
+            Channel.listen("ExitoExportandoArchivoEvent", e => {
                 // Mostrar mensaje
-                toast.update(e.id, {
+                toast.update(e.operacionId, {
                     render: "La descarga ha comenzado..."
                 });
 
                 console.log("Url de archivo recibido", e);
-
-                // fileDownload(e.archivo, "Productos.xlsx");
 
                 // Crear una peticion http
                 const xhr = new XMLHttpRequest();
@@ -50,7 +47,7 @@ export default () => {
 
                     if (progress < 99) {
                         // Mostrar mensaje
-                        toast.update(e.id, {
+                        toast.update(e.operacionId, {
                             hideProgressBar: false,
                             progress: progress
                         });
@@ -59,11 +56,11 @@ export default () => {
 
                 xhr.onload = event => {
                     if (xhr.readyState == 4) {
-                        toast.dismiss(e.id);
+                        toast.dismiss(e.operacionId);
 
                         if (xhr.status == 200) {
                             // Descargar el archivo
-                            fileDownload(xhr.response, "comparacion.xlsx");
+                            fileDownload(xhr.response, e.archivoNombre);
 
                             // Mostrar mensaje
                             toast.success("¡Su archivo está listo!", {
@@ -78,7 +75,7 @@ export default () => {
                 xhr.send();
 
                 // Mostrar mensaje
-                // toast.update(e.id, {
+                // toast.update(e.operacionId, {
                 //     render: "¡Su archivo está listo!",
                 //     type: toast.TYPE.SUCCESS,
                 //     autoClose: 2000,
@@ -92,7 +89,7 @@ export default () => {
             Channel.listen("ProgresoArchivoEvent", e => {
                 // Mostrar mensaje
                 console.log(`Progreso ${e.progreso}`);
-                console.log(e.operacion_id);
+                console.log(e);
 
                 toast.update(e.operacion_id, {
                     hideProgressBar: false,

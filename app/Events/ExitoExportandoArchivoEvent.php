@@ -8,27 +8,30 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class RespuestaArchivo implements ShouldBroadcastNow
+class ExitoExportandoArchivoEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    protected $tarea;
-    public $archivo;
+    public $operacionId;
+    public $archivoNombre;
+    public $archivoUrl;
 
-    public function __construct($usuario, $id, $archivo, $data)
+    public function __construct($usuario, $operacionId, $archivoNombre, $archivoUrl, $data)
     {
         $this->usuario = $usuario;
-        $this->id = $id;
-        $this->archivo = $archivo;
+        $this->operacionId = $operacionId;
+        $this->archivoNombre = $archivoNombre;
+        $this->archivoUrl = $archivoUrl;
         $this->data = $data;
     }
 
     public function broadcastWith()
     {
         return [
+            'operacionId' => $this->operacionId,
+            'archivoNombre' => $this->archivoNombre,
+            'archivoUrl' => $this->archivoUrl,
             'data' => $this->data,
-            'id' => $this->id,
-            'archivo' => $this->archivo,
         ];
     }
 

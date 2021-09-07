@@ -12,7 +12,7 @@ class ProgresoArchivoEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $usuario;
+    protected $usuario;
     public $operacion_id;
     public $progreso;
 

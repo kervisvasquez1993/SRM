@@ -13,6 +13,7 @@ class ExportarProductosJob extends ExportarArchivoJob
 
     public function antesExportar($modelo)
     {
+        $this->archivoNombre = "Productos {$modelo->proveedor->nombre}.xlsx";
         $modelo = $modelo->with("productos")->first();
     }
 
@@ -21,10 +22,5 @@ class ExportarProductosJob extends ExportarArchivoJob
         $ruta = "productos/{$this->modelo->id}.xlsx";
         Excel::store(new ProductosExport($this->modelo, $this), $ruta, "s3", null, ['visibility' => 'public']);
         return $ruta;
-    }
-
-    protected function ruta()
-    {
-        return "productos/{$this->modelo->id}.xlsx";
     }
 }

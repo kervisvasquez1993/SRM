@@ -17,8 +17,7 @@ import ComparatorTable from "./ComparatorTable";
 import IncidentsTab from "../Incidents/IncidentsTab";
 import ComparisonFormModal from "./ComparisonFormModal";
 import axios from "axios";
-import { toast } from "react-toastify";
-import { startDownloadingFile } from "../FileDownloader";
+import { startExportingFile } from "../FIleExporter";
 
 export default () => {
     const dispatch = useDispatch();
@@ -54,7 +53,7 @@ export default () => {
     );
 
     const handleExport = () => {
-        startDownloadingFile(() =>
+        startExportingFile(() =>
             axios.get(`${apiURL}/tarea/${taskId}/exportar-comparativa`)
         );
     };
