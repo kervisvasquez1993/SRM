@@ -37,7 +37,7 @@ export default () => {
 
                 // Crear una peticion http
                 const xhr = new XMLHttpRequest();
-                xhr.open("GET", e.archivo);
+                xhr.open("GET", e.archivoUrl);
                 xhr.responseType = "blob";
 
                 // Event listener para el progreso de la descarga
@@ -59,6 +59,7 @@ export default () => {
                         toast.dismiss(e.operacionId);
 
                         if (xhr.status == 200) {
+                            console.log(xhr);
                             // Descargar el archivo
                             fileDownload(xhr.response, e.archivoNombre);
 
