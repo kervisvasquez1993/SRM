@@ -213,10 +213,11 @@ class ComparativaExport implements WithEvents, WithPreCalculateFormulas
                                 // Fondo
                                 $columnaColorInicial = getColumn($columna_inicio);
                                 $columnaColorFinal = getColumn($columna_inicio + $producto_columnas - 1);
-                                if (property_exists($celdaProducto, 'backgroundColor')) {
-                                    $this->celdaEstilos["fill"]["startColor"]["rgb"] = $celdaProducto->backgroundColor;
+                                
+                                if ($celdaProducto->color) {
+                                    $this->celdaEstilos["fill"]["startColor"]["rgb"] = $celdaProducto->color;
                                 } else {
-                                    $this->celdaEstilos["fill"]["startColor"]["rgb"] = "ffffff";
+                                    $this->celdaEstilos["fill"]["startColor"]["rgb"] = "FFFFFF";
                                 }
                                 $sheet->getStyle($columnaColorInicial . $filaProducto . ":" . $columnaColorFinal . $filaProducto)
                                     ->applyFromArray($this->celdaEstilos);
