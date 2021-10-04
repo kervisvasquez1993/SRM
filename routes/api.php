@@ -14,8 +14,6 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::get('/proveedor', 'Api\ProveedorController@index');
-Route::get('/filter', 'Api\FilterProduccionTransitoController@index');
-
 Route::post('login', 'Api\AuthController@login');
 
 Route::middleware('auth:api')->group(function () {
