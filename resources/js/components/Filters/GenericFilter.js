@@ -17,7 +17,8 @@ const GenericFilter = ({
     children = null,
     onChange = null,
     setFilteredList = null,
-    setPostFilterLists = null
+    setPostFilterLists = null,
+    listContainerClassName = "d-flex flex-column-reverse"
 }) => {
     const filter = useRef(null);
     const [filtered, setFiltered] = useState([]);
@@ -113,6 +114,7 @@ const GenericFilter = ({
             const set = new Set();
 
             listToUse.forEach(item => set.add(filterConf.values(item)));
+            // @ts-ignore
             filteredGroups[filterConf.name] = [...set];
         }
     });
@@ -342,7 +344,7 @@ const GenericFilter = ({
                                     {conf.header} ({innerContent.length})
                                 </h2>
                                 <hr className="mb-4" />
-                                <div className="d-flex flex-column-reverse">
+                                <div className={listContainerClassName}>
                                     {innerContent}
                                 </div>
                             </React.Fragment>
