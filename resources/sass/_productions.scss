@@ -1,0 +1,25 @@
+.production-checkboxes {
+    display: inline-grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+}
+
+// .production-cards {
+//     display: flex;
+//     flex-wrap: wrap;
+
+//     & .card {
+//         flex-basis: 350px;
+//         flex-grow: 1;
+//         margin: 1rem;
+//         flex-shrink: 1;
+//         min-width: 280px;
+//         max-width: 500px;
+//     }
+// }
+
+.production-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 10px;
+}

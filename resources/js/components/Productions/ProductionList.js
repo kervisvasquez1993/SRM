@@ -145,6 +145,7 @@ const ProductionList = () => {
                 unfilteredData={productions}
                 populatorConfig={populatorConfig}
                 onChange={onChange}
+                listContainerClassName="production-cards"
             >
                 {filteredProductions.length > 0 && (
                     <React.Fragment>

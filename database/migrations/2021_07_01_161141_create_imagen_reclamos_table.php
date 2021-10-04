@@ -15,7 +15,7 @@ class CreateImagenReclamosTable extends Migration
     {
         Schema::create('imagen_reclamos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('reclamo_producto_id')->references('id')->on('reclamo_productos');
+            $table->foreignId('reclamo_producto_id')->references('id')->on('reclamo_productos')->onDelete('cascade');
             $table->string('url');
             $table->string('name');
             $table->timestamps();

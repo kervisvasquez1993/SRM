@@ -83,6 +83,21 @@ export function updateProductionDeliveryTime(data) {
     };
 }
 
+export function updateProductionDate(data) {
+    return dispatch => {
+        return genericFormSubmit(dispatch, () =>
+            axios.put(`${apiURL}/produccion_transito/${data.id}`, data)
+        ).then(response => {
+            dispatch({
+                type: "UPDATE_PRODUCTION_SUCCESS",
+                payload: response
+            });
+
+            toast.success("Fecha editada");
+        });
+    };
+}
+
 export function getPayments(productionId) {
     return async (dispatch, _getState) => {
         dispatch({ type: "GET_PAYMENTS_REQUEST" });

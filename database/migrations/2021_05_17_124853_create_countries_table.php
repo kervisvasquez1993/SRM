@@ -17,7 +17,7 @@ class CreateCountriesTable extends Migration
             $table->id();
             $table->text('name');
             $table->integer('unico_id');
-            $table->foreignId('proveedor_id')->references('id')->on('proveedors');
+            $table->foreignId('proveedor_id')->references('id')->on('proveedors')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

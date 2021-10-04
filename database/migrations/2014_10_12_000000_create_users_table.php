@@ -14,7 +14,6 @@ class CreateUsersTable extends Migration
 
     public function up()
     {
-
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->enum('rol', ['artes', 'coordinador', 'observador', 'comprador', 'logistica', 'presidente', 'almacen']);
@@ -28,15 +27,6 @@ class CreateUsersTable extends Migration
             $table->boolean('isPresidente')->default(false);
             $table->timestamps();
         });
-
-        Schema::create('perfils', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->text('biografia')->nullable();
-            $table->string('imagen')->nullable();
-            $table->timestamps();
-        });
-
     }
 
     /**
@@ -46,7 +36,7 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('perfils', 'users');
+        Schema::dropIfExists('users');
     }
     /* cambio desde develop */
 }

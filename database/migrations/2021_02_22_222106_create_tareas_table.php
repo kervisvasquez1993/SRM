@@ -16,7 +16,7 @@ class CreateTareasTable extends Migration
         Schema::create('tareas', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('sender_id');
-            $table->foreignId('user_id')->references('id')->on('users');
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('nombre')->default('Sin Definir');
             $table->text('descripcion')->default('Sin Descripción');
             $table->date('fecha_fin')->nullable();

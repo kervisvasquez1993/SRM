@@ -16,7 +16,7 @@ const DeliveryTimeFormModal = ({ formData }) => {
     return (
         <GenericFormModal formData={formData} onSubmit={onSubmit}>
             <InputDate
-                id="fecha_fin_produccion"
+                id="fecha_entrega_aproximada"
                 label="Fecha de entrega (aproximada)"
             />
         </GenericFormModal>

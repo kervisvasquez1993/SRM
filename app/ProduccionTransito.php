@@ -14,15 +14,17 @@ class ProduccionTransito extends Model
     [
         'pagos_anticipados',
         'inicio_produccion',
+        'inicio_produccion_fecha',
         'fin_produccion',
+        'fin_produccion_fecha',
         'pago_balance',
         'transito',
+        'transito_fecha',
         'nacionalizacion',
-        'fin_produccion_transito',
-        'salida_puero_origen',
-        'fecha_fin_produccion'
-
-
+        'nacionalizacion_fecha',
+        'salida_puerto_origen',
+        'salida_puerto_origen_fecha',
+        'fecha_entrega_aproximada'
     ];
    
     public function pivotTable()

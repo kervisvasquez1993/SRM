@@ -15,7 +15,7 @@ class CreateProductOverviewsTable extends Migration
     {
         Schema::create('product_overviews', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('producto_id')->references('id')->on('productos');
+            $table->foreignId('producto_id')->references('id')->on('productos')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

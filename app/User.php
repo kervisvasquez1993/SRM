@@ -113,11 +113,6 @@ class User extends Authenticatable
         return $this->hasMany(ReclamosDevolucione::class);
     }
 
-    public function filter()
-    {
-        return $this->hasMany(FilterProduccionTransito::class);
-    }
-
     public function fcmTokens()
     {
         return $this->hasMany(FcmToken::class);
