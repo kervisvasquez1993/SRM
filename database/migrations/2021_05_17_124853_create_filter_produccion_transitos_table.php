@@ -15,10 +15,10 @@ class CreateFilterProduccionTransitosTable extends Migration
     {
         Schema::create('filter_produccion_transitos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('proveedor_id')->references('id')->on('proveedors');
-            $table->foreignId('user_id')->references('id')->on('users');
-            $table->foreignId('produccion_transitos_id')->references('id')->on('produccion_transitos');
-            $table->foreignId('pivot_tarea_proveedor_id')->references('id')->on('pivot_tarea_proveeders');
+            $table->foreignId('proveedor_id')->references('id')->on('proveedors')->onDelete('cascade');
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('produccion_transitos_id')->references('id')->on('produccion_transitos')->onDelete('cascade');
+            $table->foreignId('pivot_tarea_proveedor_id')->references('id')->on('pivot_tarea_proveeders')->onDelete('cascade');
             $table->integer('code_unit');
             $table->softDeletes();
             $table->timestamps();

@@ -15,7 +15,7 @@ class CreateReclamoProductosTable extends Migration
     {
         Schema::create('reclamo_productos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('recepcion_reclamo_devolucion_id')->references('id')->on('recepcion_reclamo_devolucions');
+            $table->foreignId('recepcion_reclamo_devolucion_id')->references('id')->on('recepcion_reclamo_devolucions')->onDelete('cascade');
             $table->string('titulo');
             $table->text('descripcion');
             $table->unsignedBigInteger('user_login');

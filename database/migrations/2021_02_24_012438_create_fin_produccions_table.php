@@ -15,8 +15,8 @@ class CreateFinProduccionsTable extends Migration
     {
         Schema::create('fin_produccions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('produccion_transito_id')->references('id')->on('produccion_transitos');
-            $table->foreignId('user_id')->references('id')->on('users');
+            $table->foreignId('produccion_transito_id')->references('id')->on('produccion_transitos')->onDelete('cascade');
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('titulo');
             $table->text('descripcion');
             $table->softDeletes();

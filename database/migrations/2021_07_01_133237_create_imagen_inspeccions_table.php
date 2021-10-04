@@ -15,7 +15,7 @@ class CreateImagenInspeccionsTable extends Migration
     {
         Schema::create('imagen_inspeccions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('recepcion_reclamo_devolucion_id')->references('id')->on('recepcion_reclamo_devolucions');
+            $table->foreignId('recepcion_reclamo_devolucion_id')->references('id')->on('recepcion_reclamo_devolucions')->onDelete('cascade');
             $table->string('url');
             $table->string('name');
             $table->timestamps();
