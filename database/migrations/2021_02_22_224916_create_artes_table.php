@@ -17,18 +17,21 @@ class CreateArtesTable extends Migration
             $table->id();
             $table->foreignId('pivot_tarea_proveeder_id')->references('id')->on('pivot_tarea_proveeders')->onDelete('cascade');
             $table->enum('creacion_fichas', ['sin_inicializar', 'en_proceso', 'finalizado'])->default('sin_inicializar');
+            $table->date('creacion_fichas_fecha')->nullable();
             $table->enum('validacion_fichas', ['sin_inicializar', 'en_proceso', 'finalizado'])->default('sin_inicializar');
-            $table->enum('creacion_boceto',['sin_inicializar', 'en_proceso', 'finalizado'])->default('sin_inicializar');
-            $table->enum('validacion_boceto',['sin_inicializar', 'en_proceso', 'finalizado'])->default('sin_inicializar');
+            $table->date('validacion_fichas_fecha')->nullable();
+            $table->enum('creacion_boceto', ['sin_inicializar', 'en_proceso', 'finalizado'])->default('sin_inicializar');
+            $table->date('creacion_boceto_fecha')->nullable();
+            $table->enum('validacion_boceto', ['sin_inicializar', 'en_proceso', 'finalizado'])->default('sin_inicializar');
+            $table->date('validacion_boceto_fecha')->nullable();
             $table->enum('confirmacion_proveedor', ['sin_inicializar', 'en_proceso', 'finalizado'])->default('sin_inicializar');
+            $table->date('confirmacion_proveedor_fecha')->nullable();
             $table->timestamp('fecha_fin');
             $table->softDeletes();
             $table->timestamps();
         });
 
-        
     }
-
 
     /**
      * Reverse the migrations.

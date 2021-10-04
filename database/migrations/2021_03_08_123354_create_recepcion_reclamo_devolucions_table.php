@@ -17,8 +17,11 @@ class CreateRecepcionReclamoDevolucionsTable extends Migration
             $table->id();
             $table->foreignId('produccion_transito_id')->references('id')->on('produccion_transitos')->onDelete('cascade');
             $table->boolean('recepcion_mercancia')->default(false);
+            $table->date('recepcion_mercancia_fecha')->nullable();
             $table->boolean('inspeccion_carga')->default(false);
+            $table->date('inspeccion_carga_fecha')->nullable();
             $table->boolean('reclamos_devoluciones')->default(false);
+            $table->date('reclamos_devoluciones_fecha')->nullable();
             $table->text('descripcion_inspeccion')->nullable();
 
             // Cabecera del excel
