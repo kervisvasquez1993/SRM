@@ -19,8 +19,8 @@ class ProduccionTransito extends Model
         'transito',
         'nacionalizacion',
         'fin_produccion_transito',
-        'salida_puero_origen',
-        'fecha_fin_produccion'
+        'salida_puerto_origen',
+        'fecha_entrega_aproximada'
 
 
     ];

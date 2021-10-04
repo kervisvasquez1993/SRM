@@ -20,10 +20,10 @@ class ProduccionTransitoResource extends JsonResource
             'pagos' => $this->pagos,
             'inicio_produccion' => $this->inicio_produccion,
             'fin_produccion' => $this->fin_produccion,
-            'salida_puero_origen' => $this->salida_puero_origen,
+            'salida_puerto_origen' => $this->salida_puerto_origen,
             'transito' => $this->transito,
             'nacionalizacion' => $this->nacionalizacion,
-            'fecha_fin_produccion' => $this->fecha_fin_produccion,
+            'fecha_entrega_aproximada' => $this->fecha_entrega_aproximada,
         ];
 
     }

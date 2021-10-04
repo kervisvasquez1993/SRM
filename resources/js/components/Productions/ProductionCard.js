@@ -106,7 +106,7 @@ const ProductionCard = ({ production }) => {
     const {
         inicio_produccion,
         fin_produccion,
-        salida_puero_origen,
+        salida_puerto_origen,
         transito,
         nacionalizacion
     } = production;
@@ -140,13 +140,13 @@ const ProductionCard = ({ production }) => {
 
     const disableProductionFinished =
         !inicio_produccion ||
-        salida_puero_origen ||
+        salida_puerto_origen ||
         !(user.rol === "coordinador" || user.rol === "comprador");
 
     const disablePortDeparture =
         !inicio_produccion || !fin_produccion || transito;
 
-    const disableTransit = !salida_puero_origen || nacionalizacion;
+    const disableTransit = !salida_puerto_origen || nacionalizacion;
     const disableNationalisation = !transito;
 
     return (
@@ -255,10 +255,10 @@ const ProductionCard = ({ production }) => {
                             <input
                                 className="form-check-input"
                                 type="checkbox"
-                                id="salida_puero_origen"
+                                id="salida_puerto_origen"
                                 onChange={handleCheck}
                                 disabled={disablePortDeparture}
-                                checked={salida_puero_origen}
+                                checked={salida_puerto_origen}
                             />
                             Salida Puerto Origen
                             <span className="form-check-sign">
@@ -310,7 +310,7 @@ const ProductionCard = ({ production }) => {
 
                 <div className="d-flex flex-wrap flex-column flex-grow-1 flex-md-grow-0 mt-3">
                     <div className="d-flex align-items-center mb-3">
-                        {production.fecha_fin_produccion && (
+                        {production.fecha_entrega_aproximada && (
                             <React.Fragment>
                                 <BiTimeFive className="icon-normal mr-2" />
                                 <span className="mr-2">
@@ -319,7 +319,7 @@ const ProductionCard = ({ production }) => {
                                     </strong>
                                     {dateToString(
                                         new Date(
-                                            production.fecha_fin_produccion
+                                            production.fecha_entrega_aproximada
                                         )
                                     )}
                                 </span>
