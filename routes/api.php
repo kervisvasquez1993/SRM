@@ -14,11 +14,7 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::get('/proveedor', 'Api\ProveedorController@index');
-Route::get('/filter', 'Api\FilterProduccionTransitoController@index');
-
 Route::post('login', 'Api\AuthController@login');
-
-Route::get('/tarea/{tarea}/exportar-comparativa', 'Api\Tarea\TareaController@exportarComparativa');
 
 Route::middleware('auth:api')->group(function () {
 
@@ -268,13 +264,31 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/push-notification', 'Api\WebNotificationController@storeToken');
     Route::delete('/push-notification/{fcmToken}', 'Api\WebNotificationController@deleteToken');
     /* export */
-    Route::get('negociacion/{producto}/exportar_productos', 'Api\Producto\ProductoController@exportProduct');
+    Route::get('negociacion/{pivot}/exportar_productos', 'Api\Producto\ProductoController@exportProduct');
 
 
     // COmparaciones
-    Route::get('/tarea/{tarea}/comparacion', 'Api\ComparacionController@index');
-    Route::post('/tarea/{tarea}/comparacion', 'Api\ComparacionController@store');
-    Route::get('/comparacion/{comparacion}', 'Api\ComparacionController@show');
-    Route::put('/comparacion/{comparacion}', 'Api\ComparacionController@update');
-    Route::delete('/comparacion/{comparacion}', 'Api\ComparacionController@destroy');
+    // Route::get('/tarea/{tarea}/comparacion', 'Api\ComparacionController@index');
+    // Route::post('/tarea/{tarea}/comparacion', 'Api\ComparacionController@store');
+    // Route::get('/comparacion/{comparacion}', 'Api\ComparacionController@show');
+    // Route::put('/comparacion/{comparacion}', 'Api\ComparacionController@update');
+    // Route::delete('/comparacion/{comparacion}', 'Api\ComparacionController@destroy');
+
+    Route::get('/tarea/{tarea}/producto', 'Api\Comparaciones\ComparacionController@productos');
+    Route::get('/tarea/{tarea}/comparacion', 'Api\Comparaciones\ComparacionController@index');
+    Route::post('/tarea/{tarea}/comparacion', 'Api\Comparaciones\ComparacionController@store');
+    Route::get('/comparacion/{comparacion}', 'Api\Comparaciones\ComparacionController@show');
+    Route::put('/comparacion/{comparacion}', 'Api\Comparaciones\ComparacionController@update');
+    Route::delete('/comparacion/{comparacion}', 'Api\Comparaciones\ComparacionController@destroy');
+
+    Route::get('/comparacion/{comparacion}/comparacion_fila', 'Api\Comparaciones\ComparacionFilasController@index');
+    Route::post('/comparacion/{comparacion}/comparacion_fila', 'Api\Comparaciones\ComparacionFilasController@store');
+    Route::put('/comparacion_fila/{fila}', 'Api\Comparaciones\ComparacionFilasController@update');
+    Route::delete('/comparacion_fila/{fila}', 'Api\Comparaciones\ComparacionFilasController@destroy');
+
+    Route::get('/comparacion_fila/{fila}/comparacion_celda', 'Api\Comparaciones\ComparacionCeldasController@index');
+    Route::post('/comparacion_fila/{fila}/comparacion_celda', 'Api\Comparaciones\ComparacionCeldasController@store');
+    Route::put('/comparacion_celda/{celda}', 'Api\Comparaciones\ComparacionCeldasController@update');
+    Route::delete('/comparacion_celda/{celda}', 'Api\Comparaciones\ComparacionCeldasController@destroy');
+    Route::get('/tarea/{tarea}/exportar-comparativa', 'Api\Tarea\TareaController@exportarComparativa');
 });

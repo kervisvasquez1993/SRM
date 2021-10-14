@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import GenericForm from "../Form/GenericForm";
 
 const GenericFormModal = props => {
-    const { formData, onSubmit, methods } = props;
+    const { formData = {}, onSubmit, methods } = props;
     const [data, setData] = useState({ ...formData });
 
     // @ts-ignore

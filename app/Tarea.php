@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -15,16 +16,16 @@ class Tarea extends Model
         'user_id',
         'descripcion',
         'fecha_fin',
-        'comparaciones'
+        // 'comparaciones'
     ];
 
-    protected $attributes = [
-        'comparaciones' => '[]'
-    ];
+    // protected $attributes = [
+    //     'comparaciones' => '[]'
+    // ];
 
-    protected $casts = [
-        'comparaciones' => 'object'
-    ];
+    // protected $casts = [
+    //     'comparaciones' => 'object'
+    // ];
 
     protected $appends = ['cantidad_negociaciones', 'cantidad_proveedores'];
 
@@ -49,6 +50,11 @@ class Tarea extends Model
     }
 
     public function pivotTareaProveedor()
+    {
+        return $this->hasMany(PivotTareaProveeder::class);
+    }
+
+    public function negociaciones()
     {
         return $this->hasMany(PivotTareaProveeder::class);
     }
@@ -92,5 +98,11 @@ class Tarea extends Model
     public function comparaciones()
     {
         return $this->hasMany(Comparacion::class);
+    }
+
+    public function actualizarFechaEdicionComparacion()
+    {
+        $this->comparacion_editadas_en = Carbon::now();
+        $this->save();
     }
 }

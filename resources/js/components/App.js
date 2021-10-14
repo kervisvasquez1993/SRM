@@ -46,6 +46,8 @@ import InspectionPage from "./Claims/Inspection/InspectionPage";
 import ProductClaimPage from "./Claims/Claims/ProductClaimPage";
 import NegotiationComparator from "./Comparator/NegotiationComparator";
 import SupplierList from "./Suppliers/SupplierList";
+import FileDownloader from "./FIleExporter";
+import FileImporter from "./FileImporter";
 
 // const messaging = firebase.messaging();
 
@@ -79,6 +81,7 @@ axios.interceptors.response.use(
 
 export const apiURL = process.env.MIX_APP_API_URL || "/api";
 export const amazonS3Url =
+    process.env.MIX_AMAZON_S3 ||
     "https://srmdnamics-laravel-file.s3.us-east-2.amazonaws.com/";
 
 export const sidebarBreakpoint = 1100;
@@ -146,6 +149,7 @@ const App = () => {
 
     const history = useHistory();
     const location = useLocation();
+    getMyUser;
     const previous = useRef(null);
 
     useEffect(() => {
@@ -207,6 +211,9 @@ const App = () => {
             <Helmet>
                 <title>{process.env.MIX_APP_NAME}</title>
             </Helmet>
+
+            <FileDownloader />
+            <FileImporter />
 
             <div
                 className={"menu-wrapper " + (isSidebarOpen && "mostrar")}

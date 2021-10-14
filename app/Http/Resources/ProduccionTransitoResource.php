@@ -19,11 +19,16 @@ class ProduccionTransitoResource extends JsonResource
             'pivot' => new PivotTareaProveederResource($this->pivotTable),
             'pagos' => $this->pagos,
             'inicio_produccion' => $this->inicio_produccion,
+            'inicio_produccion_fecha' => $this->inicio_produccion_fecha,
             'fin_produccion' => $this->fin_produccion,
-            'salida_puero_origen' => $this->salida_puero_origen,
+            'fin_produccion_fecha' => $this->fin_produccion_fecha,
+            'salida_puerto_origen' => $this->salida_puerto_origen,
+            'salida_puerto_origen_fecha' => $this->salida_puerto_origen_fecha,
             'transito' => $this->transito,
+            'transito_fecha' => $this->transito_fecha,
             'nacionalizacion' => $this->nacionalizacion,
-            'fecha_fin_produccion' => $this->fecha_fin_produccion,
+            'nacionalizacion_fecha' => $this->nacionalizacion_fecha,
+            'fecha_entrega_aproximada' => $this->fecha_entrega_aproximada,
         ];
 
     }

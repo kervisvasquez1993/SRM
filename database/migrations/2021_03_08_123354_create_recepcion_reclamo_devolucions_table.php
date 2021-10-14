@@ -15,7 +15,7 @@ class CreateRecepcionReclamoDevolucionsTable extends Migration
     {
         Schema::create('recepcion_reclamo_devolucions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('produccion_transito_id')->references('id')->on('produccion_transitos');
+            $table->foreignId('produccion_transito_id')->references('id')->on('produccion_transitos')->onDelete('cascade');
             $table->boolean('recepcion_mercancia')->default(false);
             $table->boolean('inspeccion_carga')->default(false);
             $table->boolean('reclamos_devoluciones')->default(false);

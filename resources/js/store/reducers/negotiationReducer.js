@@ -37,7 +37,8 @@ const negotiationReducer = (state = defaultState, action) => {
                 isLoadingList: true,
                 files: [],
                 isUploadingFile: false,
-                uploadingFiles: []
+                uploadingFiles: [],
+                negotiation: null
             };
 
         case "GET_NEGOTIATION_REQUEST":

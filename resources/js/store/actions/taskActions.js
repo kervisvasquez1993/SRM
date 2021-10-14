@@ -41,7 +41,7 @@ export function createTask(task) {
 
             dispatch(closeModal());
             dispatch(focusOnElementWithId(response.id));
-            toast.success("✔️ Tarea creada");
+            toast.success("Tarea creada");
         });
     };
 
@@ -60,7 +60,7 @@ export function createTask(task) {
 
             dispatch(focusOnElementWithId(response.data.data.id));
 
-            toast.success("✔️ Tarea creada");
+            toast.success("Tarea creada");
         } catch (e) {
             console.log(e.response);
             dispatch({
@@ -86,7 +86,7 @@ export function editTask(task, focusEnabled = true) {
                 dispatch(focusOnElementWithId(response.id));
             }
 
-            toast.success("✔️ Tarea editada");
+            toast.success("Tarea editada");
         });
     };
 }

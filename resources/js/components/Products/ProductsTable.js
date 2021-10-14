@@ -1,5 +1,4 @@
 import axios from "axios";
-import fileDownload from "js-file-download";
 import React, { useEffect } from "react";
 import { FaFileImport } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,7 +8,9 @@ import {
     getProductsFromNegotiation
 } from "../../store/actions/productActions";
 import { getSum, roundMoneyAmount } from "../../utils";
+import { Channel } from "../../utils/Echo";
 import { amazonS3Url, apiURL } from "../App";
+import { startExportingFile } from "../FIleExporter";
 import EmptyList from "../Navigation/EmptyList";
 import LoadingScreen from "../Navigation/LoadingScreen";
 import ProductsResume from "../Widgets/ProductsResume";
@@ -45,14 +46,36 @@ const ProductsTable = ({
         dispatch(getProductsFromNegotiation(negotiation.id));
     }, []);
 
+    useEffect(() => {
+        const handleEvent = e => {
+            if (e.data.negociacion_id == negotiation.id) {
+                dispatch(getProductsFromNegotiation(negotiation.id));
+            }
+        };
+
+        // Escuchar para recarga los productos cuando se terminan de importar
+        Channel.listen("ExitoSubiendoArchivoEvent", handleEvent);
+
+        return () => {
+            if (Channel) {
+                Channel.stopListening("ExitoSubiendoArchivoEvent", handleEvent);
+            }
+        };
+    }, []);
+
     const exportProducts = async () => {
-        axios({
-            url: `${apiURL}/negociacion/${negotiation.id}/exportar_productos`,
-            method: "GET",
-            responseType: "blob" // Important
-        }).then(response => {
-            fileDownload(response.data, "Productos.xlsx");
-        });
+        // axios({
+        //     url: `${apiURL}/negociacion/${negotiation.id}/exportar_productos`,
+        //     method: "GET",
+        //     responseType: "blob" // Important
+        // }).then(response => {
+        //     fileDownload(response.data, "Productos.xlsx");
+        // });
+        startExportingFile(() =>
+            axios.get(
+                `${apiURL}/negociacion/${negotiation.id}/exportar_productos`
+            )
+        );
     };
 
     if (isLoadingList) {

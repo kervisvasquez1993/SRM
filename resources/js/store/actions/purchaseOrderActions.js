@@ -37,7 +37,7 @@ export function createPurchaseOrderFromNegotiation(pivotId, data) {
 
             dispatch(closeModal());
 
-            toast.success("✔️ Orden de compra creada");
+            toast.success("Orden de compra creada");
         });
     };
 }
@@ -54,7 +54,7 @@ export function editPurchaseOrder(data) {
 
             dispatch(closeModal());
 
-            toast.success("✔️ Orden de compra editada");
+            toast.success("Orden de compra editada");
         });
     };
 }
@@ -71,7 +71,7 @@ export function deletePurchaseOrder(data) {
                 payload: response.data.data
             });
 
-            toast.success("✔️ Orden de compra eliminada");
+            toast.success("Orden de compra eliminada");
         } catch (e) {
             dispatch({
                 type: "DELETE_PURCHASE_ORDER_FAILURE"
@@ -102,7 +102,7 @@ export function uploadPurchaseOrders(pivotId, file) {
             dispatch(closeModal());
             dispatch(getPurchaseOrdersFromNegotiation(pivotId));
 
-            toast.success("✔️ Ordenes importadas");
+            toast.success("Ordenes importadas");
         } catch (e) {
             toast.error(`🚨 ${e.response.data.error}`);
 
@@ -137,7 +137,7 @@ export function uploadPurchaseOrderFile(pivotId, file) {
                 payload: response.data.data
             });
 
-            toast.success("✔️ Archivo cargado");
+            toast.success("Archivo cargado");
         } catch (e) {
             console.log(e);
             console.log(e.response);

@@ -7,7 +7,6 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 
 class ComprasExport implements FromCollection
 {
-    
     public $pivot_id;
         
     public function __construct($pivot_id)

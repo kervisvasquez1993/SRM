@@ -15,7 +15,7 @@ class CreateDraggableTasksTable extends Migration
     {
         Schema::create('draggable_tasks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tarea_id')->references('id')->on('tareas');
+            $table->foreignId('tarea_id')->references('id')->on('tareas')->onDelete('cascade');
             $table->integer('row')->default('0');
             $table->integer('column')->default('0');
             $table->timestamps();

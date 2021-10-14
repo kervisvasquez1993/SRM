@@ -9,9 +9,13 @@ import { isTouchDevice } from "../../utils";
 
 const Modal = () => {
     const dispatch = useDispatch();
+    // @ts-ignore
     const isOpen = useSelector(store => store.modal.isOpen);
+    // @ts-ignore
     const title = useSelector(store => store.modal.title);
+    // @ts-ignore
     const body = useSelector(store => store.modal.body);
+    // @ts-ignore
     const onClose = useSelector(store => store.modal.onClose);
 
     const handleClose = () => {
@@ -50,7 +54,14 @@ const Modal = () => {
     };
 
     const clickBackground = e => {
+        // Detectar si se hace click muy cerca de la barra de scroll
+        if (e.clientX + 10 >= e.target.clientWidth) {
+            return;
+        }
+
+        // Si no se está en un dispositivo con pantalla tactil
         if (!isTouchDevice()) {
+            console.log("click brakcgroubsdx");
             e.preventDefault();
             e.stopPropagation();
             handleClose();
@@ -68,14 +79,11 @@ const Modal = () => {
                 className={"modal fade" + (isOpen ? "show" : "")}
                 id="abrirmodal"
                 tabIndex={-1}
-                role="dialog"
-                aria-labelledby="myModalLabel"
                 style={isOpen ? { display: "block" } : { display: "none" }}
-                aria-hidden="true"
                 onPointerDown={clickBackground}
             >
                 <div
-                    className="modal-dialog modal-primary modal-lg modal-xl modal-fullscreen-sm-down"
+                    className="modal-dialog modal-primary modal-lg modal-xl modal-fullscreen-xl-down"
                     role="document"
                     onPointerDown={stopPropagation}
                 >
@@ -101,7 +109,13 @@ const Modal = () => {
                     </div>
                 </div>
             </div>
-            {isOpen && <div className="modal-backdrop fade show"></div>}
+
+            {isOpen && (
+                <div
+                    className="modal-backdrop fade show"
+                    onPointerDown={clickBackground}
+                ></div>
+            )}
         </React.Fragment>
     );
 };

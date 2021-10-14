@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { FaFileImport } from "react-icons/fa";
@@ -6,13 +5,19 @@ import { MdAddCircle } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { v4 } from "uuid";
-import { getTask } from "../../store/actions/comparatorActions";
+import {
+    getComparisons,
+    getProducts,
+    getSuppliers
+} from "../../store/actions/comparatorActions";
 import { openModal } from "../../store/actions/modalActions";
 import { apiURL } from "../App";
 import LoadingScreen from "../Navigation/LoadingScreen";
-import AddComparisionModal from "./ComparisonFormModal";
 import ComparatorTable from "./ComparatorTable";
 import IncidentsTab from "../Incidents/IncidentsTab";
+import ComparisonFormModal from "./ComparisonFormModal";
+import axios from "axios";
+import { startExportingFile } from "../FIleExporter";
 
 export default () => {
     const dispatch = useDispatch();
@@ -20,7 +25,26 @@ export default () => {
     const { id: taskId } = useParams();
 
     // @ts-ignore
-    const task = useSelector(state => state.comparator.task);
+    // const task = useSelector(state => state.comparator.task);
+    const comparisons = useSelector(state => state.comparator.comparisons);
+    // @ts-ignore
+    const areComparisonsLoading = useSelector(
+        // @ts-ignore
+        state => state.comparator.areComparisonsLoading
+    );
+    // @ts-ignore
+    const products = useSelector(state => state.comparator.products);
+    // @ts-ignore
+    const areProductsLoading = useSelector(
+        // @ts-ignore
+        state => state.comparator.areProductsLoading
+    );
+    // @ts-ignore
+    const suppliers = useSelector(state => state.comparator.suppliers);
+    const areSuppliersLoading = useSelector(
+        // @ts-ignore
+        state => state.comparator.areSuppliersLoading
+    );
 
     const helmet = (
         <Helmet>
@@ -28,30 +52,56 @@ export default () => {
         </Helmet>
     );
 
-    useEffect(() => {
-        dispatch(getTask(taskId));
-    }, []);
+    const handleExport = () => {
+        startExportingFile(() =>
+            axios.get(`${apiURL}/tarea/${taskId}/exportar-comparativa`)
+        );
+    };
 
     useEffect(() => {
-        if (task) {
-            try {
-                axios.put(`${apiURL}/tarea/${task.id}`, task);
-            } catch (error) {
-                console.log("Couldn't upload new cells to the server");
-            }
+        dispatch(getSuppliers(taskId));
+        dispatch(getProducts(taskId));
+    }, []);
+
+    // Solo cargar las comparaciones cuando ya se han cargado los productos y los proveedores
+    useEffect(() => {
+        if (!areProductsLoading && !areSuppliersLoading) {
+            dispatch(getComparisons(taskId));
         }
-    }, [task]);
+    }, [areProductsLoading, areSuppliersLoading]);
+
+    // useEffect(() => {
+    //     if (task) {
+    //         try {
+    //             axios.put(`${apiURL}/tarea/${task.id}`, task);
+    //         } catch (error) {
+    //             console.log("Couldn't upload new cells to the server");
+    //         }
+    //     }
+    // }, [task]);
 
     const handleOpenModal = () => {
         dispatch(
+            // openModal({
+            //     title: "Agregar Comparación",
+            //     body: (
+            //         <AddComparisionModal
+            //             comparison={{
+            //                 id: v4(),
+            //                 productName: "Ejemplo",
+            //                 productIds: [],
+            //                 rows: []
+            //             }}
+            //         />
+            //     )
+            // })
             openModal({
                 title: "Agregar Comparación",
                 body: (
-                    <AddComparisionModal
-                        formData={{
-                            id: v4(),
-                            productName: "Ejemplo",
-                            productIds: [],
+                    <ComparisonFormModal
+                        taskId={taskId}
+                        comparison={{
+                            nombre: "Ejemplo",
                             rows: []
                         }}
                     />
@@ -60,21 +110,29 @@ export default () => {
         );
     };
 
-    if (!task) {
+    if (areProductsLoading || areComparisonsLoading || areSuppliersLoading) {
         return <LoadingScreen>{helmet}</LoadingScreen>;
     }
-
-    const comparisions = task.comparaciones;
 
     return (
         <React.Fragment>
             {helmet}
 
-            {comparisions.map((comparison, comparisonIndex) => {
+            {/* {comparisions.map((comparison, comparisonIndex) => {
                 return (
                     <ComparatorTable
                         negotiations={task.negociaciones}
                         comparision={comparison}
+                        comparisonIndex={comparisonIndex}
+                        key={comparison.id}
+                    />
+                );
+            })} */}
+
+            {comparisons.map((comparison, comparisonIndex) => {
+                return (
+                    <ComparatorTable
+                        comparison={comparison}
                         comparisonIndex={comparisonIndex}
                         key={comparison.id}
                     />
@@ -87,13 +145,14 @@ export default () => {
                     Agregar Comparación
                 </button>
 
-                <a
-                    href={`${apiURL}/tarea/${taskId}/exportar-comparativa`}
+                <button
                     className="btn btn-info"
+                    onClick={handleExport}
+                    disabled={comparisons.length === 0}
                 >
                     <FaFileImport className="mr-2" />
                     Exportar Excel
-                </a>
+                </button>
             </div>
 
             <hr className="my-2" />
@@ -103,7 +162,7 @@ export default () => {
                 url1="tarea"
                 url2="comentarios_comparacion"
                 title="Comentarios"
-                parentId={task.id}
+                parentId={taskId}
             ></IncidentsTab>
         </React.Fragment>
     );

@@ -24,7 +24,13 @@ class TareaResource extends JsonResource
                     $this->pivotTareaProveedor()->orderBy('id')->get()
                 )
             ),
+
+            // Comparaciones
             'comparaciones' => $this->comparaciones,
+            'archivo_comparacion_creado_en' => $this->archivo_comparacion_creado_en,
+            'comparacion_editadas_en' => $this->comparacion_editadas_en,
+            'exportando_comparacion' => $this->exportando_comparacion,
+            'archivo_comparacion' => $this->archivo_comparacion,
         ];
 
         return parent::toArray($request);

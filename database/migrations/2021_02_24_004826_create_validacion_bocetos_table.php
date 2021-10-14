@@ -15,8 +15,8 @@ class CreateValidacionBocetosTable extends Migration
     {
         Schema::create('validacion_bocetos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('arte_id')->references('id')->on('artes');
-            $table->foreignId('user_id')->references('id')->on('users');
+            $table->foreignId('arte_id')->references('id')->on('artes')->onDelete('cascade');
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('titulo');
             $table->text('descripcion');
             $table->boolean('enabled')->default(true);

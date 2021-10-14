@@ -15,7 +15,7 @@ class CreateArtesTable extends Migration
     {
         Schema::create('artes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pivot_tarea_proveeder_id')->references('id')->on('pivot_tarea_proveeders');
+            $table->foreignId('pivot_tarea_proveeder_id')->references('id')->on('pivot_tarea_proveeders')->onDelete('cascade');
             $table->enum('creacion_fichas', ['sin_inicializar', 'en_proceso', 'finalizado'])->default('sin_inicializar');
             $table->enum('validacion_fichas', ['sin_inicializar', 'en_proceso', 'finalizado'])->default('sin_inicializar');
             $table->enum('creacion_boceto',['sin_inicializar', 'en_proceso', 'finalizado'])->default('sin_inicializar');

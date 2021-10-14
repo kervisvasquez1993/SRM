@@ -57,7 +57,7 @@ export function createSupplierForTask(taskId, supplier) {
 
             dispatch(closeModal());
             dispatch(focusOnElementWithId(response.id));
-            toast.success("✔️ Empresa creada");
+            toast.success("Empresa creada");
         });
     };
 }
@@ -77,7 +77,7 @@ export function editProviderFromTask(taskId, supplier) {
 
             dispatch(closeModal());
             dispatch(focusOnElementWithId(supplier.id));
-            toast.success("✔️ Empresa editada");
+            toast.success("Empresa editada");
         });
     };
 }
@@ -94,7 +94,7 @@ export function updateSupplier(supplier) {
 
             dispatch(closeModal());
             dispatch(focusOnElementWithId(response.id));
-            toast.success("✔️ Empresa editada");
+            toast.success("Empresa editada");
         });
     };
 }
@@ -111,7 +111,7 @@ export function createSupplier(supplier) {
 
             dispatch(closeModal());
             dispatch(focusOnElementWithId(response.id));
-            toast.success("✔️ Empresa creada");
+            toast.success("Empresa creada");
         });
     };
 }
@@ -134,7 +134,7 @@ export function selectSupplierWithNegotiation(supplier) {
 
             dispatch(focusOnElementWithId(supplier.id));
 
-            toast.success("✔️ Esta empresa fue seleccionada");
+            toast.success("Esta empresa fue seleccionada");
         } catch (e) {
             console.log(e.response);
         }
@@ -158,7 +158,7 @@ export function selectSupplierWithNegotiation(supplier) {
 
 //             dispatch(focusOnElementWithId(providerId));
 
-//             toast.success("✔️ Negociación iniciada");
+//             toast.success("Negociación iniciada");
 //         } catch (e) {
 //             dispatch({
 //                 type: "START_NEGOTIATION_FAILURE"

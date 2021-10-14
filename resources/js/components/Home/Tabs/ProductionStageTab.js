@@ -67,7 +67,7 @@ const ProductionStageTab = ({ productionId }) => {
                         <li className="list-group-item d-flex align-items-center">
                             <strong>Salida Puerto Origen</strong>
                             <CheckIcon
-                                checked={production.salida_puero_origen}
+                                checked={production.salida_puerto_origen}
                             />
                         </li>
 

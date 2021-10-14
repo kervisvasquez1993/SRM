@@ -15,8 +15,8 @@ class CreateIncidenciaTareasTable extends Migration
     {
         Schema::create('incidencia_tareas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tarea_id')->references('id')->on('tareas');
-            $table->foreignId('user_id')->references('id')->on('users');
+            $table->foreignId('tarea_id')->references('id')->on('tareas')->onDelete('cascade');
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('titulo');
             $table->text('descripcion');
             $table->softDeletes();

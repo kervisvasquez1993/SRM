@@ -48,7 +48,7 @@ export function uploadFile(managerId, uploadUrl, getUrl, file) {
 
             dispatch(getFiles(managerId, getUrl, file.name));
 
-            toast.success("✔️ Archivo cargado");
+            toast.success("Archivo cargado");
         } catch (e) {
             toast.error(`🚨 ${e.response.data.error}`);
             console.log(e.response);

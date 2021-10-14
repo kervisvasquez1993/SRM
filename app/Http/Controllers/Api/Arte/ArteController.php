@@ -36,7 +36,7 @@ class ArteController extends ApiController
 
     public function index()
     {
-        if (auth()->user()->rol == "coordinador" || auth()->user()->rol == "arte") {
+        if (auth()->user()->rol == "coordinador" || auth()->user()->rol == "artes") {
             $arteResource = Arte::all();
         } else {
             $arteResource = Auth::user()

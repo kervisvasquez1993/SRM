@@ -11,7 +11,6 @@ class ComparacionController extends ApiController
 {
     public function index(Tarea $tarea)
     {
-        error_log($tarea->id);
         return $tarea->comparaciones;
     }
 

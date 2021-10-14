@@ -78,7 +78,22 @@ export function updateProductionDeliveryTime(data) {
                 payload: response
             });
 
-            toast.success("✔️ Fecha editada");
+            toast.success("Fecha editada");
+        });
+    };
+}
+
+export function updateProductionDate(data) {
+    return dispatch => {
+        return genericFormSubmit(dispatch, () =>
+            axios.put(`${apiURL}/produccion_transito/${data.id}`, data)
+        ).then(response => {
+            dispatch({
+                type: "UPDATE_PRODUCTION_SUCCESS",
+                payload: response
+            });
+
+            toast.success("Fecha editada");
         });
     };
 }

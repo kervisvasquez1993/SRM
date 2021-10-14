@@ -3,9 +3,10 @@
 namespace App;
 
 use App\Arte;
-use App\ProduccionTransito;
-use App\Proveedor;
 use App\Tarea;
+use App\Proveedor;
+use App\ProduccionTransito;
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -81,5 +82,11 @@ class PivotTareaProveeder extends Model
     public function pivotFile()
     {
         return $this->hasMany(PivotFile::class);
+    }
+
+    public function actualizarFechaEdicionProductos()
+    {
+        $this->productos_editados_en = Carbon::now();
+        $this->save();
     }
 }

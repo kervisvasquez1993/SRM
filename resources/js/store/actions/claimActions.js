@@ -89,7 +89,7 @@ export function importExcel(id, file) {
 
             dispatch(getClaim(id));
 
-            toast.success("✔️ Excel importado");
+            toast.success("Excel importado");
         } catch (e) {
             toast.error(`🚨 ${e.response.data.error}`);
 
@@ -174,7 +174,7 @@ export function uploadFile(id, file) {
 
             dispatch(getFiles(id, file.name));
 
-            toast.success("✔️ Archivo cargado");
+            toast.success("Archivo cargado");
         } catch (e) {
             toast.error(`🚨 ${e.response.data.error}`);
             console.log(e.response);
@@ -242,7 +242,7 @@ export function createProductClaim(parentId, data) {
                 payload: response
             });
 
-            toast.success("✔️ Reclamo creado");
+            toast.success("Reclamo creado");
         });
     };
 }
@@ -257,7 +257,7 @@ export function editProductClaim(data) {
                 payload: response
             });
 
-            toast.success("✔️ Reclamo editado");
+            toast.success("Reclamo editado");
         });
     };
 }
@@ -272,7 +272,7 @@ export function deleteProductClaim(id) {
                 payload: response
             });
 
-            toast.success("✔️ Reclamo eliminado");
+            toast.success("Reclamo eliminado");
         });
     };
 }

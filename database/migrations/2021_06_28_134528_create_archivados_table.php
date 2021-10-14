@@ -15,7 +15,7 @@ class CreateArchivadosTable extends Migration
     {
         Schema::create('archivados', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pivot_tarea_proveeder_id')->references('id')->on('pivot_tarea_proveeders');
+            $table->foreignId('pivot_tarea_proveeder_id')->references('id')->on('pivot_tarea_proveeders')->onDelete('cascade');
             $table->timestamps();
         });
     }

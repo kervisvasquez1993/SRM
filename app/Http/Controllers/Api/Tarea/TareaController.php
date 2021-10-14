@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api\Tarea;
 
 use App\DraggableTask;
-use App\Exports\ComparativaExport;
 use App\Http\Controllers\ApiController;
 use App\Http\Resources\PivotTareaProveederResource;
 use App\Http\Resources\TareaResource;
+use App\Jobs\ExportarComparacionJob;
 use App\Notifications\GeneralNotification;
 use App\PivotTareaProveeder;
 use App\Proveedor;
@@ -14,8 +14,8 @@ use App\Tarea;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\Response;
 
 class TareaController extends ApiController
@@ -137,9 +137,13 @@ class TareaController extends ApiController
         return $this->showAllResources(TareaResource::collection($tareas));
     }
 
-    public function exportarComparativa(Tarea $tarea)
+    public function exportarComparativa(Request $request, Tarea $tarea)
     {
-        return Excel::download(new ComparativaExport($tarea), 'comparativa.xlsx');
+        // Correr la exportación de fondo
+        $job = new ExportarComparacionJob($request->user(), $tarea);
+        $this->dispatch($job);
+
+        return $this->successMensaje($job->respuestaJson());
     }
 
     public function obtenerNegociaciones(Tarea $tarea)

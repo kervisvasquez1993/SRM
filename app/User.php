@@ -12,8 +12,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
 
-    use SoftDeletes;
-    use HasApiTokens, Notifiable;
+
+    use HasApiTokens, SoftDeletes, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -111,11 +111,6 @@ class User extends Authenticatable
     public function reclamosDevolucione()
     {
         return $this->hasMany(ReclamosDevolucione::class);
-    }
-
-    public function filter()
-    {
-        return $this->hasMany(FilterProduccionTransito::class);
     }
 
     public function fcmTokens()

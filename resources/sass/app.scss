@@ -44,6 +44,8 @@ body {
 
 @import "products";
 
+@import "productions";
+
 html,
 body,
 h1,
@@ -98,8 +100,9 @@ strong {
     flex-shrink: 0;
 
     &.btn-sm {
-        width: 40px !important;
-        height: 40px !important;
+        width: 35px !important;
+        height: 35px !important;
+        font-size: 24px !important;
     }
 
     &.btn-xl {
@@ -109,6 +112,14 @@ strong {
         border-radius: 35px !important;
         font-size: 24px !important;
         line-height: 1.33 !important;
+    }
+}
+
+.btn {
+    &.btn-icon-success {
+        color: $success;
+        background: transparent;
+        box-shadow: none;
     }
 }
 
@@ -297,6 +308,33 @@ table,
 
 @media (max-width: 575.98px) {
     .modal-fullscreen-sm-down {
+        width: 100vw;
+        max-width: none;
+        height: 100%;
+        margin: 0;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .modal-fullscreen-md-down {
+        width: 100vw;
+        max-width: none;
+        height: 100%;
+        margin: 0;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .modal-fullscreen-lg-down {
+        width: 100vw;
+        max-width: none;
+        height: 100%;
+        margin: 0;
+    }
+}
+
+@media (max-width: 1199.98px) {
+    .modal-fullscreen-xl-down {
         width: 100vw;
         max-width: none;
         height: 100%;
